@@ -40,3 +40,14 @@ const employee: Employee = {
   name: "Alice",
   salary: 50000,
 };
+
+// interface 클래스와 연계 (클래스의 타입을 정의)
+interface Car {
+  drive(): void;
+}
+
+class Tesla implements Car {
+  drive() {
+    console.log("Driving...");
+  }
+}
