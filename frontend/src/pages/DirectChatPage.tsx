@@ -1,5 +1,11 @@
+import DirectChats from "../components/DirectChats/DirectChats";
+
 const DirectChatPage = () => {
-  return <></>;
+  return (
+    <>
+      <DirectChats />
+    </>
+  );
 };
 
 export default DirectChatPage;

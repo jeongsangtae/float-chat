@@ -14,10 +14,12 @@ const router = createBrowserRouter([
     element: <RootLayout />,
     children: [
       { index: true, element: <MainPage /> }, //기본 경로에서 MainPage 표시
-      { path: ":userId", element: <DirectChatPage /> }, // 1:1 채팅 페이지
+      // { path: ":userId", element: <DirectChatPage /> }, // 1:1 채팅 페이지
+      { path: "userId", element: <DirectChatPage /> },
     ],
   },
-  { path: "/:roomId", element: <GroupChatPage /> }, // 그룹 채팅 페이지
+  // { path: "/:roomId", element: <GroupChatPage /> }, // 그룹 채팅 페이지
+  { path: "roomId", element: <GroupChatPage /> },
 ]);
 
 export default router;

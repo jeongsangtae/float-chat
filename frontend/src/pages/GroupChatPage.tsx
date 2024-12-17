@@ -1,5 +1,11 @@
+import GroupChats from "../components/GroupChats/GroupChats";
+
 const GroupChatPage = () => {
-  return <></>;
+  return (
+    <>
+      <GroupChats />
+    </>
+  );
 };
 
 export default GroupChatPage;
