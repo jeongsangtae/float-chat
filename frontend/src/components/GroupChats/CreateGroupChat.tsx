@@ -1,10 +1,7 @@
 import AuthModal from "../UI/AuthModal";
+import { AuthModalProps } from "../../types";
 
-interface CreateGroupChatProps {
-  onToggle: () => void;
-}
-
-const CreateGroupChat: React.FC<CreateGroupChatProps> = ({ onToggle }) => {
+const CreateGroupChat: React.FC<AuthModalProps> = ({ onToggle }) => {
   return <AuthModal onToggle={onToggle}>방 추가 모달</AuthModal>;
 };
 

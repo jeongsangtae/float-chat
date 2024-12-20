@@ -1,10 +1,8 @@
-import React, { ReactNode } from "react";
-import classes from "./AuthModal.module.css";
+import React from "react";
 
-interface AuthModalProps {
-  children: ReactNode;
-  onToggle: () => void;
-}
+import { AuthModalProps } from "../../types";
+
+import classes from "./AuthModal.module.css";
 
 const AuthModal: React.FC<AuthModalProps> = ({ children, onToggle }) => {
   return (
