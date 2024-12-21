@@ -6,26 +6,14 @@ import Signup from "../Users/Signup";
 import CreateGroupChat from "../GroupChats/CreateGroupChat";
 
 const MainHeader = () => {
-  const [loginModalToggle, setLoginModalToggle] = useState<boolean>(false);
-  const [signupModalToggle, setSignupModalToggle] = useState<boolean>(false);
-  const [createGroupChatToggleModal, setCreateGroupChatToggleModal] =
-    useState<boolean>(false);
-  // const [toggleModal, setToggleModal] = useState<boolean>(false);
+  const [activeModal, setActiveModal] = useState<
+    "login" | "signup" | "createGroupChat" | null
+  >(null);
 
-  // const ModalToggle = () => {
-  //   setToggleModal(!toggleModal);
-  // };
-
-  const loginModalToggleHandler = () => {
-    setLoginModalToggle(!loginModalToggle);
-  };
-
-  const signupModalToggleHandler = () => {
-    setSignupModalToggle(!signupModalToggle);
-  };
-
-  const createGroupChatModalToggleHandler = () => {
-    setCreateGroupChatToggleModal(!createGroupChatToggleModal);
+  const toggleModalHandler = (
+    modalType: "login" | "signup" | "createGroupChat"
+  ) => {
+    setActiveModal((prev) => (prev === modalType ? null : modalType));
   };
 
   return (
@@ -33,14 +21,24 @@ const MainHeader = () => {
       <Link to="/me">메인 페이지</Link>/
       <Link to="/me/userId">다이렉트 채팅방</Link>/
       <Link to="/roomId">그룹 채팅방</Link>
-      <button onClick={loginModalToggleHandler}>로그인 버튼</button>
-      <button onClick={signupModalToggleHandler}>회원가입 버튼</button>
-      <button onClick={createGroupChatModalToggleHandler}>방 추가 버튼</button>
-      {createGroupChatToggleModal && (
-        <CreateGroupChat onToggle={createGroupChatModalToggleHandler} />
+      <button onClick={() => toggleModalHandler("login")}>로그인 버튼</button>
+      <button onClick={() => toggleModalHandler("signup")}>
+        회원가입 버튼
+      </button>
+      <button onClick={() => toggleModalHandler("createGroupChat")}>
+        방 추가 버튼
+      </button>
+      {activeModal === "login" && (
+        <Login onToggle={() => toggleModalHandler("login")} />
       )}
-      {loginModalToggle && <Login onToggle={loginModalToggleHandler} />}
-      {signupModalToggle && <Signup onToggle={signupModalToggleHandler} />}
+      {activeModal === "signup" && (
+        <Signup onToggle={() => toggleModalHandler("signup")} />
+      )}
+      {activeModal === "createGroupChat" && (
+        <CreateGroupChat
+          onToggle={() => toggleModalHandler("createGroupChat")}
+        />
+      )}
     </>
   );
 };
