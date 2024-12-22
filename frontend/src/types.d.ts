@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 
-export interface AuthModalProps {
+export interface IModalProps {
   children?: ReactNode;
   onToggle: () => void;
 }

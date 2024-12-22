@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import React, { useState } from "react";
 
+import { IModalProps } from "../../types";
 import Login from "../Users/Login";
 import Signup from "../Users/Signup";
 import CreateGroupChat from "../GroupChats/CreateGroupChat";
@@ -14,29 +15,72 @@ const MainHeader = () => {
     setActiveModal((prev) => (prev === modalType ? null : modalType));
   };
 
+  // const modals: { type: ModalType; label: string; component: JSX.Element }[] = [
+  //   {
+  //     type: "login",
+  //     label: "로그인 버튼",
+  //     component: <Login onToggle={() => toggleModalHandler("login")} />,
+  //   },
+  //   {
+  //     type: "signup",
+  //     label: "회원가입 버튼",
+  //     component: <Signup onToggle={() => toggleModalHandler("signup")} />,
+  //   },
+  //   {
+  //     type: "createGroupChat",
+  //     label: "방 추가 버튼",
+  //     component: (
+  //       <CreateGroupChat
+  //         onToggle={() => toggleModalHandler("createGroupChat")}
+  //       />
+  //     ),
+  //   },
+  // ];
+
+  const modals: {
+    type: ModalType;
+    label: string;
+    component: React.ComponentType<IModalProps>;
+  }[] = [
+    { type: "login", label: "로그인 버튼", component: Login },
+    { type: "signup", label: "회원가입 버튼", component: Signup },
+    {
+      type: "createGroupChat",
+      label: "방 추가 버튼",
+      component: CreateGroupChat,
+    },
+  ];
+
+  // return (
+  //   <>
+  //     <Link to="/me">메인 페이지</Link>/
+  //     <Link to="/me/userId">다이렉트 채팅방</Link>/
+  //     <Link to="/roomId">그룹 채팅방</Link>
+  //     {modals.map(({ type, label }) => (
+  //       <button key={type} onClick={() => toggleModalHandler(type)}>
+  //         {label}
+  //       </button>
+  //     ))}
+  //     {modals.map(
+  //       ({ type, component }) =>
+  //         activeModal === type && <div key={type}>{component}</div>
+  //     )}
+  //   </>
+  // );
+
   return (
     <>
       <Link to="/me">메인 페이지</Link>/
       <Link to="/me/userId">다이렉트 채팅방</Link>/
       <Link to="/roomId">그룹 채팅방</Link>
-      <button onClick={() => toggleModalHandler("login")}>로그인 버튼</button>
-      <button onClick={() => toggleModalHandler("signup")}>
-        회원가입 버튼
-      </button>
-      <button onClick={() => toggleModalHandler("createGroupChat")}>
-        방 추가 버튼
-      </button>
-      {activeModal === "login" && (
-        <Login onToggle={() => toggleModalHandler("login")} />
-      )}
-      {activeModal === "signup" && (
-        <Signup onToggle={() => toggleModalHandler("signup")} />
-      )}
-      {activeModal === "createGroupChat" && (
-        <CreateGroupChat
-          onToggle={() => toggleModalHandler("createGroupChat")}
-        />
-      )}
+      {modals.map(({ type, label, component: Component }) => (
+        <div key={type}>
+          <button onClick={() => toggleModalHandler(type)}>{label}</button>
+          {activeModal === type && (
+            <Component onToggle={() => toggleModalHandler(type)} />
+          )}
+        </div>
+      ))}
     </>
   );
 };

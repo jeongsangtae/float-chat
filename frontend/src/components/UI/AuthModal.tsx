@@ -1,10 +1,10 @@
 import React from "react";
 
-import { AuthModalProps } from "../../types";
+import { IModalProps } from "../../types";
 
 import classes from "./AuthModal.module.css";
 
-const AuthModal: React.FC<AuthModalProps> = ({ children, onToggle }) => {
+const AuthModal: React.FC<IModalProps> = ({ children, onToggle }) => {
   return (
     <>
       <div className={classes.backdrop} onClick={onToggle} />
