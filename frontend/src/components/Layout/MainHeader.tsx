@@ -6,13 +6,11 @@ import Signup from "../Users/Signup";
 import CreateGroupChat from "../GroupChats/CreateGroupChat";
 
 const MainHeader = () => {
-  const [activeModal, setActiveModal] = useState<
-    "login" | "signup" | "createGroupChat" | null
-  >(null);
+  type ModalType = "login" | "signup" | "createGroupChat" | null;
 
-  const toggleModalHandler = (
-    modalType: "login" | "signup" | "createGroupChat"
-  ) => {
+  const [activeModal, setActiveModal] = useState<ModalType>(null);
+
+  const toggleModalHandler = (modalType: ModalType) => {
     setActiveModal((prev) => (prev === modalType ? null : modalType));
   };
 
