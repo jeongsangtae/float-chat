@@ -1,7 +1,7 @@
 import AuthModal from "../UI/AuthModal";
-import { IModalProps } from "../../types";
+import { ModalProps } from "../../types";
 
-const Signup: React.FC<IModalProps> = ({ onToggle }) => {
+const Signup: React.FC<ModalProps> = ({ onToggle }) => {
   return <AuthModal onToggle={onToggle}>회원가입 모달</AuthModal>;
 };
 

@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 
-export interface IModalProps {
+export interface ModalProps {
   children?: ReactNode;
   onToggle: () => void;
 }
