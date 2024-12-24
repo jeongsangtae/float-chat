@@ -20,13 +20,14 @@ const CreateGroupChat: React.FC<ModalProps> = ({ onToggle }) => {
     event.preventDefault();
 
     let requestBody = {
-      content: title,
+      title,
     };
 
     const response = await fetch(`${apiURL}/createGroupChat`, {
       method: "POST",
       body: JSON.stringify(requestBody),
       headers: { "Content-Type": "application/json" },
+      credentials: "include",
     });
 
     if (!response.ok) {
