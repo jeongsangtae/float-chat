@@ -29,7 +29,7 @@ export const loader = async (): Promise<GroupChatData[] | null> => {
     // resData는 GroupChat[] 타입
     const resData: GroupChatData[] = await response.json();
 
-    return resData;
+    return resData.groupChats;
   } catch (error) {
     if (error instanceof Error) {
       console.error("에러 내용:", error.message);

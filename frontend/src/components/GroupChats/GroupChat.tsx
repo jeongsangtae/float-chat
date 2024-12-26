@@ -1,5 +1,5 @@
 const GroupChat = ({ title }) => {
-  return <>{title}</>;
+  return <div>{title}</div>;
 };
 
 export default GroupChat;

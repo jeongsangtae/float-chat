@@ -7,6 +7,25 @@ const ObjectId = mongodb.ObjectId;
 
 const router = express.Router();
 
+router.get("/groupChats", async (req, res) => {
+  try {
+    const groupChats = await db
+      .getDb()
+      .collection("groupChats")
+      .find()
+      .toArray();
+
+    if (!groupChats) {
+      return res.status(404).json({ error: "그룹 채팅방을 찾을 수 없습니다." });
+    }
+
+    res.status(200).json({ groupChats });
+  } catch (error) {
+    console.error("그룹 채팅방 조회 중 오류 발생:", error.message);
+    res.status(500).json({ error: "그룹 채팅방 조회에 실패했습니다." });
+  }
+});
+
 router.post("/createGroupChat", async (req, res) => {
   try {
     const titleData = req.body;

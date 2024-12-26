@@ -4,14 +4,16 @@ import GroupChat from "./GroupChat";
 import { GroupChatData } from "../../types";
 
 const GroupChats = () => {
-  const groupChatsResData = useLoaderData<GroupChatData[]>();
+  const groupChats = useLoaderData<{ groupChats: GroupChatData[] }>();
+
+  console.log(groupChats);
 
   return (
     <>
       <div>그룹 채팅방</div>
-      {groupChatsResData.map((groupChatResData) => (
-        <GroupChat title={groupChatResData.title} />
-      ))}
+      {groupChats.map((groupChat) => {
+        return <GroupChat key={groupChat._id} title={groupChat.title} />;
+      })}
     </>
   );
 };
