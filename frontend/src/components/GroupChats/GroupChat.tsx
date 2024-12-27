@@ -1,4 +1,4 @@
-const GroupChat = ({ title }) => {
+const GroupChat = ({ title }: { title: string }) => {
   return <div>{title}</div>;
 };
 

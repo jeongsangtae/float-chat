@@ -23,11 +23,11 @@ export const loader = async (): Promise<GroupChatData[] | null> => {
     });
 
     if (!response.ok) {
-      throw new Error("게시글 목록 조회 실패");
+      throw new Error("그룹 채팅방 목록 조회 실패");
     }
 
     // resData는 GroupChat[] 타입
-    const resData: GroupChatData[] = await response.json();
+    const resData: { groupChats: GroupChatData[] } = await response.json();
 
     return resData.groupChats;
   } catch (error) {
