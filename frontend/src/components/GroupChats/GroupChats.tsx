@@ -12,7 +12,13 @@ const GroupChats = () => {
     <>
       <div>그룹 채팅방</div>
       {groupChats.map((groupChat: GroupChatData) => {
-        return <GroupChat key={groupChat._id} title={groupChat.title} />;
+        return (
+          <GroupChat
+            key={groupChat._id}
+            _id={groupChat._id}
+            title={groupChat.title}
+          />
+        );
       })}
     </>
   );

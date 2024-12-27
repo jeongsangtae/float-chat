@@ -21,7 +21,11 @@ const router = createBrowserRouter([
         ],
       },
       // { path: "/:roomId", element: <GroupChatPage /> }, // 그룹 채팅 페이지
-      { path: "roomId", element: <GroupChatPage />, loader: groupChatLoader },
+      {
+        path: "roomId",
+        element: <GroupChatPage />,
+        loader: groupChatLoader,
+      },
     ],
   },
 ]);

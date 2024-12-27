@@ -58,4 +58,35 @@ router.post("/createGroupChat", async (req, res) => {
   }
 });
 
+router.delete("/groupChat/:roomId", async (req, res) => {
+  console.log(req.params.roomId);
+
+  try {
+    let roomId = req.params.roomId;
+
+    roomId = new ObjectId(roomId);
+
+    // 데이터베이스에서 해당 그룹 채팅방 조회
+    const groupChat = await db
+      .getDb()
+      .collection("groupChats")
+      .findOne({ _id: roomId });
+
+    if (!groupChat) {
+      return res
+        .status(404)
+        .json({ message: "그룹 채팅방을 찾을 수 없습니다." });
+    }
+
+    console.log(groupChat);
+
+    await db.getDb().collection("groupChats").deleteOne({ _id: roomId });
+
+    res.status(200).json({ message: "그룹 채팅방 삭제 성공" });
+  } catch (error) {
+    console.error("그룹 채팅방 삭제 중 오류 발생:", error.message);
+    res.status(500).json({ error: "그룹 채팅방 삭제에 실패했습니다." });
+  }
+});
+
 module.exports = router;
