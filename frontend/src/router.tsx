@@ -1,5 +1,5 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
-import MainPage from "./pages/MainPage";
+import FriendPage from "./pages/FriendPage";
 import DirectChatPage from "./pages/DirectChatPage";
 import GroupChatPage, {
   loader as groupChatLoader,
@@ -15,7 +15,7 @@ const router = createBrowserRouter([
       {
         path: "me",
         children: [
-          { index: true, element: <MainPage /> }, //기본 /me 경로
+          { index: true, element: <FriendPage /> }, //기본 /me 경로
           // { path: ":userId", element: <DirectChatPage /> }, // 1:1 채팅 페이지
           { path: "userId", element: <DirectChatPage /> },
         ],
