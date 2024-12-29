@@ -1,9 +1,7 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
 import FriendPage from "./pages/FriendPage";
 import DirectChatPage from "./pages/DirectChatPage";
-import GroupChatPage, {
-  loader as groupChatLoader,
-} from "./pages/GroupChatPage";
+import GroupChatPage from "./pages/GroupChatPage"; // loader as groupChatLoader,
 import RootLayout from "./pages/RootLayout";
 
 const router = createBrowserRouter([
@@ -24,7 +22,7 @@ const router = createBrowserRouter([
       {
         path: "roomId",
         element: <GroupChatPage />,
-        loader: groupChatLoader,
+        // loader: groupChatLoader,
       },
     ],
   },

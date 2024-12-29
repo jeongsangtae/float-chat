@@ -1,7 +1,11 @@
-// import GroupChats from "../GroupChats/GroupChats";
+import GroupChats from "../GroupChats/GroupChats";
 
 const SideBar = () => {
-  return <>{/* <GroupChats /> */}</>;
+  return (
+    <>
+      <GroupChats />
+    </>
+  );
 };
 
 export default SideBar;
