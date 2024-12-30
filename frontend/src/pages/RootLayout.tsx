@@ -5,9 +5,9 @@ import SideBar from "../components/Layout/SideBar";
 const RootLayout = () => {
   return (
     <>
+      <Outlet />
       <SideBar />
       {/* <MainHeader /> */}
-      <Outlet />
     </>
   );
 };
