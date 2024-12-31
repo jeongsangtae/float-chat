@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import GroupChat from "./GroupChat";
 
 import { GroupChatData } from "../../types";
+import LoadingIndicator from "../UI/LoadingIndicator";
 
 const GroupChats = () => {
   // const groupChats = useLoaderData<GroupChatData[]>();
@@ -42,7 +43,7 @@ const GroupChats = () => {
 
   // 로딩 중일 때
   if (loading) {
-    return <div>로딩 중...</div>;
+    return <LoadingIndicator />;
   }
 
   return (
