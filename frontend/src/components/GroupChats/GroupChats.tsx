@@ -9,10 +9,10 @@ const GroupChats = () => {
 
   // console.log(groupChats);
   const [groupChats, setGroupChats] = useState<GroupChatData[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchData = async (): Promise<void> => {
       const apiURL = import.meta.env.VITE_API_URL;
 
       try {

@@ -1,10 +1,8 @@
-import React from "react";
-
 import { ModalProps } from "../../types";
 
 import classes from "./AuthModal.module.css";
 
-const AuthModal: React.FC<ModalProps> = ({ children, onToggle }) => {
+const AuthModal = ({ children, onToggle }: ModalProps) => {
   return (
     <>
       <div className={classes.backdrop} onClick={onToggle} />

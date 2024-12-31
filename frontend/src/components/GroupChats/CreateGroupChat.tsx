@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { ModalProps } from "../../types";
 import AuthModal from "../UI/AuthModal";
 
-const CreateGroupChat: React.FC<ModalProps> = ({ onToggle }) => {
+const CreateGroupChat = ({ onToggle }: ModalProps) => {
   // 나중에 사용될 환경 변수 API URL
   // 미리 구성
   const apiURL = import.meta.env.VITE_API_URL;
