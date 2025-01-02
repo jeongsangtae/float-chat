@@ -22,6 +22,7 @@ const Signup = ({ onToggle }: ModalProps) => {
     password: "",
     confirmPassword: "",
   });
+
   const [error, setError] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>("");
 
