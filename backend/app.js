@@ -12,6 +12,7 @@ const db = require("./data/database");
 // const adminRoutes = require("./routes/admin-routes");
 // const userChatRoutes = require("./routes/user-chat-routes");
 // const adminChatRoutes = require("./routes/admin-chat-routes");
+const userRoutes = require("./routes/user-routes");
 const groupChatRoutes = require("./routes/group-chat-routes");
 
 const app = express();
@@ -41,6 +42,7 @@ app.use(
 // app.use(adminRoutes);
 // app.use(userChatRoutes);
 // app.use(adminChatRoutes);
+app.use(userRoutes);
 app.use(groupChatRoutes);
 
 // 프론트엔드 파일 설정을 추가

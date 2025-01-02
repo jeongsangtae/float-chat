@@ -22,8 +22,8 @@ const Signup = ({ onToggle }: ModalProps) => {
     password: "",
     confirmPassword: "",
   });
-  // const [error, setError] = useState<boolean>(false);
-  // const [errorMessage, setErrorMessage] = useState<string>("");
+  const [error, setError] = useState<boolean>(false);
+  const [errorMessage, setErrorMessage] = useState<string>("");
 
   const inputChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -33,30 +33,30 @@ const Signup = ({ onToggle }: ModalProps) => {
   const submitHandler = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    // try {
-    //   const response = await fetch(`${apiURL}/signup`, {
-    //     method: "POST",
-    //     body: JSON.stringify(signupData),
-    //     headers: { "Content-Type": "application/json" },
-    //     credentials: "include",
-    //   });
+    try {
+      const response = await fetch(`${apiURL}/signup`, {
+        method: "POST",
+        body: JSON.stringify(signupData),
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+      });
 
-    //   if (!response.ok) {
-    //     const errorData = await response.json();
-    //     setError(true);
-    //     setErrorMessage(errorData.message);
-    //     return null;
-    //   }
+      if (!response.ok) {
+        const errorData = await response.json();
+        setError(true);
+        setErrorMessage(errorData.message);
+        return null;
+      }
 
-    //   console.log("회원가입 성공");
-    //   onToggle();
-    //   // setError(false)
-    // } catch (error) {
-    //   console.error("에러 내용:", error);
-    //   alert(
-    //     "회원가입 중에 문제가 발생했습니다. 새로고침 후 다시 시도해 주세요."
-    //   );
-    // }
+      console.log("회원가입 성공");
+      onToggle();
+      // setError(false)
+    } catch (error) {
+      console.error("에러 내용:", error);
+      alert(
+        "회원가입 중에 문제가 발생했습니다. 새로고침 후 다시 시도해 주세요."
+      );
+    }
     console.log(signupData, "회원가입 성공");
   };
 
@@ -123,7 +123,7 @@ const Signup = ({ onToggle }: ModalProps) => {
             onChange={inputChangeHandler}
           />
         </div>
-        {/* {error && <p>{errorMessage}</p>} */}
+        {error && <p>{errorMessage}</p>}
         <button type="submit">가입</button>
       </form>
     </AuthModal>
