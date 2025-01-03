@@ -9,15 +9,15 @@ interface loginDataType {
 }
 const Login = ({ onToggle }: ModalProps) => {
   // 환경 변수에서 API URL 가져오기
-  // const apiURL = import.meta.env.VITE_API_URL;
+  const apiURL = import.meta.env.VITE_API_URL;
 
   const [loginData, setLoginData] = useState<loginDataType>({
     email: "",
     password: "",
   });
 
-  // const [error, setError] = useState<boolean>(false);
-  // const [errorMessage, setErrorMessage] = useState<string>("");
+  const [error, setError] = useState<boolean>(false);
+  const [errorMessage, setErrorMessage] = useState<string>("");
 
   const inputChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
@@ -27,27 +27,27 @@ const Login = ({ onToggle }: ModalProps) => {
   const submitHandler = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    // try {
-    //   const response = await fetch(`${apiURL}/login`, {
-    //     method: "POST",
-    //     body: JSON.stringify(loginData),
-    //     headers: { "Content-Type": "application/json" },
-    //     credentials: "include",
-    //   });
+    try {
+      const response = await fetch(`${apiURL}/login`, {
+        method: "POST",
+        body: JSON.stringify(loginData),
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+      });
 
-    //   if (!response.ok) {
-    //     const errorData = await response.json();
-    //     setError(true);
-    //     setErrorMessage(errorData.message);
-    //     return null;
-    //   }
+      if (!response.ok) {
+        const errorData = await response.json();
+        setError(true);
+        setErrorMessage(errorData.message);
+        return null;
+      }
 
-    //   console.log("로그인 성공");
-    //   onToggle();
-    // } catch (error) {
-    //   console.error("에러 내용:", error);
-    //   alert("로그인 중에 문제가 발생했습니다. 새로고침 후 다시 시도해 주세요.");
-    // }
+      console.log("로그인 성공");
+      onToggle();
+    } catch (error) {
+      console.error("에러 내용:", error);
+      alert("로그인 중에 문제가 발생했습니다. 새로고침 후 다시 시도해 주세요.");
+    }
     console.log(loginData, "로그인 성공");
   };
 
@@ -78,7 +78,7 @@ const Login = ({ onToggle }: ModalProps) => {
             onChange={inputChangeHandler}
           />
         </div>
-        {/* {error && <p>{errorMessage}</p>} */}
+        {error && <p>{errorMessage}</p>}
         <button type="submit">로그인</button>
       </form>
     </AuthModal>
