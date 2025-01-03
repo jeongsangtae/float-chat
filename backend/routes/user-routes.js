@@ -96,9 +96,7 @@ router.post("/login", async (req, res) => {
       return res.status(400).json({ message: "패스워드가 일치하지 않습니다." });
     }
 
-    res.status(200).json({
-      message: "로그인 성공",
-    });
+    res.status(200).json({ message: "로그인 성공", loginSuccess: true });
   } catch (error) {
     console.error("로그인 중 오류 발생:", error.message);
     res.status(500).json({ error: "로그인에 실패했습니다." });

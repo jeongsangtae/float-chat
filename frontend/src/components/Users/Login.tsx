@@ -16,6 +16,7 @@ const Login = ({ onToggle }: ModalProps) => {
     password: "",
   });
 
+  const [loginSuccess, setLoginSuccess] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>("");
 
@@ -42,8 +43,13 @@ const Login = ({ onToggle }: ModalProps) => {
         return null;
       }
 
+      const resData = await response.json();
+
       console.log("로그인 성공");
-      onToggle();
+
+      console.log(resData.loginSuccess);
+      setLoginSuccess(resData.loginSuccess);
+      // onToggle();
     } catch (error) {
       console.error("에러 내용:", error);
       alert("로그인 중에 문제가 발생했습니다. 새로고침 후 다시 시도해 주세요.");
@@ -54,6 +60,7 @@ const Login = ({ onToggle }: ModalProps) => {
   return (
     <AuthModal onToggle={onToggle}>
       <form onSubmit={submitHandler}>
+        {loginSuccess && <p>로그인 상태</p>}
         <h2>로그인</h2>
         <label htmlFor="email">이메일</label>
         <div>
@@ -79,7 +86,7 @@ const Login = ({ onToggle }: ModalProps) => {
           />
         </div>
         {error && <p>{errorMessage}</p>}
-        <button type="submit">로그인</button>
+        {!loginSuccess && <button type="submit">로그인</button>}
       </form>
     </AuthModal>
   );
