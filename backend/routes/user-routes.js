@@ -25,7 +25,7 @@ router.post("/signup", async (req, res) => {
       let message = "잘못된 입력입니다. 다시 입력해주세요.";
 
       if (username.trim().length > 5) {
-        message = "이름은 5자리까지 입력할 수 있습니다.";
+        message = "사용자명은 5자리까지 입력할 수 있습니다.";
       } else if (password.trim().length < 6) {
         message = "비밀번호를 6자리 이상 입력해 주세요.";
       } else if (password !== confirmPassword) {
@@ -68,6 +68,40 @@ router.post("/signup", async (req, res) => {
   } catch (error) {
     console.error("회원가입 중 오류 발생:", error.message);
     res.status(500).json({ error: "회원가입에 실패했습니다." });
+  }
+});
+
+router.post("/login", async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    // 입력한 이메일이 DB에 존재하는지 확인
+    const existingLoginUser = await db
+      .getDb()
+      .collection("users")
+      .findOne({ email });
+
+    // 이메일이 존재하지 않거나 비밀번호가 일치하지 않는 경우 오류 메시지 전송
+    if (!existingLoginUser) {
+      return res.status(400).json({ message: "존재하지 않는 이메일입니다." });
+    }
+
+    // 해시된 비밀번호와 사용자가 입력한 비밀번호 비교
+    const passwordEqual = await bcrypt.compare(
+      password,
+      existingLoginUser.password
+    );
+
+    if (!passwordEqual) {
+      return res.status(400).json({ message: "패스워드가 일치하지 않습니다." });
+    }
+
+    res.status(200).json({
+      message: "로그인 성공",
+    });
+  } catch (error) {
+    console.error("로그인 중 오류 발생:", error.message);
+    res.status(500).json({ error: "로그인에 실패했습니다." });
   }
 });
 
