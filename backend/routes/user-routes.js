@@ -1,7 +1,13 @@
 const express = require("express");
 const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
 const db = require("../data/database");
+const {
+  accessToken,
+  refreshToken,
+  refreshTokenExp,
+} = require("../middlewares/jwt-auth");
 
 const router = express.Router();
 
@@ -96,10 +102,55 @@ router.post("/login", async (req, res) => {
       return res.status(400).json({ message: "패스워드가 일치하지 않습니다." });
     }
 
-    res.status(200).json({ message: "로그인 성공", loginSuccess: true });
+    res.status(200).json({ message: "로그인 성공" });
   } catch (error) {
     console.error("로그인 중 오류 발생:", error.message);
     res.status(500).json({ error: "로그인에 실패했습니다." });
+  }
+});
+
+// Access Token 확인
+router.get("/accessToken", async (req, res) => {
+  try {
+    const responseData = await accessToken(req, res);
+
+    if (!responseData) {
+      return res.status(401).json({ message: "jwt error" });
+    }
+
+    res.status(200).json(responseData);
+  } catch (error) {
+    errorHandler(res, error, "Access Token 확인 중 오류 발생");
+  }
+});
+
+// Refresh Token 확인
+router.get("/refreshToken", async (req, res) => {
+  try {
+    const responseData = await refreshToken(req, res);
+
+    if (!responseData) {
+      return res.status(401).json({ message: "jwt error" });
+    }
+
+    res.status(200).json(responseData);
+  } catch (error) {
+    errorHandler(res, error, "Refresh Token 확인 중 오류 발생");
+  }
+});
+
+// Refresh Token 만료 여부 확인
+router.get("/refreshTokenExp", async (req, res) => {
+  try {
+    const responseData = await refreshTokenExp(req, res);
+
+    if (!responseData) {
+      return res.status(401).json({ message: "jwt error" });
+    }
+
+    res.status(200).json(responseData);
+  } catch (error) {
+    errorHandler(res, error, "Refresh Token 만료 시간 확인 중 오류 발생");
   }
 });
 
