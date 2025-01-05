@@ -2,6 +2,7 @@ const express = require("express");
 const mongodb = require("mongodb");
 
 const db = require("../data/database");
+const { errorHandler } = require("../utils/error-handler");
 
 const ObjectId = mongodb.ObjectId;
 
@@ -21,8 +22,7 @@ router.get("/groupChats", async (req, res) => {
 
     res.status(200).json({ groupChats });
   } catch (error) {
-    console.error("그룹 채팅방 조회 중 오류 발생:", error.message);
-    res.status(500).json({ error: "그룹 채팅방 조회에 실패했습니다." });
+    errorHandler(res, error, "그룹 채팅방 조회 중 오류 발생");
   }
 });
 
@@ -53,8 +53,7 @@ router.post("/createGroupChat", async (req, res) => {
 
     res.status(200).json({ newGroupChat });
   } catch (error) {
-    console.error("그룹 채팅방 생성 중 오류 발생:", error.message);
-    res.status(500).json({ error: "그룹 채팅방 생성에 실패했습니다." });
+    errorHandler(res, error, "그룹 채팅방 생성 중 오류 발생");
   }
 });
 
@@ -84,8 +83,7 @@ router.delete("/groupChat/:roomId", async (req, res) => {
 
     res.status(200).json({ message: "그룹 채팅방 삭제 성공" });
   } catch (error) {
-    console.error("그룹 채팅방 삭제 중 오류 발생:", error.message);
-    res.status(500).json({ error: "그룹 채팅방 삭제에 실패했습니다." });
+    errorHandler(res, error, "그룹 채팅방 삭제 중 오류 발생");
   }
 });
 

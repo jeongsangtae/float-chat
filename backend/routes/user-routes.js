@@ -8,6 +8,7 @@ const {
   refreshToken,
   refreshTokenExp,
 } = require("../middlewares/jwt-auth");
+const { errorHandler } = require("../utils/error-handler");
 
 const router = express.Router();
 
@@ -72,8 +73,7 @@ router.post("/signup", async (req, res) => {
 
     res.status(200).json({ message: "회원가입 성공" });
   } catch (error) {
-    console.error("회원가입 중 오류 발생:", error.message);
-    res.status(500).json({ error: "회원가입에 실패했습니다." });
+    errorHandler(res, error, "회원가입 중 오류 발생");
   }
 });
 
@@ -150,8 +150,7 @@ router.post("/login", async (req, res) => {
 
     res.status(200).json({ message: "로그인 성공", accessToken, refreshToken });
   } catch (error) {
-    console.error("로그인 중 오류 발생:", error.message);
-    res.status(500).json({ error: "로그인에 실패했습니다." });
+    errorHandler(res, error, "로그인 중 오류 발생");
   }
 });
 
