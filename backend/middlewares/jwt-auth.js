@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken");
 const db = require("../data/database");
 
-// Access Token을 검증하고 자용자 데이터를 반환하는 함수
+// Access Token을 검증하고 사용자 데이터를 반환하는 함수
 const accessToken = async (req, res) => {
   try {
     // 환경 변수에서 accessToken 키를 가져옴

@@ -102,7 +102,53 @@ router.post("/login", async (req, res) => {
       return res.status(400).json({ message: "패스워드가 일치하지 않습니다." });
     }
 
-    res.status(200).json({ message: "로그인 성공" });
+    const accessTokenKey = process.env.ACCESS_TOKEN_KEY;
+    const refreshTokenKey = process.env.REFRESH_TOKEN_KEY;
+
+    // Access Token 발급
+    const accessToken = jwt.sign(
+      {
+        _id: existingLoginUser._id,
+        name: existingLoginUser.name,
+        email: existingLoginUser.email,
+        // role: userRole,
+      },
+      accessTokenKey,
+      { expiresIn: "2h", issuer: "GGPAN" }
+    );
+
+    // Refresh Token 발급
+    const refreshToken = jwt.sign(
+      {
+        _id: existingLoginUser._id,
+        name: existingLoginUser.name,
+        email: existingLoginUser.email,
+        // role: userRole,
+      },
+      refreshTokenKey,
+      { expiresIn: "6h", issuer: "GGPAN" }
+    );
+
+    const isProduction = process.env.NODE_ENV === "production";
+
+    console.log("현재 환경:", process.env.NODE_ENV, isProduction);
+
+    // 쿠키에 토큰 저장 (httpOnly 옵션으로 클라이언트에서 직접 접근 불가)
+    res.cookie("accessToken", accessToken, {
+      secure: isProduction,
+      httpOnly: true,
+      sameSite: isProduction ? "None" : "Lax",
+      maxAge: 2 * 60 * 60 * 1000, // 2시간
+    });
+
+    res.cookie("refreshToken", refreshToken, {
+      secure: isProduction,
+      httpOnly: true,
+      sameSite: isProduction ? "None" : "Lax",
+      maxAge: 6 * 60 * 60 * 1000, // 6시간
+    });
+
+    res.status(200).json({ message: "로그인 성공", accessToken, refreshToken });
   } catch (error) {
     console.error("로그인 중 오류 발생:", error.message);
     res.status(500).json({ error: "로그인에 실패했습니다." });
