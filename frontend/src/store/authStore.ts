@@ -30,6 +30,7 @@ const useAuthStore = create((set) => ({
 
       const resData = await response.json();
 
+      console.log(resData);
       set({ isLoggedIn: true, userInfo: resData });
     } catch (error) {
       console.error("사용자 인증 오류:", error);

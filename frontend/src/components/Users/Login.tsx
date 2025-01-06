@@ -1,4 +1,5 @@
 import { useState } from "react";
+import useAuthStore from "../../store/authStore";
 
 import AuthModal from "../UI/AuthModal";
 import { ModalProps } from "../../types";
@@ -10,6 +11,8 @@ interface loginDataType {
 const Login = ({ onToggle }: ModalProps) => {
   // 환경 변수에서 API URL 가져오기
   const apiURL = import.meta.env.VITE_API_URL;
+
+  const { verifyUser, userInfo } = useAuthStore();
 
   const [loginData, setLoginData] = useState<loginDataType>({
     email: "",
@@ -42,8 +45,11 @@ const Login = ({ onToggle }: ModalProps) => {
         return null;
       }
 
-      console.log("로그인 성공");
+      const resData = await response.json();
+      console.log(resData.accessToken, "/", resData.refreshToken);
 
+      // console.log(userInfo);
+      verifyUser();
       onToggle();
     } catch (error) {
       console.error("에러 내용:", error);
