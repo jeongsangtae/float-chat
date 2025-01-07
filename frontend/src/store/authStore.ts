@@ -12,11 +12,46 @@ const apiURL = import.meta.env.VITE_API_URL;
 // const [isLoggedIn, setIsLoggedIn] = useState(false);
 // const [userInfo, setUserInfo] = useState(null);
 
-const useAuthStore = create((set) => ({
+interface UserInfo {
+  _id: string;
+  email: string;
+  username: string;
+  nickname: string;
+  tokenExp: number;
+}
+
+interface AuthStore {
+  isLoggedIn: boolean;
+  userInfo: UserInfo | null;
+  accessToken: string | null;
+  login: () => Promise<void>;
+  verifyUser: () => Promise<void>;
+  refreshTokenExp: () => Promise<void>;
+}
+
+const useAuthStore = create<AuthStore>((set, get) => ({
   isLoggedIn: false,
   userInfo: null,
   accessToken: null,
-  // login: () => set({isLoggedIn: true}),
+  login: async () => {
+    try {
+      const now = Math.floor(new Date().getTime() / 1000);
+      const expirationTime = Math.ceil(now + 2 * 60 * 60);
+
+      localStorage.setItem("isLoggedIn", "1");
+      localStorage.setItem("expirationTime", expirationTime.toString());
+
+      // 로그인 상태 업데이트
+      set({ isLoggedIn: true });
+
+      // 같은 스토어의 verifyUser, refreshTokenExp 액션 호출
+      await get().verifyUser();
+      await get().refreshTokenExp();
+    } catch (error) {
+      console.error("사용자 인증 오류:", error);
+      set({ isLoggedIn: false });
+    }
+  },
   // logout: () => set({isLoggedIn: false}),
   verifyUser: async () => {
     try {
