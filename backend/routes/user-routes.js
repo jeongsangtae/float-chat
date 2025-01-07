@@ -114,7 +114,8 @@ router.post("/login", async (req, res) => {
         // role: userRole,
       },
       accessTokenKey,
-      { expiresIn: "2h", issuer: "GGPAN" }
+      // { expiresIn: "2h", issuer: "GGPAN" }
+      { expiresIn: "5m", issuer: "GGPAN" }
     );
 
     // Refresh Token 발급
@@ -126,7 +127,8 @@ router.post("/login", async (req, res) => {
         // role: userRole,
       },
       refreshTokenKey,
-      { expiresIn: "6h", issuer: "GGPAN" }
+      // { expiresIn: "6h", issuer: "GGPAN" }
+      { expiresIn: "15m", issuer: "GGPAN" }
     );
 
     const isProduction = process.env.NODE_ENV === "production";
@@ -138,14 +140,16 @@ router.post("/login", async (req, res) => {
       secure: isProduction,
       httpOnly: true,
       sameSite: isProduction ? "None" : "Lax",
-      maxAge: 2 * 60 * 60 * 1000, // 2시간
+      // maxAge: 2 * 60 * 60 * 1000, // 2시간
+      maxAge: 5 * 60 * 1000,
     });
 
     res.cookie("refreshToken", refreshToken, {
       secure: isProduction,
       httpOnly: true,
       sameSite: isProduction ? "None" : "Lax",
-      maxAge: 6 * 60 * 60 * 1000, // 6시간
+      // maxAge: 6 * 60 * 60 * 1000, // 6시간
+      maxAge: 15 * 60 * 1000,
     });
 
     res.status(200).json({ message: "로그인 성공", accessToken, refreshToken });

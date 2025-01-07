@@ -36,7 +36,7 @@ const SideBar = () => {
 
   return (
     <>
-      {/* {isLoggedIn && <p>{userInfo.nickname}</p>} */}
+      {isLoggedIn && <p>{userInfo?.nickname}</p>}
       <GroupChats />
       {modals.map(({ type, label, component: Component }) => (
         <div key={type}>

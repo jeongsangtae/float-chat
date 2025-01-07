@@ -36,7 +36,8 @@ const useAuthStore = create<AuthStore>((set, get) => ({
   login: async () => {
     try {
       const now = Math.floor(new Date().getTime() / 1000);
-      const expirationTime = Math.ceil(now + 2 * 60 * 60);
+      // const expirationTime = Math.ceil(now + 2 * 60 * 60);
+      const expirationTime = Math.ceil(now + 5 * 60);
 
       localStorage.setItem("isLoggedIn", "1");
       localStorage.setItem("expirationTime", expirationTime.toString());
@@ -88,7 +89,8 @@ const useAuthStore = create<AuthStore>((set, get) => ({
       set({ accessToken: resData });
 
       const now = Math.floor(new Date().getTime() / 1000);
-      const expirationTime = Math.ceil(now + 2 * 60 * 60);
+      // const expirationTime = Math.ceil(now + 2 * 60 * 60);
+      const expirationTime = Math.ceil(now + 5 * 60);
       localStorage.setItem("isLoggedIn", "1");
       localStorage.setItem("expirationTime", expirationTime.toString());
     } catch (error) {
@@ -114,5 +116,10 @@ const useAuthStore = create<AuthStore>((set, get) => ({
     }
   },
 }));
+
+// 전역 초기화 (클라이언트 환경에서만 실행되도록 보호)
+if (typeof window !== "undefined") {
+  useAuthStore.getState().verifyUser();
+}
 
 export default useAuthStore;
