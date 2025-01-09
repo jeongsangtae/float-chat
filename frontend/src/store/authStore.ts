@@ -25,6 +25,7 @@ interface AuthStore {
   userInfo: UserInfo | null;
   accessToken: string | null;
   login: () => Promise<void>;
+  logout: () => Promise<void>;
   verifyUser: () => Promise<void>;
   refreshTokenExp: () => Promise<void>;
 }
@@ -36,8 +37,8 @@ const useAuthStore = create<AuthStore>((set, get) => ({
   login: async () => {
     try {
       const now = Math.floor(new Date().getTime() / 1000);
-      // const expirationTime = Math.ceil(now + 2 * 60 * 60);
-      const expirationTime = Math.ceil(now + 5 * 60);
+      // const expirationTime = Math.ceil(now + 60 * 60);
+      const expirationTime = Math.ceil(now + 30 * 60);
 
       localStorage.setItem("isLoggedIn", "1");
       localStorage.setItem("expirationTime", expirationTime.toString());
@@ -53,7 +54,31 @@ const useAuthStore = create<AuthStore>((set, get) => ({
       set({ isLoggedIn: false });
     }
   },
-  // logout: () => set({isLoggedIn: false}),
+  logout: async () => {
+    try {
+      localStorage.removeItem("isLoggedIn");
+      localStorage.removeItem("expirationTime");
+      localStorage.removeItem("refreshTokenExp");
+
+      const response = await fetch(`${apiURL}/logout`, {
+        method: "POST",
+        credentials: "include",
+      });
+
+      if (!response.ok) {
+        throw new Error("로그아웃 실패");
+      }
+
+      console.log("로그아웃 성공");
+
+      set({ isLoggedIn: false, userInfo: null });
+    } catch (error) {
+      console.error("네트워크 오류:", error);
+      alert(
+        "네트워크 문제로 로그아웃에 실패했습니다. 새로고침 후 다시 시도해 주세요."
+      );
+    }
+  },
   verifyUser: async () => {
     try {
       const response = await fetch(`${apiURL}/accessToken`, {
@@ -89,8 +114,8 @@ const useAuthStore = create<AuthStore>((set, get) => ({
       set({ accessToken: resData });
 
       const now = Math.floor(new Date().getTime() / 1000);
-      // const expirationTime = Math.ceil(now + 2 * 60 * 60);
-      const expirationTime = Math.ceil(now + 5 * 60);
+      // const expirationTime = Math.ceil(now + 60 * 60);
+      const expirationTime = Math.ceil(now + 30 * 60);
       localStorage.setItem("isLoggedIn", "1");
       localStorage.setItem("expirationTime", expirationTime.toString());
     } catch (error) {

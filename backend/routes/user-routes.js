@@ -114,8 +114,8 @@ router.post("/login", async (req, res) => {
         // role: userRole,
       },
       accessTokenKey,
-      // { expiresIn: "2h", issuer: "GGPAN" }
-      { expiresIn: "5m", issuer: "GGPAN" }
+      // { expiresIn: "1h", issuer: "GGPAN" }
+      { expiresIn: "30m", issuer: "GGPAN" }
     );
 
     // Refresh Token 발급
@@ -127,8 +127,8 @@ router.post("/login", async (req, res) => {
         // role: userRole,
       },
       refreshTokenKey,
-      // { expiresIn: "6h", issuer: "GGPAN" }
-      { expiresIn: "15m", issuer: "GGPAN" }
+      // { expiresIn: "30d", issuer: "GGPAN" }
+      { expiresIn: "1h", issuer: "GGPAN" }
     );
 
     const isProduction = process.env.NODE_ENV === "production";
@@ -140,18 +140,19 @@ router.post("/login", async (req, res) => {
       secure: isProduction,
       httpOnly: true,
       sameSite: isProduction ? "None" : "Lax",
-      // maxAge: 2 * 60 * 60 * 1000, // 2시간
-      maxAge: 5 * 60 * 1000,
+      // maxAge: 60 * 60 * 1000, // 1시간
+      maxAge: 30 * 60 * 1000,
     });
 
     res.cookie("refreshToken", refreshToken, {
       secure: isProduction,
       httpOnly: true,
       sameSite: isProduction ? "None" : "Lax",
-      // maxAge: 6 * 60 * 60 * 1000, // 6시간
-      maxAge: 15 * 60 * 1000,
+      // maxAge: 24 * 30 * 60 * 60 * 1000, // 30일
+      maxAge: 60 * 60 * 1000,
     });
 
+    console.log(new Date(1739037166 * 1000), new Date(1736445166 * 1000));
     res.status(200).json({ message: "로그인 성공", accessToken, refreshToken });
   } catch (error) {
     errorHandler(res, error, "로그인 중 오류 발생");
@@ -200,6 +201,25 @@ router.get("/refreshTokenExp", async (req, res) => {
     res.status(200).json(responseData);
   } catch (error) {
     errorHandler(res, error, "Refresh Token 만료 시간 확인 중 오류 발생");
+  }
+});
+
+// 로그아웃 처리, 쿠키에서 토큰 제거
+router.post("/logout", async (req, res) => {
+  const isProduction = process.env.NODE_ENV === "production";
+
+  try {
+    res.clearCookie("accessToken", {
+      secure: isProduction, // 쿠키 설정 시 사용한 옵션과 동일하게
+      sameSite: isProduction ? "None" : "Lax", // sameSite도 동일하게
+    });
+    res.clearCookie("refreshToken", {
+      secure: isProduction, // 쿠키 설정 시 사용한 옵션과 동일하게
+      sameSite: isProduction ? "None" : "Lax", // sameSite도 동일하게
+    });
+    res.status(200).json({ message: "로그아웃 성공" });
+  } catch (error) {
+    errorHandler(res, error, "로그아웃 중 오류 발생");
   }
 });
 

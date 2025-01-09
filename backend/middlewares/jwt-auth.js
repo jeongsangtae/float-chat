@@ -59,8 +59,8 @@ const refreshToken = async (req, res) => {
         // role: loginUserTokenData.role,
       },
       accessTokenKey,
-      // { expiresIn: "2h", issuer: "GGPAN" } // 토큰 유효시간 2시간 설정
-      { expiresIn: "5m", issuer: "GGPAN" }
+      // { expiresIn: "1h", issuer: "GGPAN" } // 토큰 유효시간 1시간 설정
+      { expiresIn: "30m", issuer: "GGPAN" }
     );
 
     const isProduction = process.env.NODE_ENV === "production";

@@ -10,7 +10,7 @@ import CreateGroupChat from "../GroupChats/CreateGroupChat";
 const SideBar = () => {
   type ModalType = "login" | "signup" | "createGroupChat" | null;
 
-  const { isLoggedIn, userInfo } = useAuthStore();
+  const { isLoggedIn, userInfo, logout } = useAuthStore();
 
   const [activeModal, setActiveModal] = useState<ModalType>(null);
 
@@ -32,11 +32,12 @@ const SideBar = () => {
     },
   ];
 
-  console.log(isLoggedIn, userInfo);
+  // console.log(isLoggedIn, userInfo);
 
   return (
     <>
       {isLoggedIn && <p>{userInfo?.nickname}</p>}
+      {isLoggedIn && <button onClick={logout}>로그아웃</button>}
       <GroupChats />
       {modals.map(({ type, label, component: Component }) => (
         <div key={type}>
