@@ -49,12 +49,13 @@ const SideBar = () => {
   ];
 
   const filteredModals = modals.filter(({ type }) => {
-    if (isLoggedIn && (type === "login" || type === "signup")) {
-      return false;
-    } else if (!isLoggedIn && type === "createGroupChat") {
-      return false;
+    if (isLoggedIn) {
+      // 로그인 상태에서는 "login"과 "signup" 모달을 제외
+      return type !== "login" && type !== "signup";
     }
-    return true;
+
+    // 비로그인 상태에서는 "createGroupChat" 모달을 제외
+    return type !== "createGroupChat";
   });
 
   useEffect(() => {
