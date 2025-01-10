@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import useAuthStore from "../../store/authStore";
 
 import { ModalProps } from "../../types";
@@ -16,7 +16,7 @@ const SideBar = () => {
   // };
   type ActiveModalType = ModalType | null;
 
-  const { isLoggedIn, userInfo, logout } = useAuthStore();
+  const { isLoggedIn, userInfo, pageAccess, logout } = useAuthStore();
 
   // 초기 상태: 모달 비활성화 상태 (null)
   const [activeModal, setActiveModal] = useState<ActiveModalType>(null);
@@ -51,9 +51,15 @@ const SideBar = () => {
   const filteredModals = modals.filter(({ type }) => {
     if (isLoggedIn && (type === "login" || type === "signup")) {
       return false;
+    } else if (!isLoggedIn && type === "createGroupChat") {
+      return false;
     }
     return true;
   });
+
+  useEffect(() => {
+    pageAccess();
+  }, []);
 
   return (
     <>

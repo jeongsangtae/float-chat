@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react";
 import { create } from "zustand";
 
 // interface AuthState {
@@ -24,6 +23,7 @@ interface AuthStore {
   isLoggedIn: boolean;
   userInfo: UserInfo | null;
   accessToken: string | null;
+  pageAccess: () => void;
   login: () => Promise<void>;
   logout: () => Promise<void>;
   verifyUser: () => Promise<void>;
@@ -34,6 +34,15 @@ const useAuthStore = create<AuthStore>((set, get) => ({
   isLoggedIn: false,
   userInfo: null,
   accessToken: null,
+  renewToken: () => {},
+  // 앱이 처음 로드될 때 로그인 상태 확인
+  pageAccess: () => {
+    const storedUserLoggedInInformation = localStorage.getItem("isLoggedIn");
+
+    if (storedUserLoggedInInformation === "1") {
+      set({ isLoggedIn: true });
+    }
+  },
   login: async () => {
     try {
       const now = Math.floor(new Date().getTime() / 1000);
