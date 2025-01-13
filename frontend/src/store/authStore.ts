@@ -23,10 +23,12 @@ interface AuthStore {
   isLoggedIn: boolean;
   userInfo: UserInfo | null;
   accessToken: string | null;
+  renewToken: () => void;
   pageAccess: () => void;
   login: () => Promise<void>;
   logout: () => Promise<void>;
   verifyUser: () => Promise<void>;
+  refreshToken: () => Promise<void>;
   refreshTokenExp: () => Promise<void>;
 }
 
@@ -34,8 +36,60 @@ const useAuthStore = create<AuthStore>((set, get) => ({
   isLoggedIn: false,
   userInfo: null,
   accessToken: null,
-  renewToken: () => {},
-  // 앱이 처음 로드될 때 로그인 상태 확인
+  renewToken: () => {
+    const checkTokenExpiration = () => {
+      const now = Math.floor(new Date().getTime() / 1000);
+      // const storedExpirationTime = parseInt(localStorage.getItem("expirationTime") ?? "0", 10);
+      const storedExpirationTime = parseInt(
+        localStorage.getItem("expirationTime") || "0",
+        10
+      );
+      const refreshTokenExpirationTime = parseInt(
+        localStorage.getItem("refreshTokenExp") || "0",
+        10
+      );
+
+      if (now >= storedExpirationTime && refreshTokenExpirationTime > now) {
+        get().refreshToken(); // 토큰 갱신
+        set({ isLoggedIn: true }); // 토큰 갱신 후 로그인 상태 유지
+      } else if (now >= refreshTokenExpirationTime) {
+        get().logout(); // 리프레시 토큰 만료 시 로그아웃
+      }
+
+      console.log(storedExpirationTime, refreshTokenExpirationTime);
+      console.log(
+        now >= storedExpirationTime && refreshTokenExpirationTime > now,
+        now >= refreshTokenExpirationTime
+      );
+    };
+
+    // 브라우저 로드 시 토큰 확인
+    const checkTokenOnLoad = () => {
+      const isLoggedInStored = localStorage.getItem("isLoggedIn");
+
+      if (isLoggedInStored) {
+        checkTokenExpiration(); // 로컬 스토리지의 만료 시간 확인
+      }
+    };
+
+    checkTokenOnLoad(); // 페이지 로드 시 토큰 만료 여부 확인
+
+    if (get().isLoggedIn) {
+      try {
+        get().verifyUser();
+
+        // 일정 시간마다 토큰 만료 확인
+        const interval = setInterval(checkTokenExpiration, 5 * 60 * 1000);
+        console.log(interval, "인터벌 실행");
+        return () => clearInterval(interval); // 컴포넌트 언마운트 시 인터벌 정리
+      } catch (error) {
+        console.error("오류 발생:", error);
+        get().logout(); // 오류 발생 시 로그아웃
+      }
+    }
+  },
+
+  // 로그인 상태 확인
   pageAccess: () => {
     const storedUserLoggedInInformation = localStorage.getItem("isLoggedIn");
 
@@ -43,6 +97,7 @@ const useAuthStore = create<AuthStore>((set, get) => ({
       set({ isLoggedIn: true });
     }
   },
+
   login: async () => {
     try {
       const now = Math.floor(new Date().getTime() / 1000);
@@ -63,6 +118,7 @@ const useAuthStore = create<AuthStore>((set, get) => ({
       set({ isLoggedIn: false });
     }
   },
+
   logout: async () => {
     try {
       localStorage.removeItem("isLoggedIn");
@@ -88,6 +144,7 @@ const useAuthStore = create<AuthStore>((set, get) => ({
       );
     }
   },
+
   verifyUser: async () => {
     try {
       const response = await fetch(`${apiURL}/accessToken`, {

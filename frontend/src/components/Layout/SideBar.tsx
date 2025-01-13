@@ -16,7 +16,8 @@ const SideBar = () => {
   // };
   type ActiveModalType = ModalType | null;
 
-  const { isLoggedIn, userInfo, pageAccess, logout } = useAuthStore();
+  const { isLoggedIn, userInfo, renewToken, refreshTokenExp, logout } =
+    useAuthStore();
 
   // 초기 상태: 모달 비활성화 상태 (null)
   const [activeModal, setActiveModal] = useState<ActiveModalType>(null);
@@ -58,9 +59,17 @@ const SideBar = () => {
     return type !== "createGroupChat";
   });
 
+  // 앱이 처음 로드될 때 로그인 상태 확인
   useEffect(() => {
-    pageAccess();
-  }, []);
+    const renewTokens = async () => {
+      if (isLoggedIn) {
+        await refreshTokenExp();
+        await renewToken();
+      }
+    };
+
+    renewTokens();
+  }, [isLoggedIn]);
 
   return (
     <>
