@@ -1,15 +1,6 @@
 import { create } from "zustand";
 
-// interface AuthState {
-//   isLoggedIn: boolean;
-//   login: () => void
-//   logout: () => void
-// }
-
 const apiURL = import.meta.env.VITE_API_URL;
-
-// const [isLoggedIn, setIsLoggedIn] = useState(false);
-// const [userInfo, setUserInfo] = useState(null);
 
 interface UserInfo {
   _id: string;
@@ -186,6 +177,8 @@ const useAuthStore = create<AuthStore>((set, get) => ({
       const expirationTime = Math.ceil(now + 5 * 60);
       localStorage.setItem("isLoggedIn", "1");
       localStorage.setItem("expirationTime", expirationTime.toString());
+
+      await get().refreshTokenExp();
     } catch (error) {
       console.error("사용자 인증 오류:", error);
     }
