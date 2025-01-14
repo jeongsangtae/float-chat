@@ -60,7 +60,18 @@ const refreshToken = async (req, res) => {
       },
       accessTokenKey,
       // { expiresIn: "1h", issuer: "GGPAN" } // 토큰 유효시간 1시간 설정
-      { expiresIn: "30m", issuer: "GGPAN" }
+      { expiresIn: "5m", issuer: "GGPAN" }
+    );
+
+    // 새로운 refreshToken 발급
+    const refreshToken = jwt.sign(
+      {
+        _id: loginUserDbData._id,
+        name: loginUserDbData.name,
+        email: loginUserDbData.email,
+      },
+      refreshTokenKey,
+      { expiresIn: "15m", issuer: "GGPAN" }
     );
 
     const isProduction = process.env.NODE_ENV === "production";
@@ -70,9 +81,18 @@ const refreshToken = async (req, res) => {
       secure: isProduction,
       httpOnly: true,
       sameSite: isProduction ? "None" : "Lax",
+      maxAge: 5 * 60 * 1000,
     });
 
-    return { message: "Access Token 재생성" }; // 성공 메시지를 반환
+    // 새로 발급한 refreshToken을 쿠키에 저장
+    res.cookie("refreshToken", refreshToken, {
+      secure: isProduction,
+      httpOnly: true,
+      sameSite: isProduction ? "None" : "Lax",
+      maxAge: 15 * 60 * 1000,
+    });
+
+    return { message: "Access Token, Refresh Token 재생성" }; // 성공 메시지를 반환
   } catch (error) {
     return null; // 오류 발생 시 null 반환
   }

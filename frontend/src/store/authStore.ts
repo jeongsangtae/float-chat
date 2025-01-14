@@ -56,7 +56,9 @@ const useAuthStore = create<AuthStore>((set, get) => ({
         get().logout(); // 리프레시 토큰 만료 시 로그아웃
       }
 
-      console.log(storedExpirationTime, refreshTokenExpirationTime);
+      console.log(new Date(now * 1000));
+      console.log(new Date(storedExpirationTime * 1000));
+      console.log(new Date(refreshTokenExpirationTime * 1000));
       console.log(
         now >= storedExpirationTime && refreshTokenExpirationTime > now,
         now >= refreshTokenExpirationTime
@@ -79,7 +81,7 @@ const useAuthStore = create<AuthStore>((set, get) => ({
         get().verifyUser();
 
         // 일정 시간마다 토큰 만료 확인
-        const interval = setInterval(checkTokenExpiration, 5 * 60 * 1000);
+        const interval = setInterval(checkTokenExpiration, 60 * 1000);
         console.log(interval, "인터벌 실행");
         return () => clearInterval(interval); // 컴포넌트 언마운트 시 인터벌 정리
       } catch (error) {
@@ -102,7 +104,7 @@ const useAuthStore = create<AuthStore>((set, get) => ({
     try {
       const now = Math.floor(new Date().getTime() / 1000);
       // const expirationTime = Math.ceil(now + 60 * 60);
-      const expirationTime = Math.ceil(now + 30 * 60);
+      const expirationTime = Math.ceil(now + 5 * 60);
 
       localStorage.setItem("isLoggedIn", "1");
       localStorage.setItem("expirationTime", expirationTime.toString());
@@ -181,7 +183,7 @@ const useAuthStore = create<AuthStore>((set, get) => ({
 
       const now = Math.floor(new Date().getTime() / 1000);
       // const expirationTime = Math.ceil(now + 60 * 60);
-      const expirationTime = Math.ceil(now + 30 * 60);
+      const expirationTime = Math.ceil(now + 5 * 60);
       localStorage.setItem("isLoggedIn", "1");
       localStorage.setItem("expirationTime", expirationTime.toString());
     } catch (error) {

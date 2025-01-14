@@ -46,9 +46,6 @@ const Login = ({ onToggle }: ModalProps) => {
         return null;
       }
 
-      const resData = await response.json();
-      console.log(resData.accessToken, "/", resData.refreshToken);
-
       await login();
       onToggle();
     } catch (error) {
