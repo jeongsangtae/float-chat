@@ -40,9 +40,14 @@ const useAuthStore = create<AuthStore>((set, get) => ({
         10
       );
 
-      if (now >= storedExpirationTime && refreshTokenExpirationTime > now) {
-        get().refreshToken(); // 토큰 갱신
-        set({ isLoggedIn: true }); // 토큰 갱신 후 로그인 상태 유지
+      console.log(refreshTokenExpirationTime > now);
+      console.log(now >= storedExpirationTime);
+
+      if (refreshTokenExpirationTime > now) {
+        if (now >= storedExpirationTime) {
+          get().refreshToken(); // 토큰 갱신
+          set({ isLoggedIn: true }); // 토큰 갱신 후 로그인 상태 유지
+        }
       } else if (now >= refreshTokenExpirationTime) {
         get().logout(); // 리프레시 토큰 만료 시 로그아웃
       }
@@ -145,12 +150,24 @@ const useAuthStore = create<AuthStore>((set, get) => ({
       });
 
       if (!response.ok) {
-        throw new Error("쿠키에 JWT 토큰 없음");
+        const now = Math.floor(new Date().getTime() / 1000);
+        const refreshTokenExpirationTime = parseInt(
+          localStorage.getItem("refreshTokenExp") || "0",
+          10
+        );
+
+        if (now >= refreshTokenExpirationTime) {
+          get().logout(); // 리프레시 토큰 만료 시 로그아웃
+          throw new Error("쿠키에 리프레시 토큰 없음");
+        }
+        get().refreshToken(); // 토큰 갱신
+        return; // 갱신 후 재시도 방지를 위해 종료
       }
 
       const resData = await response.json();
 
-      console.log(resData);
+      console.log("사용자 인증 성공", resData);
+
       set({ isLoggedIn: true, userInfo: resData });
     } catch (error) {
       console.error("사용자 인증 오류:", error);
@@ -170,7 +187,8 @@ const useAuthStore = create<AuthStore>((set, get) => ({
 
       const resData = await response.json();
 
-      set({ accessToken: resData });
+      set({ isLoggedIn: true, userInfo: resData });
+      // set({ accessToken: resData });
 
       const now = Math.floor(new Date().getTime() / 1000);
       // const expirationTime = Math.ceil(now + 60 * 60);
@@ -180,7 +198,8 @@ const useAuthStore = create<AuthStore>((set, get) => ({
 
       await get().refreshTokenExp();
     } catch (error) {
-      console.error("사용자 인증 오류:", error);
+      console.error("토큰 갱신 오류:", error);
+      set({ isLoggedIn: false, userInfo: null }); // 오류 시 로그아웃 상태로 처리
     }
   },
 

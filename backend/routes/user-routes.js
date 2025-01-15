@@ -184,7 +184,7 @@ router.get("/refreshToken", async (req, res) => {
 
     res.status(200).json(responseData);
   } catch (error) {
-    errorHandler(res, error, "Refresh Token 확인 중 오류 발생");
+    errorHandler(res, error, "토큰 재생성 중 오류 발생");
   }
 });
 

@@ -92,7 +92,17 @@ const refreshToken = async (req, res) => {
       maxAge: 15 * 60 * 1000,
     });
 
-    return { message: "Access Token, Refresh Token 재생성" }; // 성공 메시지를 반환
+    // 디스트럭처링을 통해서 password를 제외한 나머지 사용자 데이터만 가져옴
+    const { password, ...othersData } = loginUserDbData;
+
+    // 응답 데이터에 토큰 만료 시간을 추가하여 반환
+    const responseData = {
+      ...othersData,
+      tokenExp: loginUserTokenData.exp,
+      // role: loginUserTokenData.role,
+    };
+
+    return responseData; // 성공 메시지를 반환
   } catch (error) {
     return null; // 오류 발생 시 null 반환
   }
