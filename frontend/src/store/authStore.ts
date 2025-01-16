@@ -13,6 +13,7 @@ interface UserInfo {
 interface AuthStore {
   isLoggedIn: boolean;
   userInfo: UserInfo | null;
+  intervalId: ReturnType<typeof setInterval> | null;
   accessToken: string | null;
   renewToken: () => void;
   pageAccess: () => void;
@@ -27,6 +28,7 @@ const useAuthStore = create<AuthStore>((set, get) => ({
   isLoggedIn: false,
   userInfo: null,
   accessToken: null,
+  intervalId: null,
   renewToken: () => {
     const checkTokenExpiration = () => {
       const now = Math.floor(new Date().getTime() / 1000);
@@ -79,6 +81,9 @@ const useAuthStore = create<AuthStore>((set, get) => ({
         // 일정 시간마다 토큰 만료 확인
         const interval = setInterval(checkTokenExpiration, 60 * 1000);
         console.log(interval, "인터벌 실행");
+
+        set({ intervalId: interval });
+
         return () => clearInterval(interval); // 컴포넌트 언마운트 시 인터벌 정리
       } catch (error) {
         console.error("오류 발생:", error);
@@ -119,6 +124,14 @@ const useAuthStore = create<AuthStore>((set, get) => ({
 
   logout: async () => {
     try {
+      const intervalId = get().intervalId;
+
+      if (intervalId) {
+        clearInterval(intervalId);
+        set({ intervalId: null }); // intervalId 상태 초기화
+        console.log("로그아웃: 인터벌 정리 완료");
+      }
+
       localStorage.removeItem("isLoggedIn");
       localStorage.removeItem("expirationTime");
       localStorage.removeItem("refreshTokenExp");

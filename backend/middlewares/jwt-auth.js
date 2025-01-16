@@ -102,7 +102,7 @@ const refreshToken = async (req, res) => {
       // role: loginUserTokenData.role,
     };
 
-    return responseData; // 성공 메시지를 반환
+    return responseData; // 사용자 데이터 반환
   } catch (error) {
     return null; // 오류 발생 시 null 반환
   }
