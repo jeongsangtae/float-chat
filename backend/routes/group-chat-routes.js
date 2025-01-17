@@ -28,13 +28,17 @@ router.get("/groupChats", async (req, res) => {
 
 router.post("/createGroupChat", async (req, res) => {
   try {
-    const titleData = req.body;
+    const groupChatData = req.body;
 
     let date = new Date();
     let kstDate = new Date(date.getTime() + 9 * 60 * 60 * 1000);
 
     const newGroupChat = {
-      title: titleData.title,
+      title: groupChatData.title,
+      hostId: groupChatData._id,
+      email: groupChatData.email,
+      username: groupChatData.username,
+      nickname: groupChatData.nickname,
       date: `${kstDate.getFullYear()}.${(kstDate.getMonth() + 1)
         .toString()
         .padStart(2, "0")}.${kstDate

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import useAuthStore from "../../store/authStore";
 
 import { ModalProps } from "../../types";
 import AuthModal from "../UI/AuthModal";
@@ -7,6 +8,8 @@ const CreateGroupChat = ({ onToggle }: ModalProps) => {
   // 나중에 사용될 환경 변수 API URL
   // 미리 구성
   const apiURL = import.meta.env.VITE_API_URL;
+
+  const { userInfo } = useAuthStore();
 
   const [title, setTitle] = useState<string>("");
 
@@ -19,8 +22,14 @@ const CreateGroupChat = ({ onToggle }: ModalProps) => {
   ): Promise<void> => {
     event.preventDefault();
 
+    const { _id, email, username, nickname } = userInfo || {};
+
     let requestBody = {
       title,
+      _id,
+      email,
+      username,
+      nickname,
     };
 
     const response = await fetch(`${apiURL}/createGroupChat`, {
