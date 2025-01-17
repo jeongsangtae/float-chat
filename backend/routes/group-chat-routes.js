@@ -2,6 +2,7 @@ const express = require("express");
 const mongodb = require("mongodb");
 
 const db = require("../data/database");
+const { accessToken } = require("../middlewares/jwt-auth");
 const { errorHandler } = require("../utils/error-handler");
 
 const ObjectId = mongodb.ObjectId;
@@ -9,11 +10,13 @@ const ObjectId = mongodb.ObjectId;
 const router = express.Router();
 
 router.get("/groupChats", async (req, res) => {
+  const responseData = await accessToken(req, res);
+
   try {
     const groupChats = await db
       .getDb()
       .collection("groupChats")
-      .find()
+      .find({ email: responseData.email })
       .toArray();
 
     if (!groupChats) {
