@@ -1,6 +1,7 @@
 import { create } from "zustand";
 
 import { GroupChatData } from "../types";
+import { UserInfo } from "../types";
 
 const apiURL = import.meta.env.VITE_API_URL;
 
@@ -8,6 +9,7 @@ interface GroupChatState {
   loading: boolean;
   groupChats: GroupChatData[];
   getGroupChats: () => Promise<void>;
+  createGroupChat: (title: string, userInfo: UserInfo) => Promise<void>;
   deleteGroupChat: (_id: string) => Promise<void>;
 }
 
@@ -38,7 +40,30 @@ const useGroupChatStore = create<GroupChatState>((set, get) => ({
     }
   },
 
-  createGroupChat: async () => {},
+  createGroupChat: async (title: string, userInfo: UserInfo) => {
+    const { _id, email, username, nickname } = userInfo;
+
+    const requestBody = { title, _id, email, username, nickname };
+
+    const response = await fetch(`${apiURL}/createGroupChat`, {
+      method: "POST",
+      body: JSON.stringify(requestBody),
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+    });
+
+    if (!response.ok) {
+      throw new Error(`그룹 채팅방 생성 실패`);
+    }
+
+    const resDate = await response.json();
+
+    // 실시간 반영
+    set((prev) => ({
+      groupChats: [...prev.groupChats, resDate.newGroupChat],
+    }));
+  },
+
   deleteGroupChat: async (_id: string) => {
     try {
       const response = await fetch(`${apiURL}/groupChat/${_id}`, {
@@ -50,6 +75,7 @@ const useGroupChatStore = create<GroupChatState>((set, get) => ({
         throw new Error(`그룹 채팅방 삭제 실패`);
       }
 
+      // 실시간 반영
       const updatedGroupChats = get().groupChats.filter(
         (chat: GroupChatData) => chat._id !== _id
       );

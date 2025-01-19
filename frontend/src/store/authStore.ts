@@ -1,14 +1,8 @@
 import { create } from "zustand";
 
-const apiURL = import.meta.env.VITE_API_URL;
+import { UserInfo } from "../types";
 
-interface UserInfo {
-  _id: string;
-  email: string;
-  username: string;
-  nickname: string;
-  tokenExp: number;
-}
+const apiURL = import.meta.env.VITE_API_URL;
 
 interface AuthStore {
   isLoggedIn: boolean;

@@ -18,7 +18,6 @@ const GroupChats = () => {
 
   return (
     <>
-      {/* <div>그룹 채팅방</div> */}
       {groupChats.length === 0 ? (
         <p>그룹 채팅방이 없습니다.</p>
       ) : (

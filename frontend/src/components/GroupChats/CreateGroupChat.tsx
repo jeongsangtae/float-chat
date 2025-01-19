@@ -1,15 +1,13 @@
 import React, { useState } from "react";
 import useAuthStore from "../../store/authStore";
+import useGroupChatStore from "../../store/groupChatStore";
 
 import { ModalProps } from "../../types";
 import AuthModal from "../UI/AuthModal";
 
 const CreateGroupChat = ({ onToggle }: ModalProps) => {
-  // 나중에 사용될 환경 변수 API URL
-  // 미리 구성
-  const apiURL = import.meta.env.VITE_API_URL;
-
   const { userInfo } = useAuthStore();
+  const { createGroupChat } = useGroupChatStore();
 
   const [title, setTitle] = useState<string>("");
 
@@ -22,29 +20,21 @@ const CreateGroupChat = ({ onToggle }: ModalProps) => {
   ): Promise<void> => {
     event.preventDefault();
 
-    const { _id, email, username, nickname } = userInfo || {};
-
-    let requestBody = {
-      title,
-      _id,
-      email,
-      username,
-      nickname,
-    };
-
-    const response = await fetch(`${apiURL}/createGroupChat`, {
-      method: "POST",
-      body: JSON.stringify(requestBody),
-      headers: { "Content-Type": "application/json" },
-      credentials: "include",
-    });
-
-    if (!response.ok) {
-      throw new Error(`그룹 채팅방 생성 실패`);
+    if (!userInfo) {
+      alert("로그인이 필요합니다. 로그인 후 다시 시도해 주세요.");
+      return;
     }
 
-    console.log("방 생성 성공");
-    onToggle();
+    try {
+      await createGroupChat(title, userInfo);
+      console.log("그룹 채팅방 생성 성공");
+      onToggle();
+    } catch (error) {
+      console.error("에러 내용:", error);
+      alert(
+        "그룹 채팅방을 생성하는 중에 문제가 발생했습니다. 새로고침 후 다시 시도해 주세요."
+      );
+    }
   };
 
   return (

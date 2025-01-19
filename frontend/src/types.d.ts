@@ -10,3 +10,11 @@ export interface GroupChatData {
   title: string;
   date?: string;
 }
+
+export interface UserInfo {
+  _id: string;
+  email: string;
+  username: string;
+  nickname: string;
+  tokenExp: number;
+}
