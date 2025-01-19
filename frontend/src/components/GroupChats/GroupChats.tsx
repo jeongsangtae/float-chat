@@ -5,40 +5,9 @@ import GroupChat from "./GroupChat";
 import LoadingIndicator from "../UI/LoadingIndicator";
 
 const GroupChats = () => {
-  // const groupChats = useLoaderData<GroupChatData[]>();
-
-  // console.log(groupChats);
-  // const [groupChats, setGroupChats] = useState<GroupChatData[]>([]);
-  // const [loading, setLoading] = useState<boolean>(true);
-
   const { loading, groupChats, getGroupChats } = useGroupChatStore();
 
   useEffect(() => {
-    // const fetchData = async (): Promise<void> => {
-    //   const apiURL = import.meta.env.VITE_API_URL;
-
-    //   try {
-    //     const response = await fetch(`${apiURL}/groupChats`, {
-    //       credentials: "include",
-    //     });
-
-    //     if (!response.ok) {
-    //       throw new Error("그룹 채팅방 목록 조회 실패");
-    //     }
-
-    //     const resData: { groupChats: GroupChatData[] } = await response.json();
-
-    //     setGroupChats(resData.groupChats);
-    //   } catch (error) {
-    //     console.error("에러 내용:", error);
-    //     alert(
-    //       "그룹 채팅방 목록을 불러오는 중에 문제가 발생했습니다. 새로고침 후 다시 시도해 주세요."
-    //     );
-    //   } finally {
-    //     setLoading(false); // 로딩 상태 끝내기
-    //   }
-    // };
-
     getGroupChats();
   }, []);
 
