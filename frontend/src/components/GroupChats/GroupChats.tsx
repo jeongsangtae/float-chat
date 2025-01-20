@@ -2,9 +2,10 @@ import { useEffect } from "react";
 import useGroupChatStore from "../../store/groupChatStore";
 import GroupChat from "./GroupChat";
 
+import { ModalProps } from "../../types";
 import LoadingIndicator from "../UI/LoadingIndicator";
 
-const GroupChats = () => {
+const GroupChats = ({ onToggle }: ModalProps) => {
   const { loading, groupChats, getGroupChats } = useGroupChatStore();
 
   useEffect(() => {
@@ -16,6 +17,8 @@ const GroupChats = () => {
     return <LoadingIndicator />;
   }
 
+  console.log(onToggle);
+
   return (
     <>
       {groupChats.length === 0 ? (
@@ -26,6 +29,7 @@ const GroupChats = () => {
             key={groupChat._id}
             _id={groupChat._id}
             title={groupChat.title}
+            onToggle={onToggle}
           />
         ))
       )}

@@ -5,9 +5,9 @@ import useGroupChatStore from "../../store/groupChatStore";
 import { ModalProps } from "../../types";
 import AuthModal from "../UI/AuthModal";
 
-const CreateGroupChat = ({ onToggle }: ModalProps) => {
+const GroupChatForm = ({ onToggle }: ModalProps) => {
   const { userInfo } = useAuthStore();
-  const { createGroupChat } = useGroupChatStore();
+  const { groupChatForm } = useGroupChatStore();
 
   const [title, setTitle] = useState<string>("");
 
@@ -26,7 +26,7 @@ const CreateGroupChat = ({ onToggle }: ModalProps) => {
     }
 
     try {
-      await createGroupChat(title, userInfo);
+      await groupChatForm(title, userInfo);
       console.log("그룹 채팅방 생성 성공");
       onToggle();
     } catch (error) {
@@ -62,4 +62,4 @@ const CreateGroupChat = ({ onToggle }: ModalProps) => {
   );
 };
 
-export default CreateGroupChat;
+export default GroupChatForm;

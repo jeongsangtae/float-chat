@@ -1,8 +1,10 @@
 import useGroupChatStore from "../../store/groupChatStore";
 
-import { GroupChatData } from "../../types";
+import { GroupChatData, ModalProps } from "../../types";
 
-const GroupChat = ({ _id, title }: GroupChatData) => {
+type GroupChatProps = GroupChatData & ModalProps;
+
+const GroupChat = ({ _id, title, onToggle }: GroupChatProps) => {
   // const apiURL = import.meta.env.VITE_API_URL;
 
   const { deleteGroupChat } = useGroupChatStore();
@@ -13,9 +15,14 @@ const GroupChat = ({ _id, title }: GroupChatData) => {
     await deleteGroupChat(_id);
   };
 
+  // const groupChatTitleEditHandler = async (): Promise<void> => {};
+
   return (
     <div>
       {title}
+      <button type="button" onClick={onToggle}>
+        수정
+      </button>
       <button type="button" onClick={groupChatDeleteHandler}>
         삭제
       </button>

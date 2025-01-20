@@ -5,15 +5,10 @@ import { ModalProps } from "../../types";
 import GroupChats from "../GroupChats/GroupChats";
 import Login from "../Users/Login";
 import Signup from "../Users/Signup";
-import CreateGroupChat from "../GroupChats/CreateGroupChat";
+import GroupChatForm from "../GroupChats/GroupChatForm";
 
 const SideBar = () => {
-  type ModalType = "login" | "signup" | "createGroupChat";
-  // type ModalItem = {
-  //   type: ModalType;
-  //   label: string;
-  //   component: React.ComponentType<ModalProps>;
-  // };
+  type ModalType = "login" | "signup" | "groupChatForm";
   type ActiveModalType = ModalType | null;
 
   const { isLoggedIn, userInfo, renewToken, refreshTokenExp, logout } =
@@ -26,19 +21,6 @@ const SideBar = () => {
     setActiveModal((prev) => (prev === modalType ? null : modalType));
   };
 
-  // const modals: ModalItem[] = [
-  //   { type: "login", label: "로그인", component: Login },
-  //   { type: "signup", label: "회원가입", component: Signup },
-  //   { type: "createGroupChat", label: "+", component: CreateGroupChat },
-  // ];
-
-  // const filteredModals = allModals.filter(({ type }) => {
-  //   if (isLoggedIn && (type === "login" || type === "signup")) {
-  //     return false;
-  //   }
-  //   return true;
-  // });
-
   const modals: {
     type: ModalType;
     label: string;
@@ -46,7 +28,7 @@ const SideBar = () => {
   }[] = [
     { type: "login", label: "로그인", component: Login },
     { type: "signup", label: "회원가입", component: Signup },
-    { type: "createGroupChat", label: "+", component: CreateGroupChat },
+    { type: "groupChatForm", label: "+", component: GroupChatForm },
   ];
 
   const filteredModals = modals.filter(({ type }) => {
@@ -56,7 +38,7 @@ const SideBar = () => {
     }
 
     // 비로그인 상태에서는 "createGroupChat" 모달을 제외
-    return type !== "createGroupChat";
+    return type !== "groupChatForm";
   });
 
   // 앱이 처음 로드될 때 로그인 상태 확인
@@ -77,7 +59,7 @@ const SideBar = () => {
         <>
           <p>{userInfo?.nickname}</p>
           <button onClick={logout}>로그아웃</button>
-          <GroupChats />
+          <GroupChats onToggle={() => toggleModalHandler("groupChatForm")} />
         </>
       )}
       {filteredModals.map(({ type, label, component: Component }) => (

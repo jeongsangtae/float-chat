@@ -9,7 +9,7 @@ interface GroupChatState {
   loading: boolean;
   groupChats: GroupChatData[];
   getGroupChats: () => Promise<void>;
-  createGroupChat: (title: string, userInfo: UserInfo) => Promise<void>;
+  groupChatForm: (title: string, userInfo: UserInfo) => Promise<void>;
   deleteGroupChat: (_id: string) => Promise<void>;
 }
 
@@ -40,7 +40,7 @@ const useGroupChatStore = create<GroupChatState>((set, get) => ({
     }
   },
 
-  createGroupChat: async (title: string, userInfo: UserInfo) => {
+  groupChatForm: async (title: string, userInfo: UserInfo) => {
     const { _id, email, username, nickname } = userInfo;
 
     const requestBody = { title, _id, email, username, nickname };
@@ -63,6 +63,16 @@ const useGroupChatStore = create<GroupChatState>((set, get) => ({
       groupChats: [...prev.groupChats, resDate.newGroupChat],
     }));
   },
+
+  // editGroupChatTitle: async() => {
+  //   try {
+  //     const response = await fetch(`${apiURL}/editGroupChatTitle`, {
+  //       method: "PATCH"
+  //     })
+  //   } catch(error) {
+
+  //   }
+  // },
 
   deleteGroupChat: async (_id: string) => {
     try {
