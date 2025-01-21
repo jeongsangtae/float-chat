@@ -9,7 +9,11 @@ interface GroupChatState {
   loading: boolean;
   groupChats: GroupChatData[];
   getGroupChats: () => Promise<void>;
-  groupChatForm: (title: string, userInfo: UserInfo) => Promise<void>;
+  groupChatForm: (
+    title: string,
+    userInfo: UserInfo,
+    method: "POST" | "PATCH"
+  ) => Promise<void>;
   deleteGroupChat: (_id: string) => Promise<void>;
 }
 
@@ -40,13 +44,17 @@ const useGroupChatStore = create<GroupChatState>((set, get) => ({
     }
   },
 
-  groupChatForm: async (title: string, userInfo: UserInfo) => {
+  groupChatForm: async (
+    title: string,
+    userInfo: UserInfo,
+    method: "POST" | "PATCH"
+  ) => {
     const { _id, email, username, nickname } = userInfo;
 
     const requestBody = { title, _id, email, username, nickname };
 
     const response = await fetch(`${apiURL}/createGroupChat`, {
-      method: "POST",
+      method,
       body: JSON.stringify(requestBody),
       headers: { "Content-Type": "application/json" },
       credentials: "include",
@@ -56,11 +64,18 @@ const useGroupChatStore = create<GroupChatState>((set, get) => ({
       throw new Error(`그룹 채팅방 생성 실패`);
     }
 
-    const resDate = await response.json();
+    const resData = await response.json();
 
     // 실시간 반영
     set((prev) => ({
-      groupChats: [...prev.groupChats, resDate.newGroupChat],
+      groupChats:
+        method === "POST"
+          ? [...prev.groupChats, resData.newGroupChat]
+          : prev.groupChats.map((chat) =>
+              chat._id === resData.updatedGroupChat._id
+                ? resData.updatedGroupChat
+                : chat
+            ),
     }));
   },
 

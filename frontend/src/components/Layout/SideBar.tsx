@@ -25,10 +25,16 @@ const SideBar = () => {
     type: ModalType;
     label: string;
     component: React.ComponentType<ModalProps>;
+    method?: "POST" | "PATCH";
   }[] = [
     { type: "login", label: "로그인", component: Login },
     { type: "signup", label: "회원가입", component: Signup },
-    { type: "groupChatForm", label: "+", component: GroupChatForm },
+    {
+      type: "groupChatForm",
+      label: "+",
+      component: GroupChatForm,
+      method: "POST",
+    },
   ];
 
   const filteredModals = modals.filter(({ type }) => {
@@ -59,14 +65,20 @@ const SideBar = () => {
         <>
           <p>{userInfo?.nickname}</p>
           <button onClick={logout}>로그아웃</button>
-          <GroupChats onToggle={() => toggleModalHandler("groupChatForm")} />
+          <GroupChats
+            onToggle={() => toggleModalHandler("groupChatForm")}
+            method="PATCH"
+          />
         </>
       )}
-      {filteredModals.map(({ type, label, component: Component }) => (
+      {filteredModals.map(({ type, label, component: Component, method }) => (
         <div key={type}>
           <button onClick={() => toggleModalHandler(type)}>{label}</button>
           {activeModal === type && (
-            <Component onToggle={() => toggleModalHandler(type)} />
+            <Component
+              onToggle={() => toggleModalHandler(type)}
+              method={method}
+            />
           )}
         </div>
       ))}

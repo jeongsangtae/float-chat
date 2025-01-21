@@ -1,15 +1,19 @@
 import useGroupChatStore from "../../store/groupChatStore";
 
-import { GroupChatData, ModalProps } from "../../types";
+import { GroupChatData, ModalProps, FetchMethod } from "../../types";
 
-type GroupChatProps = GroupChatData & ModalProps;
+type GroupChatProps = GroupChatData & ModalProps & FetchMethod;
 
-const GroupChat = ({ _id, title, onToggle }: GroupChatProps) => {
+const GroupChat = ({ _id, title, onToggle, method }: GroupChatProps) => {
   // const apiURL = import.meta.env.VITE_API_URL;
 
-  const { deleteGroupChat } = useGroupChatStore();
+  const { groupChatForm, deleteGroupChat } = useGroupChatStore();
 
   // console.log(_id);
+
+  // const groupChatTitleEditHandler = async (): Promise<void> => {
+  //   await groupChatForm(_id, method)
+  // }
 
   const groupChatDeleteHandler = async (): Promise<void> => {
     await deleteGroupChat(_id);

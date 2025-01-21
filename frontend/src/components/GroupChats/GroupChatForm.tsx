@@ -2,10 +2,12 @@ import React, { useState } from "react";
 import useAuthStore from "../../store/authStore";
 import useGroupChatStore from "../../store/groupChatStore";
 
-import { ModalProps } from "../../types";
+import { ModalProps, FetchMethod } from "../../types";
 import AuthModal from "../UI/AuthModal";
 
-const GroupChatForm = ({ onToggle }: ModalProps) => {
+type GroupChatProps = ModalProps & FetchMethod;
+
+const GroupChatForm = ({ onToggle, method }: GroupChatProps) => {
   const { userInfo } = useAuthStore();
   const { groupChatForm } = useGroupChatStore();
 
@@ -26,7 +28,7 @@ const GroupChatForm = ({ onToggle }: ModalProps) => {
     }
 
     try {
-      await groupChatForm(title, userInfo);
+      await groupChatForm(title, userInfo, method);
       console.log("그룹 채팅방 생성 성공");
       onToggle();
     } catch (error) {
@@ -40,8 +42,8 @@ const GroupChatForm = ({ onToggle }: ModalProps) => {
   return (
     <AuthModal onToggle={onToggle}>
       <form onSubmit={submitHandler}>
-        <h2>그룹 채팅방 만들기</h2>
-        <p>새로운 그룹 채팅방을 만들어 보세요.</p>
+        <h2>그룹 채팅방 {method === "POST" ? "만들기" : "수정"}</h2>
+        <p>그룹 채팅방 정보를 입력하세요.</p>
         <div>
           <div>채팅방 이름</div>
           <input
@@ -55,7 +57,7 @@ const GroupChatForm = ({ onToggle }: ModalProps) => {
           />
         </div>
         <div>
-          <button type="submit">만들기</button>
+          <button type="submit">{method === "POST" ? "만들기" : "수정"}</button>
         </div>
       </form>
     </AuthModal>

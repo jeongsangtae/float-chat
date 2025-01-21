@@ -2,10 +2,12 @@ import { useEffect } from "react";
 import useGroupChatStore from "../../store/groupChatStore";
 import GroupChat from "./GroupChat";
 
-import { ModalProps } from "../../types";
+import { ModalProps, FetchMethod } from "../../types";
 import LoadingIndicator from "../UI/LoadingIndicator";
 
-const GroupChats = ({ onToggle }: ModalProps) => {
+type GroupChatProps = ModalProps & FetchMethod;
+
+const GroupChats = ({ onToggle, method }: GroupChatProps) => {
   const { loading, groupChats, getGroupChats } = useGroupChatStore();
 
   useEffect(() => {
@@ -30,6 +32,7 @@ const GroupChats = ({ onToggle }: ModalProps) => {
             _id={groupChat._id}
             title={groupChat.title}
             onToggle={onToggle}
+            method={method}
           />
         ))
       )}
