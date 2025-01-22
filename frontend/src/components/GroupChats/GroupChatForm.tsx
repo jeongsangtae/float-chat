@@ -1,15 +1,15 @@
 import React, { useState } from "react";
 import useAuthStore from "../../store/authStore";
 import useGroupChatStore from "../../store/groupChatStore";
+import useModalStore from "../../store/modalStore";
 
-import { ModalProps, FetchMethod } from "../../types";
+import { ModalProps } from "../../types";
 import AuthModal from "../UI/AuthModal";
 
-type GroupChatProps = ModalProps & FetchMethod;
-
-const GroupChatForm = ({ onToggle, method }: GroupChatProps) => {
+const GroupChatForm = ({ onToggle }: ModalProps) => {
   const { userInfo } = useAuthStore();
   const { groupChatForm } = useGroupChatStore();
+  const { modalData } = useModalStore();
 
   const [title, setTitle] = useState<string>("");
 
@@ -28,7 +28,7 @@ const GroupChatForm = ({ onToggle, method }: GroupChatProps) => {
     }
 
     try {
-      await groupChatForm(title, userInfo, method);
+      await groupChatForm(title, userInfo);
       console.log("그룹 채팅방 생성 성공");
       onToggle();
     } catch (error) {
@@ -39,11 +39,17 @@ const GroupChatForm = ({ onToggle, method }: GroupChatProps) => {
     }
   };
 
+  console.log(modalData.method, modalData.id, modalData.title);
+
   return (
     <AuthModal onToggle={onToggle}>
       <form onSubmit={submitHandler}>
-        <h2>그룹 채팅방 {method === "POST" ? "만들기" : "수정"}</h2>
-        <p>그룹 채팅방 정보를 입력하세요.</p>
+        <h2>그룹 채팅방 {modalData.method === "POST" ? "만들기" : "수정"}</h2>
+        <p>
+          {modalData.method === "POST"
+            ? "새로운 그룹 채팅방을 만들어 보세요."
+            : "그룹 채팅방 제목을 수정해 보세요."}
+        </p>
         <div>
           <div>채팅방 이름</div>
           <input
@@ -51,13 +57,15 @@ const GroupChatForm = ({ onToggle, method }: GroupChatProps) => {
             type="text"
             id="title"
             name="title"
-            value={title}
+            value={modalData.method === "POST" ? title : modalData.title}
             placeholder="내용 입력"
             onChange={inputChangeHandler}
           />
         </div>
         <div>
-          <button type="submit">{method === "POST" ? "만들기" : "수정"}</button>
+          <button type="submit">
+            {modalData.method === "POST" ? "만들기" : "수정"}
+          </button>
         </div>
       </form>
     </AuthModal>

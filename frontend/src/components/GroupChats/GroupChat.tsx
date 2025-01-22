@@ -1,30 +1,23 @@
 import useGroupChatStore from "../../store/groupChatStore";
+import useModalStore from "../../store/modalStore";
 
-import { GroupChatData, ModalProps, FetchMethod } from "../../types";
+import { GroupChatData } from "../../types";
 
-type GroupChatProps = GroupChatData & ModalProps & FetchMethod;
-
-const GroupChat = ({ _id, title, onToggle, method }: GroupChatProps) => {
-  // const apiURL = import.meta.env.VITE_API_URL;
-
-  const { groupChatForm, deleteGroupChat } = useGroupChatStore();
-
-  // console.log(_id);
-
-  // const groupChatTitleEditHandler = async (): Promise<void> => {
-  //   await groupChatForm(_id, method)
-  // }
+const GroupChat = ({ _id, title }: GroupChatData) => {
+  const { deleteGroupChat } = useGroupChatStore();
+  const { toggleModal } = useModalStore();
 
   const groupChatDeleteHandler = async (): Promise<void> => {
     await deleteGroupChat(_id);
   };
 
-  // const groupChatTitleEditHandler = async (): Promise<void> => {};
-
   return (
     <div>
       {title}
-      <button type="button" onClick={onToggle}>
+      <button
+        type="button"
+        onClick={() => toggleModal("groupChatForm", "PATCH", { _id, title })}
+      >
         수정
       </button>
       <button type="button" onClick={groupChatDeleteHandler}>

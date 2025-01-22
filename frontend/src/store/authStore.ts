@@ -36,8 +36,8 @@ const useAuthStore = create<AuthStore>((set, get) => ({
         10
       );
 
-      console.log(refreshTokenExpirationTime > now);
-      console.log(now >= storedExpirationTime);
+      // console.log(refreshTokenExpirationTime > now);
+      // console.log(now >= storedExpirationTime);
 
       if (refreshTokenExpirationTime > now) {
         if (now >= storedExpirationTime) {
@@ -48,13 +48,13 @@ const useAuthStore = create<AuthStore>((set, get) => ({
         get().logout(); // 리프레시 토큰 만료 시 로그아웃
       }
 
-      console.log(new Date(now * 1000));
-      console.log(new Date(storedExpirationTime * 1000));
-      console.log(new Date(refreshTokenExpirationTime * 1000));
-      console.log(
-        now >= storedExpirationTime && refreshTokenExpirationTime > now,
-        now >= refreshTokenExpirationTime
-      );
+      // console.log(new Date(now * 1000));
+      // console.log(new Date(storedExpirationTime * 1000));
+      // console.log(new Date(refreshTokenExpirationTime * 1000));
+      // console.log(
+      //   now >= storedExpirationTime && refreshTokenExpirationTime > now,
+      //   now >= refreshTokenExpirationTime
+      // );
     };
 
     // 브라우저 로드 시 토큰 확인

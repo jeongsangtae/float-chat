@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import useAuthStore from "../../store/authStore";
+import useModalStore from "../../store/modalStore";
 
 import { ModalProps } from "../../types";
 import GroupChats from "../GroupChats/GroupChats";
@@ -9,23 +10,25 @@ import GroupChatForm from "../GroupChats/GroupChatForm";
 
 const SideBar = () => {
   type ModalType = "login" | "signup" | "groupChatForm";
-  type ActiveModalType = ModalType | null;
+  // type ActiveModalType = ModalType | null;
 
   const { isLoggedIn, userInfo, renewToken, refreshTokenExp, logout } =
     useAuthStore();
 
-  // 초기 상태: 모달 비활성화 상태 (null)
-  const [activeModal, setActiveModal] = useState<ActiveModalType>(null);
+  const { activeModal, toggleModal } = useModalStore();
 
-  const toggleModalHandler = (modalType: ModalType) => {
-    setActiveModal((prev) => (prev === modalType ? null : modalType));
-  };
+  // 초기 상태: 모달 비활성화 상태 (null)
+  // const [activeModal, setActiveModal] = useState<ActiveModalType>(null);
+
+  // const toggleModalHandler = (modalType: ModalType) => {
+  //   setActiveModal((prev) => (prev === modalType ? null : modalType));
+  // };
 
   const modals: {
     type: ModalType;
     label: string;
     component: React.ComponentType<ModalProps>;
-    method?: "POST" | "PATCH";
+    method?: "POST" | "PATCH" | null;
   }[] = [
     { type: "login", label: "로그인", component: Login },
     { type: "signup", label: "회원가입", component: Signup },
@@ -65,20 +68,14 @@ const SideBar = () => {
         <>
           <p>{userInfo?.nickname}</p>
           <button onClick={logout}>로그아웃</button>
-          <GroupChats
-            onToggle={() => toggleModalHandler("groupChatForm")}
-            method="PATCH"
-          />
+          <GroupChats />
         </>
       )}
       {filteredModals.map(({ type, label, component: Component, method }) => (
         <div key={type}>
-          <button onClick={() => toggleModalHandler(type)}>{label}</button>
+          <button onClick={() => toggleModal(type, method)}>{label}</button>
           {activeModal === type && (
-            <Component
-              onToggle={() => toggleModalHandler(type)}
-              method={method}
-            />
+            <Component onToggle={() => toggleModal(type)} />
           )}
         </div>
       ))}

@@ -5,19 +5,15 @@ import { UserInfo } from "../types";
 
 const apiURL = import.meta.env.VITE_API_URL;
 
-interface GroupChatState {
+interface GroupChatStore {
   loading: boolean;
   groupChats: GroupChatData[];
   getGroupChats: () => Promise<void>;
-  groupChatForm: (
-    title: string,
-    userInfo: UserInfo,
-    method: "POST" | "PATCH"
-  ) => Promise<void>;
+  groupChatForm: (title: string, userInfo: UserInfo) => Promise<void>;
   deleteGroupChat: (_id: string) => Promise<void>;
 }
 
-const useGroupChatStore = create<GroupChatState>((set, get) => ({
+const useGroupChatStore = create<GroupChatStore>((set, get) => ({
   loading: true,
   groupChats: [],
   getGroupChats: async () => {
@@ -44,17 +40,13 @@ const useGroupChatStore = create<GroupChatState>((set, get) => ({
     }
   },
 
-  groupChatForm: async (
-    title: string,
-    userInfo: UserInfo,
-    method: "POST" | "PATCH"
-  ) => {
+  groupChatForm: async (title: string, userInfo: UserInfo) => {
     const { _id, email, username, nickname } = userInfo;
 
     const requestBody = { title, _id, email, username, nickname };
 
     const response = await fetch(`${apiURL}/createGroupChat`, {
-      method,
+      method: "POST",
       body: JSON.stringify(requestBody),
       headers: { "Content-Type": "application/json" },
       credentials: "include",
@@ -64,18 +56,11 @@ const useGroupChatStore = create<GroupChatState>((set, get) => ({
       throw new Error(`그룹 채팅방 생성 실패`);
     }
 
-    const resData = await response.json();
+    const resDate = await response.json();
 
     // 실시간 반영
     set((prev) => ({
-      groupChats:
-        method === "POST"
-          ? [...prev.groupChats, resData.newGroupChat]
-          : prev.groupChats.map((chat) =>
-              chat._id === resData.updatedGroupChat._id
-                ? resData.updatedGroupChat
-                : chat
-            ),
+      groupChats: [...prev.groupChats, resDate.newGroupChat],
     }));
   },
 
