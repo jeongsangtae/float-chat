@@ -5,10 +5,6 @@ export interface ModalProps {
   onToggle: () => void;
 }
 
-export interface FetchMethod {
-  method?: "POST" | "PATCH";
-}
-
 export interface GroupChatData {
   _id: string; // ObjectId는 JSON으로 변환되면 string으로 직렬화
   title: string;
@@ -22,3 +18,5 @@ export interface UserInfo {
   nickname: string;
   tokenExp: number;
 }
+
+export type ModalType = "login" | "signup" | "groupChatForm";

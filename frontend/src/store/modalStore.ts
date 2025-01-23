@@ -1,39 +1,31 @@
 import { create } from "zustand";
 
-import { ModalProps } from "../types";
-
-type ModalType = "login" | "signup" | "groupChatForm";
-// type ModalStore = {
-//   activeModal: ModalType | null;
-//   modalData: Record<string, any>;
-//   toggleModal: (
-//     type: ModalType,
-//     method?: string,
-//     data?: Record<string, any>
-//   ) => void;
-// };
+import { ModalType } from "../types";
 
 interface ModalStore {
   activeModal: ModalType | null;
   modalData: {
-    method: "POST" | "PATCH" | null;
+    method: "POST" | "PATCH";
     [key: string]: any;
   };
   toggleModal: (
     type: ModalType,
-    method?: "POST" | "PATCH" | null,
+    method?: "POST" | "PATCH",
     data?: Record<string, any>
   ) => void;
 }
 
 const useModalStore = create<ModalStore>((set, get) => ({
+  // 초기 상태: 모달 비활성화 상태 (null)
   activeModal: null,
-  modalData: { method: null },
-  toggleModal: (type, method = null, data = {}) => {
+  modalData: { method: "POST" },
+  toggleModal: (type, method = "POST", data = {}) => {
     const currentModal = get().activeModal;
 
+    console.log(method);
+
     if (currentModal === type) {
-      set({ activeModal: null, modalData: { method: null } });
+      set({ activeModal: null, modalData: { method: "POST" } });
     } else {
       set({ activeModal: type, modalData: { method, ...data } });
     }

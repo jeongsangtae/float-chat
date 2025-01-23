@@ -1,34 +1,23 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import useAuthStore from "../../store/authStore";
 import useModalStore from "../../store/modalStore";
 
-import { ModalProps } from "../../types";
+import { ModalProps, ModalType } from "../../types";
 import GroupChats from "../GroupChats/GroupChats";
 import Login from "../Users/Login";
 import Signup from "../Users/Signup";
 import GroupChatForm from "../GroupChats/GroupChatForm";
 
 const SideBar = () => {
-  type ModalType = "login" | "signup" | "groupChatForm";
-  // type ActiveModalType = ModalType | null;
-
   const { isLoggedIn, userInfo, renewToken, refreshTokenExp, logout } =
     useAuthStore();
 
   const { activeModal, toggleModal } = useModalStore();
 
-  // 초기 상태: 모달 비활성화 상태 (null)
-  // const [activeModal, setActiveModal] = useState<ActiveModalType>(null);
-
-  // const toggleModalHandler = (modalType: ModalType) => {
-  //   setActiveModal((prev) => (prev === modalType ? null : modalType));
-  // };
-
   const modals: {
     type: ModalType;
     label: string;
     component: React.ComponentType<ModalProps>;
-    method?: "POST" | "PATCH" | null;
   }[] = [
     { type: "login", label: "로그인", component: Login },
     { type: "signup", label: "회원가입", component: Signup },
@@ -36,7 +25,6 @@ const SideBar = () => {
       type: "groupChatForm",
       label: "+",
       component: GroupChatForm,
-      method: "POST",
     },
   ];
 
@@ -71,9 +59,9 @@ const SideBar = () => {
           <GroupChats />
         </>
       )}
-      {filteredModals.map(({ type, label, component: Component, method }) => (
+      {filteredModals.map(({ type, label, component: Component }) => (
         <div key={type}>
-          <button onClick={() => toggleModal(type, method)}>{label}</button>
+          <button onClick={() => toggleModal(type)}>{label}</button>
           {activeModal === type && (
             <Component onToggle={() => toggleModal(type)} />
           )}

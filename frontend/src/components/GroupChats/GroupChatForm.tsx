@@ -28,7 +28,7 @@ const GroupChatForm = ({ onToggle }: ModalProps) => {
     }
 
     try {
-      await groupChatForm(title, userInfo);
+      await groupChatForm(title, userInfo, modalData.method);
       console.log("그룹 채팅방 생성 성공");
       onToggle();
     } catch (error) {
@@ -57,7 +57,8 @@ const GroupChatForm = ({ onToggle }: ModalProps) => {
             type="text"
             id="title"
             name="title"
-            value={modalData.method === "POST" ? title : modalData.title}
+            defaultValue={modalData.method === "POST" ? title : modalData.title}
+            // value={modalData.method === "POST" ? title : modalData.title}
             placeholder="내용 입력"
             onChange={inputChangeHandler}
           />
