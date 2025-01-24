@@ -22,8 +22,6 @@ const useModalStore = create<ModalStore>((set, get) => ({
   toggleModal: (type, method = "POST", data = {}) => {
     const currentModal = get().activeModal;
 
-    console.log(method);
-
     if (currentModal === type) {
       set({ activeModal: null, modalData: { method: "POST" } });
     } else {

@@ -5,6 +5,12 @@ import { UserInfo } from "../types";
 
 const apiURL = import.meta.env.VITE_API_URL;
 
+// interface ModalData {
+//   method: "POST" | "PATCH";
+//   modalId?: string;
+//   modalTitle?: string;
+// }
+
 interface GroupChatStore {
   loading: boolean;
   groupChats: GroupChatData[];
@@ -12,7 +18,12 @@ interface GroupChatStore {
   groupChatForm: (
     title: string,
     userInfo: UserInfo,
-    method?: "POST" | "PATCH"
+    // modalData: ModalData
+    modalData: {
+      method: "POST" | "PATCH";
+      _id?: string;
+      title?: string;
+    }
   ) => Promise<void>;
   deleteGroupChat: (_id: string) => Promise<void>;
 }
@@ -47,14 +58,33 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
   groupChatForm: async (
     title: string,
     userInfo: UserInfo,
-    method?: "POST" | "PATCH"
+    modalData: {
+      method: "POST" | "PATCH";
+      _id?: string;
+      title?: string;
+    }
   ) => {
     const { _id, email, username, nickname } = userInfo;
+    // const { modalId, modalTitle, method } = modalData;
 
-    const requestBody = { title, _id, email, username, nickname };
+    // console.log(method, _id, title);
 
-    const response = await fetch(`${apiURL}/createGroupChat`, {
-      method,
+    const requestBody = {
+      title,
+      _id,
+      email,
+      username,
+      nickname,
+      modalData,
+      // method,
+      // modalId,
+      // modalTitle,
+    };
+
+    console.log(requestBody);
+
+    const response = await fetch(`${apiURL}/groupChatForm`, {
+      method: modalData.method,
       body: JSON.stringify(requestBody),
       headers: { "Content-Type": "application/json" },
       credentials: "include",

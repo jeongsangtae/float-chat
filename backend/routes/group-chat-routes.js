@@ -29,7 +29,7 @@ router.get("/groupChats", async (req, res) => {
   }
 });
 
-router.post("/createGroupChat", async (req, res) => {
+router.post("/groupChatForm", async (req, res) => {
   try {
     const groupChatData = req.body;
 
@@ -61,6 +61,69 @@ router.post("/createGroupChat", async (req, res) => {
     res.status(200).json({ newGroupChat });
   } catch (error) {
     errorHandler(res, error, "그룹 채팅방 생성 중 오류 발생");
+  }
+});
+
+router.patch("/groupChatForm", async (req, res) => {
+  try {
+    const othersData = await accessToken(req, res);
+
+    if (!othersData) {
+      return res.status(401).json({ message: "jwt error" });
+    }
+
+    const groupChatData = req.body;
+
+    let date = new Date();
+    let kstDate = new Date(date.getTime() + 9 * 60 * 60 * 1000);
+
+    console.log(groupChatData);
+    console.log("---------------------");
+    console.log(groupChatData.modalData);
+
+    const groupChat = await db
+      .getDb()
+      .collection("groupChats")
+      .findOne({ _id: new ObjectId(groupChatData.modalData._id) });
+
+    if (!groupChat) {
+      return res
+        .status(404)
+        .json({ message: "그룹 채팅방을 찾을 수 없습니다." });
+    }
+
+    if (groupChat.email !== othersData.email) {
+      return res
+        .status(403)
+        .json({ message: "댓글을 수정할 권한이 없습니다." });
+    }
+
+    const editGroupChat = {
+      title: groupChatData.title,
+      date: `${kstDate.getFullYear()}.${(kstDate.getMonth() + 1)
+        .toString()
+        .padStart(2, "0")}.${kstDate
+        .getDate()
+        .toString()
+        .padStart(2, "0")} ${kstDate
+        .getHours()
+        .toString()
+        .padStart(2, "0")}:${date
+        .getMinutes()
+        .toString()
+        .padStart(2, "0")}:${kstDate.getSeconds().toString().padStart(2, "0")}`,
+    };
+
+    console.log(editGroupChat);
+
+    await db
+      .getDb()
+      .collection("groupChats")
+      .updateOne({ _id: groupChatData._id }, { $set: editGroupChat });
+
+    res.status(200).json({ editGroupChat });
+  } catch (error) {
+    errorHandler(res, error, "그룹 채팅방 수정 중 오류 발생");
   }
 });
 

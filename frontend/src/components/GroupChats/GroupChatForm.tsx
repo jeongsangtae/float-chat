@@ -27,8 +27,19 @@ const GroupChatForm = ({ onToggle }: ModalProps) => {
       return;
     }
 
+    // const { _id, title, ...otherData } = modalData;
+    // modalData 키 이름 변경
+    // const modifiedModalData = {
+    //   ...otherData,
+    //   modalId: _id,
+    //   modalTitle: title,
+    // };
+
+    // console.log(modifiedModalData);
+
     try {
-      await groupChatForm(title, userInfo, modalData.method);
+      // await groupChatForm(title, userInfo, modifiedModalData);
+      await groupChatForm(title, userInfo, modalData);
       console.log("그룹 채팅방 생성 성공");
       onToggle();
     } catch (error) {
@@ -39,7 +50,7 @@ const GroupChatForm = ({ onToggle }: ModalProps) => {
     }
   };
 
-  console.log(modalData.method, modalData.id, modalData.title);
+  // console.log(modalData.method, modalData._id, modalData.title, modalData);
 
   return (
     <AuthModal onToggle={onToggle}>
