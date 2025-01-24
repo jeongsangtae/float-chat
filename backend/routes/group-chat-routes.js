@@ -119,7 +119,10 @@ router.patch("/groupChatForm", async (req, res) => {
     await db
       .getDb()
       .collection("groupChats")
-      .updateOne({ _id: groupChatData._id }, { $set: editGroupChat });
+      .updateOne(
+        { _id: new ObjectId(groupChatData.modalData._id) },
+        { $set: editGroupChat }
+      );
 
     res.status(200).json({ editGroupChat });
   } catch (error) {
