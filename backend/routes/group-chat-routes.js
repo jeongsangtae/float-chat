@@ -99,6 +99,7 @@ router.patch("/groupChatForm", async (req, res) => {
     }
 
     const editGroupChat = {
+      _id: new ObjectId(groupChatData.modalData._id),
       title: groupChatData.title,
       date: `${kstDate.getFullYear()}.${(kstDate.getMonth() + 1)
         .toString()
