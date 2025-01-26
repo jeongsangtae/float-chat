@@ -95,7 +95,7 @@ router.patch("/groupChatForm", async (req, res) => {
     if (groupChat.email !== othersData.email) {
       return res
         .status(403)
-        .json({ message: "댓글을 수정할 권한이 없습니다." });
+        .json({ message: "그룹 채팅방을 수정할 권한이 없습니다." });
     }
 
     const editGroupChat = {

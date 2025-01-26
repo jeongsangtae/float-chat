@@ -81,7 +81,7 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
       // modalTitle,
     };
 
-    console.log(requestBody);
+    // console.log(requestBody);
 
     const response = await fetch(`${apiURL}/groupChatForm`, {
       method: modalData.method,
@@ -96,10 +96,34 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
 
     const resData = await response.json();
 
+    console.log(resData.editGroupChat, resData.editGroupChat._id);
+
     // 실시간 반영
-    set((prev) => ({
-      groupChats: [...prev.groupChats, resData.newGroupChat],
-    }));
+    set((prev) => {
+      if (modalData.method === "POST") {
+        // 새로운 그룹 채팅방 추가
+        return {
+          groupChats: [...prev.groupChats, resData.newGroupChat],
+        };
+      } else if (modalData.method === "PATCH" && resData.editGroupChat) {
+        // 기존 그룹 채팅방 수정
+        // console.log(
+        //   prev.groupChats.map((groupChat) =>
+        //     groupChat._id === resData.editGroupChat._id
+        //       ? { ...groupChat, ...resData.editGroupChat }
+        //       : groupChat
+        //   )
+        // );
+        return {
+          groupChats: prev.groupChats.map((groupChat) =>
+            groupChat._id === resData.editGroupChat._id
+              ? { ...groupChat, ...resData.editGroupChat }
+              : groupChat
+          ),
+        };
+      }
+      return prev;
+    });
   },
 
   deleteGroupChat: async (_id: string) => {
