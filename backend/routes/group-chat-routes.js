@@ -77,10 +77,6 @@ router.patch("/groupChatForm", async (req, res) => {
     let date = new Date();
     let kstDate = new Date(date.getTime() + 9 * 60 * 60 * 1000);
 
-    console.log(groupChatData);
-    console.log("---------------------");
-    console.log(groupChatData.modalData);
-
     const groupChat = await db
       .getDb()
       .collection("groupChats")
@@ -115,7 +111,7 @@ router.patch("/groupChatForm", async (req, res) => {
         .padStart(2, "0")}:${kstDate.getSeconds().toString().padStart(2, "0")}`,
     };
 
-    console.log(editGroupChat);
+    // console.log(editGroupChat);
 
     await db
       .getDb()

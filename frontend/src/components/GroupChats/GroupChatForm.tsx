@@ -50,8 +50,6 @@ const GroupChatForm = ({ onToggle }: ModalProps) => {
     }
   };
 
-  // console.log(modalData.method, modalData._id, modalData.title, modalData);
-
   return (
     <AuthModal onToggle={onToggle}>
       <form onSubmit={submitHandler}>
@@ -69,7 +67,6 @@ const GroupChatForm = ({ onToggle }: ModalProps) => {
             id="title"
             name="title"
             defaultValue={modalData.method === "POST" ? title : modalData.title}
-            // value={modalData.method === "POST" ? title : modalData.title}
             placeholder="내용 입력"
             onChange={inputChangeHandler}
           />

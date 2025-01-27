@@ -65,21 +65,8 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
     }
   ) => {
     const { _id, email, username, nickname } = userInfo;
-    // const { modalId, modalTitle, method } = modalData;
 
-    // console.log(method, _id, title);
-
-    const requestBody = {
-      title,
-      _id,
-      email,
-      username,
-      nickname,
-      modalData,
-      // method,
-      // modalId,
-      // modalTitle,
-    };
+    const requestBody = { title, _id, email, username, nickname, modalData };
 
     const response = await fetch(`${apiURL}/groupChatForm`, {
       method: modalData.method,
