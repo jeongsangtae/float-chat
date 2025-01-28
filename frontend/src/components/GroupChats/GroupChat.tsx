@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 import useGroupChatStore from "../../store/groupChatStore";
 import useModalStore from "../../store/modalStore";
 
@@ -12,8 +14,8 @@ const GroupChat = ({ _id, title }: GroupChatData) => {
   };
 
   return (
-    <div>
-      {title}
+    <>
+      <Link to={`/group-chat/${_id.toString()}`}>{title}</Link>
       <button
         type="button"
         onClick={() => toggleModal("groupChatForm", "PATCH", { _id, title })}
@@ -23,7 +25,7 @@ const GroupChat = ({ _id, title }: GroupChatData) => {
       <button type="button" onClick={groupChatDeleteHandler}>
         삭제
       </button>
-    </div>
+    </>
   );
 };
 
