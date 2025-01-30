@@ -4,7 +4,7 @@ const express = require("express");
 const dotenv = require("dotenv");
 
 const http = require("http"); // http 모듈 추가
-// const { Server } = require("socket.io"); // socket.io 추가
+const { Server } = require("socket.io"); // socket.io 추가
 
 const db = require("./data/database");
 // const boardRoutes = require("./routes/board-routes");
@@ -63,36 +63,48 @@ app.use((error, req, res, next) => {
 
 // 서버 설정
 const server = http.createServer(app);
-// const io = new Server(server, {
-//   cors: {
-//     origin: corsURL,
-//     methods: ["GET", "POST"],
-//     credentials: true,
-//   },
-// });
+const io = new Server(server, {
+  cors: {
+    origin: corsURL,
+    methods: ["GET", "POST"],
+    credentials: true,
+  },
+});
 
 // Socket.io 객체를 Express 앱 객체에 저장하여 라우트 함수에서도 접근할 수 있도록 함
-// app.set("io", io);
+app.set("io", io);
 
 // 클라이언트가 Socket.io 연결을 맺을 때 실행되는 이벤트 함수
 // Socket.io 설정
-// io.on("connection", (socket) => {
-//   console.log("클라이언트가 연결되었습니다:", socket.id);
+io.on("connection", (socket) => {
+  // console.log("클라이언트가 연결되었습니다:", socket.id);
 
-//   // 클라이언트를 특정 방에 참여시킴
-//   socket.on("joinRoom", ({ userId, userType }) => {
-//     const roomId = `room-${userId}`;
-//     socket.join(roomId);
-//     console.log(
-//       `사용자 _id: ${userId}, 사용자 type: ${userType}, 방 번호: ${roomId}`
-//     );
-//   });
+  // // 클라이언트를 특정 방에 참여시킴
+  // socket.on("joinRoom", ({ userId, userType }) => {
+  //   const roomId = `room-${userId}`;
+  //   socket.join(roomId);
+  //   console.log(
+  //     `사용자 _id: ${userId}, 사용자 type: ${userType}, 방 번호: ${roomId}`
+  //   );
+  // });
 
-//   // 클라이언트가 연결을 끊었을 때 실행되는 이벤트 함수
-//   socket.on("disconnect", () => {
-//     console.log("클라이언트 연결이 끊어졌습니다:", socket.id);
-//   });
-// });
+  // // 클라이언트가 연결을 끊었을 때 실행되는 이벤트 함수
+  // socket.on("disconnect", () => {
+  //   console.log("클라이언트 연결이 끊어졌습니다:", socket.id);
+  // });
+
+  console.log("클라이언트가 연결되었습니다:", socket.id);
+
+  socket.on("disconnect", () => {
+    console.log("클라이언트가 연결이 끊어졌습니다:", socket.id);
+  });
+
+  socket.on("testMessage", (msg) => {
+    console.log("클라이언트로부터의 메시지:", msg);
+    // 클라이언트에게 응답 전송
+    socket.emit("serverResponse", msg);
+  });
+});
 
 // MongoDB에 연결한 후 서버를 시작
 // MongoDB 설정
