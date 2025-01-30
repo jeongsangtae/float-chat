@@ -3,7 +3,6 @@ import { useState } from "react";
 const ChatInput = () => {
   const [message, setMessage] = useState("");
   const inputChangeHandler = (event) => {
-    event.preventDefault();
     setMessage(event.target.value);
   };
 

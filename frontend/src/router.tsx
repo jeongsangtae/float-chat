@@ -1,6 +1,6 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
-import GroupChatDetails from "./components/GroupChats/GroupChatDetails";
 import DirectChatPage from "./pages/DirectChatPage";
+import GroupChatDetailsPage from "./pages/GroupChatDetailsPage";
 import GroupChatPage from "./pages/GroupChatPage";
 import RootLayout from "./pages/RootLayout";
 
@@ -24,7 +24,7 @@ const router = createBrowserRouter([
         // loader: groupChatLoader,
         // children: [{ path: ":roomId", element: <GroupChatDetails /> }],
       },
-      { path: "group-chat/:roomId", element: <GroupChatDetails /> },
+      { path: "group-chat/:roomId", element: <GroupChatDetailsPage /> },
     ],
   },
 ]);
