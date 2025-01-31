@@ -1,5 +1,9 @@
-const Chat = () => {
-  return;
+const Chat = ({ message }) => {
+  return (
+    <>
+      <p>{message}</p>
+    </>
+  );
 };
 
 export default Chat;

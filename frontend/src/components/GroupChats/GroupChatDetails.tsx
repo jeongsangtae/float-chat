@@ -8,16 +8,18 @@ import Chats from "../Chats/Chats";
 const GroupChatDetails = () => {
   const { roomId } = useParams();
 
-  const { chatData } = useChatStore();
+  const { connect, chatData } = useChatStore();
 
-  // useEffect(() => {
-  //   chatData(roomId);
-  // }, []);
+  // console.log(chatData(roomId));
+
+  useEffect(() => {
+    connect(roomId);
+  }, []);
 
   return (
     <>
-      <p>{roomId}</p>
-      <Chats />
+      {/* <p>{roomId}</p> */}
+      <Chats roomId={roomId} />
       <ChatInput roomId={roomId} />
     </>
   );
