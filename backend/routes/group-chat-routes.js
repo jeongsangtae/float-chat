@@ -173,7 +173,7 @@ router.get("/chat/:roomId", async (req, res) => {
 
     roomId = new ObjectId(roomId);
 
-    // MongoDB에서 특정 userId에 해당하는 채팅 메시지들을 가져옴
+    // MongoDB에서 특정 RoomId에 해당하는 채팅 메시지들을 가져옴
     const messages = await db
       .getDb()
       .collection("chatMessages")
@@ -204,7 +204,7 @@ router.post("/chat/:roomId", async (req, res) => {
 
     // 새 메시지 객체 생성
     const newMessage = {
-      room_id: new ObjectId(roomId), // MongoDB ObjectId로 변환된 userId
+      room_id: new ObjectId(roomId), // MongoDB ObjectId로 변환된 roomId
       email,
       message,
       date: `${kstDate.getFullYear()}.${(kstDate.getMonth() + 1)
@@ -230,9 +230,9 @@ router.post("/chat/:roomId", async (req, res) => {
     const chatRoomId = `room-${roomId}`; // 그룹 채팅방 ID 기반으로 채팅방 생성
     io.to(chatRoomId).emit("newMessage", newMessage); // 해당 채팅방에 메시지 전송
 
-    console.log(newMessage);
-    console.log("====================");
-    console.log(chatRoomId);
+    // console.log(newMessage);
+    // console.log("====================");
+    // console.log(chatRoomId);
     res.status(200).json({ newMessage });
   } catch (error) {
     errorHandler(res, error, "채팅 메시지 저장 중 오류 발생");

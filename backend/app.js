@@ -77,32 +77,18 @@ app.set("io", io);
 // 클라이언트가 Socket.io 연결을 맺을 때 실행되는 이벤트 함수
 // Socket.io 설정
 io.on("connection", (socket) => {
-  // console.log("클라이언트가 연결되었습니다:", socket.id);
-
-  // // 클라이언트를 특정 방에 참여시킴
-  // socket.on("joinRoom", ({ userId, userType }) => {
-  //   const roomId = `room-${userId}`;
-  //   socket.join(roomId);
-  //   console.log(
-  //     `사용자 _id: ${userId}, 사용자 type: ${userType}, 방 번호: ${roomId}`
-  //   );
-  // });
-
-  // // 클라이언트가 연결을 끊었을 때 실행되는 이벤트 함수
-  // socket.on("disconnect", () => {
-  //   console.log("클라이언트 연결이 끊어졌습니다:", socket.id);
-  // });
-
   console.log("클라이언트가 연결되었습니다:", socket.id);
 
-  socket.on("disconnect", () => {
-    console.log("클라이언트가 연결이 끊어졌습니다:", socket.id);
+  // 클라이언트를 특정 방에 참여시킴
+  socket.on("joinRoom", ({ roomId }) => {
+    const chatRoomId = `room-${roomId}`;
+    socket.join(chatRoomId);
+    console.log(`방 번호: ${chatRoomId}`);
   });
 
-  socket.on("testMessage", (msg) => {
-    console.log("클라이언트로부터의 메시지:", msg);
-    // 클라이언트에게 응답 전송
-    socket.emit("serverResponse", msg);
+  // 클라이언트가 연결을 끊었을 때 실행되는 이벤트 함수
+  socket.on("disconnect", () => {
+    console.log("클라이언트 연결이 끊어졌습니다:", socket.id);
   });
 });
 
