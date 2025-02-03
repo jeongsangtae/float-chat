@@ -39,29 +39,28 @@ const useChatStore = create<ChatStore>((set, get) => ({
       //   set((prevMsg) => ({
       //     messages: [...prevMsg.messages, newMessage],
       //   }));
-      //   // setMessages((prevMsg) => [...prevMsg, newMessage]);
       //   console.log("사용자 input 메시지: ", newMessage);
       // });
 
-      // 새로운 메시지 중복 렌더링 방지 코드 테스트
-      // newSocket.on("newMessage", (newMessage: string) => {
-      //   set((prevState) => {
-      //     // 기존 메시지와 새로운 메시지가 중복되지 않도록 처리
-      //     const isDuplicate = prevState.messages.some(
-      //       (msg) => msg._id === newMessage._id
-      //     );
-      //     // 중복된 메시지는 추가하지 않음
-      //     if (isDuplicate) {
-      //       return prevState;
-      //     }
+      // 새로운 메시지 중복 방지 코드
+      newSocket.on("newMessage", (newMessage: string) => {
+        set((prevMsg) => {
+          // 기존 메시지와 새로운 메시지가 중복되지 않도록 처리
+          const duplicateMessage = prevMsg.messages.some(
+            (msg) => msg._id === newMessage._id
+          );
+          // 중복된 메시지는 추가하지 않음
+          if (duplicateMessage) {
+            return prevMsg;
+          }
 
-      //     // 새 메시지를 추가
-      //     return {
-      //       messages: [...prevState.messages, newMessage],
-      //     };
-      //   });
-      //   console.log("사용자 input 메시지: ", newMessage);
-      // });
+          // 새 메시지를 추가
+          return {
+            messages: [...prevMsg.messages, newMessage],
+          };
+        });
+        console.log("사용자 input 메시지: ", newMessage);
+      });
 
       set({ socket: newSocket });
 
@@ -128,9 +127,9 @@ const useChatStore = create<ChatStore>((set, get) => ({
       console.log("메시지 전송 성공");
 
       // 추가한 메시지 실시간 반영
-      set((prev) => ({
-        messages: [...prev.messages, resData.newMessage],
-      }));
+      // set((prev) => ({
+      //   messages: [...prev.messages, resData.newMessage],
+      // }));
     } catch (error) {
       console.error("에러 내용:", error);
       alert(

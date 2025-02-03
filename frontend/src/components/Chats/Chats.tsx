@@ -12,7 +12,7 @@ const Chats = ({ roomId }) => {
 
   useEffect(() => {
     connect(roomId);
-  }, []);
+  }, [roomId]);
 
   useEffect(() => {
     chatData(roomId);
