@@ -19,4 +19,16 @@ export interface UserInfo {
   tokenExp: number;
 }
 
+export interface RoomId {
+  roomId?: string;
+}
+
+export interface ChatMessage {
+  _id: string;
+  room_id: string;
+  message: string;
+  email: string;
+  date: string;
+}
+
 export type ModalType = "login" | "signup" | "groupChatForm";

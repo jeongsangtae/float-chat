@@ -4,7 +4,7 @@ import ChatInput from "../Chats/ChatInput";
 import Chats from "../Chats/Chats";
 
 const GroupChatDetails = () => {
-  const { roomId } = useParams();
+  const { roomId } = useParams<{ roomId: string }>();
 
   return (
     <>

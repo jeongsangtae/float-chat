@@ -1,23 +1,27 @@
 import { create } from "zustand";
 
-import { io } from "socket.io-client";
+import { io, Socket } from "socket.io-client";
 
-import { UserInfo } from "../types";
+import { ChatMessage, UserInfo } from "../types";
 
 const apiURL = import.meta.env.VITE_API_URL;
 
 interface ChatStore {
-  socket: null;
-  messages: string[];
-  chatData: (roomId: string) => void;
+  socket: Socket | null;
+  messages: ChatMessage[];
   connect: (roomId: string) => void;
-  sendMessage: (roomId: string, message: string, userInfo: UserInfo) => void;
-  // testButton: () => void;
+  chatData: (roomId: string) => Promise<void>;
+  sendMessage: (
+    roomId: string,
+    message: string,
+    userInfo: UserInfo
+  ) => Promise<void>;
 }
 
-const useChatStore = create<ChatStore>((set, get) => ({
+const useChatStore = create<ChatStore>((set) => ({
   socket: null,
   messages: [],
+
   // WebSocket 연결 및 실시간 메시지 수신
   connect: (roomId: string) => {
     try {
@@ -30,10 +34,6 @@ const useChatStore = create<ChatStore>((set, get) => ({
         newSocket.emit("joinRoom", { roomId });
       });
 
-      // newSocket.on("serverResponse", (msg) => {
-      //   console.log("서버에서 전달하는 메시지:", msg);
-      // });
-
       // 서버로부터 새로운 메시지를 받을 때마다 메시지 목록에 추가
       // newSocket.on("newMessage", (newMessage: string) => {
       //   set((prevMsg) => ({
@@ -43,7 +43,7 @@ const useChatStore = create<ChatStore>((set, get) => ({
       // });
 
       // 새로운 메시지 중복 방지 코드
-      newSocket.on("newMessage", (newMessage: string) => {
+      newSocket.on("newMessage", (newMessage: ChatMessage) => {
         set((prevMsg) => {
           // 기존 메시지와 새로운 메시지가 중복되지 않도록 처리
           const duplicateMessage = prevMsg.messages.some(
@@ -89,8 +89,6 @@ const useChatStore = create<ChatStore>((set, get) => ({
 
       const resData = await response.json();
 
-      console.log(resData);
-
       set({ messages: resData.messages });
     } catch (error) {
       console.error("에러 내용:", error);
@@ -120,16 +118,7 @@ const useChatStore = create<ChatStore>((set, get) => ({
         throw new Error("메시지 전송 실패");
       }
 
-      const resData = await response.json();
-
-      console.log(resData.newMessage);
-
       console.log("메시지 전송 성공");
-
-      // 추가한 메시지 실시간 반영
-      // set((prev) => ({
-      //   messages: [...prev.messages, resData.newMessage],
-      // }));
     } catch (error) {
       console.error("에러 내용:", error);
       alert(
@@ -137,12 +126,6 @@ const useChatStore = create<ChatStore>((set, get) => ({
       );
     }
   },
-
-  // testButton: () => {
-  //   if (get().socket) {
-  //     get().socket.emit("testMessage", "테스트 메시지");
-  //   }
-  // },
 }));
 
 export default useChatStore;
