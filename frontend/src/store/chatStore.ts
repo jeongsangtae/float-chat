@@ -34,7 +34,6 @@ const useChatStore = create<ChatStore>((set) => ({
         newSocket.emit("joinRoom", { roomId });
       });
 
-      // 서버로부터 새로운 메시지를 받을 때마다 메시지 목록에 추가
       // newSocket.on("newMessage", (newMessage: string) => {
       //   set((prevMsg) => ({
       //     messages: [...prevMsg.messages, newMessage],
@@ -42,6 +41,7 @@ const useChatStore = create<ChatStore>((set) => ({
       //   console.log("사용자 input 메시지: ", newMessage);
       // });
 
+      // 서버로부터 새로운 메시지를 받을 때마다 메시지 목록에 추가
       // 새로운 메시지 중복 방지 코드
       newSocket.on("newMessage", (newMessage: ChatMessage) => {
         set((prevMsg) => {
