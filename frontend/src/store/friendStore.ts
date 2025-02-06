@@ -6,6 +6,24 @@ const useFriendStore = create((set) => ({
   friends: [],
   friendRequests: [],
   statusMessage: "",
+  loadFriendRequests: async () => {
+    try {
+      const response = await fetch(`${apiURL}/friendRequests`, {
+        credentials: "include",
+      });
+
+      if (!response.ok) {
+        throw new Error("친구 요청 조회 실패");
+      }
+
+      const resData = await response.json();
+
+      set({ friendRequests: resData.friendRequests });
+    } catch (error) {
+      console.error("에러 내용:", error);
+      alert("친구 추가 요청 조회 중 문제가 발생했습니다.");
+    }
+  },
   sendFriendRequest: async (userInfo, searchUserEmail) => {
     const requestBody = {
       _id: userInfo._id,
@@ -16,7 +34,7 @@ const useFriendStore = create((set) => ({
     };
 
     try {
-      const response = await fetch(`${apiURL}/addFriend`, {
+      const response = await fetch(`${apiURL}/friendRequests`, {
         method: "POST",
         body: JSON.stringify(requestBody),
         headers: { "Content-Type": "application/json" },

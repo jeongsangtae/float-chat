@@ -177,7 +177,7 @@ router.get("/chat/:roomId", async (req, res) => {
     const messages = await db
       .getDb()
       .collection("chatMessages")
-      .find({ room_id: roomId })
+      .find({ roomId })
       .sort({ date: 1 }) // 날짜 기준으로 정렬 (오름차순)
       .toArray();
 
@@ -204,7 +204,7 @@ router.post("/chat/:roomId", async (req, res) => {
 
     // 새 메시지 객체 생성
     const newMessage = {
-      room_id: new ObjectId(roomId), // MongoDB ObjectId로 변환된 roomId
+      roomId: new ObjectId(roomId), // MongoDB ObjectId로 변환된 roomId
       email,
       message,
       date: `${kstDate.getFullYear()}.${(kstDate.getMonth() + 1)
