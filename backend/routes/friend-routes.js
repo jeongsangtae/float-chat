@@ -17,12 +17,12 @@ router.get("/friendRequests", async (req, res) => {
       return res.status(401).json({ message: "jwt error" });
     }
 
-    const senderId = new ObjectId(othersData._id);
+    const userId = new ObjectId(othersData._id);
 
     const friendRequests = await db
       .getDb()
       .collection("friendRequests")
-      .find({ sender: senderId })
+      .find({ $or: [{ sender: userId }, { receiver: userId }] })
       .toArray();
 
     console.log(friendRequests);
@@ -83,6 +83,7 @@ router.post("/friendRequests", async (req, res) => {
       .collection("friendRequests")
       .insertOne({
         sender: senderId,
+        senderEmail: requestBody.email,
         receiver: receiverId,
         receiverEmail: requestBody.searchUserEmail,
         status: "보류 중",

@@ -18,6 +18,8 @@ const useFriendStore = create((set) => ({
 
       const resData = await response.json();
 
+      console.log(resData);
+
       set({ friendRequests: resData.friendRequests });
     } catch (error) {
       console.error("에러 내용:", error);
@@ -47,17 +49,19 @@ const useFriendStore = create((set) => ({
 
       set({ statusMessage: resData.message });
 
-      set((state) => ({
-        friendRequests: [
-          ...state.friendRequests,
-          { email: requestBody.searchUserEmail, status: "보류 중" },
-        ],
-      }));
+      // set((state) => ({
+      //   friendRequests: [
+      //     ...state.friendRequests,
+      //     { email: requestBody.searchUserEmail, status: "보류 중" },
+      //   ],
+      // }));
     } catch (error) {
       console.error("에러 내용:", error);
       alert("친구 추가 요청 중 문제가 발생했습니다.");
     }
   },
+  acceptFriendRequest: async () => {},
+  rejectFriendRequest: async () => {},
 }));
 
 export default useFriendStore;
