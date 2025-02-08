@@ -10,7 +10,7 @@ const Friends = () => {
 
   const [toggle, setToggle] = useState(false);
 
-  const AddFriendHandler = () => {
+  const toggleHandler = () => {
     setToggle(!toggle);
   };
 
@@ -21,11 +21,12 @@ const Friends = () => {
       {/* <button>온라인</button> */}
       <button>모두</button>
       <button onClick={loadFriendRequests}>대기 중</button>
-      <button onClick={AddFriendHandler}>친구 추가하기</button>
+      <button onClick={toggleHandler}>친구 추가하기</button>
       {toggle &&
         friendRequests.map((friendRequest) => (
           <PendingFriends
             key={friendRequest._id}
+            friendRequestId={friendRequest._id}
             sender={friendRequest.sender}
             senderEmail={friendRequest.senderEmail}
             receiver={friendRequest.receiver}

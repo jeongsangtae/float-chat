@@ -60,8 +60,47 @@ const useFriendStore = create((set) => ({
       alert("친구 추가 요청 중 문제가 발생했습니다.");
     }
   },
-  acceptFriendRequest: async () => {},
-  rejectFriendRequest: async () => {},
+  acceptFriendRequest: async (friendRequestId) => {
+    // const requestBody = {
+    //   _id
+    // }
+    try {
+      const response = await fetch(`${apiURL}/acceptFriend`, {
+        method: "POST",
+        body: JSON.stringify({ friendRequestId }),
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+      });
+
+      const resData = await response.json();
+
+      console.log(resData.acceptFriend);
+
+      // set({ friends: resData.acceptFriend });
+    } catch (error) {
+      console.error("에러 내용:", error);
+      alert("친구 수락 중 문제가 발생했습니다.");
+    }
+  },
+  rejectFriendRequest: async (friendRequestId) => {
+    try {
+      const response = await fetch(`${apiURL}/rejectFriend`, {
+        method: "POST",
+        body: JSON.stringify({ friendRequestId }),
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+      });
+
+      const resData = await response.json();
+
+      console.log(resData.friendRequests);
+
+      set({ friendRequests: resData.friendRequests });
+    } catch (error) {
+      console.error("에러 내용:", error);
+      alert("친구 거절 중 문제가 발생했습니다.");
+    }
+  },
 }));
 
 export default useFriendStore;

@@ -25,7 +25,7 @@ router.get("/friendRequests", async (req, res) => {
       .find({ $or: [{ sender: userId }, { receiver: userId }] })
       .toArray();
 
-    console.log(friendRequests);
+    // console.log(friendRequests);
 
     res.status(200).json({ friendRequests });
   } catch (error) {
@@ -109,5 +109,63 @@ router.post("/friendRequests", async (req, res) => {
     errorHandler(res, error, "친구 추가 요청 중 오류 발생");
   }
 });
+
+router.post("/acceptFriend", async (req, res) => {
+  try {
+    const { friendRequestId } = req.body;
+
+    console.log(friendRequestId);
+
+    let date = new Date();
+    let kstDate = new Date(date.getTime() + 9 * 60 * 60 * 1000);
+
+    const friendRequest = await db
+      .getDb()
+      .collection("friendRequests")
+      .findOne({ _id: new ObjectId(friendRequestId) });
+
+    console.log(friendRequest);
+
+    const acceptFriend = await db
+      .getDb()
+      .collection("friends")
+      .insertOne({
+        requester: {
+          id: friendRequest.sender,
+          email: friendRequest.senderEmail,
+        },
+        receiver: { id: friendRequest.receiver, email: friendRequest.receiver },
+        // user1: friendRequest.sender,
+        // user2: friendRequest.receiver,
+        status: "수락됨",
+        date: `${kstDate.getFullYear()}.${(kstDate.getMonth() + 1)
+          .toString()
+          .padStart(2, "0")}.${kstDate
+          .getDate()
+          .toString()
+          .padStart(2, "0")} ${kstDate
+          .getHours()
+          .toString()
+          .padStart(2, "0")}:${date
+          .getMinutes()
+          .toString()
+          .padStart(2, "0")}:${kstDate
+          .getSeconds()
+          .toString()
+          .padStart(2, "0")}`,
+      });
+
+    await db
+      .getDb()
+      .collection("friendRequests")
+      .deleteOne({ _id: new ObjectId(friendRequestId) });
+
+    res.status(200).json({ acceptFriend });
+  } catch (error) {
+    errorHandler(res, error, "친구 추가 중 오류 발생");
+  }
+});
+
+router.post("/rejectFriend", async (req, res) => {});
 
 module.exports = router;
