@@ -27,10 +27,10 @@ const Friends = () => {
           <PendingFriends
             key={friendRequest._id}
             friendRequestId={friendRequest._id}
-            sender={friendRequest.sender}
-            senderEmail={friendRequest.senderEmail}
+            requester={friendRequest.requester}
+            requesterNickname={friendRequest.requesterNickname}
             receiver={friendRequest.receiver}
-            receiverEmail={friendRequest.receiverEmail}
+            receiverNickname={friendRequest.receiverNickname}
             status={friendRequest.status}
           />
         ))}

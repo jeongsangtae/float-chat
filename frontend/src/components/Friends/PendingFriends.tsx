@@ -3,16 +3,16 @@ import useFriendStore from "../../store/friendStore";
 
 const PendingFriends = ({
   friendRequestId,
-  sender,
-  senderEmail,
+  requester,
+  requesterNickname,
   receiver,
-  receiverEmail,
+  receiverNickname,
   status,
 }) => {
   const { userInfo } = useAuthStore();
   const { acceptFriendRequest, rejectFriendRequest } = useFriendStore();
 
-  const sendRequest = userInfo?._id === sender;
+  const sendRequest = userInfo?._id === requester;
 
   const acceptFriendHandler = (friendRequestId) => {
     console.log(friendRequestId);
@@ -28,7 +28,7 @@ const PendingFriends = ({
     <>
       {sendRequest ? (
         <ul>
-          <li>{receiverEmail}</li>
+          <li>{receiverNickname}</li>
           <li>{status}</li>
           <button
             onClick={() => {
@@ -40,7 +40,7 @@ const PendingFriends = ({
         </ul>
       ) : (
         <ul>
-          <li>{senderEmail}</li>
+          <li>{requesterNickname}</li>
           <li>{status}</li>
           <button
             onClick={() => {

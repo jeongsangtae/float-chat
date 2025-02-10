@@ -61,9 +61,6 @@ const useFriendStore = create((set) => ({
     }
   },
   acceptFriendRequest: async (friendRequestId) => {
-    // const requestBody = {
-    //   _id
-    // }
     try {
       const response = await fetch(`${apiURL}/acceptFriend`, {
         method: "POST",
@@ -76,7 +73,12 @@ const useFriendStore = create((set) => ({
 
       console.log(resData.acceptFriend);
 
-      // set({ friends: resData.acceptFriend });
+      set((prevFriendRequests) => ({
+        friendRequests: prevFriendRequests.friendRequests.filter(
+          (req) => req._id !== friendRequestId
+        ),
+      }));
+      // set({ friendRequests: resData.acceptFriend });
     } catch (error) {
       console.error("에러 내용:", error);
       alert("친구 수락 중 문제가 발생했습니다.");

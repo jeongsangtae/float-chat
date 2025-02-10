@@ -22,7 +22,7 @@ router.get("/friendRequests", async (req, res) => {
     const friendRequests = await db
       .getDb()
       .collection("friendRequests")
-      .find({ $or: [{ sender: userId }, { receiver: userId }] })
+      .find({ $or: [{ requester: userId }, { receiver: userId }] })
       .toArray();
 
     // console.log(friendRequests);
@@ -49,28 +49,28 @@ router.post("/friendRequests", async (req, res) => {
     let kstDate = new Date(date.getTime() + 9 * 60 * 60 * 1000);
 
     // 친구 추가할 사용자 찾기
-    const searchFriend = await db
+    const searchUser = await db
       .getDb()
       .collection("users")
       .findOne({
         email: { $regex: `^${requestBody.searchUserEmail}$`, $options: "i" },
       });
 
-    if (!searchFriend) {
+    if (!searchUser) {
       return res
         .status(404)
         .json({ message: "해당 이메일의 사용자를 찾을 수 없습니다." });
     }
 
-    const senderId = new ObjectId(requestBody._id); // 요청 보낸 사용자
-    const receiverId = new ObjectId(searchFriend._id); // 친구 추가할 사용자
+    const requesterId = new ObjectId(requestBody._id); // 요청 보낸 사용자
+    const receiverId = new ObjectId(searchUser._id); // 친구 추가할 사용자
 
     // 이미 친구 요청을 보냈거나 친구인지 확인
     const existingRequest = await db
       .getDb()
       .collection("friendRequests")
       .findOne({
-        sender: senderId,
+        requester: requesterId,
         receiver: receiverId,
       });
 
@@ -82,10 +82,10 @@ router.post("/friendRequests", async (req, res) => {
       .getDb()
       .collection("friendRequests")
       .insertOne({
-        sender: senderId,
-        senderEmail: requestBody.email,
+        requester: requesterId,
+        requesterNickname: requestBody.nickname,
         receiver: receiverId,
-        receiverEmail: requestBody.searchUserEmail,
+        receiverNickname: searchUser.nickname,
         status: "보류 중",
         date: `${kstDate.getFullYear()}.${(kstDate.getMonth() + 1)
           .toString()
@@ -131,11 +131,14 @@ router.post("/acceptFriend", async (req, res) => {
       .collection("friends")
       .insertOne({
         requester: {
-          id: friendRequest.sender,
-          email: friendRequest.senderEmail,
+          id: friendRequest.requester,
+          nickname: friendRequest.requesterNickname,
         },
-        receiver: { id: friendRequest.receiver, email: friendRequest.receiver },
-        // user1: friendRequest.sender,
+        receiver: {
+          id: friendRequest.receiver,
+          nickname: friendRequest.receiverNickname,
+        },
+        // user1: friendRequest.requester,
         // user2: friendRequest.receiver,
         status: "수락됨",
         date: `${kstDate.getFullYear()}.${(kstDate.getMonth() + 1)
@@ -162,10 +165,34 @@ router.post("/acceptFriend", async (req, res) => {
 
     res.status(200).json({ acceptFriend });
   } catch (error) {
-    errorHandler(res, error, "친구 추가 중 오류 발생");
+    errorHandler(res, error, "친구 요청 수락 중 오류 발생");
   }
 });
 
-router.post("/rejectFriend", async (req, res) => {});
+// router.post("/rejectFriend", async (req, res) => {
+//   try {
+//     const {friendRequestId} = req.body
+
+//     let date = new Date();
+//     let kstDate = new Date(date.getTime() + 9 * 60 * 60 * 1000);
+
+//     const friendRequest = await db
+//       .getDb()
+//       .collection("friendRequests")
+//       .findOne({ _id: new ObjectId(friendRequestId) });
+
+//       await db
+//       .getDb()
+//       .collection("friendRequests")
+//       .deleteOne({ _id: new ObjectId(friendRequestId) });
+
+//       // const friendRequests =
+
+//       res.status(200).json({ acceptFriend });
+//   } catch (error) {
+//     errorHandler(res, error, "친구 요청 삭제 중 오류 발생");
+//   }
+
+// });
 
 module.exports = router;
