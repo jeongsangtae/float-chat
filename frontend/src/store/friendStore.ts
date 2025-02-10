@@ -86,21 +86,27 @@ const useFriendStore = create((set) => ({
   },
   rejectFriendRequest: async (friendRequestId) => {
     try {
-      const response = await fetch(`${apiURL}/rejectFriend`, {
-        method: "POST",
-        body: JSON.stringify({ friendRequestId }),
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
-      });
+      const response = await fetch(
+        `${apiURL}/rejectFriend/${friendRequestId}`,
+        {
+          method: "DELETE",
+          credentials: "include",
+        }
+      );
 
       const resData = await response.json();
 
-      console.log(resData.friendRequests);
+      console.log(resData.message);
 
-      set({ friendRequests: resData.friendRequests });
+      // set({ friendRequests: resData.friendRequests });
+      set((prevFriendRequests) => ({
+        friendRequests: prevFriendRequests.friendRequests.filter(
+          (req) => req._id !== friendRequestId
+        ),
+      }));
     } catch (error) {
       console.error("에러 내용:", error);
-      alert("친구 거절 중 문제가 발생했습니다.");
+      alert("친구 취소 또는 거절 중 문제가 발생했습니다.");
     }
   },
 }));

@@ -114,8 +114,6 @@ router.post("/acceptFriend", async (req, res) => {
   try {
     const { friendRequestId } = req.body;
 
-    console.log(friendRequestId);
-
     let date = new Date();
     let kstDate = new Date(date.getTime() + 9 * 60 * 60 * 1000);
 
@@ -124,7 +122,11 @@ router.post("/acceptFriend", async (req, res) => {
       .collection("friendRequests")
       .findOne({ _id: new ObjectId(friendRequestId) });
 
-    console.log(friendRequest);
+    if (!friendRequest) {
+      return res
+        .status(404)
+        .json({ message: "존재하지 않는 친구 요청입니다." });
+    }
 
     const acceptFriend = await db
       .getDb()
@@ -169,30 +171,23 @@ router.post("/acceptFriend", async (req, res) => {
   }
 });
 
-// router.post("/rejectFriend", async (req, res) => {
-//   try {
-//     const {friendRequestId} = req.body
+router.delete("/rejectFriend/:friendRequestId", async (req, res) => {
+  try {
+    const { friendRequestId } = req.params;
 
-//     let date = new Date();
-//     let kstDate = new Date(date.getTime() + 9 * 60 * 60 * 1000);
+    const result = await db
+      .getDb()
+      .collection("friendRequests")
+      .deleteOne({ _id: new ObjectId(friendRequestId) });
 
-//     const friendRequest = await db
-//       .getDb()
-//       .collection("friendRequests")
-//       .findOne({ _id: new ObjectId(friendRequestId) });
+    if (result.deletedCount === 0) {
+      return res.status(404).json({ message: "삭제할 친구 요청이 없습니다." });
+    }
 
-//       await db
-//       .getDb()
-//       .collection("friendRequests")
-//       .deleteOne({ _id: new ObjectId(friendRequestId) });
-
-//       // const friendRequests =
-
-//       res.status(200).json({ acceptFriend });
-//   } catch (error) {
-//     errorHandler(res, error, "친구 요청 삭제 중 오류 발생");
-//   }
-
-// });
+    res.status(200).json({ message: "친구 요청이 삭제되었습니다." });
+  } catch (error) {
+    errorHandler(res, error, "친구 요청 삭제 중 오류 발생");
+  }
+});
 
 module.exports = router;
