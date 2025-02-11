@@ -6,6 +6,26 @@ const useFriendStore = create((set) => ({
   friends: [],
   friendRequests: [],
   statusMessage: "",
+  loadFriend: async () => {
+    try {
+      const response = await fetch(`${apiURL}/friends`, {
+        credentials: "include",
+      });
+
+      if (!response.ok) {
+        throw new Error("친구 목록 조회 실패");
+      }
+
+      const resData = await response.json();
+
+      console.log(resData.friends);
+
+      set({ friends: resData.friends });
+    } catch (error) {
+      console.error("에러 내용:", error);
+      alert("친구 목록 조회 중 문제가 발생했습니다.");
+    }
+  },
   loadFriendRequests: async () => {
     try {
       const response = await fetch(`${apiURL}/friendRequests`, {
