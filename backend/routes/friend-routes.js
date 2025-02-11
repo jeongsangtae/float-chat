@@ -65,13 +65,21 @@ router.post("/friendRequests", async (req, res) => {
     const requesterId = new ObjectId(requestBody._id); // 요청 보낸 사용자
     const receiverId = new ObjectId(searchUser._id); // 친구 추가할 사용자
 
+    if (requesterId.equals(receiverId)) {
+      return res
+        .status(400)
+        .json({ message: "본인 계정으로는 친구 요청을 보낼 수 없습니다." });
+    }
+
     // 이미 친구 요청을 보냈거나 친구인지 확인
     const existingRequest = await db
       .getDb()
       .collection("friendRequests")
       .findOne({
-        requester: requesterId,
-        receiver: receiverId,
+        $or: [
+          { requester: requesterId, receiver: receiverId },
+          { requester: receiverId, receiver: requesterId },
+        ],
       });
 
     if (existingRequest) {
