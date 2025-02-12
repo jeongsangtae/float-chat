@@ -97,7 +97,22 @@ router.post("/friendRequests", async (req, res) => {
         .json({ message: "본인 계정으로는 친구 요청을 보낼 수 없습니다." });
     }
 
-    // 이미 친구 요청을 보냈거나 친구인지 확인
+    // 이미 친구인지 확인
+    const existingFriend = await db
+      .getDb()
+      .collection("friends")
+      .findOne({
+        $or: [
+          { "requester.id": requesterId, "receiver.id": receiverId },
+          { "requester.id": receiverId, "receiver.id": requesterId },
+        ],
+      });
+
+    if (existingFriend) {
+      return res.status(400).json({ message: "이미 친구인 사용자입니다." });
+    }
+
+    // 이미 친구 요청을 보냈는지 확인
     const existingRequest = await db
       .getDb()
       .collection("friendRequests")
