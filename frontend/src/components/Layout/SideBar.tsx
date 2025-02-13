@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import useAuthStore from "../../store/authStore";
 import useModalStore from "../../store/modalStore";
 
@@ -13,6 +14,8 @@ const SideBar = () => {
     useAuthStore();
 
   const { activeModal, toggleModal } = useModalStore();
+
+  const navigate = useNavigate();
 
   const modals: {
     type: ModalType;
@@ -50,12 +53,17 @@ const SideBar = () => {
     renewTokens();
   }, [isLoggedIn]);
 
+  const logoutHandler = async () => {
+    await logout();
+    navigate("/");
+  };
+
   return (
     <>
       {isLoggedIn && (
         <>
           <p>{userInfo?.nickname}</p>
-          <button onClick={logout}>로그아웃</button>
+          <button onClick={logoutHandler}>로그아웃</button>
           <GroupChats />
         </>
       )}

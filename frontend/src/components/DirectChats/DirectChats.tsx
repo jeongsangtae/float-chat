@@ -1,12 +1,18 @@
 import DirectChat from "./DirectChat";
 import Friends from "../Friends/Friends";
+import useAuthStore from "../../store/authStore";
 
 const DirectChats = () => {
+  const { isLoggedIn } = useAuthStore();
   return (
     <>
-      <p>아이콘 들어갈 위치</p>
-      <DirectChat />
-      <Friends />
+      {isLoggedIn && (
+        <>
+          <p>아이콘 들어갈 위치</p>
+          <DirectChat />
+          <Friends />
+        </>
+      )}
     </>
   );
 };
