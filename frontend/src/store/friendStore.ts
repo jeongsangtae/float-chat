@@ -6,7 +6,7 @@ const useFriendStore = create((set) => ({
   friends: [],
   friendRequests: [],
   statusMessage: "",
-  loadFriend: async () => {
+  loadFriends: async () => {
     try {
       const response = await fetch(`${apiURL}/friends`, {
         credentials: "include",
@@ -63,6 +63,10 @@ const useFriendStore = create((set) => ({
         credentials: "include",
       });
 
+      if (!response.ok) {
+        throw new Error("친구 요청 실패");
+      }
+
       const resData = await response.json();
 
       console.log(resData.message);
@@ -89,6 +93,10 @@ const useFriendStore = create((set) => ({
         credentials: "include",
       });
 
+      if (!response.ok) {
+        throw new Error("친구 요청 수락 실패");
+      }
+
       const resData = await response.json();
 
       console.log(resData.acceptFriend);
@@ -114,6 +122,10 @@ const useFriendStore = create((set) => ({
         }
       );
 
+      if (!response.ok) {
+        throw new Error("친구 요청 취소 또는 거절 실패");
+      }
+
       const resData = await response.json();
 
       console.log(resData.message);
@@ -127,6 +139,29 @@ const useFriendStore = create((set) => ({
     } catch (error) {
       console.error("에러 내용:", error);
       alert("친구 취소 또는 거절 중 문제가 발생했습니다.");
+    }
+  },
+  deleteFriend: async (friendId) => {
+    try {
+      const response = await fetch(`${apiURL}/deleteFriend/${friendId}`, {
+        method: "DELETE",
+        credentials: "include",
+      });
+
+      if (!response.ok) {
+        throw new Error("친구 삭제 실패");
+      }
+
+      const resData = await response.json();
+
+      console.log(resData.message);
+
+      // set((prevFriends) => ({
+      //   friends: prevFriends.friends.filter((req) => req._id !== friendId),
+      // }));
+    } catch (error) {
+      console.error("에러 내용:", error);
+      alert("친구 삭제 중 문제가 발생했습니다.");
     }
   },
 }));

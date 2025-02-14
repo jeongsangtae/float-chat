@@ -239,4 +239,40 @@ router.delete("/rejectFriend/:friendRequestId", async (req, res) => {
   }
 });
 
+router.delete("/deleteFriend/:friendId", async (req, res) => {
+  try {
+    const othersData = await accessToken(req, res);
+
+    if (!othersData) {
+      return res.status(401).json({ message: "jwt error" });
+    }
+
+    const userId = new ObjectId(othersData._id);
+
+    const friendId = new ObjectId(req.params.friendId);
+
+    console.log(userId, friendId);
+
+    const result = await db
+      .getDb()
+      .collection("friends")
+      .deleteOne({
+        $or: [
+          { "requester.id": userId, "receiver.id": friendId },
+          { "requester.id": friendId, "receiver.id": userId },
+        ],
+      });
+
+    if (result.deletedCount === 0) {
+      return res
+        .status(404)
+        .json({ message: "삭제할 친구 데이터가 없습니다." });
+    }
+
+    res.status(200).json({ message: "친구가 삭제되었습니다." });
+  } catch (error) {
+    errorHandler(res, error, "친구 삭제 중 오류 발생");
+  }
+});
+
 module.exports = router;

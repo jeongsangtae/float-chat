@@ -9,7 +9,7 @@ import PendingFriends from "./PendingFriends";
 
 const Friends = () => {
   const { userInfo } = useAuthStore();
-  const { friends, loadFriend, friendRequests, loadFriendRequests } =
+  const { friends, loadFriends, friendRequests, loadFriendRequests } =
     useFriendStore();
 
   const [activeTab, setActiveTab] = useState("all");
@@ -32,7 +32,7 @@ const Friends = () => {
   return (
     <>
       {/* <button>온라인</button> */}
-      <button onClick={() => toggleHandler("all", loadFriend)}>모두</button>
+      <button onClick={() => toggleHandler("all", loadFriends)}>모두</button>
       <button onClick={() => toggleHandler("pending", loadFriendRequests)}>
         대기 중
       </button>
