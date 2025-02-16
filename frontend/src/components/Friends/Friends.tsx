@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import useAuthStore from "../../store/authStore";
 import useFriendStore from "../../store/friendStore";
@@ -12,7 +12,17 @@ const Friends = () => {
   const { friends, loadFriends, friendRequests, loadFriendRequests } =
     useFriendStore();
 
-  const [activeTab, setActiveTab] = useState("all");
+  const [activeTab, setActiveTab] = useState(null);
+
+  // useEffect(() => {
+  //   if (userInfo && activeTab === null) {
+  //     toggleHandler("all", loadFriends);
+  //   }
+  // }, [userInfo]);
+
+  useEffect(() => {
+    toggleHandler("all", loadFriends);
+  }, []);
 
   const toggleHandler = (tab, action) => {
     if (activeTab !== tab) {
