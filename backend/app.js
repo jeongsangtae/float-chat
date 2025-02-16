@@ -76,10 +76,17 @@ const io = new Server(server, {
 // Socket.io 객체를 Express 앱 객체에 저장하여 라우트 함수에서도 접근할 수 있도록 함
 app.set("io", io);
 
+const onlineUsers = new Set();
+
 // 클라이언트가 Socket.io 연결을 맺을 때 실행되는 이벤트 함수
 // Socket.io 설정
 io.on("connection", (socket) => {
   console.log("클라이언트가 연결되었습니다:", socket.id);
+
+  socket.on("registerUser", (userId) => {
+    onlineUsers.add(userId);
+    console.log(`사용자 온라인: ${userId}`);
+  });
 
   // 클라이언트를 특정 방에 참여시킴
   socket.on("joinRoom", ({ roomId }) => {

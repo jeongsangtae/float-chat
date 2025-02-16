@@ -1,8 +1,44 @@
 import { create } from "zustand";
 
+// import { io, Socket } from "socket.io-client";
+
 const apiURL = import.meta.env.VITE_API_URL;
 
 const useFriendStore = create((set) => ({
+  // socket: null,
+  // connect: () => {
+  //   try {
+  //     if (get().socket) return; // 이미 연결된 경우 중복 연결 방지
+
+  //     const newSocket = io(`${apiURL}/friends`, {
+  //       withCredentials: true, // CORS 설정
+  //     });
+
+  //     newSocket.on("connect", () => {
+  //       console.log("친구 요청 소켓 연결됨:", newSocket.id);
+  //     });
+
+  //     // 친구 요청 수신 이벤트
+  //     newSocket.on("friendRequest", (newRequest) => {
+  //       set((state) => ({
+  //         friendRequests: [...state.friendRequests, newRequest],
+  //       }));
+  //     });
+
+  //     set({ socket: newSocket });
+
+  //     // 컴포넌트가 언마운트될 때 WebSocket 연결 해제
+  //     return () => {
+  //       newSocket.disconnect();
+  //       console.log("친구 요청 소켓 연결 해제")
+  //     };
+  //   } catch (error) {
+  //     console.error("에러 내용:", error);
+  //     alert(
+  //       "서버와의 연결 중 오류가 발생했습니다. 새로고침 후 다시 시도해 주세요."
+  //     );
+  //   }
+  // },
   friends: [],
   friendRequests: [],
   statusMessage: "",

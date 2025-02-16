@@ -153,6 +153,16 @@ router.post("/friendRequests", async (req, res) => {
           .padStart(2, "0")}`,
       });
 
+    // socket.io를 통해 채팅방에 브로드캐스트
+    const io = req.app.get("io"); // Express 앱에서 Socket.io 인스턴스를 가져옴
+    // 받는 사람 ID 기반으로 ID 생성
+    const receiverNotification = onlineUser[receiverId];
+    // 해당 사용자한테 친구 요청 알림 전송
+    io.to(receiverNotification).emit("friendRequest", {
+      senderId,
+      message: "새로운 친구 요청이 있습니다.",
+    });
+
     res.status(200).json({ message: "친구 요청이 전송되었습니다." });
   } catch (error) {
     errorHandler(res, error, "친구 추가 요청 중 오류 발생");

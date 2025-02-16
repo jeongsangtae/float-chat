@@ -1,8 +1,12 @@
 import { create } from "zustand";
 
+import useSocketStore from "./socketStore";
+
 import { UserInfo } from "../types";
 
 const apiURL = import.meta.env.VITE_API_URL;
+
+// const {connect} = useSocketStore()
 
 interface AuthStore {
   isLoggedIn: boolean;
@@ -43,6 +47,7 @@ const useAuthStore = create<AuthStore>((set, get) => ({
         if (now >= storedExpirationTime) {
           get().refreshToken(); // 토큰 갱신
           set({ isLoggedIn: true }); // 토큰 갱신 후 로그인 상태 유지
+          useSocketStore.getState().connect();
         }
       } else if (now >= refreshTokenExpirationTime) {
         get().logout(); // 리프레시 토큰 만료 시 로그아웃
@@ -106,6 +111,8 @@ const useAuthStore = create<AuthStore>((set, get) => ({
 
       // 로그인 상태 업데이트
       set({ isLoggedIn: true });
+
+      useSocketStore.getState().connect();
 
       // 같은 스토어의 verifyUser, refreshTokenExp 액션 호출
       await get().verifyUser();
@@ -195,6 +202,7 @@ const useAuthStore = create<AuthStore>((set, get) => ({
       const resData = await response.json();
 
       set({ isLoggedIn: true, userInfo: resData });
+      useSocketStore.getState().connect();
       // set({ accessToken: resData });
 
       const now = Math.floor(new Date().getTime() / 1000);
