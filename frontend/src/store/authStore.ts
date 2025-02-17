@@ -183,6 +183,7 @@ const useAuthStore = create<AuthStore>((set, get) => ({
       console.log("사용자 인증 성공", resData);
 
       set({ isLoggedIn: true, userInfo: resData });
+      useSocketStore.getState().connect();
     } catch (error) {
       console.error("사용자 인증 오류:", error);
       set({ isLoggedIn: false, userInfo: null });

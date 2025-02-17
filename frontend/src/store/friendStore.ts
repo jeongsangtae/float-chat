@@ -19,7 +19,7 @@ const useFriendStore = create((set) => ({
   //     });
 
   //     // 친구 요청 수신 이벤트
-  //     newSocket.on("friendRequest", (newRequest) => {
+  //     newSocket.on("friendRequestResponse", (newRequest) => {
   //       set((state) => ({
   //         friendRequests: [...state.friendRequests, newRequest],
   //       }));
@@ -27,10 +27,8 @@ const useFriendStore = create((set) => ({
 
   //     set({ socket: newSocket });
 
-  //     // 컴포넌트가 언마운트될 때 WebSocket 연결 해제
   //     return () => {
   //       newSocket.disconnect();
-  //       console.log("친구 요청 소켓 연결 해제")
   //     };
   //   } catch (error) {
   //     console.error("에러 내용:", error);
@@ -92,6 +90,21 @@ const useFriendStore = create((set) => ({
     };
 
     try {
+      // let socket = get().socket;
+
+      // if (!socket) {
+      //   socket = get().connect(); // 소켓이 없으면 연결
+      // }
+
+      // if (!socket) return;
+
+      // socket.emit("sendFriendRequest", {
+      //   senderEmail: userInfo.email,
+      //   receiverEmail: searchUserEmail,
+      // });
+
+      // console.log("친구 요청 전송 완료:", searchUserEmail);
+
       const response = await fetch(`${apiURL}/friendRequests`, {
         method: "POST",
         body: JSON.stringify(requestBody),
@@ -115,6 +128,12 @@ const useFriendStore = create((set) => ({
       //     { email: requestBody.searchUserEmail, status: "보류 중" },
       //   ],
       // }));
+
+      // setTimeout(() => {
+      //   socket.disconnect();
+      //   set({ socket: null });
+      //   console.log("⏳ 친구 요청 소켓 자동 해제됨");
+      // }, 30000);
     } catch (error) {
       console.error("에러 내용:", error);
       alert("친구 추가 요청 중 문제가 발생했습니다.");

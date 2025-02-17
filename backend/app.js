@@ -101,6 +101,20 @@ io.on("connection", (socket) => {
   });
 });
 
+// const friendSocket = io.of("/friends");
+
+// friendSocket.on("connection", (socket) => {
+//   console.log("친구 요청 소켓 연결됨:", socket.id);
+
+//   socket.on("sendFriendRequest", ({ senderEmail, receiverEmail }) => {
+//     console.log(`친구 요청 from ${senderEmail} to ${receiverEmail}`);
+//   });
+
+//   socket.on("disconnect", () => {
+//     console.log("친구 요청 소켓 연결 해제:", socket.id);
+//   });
+// });
+
 // MongoDB에 연결한 후 서버를 시작
 // MongoDB 설정
 db.connectToDatabase()
