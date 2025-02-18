@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import useAuthStore from "../../store/authStore";
 import useModalStore from "../../store/modalStore";
+import useSocketStore from "../../store/socketStore";
 
 import { ModalProps, ModalType } from "../../types";
 import GroupChats from "../GroupChats/GroupChats";
@@ -12,8 +13,8 @@ import GroupChatForm from "../GroupChats/GroupChatForm";
 const SideBar = () => {
   const { isLoggedIn, userInfo, renewToken, refreshTokenExp, logout } =
     useAuthStore();
-
   const { activeModal, toggleModal } = useModalStore();
+  const { disconnect } = useSocketStore();
 
   const navigate = useNavigate();
 
@@ -55,6 +56,7 @@ const SideBar = () => {
 
   const logoutHandler = async () => {
     await logout();
+    disconnect();
     navigate("/");
   };
 

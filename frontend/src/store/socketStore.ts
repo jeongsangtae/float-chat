@@ -29,10 +29,9 @@ const useSocketStore = create((set, get) => ({
 
       // 친구 요청 수신 이벤트
       newSocket.on("friendRequest", (newRequest) => {
-        console.log("새로운 친구 요청 수신:", newRequest);
+        console.log("친구 요청 알림 수신:", newRequest);
 
         set((state) => ({
-          // friendRequests: [...state.friendRequests, newRequest],
           notification: [
             ...state.notification,
             { type: "friendRequest", data: newRequest },

@@ -76,7 +76,10 @@ const io = new Server(server, {
 // Socket.io 객체를 Express 앱 객체에 저장하여 라우트 함수에서도 접근할 수 있도록 함
 app.set("io", io);
 
-const onlineUsers = new Set();
+// onlineUsers 맵으로 변경
+const onlineUsers = new Map(); // userId -> socketId 저장
+
+app.set("onlineUsers", onlineUsers);
 
 // 클라이언트가 Socket.io 연결을 맺을 때 실행되는 이벤트 함수
 // Socket.io 설정
@@ -84,8 +87,8 @@ io.on("connection", (socket) => {
   console.log("클라이언트가 연결되었습니다:", socket.id);
 
   socket.on("registerUser", (userId) => {
-    onlineUsers.add(userId);
-    console.log(`사용자 온라인: ${userId}`);
+    onlineUsers.set(userId, socket.id);
+    console.log(`사용자 온라인: ${userId}, ${socket.id}`);
   });
 
   // 클라이언트를 특정 방에 참여시킴
@@ -96,8 +99,18 @@ io.on("connection", (socket) => {
   });
 
   // 클라이언트가 연결을 끊었을 때 실행되는 이벤트 함수
+  // socket.on("disconnect", () => {
+  //   console.log("클라이언트 연결이 끊어졌습니다:", socket.id);
+  // });
   socket.on("disconnect", () => {
     console.log("클라이언트 연결이 끊어졌습니다:", socket.id);
+    for (const [userId, socketId] of onlineUsers.entries()) {
+      if (socketId === socket.id) {
+        onlineUsers.delete(userId);
+        console.log(`사용자 오프라인: ${userId}`);
+        break;
+      }
+    }
   });
 });
 
