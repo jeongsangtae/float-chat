@@ -155,7 +155,7 @@ router.post("/friendRequests", async (req, res) => {
 
     // 친구 요청 받은 유저가 온라인 상태인지 확인 후 소켓 알림 보내기
     const io = req.app.get("io"); // Express 앱에서 Socket.io 인스턴스를 가져옴
-    const onlineUsers = req.app.get("onlineUsers"); // onlineUsers 인스턴스 가져옴
+    const onlineUsers = req.app.get("onlineUsers"); // onlineUsers Map을 가져옴
     const receiverSocketId = onlineUsers.get(searchUser._id.toString());
 
     if (receiverSocketId) {

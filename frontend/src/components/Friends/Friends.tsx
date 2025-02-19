@@ -15,13 +15,12 @@ const Friends = () => {
   const [activeTab, setActiveTab] = useState(null);
 
   // useEffect(() => {
-  //   if (userInfo && activeTab === null) {
-  //     toggleHandler("all", loadFriends);
-  //   }
-  // }, [userInfo]);
+  //   toggleHandler("all", loadFriends);
+  // }, []);
 
   useEffect(() => {
     toggleHandler("all", loadFriends);
+    loadFriendRequests();
   }, []);
 
   const toggleHandler = (tab, action) => {
@@ -37,14 +36,12 @@ const Friends = () => {
     return friend.requester.id === userId ? friend.receiver : friend.requester;
   });
 
-  console.log(filteredFriends);
-
   return (
     <>
       {/* <button>온라인</button> */}
       <button onClick={() => toggleHandler("all", loadFriends)}>모두</button>
       <button onClick={() => toggleHandler("pending", loadFriendRequests)}>
-        대기 중
+        대기 중 {friendRequests.length > 0 && `(${friendRequests.length})`}
       </button>
       <button onClick={() => toggleHandler("addFriend")}>친구 추가하기</button>
       {activeTab === "all" &&
