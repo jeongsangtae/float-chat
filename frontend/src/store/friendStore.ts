@@ -1,42 +1,8 @@
 import { create } from "zustand";
 
-// import { io, Socket } from "socket.io-client";
-
 const apiURL = import.meta.env.VITE_API_URL;
 
-const useFriendStore = create((set) => ({
-  // socket: null,
-  // connect: () => {
-  //   try {
-  //     if (get().socket) return; // 이미 연결된 경우 중복 연결 방지
-
-  //     const newSocket = io(`${apiURL}/friends`, {
-  //       withCredentials: true, // CORS 설정
-  //     });
-
-  //     newSocket.on("connect", () => {
-  //       console.log("친구 요청 소켓 연결됨:", newSocket.id);
-  //     });
-
-  //     // 친구 요청 수신 이벤트
-  //     newSocket.on("friendRequestResponse", (newRequest) => {
-  //       set((state) => ({
-  //         friendRequests: [...state.friendRequests, newRequest],
-  //       }));
-  //     });
-
-  //     set({ socket: newSocket });
-
-  //     return () => {
-  //       newSocket.disconnect();
-  //     };
-  //   } catch (error) {
-  //     console.error("에러 내용:", error);
-  //     alert(
-  //       "서버와의 연결 중 오류가 발생했습니다. 새로고침 후 다시 시도해 주세요."
-  //     );
-  //   }
-  // },
+const useFriendStore = create((set, get) => ({
   friends: [],
   friendRequests: [],
   statusMessage: "",
@@ -90,21 +56,6 @@ const useFriendStore = create((set) => ({
     };
 
     try {
-      // let socket = get().socket;
-
-      // if (!socket) {
-      //   socket = get().connect(); // 소켓이 없으면 연결
-      // }
-
-      // if (!socket) return;
-
-      // socket.emit("sendFriendRequest", {
-      //   senderEmail: userInfo.email,
-      //   receiverEmail: searchUserEmail,
-      // });
-
-      // console.log("친구 요청 전송 완료:", searchUserEmail);
-
       const response = await fetch(`${apiURL}/friendRequests`, {
         method: "POST",
         body: JSON.stringify(requestBody),
@@ -112,28 +63,13 @@ const useFriendStore = create((set) => ({
         credentials: "include",
       });
 
-      if (!response.ok) {
-        throw new Error("친구 요청 실패");
-      }
-
       const resData = await response.json();
 
       console.log(resData.message);
 
       set({ statusMessage: resData.message });
 
-      // set((state) => ({
-      //   friendRequests: [
-      //     ...state.friendRequests,
-      //     { email: requestBody.searchUserEmail, status: "보류 중" },
-      //   ],
-      // }));
-
-      // setTimeout(() => {
-      //   socket.disconnect();
-      //   set({ socket: null });
-      //   console.log("⏳ 친구 요청 소켓 자동 해제됨");
-      // }, 30000);
+      // get().loadFriendRequests();
     } catch (error) {
       console.error("에러 내용:", error);
       alert("친구 추가 요청 중 문제가 발생했습니다.");

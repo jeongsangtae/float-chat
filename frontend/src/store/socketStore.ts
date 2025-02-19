@@ -3,6 +3,7 @@ import { create } from "zustand";
 import { Socket, io } from "socket.io-client";
 
 import useAuthStore from "./authStore";
+import useFriendStore from "./friendStore";
 
 const apiURL = import.meta.env.VITE_API_URL;
 
@@ -37,6 +38,8 @@ const useSocketStore = create((set, get) => ({
             { type: "friendRequest", data: newRequest },
           ],
         }));
+
+        useFriendStore.getState().loadFriendRequests();
       });
 
       set({ socket: newSocket });
