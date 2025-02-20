@@ -6,6 +6,7 @@ import useSocketStore from "../../store/socketStore";
 const DirectChats = () => {
   const { isLoggedIn } = useAuthStore();
   const { notification } = useSocketStore();
+
   return (
     <>
       {isLoggedIn && (

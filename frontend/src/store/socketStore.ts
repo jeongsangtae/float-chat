@@ -35,9 +35,17 @@ const useSocketStore = create((set, get) => ({
         set((state) => ({
           notification: [
             ...state.notification,
-            { type: "friendRequest", data: newRequest },
+            { type: "friendRequest", data: newRequest, id: newRequest.id },
           ],
         }));
+
+        setTimeout(() => {
+          set((state) => ({
+            notification: state.notification.filter(
+              (notif) => notif.id !== newRequest.id
+            ),
+          }));
+        }, 7000);
 
         useFriendStore.getState().loadFriendRequests();
       });
