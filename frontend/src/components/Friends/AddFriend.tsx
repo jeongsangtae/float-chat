@@ -1,13 +1,26 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import useAuthStore from "../../store/authStore";
 import useFriendStore from "../../store/friendStore";
 
 const AddFriend = () => {
   const { userInfo } = useAuthStore();
-  const { statusMessage, sendFriendRequest } = useFriendStore();
+  const { status, statusMessage, resetStatusMessage, sendFriendRequest } =
+    useFriendStore();
 
   const [searchUserEmail, setSearchUserEmail] = useState("");
+
+  useEffect(() => {
+    resetStatusMessage();
+
+    return () => resetStatusMessage();
+  }, []);
+
+  useEffect(() => {
+    if (status === 200) {
+      setSearchUserEmail("");
+    }
+  }, [status]);
 
   const addFriendHandler = async () => {
     if (!searchUserEmail.trim()) {
@@ -15,7 +28,7 @@ const AddFriend = () => {
       return;
     }
 
-    sendFriendRequest(userInfo, searchUserEmail);
+    await sendFriendRequest(userInfo, searchUserEmail);
   };
 
   return (

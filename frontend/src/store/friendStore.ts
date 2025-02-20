@@ -5,7 +5,11 @@ const apiURL = import.meta.env.VITE_API_URL;
 const useFriendStore = create((set, get) => ({
   friends: [],
   friendRequests: [],
+  status: 0,
   statusMessage: "",
+  resetStatusMessage: () => {
+    set({ statusMessage: "" });
+  },
   loadFriends: async () => {
     try {
       const response = await fetch(`${apiURL}/friends`, {
@@ -65,9 +69,7 @@ const useFriendStore = create((set, get) => ({
 
       const resData = await response.json();
 
-      console.log(resData.message);
-
-      set({ statusMessage: resData.message });
+      set({ status: response.status, statusMessage: resData.message });
 
       // get().loadFriendRequests();
     } catch (error) {
