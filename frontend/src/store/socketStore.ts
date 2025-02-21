@@ -16,7 +16,6 @@ const useSocketStore = create((set, get) => ({
     try {
       const { userInfo } = useAuthStore.getState();
       if (!userInfo?._id) return;
-
       if (get().socket) return; // 이미 연결된 경우 중복 연결 방지
 
       const newSocket = io(`${apiURL}`, {

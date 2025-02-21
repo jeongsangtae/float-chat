@@ -6,14 +6,14 @@ import Chat from "./Chat";
 import { RoomId } from "../../types";
 
 const Chats = ({ roomId }: RoomId) => {
-  const { connect, chatData, messages } = useChatStore();
+  const { newMessage, connect, chatData, messages } = useChatStore();
 
   useEffect(() => {
     if (!roomId) {
       console.error("roomId가 정의되지 않았습니다.");
       return;
     }
-    connect(roomId);
+    newMessage(roomId);
   }, [roomId]);
 
   useEffect(() => {
