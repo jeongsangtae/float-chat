@@ -17,11 +17,12 @@ const Chats = ({ roomId }: RoomId) => {
     }
     // newMessage(roomId);
     joinGroupChat(roomId);
+    newMessage();
   }, [roomId]);
 
-  useEffect(() => {
-    newMessage();
-  }, []);
+  // useEffect(() => {
+  //   newMessage();
+  // }, [roomId]);
 
   useEffect(() => {
     if (!roomId) {

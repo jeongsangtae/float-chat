@@ -4,6 +4,7 @@ import { Socket, io } from "socket.io-client";
 
 import useAuthStore from "./authStore";
 import useFriendStore from "./friendStore";
+import useChatStore from "./chatStore";
 
 const apiURL = import.meta.env.VITE_API_URL;
 
@@ -31,6 +32,7 @@ const useSocketStore = create((set, get) => ({
         const lastRoom = localStorage.getItem("currentRoom");
         if (lastRoom) {
           get().joinGroupChat(lastRoom);
+          useChatStore.getState().newMessage(); // 메시지 수신 이벤트 등록 추가
         }
       });
 

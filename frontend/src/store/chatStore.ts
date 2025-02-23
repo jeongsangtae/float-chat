@@ -11,7 +11,7 @@ const apiURL = import.meta.env.VITE_API_URL;
 interface ChatStore {
   socket: Socket | null;
   messages: ChatMessage[];
-  connect: (roomId: string) => void;
+  // connect: (roomId: string) => void;
   chatData: (roomId: string) => Promise<void>;
   sendMessage: (
     roomId: string,
@@ -30,6 +30,9 @@ const useChatStore = create<ChatStore>((set) => ({
 
     // socket.emit("joinRoom", { roomId });
 
+    console.log("newMessage 이벤트 연결");
+
+    // 기존 이벤트 리스너 제거 후 재등록 (중복 방지)
     socket.off("newMessage");
 
     // 서버로부터 새로운 메시지를 받을 때마다 메시지 목록에 추가
@@ -41,14 +44,9 @@ const useChatStore = create<ChatStore>((set) => ({
           (msg) => msg._id === newMessage._id
         );
         // 중복된 메시지는 추가하지 않음
-        if (duplicateMessage) {
-          return prevMsg;
-        }
-
-        // 새 메시지를 추가
-        return {
-          messages: [...prevMsg.messages, newMessage],
-        };
+        return duplicateMessage
+          ? prevMsg
+          : { messages: [...prevMsg.messages, newMessage] };
       });
       console.log("사용자 input 메시지: ", newMessage);
     });
@@ -84,58 +82,51 @@ const useChatStore = create<ChatStore>((set) => ({
   //   }
   // },
 
-  connect: (roomId: string) => {
-    try {
-      const newSocket = io(`${apiURL}`, {
-        withCredentials: true, // CORS 설정
-      });
+  // connect: (roomId: string) => {
+  //   try {
+  //     const newSocket = io(`${apiURL}`, {
+  //       withCredentials: true, // CORS 설정
+  //     });
 
-      newSocket.on("connect", () => {
-        console.log("서버에 연결되었습니다:", newSocket.id);
-        newSocket.emit("joinRoom", { roomId });
-      });
+  //     newSocket.on("connect", () => {
+  //       console.log("서버에 연결되었습니다:", newSocket.id);
+  //       newSocket.emit("joinRoom", { roomId });
+  //     });
 
-      // newSocket.on("newMessage", (newMessage: string) => {
-      //   set((prevMsg) => ({
-      //     messages: [...prevMsg.messages, newMessage],
-      //   }));
-      //   console.log("사용자 input 메시지: ", newMessage);
-      // });
+  //     // 서버로부터 새로운 메시지를 받을 때마다 메시지 목록에 추가
+  //     // 새로운 메시지 중복 방지 코드
+  //     newSocket.on("newMessage", (newMessage: ChatMessage) => {
+  //       set((prevMsg) => {
+  //         // 기존 메시지와 새로운 메시지가 중복되지 않도록 처리
+  //         const duplicateMessage = prevMsg.messages.some(
+  //           (msg) => msg._id === newMessage._id
+  //         );
+  //         // 중복된 메시지는 추가하지 않음
+  //         if (duplicateMessage) {
+  //           return prevMsg;
+  //         }
 
-      // 서버로부터 새로운 메시지를 받을 때마다 메시지 목록에 추가
-      // 새로운 메시지 중복 방지 코드
-      newSocket.on("newMessage", (newMessage: ChatMessage) => {
-        set((prevMsg) => {
-          // 기존 메시지와 새로운 메시지가 중복되지 않도록 처리
-          const duplicateMessage = prevMsg.messages.some(
-            (msg) => msg._id === newMessage._id
-          );
-          // 중복된 메시지는 추가하지 않음
-          if (duplicateMessage) {
-            return prevMsg;
-          }
+  //         // 새 메시지를 추가
+  //         return {
+  //           messages: [...prevMsg.messages, newMessage],
+  //         };
+  //       });
+  //       console.log("사용자 input 메시지: ", newMessage);
+  //     });
 
-          // 새 메시지를 추가
-          return {
-            messages: [...prevMsg.messages, newMessage],
-          };
-        });
-        console.log("사용자 input 메시지: ", newMessage);
-      });
+  //     set({ socket: newSocket });
 
-      set({ socket: newSocket });
-
-      // 컴포넌트가 언마운트될 때 WebSocket 연결 해제
-      return () => {
-        newSocket.disconnect();
-      };
-    } catch (error) {
-      console.error("에러 내용:", error);
-      alert(
-        "서버와의 연결 중 오류가 발생했습니다. 새로고침 후 다시 시도해 주세요."
-      );
-    }
-  },
+  //     // 컴포넌트가 언마운트될 때 WebSocket 연결 해제
+  //     return () => {
+  //       newSocket.disconnect();
+  //     };
+  //   } catch (error) {
+  //     console.error("에러 내용:", error);
+  //     alert(
+  //       "서버와의 연결 중 오류가 발생했습니다. 새로고침 후 다시 시도해 주세요."
+  //     );
+  //   }
+  // },
 
   // 저장된 기존 메시지 불러오기
   chatData: async (roomId: string) => {
