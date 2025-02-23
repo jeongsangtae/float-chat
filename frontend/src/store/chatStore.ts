@@ -28,7 +28,9 @@ const useChatStore = create<ChatStore>((set) => ({
     const socket = useSocketStore.getState().socket;
     if (!socket) return; // 소켓이 없으면 실행 안 함
 
-    socket.emit("joinRoom", { roomId });
+    // socket.emit("joinRoom", { roomId });
+
+    socket.off("newMessage");
 
     // 서버로부터 새로운 메시지를 받을 때마다 메시지 목록에 추가
     // 새로운 메시지 중복 방지 코드

@@ -11,6 +11,7 @@ const apiURL = import.meta.env.VITE_API_URL;
 
 const useSocketStore = create((set, get) => ({
   socket: null,
+  currentRoom: localStorage.getItem("currentRoom") || null,
   notification: [],
   connect: () => {
     try {
@@ -25,6 +26,12 @@ const useSocketStore = create((set, get) => ({
       newSocket.on("connect", () => {
         console.log("소켓 연결됨:", userInfo?._id);
         newSocket.emit("registerUser", userInfo?._id);
+
+        // 새로고침 후 자동으로 마지막 채팅방 다시 입장
+        const lastRoom = localStorage.getItem("currentRoom");
+        if (lastRoom) {
+          get().joinGroupChat(lastRoom);
+        }
       });
 
       // 친구 요청 수신 이벤트
@@ -58,11 +65,33 @@ const useSocketStore = create((set, get) => ({
     }
   },
 
+  joinGroupChat: (roomId) => {
+    const socket = get().socket;
+    if (!socket) return;
+
+    if (get().currentRoom) {
+      socket.emit("leaveRoom", get().currentRoom);
+    }
+
+    socket.emit("joinRoom", { roomId });
+    set({ currentRoom: roomId });
+
+    // 새로고침해도 유지되도록 localStorage에 저장
+    localStorage.setItem("currentRoom", roomId);
+
+    console.log(`${roomId} 그룹 채팅방 입장`);
+  },
+
+  leaveGroupChat: () => {},
+
   disconnect: () => {
     if (get().socket) {
       get().socket.disconnect();
       set({ socket: null });
       console.log("소켓 연결 해제");
+
+      // 로그아웃 시 채팅방 정보도 초기화
+      localStorage.removeItem("currentRoom");
     }
   },
 }));
