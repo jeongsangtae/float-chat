@@ -15,9 +15,11 @@ const Chats = ({ roomId }: RoomId) => {
       console.error("roomId가 정의되지 않았습니다.");
       return;
     }
-    // newMessage(roomId);
+    // setTimeout(() => {
+    //   newMessage();
+    // }, 100); // 약간의 지연을 줘서 socket 초기화 후 실행되도록 함
+    // newMessage();
     joinGroupChat(roomId);
-    newMessage();
   }, [roomId]);
 
   // useEffect(() => {

@@ -32,7 +32,7 @@ const useSocketStore = create((set, get) => ({
         const lastRoom = localStorage.getItem("currentRoom");
         if (lastRoom) {
           get().joinGroupChat(lastRoom);
-          useChatStore.getState().newMessage(); // 메시지 수신 이벤트 등록 추가
+          // useChatStore.getState().newMessage(); // 메시지 수신 이벤트 등록 추가
         }
       });
 
@@ -72,14 +72,16 @@ const useSocketStore = create((set, get) => ({
     if (!socket) return;
 
     if (get().currentRoom) {
-      socket.emit("leaveRoom", get().currentRoom);
+      socket.emit("leaveRoom", get().currentRoom); // 기존 방 나가기
     }
 
-    socket.emit("joinRoom", { roomId });
+    socket.emit("joinRoom", { roomId }); // 새 방 입장
     set({ currentRoom: roomId });
 
     // 새로고침해도 유지되도록 localStorage에 저장
     localStorage.setItem("currentRoom", roomId);
+
+    useChatStore.getState().newMessage(); // 메시지 수신 이벤트 등록 추가
 
     console.log(`${roomId} 그룹 채팅방 입장`);
   },
