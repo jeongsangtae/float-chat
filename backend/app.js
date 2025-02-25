@@ -92,11 +92,18 @@ io.on("connection", (socket) => {
   });
 
   // 클라이언트를 특정 방에 참여시킴
-  socket.on("joinRoom", ({ roomId }) => {
+  socket.on("joinRoom", (roomId) => {
     const chatRoomId = `room-${roomId}`;
     socket.join(chatRoomId);
-    console.log(`방 번호: ${chatRoomId}`);
+    console.log(`방 번호: ${chatRoomId} 입장`);
   });
+
+  // 클라이언트를 특정 방에서 나가게 함 (방장이 방을 삭제하는 것과는 다른 내용)
+  // socket.on("leaveRoom", (roomId) => {
+  //   const chatRoomId = `room-${roomId}`;
+  //   socket.leave(chatRoomId);
+  //   console.log(`방 번호: ${chatRoomId} 나감`);
+  // });
 
   // 클라이언트가 연결을 끊었을 때 실행되는 이벤트 함수
   // socket.on("disconnect", () => {

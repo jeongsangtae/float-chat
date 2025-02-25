@@ -71,11 +71,7 @@ const useSocketStore = create((set, get) => ({
     const socket = get().socket;
     if (!socket) return;
 
-    if (get().currentRoom) {
-      socket.emit("leaveRoom", get().currentRoom); // 기존 방 나가기
-    }
-
-    socket.emit("joinRoom", { roomId }); // 새 방 입장
+    socket.emit("joinRoom", roomId); // 채팅방 입장
     set({ currentRoom: roomId });
 
     // 새로고침해도 유지되도록 localStorage에 저장
@@ -86,7 +82,16 @@ const useSocketStore = create((set, get) => ({
     console.log(`${roomId} 그룹 채팅방 입장`);
   },
 
-  leaveGroupChat: () => {},
+  // 나중에 방에 참여한 사용자가 그룹 채팅방을 떠날 때 사용할 예정
+  // leaveGroupChat: () => {
+  //   const socket = get().socket;
+  //   if (!socket || !get().currentRoom) return;
+
+  //   socket.emit("leaveRoom", get().currentRoom);
+  //   set({ currentRoom: null });
+
+  //   console.log("채팅방 나가기");
+  // },
 
   disconnect: () => {
     if (get().socket) {
