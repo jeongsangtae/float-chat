@@ -15,8 +15,10 @@ const DirectChats = () => {
           <DirectChat />
           {notification.map((notif, index) => (
             <div key={index}>
-              {notif.type === "friendRequest" && (
+              {notif.type === "friendRequest" ? (
                 <p>{notif.data.requester} 님이 친구 요청을 보냈습니다.</p>
+              ) : (
+                <p>{notif.data.roomTitle}에서 새로운 메시지 추가</p>
               )}
             </div>
           ))}

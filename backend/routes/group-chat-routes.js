@@ -221,15 +221,44 @@ router.post("/chat/:roomId", async (req, res) => {
         .padStart(2, "0")}:${kstDate.getSeconds().toString().padStart(2, "0")}`, // 날짜 및 시간을 포맷팅하여 문자열로 저장
     };
 
+    const groupChat = await db
+      .getDb()
+      .collection("groupChats")
+      .findOne({ _id: new ObjectId(roomId) });
+
     // 새 메시지를 chatMessages 컬렉션에 저장
     await db.getDb().collection("chatMessages").insertOne(newMessage);
 
     // socket.io를 통해 새 메시지를 해당 채팅방에 브로드캐스트
     const io = req.app.get("io"); // Express 앱에서 Socket.io 인스턴스를 가져옴
-    // const roomId = `room-${roomId}`; // 사용자 ID 기반으로 채팅방 ID 생성
     const chatRoomId = `room-${roomId}`; // 그룹 채팅방 ID 기반으로 채팅방 생성
     io.to(chatRoomId).emit("newMessage", newMessage); // 해당 채팅방에 메시지 전송
 
+    const onlineUsers = req.app.get("onlineUsers"); // onlineUsers Map을 가져옴
+    const roomUsers = req.app.get("roomUsers");
+    const roomSockets = roomUsers.get(chatRoomId);
+
+    console.log(roomSockets);
+
+    if (roomSockets) {
+      roomSockets.forEach((socketId) => {
+        io.to(socketId).emit("messageNotification", {
+          id: new ObjectId().toString(),
+          roomTitle: groupChat.title,
+          message: "새로운 메시지가 추가되었습니다.",
+        });
+      });
+      console.log("새로운 메시지 알림 전송 완료");
+    }
+
+    // if (joinRoomUsers) {
+    //   io.to(joinRoomUsers).emit("messageNotification", {
+    //     id: new ObjectId().toString(),
+    //     roomTitle: groupChat.title,
+    //     message: "새로운 메시지가 추가되었습니다.",
+    //   });
+    //   console.log("새로운 메시지 알림 전송 완료");
+    // }
     // console.log(newMessage);
     // console.log("====================");
     // console.log(chatRoomId);

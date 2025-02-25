@@ -79,7 +79,11 @@ app.set("io", io);
 // onlineUsers 맵으로 변경
 const onlineUsers = new Map(); // userId -> socketId 저장
 
+const roomUsers = new Map(); // roomId -> socketId 저장
+
 app.set("onlineUsers", onlineUsers);
+
+app.set("roomUsers", roomUsers);
 
 // 클라이언트가 Socket.io 연결을 맺을 때 실행되는 이벤트 함수
 // Socket.io 설정
@@ -95,6 +99,13 @@ io.on("connection", (socket) => {
   socket.on("joinRoom", (roomId) => {
     const chatRoomId = `room-${roomId}`;
     socket.join(chatRoomId);
+
+    // 방에 사용자를 추가
+    if (!roomUsers.has(chatRoomId)) {
+      roomUsers.set(chatRoomId, []);
+    }
+    roomUsers.get(chatRoomId).push(socket.id);
+
     console.log(`방 번호: ${chatRoomId} 입장`);
   });
 

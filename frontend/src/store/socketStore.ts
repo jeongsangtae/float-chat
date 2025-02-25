@@ -36,7 +36,7 @@ const useSocketStore = create((set, get) => ({
         }
       });
 
-      // 친구 요청 수신 이벤트
+      // 친구 요청 알림 수신 이벤트
       newSocket.on("friendRequest", (newRequest) => {
         console.log("친구 요청 알림 수신:", newRequest);
 
@@ -56,6 +56,31 @@ const useSocketStore = create((set, get) => ({
         }, 7000);
 
         useFriendStore.getState().loadFriendRequests();
+      });
+
+      // 새로운 메시지 알림 수신 이벤트
+      newSocket.on("messageNotification", (newMessage) => {
+        console.log("새로운 메시지 알림 수신:", newMessage);
+
+        // if(get().currentRoom !== newMessage.roomId) {}
+        set((state) => ({
+          notification: [
+            ...state.notification,
+            {
+              type: "messageNotification",
+              data: newMessage,
+              id: newMessage.id,
+            },
+          ],
+        }));
+
+        setTimeout(() => {
+          set((state) => ({
+            notification: state.notification.filter(
+              (notif) => notif.id !== newMessage.id
+            ),
+          }));
+        }, 7000);
       });
 
       set({ socket: newSocket });
