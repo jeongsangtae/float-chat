@@ -131,6 +131,8 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
       );
     }
   },
+
+  inviteGroupChat: async () => {},
 }));
 
 export default useGroupChatStore;
