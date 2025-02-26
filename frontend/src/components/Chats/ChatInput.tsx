@@ -25,6 +25,7 @@ const ChatInput = ({ roomId }: RoomId) => {
     }
 
     sendMessage(roomId, message, userInfo);
+    setMessage("");
   };
 
   return (

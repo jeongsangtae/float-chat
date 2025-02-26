@@ -102,9 +102,9 @@ io.on("connection", (socket) => {
 
     // 방에 사용자를 추가
     if (!roomUsers.has(chatRoomId)) {
-      roomUsers.set(chatRoomId, []);
+      roomUsers.set(chatRoomId, []); // 방에 해당하는 배열이 없으면 새로 생성
     }
-    roomUsers.get(chatRoomId).push(socket.id);
+    roomUsers.get(chatRoomId).push(socket.id); // 해당 방에 사용자 소켓 ID 추가
 
     console.log(`방 번호: ${chatRoomId} 입장`);
   });
