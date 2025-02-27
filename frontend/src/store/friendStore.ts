@@ -1,8 +1,27 @@
 import { create } from "zustand";
 
+import { UserInfo, Friend, FriendRequest } from "../types";
+
 const apiURL = import.meta.env.VITE_API_URL;
 
-const useFriendStore = create((set, get) => ({
+interface FriendStore {
+  friends: Friend[];
+  friendRequests: FriendRequest[];
+  status: number;
+  statusMessage: string;
+  resetStatusMessage: () => void;
+  loadFriends: () => Promise<void>;
+  loadFriendRequests: () => Promise<void>;
+  sendFriendRequest: (
+    userInfo: Omit<UserInfo, "tokenExp">, // tokenExp를 제외하고 사용
+    searchUserEmail: string
+  ) => Promise<void>;
+  acceptFriendRequest: (friendRequestId: string) => Promise<void>;
+  rejectFriendRequest: (friendRequestId: string) => Promise<void>;
+  deleteFriend: (friendId: string) => Promise<void>;
+}
+
+const useFriendStore = create<FriendStore>((set) => ({
   friends: [],
   friendRequests: [],
   status: 0,
@@ -10,6 +29,7 @@ const useFriendStore = create((set, get) => ({
   resetStatusMessage: () => {
     set({ statusMessage: "" });
   },
+
   loadFriends: async () => {
     try {
       const response = await fetch(`${apiURL}/friends`, {
@@ -20,7 +40,7 @@ const useFriendStore = create((set, get) => ({
         throw new Error("친구 목록 조회 실패");
       }
 
-      const resData = await response.json();
+      const resData: { friends: Friend[] } = await response.json();
 
       console.log(resData.friends);
 
@@ -30,6 +50,7 @@ const useFriendStore = create((set, get) => ({
       alert("친구 목록 조회 중 문제가 발생했습니다.");
     }
   },
+
   loadFriendRequests: async () => {
     try {
       const response = await fetch(`${apiURL}/friendRequests`, {
@@ -40,7 +61,8 @@ const useFriendStore = create((set, get) => ({
         throw new Error("친구 요청 조회 실패");
       }
 
-      const resData = await response.json();
+      const resData: { friendRequests: FriendRequest[] } =
+        await response.json();
 
       console.log(resData);
 
@@ -50,6 +72,7 @@ const useFriendStore = create((set, get) => ({
       alert("친구 추가 요청 조회 중 문제가 발생했습니다.");
     }
   },
+
   sendFriendRequest: async (userInfo, searchUserEmail) => {
     const requestBody = {
       _id: userInfo._id,
@@ -77,6 +100,7 @@ const useFriendStore = create((set, get) => ({
       alert("친구 추가 요청 중 문제가 발생했습니다.");
     }
   },
+
   acceptFriendRequest: async (friendRequestId) => {
     try {
       const response = await fetch(`${apiURL}/acceptFriend`, {
@@ -105,6 +129,7 @@ const useFriendStore = create((set, get) => ({
       alert("친구 수락 중 문제가 발생했습니다.");
     }
   },
+
   rejectFriendRequest: async (friendRequestId) => {
     try {
       const response = await fetch(
@@ -134,6 +159,7 @@ const useFriendStore = create((set, get) => ({
       alert("친구 취소 또는 거절 중 문제가 발생했습니다.");
     }
   },
+
   deleteFriend: async (friendId) => {
     try {
       const response = await fetch(`${apiURL}/deleteFriend/${friendId}`, {

@@ -31,4 +31,22 @@ export interface ChatMessage {
   date: string;
 }
 
+export interface Friend {
+  _id: string;
+  date: string;
+  receiver: Pick<UserInfo, "_id" | "nickname">; // _id와 nickname만 사용
+  requester: Pick<UserInfo, "_id" | "nickname">; // _id와 nickname만 사용
+  status: string;
+}
+
+export interface FriendRequest {
+  _id: string;
+  requester: string;
+  requesterNickname: string;
+  receiver: string;
+  receiverNickname: string;
+  date: string;
+  status: string;
+}
+
 export type ModalType = "login" | "signup" | "groupChatForm";

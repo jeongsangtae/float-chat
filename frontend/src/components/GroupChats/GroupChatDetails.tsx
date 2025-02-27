@@ -27,9 +27,6 @@ const GroupChatDetails = () => {
     return friend.requester.id === userId ? friend.receiver : friend.requester;
   });
 
-  console.log(filteredFriends);
-  console.log(filteredFriends[0].nickname);
-
   return (
     <>
       <button onClick={toggleHandler}>친구 초대 버튼</button>
