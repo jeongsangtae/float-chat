@@ -2,15 +2,24 @@ import { create } from "zustand";
 
 import { Socket, io } from "socket.io-client";
 
+import { Notification } from "../types";
+
 import useAuthStore from "./authStore";
 import useFriendStore from "./friendStore";
 import useChatStore from "./chatStore";
 
 const apiURL = import.meta.env.VITE_API_URL;
 
-// const { userInfo } = useAuthStore();
+interface SocketStore {
+  socket: Socket | null;
+  currentRoom: string | null; // 방 번호인 _id (로컬 스토리지에서 가져옴)
+  notification: Notification[];
+  connect: () => void;
+  joinGroupChat: (roomId: string) => void;
+  disconnect: () => void;
+}
 
-const useSocketStore = create((set, get) => ({
+const useSocketStore = create<SocketStore>((set, get) => ({
   socket: null,
   currentRoom: localStorage.getItem("currentRoom") || null,
   notification: [],
@@ -120,14 +129,12 @@ const useSocketStore = create((set, get) => ({
   // },
 
   disconnect: () => {
-    if (get().socket) {
-      get().socket.disconnect();
-      set({ socket: null });
-      console.log("소켓 연결 해제");
+    get().socket?.disconnect();
+    set({ socket: null });
+    console.log("소켓 연결 해제");
 
-      // 로그아웃 시 채팅방 정보도 초기화
-      localStorage.removeItem("currentRoom");
-    }
+    // 로그아웃 시 채팅방 정보도 초기화
+    localStorage.removeItem("currentRoom");
   },
 }));
 

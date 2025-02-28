@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
-import { io, Socket } from "socket.io-client";
+import { Socket } from "socket.io-client";
 
 import useSocketStore from "./socketStore";
 
@@ -11,7 +11,7 @@ const apiURL = import.meta.env.VITE_API_URL;
 interface ChatStore {
   socket: Socket | null;
   messages: ChatMessage[];
-  // connect: (roomId: string) => void;
+  newMessage: () => void;
   chatData: (roomId: string) => Promise<void>;
   sendMessage: (
     roomId: string,
@@ -24,7 +24,7 @@ const useChatStore = create<ChatStore>((set) => ({
   socket: null,
   messages: [],
 
-  newMessage: (roomId: string) => {
+  newMessage: () => {
     const socket = useSocketStore.getState().socket;
     console.log("소켓 있음? :", socket);
     if (!socket) return; // 소켓이 없으면 실행 안 함
