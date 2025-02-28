@@ -1,11 +1,14 @@
+import { FriendUser } from "../../types";
+
 import useFriendStore from "../../store/friendStore";
 
-const Friend = ({ id, nickname }) => {
+const Friend = ({ id, nickname }: FriendUser) => {
   const { deleteFriend } = useFriendStore();
 
   const deleteFriendHandler = async () => {
     await deleteFriend(id);
   };
+
   return (
     <>
       <ul>

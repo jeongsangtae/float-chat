@@ -1,25 +1,34 @@
 import useAuthStore from "../../store/authStore";
 import useFriendStore from "../../store/friendStore";
 
+interface PendingFriendsProps {
+  friendRequestId: string;
+  requester: string;
+  requesterNickname: string;
+  receiver: string;
+  receiverNickname: string;
+  status: string;
+}
+
 const PendingFriends = ({
   friendRequestId,
   requester,
   requesterNickname,
-  receiver,
+  // receiver,
   receiverNickname,
   status,
-}) => {
+}: PendingFriendsProps) => {
   const { userInfo } = useAuthStore();
   const { acceptFriendRequest, rejectFriendRequest } = useFriendStore();
 
   const sendRequest = userInfo?._id === requester;
 
-  const acceptFriendHandler = (friendRequestId) => {
+  const acceptFriendHandler = (friendRequestId: string) => {
     console.log(friendRequestId);
     acceptFriendRequest(friendRequestId);
   };
 
-  const rejectFriendHandler = (friendRequestId) => {
+  const rejectFriendHandler = (friendRequestId: string) => {
     console.log(friendRequestId);
     rejectFriendRequest(friendRequestId);
   };

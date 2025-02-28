@@ -1,6 +1,6 @@
-const GroupChatInvite = ({ nickname }) => {
-  console.log(nickname);
+import { FriendUser } from "../../types";
 
+const GroupChatInvite = ({ nickname }: Pick<FriendUser, "nickname">) => {
   return (
     <>
       <ul>

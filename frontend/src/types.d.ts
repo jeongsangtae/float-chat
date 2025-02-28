@@ -31,12 +31,17 @@ export interface ChatMessage {
   date: string;
 }
 
+export interface FriendUser {
+  id: string; // _id 대신 id 사용
+  nickname: string;
+}
+
 export interface Friend {
   _id: string;
   date: string;
-  receiver: Pick<UserInfo, "_id" | "nickname">; // _id와 nickname만 사용
-  requester: Pick<UserInfo, "_id" | "nickname">; // _id와 nickname만 사용
   status: string;
+  receiver: FriendUser;
+  requester: FriendUser;
 }
 
 export interface FriendRequest {
