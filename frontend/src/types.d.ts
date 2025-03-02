@@ -11,6 +11,12 @@ export interface GroupChatData {
   date?: string;
 }
 
+export interface GroupChatInviteProps {
+  roomId?: string;
+  friendId: string;
+  nickname: string;
+}
+
 export interface UserInfo {
   _id: string;
   email: string;

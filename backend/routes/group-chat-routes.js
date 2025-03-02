@@ -54,7 +54,7 @@ router.post("/groupChatForm", async (req, res) => {
         .getMinutes()
         .toString()
         .padStart(2, "0")}:${kstDate.getSeconds().toString().padStart(2, "0")}`,
-      users: [],
+      users: [groupChatData._id],
     };
 
     await db.getDb().collection("groupChats").insertOne(newGroupChat);
@@ -158,9 +158,78 @@ router.delete("/groupChat/:roomId", async (req, res) => {
   }
 });
 
-router.get("groupChatUsers", async (req, res) => {});
+router.get("groupChat/:roomId/users", async (req, res) => {});
 
-router.post("/groupChatInvite", async (req, res) => {});
+router.post("/groupChat/:roomId/invite", async (req, res) => {
+  try {
+    const othersData = await accessToken(req, res);
+
+    if (!othersData) {
+      return res.status(401).json({ message: "jwt error" });
+    }
+
+    console.log(req.body.friendId, req.body.nickname);
+
+    const { friendId, nickname } = req.body;
+
+    const requesterId = new ObjectId(othersData._id); // 요청 보낸 사용자
+    const receiverId = new ObjectId(friendId); // 그룹 채팅방에 초대할 사용자
+
+    let roomId = req.params.roomId;
+
+    roomId = new ObjectId(roomId);
+
+    let date = new Date();
+    let kstDate = new Date(date.getTime() + 9 * 60 * 60 * 1000);
+
+    const groupChat = await db
+      .getDb()
+      .collection("groupChats")
+      .findOne({ _id: roomId });
+
+    if (!groupChat) {
+      return res
+        .status(404)
+        .json({ message: "그룹 채팅방을 찾을 수 없습니다." });
+    }
+
+    if (!groupChat.users.includes(requesterId.toString())) {
+      return res.status(403).json({
+        message: "그룹 채팅방에 참여한 사용자가 아니므로 초대할 수 없습니다.",
+      });
+    }
+
+    await db
+      .getDb()
+      .collection("groupChatInvites")
+      .insertOne({
+        requester: requesterId,
+        requesterNickname: othersData.nickname,
+        receiver: receiverId,
+        receiverNickname: nickname,
+        status: "보류 중",
+        date: `${kstDate.getFullYear()}.${(kstDate.getMonth() + 1)
+          .toString()
+          .padStart(2, "0")}.${kstDate
+          .getDate()
+          .toString()
+          .padStart(2, "0")} ${kstDate
+          .getHours()
+          .toString()
+          .padStart(2, "0")}:${date
+          .getMinutes()
+          .toString()
+          .padStart(2, "0")}:${kstDate
+          .getSeconds()
+          .toString()
+          .padStart(2, "0")}`,
+      });
+
+    return res.status(200).json({ message: "그룹 채팅방 초대 성공" });
+  } catch (error) {
+    errorHandler(res, error, "그룹 채팅방 초대 중 오류 발생");
+  }
+});
 
 // 사용자의 채팅 메시지를 가져오는 라우터
 router.get("/chat/:roomId", async (req, res) => {

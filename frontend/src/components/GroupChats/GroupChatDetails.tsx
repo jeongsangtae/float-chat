@@ -32,7 +32,12 @@ const GroupChatDetails = () => {
       <button onClick={toggleHandler}>친구 초대 버튼</button>
       {toggle &&
         filteredFriends.map((friend) => (
-          <GroupChatInvite key={friend.id} nickname={friend.nickname} />
+          <GroupChatInvite
+            key={friend.id}
+            roomId={roomId}
+            friendId={friend.id}
+            nickname={friend.nickname}
+          />
         ))}
       <Chats roomId={roomId} />
       <ChatInput roomId={roomId} />

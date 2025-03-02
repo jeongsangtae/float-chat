@@ -1,11 +1,28 @@
-import { FriendUser } from "../../types";
+import { GroupChatInviteProps } from "../../types";
 
-const GroupChatInvite = ({ nickname }: Pick<FriendUser, "nickname">) => {
+import useGroupChatStore from "../../store/groupChatStore";
+
+const GroupChatInvite = ({
+  roomId,
+  friendId,
+  nickname,
+}: GroupChatInviteProps) => {
+  const { inviteGroupChat } = useGroupChatStore();
+
+  const groupChatInviteHandler = () => {
+    if (!roomId) {
+      console.error("roomId가 정의되지 않았습니다.");
+      return;
+    }
+
+    inviteGroupChat({ roomId, friendId, nickname });
+  };
+
   return (
     <>
       <ul>
         <li>{nickname}</li>
-        <button>초대</button>
+        <button onClick={groupChatInviteHandler}>초대</button>
       </ul>
     </>
   );
