@@ -39,9 +39,9 @@ router.post("/groupChatForm", async (req, res) => {
     const newGroupChat = {
       title: groupChatData.title,
       hostId: groupChatData._id,
-      email: groupChatData.email,
-      username: groupChatData.username,
-      nickname: groupChatData.nickname,
+      hostEmail: groupChatData.email,
+      hostUsername: groupChatData.username,
+      hostNickname: groupChatData.nickname,
       date: `${kstDate.getFullYear()}.${(kstDate.getMonth() + 1)
         .toString()
         .padStart(2, "0")}.${kstDate
@@ -54,6 +54,7 @@ router.post("/groupChatForm", async (req, res) => {
         .getMinutes()
         .toString()
         .padStart(2, "0")}:${kstDate.getSeconds().toString().padStart(2, "0")}`,
+      users: [],
     };
 
     await db.getDb().collection("groupChats").insertOne(newGroupChat);
@@ -156,6 +157,10 @@ router.delete("/groupChat/:roomId", async (req, res) => {
     errorHandler(res, error, "그룹 채팅방 삭제 중 오류 발생");
   }
 });
+
+router.get("groupChatUsers", async (req, res) => {});
+
+router.post("/groupChatInvite", async (req, res) => {});
 
 // 사용자의 채팅 메시지를 가져오는 라우터
 router.get("/chat/:roomId", async (req, res) => {

@@ -93,6 +93,29 @@ const useSocketStore = create<SocketStore>((set, get) => ({
         }, 7000);
       });
 
+      newSocket.on("groupChatInviteNotification", (groupChatInvite) => {
+        console.log("그룹 채팅방 초대 알림 수신:", groupChatInvite);
+
+        // set((state) => ({
+        //   notification: [
+        //     ...state.notification,
+        //     {
+        //       type: "groupChatInviteNotification",
+        //       data: groupChatInvite,
+        //       id: groupChatInvite.id,
+        //     },
+        //   ],
+        // }));
+
+        // setTimeout(() => {
+        //   set((state) => ({
+        //     notification: state.notification.filter(
+        //       (notif) => notif.id !== groupChatInvite.id
+        //     ),
+        //   }));
+        // }, 7000);
+      });
+
       set({ socket: newSocket });
     } catch (error) {
       console.error("에러 내용:", error);

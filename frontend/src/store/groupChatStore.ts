@@ -132,7 +132,11 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
     }
   },
 
-  inviteGroupChat: async () => {},
+  inviteGroupChat: async () => {
+    try {
+      // const response = await fetch();
+    } catch (error) {}
+  },
 }));
 
 export default useGroupChatStore;
