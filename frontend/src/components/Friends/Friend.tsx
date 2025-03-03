@@ -5,7 +5,7 @@ import useFriendStore from "../../store/friendStore";
 const Friend = ({ id, nickname }: FriendUser) => {
   const { deleteFriend } = useFriendStore();
 
-  const deleteFriendHandler = async () => {
+  const deleteFriendHandler = async (): Promise<void> => {
     await deleteFriend(id);
   };
 

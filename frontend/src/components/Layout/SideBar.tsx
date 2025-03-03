@@ -54,7 +54,7 @@ const SideBar = () => {
     renewTokens();
   }, [isLoggedIn]);
 
-  const logoutHandler = async () => {
+  const logoutHandler = async (): Promise<void> => {
     await logout();
     disconnect();
     navigate("/");

@@ -9,7 +9,7 @@ const GroupChatInvite = ({
 }: GroupChatInviteProps) => {
   const { inviteGroupChat } = useGroupChatStore();
 
-  const groupChatInviteHandler = () => {
+  const groupChatInviteHandler = (): void => {
     if (!roomId) {
       console.error("roomId가 정의되지 않았습니다.");
       return;

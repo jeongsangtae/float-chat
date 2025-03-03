@@ -14,9 +14,9 @@ const GroupChatDetails = () => {
   const { userInfo } = useAuthStore();
   const { friends, loadFriends } = useFriendStore();
 
-  const [toggle, setToggle] = useState(false);
+  const [toggle, setToggle] = useState<boolean>(false);
 
-  const toggleHandler = () => {
+  const toggleHandler = (): void => {
     setToggle(!toggle);
     loadFriends();
   };

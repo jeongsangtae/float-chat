@@ -8,7 +8,7 @@ const AddFriend = () => {
   const { status, statusMessage, resetStatusMessage, sendFriendRequest } =
     useFriendStore();
 
-  const [searchUserEmail, setSearchUserEmail] = useState("");
+  const [searchUserEmail, setSearchUserEmail] = useState<string>("");
 
   useEffect(() => {
     resetStatusMessage();
@@ -22,7 +22,7 @@ const AddFriend = () => {
     }
   }, [status]);
 
-  const addFriendHandler = async () => {
+  const addFriendHandler = async (): Promise<void> => {
     if (!searchUserEmail.trim()) {
       alert("이메일을 입력하세요.");
       return;

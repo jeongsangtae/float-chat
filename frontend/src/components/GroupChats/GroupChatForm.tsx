@@ -13,7 +13,9 @@ const GroupChatForm = ({ onToggle }: ModalProps) => {
 
   const [title, setTitle] = useState<string>("");
 
-  const inputChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const inputChangeHandler = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ): void => {
     setTitle(event.target.value);
   };
 

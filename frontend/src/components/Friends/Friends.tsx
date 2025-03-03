@@ -19,7 +19,7 @@ const Friends = () => {
     loadFriendRequests();
   }, []);
 
-  const activeTabHandler = (tab: string, action?: () => void) => {
+  const activeTabHandler = (tab: string, action?: () => void): void => {
     if (activeTab !== tab) {
       setActiveTab(tab);
       action?.();

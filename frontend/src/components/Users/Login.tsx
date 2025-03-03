@@ -23,12 +23,16 @@ const Login = ({ onToggle }: ModalProps) => {
   const [error, setError] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>("");
 
-  const inputChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const inputChangeHandler = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ): void => {
     const { name, value } = event.target;
     setLoginData({ ...loginData, [name]: value });
   };
 
-  const submitHandler = async (event: React.FormEvent<HTMLFormElement>) => {
+  const submitHandler = async (
+    event: React.FormEvent<HTMLFormElement>
+  ): Promise<void> => {
     event.preventDefault();
 
     try {
@@ -43,7 +47,7 @@ const Login = ({ onToggle }: ModalProps) => {
         const errorData = await response.json();
         setError(true);
         setErrorMessage(errorData.message);
-        return null;
+        return;
       }
 
       await login();

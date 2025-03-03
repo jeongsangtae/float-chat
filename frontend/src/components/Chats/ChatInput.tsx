@@ -8,15 +8,17 @@ import { RoomId } from "../../types";
 const ChatInput = ({ roomId }: RoomId) => {
   const { sendMessage } = useChatStore();
   const { userInfo } = useAuthStore();
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState<string>("");
 
   const inputChangeHandler = (
     event: React.ChangeEvent<HTMLTextAreaElement>
-  ) => {
+  ): void => {
     setMessage(event.target.value);
   };
 
-  const sendMessageHandler = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const sendMessageHandler = (
+    event: React.MouseEvent<HTMLButtonElement>
+  ): void => {
     event.preventDefault();
 
     if (!roomId || !userInfo) {

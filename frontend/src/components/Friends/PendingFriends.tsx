@@ -23,12 +23,12 @@ const PendingFriends = ({
 
   const sendRequest = userInfo?._id === requester;
 
-  const acceptFriendHandler = (friendRequestId: string) => {
+  const acceptFriendHandler = (friendRequestId: string): void => {
     console.log(friendRequestId);
     acceptFriendRequest(friendRequestId);
   };
 
-  const rejectFriendHandler = (friendRequestId: string) => {
+  const rejectFriendHandler = (friendRequestId: string): void => {
     console.log(friendRequestId);
     rejectFriendRequest(friendRequestId);
   };

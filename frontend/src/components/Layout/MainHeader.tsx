@@ -4,14 +4,14 @@ import React, { useState } from "react";
 import { ModalProps } from "../../types";
 import Login from "../Users/Login";
 import Signup from "../Users/Signup";
-import CreateGroupChat from "../GroupChats/CreateGroupChat";
+import GroupChatForm from "../GroupChats/GroupChatForm";
 
 const MainHeader = () => {
   type ModalType = "login" | "signup" | "createGroupChat" | null;
 
   const [activeModal, setActiveModal] = useState<ModalType>(null);
 
-  const toggleModalHandler = (modalType: ModalType) => {
+  const toggleModalHandler = (modalType: ModalType): void => {
     setActiveModal((prev) => (prev === modalType ? null : modalType));
   };
 
@@ -25,7 +25,7 @@ const MainHeader = () => {
     {
       type: "createGroupChat",
       label: "방 추가 버튼",
-      component: CreateGroupChat,
+      component: GroupChatForm,
     },
   ];
 
