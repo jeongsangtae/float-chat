@@ -16,6 +16,7 @@ const GroupChatDetails = () => {
 
   const [toggle, setToggle] = useState<boolean>(false);
 
+  // 이름 변경 필요
   const toggleHandler = (): void => {
     setToggle(!toggle);
     loadFriends();

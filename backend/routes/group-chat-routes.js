@@ -16,7 +16,7 @@ router.get("/groupChats", async (req, res) => {
     const groupChats = await db
       .getDb()
       .collection("groupChats")
-      .find({ email: responseData.email })
+      .find({ hostEmail: responseData.email })
       .toArray();
 
     if (!groupChats) {
