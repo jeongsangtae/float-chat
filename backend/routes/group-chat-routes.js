@@ -225,6 +225,20 @@ router.post("/groupChat/:roomId/invite", async (req, res) => {
           .padStart(2, "0")}`,
       });
 
+    // 그룹 채팅방 요청을 받은 유저가 온라인 상태인지 확인 후 소켓 알림 보내기
+    const io = req.app.get("io"); // Express 앱에서 Socket.io 인스턴스를 가져옴
+    const onlineUsers = req.app.get("onlineUsers"); // onlineUsers Map을 가져옴
+    const receiverSocketId = onlineUsers.get(friendId.toString());
+
+    if (receiverSocketId) {
+      io.to(receiverSocketId).emit("groupChatInviteNotification", {
+        id: new ObjectId().toString(),
+        roomTitle: groupChat.title,
+        message: "새로운 그룹 채팅방 초대 요청이 도착했습니다.",
+      });
+      console.log("그룹 채팅방 초대 요청 알림 전송 완료");
+    }
+
     return res.status(200).json({ message: "그룹 채팅방 초대 성공" });
   } catch (error) {
     errorHandler(res, error, "그룹 채팅방 초대 중 오류 발생");

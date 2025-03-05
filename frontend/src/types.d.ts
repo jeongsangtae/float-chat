@@ -69,7 +69,7 @@ export interface NotificationData {
 
 export interface Notification {
   id: string;
-  type: "friendRequest" | "messageNotification";
+  type: "friendRequest" | "messageNotification" | "groupChatInviteNotification";
   data: NotificationData;
 }
 
