@@ -158,7 +158,29 @@ router.delete("/groupChat/:roomId", async (req, res) => {
   }
 });
 
-router.get("groupChat/:roomId/users", async (req, res) => {});
+router.get("/groupChat/:roomId/users", async (req, res) => {});
+
+router.get("/groupChat/invites", async (req, res) => {
+  try {
+    const othersData = await accessToken(req, res);
+
+    if (!othersData) {
+      return res.status(401).json({ message: "jwt error" });
+    }
+
+    const userId = new ObjectId(othersData._id);
+
+    const groupChatInvites = await db
+      .getDb()
+      .collection("groupChatInvites")
+      .find({ $or: [{ requester: userId }, { receiver: userId }] })
+      .toArray();
+
+    res.status(200).json({ groupChatInvites });
+  } catch (error) {
+    errorHandler(res, error, "그룹 채팅방 초대 목록 조회 중 오류 발생");
+  }
+});
 
 router.post("/groupChat/:roomId/invite", async (req, res) => {
   try {
