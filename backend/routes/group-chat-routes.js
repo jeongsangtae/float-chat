@@ -225,6 +225,7 @@ router.post("/groupChat/:roomId/invite", async (req, res) => {
       .getDb()
       .collection("groupChatInvites")
       .insertOne({
+        roomTitle: groupChat.title,
         requester: requesterId,
         requesterNickname: othersData.nickname,
         receiver: receiverId,

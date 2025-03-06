@@ -1,6 +1,10 @@
 import { create } from "zustand";
 
-import { GroupChatData, GroupChatInviteProps } from "../types";
+import {
+  GroupChatData,
+  GroupChatInvites,
+  GroupChatInviteProps,
+} from "../types";
 import { UserInfo } from "../types";
 
 const apiURL = import.meta.env.VITE_API_URL;
@@ -14,7 +18,7 @@ const apiURL = import.meta.env.VITE_API_URL;
 interface GroupChatStore {
   loading: boolean;
   groupChats: GroupChatData[];
-  // groupChatInvites: [];
+  groupChatInvites: GroupChatInvites[];
   getGroupChats: () => Promise<void>;
   groupChatForm: (
     title: string,
