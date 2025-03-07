@@ -7,6 +7,7 @@ import Friends from "../Friends/Friends";
 import useAuthStore from "../../store/authStore";
 import useSocketStore from "../../store/socketStore";
 import useGroupChatStore from "../../store/groupChatStore";
+import GroupChatInviteList from "../GroupChats/GroupChatInviteList";
 
 const DirectChats = () => {
   const { isLoggedIn } = useAuthStore();
@@ -25,8 +26,10 @@ const DirectChats = () => {
   console.log(groupChatInvites);
 
   useEffect(() => {
-    getGroupChatInvites();
-  }, []);
+    if (isLoggedIn) {
+      getGroupChatInvites();
+    }
+  }, [isLoggedIn]);
 
   return (
     <>
@@ -35,11 +38,13 @@ const DirectChats = () => {
           <p>아이콘 들어갈 위치</p>
           <DirectChat />
           {groupChatInvites.map((groupChatInvite) => (
-            <ul key={groupChatInvite._id}>
-              <li>{groupChatInvite.roomTitle}</li>
-              <button>수락</button>
-              <button>거절</button>
-            </ul>
+            <GroupChatInviteList
+              key={groupChatInvite._id}
+              groupChatInviteId={groupChatInvite._id}
+              requester={groupChatInvite.requester}
+              requesterNickname={groupChatInvite.requesterNickname}
+              roomTitle={groupChatInvite.roomTitle}
+            />
           ))}
           {notification.map((notif, index) => (
             <div key={index}>

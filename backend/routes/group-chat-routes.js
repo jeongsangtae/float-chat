@@ -268,6 +268,13 @@ router.post("/groupChat/:roomId/invite", async (req, res) => {
   }
 });
 
+// 그룹 채팅방 초대 수락 라우터
+router.post("/acceptGroupChat", async (req, res) => {});
+
+// 그룹 채팅방 초대 거절 라우터
+
+router.post("/rejectGroupChat", async (req, res) => {});
+
 // 사용자의 채팅 메시지를 가져오는 라우터
 router.get("/chat/:roomId", async (req, res) => {
   try {

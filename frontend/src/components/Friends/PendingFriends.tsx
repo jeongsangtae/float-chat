@@ -23,12 +23,12 @@ const PendingFriends = ({
 
   const sendRequest = userInfo?._id === requester;
 
-  const acceptFriendHandler = (friendRequestId: string): void => {
+  const acceptFriendHandler = (): void => {
     console.log(friendRequestId);
     acceptFriendRequest(friendRequestId);
   };
 
-  const rejectFriendHandler = (friendRequestId: string): void => {
+  const rejectFriendHandler = (): void => {
     console.log(friendRequestId);
     rejectFriendRequest(friendRequestId);
   };
@@ -39,32 +39,14 @@ const PendingFriends = ({
         <ul>
           <li>{receiverNickname}</li>
           <li>{status}</li>
-          <button
-            onClick={() => {
-              rejectFriendHandler(friendRequestId);
-            }}
-          >
-            취소
-          </button>
+          <button onClick={rejectFriendHandler}>취소</button>
         </ul>
       ) : (
         <ul>
           <li>{requesterNickname}</li>
           <li>{status}</li>
-          <button
-            onClick={() => {
-              acceptFriendHandler(friendRequestId);
-            }}
-          >
-            수락
-          </button>
-          <button
-            onClick={() => {
-              rejectFriendHandler(friendRequestId);
-            }}
-          >
-            거절
-          </button>
+          <button onClick={acceptFriendHandler}>수락</button>
+          <button onClick={rejectFriendHandler}>거절</button>
         </ul>
       )}
     </>

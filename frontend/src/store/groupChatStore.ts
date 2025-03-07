@@ -37,6 +37,8 @@ interface GroupChatStore {
     friendId,
     nickname,
   }: GroupChatInviteProps) => Promise<void>;
+  acceptGroupChatInvite: (groupChatInviteId: string) => Promise<void>;
+  rejectGroupChatInvite: (groupChatInviteId: string) => Promise<void>;
 }
 
 const useGroupChatStore = create<GroupChatStore>((set, get) => ({
@@ -156,7 +158,8 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
         throw new Error("그룹 채팅방 초대 목록 조회 실패");
       }
 
-      const resData = await response.json();
+      const resData: { groupChatInvites: GroupChatInvites[] } =
+        await response.json();
 
       console.log(resData);
 
@@ -193,15 +196,35 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
     }
   },
 
-  acceptGroupChat: async () => {
-    // try {
-    //   const response = await fetch(`${apiURL}/acceptGroupChat`, {
-    //     method: "POST",
-    //   });
-    // } catch (error) {}
+  acceptGroupChatInvite: async (groupChatInviteId) => {
+    try {
+      const response = await fetch(`${apiURL}/acceptGroupChat`, {
+        method: "POST",
+        body: JSON.stringify({ groupChatInviteId }),
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+      });
+
+      if (!response.ok) {
+        throw new Error("그룹 채팅방 초대 수락 실패");
+      }
+
+      const resData = await response.json();
+
+      console.log(resData.acceptGroupChatInvite);
+
+      set((prevGroupChatInvites) => ({
+        groupChatInvites: prevGroupChatInvites.groupChatInvites.filter(
+          (req) => req._id !== groupChatInviteId
+        ),
+      }));
+    } catch (error) {
+      console.error("에러 내용:", error);
+      alert("그룹 채팅방 초대 수락 중 문제가 발생했습니다.");
+    }
   },
 
-  rejectGroupChat: async () => {},
+  rejectGroupChatInvite: async (groupChatInviteId) => {},
 }));
 
 export default useGroupChatStore;
