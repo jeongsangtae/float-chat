@@ -4,6 +4,7 @@ import {
   GroupChatData,
   GroupChatInvites,
   GroupChatInviteProps,
+  GroupChatInviteListProps,
 } from "../types";
 import { UserInfo } from "../types";
 
@@ -37,8 +38,20 @@ interface GroupChatStore {
     friendId,
     nickname,
   }: GroupChatInviteProps) => Promise<void>;
-  acceptGroupChatInvite: (groupChatInviteId: string) => Promise<void>;
-  rejectGroupChatInvite: (groupChatInviteId: string) => Promise<void>;
+  acceptGroupChatInvite: ({
+    groupChatId,
+    groupChatInviteId,
+  }: Pick<
+    GroupChatInviteListProps,
+    "groupChatId" | "groupChatInviteId"
+  >) => Promise<void>;
+  rejectGroupChatInvite: ({
+    groupChatId,
+    groupChatInviteId,
+  }: Pick<
+    GroupChatInviteListProps,
+    "groupChatId" | "groupChatInviteId"
+  >) => Promise<void>;
 }
 
 const useGroupChatStore = create<GroupChatStore>((set, get) => ({
@@ -196,11 +209,15 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
     }
   },
 
-  acceptGroupChatInvite: async (groupChatInviteId) => {
+  acceptGroupChatInvite: async ({ groupChatId, groupChatInviteId }) => {
     try {
+      const requestBody = { groupChatId, groupChatInviteId };
+
+      console.log(groupChatId, groupChatInviteId);
+
       const response = await fetch(`${apiURL}/acceptGroupChat`, {
         method: "POST",
-        body: JSON.stringify({ groupChatInviteId }),
+        body: JSON.stringify(requestBody),
         headers: { "Content-Type": "application/json" },
         credentials: "include",
       });
@@ -224,7 +241,7 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
     }
   },
 
-  rejectGroupChatInvite: async (groupChatInviteId) => {},
+  rejectGroupChatInvite: async ({ groupChatId, groupChatInviteId }) => {},
 }));
 
 export default useGroupChatStore;

@@ -40,6 +40,7 @@ const DirectChats = () => {
           {groupChatInvites.map((groupChatInvite) => (
             <GroupChatInviteList
               key={groupChatInvite._id}
+              groupChatId={groupChatInvite.roomId}
               groupChatInviteId={groupChatInvite._id}
               requester={groupChatInvite.requester}
               requesterNickname={groupChatInvite.requesterNickname}

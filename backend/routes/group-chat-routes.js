@@ -225,12 +225,13 @@ router.post("/groupChat/:roomId/invite", async (req, res) => {
       .getDb()
       .collection("groupChatInvites")
       .insertOne({
+        roomId: groupChat._id,
         roomTitle: groupChat.title,
         requester: requesterId,
         requesterNickname: othersData.nickname,
         receiver: receiverId,
         receiverNickname: nickname,
-        status: "보류 중",
+        status: "보류",
         date: `${kstDate.getFullYear()}.${(kstDate.getMonth() + 1)
           .toString()
           .padStart(2, "0")}.${kstDate
@@ -269,7 +270,51 @@ router.post("/groupChat/:roomId/invite", async (req, res) => {
 });
 
 // 그룹 채팅방 초대 수락 라우터
-router.post("/acceptGroupChat", async (req, res) => {});
+router.post("/acceptGroupChat", async (req, res) => {
+  try {
+    const othersData = await accessToken(req, res);
+
+    if (!othersData) {
+      return res.status(401).json({ message: "jwt error" });
+    }
+
+    const { groupChatId, groupChatInviteId } = req.body;
+
+    // let date = new Date();
+    // let kstDate = new Date(date.getTime() + 9 * 60 * 60 * 1000);
+
+    const groupChatInvite = await db
+      .getDb()
+      .collection("groupChatInvites")
+      .findOne({ _id: new ObjectId(groupChatInviteId) });
+
+    if (!groupChatInvite) {
+      return res
+        .status(404)
+        .json({ message: "존재하지 않는 그룹 채팅방 초대 요청입니다." });
+    }
+
+    const acceptGroupChat = await db
+      .getDb()
+      .collection("groupChats")
+      .updateOne(
+        { _id: new ObjectId(groupChatId) },
+        { $addToSet: { users: othersData._id.toString() } }
+      );
+
+    await db
+      .getDb()
+      .collection("groupChatInvites")
+      .updateOne(
+        { _id: new ObjectId(groupChatInviteId) },
+        { $set: { status: "수락" } }
+      );
+
+    res.status(200).json({ acceptGroupChat });
+  } catch (error) {
+    errorHandler(res, error, "그룹 채팅방 초대 수락 중 오류 발생");
+  }
+});
 
 // 그룹 채팅방 초대 거절 라우터
 

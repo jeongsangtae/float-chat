@@ -1,14 +1,10 @@
+import { GroupChatInviteListProps } from "../../types";
+
 import useAuthStore from "../../store/authStore";
 import useGroupChatStore from "../../store/groupChatStore";
 
-interface GroupChatInviteListProps {
-  groupChatInviteId: string;
-  requester: string;
-  requesterNickname: string;
-  roomTitle: string;
-}
-
 const GroupChatInviteList = ({
+  groupChatId,
   groupChatInviteId,
   requester,
   requesterNickname,
@@ -18,11 +14,11 @@ const GroupChatInviteList = ({
   const { acceptGroupChatInvite, rejectGroupChatInvite } = useGroupChatStore();
 
   const acceptGroupChatInviteHandler = () => {
-    acceptGroupChatInvite(groupChatInviteId);
+    acceptGroupChatInvite({ groupChatId, groupChatInviteId });
   };
 
   const rejectGroupChatInviteHandler = () => {
-    rejectGroupChatInvite(groupChatInviteId);
+    rejectGroupChatInvite({ groupChatId, groupChatInviteId });
   };
 
   console.log(groupChatInviteId);

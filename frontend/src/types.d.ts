@@ -13,6 +13,7 @@ export interface GroupChatData {
 
 export interface GroupChatInvites {
   _id: string;
+  roomId: string;
   roomTitle: string;
   requester: string;
   requesterNickname: string;
@@ -26,6 +27,14 @@ export interface GroupChatInviteProps {
   roomId?: string;
   friendId: string;
   nickname: string;
+}
+
+export interface GroupChatInviteListProps {
+  groupChatId: string;
+  groupChatInviteId: string;
+  requester: string;
+  requesterNickname: string;
+  roomTitle: string;
 }
 
 export interface UserInfo {

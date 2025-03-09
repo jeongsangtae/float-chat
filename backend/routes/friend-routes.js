@@ -135,7 +135,7 @@ router.post("/friendRequests", async (req, res) => {
         requesterNickname: requestBody.nickname,
         receiver: receiverId,
         receiverNickname: searchUser.nickname,
-        status: "보류 중",
+        status: "보류",
         date: `${kstDate.getFullYear()}.${(kstDate.getMonth() + 1)
           .toString()
           .padStart(2, "0")}.${kstDate
