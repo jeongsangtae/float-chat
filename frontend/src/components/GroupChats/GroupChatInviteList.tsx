@@ -9,6 +9,7 @@ const GroupChatInviteList = ({
   requester,
   requesterNickname,
   roomTitle,
+  status,
 }: GroupChatInviteListProps) => {
   const { userInfo } = useAuthStore();
   const { acceptGroupChatInvite, rejectGroupChatInvite } = useGroupChatStore();
@@ -25,12 +26,14 @@ const GroupChatInviteList = ({
 
   const sendRequest = userInfo?._id === requester;
 
+  const showButtons = !sendRequest && status === "보류";
+
   return (
     <>
       <ul>
         <li>{requesterNickname}</li>
         <li>{roomTitle}</li>
-        {!sendRequest && (
+        {showButtons && (
           <>
             <button onClick={acceptGroupChatInviteHandler}>수락</button>
             <button onClick={rejectGroupChatInviteHandler}>거절</button>

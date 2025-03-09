@@ -10,16 +10,17 @@ const ObjectId = mongodb.ObjectId;
 const router = express.Router();
 
 router.get("/groupChats", async (req, res) => {
-  const responseData = await accessToken(req, res);
+  const othersData = await accessToken(req, res);
 
   try {
+    // users 배열에 내 ID가 있는지 확인
     const groupChats = await db
       .getDb()
       .collection("groupChats")
-      .find({ hostEmail: responseData.email })
+      .find({ users: { $in: [othersData._id.toString()] } })
       .toArray();
 
-    if (!groupChats) {
+    if (!groupChats.length === 0) {
       return res.status(404).json({ error: "그룹 채팅방을 찾을 수 없습니다." });
     }
 
