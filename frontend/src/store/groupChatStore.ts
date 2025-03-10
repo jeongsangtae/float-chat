@@ -19,8 +19,10 @@ const apiURL = import.meta.env.VITE_API_URL;
 interface GroupChatStore {
   loading: boolean;
   groupChats: GroupChatData[];
+  groupChatUsers: [];
   groupChatInvites: GroupChatInvites[];
   getGroupChats: () => Promise<void>;
+  getGroupChatUsers: (roomId: string) => Promise<void>;
   groupChatForm: (
     title: string,
     userInfo: UserInfo,
@@ -51,6 +53,7 @@ interface GroupChatStore {
 const useGroupChatStore = create<GroupChatStore>((set, get) => ({
   loading: true,
   groupChats: [],
+  groupChatUsers: [],
   groupChatInvites: [],
   getGroupChats: async () => {
     try {
@@ -73,6 +76,25 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
       );
     } finally {
       set({ loading: false });
+    }
+  },
+  getGroupChatUsers: async (roomId) => {
+    try {
+      const response = await fetch(`${apiURL}/groupChat/${roomId}/users`, {
+        credentials: "include",
+      });
+
+      if (!response.ok) {
+        throw new Error("그룹 채팅방 참여자 조회 실패");
+      }
+
+      const resData: { groupChatUsers: [] } = await response.json();
+
+      set({ groupChatUsers: resData.groupChatUsers });
+    } catch (error) {
+      alert(
+        "그룹 채팅방 참여자를 불러오는 중에 문제가 발생했습니다. 새로고침 후 다시 시도해 주세요."
+      );
     }
   },
 
@@ -152,8 +174,6 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
       );
     }
   },
-
-  getGroupChatUsers: async () => {},
 
   getGroupChatInvites: async () => {
     try {

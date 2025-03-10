@@ -30,6 +30,37 @@ router.get("/groupChats", async (req, res) => {
   }
 });
 
+router.get("/groupChat/:roomId/users", async (req, res) => {
+  try {
+    const { roomId } = req.params;
+
+    const groupChat = await db
+      .getDb()
+      .collection("groupChats")
+      .findOne({ _id: new ObjectId(roomId) });
+
+    if (!groupChat) {
+      return res
+        .status(404)
+        .json({ message: "그룹 채팅방을 찾을 수 없습니다." });
+    }
+
+    const userIds = groupChat ? groupChat.users : [];
+
+    const groupChatUsers = await db
+      .getDb()
+      .collection("users")
+      .find({
+        _id: { $in: userIds.map((id) => new ObjectId(id)) },
+      })
+      .toArray();
+
+    res.status(200).json({ groupChatUsers });
+  } catch (error) {
+    errorHandler(res, error, "그룹 채팅방 참여자 조회 중 오류 발생");
+  }
+});
+
 router.post("/groupChatForm", async (req, res) => {
   try {
     const groupChatData = req.body;
@@ -158,8 +189,6 @@ router.delete("/groupChat/:roomId", async (req, res) => {
     errorHandler(res, error, "그룹 채팅방 삭제 중 오류 발생");
   }
 });
-
-router.get("/groupChat/:roomId/users", async (req, res) => {});
 
 router.get("/groupChat/invites", async (req, res) => {
   try {

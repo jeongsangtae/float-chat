@@ -7,6 +7,7 @@ import useFriendStore from "../../store/friendStore";
 import ChatInput from "../Chats/ChatInput";
 import Chats from "../Chats/Chats";
 import GroupChatInvite from "./GroupChatInvite";
+import GroupChatUsers from "./GroupChatUsers";
 
 const GroupChatDetails = () => {
   const { roomId } = useParams<{ roomId: string }>();
@@ -30,6 +31,7 @@ const GroupChatDetails = () => {
 
   return (
     <>
+      <GroupChatUsers roomId={roomId} />
       <button onClick={toggleHandler}>친구 초대 버튼</button>
       {toggle &&
         filteredFriends.map((friend) => (
