@@ -19,7 +19,7 @@ const GroupChatInviteList = ({
   };
 
   const rejectGroupChatInviteHandler = () => {
-    rejectGroupChatInvite({ groupChatId, groupChatInviteId });
+    rejectGroupChatInvite(groupChatInviteId);
   };
 
   console.log(groupChatInviteId);

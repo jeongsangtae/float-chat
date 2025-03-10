@@ -319,7 +319,28 @@ router.post("/acceptGroupChat", async (req, res) => {
 
 // 그룹 채팅방 초대 거절 라우터
 
-router.post("/rejectGroupChat", async (req, res) => {});
+router.delete("/rejectGroupChat/:groupChatInviteId", async (req, res) => {
+  try {
+    const { groupChatInviteId } = req.params;
+
+    const result = await db
+      .getDb()
+      .collection("groupChatInvites")
+      .deleteOne({ _id: new ObjectId(groupChatInviteId) });
+
+    if (result.deletedCount === 0) {
+      return res
+        .status(404)
+        .json({ message: "거절할 그룹 채팅방 초대 요청이 없습니다." });
+    }
+
+    res
+      .status(200)
+      .json({ message: "그룹 채팅방 초대 요청이 거절되었습니다." });
+  } catch (error) {
+    errorHandler(res, error, "그룹 채팅방 초대 거절 중 오류 발생");
+  }
+});
 
 // 사용자의 채팅 메시지를 가져오는 라우터
 router.get("/chat/:roomId", async (req, res) => {

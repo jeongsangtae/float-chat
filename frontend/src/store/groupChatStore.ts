@@ -45,13 +45,7 @@ interface GroupChatStore {
     GroupChatInviteListProps,
     "groupChatId" | "groupChatInviteId"
   >) => Promise<void>;
-  rejectGroupChatInvite: ({
-    groupChatId,
-    groupChatInviteId,
-  }: Pick<
-    GroupChatInviteListProps,
-    "groupChatId" | "groupChatInviteId"
-  >) => Promise<void>;
+  rejectGroupChatInvite: (groupChatInviteId: string) => Promise<void>;
 }
 
 const useGroupChatStore = create<GroupChatStore>((set, get) => ({
@@ -241,7 +235,34 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
     }
   },
 
-  rejectGroupChatInvite: async ({ groupChatId, groupChatInviteId }) => {},
+  rejectGroupChatInvite: async (groupChatInviteId) => {
+    try {
+      const response = await fetch(
+        `${apiURL}/rejectGroupChat/${groupChatInviteId}`,
+        {
+          method: "DELETE",
+          credentials: "include",
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("친구 요청 취소 또는 거절 실패");
+      }
+
+      const resData = await response.json();
+
+      console.log(resData.message);
+
+      set((prevGroupChatInvites) => ({
+        groupChatInvites: prevGroupChatInvites.groupChatInvites.filter(
+          (req) => req._id !== groupChatInviteId
+        ),
+      }));
+    } catch (error) {
+      console.error("에러 내용:", error);
+      alert("그룹 채팅방 초대 거절 중 문제가 발생했습니다.");
+    }
+  },
 }));
 
 export default useGroupChatStore;
