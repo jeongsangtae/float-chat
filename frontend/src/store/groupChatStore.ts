@@ -78,6 +78,7 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
       set({ loading: false });
     }
   },
+
   getGroupChatUsers: async (roomId) => {
     try {
       const response = await fetch(`${apiURL}/groupChat/${roomId}/users`, {
@@ -250,6 +251,9 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
           (req) => req._id !== groupChatInviteId
         ),
       }));
+
+      // 그룹 채팅방 목록을 다시 가져와서 실시간 반영
+      await get().getGroupChats();
     } catch (error) {
       console.error("에러 내용:", error);
       alert("그룹 채팅방 초대 수락 중 문제가 발생했습니다.");

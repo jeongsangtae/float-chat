@@ -166,8 +166,6 @@ router.patch("/groupChatForm", async (req, res) => {
 });
 
 router.delete("/groupChat/:roomId", async (req, res) => {
-  console.log(req.params.roomId);
-
   try {
     let roomId = req.params.roomId;
 
@@ -185,7 +183,11 @@ router.delete("/groupChat/:roomId", async (req, res) => {
         .json({ message: "그룹 채팅방을 찾을 수 없습니다." });
     }
 
-    console.log(groupChat);
+    console.log("삭제할 그룹 채팅방:", groupChat);
+
+    await db.getDb().collection("chatMessages").deleteMany({ roomId });
+
+    await db.getDb().collection("groupChatInvites").deleteMany({ roomId });
 
     await db.getDb().collection("groupChats").deleteOne({ _id: roomId });
 
