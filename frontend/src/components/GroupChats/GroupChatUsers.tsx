@@ -2,11 +2,10 @@ import { RoomId } from "../../types";
 
 import useGroupChatStore from "../../store/groupChatStore";
 import { useEffect } from "react";
+import GroupChatUser from "./GroupChatUser";
 
 const GroupChatUsers = ({ roomId }: RoomId) => {
   const { groupChatUsers, getGroupChatUsers } = useGroupChatStore();
-
-  console.log(roomId);
 
   useEffect(() => {
     if (!roomId) {
@@ -15,16 +14,12 @@ const GroupChatUsers = ({ roomId }: RoomId) => {
     }
 
     getGroupChatUsers(roomId);
-  }, []);
+  }, [roomId]);
 
   return (
     <>
       {groupChatUsers.map((user) => (
-        <>
-          <ul key={user._id}>
-            <li>{user.nickname}</li>
-          </ul>
-        </>
+        <GroupChatUser key={user._id} nickname={user.nickname} />
       ))}
     </>
   );

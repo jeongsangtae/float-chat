@@ -1,12 +1,12 @@
 import { create } from "zustand";
 
 import {
+  UserInfo,
   GroupChatData,
   GroupChatInvites,
   GroupChatInviteProps,
   GroupChatInviteListProps,
 } from "../types";
-import { UserInfo } from "../types";
 
 const apiURL = import.meta.env.VITE_API_URL;
 
@@ -19,7 +19,7 @@ const apiURL = import.meta.env.VITE_API_URL;
 interface GroupChatStore {
   loading: boolean;
   groupChats: GroupChatData[];
-  groupChatUsers: [];
+  groupChatUsers: Omit<UserInfo, "tokenExp">[];
   groupChatInvites: GroupChatInvites[];
   getGroupChats: () => Promise<void>;
   getGroupChatUsers: (roomId: string) => Promise<void>;
@@ -88,7 +88,8 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
         throw new Error("그룹 채팅방 참여자 조회 실패");
       }
 
-      const resData: { groupChatUsers: [] } = await response.json();
+      const resData: { groupChatUsers: Omit<UserInfo, "tokenExp">[] } =
+        await response.json();
 
       set({ groupChatUsers: resData.groupChatUsers });
     } catch (error) {

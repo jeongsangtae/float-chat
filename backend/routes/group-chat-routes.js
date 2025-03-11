@@ -50,10 +50,15 @@ router.get("/groupChat/:roomId/users", async (req, res) => {
     const groupChatUsers = await db
       .getDb()
       .collection("users")
-      .find({
-        _id: { $in: userIds.map((id) => new ObjectId(id)) },
-      })
+      .find(
+        {
+          _id: { $in: userIds.map((id) => new ObjectId(id)) },
+        },
+        { projection: { password: 0 } } // 패스워드 필드 제외
+      )
       .toArray();
+
+    console.log(groupChatUsers);
 
     res.status(200).json({ groupChatUsers });
   } catch (error) {
