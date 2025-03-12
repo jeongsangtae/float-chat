@@ -35,7 +35,7 @@ const DirectChats = () => {
     <>
       {isLoggedIn && (
         <>
-          <p>아이콘 들어갈 위치</p>
+          {/* <p>아이콘 들어갈 위치</p> */}
           <DirectChat />
           {groupChatInvites.map((groupChatInvite) => (
             <GroupChatInviteList

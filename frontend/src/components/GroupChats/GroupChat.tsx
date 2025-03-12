@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import useGroupChatStore from "../../store/groupChatStore";
 import useModalStore from "../../store/modalStore";
@@ -8,9 +8,12 @@ import { GroupChatData } from "../../types";
 const GroupChat = ({ _id, title }: GroupChatData) => {
   const { deleteGroupChat } = useGroupChatStore();
   const { toggleModal } = useModalStore();
+  const navigate = useNavigate();
 
   const groupChatDeleteHandler = async (): Promise<void> => {
     await deleteGroupChat(_id);
+
+    navigate("/");
   };
 
   return (

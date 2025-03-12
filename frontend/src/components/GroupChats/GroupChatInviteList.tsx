@@ -12,14 +12,18 @@ const GroupChatInviteList = ({
   status,
 }: GroupChatInviteListProps) => {
   const { userInfo } = useAuthStore();
-  const { acceptGroupChatInvite, rejectGroupChatInvite } = useGroupChatStore();
+  const { getGroupChats, acceptGroupChatInvite, rejectGroupChatInvite } =
+    useGroupChatStore();
 
-  const acceptGroupChatInviteHandler = () => {
-    acceptGroupChatInvite({ groupChatId, groupChatInviteId });
+  const acceptGroupChatInviteHandler = async (): Promise<void> => {
+    await acceptGroupChatInvite({ groupChatId, groupChatInviteId });
+
+    // 그룹 채팅방 목록을 다시 가져와서 실시간 반영
+    await getGroupChats();
   };
 
-  const rejectGroupChatInviteHandler = () => {
-    rejectGroupChatInvite(groupChatInviteId);
+  const rejectGroupChatInviteHandler = async (): Promise<void> => {
+    await rejectGroupChatInvite(groupChatInviteId);
   };
 
   console.log(groupChatInviteId);
