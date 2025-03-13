@@ -45,7 +45,6 @@ const DirectChats = () => {
               requester={groupChatInvite.requester}
               requesterNickname={groupChatInvite.requesterNickname}
               roomTitle={groupChatInvite.roomTitle}
-              status={groupChatInvite.status}
             />
           ))}
           {notification.map((notif, index) => (

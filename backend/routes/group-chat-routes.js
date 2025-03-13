@@ -266,7 +266,8 @@ router.post("/groupChat/:roomId/invite", async (req, res) => {
       receiver: receiverId,
       receiverNickname: nickname,
       status: "보류",
-      date: `${kstDate.getFullYear()}.${(kstDate.getMonth() + 1)
+      date,
+      kstDate: `${kstDate.getFullYear()}.${(kstDate.getMonth() + 1)
         .toString()
         .padStart(2, "0")}.${kstDate
         .getDate()
@@ -299,6 +300,7 @@ router.post("/groupChat/:roomId/invite", async (req, res) => {
         message: "새로운 그룹 채팅방 초대 요청이 도착했습니다.",
       });
 
+      // 그룹 채팅방 초대 정보를 socket으로 전달
       io.to(receiverSocketId).emit("groupChatInvite", newGroupChatInvite);
       console.log("그룹 채팅방 초대 요청 알림 전송 완료");
     }
@@ -345,10 +347,7 @@ router.post("/acceptGroupChat", async (req, res) => {
     await db
       .getDb()
       .collection("groupChatInvites")
-      .updateOne(
-        { _id: new ObjectId(groupChatInviteId) },
-        { $set: { status: "수락" } }
-      );
+      .deleteOne({ _id: new ObjectId(groupChatInviteId) });
 
     res.status(200).json({ acceptGroupChat });
   } catch (error) {
