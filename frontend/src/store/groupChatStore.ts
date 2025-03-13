@@ -1,5 +1,9 @@
 import { create } from "zustand";
 
+import { Socket } from "socket.io-client";
+
+import useSocketStore from "./socketStore";
+
 import {
   UserInfo,
   GroupChatData,
@@ -17,6 +21,7 @@ const apiURL = import.meta.env.VITE_API_URL;
 // }
 
 interface GroupChatStore {
+  socket: Socket | null;
   loading: boolean;
   groupChats: GroupChatData[];
   groupChatUsers: Omit<UserInfo, "tokenExp">[];
@@ -51,6 +56,7 @@ interface GroupChatStore {
 }
 
 const useGroupChatStore = create<GroupChatStore>((set, get) => ({
+  socket: null,
   loading: true,
   groupChats: [],
   groupChatUsers: [],
@@ -191,6 +197,16 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
         await response.json();
 
       console.log(resData);
+
+      const socket = useSocketStore.getState().socket;
+      console.log("소켓 있음? :", socket);
+      if (!socket) return; // 소켓이 없으면 실행 안 함
+
+      socket.on("groupChatInvite", (newInvite) => {
+        set((prev) => ({
+          groupChatInvites: [...prev.groupChatInvites, newInvite],
+        }));
+      });
 
       set({ groupChatInvites: resData.groupChatInvites });
     } catch (error) {

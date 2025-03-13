@@ -258,38 +258,39 @@ router.post("/groupChat/:roomId/invite", async (req, res) => {
       });
     }
 
+    const newGroupChatInvite = {
+      roomId: groupChat._id,
+      roomTitle: groupChat.title,
+      requester: requesterId,
+      requesterNickname: othersData.nickname,
+      receiver: receiverId,
+      receiverNickname: nickname,
+      status: "보류",
+      date: `${kstDate.getFullYear()}.${(kstDate.getMonth() + 1)
+        .toString()
+        .padStart(2, "0")}.${kstDate
+        .getDate()
+        .toString()
+        .padStart(2, "0")} ${kstDate
+        .getHours()
+        .toString()
+        .padStart(2, "0")}:${date
+        .getMinutes()
+        .toString()
+        .padStart(2, "0")}:${kstDate.getSeconds().toString().padStart(2, "0")}`,
+    };
+
     await db
       .getDb()
       .collection("groupChatInvites")
-      .insertOne({
-        roomId: groupChat._id,
-        roomTitle: groupChat.title,
-        requester: requesterId,
-        requesterNickname: othersData.nickname,
-        receiver: receiverId,
-        receiverNickname: nickname,
-        status: "보류",
-        date: `${kstDate.getFullYear()}.${(kstDate.getMonth() + 1)
-          .toString()
-          .padStart(2, "0")}.${kstDate
-          .getDate()
-          .toString()
-          .padStart(2, "0")} ${kstDate
-          .getHours()
-          .toString()
-          .padStart(2, "0")}:${date
-          .getMinutes()
-          .toString()
-          .padStart(2, "0")}:${kstDate
-          .getSeconds()
-          .toString()
-          .padStart(2, "0")}`,
-      });
+      .insertOne(newGroupChatInvite);
 
     // 그룹 채팅방 요청을 받은 유저가 온라인 상태인지 확인 후 소켓 알림 보내기
     const io = req.app.get("io"); // Express 앱에서 Socket.io 인스턴스를 가져옴
     const onlineUsers = req.app.get("onlineUsers"); // onlineUsers Map을 가져옴
     const receiverSocketId = onlineUsers.get(friendId.toString());
+
+    console.log(newGroupChatInvite);
 
     if (receiverSocketId) {
       io.to(receiverSocketId).emit("groupChatInviteNotification", {
@@ -297,6 +298,8 @@ router.post("/groupChat/:roomId/invite", async (req, res) => {
         roomTitle: groupChat.title,
         message: "새로운 그룹 채팅방 초대 요청이 도착했습니다.",
       });
+
+      io.to(receiverSocketId).emit("groupChatInvite", newGroupChatInvite);
       console.log("그룹 채팅방 초대 요청 알림 전송 완료");
     }
 
