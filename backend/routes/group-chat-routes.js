@@ -9,6 +9,7 @@ const ObjectId = mongodb.ObjectId;
 
 const router = express.Router();
 
+// 그룹 채팅방 목록 조회 라우터
 router.get("/groupChats", async (req, res) => {
   const othersData = await accessToken(req, res);
 
@@ -30,6 +31,7 @@ router.get("/groupChats", async (req, res) => {
   }
 });
 
+// 그룹 채팅방 참여한 사용자 목록 조회 라우터
 router.get("/groupChat/:roomId/users", async (req, res) => {
   try {
     const { roomId } = req.params;
@@ -66,6 +68,7 @@ router.get("/groupChat/:roomId/users", async (req, res) => {
   }
 });
 
+// 그룹 채팅방 추가 라우터
 router.post("/groupChatForm", async (req, res) => {
   try {
     const groupChatData = req.body;
@@ -102,6 +105,7 @@ router.post("/groupChatForm", async (req, res) => {
   }
 });
 
+// 그룹 채팅방 수정 라우터
 router.patch("/groupChatForm", async (req, res) => {
   try {
     const othersData = await accessToken(req, res);
@@ -165,6 +169,7 @@ router.patch("/groupChatForm", async (req, res) => {
   }
 });
 
+// 그룹 채팅방 삭제 라우터
 router.delete("/groupChat/:roomId", async (req, res) => {
   try {
     let roomId = req.params.roomId;
@@ -197,6 +202,53 @@ router.delete("/groupChat/:roomId", async (req, res) => {
   }
 });
 
+// 그룹 채팅방 나가기 라우터
+router.delete("/leaveGroupChat/:roomId", async (req, res) => {
+  try {
+    const othersData = await accessToken(req, res);
+
+    if (!othersData) {
+      return res.status(401).json({ message: "jwt error" });
+    }
+
+    let roomId = req.params.roomId;
+
+    roomId = new ObjectId(roomId);
+
+    const groupChat = await db
+      .getDb()
+      .collection("groupChats")
+      .findOne({ _id: roomId });
+
+    if (!groupChat) {
+      return res
+        .status(404)
+        .json({ message: "그룹 채팅방을 찾을 수 없습니다." });
+    }
+
+    console.log("나갈 그룹 채팅방:", groupChat);
+
+    console.log(othersData._id);
+
+    // users 배열에서 로그인한 사용자 ID 제거
+    const updatedUsers = groupChat.users.filter(
+      (userId) => userId !== othersData._id.toString()
+    );
+
+    console.log(updatedUsers);
+
+    await db
+      .getDb()
+      .collection("groupChats")
+      .updateOne({ _id: roomId }, { $set: { users: updatedUsers } });
+
+    return res.status(200).json({ message: "그룹 채팅방 나가기 성공" });
+  } catch (error) {
+    errorHandler(res, error, "그룹 채팅방 나가기 중 오류 발생");
+  }
+});
+
+// 그룹 채팅방 초대 목록 조회 라우터
 router.get("/groupChat/invites", async (req, res) => {
   try {
     const othersData = await accessToken(req, res);
@@ -219,6 +271,7 @@ router.get("/groupChat/invites", async (req, res) => {
   }
 });
 
+// 그룹 채팅방 초대 라우터
 router.post("/groupChat/:roomId/invite", async (req, res) => {
   try {
     const othersData = await accessToken(req, res);
@@ -336,6 +389,7 @@ router.post("/acceptGroupChat", async (req, res) => {
         .json({ message: "존재하지 않는 그룹 채팅방 초대 요청입니다." });
     }
 
+    // 중복된 사용자 _id를 추가하지 않음
     const acceptGroupChat = await db
       .getDb()
       .collection("groupChats")
@@ -356,7 +410,6 @@ router.post("/acceptGroupChat", async (req, res) => {
 });
 
 // 그룹 채팅방 초대 거절 라우터
-
 router.delete("/rejectGroupChat/:groupChatInviteId", async (req, res) => {
   try {
     const { groupChatInviteId } = req.params;

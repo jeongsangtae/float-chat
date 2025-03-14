@@ -25,6 +25,7 @@ const GroupChats = () => {
           <GroupChat
             key={groupChat._id}
             _id={groupChat._id}
+            hostId={groupChat.hostId}
             title={groupChat.title}
           />
         ))

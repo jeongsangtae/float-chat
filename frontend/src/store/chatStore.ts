@@ -38,18 +38,26 @@ const useChatStore = create<ChatStore>((set) => ({
 
     // 서버로부터 새로운 메시지를 받을 때마다 메시지 목록에 추가
     // 새로운 메시지 중복 방지 코드
+    // socket.on("newMessage", (newMessage: ChatMessage) => {
+    //   set((prevMsg) => {
+    //     // 기존 메시지와 새로운 메시지가 중복되지 않도록 처리
+    //     const duplicateMessage = prevMsg.messages.some(
+    //       (msg) => msg._id === newMessage._id
+    //     );
+    //     // 중복된 메시지는 추가하지 않음
+    //     return duplicateMessage
+    //       ? prevMsg
+    //       : { messages: [...prevMsg.messages, newMessage] };
+    //   });
+    //   console.log("사용자 input 메시지: ", newMessage);
+    // });
+
     socket.on("newMessage", (newMessage: ChatMessage) => {
-      set((prevMsg) => {
-        // 기존 메시지와 새로운 메시지가 중복되지 않도록 처리
-        const duplicateMessage = prevMsg.messages.some(
-          (msg) => msg._id === newMessage._id
-        );
-        // 중복된 메시지는 추가하지 않음
-        return duplicateMessage
-          ? prevMsg
-          : { messages: [...prevMsg.messages, newMessage] };
-      });
-      console.log("사용자 input 메시지: ", newMessage);
+      set((prevMsg) => ({
+        messages: [...prevMsg.messages, newMessage],
+      }));
+      // setMessages((prevMsg) => [...prevMsg, newMessage]);
+      console.log("사용자 input 메시지: ", newMessage.message);
     });
 
     return () => {

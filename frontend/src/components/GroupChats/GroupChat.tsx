@@ -1,12 +1,14 @@
 import { Link, useNavigate } from "react-router-dom";
 
+import useAuthStore from "../../store/authStore";
 import useGroupChatStore from "../../store/groupChatStore";
 import useModalStore from "../../store/modalStore";
 
 import { GroupChatData } from "../../types";
 
-const GroupChat = ({ _id, title }: GroupChatData) => {
-  const { deleteGroupChat } = useGroupChatStore();
+const GroupChat = ({ _id, hostId, title }: GroupChatData) => {
+  const { userInfo } = useAuthStore();
+  const { deleteGroupChat, leaveGroupChat } = useGroupChatStore();
   const { toggleModal } = useModalStore();
   const navigate = useNavigate();
 
@@ -16,18 +18,36 @@ const GroupChat = ({ _id, title }: GroupChatData) => {
     navigate("/");
   };
 
+  const groupChatLeaveHandler = async (): Promise<void> => {
+    await leaveGroupChat(_id);
+
+    navigate("/");
+  };
+
   return (
     <>
       <Link to={`/group-chat/${_id.toString()}`}>{title}</Link>
-      <button
-        type="button"
-        onClick={() => toggleModal("groupChatForm", "PATCH", { _id, title })}
-      >
-        수정
-      </button>
-      <button type="button" onClick={groupChatDeleteHandler}>
-        삭제
-      </button>
+      {hostId === userInfo?._id ? (
+        <>
+          <button
+            type="button"
+            onClick={() =>
+              toggleModal("groupChatForm", "PATCH", { _id, title })
+            }
+          >
+            수정
+          </button>
+          <button type="button" onClick={groupChatDeleteHandler}>
+            삭제
+          </button>
+        </>
+      ) : (
+        <>
+          <button type="button" onClick={groupChatLeaveHandler}>
+            나가기
+          </button>
+        </>
+      )}
     </>
   );
 };

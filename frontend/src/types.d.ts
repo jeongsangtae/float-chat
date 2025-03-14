@@ -7,6 +7,7 @@ export interface ModalProps {
 
 export interface GroupChatData {
   _id: string; // ObjectId는 JSON으로 변환되면 string으로 직렬화
+  hostId: string;
   title: string;
   date?: string;
 }

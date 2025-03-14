@@ -39,6 +39,7 @@ interface GroupChatStore {
     }
   ) => Promise<void>;
   deleteGroupChat: (_id: string) => Promise<void>;
+  leaveGroupChat: (_id: string) => Promise<void>;
   getGroupChatInvites: () => Promise<void>;
   inviteGroupChat: ({
     roomId,
@@ -153,7 +154,7 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
     });
   },
 
-  deleteGroupChat: async (_id: string) => {
+  deleteGroupChat: async (_id) => {
     try {
       const response = await fetch(`${apiURL}/groupChat/${_id}`, {
         method: "DELETE",
@@ -161,7 +162,7 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
       });
 
       if (!response.ok) {
-        throw new Error(`그룹 채팅방 삭제 실패`);
+        throw new Error("그룹 채팅방 삭제 실패");
       }
 
       // 실시간 반영
@@ -183,6 +184,29 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
     }
   },
 
+  leaveGroupChat: async (_id) => {
+    try {
+      const response = await fetch(`${apiURL}/leaveGroupChat/${_id}`, {
+        method: "DELETE",
+        credentials: "include",
+      });
+
+      if (!response.ok) {
+        throw new Error("그룹 채팅방 나가기 실패");
+      }
+
+      // 실시간 반영
+      const updatedGroupChats = get().groupChats.filter(
+        (chat: GroupChatData) => chat._id !== _id
+      );
+
+      set({ groupChats: updatedGroupChats });
+    } catch (error) {
+      console.error("에러 내용:", error);
+      alert("그룹 채팅방 나가기 중 문제가 발생했습니다.");
+    }
+  },
+
   getGroupChatInvites: async () => {
     try {
       const response = await fetch(`${apiURL}/groupChat/invites`, {
@@ -201,6 +225,9 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
       const socket = useSocketStore.getState().socket;
       console.log("소켓 있음? :", socket);
       if (!socket) return; // 소켓이 없으면 실행 안 함
+
+      // 기존 이벤트 리스너 제거 후 재등록 (중복 방지)
+      socket.off("groupChatInvite");
 
       socket.on("groupChatInvite", (newInvite) => {
         set((prev) => ({
