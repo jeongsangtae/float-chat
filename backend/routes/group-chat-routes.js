@@ -196,7 +196,19 @@ router.delete("/groupChat/:roomId", async (req, res) => {
 
     await db.getDb().collection("groupChats").deleteOne({ _id: roomId });
 
-    res.status(200).json({ message: "그룹 채팅방 삭제 성공" });
+    // Socket.io 및 onlineUsers Map 가져오기
+    const io = req.app.get("io"); // Express 앱에서 Socket.io 인스턴스를 가져옴
+    const onlineUsers = req.app.get("onlineUsers"); // onlineUsers Map을 가져옴
+
+    // 그룹 채팅방에 참여한 사용자들에게 실시간 알림 전송
+    groupChat.users.forEach((userId) => {
+      const socketId = onlineUsers.get(userId);
+      if (socketId) {
+        io.to(socketId).emit("groupChatDelete", roomId);
+      }
+    });
+
+    res.status(200).json({ message: "그룹 채팅방 삭제 성공", roomId });
   } catch (error) {
     errorHandler(res, error, "그룹 채팅방 삭제 중 오류 발생");
   }

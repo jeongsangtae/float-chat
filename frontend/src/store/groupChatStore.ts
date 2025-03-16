@@ -72,6 +72,22 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
         throw new Error("그룹 채팅방 조회 실패");
       }
 
+      const socket = useSocketStore.getState().socket;
+      console.log("소켓 있음? :", socket);
+      if (!socket) return; // 소켓이 없으면 실행 안 함
+
+      // 기존 이벤트 리스너 제거 후 재등록 (중복 방지)
+      socket.off("groupChatDelete");
+
+      // 삭제된 그룹 채팅방에 참여한 다른 사용자 화면에 실시간 반영
+      socket.on("groupChatDelete", (roomId) => {
+        set((prev) => ({
+          groupChats: prev.groupChats.filter(
+            (groupChat: GroupChatData) => groupChat._id !== roomId
+          ),
+        }));
+      });
+
       const resData: { groupChats: GroupChatData[] } = await response.json();
 
       // 상태 업데이트
@@ -165,7 +181,7 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
         throw new Error("그룹 채팅방 삭제 실패");
       }
 
-      // 실시간 반영
+      // 삭제한 사용자 본인 화면 즉시 실시간 반영
       const updatedGroupChats = get().groupChats.filter(
         (groupChat: GroupChatData) => groupChat._id !== _id
       );
