@@ -36,6 +36,7 @@ export interface GroupChatInviteListProps {
   requester: string;
   requesterNickname: string;
   roomTitle: string;
+  status: string;
 }
 
 export interface UserInfo {

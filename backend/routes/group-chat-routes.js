@@ -311,6 +311,13 @@ router.post("/groupChat/:roomId/invite", async (req, res) => {
       });
     }
 
+    const groupChatParticipant = groupChat.users.some(
+      (userId) => userId === receiverId.toString()
+    );
+
+    // console.log(groupChat, receiverId.toString());
+    // console.log(groupChatParticipant ? "참여중" : "미참여");
+
     const newGroupChatInvite = {
       roomId: groupChat._id,
       roomTitle: groupChat.title,
@@ -318,7 +325,7 @@ router.post("/groupChat/:roomId/invite", async (req, res) => {
       requesterNickname: othersData.nickname,
       receiver: receiverId,
       receiverNickname: nickname,
-      status: "보류",
+      status: groupChatParticipant ? "참여중" : "보류",
       date,
       kstDate: `${kstDate.getFullYear()}.${(kstDate.getMonth() + 1)
         .toString()

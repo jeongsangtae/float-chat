@@ -1,3 +1,5 @@
+import { useNavigate } from "react-router-dom";
+
 import { GroupChatInviteListProps } from "../../types";
 
 import useAuthStore from "../../store/authStore";
@@ -9,7 +11,9 @@ const GroupChatInviteList = ({
   requester,
   requesterNickname,
   roomTitle,
+  status,
 }: GroupChatInviteListProps) => {
+  const navigate = useNavigate();
   const { userInfo } = useAuthStore();
   const { getGroupChats, acceptGroupChatInvite, rejectGroupChatInvite } =
     useGroupChatStore();
@@ -25,20 +29,27 @@ const GroupChatInviteList = ({
     await rejectGroupChatInvite(groupChatInviteId);
   };
 
-  console.log(groupChatInviteId);
+  const groupChatMoveHandler = (): void => {
+    navigate(`/group-chat/${groupChatId}`);
+  };
 
   const sendRequest = userInfo?._id === requester;
+  const participant = status === "참여중";
 
   return (
     <>
       <ul>
         <li>{requesterNickname}</li>
         <li>{roomTitle}</li>
-        {!sendRequest && (
+        {!sendRequest && !participant && (
           <>
             <button onClick={acceptGroupChatInviteHandler}>수락</button>
             <button onClick={rejectGroupChatInviteHandler}>거절</button>
           </>
+        )}
+
+        {!sendRequest && participant && (
+          <button onClick={groupChatMoveHandler}>참여중</button>
         )}
       </ul>
     </>

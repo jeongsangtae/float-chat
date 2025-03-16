@@ -167,7 +167,7 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
 
       // 실시간 반영
       const updatedGroupChats = get().groupChats.filter(
-        (chat: GroupChatData) => chat._id !== _id
+        (groupChat: GroupChatData) => groupChat._id !== _id
       );
 
       set({ groupChats: updatedGroupChats });
@@ -197,7 +197,7 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
 
       // 실시간 반영
       const updatedGroupChats = get().groupChats.filter(
-        (chat: GroupChatData) => chat._id !== _id
+        (groupChat: GroupChatData) => groupChat._id !== _id
       );
 
       set({ groupChats: updatedGroupChats });
