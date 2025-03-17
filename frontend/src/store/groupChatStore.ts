@@ -117,12 +117,39 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
       if (!socket) return; // 소켓이 없으면 실행 안 함
 
       // 기존 이벤트 리스너 제거 후 재등록 (중복 방지)
+      socket.off("acceptGroupChat");
       socket.off("groupChatLeave");
+
+      // 그룹 채팅방에 새로운 사용자가 추가되었을 때, 사용자 목록을 실시간 반영
+      // 중복 방지를 위해 some을 사용
+      socket.on("acceptGroupChat", (newUser) => {
+        set((prev) => ({
+          groupChatUsers: prev.groupChatUsers.some(
+            (user) => user._id === newUser._id
+          )
+            ? prev.groupChatUsers
+            : [...prev.groupChatUsers, newUser],
+        }));
+      });
+
+      // concat을 사용해 그룹 채팅방 사용자 목록을 실시간 반영
+      // socket.on("acceptGroupChat", (newUser) => {
+      //   set((prev) => ({
+      //     groupChatUsers: prev.groupChatUsers.concat(newUser),
+      //   }));
+      // });
+
+      // concat을 사용하고 중복 방지 내용을 적용
+      // socket.on("acceptGroupChat", (newUser) => {
+      //   set((prev) => ({
+      //     groupChatUsers: prev.groupChatUsers.find(user => user._id === newUser._id)
+      //       ? prev.groupChatUsers
+      //       : prev.groupChatUsers.concat(newUser),
+      //   }));
+      // });
 
       // 그룹 채팅방을 나간 사용자를 제외한 사용자 목록을 실시간 반영
       socket.on("groupChatLeave", (leavingUserId) => {
-        console.log(leavingUserId);
-
         set((prev) => ({
           groupChatUsers: prev.groupChatUsers.filter(
             (groupChatUser: Omit<UserInfo, "tokenExp">) =>

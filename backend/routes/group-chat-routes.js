@@ -404,6 +404,8 @@ router.post("/acceptGroupChat", async (req, res) => {
       return res.status(401).json({ message: "jwt error" });
     }
 
+    // console.log(othersData, "로그인한 사용자 정보");
+
     const { groupChatId, groupChatInviteId } = req.body;
 
     // let date = new Date();
@@ -433,6 +435,34 @@ router.post("/acceptGroupChat", async (req, res) => {
       .getDb()
       .collection("groupChatInvites")
       .deleteOne({ _id: new ObjectId(groupChatInviteId) });
+
+    const groupChat = await db
+      .getDb()
+      .collection("groupChats")
+      .findOne({ _id: new ObjectId(groupChatId) });
+
+    if (!groupChat) {
+      return res
+        .status(404)
+        .json({ message: "그룹 채팅방을 찾을 수 없습니다." });
+    }
+
+    // Socket.io 및 onlineUsers Map 가져오기
+    const io = req.app.get("io"); // Express 앱에서 Socket.io 인스턴스를 가져옴
+    const onlineUsers = req.app.get("onlineUsers"); // onlineUsers Map을 가져옴
+
+    // 그룹 채팅방에 참여한 사용자들에게 실시간 알림 전송
+    groupChat.users.forEach((userId) => {
+      const socketId = onlineUsers.get(userId);
+      if (socketId) {
+        io.to(socketId).emit("acceptGroupChat", {
+          _id: othersData._id,
+          email: othersData.email,
+          nickname: othersData.nickname,
+          username: othersData.username,
+        });
+      }
+    });
 
     res.status(200).json({ acceptGroupChat });
   } catch (error) {
