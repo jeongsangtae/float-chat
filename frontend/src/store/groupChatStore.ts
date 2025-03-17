@@ -112,6 +112,25 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
         throw new Error("그룹 채팅방 참여자 조회 실패");
       }
 
+      const socket = useSocketStore.getState().socket;
+      console.log("소켓 있음? :", socket);
+      if (!socket) return; // 소켓이 없으면 실행 안 함
+
+      // 기존 이벤트 리스너 제거 후 재등록 (중복 방지)
+      socket.off("groupChatLeave");
+
+      // 그룹 채팅방을 나간 사용자를 제외한 사용자 목록을 실시간 반영
+      socket.on("groupChatLeave", (leavingUserId) => {
+        console.log(leavingUserId);
+
+        set((prev) => ({
+          groupChatUsers: prev.groupChatUsers.filter(
+            (groupChatUser: Omit<UserInfo, "tokenExp">) =>
+              groupChatUser._id !== leavingUserId
+          ),
+        }));
+      });
+
       const resData: { groupChatUsers: Omit<UserInfo, "tokenExp">[] } =
         await response.json();
 

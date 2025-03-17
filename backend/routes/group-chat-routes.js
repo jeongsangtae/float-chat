@@ -247,12 +247,24 @@ router.delete("/leaveGroupChat/:roomId", async (req, res) => {
       (userId) => userId !== othersData._id.toString()
     );
 
-    console.log(updatedUsers);
-
     await db
       .getDb()
       .collection("groupChats")
       .updateOne({ _id: roomId }, { $set: { users: updatedUsers } });
+
+    await db.getDb().collection("groupChatInvites").deleteMany({ roomId });
+
+    // Socket.io 및 onlineUsers Map 가져오기
+    const io = req.app.get("io"); // Express 앱에서 Socket.io 인스턴스를 가져옴
+    const onlineUsers = req.app.get("onlineUsers"); // onlineUsers Map을 가져옴
+
+    // 그룹 채팅방에 참여한 사용자들에게 실시간 알림 전송
+    updatedUsers.forEach((userId) => {
+      const socketId = onlineUsers.get(userId);
+      if (socketId) {
+        io.to(socketId).emit("groupChatLeave", othersData._id.toString());
+      }
+    });
 
     return res.status(200).json({ message: "그룹 채팅방 나가기 성공" });
   } catch (error) {
