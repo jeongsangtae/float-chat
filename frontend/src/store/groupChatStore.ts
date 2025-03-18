@@ -86,6 +86,10 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
             (groupChat: GroupChatData) => groupChat._id !== roomId
           ),
         }));
+
+        if (window.location.pathname === `/group-chat/${roomId}`) {
+          window.location.href = "/";
+        }
       });
 
       const resData: { groupChats: GroupChatData[] } = await response.json();
