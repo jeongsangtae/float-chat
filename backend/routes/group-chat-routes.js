@@ -252,7 +252,13 @@ router.delete("/leaveGroupChat/:roomId", async (req, res) => {
       .collection("groupChats")
       .updateOne({ _id: roomId }, { $set: { users: updatedUsers } });
 
-    await db.getDb().collection("groupChatInvites").deleteMany({ roomId });
+    await db
+      .getDb()
+      .collection("groupChatInvites")
+      .deleteMany({
+        roomId,
+        $or: [{ receiver: othersData._id }, { requester: othersData._id }],
+      });
 
     // Socket.io 및 onlineUsers Map 가져오기
     const io = req.app.get("io"); // Express 앱에서 Socket.io 인스턴스를 가져옴
