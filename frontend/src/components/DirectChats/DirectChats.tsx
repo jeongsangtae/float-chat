@@ -23,8 +23,6 @@ const DirectChats = () => {
       `${data.roomTitle} 그룹 채팅에 초대했습니다.`,
   };
 
-  console.log(groupChatInvites);
-
   useEffect(() => {
     if (isLoggedIn) {
       getGroupChatInvites();

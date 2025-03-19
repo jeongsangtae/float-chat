@@ -73,7 +73,7 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
       }
 
       const socket = useSocketStore.getState().socket;
-      console.log("소켓 있음? :", socket);
+      // console.log("소켓 있음? :", socket);
       if (!socket) return; // 소켓이 없으면 실행 안 함
 
       // 기존 이벤트 리스너 제거 후 재등록 (중복 방지)
@@ -87,6 +87,7 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
           ),
         }));
 
+        // 현재 사용자가 삭제된 방에 있는 경우 홈으로 이동
         if (window.location.pathname === `/group-chat/${roomId}`) {
           window.location.href = "/";
         }
@@ -117,7 +118,7 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
       }
 
       const socket = useSocketStore.getState().socket;
-      console.log("소켓 있음? :", socket);
+      // console.log("소켓 있음? :", socket);
       if (!socket) return; // 소켓이 없으면 실행 안 함
 
       // 기존 이벤트 리스너 제거 후 재등록 (중복 방지)
@@ -286,10 +287,8 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
       const resData: { groupChatInvites: GroupChatInvites[] } =
         await response.json();
 
-      console.log(resData);
-
       const socket = useSocketStore.getState().socket;
-      console.log("소켓 있음? :", socket);
+      // console.log("소켓 있음? :", socket);
       if (!socket) return; // 소켓이 없으면 실행 안 함
 
       // 기존 이벤트 리스너 제거 후 재등록 (중복 방지)

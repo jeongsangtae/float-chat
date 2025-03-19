@@ -42,8 +42,6 @@ const useFriendStore = create<FriendStore>((set) => ({
 
       const resData: { friends: Friend[] } = await response.json();
 
-      console.log(resData.friends);
-
       set({ friends: resData.friends });
     } catch (error) {
       console.error("에러 내용:", error);
@@ -63,8 +61,6 @@ const useFriendStore = create<FriendStore>((set) => ({
 
       const resData: { friendRequests: FriendRequest[] } =
         await response.json();
-
-      console.log(resData);
 
       set({ friendRequests: resData.friendRequests });
     } catch (error) {
@@ -114,9 +110,9 @@ const useFriendStore = create<FriendStore>((set) => ({
         throw new Error("친구 요청 수락 실패");
       }
 
-      const resData = await response.json();
+      // const resData = await response.json();
 
-      console.log(resData.acceptFriend);
+      // console.log(resData.acceptFriend);
 
       set((prevFriendRequests) => ({
         friendRequests: prevFriendRequests.friendRequests.filter(
@@ -144,9 +140,9 @@ const useFriendStore = create<FriendStore>((set) => ({
         throw new Error("친구 요청 취소 또는 거절 실패");
       }
 
-      const resData = await response.json();
+      // const resData = await response.json();
 
-      console.log(resData.message);
+      // console.log(resData.message);
 
       // set({ friendRequests: resData.friendRequests });
       set((prevFriendRequests) => ({
@@ -171,9 +167,9 @@ const useFriendStore = create<FriendStore>((set) => ({
         throw new Error("친구 삭제 실패");
       }
 
-      const resData = await response.json();
+      // const resData = await response.json();
 
-      console.log(resData.message);
+      // console.log(resData.message);
 
       // set((prevFriends) => ({
       //   friends: prevFriends.friends.filter((req) => req._id !== friendId),

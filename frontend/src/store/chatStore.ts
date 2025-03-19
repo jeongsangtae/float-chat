@@ -26,7 +26,7 @@ const useChatStore = create<ChatStore>((set) => ({
 
   newMessage: () => {
     const socket = useSocketStore.getState().socket;
-    console.log("소켓 있음? :", socket);
+    // console.log("소켓 있음? :", socket);
     if (!socket) return; // 소켓이 없으면 실행 안 함
 
     // socket.emit("joinRoom", { roomId });

@@ -129,6 +129,8 @@ const useSocketStore = create<SocketStore>((set, get) => ({
     const socket = get().socket;
     if (!socket) return;
 
+    // socket.off("messageNotification");
+
     socket.emit("joinRoom", roomId); // 채팅방 입장
     set({ currentRoom: roomId });
 
