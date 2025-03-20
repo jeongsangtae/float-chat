@@ -578,21 +578,32 @@ router.post("/chat/:roomId", async (req, res) => {
     io.to(chatRoomId).emit("newMessage", newMessage); // 해당 채팅방에 메시지 전송
 
     const onlineUsers = req.app.get("onlineUsers"); // onlineUsers Map을 가져옴
-    const roomUsers = req.app.get("roomUsers");
-    const roomSockets = roomUsers.get(chatRoomId);
+    // const roomUsers = req.app.get("roomUsers");
+    // const roomSockets = roomUsers.get(chatRoomId);
 
-    console.log(roomSockets);
+    // console.log(roomSockets);
 
-    if (roomSockets) {
-      roomSockets.forEach((socketId) => {
+    groupChat.users.forEach((userId) => {
+      const socketId = onlineUsers.get(userId);
+      if (socketId) {
         io.to(socketId).emit("messageNotification", {
           id: new ObjectId().toString(),
           roomTitle: groupChat.title,
           message: "새로운 메시지가 추가되었습니다.",
         });
-      });
-      console.log("새로운 메시지 알림 전송 완료");
-    }
+      }
+    });
+
+    // if (roomSockets) {
+    //   roomSockets.forEach((socketId) => {
+    //     io.to(socketId).emit("messageNotification", {
+    //       id: new ObjectId().toString(),
+    //       roomTitle: groupChat.title,
+    //       message: "새로운 메시지가 추가되었습니다.",
+    //     });
+    //   });
+    //   console.log("새로운 메시지 알림 전송 완료");
+    // }
 
     // if (joinRoomUsers) {
     //   io.to(joinRoomUsers).emit("messageNotification", {
