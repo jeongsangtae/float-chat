@@ -79,7 +79,7 @@ app.set("io", io);
 // onlineUsers 맵으로 변경
 const onlineUsers = new Map(); // userId -> socketId 저장
 
-const roomUsers = new Map(); // roomId -> socketId 저장
+// const roomUsers = new Map(); // roomId -> socketId 저장
 
 app.set("onlineUsers", onlineUsers);
 
@@ -98,9 +98,10 @@ io.on("connection", (socket) => {
   // 클라이언트를 특정 방에 참여시킴
   socket.on("joinRoom", (roomId) => {
     const chatRoomId = `room-${roomId}`;
+    // socket.leaveAll();
     socket.join(chatRoomId);
 
-    // // 방에 사용자를 추가
+    // // 현재 방에 있는 사용자 목록을 저장 (방에 사용자 추가)
     // if (!roomUsers.has(chatRoomId)) {
     //   roomUsers.set(chatRoomId, []); // 방에 해당하는 배열이 없으면 새로 생성
     // }

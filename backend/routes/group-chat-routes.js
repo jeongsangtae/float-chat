@@ -583,9 +583,16 @@ router.post("/chat/:roomId", async (req, res) => {
 
     // console.log(roomSockets);
 
+    // 메시지 보낸 사용자 제외하고, 현재 방에 없는 사용자에게만 알림 전송
     groupChat.users.forEach((userId) => {
+      // 메시지를 전달하는 사용자와 일치하는 사용자는 건너뛰고 전달
+      // 메시지를 보낸 사람 제외
+      if (userId === othersData._id.toString()) return;
+
       const socketId = onlineUsers.get(userId);
+
       if (socketId) {
+        // if (socketId && !roomSockets.includes(socketId)) {
         io.to(socketId).emit("messageNotification", {
           id: new ObjectId().toString(),
           roomTitle: groupChat.title,
