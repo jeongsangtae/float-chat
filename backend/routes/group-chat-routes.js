@@ -578,8 +578,8 @@ router.post("/chat/:roomId", async (req, res) => {
     io.to(chatRoomId).emit("newMessage", newMessage); // 해당 채팅방에 메시지 전송
 
     const onlineUsers = req.app.get("onlineUsers"); // onlineUsers Map을 가져옴
-    // const roomUsers = req.app.get("roomUsers");
-    // const roomSockets = roomUsers.get(chatRoomId);
+    const roomUsers = req.app.get("roomUsers");
+    const roomSockets = roomUsers.get(chatRoomId);
 
     // console.log(roomSockets);
 
@@ -591,8 +591,8 @@ router.post("/chat/:roomId", async (req, res) => {
 
       const socketId = onlineUsers.get(userId);
 
-      if (socketId) {
-        // if (socketId && !roomSockets.includes(socketId)) {
+      // if (socketId) {
+      if (socketId && !roomSockets.includes(socketId)) {
         io.to(socketId).emit("messageNotification", {
           id: new ObjectId().toString(),
           roomTitle: groupChat.title,

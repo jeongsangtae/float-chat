@@ -79,11 +79,11 @@ app.set("io", io);
 // onlineUsers 맵으로 변경
 const onlineUsers = new Map(); // userId -> socketId 저장
 
-// const roomUsers = new Map(); // roomId -> socketId 저장
+const roomUsers = new Map(); // roomId -> socketId 저장
 
 app.set("onlineUsers", onlineUsers);
 
-// app.set("roomUsers", roomUsers);
+app.set("roomUsers", roomUsers);
 
 // 클라이언트가 Socket.io 연결을 맺을 때 실행되는 이벤트 함수
 // Socket.io 설정
@@ -98,20 +98,29 @@ io.on("connection", (socket) => {
   socket.on("leaveRoom", (roomId) => {
     const chatRoomId = `room-${roomId}`;
     socket.leave(chatRoomId);
+
+    // 그룹 채팅방을 떠날 때 자동으로 roomUsers 목록에서 사용자 socket.id 제거
+    // roomUsers에서 해당 사용자의 socketId 제거
+    if (roomUsers.has(chatRoomId)) {
+      roomUsers.set(
+        chatRoomId,
+        roomUsers.get(chatRoomId).filter((id) => id !== socket.id)
+      );
+    }
+
     console.log(`사용자가 방 나감: ${chatRoomId}`);
   });
 
   // 클라이언트를 특정 방에 참여시킴
   socket.on("joinRoom", (roomId) => {
     const chatRoomId = `room-${roomId}`;
-    // socket.leaveAll();
     socket.join(chatRoomId);
 
-    // // 현재 방에 있는 사용자 목록을 저장 (방에 사용자 추가)
-    // if (!roomUsers.has(chatRoomId)) {
-    //   roomUsers.set(chatRoomId, []); // 방에 해당하는 배열이 없으면 새로 생성
-    // }
-    // roomUsers.get(chatRoomId).push(socket.id); // 해당 방에 사용자 소켓 ID 추가
+    // 현재 방에 있는 사용자 목록을 저장 (방에 사용자 추가)
+    if (!roomUsers.has(chatRoomId)) {
+      roomUsers.set(chatRoomId, []); // 방에 해당하는 배열이 없으면 새로 생성
+    }
+    roomUsers.get(chatRoomId).push(socket.id); // 해당 방에 사용자 소켓 ID 추가
 
     console.log(`방 번호: ${chatRoomId} 입장`);
   });
