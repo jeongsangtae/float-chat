@@ -16,6 +16,7 @@ interface SocketStore {
   notification: Notification[];
   connect: () => void;
   joinGroupChat: (roomId: string) => void;
+  leaveGroupChat: () => void;
   disconnect: () => void;
 }
 
@@ -142,16 +143,18 @@ const useSocketStore = create<SocketStore>((set, get) => ({
     console.log(`${roomId} 그룹 채팅방 입장`);
   },
 
-  // 나중에 방에 참여한 사용자가 그룹 채팅방을 떠날 때 사용할 예정
-  // leaveGroupChat: () => {
-  //   const socket = get().socket;
-  //   if (!socket || !get().currentRoom) return;
+  // 방을 이동할 때 먼저 사용될 방 나가기 로직
+  leaveGroupChat: () => {
+    const socket = get().socket;
+    if (!socket || !get().currentRoom) return;
 
-  //   socket.emit("leaveRoom", get().currentRoom);
-  //   set({ currentRoom: null });
+    socket.emit("leaveRoom", get().currentRoom);
+    set({ currentRoom: null });
 
-  //   console.log("채팅방 나가기");
-  // },
+    localStorage.removeItem("currentRoom");
+
+    console.log("채팅방 나가기");
+  },
 
   disconnect: () => {
     get().socket?.disconnect();

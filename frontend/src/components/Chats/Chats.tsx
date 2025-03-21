@@ -8,13 +8,14 @@ import { RoomId } from "../../types";
 
 const Chats = ({ roomId }: RoomId) => {
   const { chatData, messages } = useChatStore();
-  const { joinGroupChat } = useSocketStore();
+  const { joinGroupChat, leaveGroupChat } = useSocketStore();
 
   useEffect(() => {
     if (!roomId) {
       console.error("roomId가 정의되지 않았습니다.");
       return;
     }
+    leaveGroupChat();
     joinGroupChat(roomId);
   }, [roomId]);
 

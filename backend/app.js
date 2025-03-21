@@ -95,6 +95,12 @@ io.on("connection", (socket) => {
     console.log(`사용자 온라인: ${userId}, ${socket.id}`);
   });
 
+  socket.on("leaveRoom", (roomId) => {
+    const chatRoomId = `room-${roomId}`;
+    socket.leave(chatRoomId);
+    console.log(`사용자가 방 나감: ${chatRoomId}`);
+  });
+
   // 클라이언트를 특정 방에 참여시킴
   socket.on("joinRoom", (roomId) => {
     const chatRoomId = `room-${roomId}`;
