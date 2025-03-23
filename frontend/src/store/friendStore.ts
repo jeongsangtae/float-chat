@@ -18,7 +18,7 @@ interface FriendStore {
   ) => Promise<void>;
   acceptFriendRequest: (friendRequestId: string) => Promise<void>;
   rejectFriendRequest: (friendRequestId: string) => Promise<void>;
-  deleteFriend: (friendId: string) => Promise<void>;
+  deleteFriend: (friendId: string, userId: string) => Promise<void>;
 }
 
 const useFriendStore = create<FriendStore>((set) => ({
@@ -156,7 +156,7 @@ const useFriendStore = create<FriendStore>((set) => ({
     }
   },
 
-  deleteFriend: async (friendId) => {
+  deleteFriend: async (friendId, userId) => {
     try {
       const response = await fetch(`${apiURL}/deleteFriend/${friendId}`, {
         method: "DELETE",
@@ -172,8 +172,19 @@ const useFriendStore = create<FriendStore>((set) => ({
       // console.log(resData.message);
 
       // set((prevFriends) => ({
-      //   friends: prevFriends.friends.filter((req) => req._id !== friendId),
+      //   friends: prevFriends.friends.filter(
+      //     (friend) => friend._id !== friendId
+      //   ),
       // }));
+      set((prevFriends) => ({
+        friends: prevFriends.friends.filter((friend) => {
+          return !(
+            (friend.requester.id === friendId ||
+              friend.receiver.id === friendId) &&
+            (friend.requester.id === userId || friend.receiver.id === userId)
+          );
+        }),
+      }));
     } catch (error) {
       console.error("에러 내용:", error);
       alert("친구 삭제 중 문제가 발생했습니다.");

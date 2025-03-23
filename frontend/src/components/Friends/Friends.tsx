@@ -44,7 +44,12 @@ const Friends = () => {
       </button>
       {activeTab === "all" &&
         filteredFriends.map((friend) => (
-          <Friend key={friend.id} id={friend.id} nickname={friend.nickname} />
+          <Friend
+            key={friend.id}
+            userId={userInfo?._id}
+            id={friend.id}
+            nickname={friend.nickname}
+          />
         ))}
       {activeTab === "pending" &&
         friendRequests.map((friendRequest) => (

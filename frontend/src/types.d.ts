@@ -61,6 +61,7 @@ export interface ChatMessage {
 
 export interface FriendUser {
   id: string; // _id 대신 id 사용
+  userId: string | undefined;
   nickname: string;
 }
 
