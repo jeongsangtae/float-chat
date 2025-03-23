@@ -76,6 +76,18 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
       // console.log("소켓 있음? :", socket);
       if (!socket) return; // 소켓이 없으면 실행 안 함
 
+      socket.off("groupChatEdit");
+
+      socket.on("groupChatEdit", (updatedGroupChatData) => {
+        set((prev) => ({
+          groupChats: prev.groupChats.map((groupChat) =>
+            groupChat._id === updatedGroupChatData._id
+              ? { ...groupChat, ...updatedGroupChatData }
+              : groupChat
+          ),
+        }));
+      });
+
       // 기존 이벤트 리스너 제거 후 재등록 (중복 방지)
       socket.off("groupChatDelete");
 
@@ -186,6 +198,8 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
     const { _id, email, username, nickname } = userInfo;
 
     const requestBody = { title, _id, email, username, nickname, modalData };
+
+    console.log(requestBody.modalData);
 
     const response = await fetch(`${apiURL}/groupChatForm`, {
       method: modalData.method,

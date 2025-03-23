@@ -130,7 +130,8 @@ router.patch("/groupChatForm", async (req, res) => {
         .json({ message: "그룹 채팅방을 찾을 수 없습니다." });
     }
 
-    if (groupChat.email !== othersData.email) {
+    // 로그인한 사용자 이메일이 아닌, 프론트엔드에서 전달한 이메일 정보를 사용하는 것이 좋은가 ?
+    if (groupChat.hostEmail !== othersData.email) {
       return res
         .status(403)
         .json({ message: "그룹 채팅방을 수정할 권한이 없습니다." });
@@ -162,6 +163,18 @@ router.patch("/groupChatForm", async (req, res) => {
         { _id: new ObjectId(groupChatData.modalData._id) },
         { $set: editGroupChat }
       );
+
+    // Socket.io 및 onlineUsers Map 가져오기
+    const io = req.app.get("io"); // Express 앱에서 Socket.io 인스턴스를 가져옴
+    const onlineUsers = req.app.get("onlineUsers"); // onlineUsers Map을 가져옴
+
+    // 그룹 채팅방에 참여한 사용자들에게 실시간 알림 전송
+    groupChat.users.forEach((userId) => {
+      const socketId = onlineUsers.get(userId);
+      if (socketId) {
+        io.to(socketId).emit("groupChatEdit", editGroupChat);
+      }
+    });
 
     res.status(200).json({ editGroupChat });
   } catch (error) {
