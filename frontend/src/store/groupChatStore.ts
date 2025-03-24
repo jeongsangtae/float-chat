@@ -314,6 +314,23 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
         }));
       });
 
+      // 중복 방지
+      socket.off("groupChatInviteDelete");
+
+      socket.on("groupChatInvitesDelete", ({ userId, friendId }) => {
+        set((prev) => ({
+          groupChatInvites: prev.groupChatInvites.filter(
+            (groupChatInvite) =>
+              !(
+                (groupChatInvite.requester === friendId &&
+                  groupChatInvite.receiver === userId) ||
+                (groupChatInvite.requester === userId &&
+                  groupChatInvite.receiver === friendId)
+              )
+          ),
+        }));
+      });
+
       set({ groupChatInvites: resData.groupChatInvites });
     } catch (error) {
       console.error("에러 내용:", error);

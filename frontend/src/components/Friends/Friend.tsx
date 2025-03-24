@@ -1,9 +1,11 @@
 import { FriendUser } from "../../types";
 
 import useFriendStore from "../../store/friendStore";
+import useGroupChatStore from "../../store/groupChatStore";
 
 const Friend = ({ id, userId, nickname }: FriendUser) => {
   const { deleteFriend } = useFriendStore();
+  const { getGroupChatInvites } = useGroupChatStore();
 
   const deleteFriendHandler = async (): Promise<void> => {
     if (!userId) {
@@ -12,6 +14,7 @@ const Friend = ({ id, userId, nickname }: FriendUser) => {
     }
 
     await deleteFriend(id, userId);
+    await getGroupChatInvites();
   };
 
   return (
