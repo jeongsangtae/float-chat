@@ -253,6 +253,7 @@ router.delete("/rejectFriend/:friendRequestId", async (req, res) => {
   }
 });
 
+// 친구 삭제 라우터
 router.delete("/deleteFriend/:friendId", async (req, res) => {
   try {
     const othersData = await accessToken(req, res);
@@ -266,6 +267,16 @@ router.delete("/deleteFriend/:friendId", async (req, res) => {
     const friendId = new ObjectId(req.params.friendId);
 
     console.log(userId, friendId);
+
+    await db
+      .getDb()
+      .collection("groupChatInvites")
+      .deleteMany({
+        $or: [
+          { requester: userId, receiver: friendId },
+          { requester: friendId, receiver: userId },
+        ],
+      });
 
     const result = await db
       .getDb()
@@ -281,6 +292,18 @@ router.delete("/deleteFriend/:friendId", async (req, res) => {
       return res
         .status(404)
         .json({ message: "삭제할 친구 데이터가 없습니다." });
+    }
+
+    // Socket.io 및 onlineUsers Map 가져오기
+    const io = req.app.get("io"); // Express 앱에서 Socket.io 인스턴스를 가져옴
+    const onlineUsers = req.app.get("onlineUsers"); // onlineUsers Map을 가져옴
+
+    const socketId = onlineUsers.get(friendId.toString());
+    if (socketId) {
+      io.to(socketId).emit("friendDelete", {
+        userId,
+        friendId,
+      });
     }
 
     res.status(200).json({ message: "친구가 삭제되었습니다." });

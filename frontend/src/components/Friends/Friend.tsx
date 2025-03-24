@@ -12,7 +12,6 @@ const Friend = ({ id, userId, nickname }: FriendUser) => {
     }
 
     await deleteFriend(id, userId);
-    console.log(id);
   };
 
   return (

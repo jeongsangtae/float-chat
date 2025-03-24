@@ -1,10 +1,15 @@
 import { create } from "zustand";
 
+import { Socket } from "socket.io-client";
+
+import useSocketStore from "./socketStore";
+
 import { UserInfo, Friend, FriendRequest } from "../types";
 
 const apiURL = import.meta.env.VITE_API_URL;
 
 interface FriendStore {
+  socket: Socket | null;
   friends: Friend[];
   friendRequests: FriendRequest[];
   status: number;
@@ -22,6 +27,7 @@ interface FriendStore {
 }
 
 const useFriendStore = create<FriendStore>((set) => ({
+  socket: null,
   friends: [],
   friendRequests: [],
   status: 0,
@@ -39,6 +45,26 @@ const useFriendStore = create<FriendStore>((set) => ({
       if (!response.ok) {
         throw new Error("친구 목록 조회 실패");
       }
+
+      const socket = useSocketStore.getState().socket;
+      if (!socket) return; // 소켓이 없으면 실행 안 함
+
+      // 기존 이벤트 리스너 제거 후 재등록 (중복 방지)
+      socket.off("friendDelete");
+
+      // 삭제한 친구를 상대방 화면에 실시간 반영
+      socket.on("friendDelete", ({ userId, friendId }) => {
+        set((prev) => ({
+          friends: prev.friends.filter((friend: Friend) => {
+            return !(
+              (friend.requester.id === friendId &&
+                friend.receiver.id === userId) ||
+              (friend.requester.id === userId &&
+                friend.receiver.id === friendId)
+            );
+          }),
+        }));
+      });
 
       const resData: { friends: Friend[] } = await response.json();
 
@@ -179,9 +205,9 @@ const useFriendStore = create<FriendStore>((set) => ({
       set((prevFriends) => ({
         friends: prevFriends.friends.filter((friend) => {
           return !(
-            (friend.requester.id === friendId ||
-              friend.receiver.id === friendId) &&
-            (friend.requester.id === userId || friend.receiver.id === userId)
+            (friend.requester.id === friendId &&
+              friend.receiver.id === userId) ||
+            (friend.requester.id === userId && friend.receiver.id === friendId)
           );
         }),
       }));
