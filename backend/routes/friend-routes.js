@@ -300,8 +300,8 @@ router.delete("/deleteFriend/:friendId", async (req, res) => {
 
     const socketId = onlineUsers.get(friendId.toString());
     if (socketId) {
-      // 그룹 채팅방 초대 목록 삭제를 알리는 이벤트
-      io.to(socketId).emit("groupChatInvitesDelete", {
+      // 친구 삭제 시에 해당 친구와 관련된 그룹 채팅방 초대 목록 삭제를 알리는 이벤트
+      io.to(socketId).emit("friendDeleteGroupChatInviteCleanup", {
         userId,
         friendId,
       });

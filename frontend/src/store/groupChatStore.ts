@@ -308,6 +308,7 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
       // 기존 이벤트 리스너 제거 후 재등록 (중복 방지)
       socket.off("groupChatInvite");
 
+      // 그룹 채팅방 초대 실시간 반영
       socket.on("groupChatInvite", (newInvite) => {
         set((prev) => ({
           groupChatInvites: [...prev.groupChatInvites, newInvite],
@@ -315,18 +316,34 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
       });
 
       // 중복 방지
-      socket.off("groupChatInviteDelete");
+      socket.off("friendDeleteGroupChatInviteCleanup");
 
-      socket.on("groupChatInvitesDelete", ({ userId, friendId }) => {
+      // 친구 삭제 시에 해당 친구와 관련된 그룹 채팅방 초대 목록 모두 삭제 실시간 반영
+      socket.on(
+        "friendDeleteGroupChatInviteCleanup",
+        ({ userId, friendId }) => {
+          set((prev) => ({
+            groupChatInvites: prev.groupChatInvites.filter(
+              (groupChatInvite) =>
+                !(
+                  (groupChatInvite.requester === friendId &&
+                    groupChatInvite.receiver === userId) ||
+                  (groupChatInvite.requester === userId &&
+                    groupChatInvite.receiver === friendId)
+                )
+            ),
+          }));
+        }
+      );
+
+      // 중복 방지
+      socket.off("groupChatInvitesDelete");
+
+      // 그룹 채팅방 삭제 시에 그룹 채팅방 초대 목록 정리 실시간 반영
+      socket.on("groupChatInvitesDelete", (roomId) => {
         set((prev) => ({
           groupChatInvites: prev.groupChatInvites.filter(
-            (groupChatInvite) =>
-              !(
-                (groupChatInvite.requester === friendId &&
-                  groupChatInvite.receiver === userId) ||
-                (groupChatInvite.requester === userId &&
-                  groupChatInvite.receiver === friendId)
-              )
+            (groupChatInvite) => groupChatInvite.roomId !== roomId
           ),
         }));
       });

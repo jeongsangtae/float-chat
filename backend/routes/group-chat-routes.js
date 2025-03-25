@@ -217,6 +217,7 @@ router.delete("/groupChat/:roomId", async (req, res) => {
     groupChat.users.forEach((userId) => {
       const socketId = onlineUsers.get(userId);
       if (socketId) {
+        io.to(socketId).emit("groupChatInvitesDelete", roomId);
         io.to(socketId).emit("groupChatDelete", roomId);
       }
     });
