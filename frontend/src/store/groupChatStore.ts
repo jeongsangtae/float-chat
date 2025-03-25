@@ -337,13 +337,30 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
       );
 
       // 중복 방지
-      socket.off("groupChatInvitesDelete");
+      socket.off("groupChatDeleteInvitesDelete");
 
       // 그룹 채팅방 삭제 시에 그룹 채팅방 초대 목록 정리 실시간 반영
-      socket.on("groupChatInvitesDelete", (roomId) => {
+      socket.on("groupChatDeleteInvitesDelete", (roomId) => {
         set((prev) => ({
           groupChatInvites: prev.groupChatInvites.filter(
             (groupChatInvite) => groupChatInvite.roomId !== roomId
+          ),
+        }));
+      });
+
+      // 중복 방지
+      socket.off("groupChatLeaveInvitesDelete");
+
+      // 그룹 채팅방 나갈 시에 그룹 채팅방 초대 목록 정리 실시간 반영
+      socket.on("groupChatLeaveInvitesDelete", ({ userId, roomId }) => {
+        set((prev) => ({
+          groupChatInvites: prev.groupChatInvites.filter(
+            (groupChatInvite) =>
+              !(
+                groupChatInvite.roomId === roomId &&
+                (groupChatInvite.requester === userId ||
+                  groupChatInvite.receiver === userId)
+              )
           ),
         }));
       });

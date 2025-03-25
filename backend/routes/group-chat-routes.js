@@ -217,7 +217,7 @@ router.delete("/groupChat/:roomId", async (req, res) => {
     groupChat.users.forEach((userId) => {
       const socketId = onlineUsers.get(userId);
       if (socketId) {
-        io.to(socketId).emit("groupChatInvitesDelete", roomId);
+        io.to(socketId).emit("groupChatDeleteInvitesDelete", roomId);
         io.to(socketId).emit("groupChatDelete", roomId);
       }
     });
@@ -282,6 +282,10 @@ router.delete("/leaveGroupChat/:roomId", async (req, res) => {
     updatedUsers.forEach((userId) => {
       const socketId = onlineUsers.get(userId);
       if (socketId) {
+        io.to(socketId).emit("groupChatLeaveInvitesDelete", {
+          userId: othersData._id.toString(),
+          roomId,
+        });
         io.to(socketId).emit("groupChatLeave", othersData._id.toString());
       }
     });
