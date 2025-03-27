@@ -5,8 +5,13 @@ import useFriendStore from "../../store/friendStore";
 
 const AddFriend = () => {
   const { userInfo } = useAuthStore();
-  const { status, statusMessage, resetStatusMessage, sendFriendRequest } =
-    useFriendStore();
+  const {
+    status,
+    statusMessage,
+    resetStatusMessage,
+    loadFriendRequests,
+    sendFriendRequest,
+  } = useFriendStore();
 
   const [searchUserEmail, setSearchUserEmail] = useState<string>("");
 
@@ -34,6 +39,7 @@ const AddFriend = () => {
     }
 
     await sendFriendRequest(userInfo, searchUserEmail);
+    await loadFriendRequests();
   };
 
   return (

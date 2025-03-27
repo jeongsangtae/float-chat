@@ -175,6 +175,12 @@ router.post("/friendRequests", async (req, res) => {
 
 router.post("/acceptFriend", async (req, res) => {
   try {
+    const othersData = await accessToken(req, res);
+
+    if (!othersData) {
+      return res.status(401).json({ message: "jwt error" });
+    }
+
     const { friendRequestId } = req.body;
 
     let date = new Date();
@@ -190,6 +196,12 @@ router.post("/acceptFriend", async (req, res) => {
         .status(404)
         .json({ message: "존재하지 않는 친구 요청입니다." });
     }
+
+    // 요청을 보낸 사용자(othersData._id)가 requester인지 receiver인지 판별
+    const requesterChecked = othersData._id === friendRequest.requester;
+    const otherUserId = requesterChecked
+      ? friendRequest.receiver
+      : friendRequest.requester; // 상대방 _id 확인
 
     const acceptFriend = await db
       .getDb()
@@ -227,6 +239,16 @@ router.post("/acceptFriend", async (req, res) => {
       .getDb()
       .collection("friendRequests")
       .deleteOne({ _id: new ObjectId(friendRequestId) });
+
+    // Socket.io 및 onlineUsers Map 가져오기
+    const io = req.app.get("io"); // Express 앱에서 Socket.io 인스턴스를 가져옴
+    const onlineUsers = req.app.get("onlineUsers"); // onlineUsers Map을 가져옴
+
+    const socketId = onlineUsers.get(otherUserId.toString());
+
+    if (socketId) {
+      io.to(socketId).emit("acceptFriend", friendRequestId);
+    }
 
     res.status(200).json({ acceptFriend });
   } catch (error) {

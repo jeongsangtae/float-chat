@@ -85,6 +85,21 @@ const useFriendStore = create<FriendStore>((set) => ({
         throw new Error("친구 요청 조회 실패");
       }
 
+      const socket = useSocketStore.getState().socket;
+      if (!socket) return; // 소켓이 없으면 실행 안 함
+
+      // 기존 이벤트 리스너 제거 후 재등록 (중복 방지)
+      socket.off("acceptFriend");
+
+      // 삭제한 친구를 상대방 화면에 실시간 반영
+      socket.on("acceptFriend", (friendRequestId) => {
+        set((prev) => ({
+          friendRequests: prev.friendRequests.filter(
+            (friendRequest) => friendRequest._id !== friendRequestId
+          ),
+        }));
+      });
+
       const resData: { friendRequests: FriendRequest[] } =
         await response.json();
 
