@@ -173,6 +173,7 @@ router.post("/friendRequests", async (req, res) => {
   }
 });
 
+// 친구 수락하는 라우터
 router.post("/acceptFriend", async (req, res) => {
   try {
     const othersData = await accessToken(req, res);
@@ -198,7 +199,8 @@ router.post("/acceptFriend", async (req, res) => {
     }
 
     // 요청을 보낸 사용자(othersData._id)가 requester인지 receiver인지 판별
-    const requesterChecked = othersData._id === friendRequest.requester;
+    const requesterChecked =
+      othersData._id.toString() === friendRequest.requester.toString();
     const otherUserId = requesterChecked
       ? friendRequest.receiver
       : friendRequest.requester; // 상대방 _id 확인
@@ -256,9 +258,41 @@ router.post("/acceptFriend", async (req, res) => {
   }
 });
 
+// 친구 거절 또는 취소 라우터
 router.delete("/rejectFriend/:friendRequestId", async (req, res) => {
   try {
+    const othersData = await accessToken(req, res);
+
+    if (!othersData) {
+      return res.status(401).json({ message: "jwt error" });
+    }
+
     const { friendRequestId } = req.params;
+
+    const friendRequest = await db
+      .getDb()
+      .collection("friendRequests")
+      .findOne({ _id: new ObjectId(friendRequestId) });
+
+    if (!friendRequest) {
+      return res
+        .status(404)
+        .json({ message: "존재하지 않는 친구 요청입니다." });
+    }
+
+    // 요청을 보낸 사용자(othersData._id)가 requester인지 receiver인지 판별
+    const requesterChecked =
+      othersData._id.toString() === friendRequest.requester.toString();
+
+    console.log(requesterChecked);
+
+    const otherUserId = requesterChecked
+      ? friendRequest.receiver
+      : friendRequest.requester; // 상대방 _id 확인
+
+    console.log("othersData._id:", othersData._id.toString());
+    console.log("friendRequest.requester:", friendRequest.requester.toString());
+    console.log("requesterChecked:", requesterChecked);
 
     const result = await db
       .getDb()
@@ -267,6 +301,19 @@ router.delete("/rejectFriend/:friendRequestId", async (req, res) => {
 
     if (result.deletedCount === 0) {
       return res.status(404).json({ message: "삭제할 친구 요청이 없습니다." });
+    }
+
+    // Socket.io 및 onlineUsers Map 가져오기
+    const io = req.app.get("io"); // Express 앱에서 Socket.io 인스턴스를 가져옴
+    const onlineUsers = req.app.get("onlineUsers"); // onlineUsers Map을 가져옴
+
+    const socketId = onlineUsers.get(otherUserId.toString());
+
+    // console.log(onlineUsers);
+    // console.log("소켓 ID:", socketId);
+
+    if (socketId) {
+      io.to(socketId).emit("rejectFriend", friendRequestId);
     }
 
     res.status(200).json({ message: "친구 요청이 삭제되었습니다." });

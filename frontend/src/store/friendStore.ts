@@ -91,8 +91,20 @@ const useFriendStore = create<FriendStore>((set) => ({
       // 기존 이벤트 리스너 제거 후 재등록 (중복 방지)
       socket.off("acceptFriend");
 
-      // 삭제한 친구를 상대방 화면에 실시간 반영
+      // 수락한 친구 요청을 상대방 화면에 실시간 반영
       socket.on("acceptFriend", (friendRequestId) => {
+        set((prev) => ({
+          friendRequests: prev.friendRequests.filter(
+            (friendRequest) => friendRequest._id !== friendRequestId
+          ),
+        }));
+      });
+
+      // 기존 이벤트 리스너 제거 후 재등록 (중복 방지)
+      socket.off("rejectFriend");
+
+      // 거절한 친구 요청을 상대방 화면에 실시간 반영
+      socket.on("rejectFriend", (friendRequestId) => {
         set((prev) => ({
           friendRequests: prev.friendRequests.filter(
             (friendRequest) => friendRequest._id !== friendRequestId
