@@ -198,7 +198,7 @@ router.post("/acceptFriend", async (req, res) => {
         .json({ message: "존재하지 않는 친구 요청입니다." });
     }
 
-    // 요청을 보낸 사용자(othersData._id)가 requester인지 receiver인지 판별
+    // 클릭한 사용자(othersData._id)가 requester인지 receiver인지 판별
     const requesterChecked =
       othersData._id.toString() === friendRequest.requester.toString();
     const otherUserId = requesterChecked
@@ -280,19 +280,13 @@ router.delete("/rejectFriend/:friendRequestId", async (req, res) => {
         .json({ message: "존재하지 않는 친구 요청입니다." });
     }
 
-    // 요청을 보낸 사용자(othersData._id)가 requester인지 receiver인지 판별
+    // 클릭한 사용자(othersData._id)가 requester인지 receiver인지 판별
     const requesterChecked =
       othersData._id.toString() === friendRequest.requester.toString();
-
-    console.log(requesterChecked);
 
     const otherUserId = requesterChecked
       ? friendRequest.receiver
       : friendRequest.requester; // 상대방 _id 확인
-
-    console.log("othersData._id:", othersData._id.toString());
-    console.log("friendRequest.requester:", friendRequest.requester.toString());
-    console.log("requesterChecked:", requesterChecked);
 
     const result = await db
       .getDb()

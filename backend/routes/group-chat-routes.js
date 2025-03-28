@@ -488,6 +488,19 @@ router.post("/acceptGroupChat", async (req, res) => {
       }
     });
 
+    // 클릭한 사용자(othersData._id)가 requester인지 receiver인지 판별
+    const requesterChecked =
+      othersData._id.toString() === groupChatInvite.requester.toString();
+    const otherUserId = requesterChecked
+      ? groupChatInvite.receiver
+      : groupChatInvite.requester;
+
+    const socketId = onlineUsers.get(otherUserId.toString());
+
+    if (socketId) {
+      io.to(socketId).emit("acceptGroupChatInvite", groupChatInviteId);
+    }
+
     res.status(200).json({ acceptGroupChat });
   } catch (error) {
     errorHandler(res, error, "그룹 채팅방 초대 수락 중 오류 발생");

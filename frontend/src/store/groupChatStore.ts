@@ -315,6 +315,16 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
         }));
       });
 
+      socket.off("acceptGroupChatInvite");
+
+      socket.on("acceptGroupChatInvite", (groupChatInviteId) => {
+        set((prev) => ({
+          groupChatInvites: prev.groupChatInvites.filter(
+            (req) => req._id !== groupChatInviteId
+          ),
+        }));
+      });
+
       // 중복 방지
       socket.off("friendDeleteGroupChatInviteCleanup");
 
