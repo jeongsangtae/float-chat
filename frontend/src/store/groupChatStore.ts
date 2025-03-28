@@ -320,7 +320,17 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
       socket.on("acceptGroupChatInvite", (groupChatInviteId) => {
         set((prev) => ({
           groupChatInvites: prev.groupChatInvites.filter(
-            (req) => req._id !== groupChatInviteId
+            (groupChatInvite) => groupChatInvite._id !== groupChatInviteId
+          ),
+        }));
+      });
+
+      socket.off("rejectGroupChatInvite");
+
+      socket.on("rejectGroupChatInvite", (groupChatInviteId) => {
+        set((prev) => ({
+          groupChatInvites: prev.groupChatInvites.filter(
+            (groupChatInvite) => groupChatInvite._id !== groupChatInviteId
           ),
         }));
       });

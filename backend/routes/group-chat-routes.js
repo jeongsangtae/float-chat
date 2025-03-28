@@ -491,6 +491,7 @@ router.post("/acceptGroupChat", async (req, res) => {
     // 클릭한 사용자(othersData._id)가 requester인지 receiver인지 판별
     const requesterChecked =
       othersData._id.toString() === groupChatInvite.requester.toString();
+
     const otherUserId = requesterChecked
       ? groupChatInvite.receiver
       : groupChatInvite.requester;
@@ -510,7 +511,26 @@ router.post("/acceptGroupChat", async (req, res) => {
 // 그룹 채팅방 초대 거절 라우터
 router.delete("/rejectGroupChat/:groupChatInviteId", async (req, res) => {
   try {
+    const othersData = await accessToken(req, res);
+
+    if (!othersData) {
+      return res.status(401).json({ message: "jwt error" });
+    }
+
     const { groupChatInviteId } = req.params;
+
+    const groupChatInvite = await db
+      .getDb()
+      .collection("groupChatInvites")
+      .findOne({ _id: new ObjectId(groupChatInviteId) });
+
+    // 클릭한 사용자(othersData._id)가 requester인지 receiver인지 판별
+    const requesterChecked =
+      othersData._id.toString() === groupChatInvite.requester.toString();
+
+    const otherUserId = requesterChecked
+      ? groupChatInvite.receiver
+      : groupChatInvite.requester;
 
     const result = await db
       .getDb()
@@ -521,6 +541,16 @@ router.delete("/rejectGroupChat/:groupChatInviteId", async (req, res) => {
       return res
         .status(404)
         .json({ message: "거절할 그룹 채팅방 초대 요청이 없습니다." });
+    }
+
+    // Socket.io 및 onlineUsers Map 가져오기
+    const io = req.app.get("io"); // Express 앱에서 Socket.io 인스턴스를 가져옴
+    const onlineUsers = req.app.get("onlineUsers"); // onlineUsers Map을 가져옴
+
+    const socketId = onlineUsers.get(otherUserId.toString());
+
+    if (socketId) {
+      io.to(socketId).emit("rejectGroupChatInvite", groupChatInviteId);
     }
 
     res
