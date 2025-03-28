@@ -154,8 +154,6 @@ router.patch("/groupChatForm", async (req, res) => {
         .padStart(2, "0")}:${kstDate.getSeconds().toString().padStart(2, "0")}`,
     };
 
-    // console.log(editGroupChat);
-
     await db
       .getDb()
       .collection("groupChats")
@@ -363,7 +361,6 @@ router.post("/groupChat/:roomId/invite", async (req, res) => {
       (userId) => userId === receiverId.toString()
     );
 
-    // console.log(groupChat, receiverId.toString());
     // console.log(groupChatParticipant ? "참여중" : "미참여");
 
     const newGroupChatInvite = {
@@ -428,12 +425,7 @@ router.post("/acceptGroupChat", async (req, res) => {
       return res.status(401).json({ message: "jwt error" });
     }
 
-    // console.log(othersData, "로그인한 사용자 정보");
-
     const { groupChatId, groupChatInviteId } = req.body;
-
-    // let date = new Date();
-    // let kstDate = new Date(date.getTime() + 9 * 60 * 60 * 1000);
 
     const groupChatInvite = await db
       .getDb()
@@ -561,7 +553,7 @@ router.delete("/rejectGroupChat/:groupChatInviteId", async (req, res) => {
   }
 });
 
-// 사용자의 채팅 메시지를 가져오는 라우터
+// 채팅 메시지 조회 라우터
 router.get("/chat/:roomId", async (req, res) => {
   try {
     // JWT 토큰을 통해 사용자 인증
@@ -572,8 +564,6 @@ router.get("/chat/:roomId", async (req, res) => {
     }
 
     let roomId = req.params.roomId;
-
-    // console.log(roomId, "1");
 
     roomId = new ObjectId(roomId);
 
@@ -591,7 +581,7 @@ router.get("/chat/:roomId", async (req, res) => {
   }
 });
 
-// 사용자가 입력한 채팅 메시지를 저장하는 라우터
+// 채팅 메시지 추가 라우터
 router.post("/chat/:roomId", async (req, res) => {
   try {
     const othersData = await accessToken(req, res);
@@ -642,8 +632,6 @@ router.post("/chat/:roomId", async (req, res) => {
     const roomUsers = req.app.get("roomUsers");
     const roomSockets = roomUsers.get(chatRoomId);
 
-    // console.log(roomSockets);
-
     // 메시지 보낸 사용자 제외하고, 현재 방에 없는 사용자에게만 알림 전송
     groupChat.users.forEach((userId) => {
       // 메시지를 전달하는 사용자와 일치하는 사용자는 건너뛰고 전달
@@ -652,7 +640,6 @@ router.post("/chat/:roomId", async (req, res) => {
 
       const socketId = onlineUsers.get(userId);
 
-      // if (socketId) {
       if (socketId && !roomSockets.includes(socketId)) {
         io.to(socketId).emit("messageNotification", {
           id: new ObjectId().toString(),
@@ -662,28 +649,6 @@ router.post("/chat/:roomId", async (req, res) => {
       }
     });
 
-    // if (roomSockets) {
-    //   roomSockets.forEach((socketId) => {
-    //     io.to(socketId).emit("messageNotification", {
-    //       id: new ObjectId().toString(),
-    //       roomTitle: groupChat.title,
-    //       message: "새로운 메시지가 추가되었습니다.",
-    //     });
-    //   });
-    //   console.log("새로운 메시지 알림 전송 완료");
-    // }
-
-    // if (joinRoomUsers) {
-    //   io.to(joinRoomUsers).emit("messageNotification", {
-    //     id: new ObjectId().toString(),
-    //     roomTitle: groupChat.title,
-    //     message: "새로운 메시지가 추가되었습니다.",
-    //   });
-    //   console.log("새로운 메시지 알림 전송 완료");
-    // }
-    // console.log(newMessage);
-    // console.log("====================");
-    // console.log(chatRoomId);
     res.status(200).json({ newMessage });
   } catch (error) {
     errorHandler(res, error, "채팅 메시지 저장 중 오류 발생");

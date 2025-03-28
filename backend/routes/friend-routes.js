@@ -9,6 +9,7 @@ const ObjectId = mongodb.ObjectId;
 
 const router = express.Router();
 
+// 친구 목록 조회 라우터
 router.get("/friends", async (req, res) => {
   try {
     const othersData = await accessToken(req, res);
@@ -35,6 +36,7 @@ router.get("/friends", async (req, res) => {
   }
 });
 
+// 친구 요청 목록 조회 라우터
 router.get("/friendRequests", async (req, res) => {
   try {
     const othersData = await accessToken(req, res);
@@ -59,16 +61,9 @@ router.get("/friendRequests", async (req, res) => {
   }
 });
 
+// 친구 요청 라우터
 router.post("/friendRequests", async (req, res) => {
   try {
-    // const othersData = await accessToken(req, res);
-
-    // if (!othersData) {
-    //   return res.status(401).json({ message: "jwt error" });
-    // }
-
-    // console.log(othersData._id);
-
     const requestBody = req.body;
 
     let date = new Date();
@@ -173,7 +168,7 @@ router.post("/friendRequests", async (req, res) => {
   }
 });
 
-// 친구 수락하는 라우터
+// 친구 수락 라우터
 router.post("/acceptFriend", async (req, res) => {
   try {
     const othersData = await accessToken(req, res);
@@ -217,8 +212,6 @@ router.post("/acceptFriend", async (req, res) => {
           id: friendRequest.receiver,
           nickname: friendRequest.receiverNickname,
         },
-        // user1: friendRequest.requester,
-        // user2: friendRequest.receiver,
         status: "수락됨",
         date: `${kstDate.getFullYear()}.${(kstDate.getMonth() + 1)
           .toString()

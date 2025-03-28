@@ -142,8 +142,6 @@ const useFriendStore = create<FriendStore>((set) => ({
       const resData = await response.json();
 
       set({ status: response.status, statusMessage: resData.message });
-
-      // get().loadFriendRequests();
     } catch (error) {
       console.error("에러 내용:", error);
       alert("친구 추가 요청 중 문제가 발생했습니다.");
@@ -163,16 +161,11 @@ const useFriendStore = create<FriendStore>((set) => ({
         throw new Error("친구 요청 수락 실패");
       }
 
-      // const resData = await response.json();
-
-      // console.log(resData.acceptFriend);
-
       set((prevFriendRequests) => ({
         friendRequests: prevFriendRequests.friendRequests.filter(
           (req) => req._id !== friendRequestId
         ),
       }));
-      // set({ friendRequests: resData.acceptFriend });
     } catch (error) {
       console.error("에러 내용:", error);
       alert("친구 수락 중 문제가 발생했습니다.");
@@ -193,11 +186,6 @@ const useFriendStore = create<FriendStore>((set) => ({
         throw new Error("친구 요청 취소 또는 거절 실패");
       }
 
-      // const resData = await response.json();
-
-      // console.log(resData.message);
-
-      // set({ friendRequests: resData.friendRequests });
       set((prevFriendRequests) => ({
         friendRequests: prevFriendRequests.friendRequests.filter(
           (req) => req._id !== friendRequestId
@@ -220,15 +208,6 @@ const useFriendStore = create<FriendStore>((set) => ({
         throw new Error("친구 삭제 실패");
       }
 
-      // const resData = await response.json();
-
-      // console.log(resData.message);
-
-      // set((prevFriends) => ({
-      //   friends: prevFriends.friends.filter(
-      //     (friend) => friend._id !== friendId
-      //   ),
-      // }));
       set((prevFriends) => ({
         friends: prevFriends.friends.filter((friend) => {
           return !(

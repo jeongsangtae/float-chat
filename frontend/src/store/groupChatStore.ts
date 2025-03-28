@@ -14,12 +14,6 @@ import {
 
 const apiURL = import.meta.env.VITE_API_URL;
 
-// interface ModalData {
-//   method: "POST" | "PATCH";
-//   modalId?: string;
-//   modalTitle?: string;
-// }
-
 interface GroupChatStore {
   socket: Socket | null;
   loading: boolean;
@@ -31,7 +25,6 @@ interface GroupChatStore {
   groupChatForm: (
     title: string,
     userInfo: UserInfo,
-    // modalData: ModalData
     modalData: {
       method: "POST" | "PATCH";
       _id?: string;
@@ -73,7 +66,6 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
       }
 
       const socket = useSocketStore.getState().socket;
-      // console.log("소켓 있음? :", socket);
       if (!socket) return; // 소켓이 없으면 실행 안 함
 
       socket.off("groupChatEdit");
@@ -130,7 +122,6 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
       }
 
       const socket = useSocketStore.getState().socket;
-      // console.log("소켓 있음? :", socket);
       if (!socket) return; // 소켓이 없으면 실행 안 함
 
       // 기존 이벤트 리스너 제거 후 재등록 (중복 방지)
@@ -302,7 +293,6 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
         await response.json();
 
       const socket = useSocketStore.getState().socket;
-      // console.log("소켓 있음? :", socket);
       if (!socket) return; // 소켓이 없으면 실행 안 함
 
       // 기존 이벤트 리스너 제거 후 재등록 (중복 방지)
@@ -317,6 +307,7 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
 
       socket.off("acceptGroupChatInvite");
 
+      // 그룹 채팅방 초대 수락 시에 실시간 반영
       socket.on("acceptGroupChatInvite", (groupChatInviteId) => {
         set((prev) => ({
           groupChatInvites: prev.groupChatInvites.filter(
@@ -327,6 +318,7 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
 
       socket.off("rejectGroupChatInvite");
 
+      // 그룹 채팅방 초대 거절 시에 실시간 반영
       socket.on("rejectGroupChatInvite", (groupChatInviteId) => {
         set((prev) => ({
           groupChatInvites: prev.groupChatInvites.filter(
