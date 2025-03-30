@@ -1,0 +1,33 @@
+.notification-container {
+  position: fixed;
+  bottom: 1.25rem;
+  right: 1rem;
+  z-index: 1000; /* 다른 요소보다 위에 표시 */
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem; /* 알림 간 간격 */
+}
+
+.notification-item {
+  background-color: white;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  font-size: 1rem;
+  min-width: 17rem;
+  max-width: 19rem;
+  word-break: break-word;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+/* 나타날 때 애니메이션 */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
