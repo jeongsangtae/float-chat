@@ -1,11 +1,17 @@
+import { useNavigate } from "react-router-dom";
+
 import { FriendUser } from "../../types";
 
 import useFriendStore from "../../store/friendStore";
 import useGroupChatStore from "../../store/groupChatStore";
+import useDirectChatStore from "../../store/directChatStore";
 
 const Friend = ({ id, userId, nickname }: FriendUser) => {
+  const navigate = useNavigate();
+
   const { deleteFriend } = useFriendStore();
   const { getGroupChatInvites } = useGroupChatStore();
+  const { getDirectChat, directChatForm } = useDirectChatStore();
 
   const deleteFriendHandler = async (): Promise<void> => {
     if (!userId) {
@@ -17,11 +23,31 @@ const Friend = ({ id, userId, nickname }: FriendUser) => {
     await getGroupChatInvites();
   };
 
+  const directChatHandler = async () => {
+    if (!userId) {
+      console.error("userId가 정의되지 않았습니다.");
+      return;
+    }
+
+    await directChatForm(userId);
+
+    // let directChatChecked = await getDirectChat(userId);
+
+    // if (!directChatChecked) {
+    //   // 기존 채팅방이 없으면 생성
+    //   directChatChecked = await directChatForm(userId);
+    // }
+
+    // if (directChatChecked) {
+    //   navigate(`/dm/${chatId}`);
+    // }
+  };
+
   return (
     <>
       <ul>
         <li>
-          {nickname}
+          <button onClick={directChatHandler}>{nickname}</button>
           <button onClick={deleteFriendHandler}>삭제</button>
         </li>
       </ul>
