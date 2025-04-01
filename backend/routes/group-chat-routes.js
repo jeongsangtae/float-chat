@@ -21,7 +21,7 @@ router.get("/groupChats", async (req, res) => {
       .find({ users: { $in: [othersData._id.toString()] } })
       .toArray();
 
-    if (!groupChats.length === 0) {
+    if (!groupChats.length) {
       return res.status(404).json({ error: "그룹 채팅방을 찾을 수 없습니다." });
     }
 

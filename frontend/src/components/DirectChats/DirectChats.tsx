@@ -4,24 +4,41 @@ import DirectChat from "./DirectChat";
 import Friends from "../Friends/Friends";
 import useAuthStore from "../../store/authStore";
 import useGroupChatStore from "../../store/groupChatStore";
+import useDirectChatStore from "../../store/directChatStore";
 import GroupChatInviteList from "../GroupChats/GroupChatInviteList";
 
 const DirectChats = () => {
-  const { isLoggedIn } = useAuthStore();
+  const { isLoggedIn, userInfo } = useAuthStore();
   const { getGroupChatInvites, groupChatInvites } = useGroupChatStore();
+  const { directChats, getDirectChat } = useDirectChatStore();
 
   useEffect(() => {
     if (isLoggedIn) {
       getGroupChatInvites();
+      getDirectChat();
     }
   }, [isLoggedIn]);
+
+  const filteredDirectChats = directChats.map((directChat) => ({
+    ...directChat,
+    otherUser: directChat.participants.find(
+      (participant) => participant !== userInfo?._id
+    ),
+  }));
 
   return (
     <>
       {isLoggedIn && (
         <>
           {/* <p>아이콘 들어갈 위치</p> */}
-          <DirectChat />
+          {filteredDirectChats.map((filteredDirectChat) => (
+            <DirectChat
+              key={filteredDirectChat._id}
+              _id={filteredDirectChat._id}
+              otherUser={filteredDirectChat.otherUser}
+            />
+          ))}
+
           {groupChatInvites.map((groupChatInvite) => (
             <GroupChatInviteList
               key={groupChatInvite._id}

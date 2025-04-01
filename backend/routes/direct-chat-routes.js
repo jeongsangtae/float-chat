@@ -9,6 +9,35 @@ const ObjectId = mongodb.ObjectId;
 
 const router = express.Router();
 
+router.get("/directChats", async (req, res) => {
+  try {
+    const othersData = await accessToken(req, res);
+
+    if (!othersData) {
+      return res.status(401).json({ message: "jwt error" });
+    }
+
+    // users 배열에 내 ID가 있는지 확인
+    const directChats = await db
+      .getDb()
+      .collection("directChats")
+      .find({ participants: { $in: [othersData._id.toString()] } })
+      .toArray();
+
+    console.log(directChats.length, !directChats.length);
+
+    if (!directChats.length) {
+      return res
+        .status(404)
+        .json({ error: "다이렉트 채팅방을 찾을 수 없습니다." });
+    }
+
+    res.status(200).json({ directChats });
+  } catch (error) {
+    errorHandler(res, error, "다이렉트 채팅방 조회 중 오류 발생");
+  }
+});
+
 router.post("/directChatForm", async (req, res) => {
   try {
     const othersData = await accessToken(req, res);
