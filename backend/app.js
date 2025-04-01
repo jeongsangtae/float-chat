@@ -13,6 +13,7 @@ const db = require("./data/database");
 // const userChatRoutes = require("./routes/user-chat-routes");
 // const adminChatRoutes = require("./routes/admin-chat-routes");
 const userRoutes = require("./routes/user-routes");
+const directChatRoutes = require("./routes/direct-chat-routes");
 const groupChatRoutes = require("./routes/group-chat-routes");
 const friendRoutes = require("./routes/friend-routes");
 
@@ -44,6 +45,7 @@ app.use(
 // app.use(userChatRoutes);
 // app.use(adminChatRoutes);
 app.use(userRoutes);
+app.use(directChatRoutes);
 app.use(groupChatRoutes);
 app.use(friendRoutes);
 

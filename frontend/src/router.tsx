@@ -1,4 +1,5 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
+import DirectChatDetailsPage from "./pages/DirectChatDetailsPage";
 import DirectChatPage from "./pages/DirectChatPage";
 import GroupChatDetailsPage from "./pages/GroupChatDetailsPage";
 import GroupChatPage from "./pages/GroupChatPage";
@@ -17,6 +18,7 @@ const router = createBrowserRouter([
           // { path: ":userId", element: <DirectChatPage /> }, // 1:1 채팅 페이지
         ],
       },
+      { path: "me/:roomId", element: <DirectChatDetailsPage /> },
       // { path: "/:roomId", element: <GroupChatPage /> }, // 그룹 채팅 페이지
       {
         path: "group-chat",

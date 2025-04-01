@@ -23,13 +23,14 @@ const Friend = ({ id, userId, nickname }: FriendUser) => {
     await getGroupChatInvites();
   };
 
+  // 함수 이름 변경 필요
   const directChatHandler = async () => {
-    if (!userId) {
-      console.error("userId가 정의되지 않았습니다.");
+    if (!id) {
+      console.error("id가 정의되지 않았습니다.");
       return;
     }
 
-    await directChatForm(userId);
+    await directChatForm(id);
 
     // let directChatChecked = await getDirectChat(userId);
 
