@@ -26,7 +26,7 @@ interface FriendStore {
   deleteFriend: (friendId: string, userId: string) => Promise<void>;
 }
 
-const useFriendStore = create<FriendStore>((set) => ({
+const useFriendStore = create<FriendStore>((set, get) => ({
   socket: null,
   friends: [],
   friendRequests: [],
@@ -48,6 +48,23 @@ const useFriendStore = create<FriendStore>((set) => ({
 
       const socket = useSocketStore.getState().socket;
       if (!socket) return; // 소켓이 없으면 실행 안 함
+
+      // 기존 이벤트 리스너 제거 후 재등록 (중복 방지)
+      socket.off("friendAdd");
+
+      socket.on("friendAdd", (newFriend) => {
+        // concat 사용한 로직
+        // set((prev) => ({
+        //   friends: prev.friends.concat(newFriend),
+        // }));
+
+        // 스프레스 사용한 로직
+        set((prev) => ({
+          friends: [...prev.friends, newFriend],
+        }));
+      });
+
+      console.log(get().friends);
 
       // 기존 이벤트 리스너 제거 후 재등록 (중복 방지)
       socket.off("friendDelete");

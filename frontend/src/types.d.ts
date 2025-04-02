@@ -5,6 +5,17 @@ export interface ModalProps {
   onToggle: () => void;
 }
 
+export interface DirectChatData {
+  _id: string;
+  participants: string[];
+  date: string;
+}
+
+export interface DirectChatProps {
+  _id: string;
+  otherUser: string | undefined;
+}
+
 export interface GroupChatData {
   _id: string; // ObjectId는 JSON으로 변환되면 string으로 직렬화
   hostId: string;

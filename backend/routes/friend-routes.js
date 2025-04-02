@@ -196,39 +196,39 @@ router.post("/acceptFriend", async (req, res) => {
     // 클릭한 사용자(othersData._id)가 requester인지 receiver인지 판별
     const requesterChecked =
       othersData._id.toString() === friendRequest.requester.toString();
+
     const otherUserId = requesterChecked
       ? friendRequest.receiver
       : friendRequest.requester; // 상대방 _id 확인
 
+    const newFriend = {
+      requester: {
+        id: friendRequest.requester,
+        nickname: friendRequest.requesterNickname,
+      },
+      receiver: {
+        id: friendRequest.receiver,
+        nickname: friendRequest.receiverNickname,
+      },
+      status: "수락됨",
+      date: `${kstDate.getFullYear()}.${(kstDate.getMonth() + 1)
+        .toString()
+        .padStart(2, "0")}.${kstDate
+        .getDate()
+        .toString()
+        .padStart(2, "0")} ${kstDate
+        .getHours()
+        .toString()
+        .padStart(2, "0")}:${date
+        .getMinutes()
+        .toString()
+        .padStart(2, "0")}:${kstDate.getSeconds().toString().padStart(2, "0")}`,
+    };
+
     const acceptFriend = await db
       .getDb()
       .collection("friends")
-      .insertOne({
-        requester: {
-          id: friendRequest.requester,
-          nickname: friendRequest.requesterNickname,
-        },
-        receiver: {
-          id: friendRequest.receiver,
-          nickname: friendRequest.receiverNickname,
-        },
-        status: "수락됨",
-        date: `${kstDate.getFullYear()}.${(kstDate.getMonth() + 1)
-          .toString()
-          .padStart(2, "0")}.${kstDate
-          .getDate()
-          .toString()
-          .padStart(2, "0")} ${kstDate
-          .getHours()
-          .toString()
-          .padStart(2, "0")}:${date
-          .getMinutes()
-          .toString()
-          .padStart(2, "0")}:${kstDate
-          .getSeconds()
-          .toString()
-          .padStart(2, "0")}`,
-      });
+      .insertOne(newFriend);
 
     await db
       .getDb()
@@ -243,6 +243,8 @@ router.post("/acceptFriend", async (req, res) => {
 
     if (socketId) {
       io.to(socketId).emit("acceptFriend", friendRequestId);
+
+      io.to(socketId).emit("friendAdd", newFriend);
     }
 
     res.status(200).json({ acceptFriend });

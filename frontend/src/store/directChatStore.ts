@@ -4,9 +4,19 @@ import { Socket } from "socket.io-client";
 
 import useSocketStore from "./socketStore";
 
+import { DirectChatData } from "../types";
+
 const apiURL = import.meta.env.VITE_API_URL;
 
-const useDirectChatStore = create((set, get) => ({
+interface DirectChatStore {
+  socket: Socket | null;
+  directChats: DirectChatData[];
+  getDirectChat: () => Promise<void>;
+  directChatForm: (id: string) => Promise<void>;
+}
+
+const useDirectChatStore = create<DirectChatStore>((set) => ({
+  socket: null,
   directChats: [],
   getDirectChat: async () => {
     const response = await fetch(`${apiURL}/directChats`, {

@@ -24,7 +24,7 @@ const Friend = ({ id, userId, nickname }: FriendUser) => {
   };
 
   // 함수 이름 변경 필요
-  const directChatHandler = async () => {
+  const directChatHandler = async (): Promise<void> => {
     if (!id) {
       console.error("id가 정의되지 않았습니다.");
       return;

@@ -1,4 +1,6 @@
-const DirectChat = ({ _id, otherUser }) => {
+import { DirectChatProps } from "../../types";
+
+const DirectChat = ({ _id, otherUser }: DirectChatProps) => {
   return (
     <>
       <div>다이렉트 채팅방 _id: {_id}</div>

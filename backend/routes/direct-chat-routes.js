@@ -9,6 +9,7 @@ const ObjectId = mongodb.ObjectId;
 
 const router = express.Router();
 
+// 다이렉트 채팅방 조회 라우터
 router.get("/directChats", async (req, res) => {
   try {
     const othersData = await accessToken(req, res);
@@ -17,16 +18,13 @@ router.get("/directChats", async (req, res) => {
       return res.status(401).json({ message: "jwt error" });
     }
 
-    // users 배열에 내 ID가 있는지 확인
     const directChats = await db
       .getDb()
       .collection("directChats")
       .find({ participants: { $in: [othersData._id.toString()] } })
       .toArray();
 
-    console.log(directChats.length, !directChats.length);
-
-    if (!directChats.length) {
+    if (!directChats.length === 0) {
       return res
         .status(404)
         .json({ error: "다이렉트 채팅방을 찾을 수 없습니다." });
@@ -38,6 +36,7 @@ router.get("/directChats", async (req, res) => {
   }
 });
 
+// 다이렉트 채팅방 추가 라우터
 router.post("/directChatForm", async (req, res) => {
   try {
     const othersData = await accessToken(req, res);
@@ -48,7 +47,6 @@ router.post("/directChatForm", async (req, res) => {
 
     const friendId = req.body.id;
 
-    // 기존 채팅방이 있는지 확인 (countDocuments 사용)
     const existingChat = await db
       .getDb()
       .collection("directChats")
