@@ -11,6 +11,7 @@ const apiURL = import.meta.env.VITE_API_URL;
 interface DirectChatStore {
   socket: Socket | null;
   directChats: DirectChatData[];
+  // directChatRoomId: string;
   getDirectChat: () => Promise<void>;
   directChatForm: (id: string, nickname: string) => Promise<void>;
 }
@@ -18,6 +19,8 @@ interface DirectChatStore {
 const useDirectChatStore = create<DirectChatStore>((set) => ({
   socket: null,
   directChats: [],
+  // directChatRoomId: "",
+
   getDirectChat: async () => {
     const response = await fetch(`${apiURL}/directChats`, {
       credentials: "include",
@@ -48,7 +51,9 @@ const useDirectChatStore = create<DirectChatStore>((set) => ({
 
     const resData = await response.json();
 
-    console.log(resData);
+    // set({ directChatRoomId: resData.roomId });
+
+    return resData.roomId;
   },
 }));
 

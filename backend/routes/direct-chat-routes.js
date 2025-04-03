@@ -57,10 +57,7 @@ router.post("/directChatForm", async (req, res) => {
       });
 
     if (existingChat) {
-      return res.status(200).json({
-        chatId: existingChat._id,
-        message: "기존 채팅방 존재",
-      });
+      return res.status(200).json({ roomId: existingChat._id });
     }
 
     let date = new Date();
@@ -85,9 +82,14 @@ router.post("/directChatForm", async (req, res) => {
         .padStart(2, "0")}:${kstDate.getSeconds().toString().padStart(2, "0")}`,
     };
 
-    await db.getDb().collection("directChats").insertOne(newDirectChat);
+    const result = await db
+      .getDb()
+      .collection("directChats")
+      .insertOne(newDirectChat);
 
-    res.status(200).json({ newDirectChat, message: "다이렉트 채팅방 추가" });
+    const roomId = result.insertedId;
+
+    res.status(200).json({ roomId });
   } catch (error) {
     errorHandler(res, error, "다이렉트 채팅방 생성 중 오류 발생");
   }

@@ -1,5 +1,14 @@
+import { useParams } from "react-router-dom";
+
 const DirectChatDetails = () => {
-  return;
+  const { roomId } = useParams<{ roomId: string }>();
+
+  console.log(roomId);
+  return (
+    <>
+      <div>{roomId}</div>
+    </>
+  );
 };
 
 export default DirectChatDetails;

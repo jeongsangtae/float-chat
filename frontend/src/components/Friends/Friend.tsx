@@ -11,7 +11,7 @@ const Friend = ({ id, userId, nickname }: FriendUser) => {
 
   const { deleteFriend } = useFriendStore();
   const { getGroupChatInvites } = useGroupChatStore();
-  const { getDirectChat, directChatForm } = useDirectChatStore();
+  const { directChatForm } = useDirectChatStore();
 
   const deleteFriendHandler = async (): Promise<void> => {
     if (!userId) {
@@ -30,18 +30,15 @@ const Friend = ({ id, userId, nickname }: FriendUser) => {
       return;
     }
 
-    await directChatForm(id, nickname);
+    const roomId = await directChatForm(id, nickname);
 
-    // let directChatChecked = await getDirectChat(userId);
-
-    // if (!directChatChecked) {
-    //   // 기존 채팅방이 없으면 생성
-    //   directChatChecked = await directChatForm(userId);
+    // if (directChatRoomId) {
+    //   navigate(`/me/${directChatRoomId}`);
+    // } else {
+    //   console.error("채팅방 ID를 가져오지 못했습니다.");
     // }
 
-    // if (directChatChecked) {
-    //   navigate(`/dm/${chatId}`);
-    // }
+    navigate(`/me/${roomId}`);
   };
 
   return (

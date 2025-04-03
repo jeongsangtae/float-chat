@@ -1,7 +1,11 @@
-// import Di from "../components/DirectChats/DirectChats";
+import DirectChatDetails from "../components/DirectChats/DirectChatDetails";
 
 const DirectChatDetailsPage = () => {
-  return <>{/* <DirectChats /> */}</>;
+  return (
+    <>
+      <DirectChatDetails />
+    </>
+  );
 };
 
 export default DirectChatDetailsPage;
