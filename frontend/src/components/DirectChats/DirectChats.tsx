@@ -35,8 +35,10 @@ const DirectChats = () => {
             <DirectChat
               key={filteredDirectChat._id}
               _id={filteredDirectChat._id}
-              otherUserId={filteredDirectChat.otherUser._id}
-              otherUserNickname={filteredDirectChat.otherUser.nickname}
+              otherUserId={filteredDirectChat.otherUser?._id ?? ""}
+              otherUserNickname={
+                filteredDirectChat.otherUser?.nickname ?? "알 수 없음"
+              }
             />
           ))}
 

@@ -2,7 +2,7 @@ import { create } from "zustand";
 
 import { Socket } from "socket.io-client";
 
-import useSocketStore from "./socketStore";
+// import useSocketStore from "./socketStore";
 
 import { DirectChatData } from "../types";
 
@@ -30,7 +30,7 @@ const useDirectChatStore = create<DirectChatStore>((set) => ({
       throw new Error(`다이렉트 채팅방 조회 실패`);
     }
 
-    const resData = await response.json();
+    const resData: { directChats: DirectChatData[] } = await response.json();
 
     set({ directChats: resData.directChats });
   },

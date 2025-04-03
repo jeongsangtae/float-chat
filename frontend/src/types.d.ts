@@ -5,15 +5,21 @@ export interface ModalProps {
   onToggle: () => void;
 }
 
+export interface Participants {
+  _id: string;
+  nickname: string;
+}
+
 export interface DirectChatData {
   _id: string;
-  participants: string[];
+  participants: Participants[];
   date: string;
 }
 
 export interface DirectChatProps {
   _id: string;
-  otherUser: string | undefined;
+  otherUserId: string;
+  otherUserNickname: string;
 }
 
 export interface GroupChatData {
@@ -72,7 +78,7 @@ export interface ChatMessage {
 
 export interface FriendUser {
   id: string; // _id 대신 id 사용
-  userId: string | undefined;
+  userId: string;
   nickname: string;
 }
 

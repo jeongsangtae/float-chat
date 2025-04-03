@@ -46,7 +46,7 @@ const Friends = () => {
         filteredFriends.map((friend) => (
           <Friend
             key={friend.id}
-            userId={userInfo?._id}
+            userId={userInfo?._id ?? ""}
             id={friend.id}
             nickname={friend.nickname}
           />
