@@ -21,7 +21,7 @@ router.get("/directChats", async (req, res) => {
     const directChats = await db
       .getDb()
       .collection("directChats")
-      .find({ participants: { $in: [othersData._id.toString()] } })
+      .find({ "participants._id": { $in: [othersData._id.toString()] } })
       .toArray();
 
     if (!directChats.length === 0) {
@@ -45,13 +45,15 @@ router.post("/directChatForm", async (req, res) => {
       return res.status(401).json({ message: "jwt error" });
     }
 
-    const friendId = req.body.id;
+    const friendData = req.body;
 
     const existingChat = await db
       .getDb()
       .collection("directChats")
       .findOne({
-        participants: { $all: [othersData._id.toString(), friendId] },
+        "participants._id": {
+          $all: [othersData._id.toString(), friendData.id],
+        },
       });
 
     if (existingChat) {
@@ -65,7 +67,10 @@ router.post("/directChatForm", async (req, res) => {
     let kstDate = new Date(date.getTime() + 9 * 60 * 60 * 1000);
 
     const newDirectChat = {
-      participants: [othersData._id.toString(), friendId], // 현재 사용자 + 친구
+      participants: [
+        { _id: othersData._id.toString(), nickname: othersData.nickname }, // 현재 사용자
+        { _id: friendData.id, nickname: friendData.nickname }, // 친구
+      ],
       date: `${kstDate.getFullYear()}.${(kstDate.getMonth() + 1)
         .toString()
         .padStart(2, "0")}.${kstDate

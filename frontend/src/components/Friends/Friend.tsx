@@ -30,7 +30,7 @@ const Friend = ({ id, userId, nickname }: FriendUser) => {
       return;
     }
 
-    await directChatForm(id);
+    await directChatForm(id, nickname);
 
     // let directChatChecked = await getDirectChat(userId);
 

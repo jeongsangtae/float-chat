@@ -12,7 +12,7 @@ interface DirectChatStore {
   socket: Socket | null;
   directChats: DirectChatData[];
   getDirectChat: () => Promise<void>;
-  directChatForm: (id: string) => Promise<void>;
+  directChatForm: (id: string, nickname: string) => Promise<void>;
 }
 
 const useDirectChatStore = create<DirectChatStore>((set) => ({
@@ -32,10 +32,12 @@ const useDirectChatStore = create<DirectChatStore>((set) => ({
     set({ directChats: resData.directChats });
   },
 
-  directChatForm: async (id) => {
+  directChatForm: async (id, nickname) => {
+    const requestBody = { id, nickname };
+
     const response = await fetch(`${apiURL}/directChatForm`, {
       method: "POST",
-      body: JSON.stringify({ id }),
+      body: JSON.stringify(requestBody),
       headers: { "Content-Type": "application/json" },
       credentials: "include",
     });

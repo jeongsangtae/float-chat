@@ -26,7 +26,7 @@ interface FriendStore {
   deleteFriend: (friendId: string, userId: string) => Promise<void>;
 }
 
-const useFriendStore = create<FriendStore>((set, get) => ({
+const useFriendStore = create<FriendStore>((set) => ({
   socket: null,
   friends: [],
   friendRequests: [],
@@ -63,8 +63,6 @@ const useFriendStore = create<FriendStore>((set, get) => ({
           friends: [...prev.friends, newFriend],
         }));
       });
-
-      console.log(get().friends);
 
       // 기존 이벤트 리스너 제거 후 재등록 (중복 방지)
       socket.off("friendDelete");

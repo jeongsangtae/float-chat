@@ -22,7 +22,7 @@ const DirectChats = () => {
   const filteredDirectChats = directChats.map((directChat) => ({
     ...directChat,
     otherUser: directChat.participants.find(
-      (participant) => participant !== userInfo?._id
+      (participant) => participant._id !== userInfo?._id
     ),
   }));
 
@@ -35,7 +35,8 @@ const DirectChats = () => {
             <DirectChat
               key={filteredDirectChat._id}
               _id={filteredDirectChat._id}
-              otherUser={filteredDirectChat.otherUser}
+              otherUserId={filteredDirectChat.otherUser._id}
+              otherUserNickname={filteredDirectChat.otherUser.nickname}
             />
           ))}
 
