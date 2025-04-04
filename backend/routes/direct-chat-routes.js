@@ -65,8 +65,12 @@ router.post("/directChatForm", async (req, res) => {
 
     const newDirectChat = {
       participants: [
-        { _id: othersData._id.toString(), nickname: othersData.nickname }, // 현재 사용자
-        { _id: friendData.id, nickname: friendData.nickname }, // 친구
+        {
+          _id: othersData._id.toString(),
+          nickname: othersData.nickname,
+          isVisible: true,
+        }, // 현재 사용자
+        { _id: friendData.id, nickname: friendData.nickname, isVisible: false }, // 친구
       ],
       date: `${kstDate.getFullYear()}.${(kstDate.getMonth() + 1)
         .toString()
