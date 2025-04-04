@@ -1,4 +1,6 @@
 import { useParams } from "react-router-dom";
+import ChatInput from "../Chats/ChatInput";
+import Chats from "../Chats/Chats";
 
 const DirectChatDetails = () => {
   const { roomId } = useParams<{ roomId: string }>();
@@ -6,7 +8,8 @@ const DirectChatDetails = () => {
   console.log(roomId);
   return (
     <>
-      <div>{roomId}</div>
+      <Chats roomId={roomId} />
+      <ChatInput roomId={roomId} />
     </>
   );
 };

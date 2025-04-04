@@ -70,7 +70,7 @@ export interface RoomId {
 
 export interface ChatMessage {
   _id: string;
-  room_id: string;
+  roomId: string;
   message: string;
   email: string;
   date: string;

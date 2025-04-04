@@ -615,10 +615,28 @@ router.post("/chat/:roomId", async (req, res) => {
         .padStart(2, "0")}:${kstDate.getSeconds().toString().padStart(2, "0")}`, // 날짜 및 시간을 포맷팅하여 문자열로 저장
     };
 
-    const groupChat = await db
+    let chatRoom = await db
       .getDb()
       .collection("groupChats")
       .findOne({ _id: new ObjectId(roomId) });
+
+    if (!chatRoom) {
+      const directChat = await db
+        .getDb()
+        .collection("directChats")
+        .findOne({ _id: new ObjectId(roomId) });
+
+      if (!directChat) {
+        return res.status(404).json({ message: "채팅방을 찾을 수 없습니다." });
+      }
+
+      // directChat 데이터를 chatRoom 형식으로 변환
+      chatRoom = {
+        _id: directChat._id,
+        title: othersData.nickname,
+        users: directChat.participants.map((participant) => participant._id), // users와 같은 형식으로 변환
+      };
+    }
 
     // 새 메시지를 chatMessages 컬렉션에 저장
     await db.getDb().collection("chatMessages").insertOne(newMessage);
@@ -633,7 +651,7 @@ router.post("/chat/:roomId", async (req, res) => {
     const roomSockets = roomUsers.get(chatRoomId);
 
     // 메시지 보낸 사용자 제외하고, 현재 방에 없는 사용자에게만 알림 전송
-    groupChat.users.forEach((userId) => {
+    chatRoom.users.forEach((userId) => {
       // 메시지를 전달하는 사용자와 일치하는 사용자는 건너뛰고 전달
       // 메시지를 보낸 사람 제외
       if (userId === othersData._id.toString()) return;
@@ -643,7 +661,7 @@ router.post("/chat/:roomId", async (req, res) => {
       if (socketId && !roomSockets.includes(socketId)) {
         io.to(socketId).emit("messageNotification", {
           id: new ObjectId().toString(),
-          roomTitle: groupChat.title,
+          roomTitle: chatRoom.title,
           message: "새로운 메시지가 추가되었습니다.",
         });
       }
