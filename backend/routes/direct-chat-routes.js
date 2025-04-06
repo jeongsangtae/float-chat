@@ -21,7 +21,11 @@ router.get("/directChats", async (req, res) => {
     const directChats = await db
       .getDb()
       .collection("directChats")
-      .find({ "participants._id": { $in: [othersData._id.toString()] } })
+      .find({
+        participants: {
+          $elemMatch: { _id: othersData._id.toString(), isVisible: true },
+        },
+      })
       .toArray();
 
     if (!directChats.length === 0) {

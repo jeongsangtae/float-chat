@@ -86,6 +86,28 @@ router.post("/chat/:roomId", async (req, res) => {
         return res.status(404).json({ message: "채팅방을 찾을 수 없습니다." });
       }
 
+      // 다이렉트 채팅방에 참여한 사용자 isVisible 내용을 모두 true로 변경
+      await db
+        .getDb()
+        .collection("directChats")
+        .updateOne(
+          { _id: directChat._id.toString() },
+          { $set: { "participants.isVisible": true } }
+        );
+
+      // 상대방 isVisible 내용만 true로 변경
+      // 위 로직과 결과는 동일함 (두 사용자 모두 true가 됨)
+      // await db
+      //   .getDb()
+      //   .collection("directChats")
+      //   .updateOne(
+      //     {
+      //       _id: directChat._id.toString(),
+      //       "participants._id": { $ne: othersData._id.toString() },
+      //     }, // 상대방 찾기
+      //     { $set: { "participants.$.isVisible": true } }
+      //   );
+
       // directChat 데이터를 chatRoom 형식으로 변환
       chatRoom = {
         _id: directChat._id,
