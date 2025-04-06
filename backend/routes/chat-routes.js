@@ -91,8 +91,8 @@ router.post("/chat/:roomId", async (req, res) => {
         .getDb()
         .collection("directChats")
         .updateOne(
-          { _id: directChat._id.toString() },
-          { $set: { "participants.isVisible": true } }
+          { _id: directChat._id },
+          { $set: { "participants.$[].isVisible": true } }
         );
 
       // 상대방 isVisible 내용만 true로 변경

@@ -55,6 +55,23 @@ const useDirectChatStore = create<DirectChatStore>((set) => ({
 
     return resData.roomId;
   },
+
+  closeDirectChat: async (_id) => {
+    const response = await fetch(`${apiURL}/closeDirectChat/${_id}`, {
+      method: "PATCH",
+      credentials: "include",
+    });
+
+    if (!response.ok) {
+      throw new Error("다이렉트 채팅방 닫기 실패");
+    }
+
+    // const updatedDirectChats = get().directChats.filter(
+    //   (directChat: DirectChatData) => directChat._id !== _id
+    // );
+
+    // set({ directChats: updatedDirectChats });
+  },
 }));
 
 export default useDirectChatStore;
