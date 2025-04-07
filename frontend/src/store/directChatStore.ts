@@ -14,6 +14,7 @@ interface DirectChatStore {
   // directChatRoomId: string;
   getDirectChat: () => Promise<void>;
   directChatForm: (id: string, nickname: string) => Promise<void>;
+  closeDirectChat: (_id: string) => Promise<void>;
 }
 
 const useDirectChatStore = create<DirectChatStore>((set) => ({
@@ -65,12 +66,6 @@ const useDirectChatStore = create<DirectChatStore>((set) => ({
     if (!response.ok) {
       throw new Error("다이렉트 채팅방 닫기 실패");
     }
-
-    // const updatedDirectChats = get().directChats.filter(
-    //   (directChat: DirectChatData) => directChat._id !== _id
-    // );
-
-    // set({ directChats: updatedDirectChats });
   },
 }));
 

@@ -17,7 +17,7 @@ const RootLayout = () => {
 
   return (
     <>
-      <button onClick={leaveGroupChatHandler}> 아이콘 들어갈 위치</button>
+      <button onClick={leaveGroupChatHandler}>아이콘 들어갈 위치</button>
       <Outlet />
       <SideBar />
       <Notification />

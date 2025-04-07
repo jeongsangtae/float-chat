@@ -1,5 +1,6 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
 import DirectChatDetailsPage from "./pages/DirectChatDetailsPage";
+import EmptyChatPage from "./pages/EmptyChatPage";
 import DirectChatPage from "./pages/DirectChatPage";
 import GroupChatDetailsPage from "./pages/GroupChatDetailsPage";
 import GroupChatPage from "./pages/GroupChatPage";
@@ -13,18 +14,15 @@ const router = createBrowserRouter([
       { index: true, element: <Navigate to="/me" replace /> }, // 루트 경로 접근 시 /me로 리다이렉트
       {
         path: "me",
+        element: <DirectChatPage />,
         children: [
-          { index: true, element: <DirectChatPage /> }, //기본 /me 경로
-          // { path: ":userId", element: <DirectChatPage /> }, // 1:1 채팅 페이지
+          { index: true, element: <EmptyChatPage /> }, // 기본 /me 경로
+          { path: ":roomId", element: <DirectChatDetailsPage /> },
         ],
       },
-      { path: "me/:roomId", element: <DirectChatDetailsPage /> },
-      // { path: "/:roomId", element: <GroupChatPage /> }, // 그룹 채팅 페이지
       {
         path: "group-chat",
         element: <GroupChatPage />,
-        // loader: groupChatLoader,
-        // children: [{ path: ":roomId", element: <GroupChatDetails /> }],
       },
       { path: "group-chat/:roomId", element: <GroupChatDetailsPage /> },
     ],
