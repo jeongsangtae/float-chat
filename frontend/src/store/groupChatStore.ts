@@ -171,6 +171,7 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
 
       set({ groupChatUsers: resData.groupChatUsers });
     } catch (error) {
+      console.error("에러 내용:", error);
       alert(
         "그룹 채팅방 참여자를 불러오는 중에 문제가 발생했습니다. 새로고침 후 다시 시도해 주세요."
       );
@@ -186,44 +187,49 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
       title?: string;
     }
   ) => {
-    const { _id, email, username, nickname } = userInfo;
+    try {
+      const { _id, email, username, nickname } = userInfo;
 
-    const requestBody = { title, _id, email, username, nickname, modalData };
+      const requestBody = { title, _id, email, username, nickname, modalData };
 
-    console.log(requestBody.modalData);
+      const response = await fetch(`${apiURL}/groupChatForm`, {
+        method: modalData.method,
+        body: JSON.stringify(requestBody),
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+      });
 
-    const response = await fetch(`${apiURL}/groupChatForm`, {
-      method: modalData.method,
-      body: JSON.stringify(requestBody),
-      headers: { "Content-Type": "application/json" },
-      credentials: "include",
-    });
-
-    if (!response.ok) {
-      throw new Error(`그룹 채팅방 생성 실패`);
-    }
-
-    const resData = await response.json();
-
-    // 실시간 반영
-    set((prev) => {
-      if (modalData.method === "POST") {
-        // 새로운 그룹 채팅방 추가
-        return {
-          groupChats: [...prev.groupChats, resData.newGroupChat],
-        };
-      } else if (modalData.method === "PATCH" && resData.editGroupChat) {
-        // 기존 그룹 채팅방 수정
-        return {
-          groupChats: prev.groupChats.map((groupChat) =>
-            groupChat._id === resData.editGroupChat._id
-              ? { ...groupChat, ...resData.editGroupChat }
-              : groupChat
-          ),
-        };
+      if (!response.ok) {
+        throw new Error(`그룹 채팅방 생성 실패`);
       }
-      return prev;
-    });
+
+      const resData = await response.json();
+
+      // 실시간 반영
+      set((prev) => {
+        if (modalData.method === "POST") {
+          // 새로운 그룹 채팅방 추가
+          return {
+            groupChats: [...prev.groupChats, resData.newGroupChat],
+          };
+        } else if (modalData.method === "PATCH" && resData.editGroupChat) {
+          // 기존 그룹 채팅방 수정
+          return {
+            groupChats: prev.groupChats.map((groupChat) =>
+              groupChat._id === resData.editGroupChat._id
+                ? { ...groupChat, ...resData.editGroupChat }
+                : groupChat
+            ),
+          };
+        }
+        return prev;
+      });
+    } catch (error) {
+      console.error("에러 내용:", error);
+      alert(
+        "그룹 채팅방 추가 및 수정 중 문제가 발생했습니다. 새로고침 후 다시 시도해 주세요."
+      );
+    }
   },
 
   deleteGroupChat: async (_id) => {
@@ -249,7 +255,6 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
       } else {
         console.error("알 수 없는 에러:", error);
       }
-
       alert(
         "그룹 채팅방을 삭제하는 중에 문제가 발생했습니다. 새로고침 후 다시 시도해 주세요."
       );
@@ -275,7 +280,9 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
       set({ groupChats: updatedGroupChats });
     } catch (error) {
       console.error("에러 내용:", error);
-      alert("그룹 채팅방 나가기 중 문제가 발생했습니다.");
+      alert(
+        "그룹 채팅방 나가기 중 문제가 발생했습니다. 새로고침 후 다시 시도해 주세요."
+      );
     }
   },
 
@@ -380,7 +387,9 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
       set({ groupChatInvites: resData.groupChatInvites });
     } catch (error) {
       console.error("에러 내용:", error);
-      alert("그룹 채팅방 초대 목록 조회 중 문제가 발생했습니다.");
+      alert(
+        "그룹 채팅방 초대 목록 조회 중 문제가 발생했습니다. 새로고침 후 다시 시도해 주세요."
+      );
     }
   },
 
@@ -438,7 +447,9 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
       }));
     } catch (error) {
       console.error("에러 내용:", error);
-      alert("그룹 채팅방 초대 수락 중 문제가 발생했습니다.");
+      alert(
+        "그룹 채팅방 초대 수락 중 문제가 발생했습니다. 새로고침 후 다시 시도해 주세요."
+      );
     }
   },
 
@@ -467,7 +478,9 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
       }));
     } catch (error) {
       console.error("에러 내용:", error);
-      alert("그룹 채팅방 초대 거절 중 문제가 발생했습니다.");
+      alert(
+        "그룹 채팅방 초대 거절 중 문제가 발생했습니다. 새로고침 후 다시 시도해 주세요."
+      );
     }
   },
 }));

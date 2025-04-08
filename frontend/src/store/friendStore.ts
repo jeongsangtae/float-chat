@@ -86,7 +86,9 @@ const useFriendStore = create<FriendStore>((set) => ({
       set({ friends: resData.friends });
     } catch (error) {
       console.error("에러 내용:", error);
-      alert("친구 목록 조회 중 문제가 발생했습니다.");
+      alert(
+        "친구 목록 조회 중 문제가 발생했습니다. 새로고침 후 다시 시도해 주세요."
+      );
     }
   },
 
@@ -133,7 +135,9 @@ const useFriendStore = create<FriendStore>((set) => ({
       set({ friendRequests: resData.friendRequests });
     } catch (error) {
       console.error("에러 내용:", error);
-      alert("친구 추가 요청 조회 중 문제가 발생했습니다.");
+      alert(
+        "친구 추가 요청 조회 중 문제가 발생했습니다. 새로고침 후 다시 시도해 주세요."
+      );
     }
   },
 
@@ -159,7 +163,9 @@ const useFriendStore = create<FriendStore>((set) => ({
       set({ status: response.status, statusMessage: resData.message });
     } catch (error) {
       console.error("에러 내용:", error);
-      alert("친구 추가 요청 중 문제가 발생했습니다.");
+      alert(
+        "친구 추가 요청 중 문제가 발생했습니다. 새로고침 후 다시 시도해 주세요."
+      );
     }
   },
 
@@ -183,7 +189,9 @@ const useFriendStore = create<FriendStore>((set) => ({
       }));
     } catch (error) {
       console.error("에러 내용:", error);
-      alert("친구 수락 중 문제가 발생했습니다.");
+      alert(
+        "친구 수락 중 문제가 발생했습니다. 새로고침 후 다시 시도해 주세요."
+      );
     }
   },
 
@@ -208,7 +216,9 @@ const useFriendStore = create<FriendStore>((set) => ({
       }));
     } catch (error) {
       console.error("에러 내용:", error);
-      alert("친구 취소 또는 거절 중 문제가 발생했습니다.");
+      alert(
+        "친구 취소 또는 거절 중 문제가 발생했습니다. 새로고침 후 다시 시도해 주세요."
+      );
     }
   },
 
@@ -234,7 +244,9 @@ const useFriendStore = create<FriendStore>((set) => ({
       }));
     } catch (error) {
       console.error("에러 내용:", error);
-      alert("친구 삭제 중 문제가 발생했습니다.");
+      alert(
+        "친구 삭제 중 문제가 발생했습니다. 새로고침 후 다시 시도해 주세요."
+      );
     }
   },
 }));
