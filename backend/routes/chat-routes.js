@@ -86,6 +86,16 @@ router.post("/chat/:roomId", async (req, res) => {
         return res.status(404).json({ message: "채팅방을 찾을 수 없습니다." });
       }
 
+      // 다이렉트 채팅방에 참여한 다른 사용자 정보를 저장
+      const otherParticipant = directChat.participants.find(
+        (participant) => participant._id !== othersData._id.toString()
+      );
+
+      // socket.io 관련 내용 구성
+      const io = req.app.get("io");
+      const onlineUsers = req.app.get("onlineUsers");
+      const socketId = onlineUsers.get(otherParticipant._id);
+
       // 다이렉트 채팅방에 참여한 사용자 isVisible 내용을 모두 true로 변경
       await db
         .getDb()
@@ -107,6 +117,17 @@ router.post("/chat/:roomId", async (req, res) => {
       //     }, // 상대방 찾기
       //     { $set: { "participants.$.isVisible": true } }
       //   );
+
+      // 최신화된 다이렉트 채팅방을 조회
+      const updatedDirectChat = await db
+        .getDb()
+        .collection("directChats")
+        .findOne({ _id: new ObjectId(roomId) });
+
+      // 저장해 둔 초기 상태를 바탕으로 다이렉트 채팅방이 현재 화면에서 보이지 않는 상대방에게 업데이트된 정보를 전달해 실시간 반영
+      if (socketId && otherParticipant.isVisible === false) {
+        io.to(socketId).emit("updatedDirectChat", updatedDirectChat);
+      }
 
       // directChat 데이터를 chatRoom 형식으로 변환
       chatRoom = {
@@ -136,6 +157,7 @@ router.post("/chat/:roomId", async (req, res) => {
 
       const socketId = onlineUsers.get(userId);
 
+      // 채팅방에 참여하지 않은 상대방에게 알림을 전달
       if (socketId && !roomSockets.includes(socketId)) {
         io.to(socketId).emit("messageNotification", {
           id: new ObjectId().toString(),

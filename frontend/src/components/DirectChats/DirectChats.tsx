@@ -30,8 +30,7 @@ const DirectChats = () => {
     <>
       {isLoggedIn && (
         <>
-          {/* <p>아이콘 들어갈 위치</p> */}
-          {/* <Friends /> */}
+          <Friends />
           {filteredDirectChats.map((filteredDirectChat) => (
             <DirectChat
               key={filteredDirectChat._id}

@@ -2,7 +2,7 @@ import { create } from "zustand";
 
 import { Socket } from "socket.io-client";
 
-// import useSocketStore from "./socketStore";
+import useSocketStore from "./socketStore";
 
 import { DirectChatData } from "../types";
 
@@ -30,6 +30,19 @@ const useDirectChatStore = create<DirectChatStore>((set) => ({
     if (!response.ok) {
       throw new Error(`다이렉트 채팅방 조회 실패`);
     }
+
+    const socket = useSocketStore.getState().socket;
+    if (!socket) return; // 소켓이 없으면 실행 안 함
+
+    socket.off("updatedDirectChat");
+
+    socket.on("updatedDirectChat", (updatedDirectChatData) => {
+      set((prev) => ({
+        directChats: prev.directChats.concat(updatedDirectChatData),
+      }));
+    });
+
+    console.log("다이렉트 채팅방 목록 업데이트");
 
     const resData: { directChats: DirectChatData[] } = await response.json();
 

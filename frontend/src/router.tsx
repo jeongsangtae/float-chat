@@ -14,9 +14,9 @@ const router = createBrowserRouter([
       { index: true, element: <Navigate to="/me" replace /> }, // 루트 경로 접근 시 /me로 리다이렉트
       {
         path: "me",
-        element: <DirectChatPage />,
+        element: <DirectChatPage />, // 기본 /me 경로 및 레이아웃 역할
         children: [
-          { index: true, element: <EmptyChatPage /> }, // 기본 /me 경로
+          { index: true, element: <EmptyChatPage /> },
           { path: ":roomId", element: <DirectChatDetailsPage /> },
         ],
       },
