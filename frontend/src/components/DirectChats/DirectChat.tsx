@@ -1,14 +1,18 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { DirectChatProps } from "../../types";
 
 import useDirectChatStore from "../../store/directChatStore";
 
 const DirectChat = ({ _id, otherUserNickname }: DirectChatProps) => {
+  const navigate = useNavigate();
+
   const { getDirectChat, closeDirectChat } = useDirectChatStore();
 
   const closeDirectChatHandler = async (): Promise<void> => {
     await closeDirectChat(_id);
     await getDirectChat();
+
+    navigate("/");
   };
 
   return (

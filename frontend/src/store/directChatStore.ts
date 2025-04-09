@@ -73,6 +73,10 @@ const useDirectChatStore = create<DirectChatStore>((set) => ({
 
       // set({ directChatRoomId: resData.roomId });
 
+      set((prev) => ({
+        directChats: [...prev.directChats, resData.directChat],
+      }));
+
       return resData.roomId;
     } catch (error) {
       console.error("에러 내용:", error);

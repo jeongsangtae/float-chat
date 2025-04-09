@@ -73,7 +73,21 @@ router.post("/directChatForm", async (req, res) => {
           { $set: { "participants.$.isVisible": true } }
         );
 
-      return res.status(200).json({ roomId: existingChat._id });
+      const updatedExistingChat = await db
+        .getDb()
+        .collection("directChats")
+        .findOne({
+          "participants._id": {
+            $all: [othersData._id.toString(), friendData.id],
+          },
+        });
+
+      return res
+        .status(200)
+        .json({
+          directChat: updatedExistingChat,
+          roomId: updatedExistingChat._id,
+        });
     }
 
     let date = new Date();
@@ -109,7 +123,7 @@ router.post("/directChatForm", async (req, res) => {
 
     const roomId = result.insertedId;
 
-    res.status(200).json({ roomId });
+    res.status(200).json({ directChat: newDirectChat, roomId });
   } catch (error) {
     errorHandler(res, error, "다이렉트 채팅방 생성 중 오류 발생");
   }
