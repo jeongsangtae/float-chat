@@ -6,13 +6,16 @@ import useDirectChatStore from "../../store/directChatStore";
 const DirectChat = ({ _id, otherUserNickname }: DirectChatProps) => {
   const navigate = useNavigate();
 
-  const { getDirectChat, closeDirectChat } = useDirectChatStore();
+  const { currentRoomId, getDirectChat, closeDirectChat } =
+    useDirectChatStore();
 
   const closeDirectChatHandler = async (): Promise<void> => {
     await closeDirectChat(_id);
     await getDirectChat();
 
-    navigate("/");
+    if (currentRoomId === _id) {
+      navigate("/");
+    }
   };
 
   return (

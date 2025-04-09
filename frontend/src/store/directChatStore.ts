@@ -12,6 +12,8 @@ interface DirectChatStore {
   socket: Socket | null;
   directChats: DirectChatData[];
   // directChatRoomId: string;
+  currentRoomId: string | null;
+  setCurrentRoomId: (roomId: string | null) => void;
   getDirectChat: () => Promise<void>;
   directChatForm: (id: string, nickname: string) => Promise<void>;
   closeDirectChat: (_id: string) => Promise<void>;
@@ -20,7 +22,12 @@ interface DirectChatStore {
 const useDirectChatStore = create<DirectChatStore>((set) => ({
   socket: null,
   directChats: [],
+  currentRoomId: null,
   // directChatRoomId: "",
+
+  setCurrentRoomId: (roomId) => {
+    set({ currentRoomId: roomId });
+  },
 
   getDirectChat: async () => {
     try {
