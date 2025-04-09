@@ -80,9 +80,16 @@ const useDirectChatStore = create<DirectChatStore>((set) => ({
 
       // set({ directChatRoomId: resData.roomId });
 
-      set((prev) => ({
-        directChats: [...prev.directChats, resData.directChat],
-      }));
+      // 다이렉트 채팅방 추가 시에 중복을 방지하기 위해 some 사용
+      set((prev) => {
+        const exists = prev.directChats.some(
+          (room) => room._id === resData.directChat._id
+        );
+        // 중복된 다이렉트 채팅방은 추가하지 않음
+        return exists
+          ? prev
+          : { directChats: [...prev.directChats, resData.directChat] };
+      });
 
       return resData.roomId;
     } catch (error) {
