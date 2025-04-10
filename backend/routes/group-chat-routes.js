@@ -90,7 +90,7 @@ router.post("/groupChatForm", async (req, res) => {
         .padStart(2, "0")} ${kstDate
         .getHours()
         .toString()
-        .padStart(2, "0")}:${date
+        .padStart(2, "0")}:${kstDate
         .getMinutes()
         .toString()
         .padStart(2, "0")}:${kstDate.getSeconds().toString().padStart(2, "0")}`,
@@ -148,7 +148,7 @@ router.patch("/groupChatForm", async (req, res) => {
         .padStart(2, "0")} ${kstDate
         .getHours()
         .toString()
-        .padStart(2, "0")}:${date
+        .padStart(2, "0")}:${kstDate
         .getMinutes()
         .toString()
         .padStart(2, "0")}:${kstDate.getSeconds().toString().padStart(2, "0")}`,
@@ -380,7 +380,7 @@ router.post("/groupChat/:roomId/invite", async (req, res) => {
         .padStart(2, "0")} ${kstDate
         .getHours()
         .toString()
-        .padStart(2, "0")}:${date
+        .padStart(2, "0")}:${kstDate
         .getMinutes()
         .toString()
         .padStart(2, "0")}:${kstDate.getSeconds().toString().padStart(2, "0")}`,

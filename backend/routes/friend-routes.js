@@ -139,7 +139,7 @@ router.post("/friendRequests", async (req, res) => {
           .padStart(2, "0")} ${kstDate
           .getHours()
           .toString()
-          .padStart(2, "0")}:${date
+          .padStart(2, "0")}:${kstDate
           .getMinutes()
           .toString()
           .padStart(2, "0")}:${kstDate
@@ -219,7 +219,7 @@ router.post("/acceptFriend", async (req, res) => {
         .padStart(2, "0")} ${kstDate
         .getHours()
         .toString()
-        .padStart(2, "0")}:${date
+        .padStart(2, "0")}:${kstDate
         .getMinutes()
         .toString()
         .padStart(2, "0")}:${kstDate.getSeconds().toString().padStart(2, "0")}`,

@@ -26,6 +26,7 @@ router.get("/directChats", async (req, res) => {
           $elemMatch: { _id: othersData._id.toString(), isVisible: true },
         },
       })
+      .sort({ lastMessageDate: -1 })
       .toArray();
 
     if (!directChats.length === 0) {
@@ -82,16 +83,27 @@ router.post("/directChatForm", async (req, res) => {
           },
         });
 
-      return res
-        .status(200)
-        .json({
-          directChat: updatedExistingChat,
-          roomId: updatedExistingChat._id,
-        });
+      return res.status(200).json({
+        directChat: updatedExistingChat,
+        roomId: updatedExistingChat._id,
+      });
     }
 
     let date = new Date();
     let kstDate = new Date(date.getTime() + 9 * 60 * 60 * 1000);
+
+    const formatKSTDate = `${kstDate.getFullYear()}.${(kstDate.getMonth() + 1)
+      .toString()
+      .padStart(2, "0")}.${kstDate
+      .getDate()
+      .toString()
+      .padStart(2, "0")} ${kstDate
+      .getHours()
+      .toString()
+      .padStart(2, "0")}:${kstDate
+      .getMinutes()
+      .toString()
+      .padStart(2, "0")}:${kstDate.getSeconds().toString().padStart(2, "0")}`;
 
     const newDirectChat = {
       participants: [
@@ -102,18 +114,8 @@ router.post("/directChatForm", async (req, res) => {
         }, // 현재 사용자
         { _id: friendData.id, nickname: friendData.nickname, isVisible: false }, // 친구
       ],
-      date: `${kstDate.getFullYear()}.${(kstDate.getMonth() + 1)
-        .toString()
-        .padStart(2, "0")}.${kstDate
-        .getDate()
-        .toString()
-        .padStart(2, "0")} ${kstDate
-        .getHours()
-        .toString()
-        .padStart(2, "0")}:${date
-        .getMinutes()
-        .toString()
-        .padStart(2, "0")}:${kstDate.getSeconds().toString().padStart(2, "0")}`,
+      date: formatKSTDate,
+      lastMessageDate: formatKSTDate,
     };
 
     const result = await db
