@@ -37,8 +37,16 @@ const useDirectChatStore = create<DirectChatStore>((set) => ({
       socket.off("updatedDirectChat");
 
       socket.on("updatedDirectChat", (updatedDirectChatData) => {
+        // set((prev) => ({
+        //   directChats: prev.directChats.concat(updatedDirectChatData),
+        // }));
+
         set((prev) => ({
-          directChats: prev.directChats.concat(updatedDirectChatData),
+          directChats: [...prev.directChats, updatedDirectChatData].sort(
+            (a, b) =>
+              new Date(b.lastMessageDate).getTime() -
+              new Date(a.lastMessageDate).getTime()
+          ),
         }));
       });
 
@@ -78,9 +86,19 @@ const useDirectChatStore = create<DirectChatStore>((set) => ({
           (room) => room._id === resData.directChat._id
         );
         // 중복된 다이렉트 채팅방은 추가하지 않음
+        // return exists
+        //   ? prev
+        //   : { directChats: [...prev.directChats, resData.directChat] };
+
         return exists
           ? prev
-          : { directChats: [...prev.directChats, resData.directChat] };
+          : {
+              directChats: [...prev.directChats, resData.directChat].sort(
+                (a, b) =>
+                  new Date(b.lastMessageDate).getTime() -
+                  new Date(a.lastMessageDate).getTime()
+              ),
+            };
       });
 
       return resData.roomId;
