@@ -2,18 +2,19 @@ import { Link, useNavigate } from "react-router-dom";
 import { DirectChatProps } from "../../types";
 
 import useDirectChatStore from "../../store/directChatStore";
+import useSocketStore from "../../store/socketStore";
 
 const DirectChat = ({ _id, otherUserNickname }: DirectChatProps) => {
   const navigate = useNavigate();
 
-  const { currentRoomId, getDirectChat, closeDirectChat } =
-    useDirectChatStore();
+  const { getDirectChat, closeDirectChat } = useDirectChatStore();
+  const { currentRoom } = useSocketStore();
 
   const closeDirectChatHandler = async (): Promise<void> => {
     await closeDirectChat(_id);
     await getDirectChat();
 
-    if (currentRoomId === _id) {
+    if (currentRoom === _id) {
       navigate("/");
     }
   };
