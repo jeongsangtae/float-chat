@@ -8,12 +8,14 @@ export interface ModalProps {
 export interface Participants {
   _id: string;
   nickname: string;
+  isVisible: boolean;
 }
 
 export interface DirectChatData {
   _id: string;
   participants: Participants[];
   date: string;
+  lastMessageDate: string;
 }
 
 export interface DirectChatProps {

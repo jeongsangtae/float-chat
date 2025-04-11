@@ -34,21 +34,94 @@ const useDirectChatStore = create<DirectChatStore>((set) => ({
       const socket = useSocketStore.getState().socket;
       if (!socket) return; // 소켓이 없으면 실행 안 함
 
+      // socket.off("invisibleDirectChat");
+
       socket.off("updatedDirectChat");
 
-      socket.on("updatedDirectChat", (updatedDirectChatData) => {
-        // set((prev) => ({
-        //   directChats: prev.directChats.concat(updatedDirectChatData),
-        // }));
+      const sortFn = (a: DirectChatData, b: DirectChatData) =>
+        new Date(b.lastMessageDate).getTime() -
+        new Date(a.lastMessageDate).getTime();
 
+      // 다이렉트 채팅방이 화면에 보이지 않을 때 추가
+      // socket.on("invisibleDirectChat", (updatedDirectChatData) => {
+      //   set((prev) => ({
+      //     directChats: [...prev.directChats, updatedDirectChatData].sort(
+      //       sortFn
+      //     ),
+      //   }));
+      // });
+
+      // 다이렉트 채팅방이 화면에 보이지 않을 때 추가
+      // some을 사용해 중복 방지
+      socket.on("invisibleDirectChat", (updatedDirectChatData) => {
+        // 가독성 위주
+        // set((prev) => {
+        //   const exists = prev.directChats.some(
+        //     (room) => room._id === updatedDirectChatData._id
+        //   );
+
+        //   if (exists) return { directChats: prev.directChats.sort(sortFn) };
+
+        //   return {
+        //     directChats: [...prev.directChats, updatedDirectChatData].sort(
+        //       sortFn
+        //     ),
+        //   };
+        // });
+
+        // 로직을 많이 간소화한 축약형
         set((prev) => ({
-          directChats: [...prev.directChats, updatedDirectChatData].sort(
-            (a, b) =>
-              new Date(b.lastMessageDate).getTime() -
-              new Date(a.lastMessageDate).getTime()
-          ),
+          directChats: prev.directChats.some(
+            (room) => room._id === updatedDirectChatData._id
+          )
+            ? prev.directChats.sort(sortFn)
+            : [...prev.directChats, updatedDirectChatData].sort(sortFn),
+        }));
+
+        // 중간 스타일 구조
+        // set((prev) => {
+        //   const exists = prev.directChats.some(
+        //     (room) => room._id === updatedDirectChatData._id
+        //   );
+
+        //   return exists
+        //     ? { directChats: prev.directChats.sort(sortFn) }
+        //     : {
+        //         directChats: [...prev.directChats, updatedDirectChatData].sort(
+        //           sortFn
+        //         ),
+        //       };
+        // });
+      });
+
+      // 이미 존재하는 다이렉트 채팅방 업데이트
+      socket.on("updatedDirectChat", (updatedDirectChatData) => {
+        set((prev) => ({
+          directChats: prev.directChats
+            .map((room) =>
+              room._id === updatedDirectChatData._id
+                ? updatedDirectChatData
+                : room
+            )
+            .sort(sortFn),
         }));
       });
+
+      // socket.on("updatedDirectChat", (updatedDirectChatData) => {
+      //   // set((prev) => ({
+      //   //   directChats: prev.directChats.concat(updatedDirectChatData),
+      //   // }));
+
+      //   console.log(updatedDirectChatData);
+
+      //   set((prev) => ({
+      //     directChats: [...prev.directChats, updatedDirectChatData].sort(
+      //       (a, b) =>
+      //         new Date(b.lastMessageDate).getTime() -
+      //         new Date(a.lastMessageDate).getTime()
+      //     ),
+      //   }));
+      // });
 
       const resData: { directChats: DirectChatData[] } = await response.json();
 

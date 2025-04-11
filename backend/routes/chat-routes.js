@@ -97,6 +97,7 @@ router.post("/chat/:roomId", async (req, res) => {
       const socketId = onlineUsers.get(otherParticipant._id);
 
       // 다이렉트 채팅방에 참여한 사용자 isVisible 내용을 모두 true로 변경
+      // 새로운 메시지가 추가될 때 저장되는 날짜가 lastMessageDate에 저장되어 함께 업데이트
       await db
         .getDb()
         .collection("directChats")
@@ -131,6 +132,11 @@ router.post("/chat/:roomId", async (req, res) => {
 
       // 저장해 둔 초기 상태를 바탕으로 다이렉트 채팅방이 현재 화면에서 보이지 않는 상대방에게 업데이트된 정보를 전달해 실시간 반영
       if (socketId && otherParticipant.isVisible === false) {
+        io.to(socketId).emit("invisibleDirectChat", updatedDirectChat);
+      }
+
+      // 이미 보이는 다이렉트 채팅방 업데이트
+      if (socketId) {
         io.to(socketId).emit("updatedDirectChat", updatedDirectChat);
       }
 
