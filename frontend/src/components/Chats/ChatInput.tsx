@@ -2,12 +2,14 @@ import React, { useState } from "react";
 
 import useAuthStore from "../../store/authStore";
 import useChatStore from "../../store/chatStore";
+import useDirectChatStore from "../../store/directChatStore";
 
 import { RoomId } from "../../types";
 
 const ChatInput = ({ roomId }: RoomId) => {
   const { sendMessage } = useChatStore();
   const { userInfo } = useAuthStore();
+  const { directChats, getDirectChat } = useDirectChatStore();
   const [message, setMessage] = useState<string>("");
 
   const inputChangeHandler = (
@@ -16,9 +18,29 @@ const ChatInput = ({ roomId }: RoomId) => {
     setMessage(event.target.value);
   };
 
-  const sendMessageHandler = (
+  // const sendMessageHandler = (
+  //   event: React.MouseEvent<HTMLButtonElement>
+  // ): void => {
+  //   event.preventDefault();
+
+  //   if (!roomId || !userInfo) {
+  //     console.error("roomId 또는 userInfo가 정의되지 않았습니다.");
+  //     return;
+  //   }
+
+  //   sendMessage(roomId, message, userInfo);
+  //   setMessage("");
+
+  //   const directChatChecked = directChats.find((room) => room._id === roomId);
+
+  //   if (directChatChecked?.lastMessageDate) {
+  //     getDirectChat();
+  //   }
+  // };
+
+  const sendMessageHandler = async (
     event: React.MouseEvent<HTMLButtonElement>
-  ): void => {
+  ): Promise<void> => {
     event.preventDefault();
 
     if (!roomId || !userInfo) {
@@ -26,8 +48,14 @@ const ChatInput = ({ roomId }: RoomId) => {
       return;
     }
 
-    sendMessage(roomId, message, userInfo);
+    await sendMessage(roomId, message, userInfo);
     setMessage("");
+
+    const directChatChecked = directChats.find((room) => room._id === roomId);
+
+    if (directChatChecked?.lastMessageDate) {
+      await getDirectChat();
+    }
   };
 
   return (
