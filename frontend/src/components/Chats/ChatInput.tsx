@@ -18,26 +18,6 @@ const ChatInput = ({ roomId }: RoomId) => {
     setMessage(event.target.value);
   };
 
-  // const sendMessageHandler = (
-  //   event: React.MouseEvent<HTMLButtonElement>
-  // ): void => {
-  //   event.preventDefault();
-
-  //   if (!roomId || !userInfo) {
-  //     console.error("roomId 또는 userInfo가 정의되지 않았습니다.");
-  //     return;
-  //   }
-
-  //   sendMessage(roomId, message, userInfo);
-  //   setMessage("");
-
-  //   const directChatChecked = directChats.find((room) => room._id === roomId);
-
-  //   if (directChatChecked?.lastMessageDate) {
-  //     getDirectChat();
-  //   }
-  // };
-
   const sendMessageHandler = async (
     event: React.MouseEvent<HTMLButtonElement>
   ): Promise<void> => {

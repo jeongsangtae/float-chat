@@ -34,65 +34,34 @@ const useDirectChatStore = create<DirectChatStore>((set) => ({
       const socket = useSocketStore.getState().socket;
       if (!socket) return; // 소켓이 없으면 실행 안 함
 
-      // socket.off("invisibleDirectChat");
-
-      socket.off("updatedDirectChat");
-
       const sortFn = (a: DirectChatData, b: DirectChatData) =>
         new Date(b.lastMessageDate).getTime() -
         new Date(a.lastMessageDate).getTime();
 
+      socket.off("invisibleDirectChat");
+
+      socket.off("updatedDirectChat");
+
       // 다이렉트 채팅방이 화면에 보이지 않을 때 추가
-      // socket.on("invisibleDirectChat", (updatedDirectChatData) => {
-      //   set((prev) => ({
-      //     directChats: [...prev.directChats, updatedDirectChatData].sort(
-      //       sortFn
-      //     ),
-      //   }));
-      // });
+      socket.on("invisibleDirectChat", (updatedDirectChatData) => {
+        set((prev) => ({
+          directChats: [...prev.directChats, updatedDirectChatData].sort(
+            sortFn
+          ),
+        }));
+      });
 
       // 다이렉트 채팅방이 화면에 보이지 않을 때 추가
       // some을 사용해 중복 방지
-      socket.on("invisibleDirectChat", (updatedDirectChatData) => {
-        // 가독성 위주
-        // set((prev) => {
-        //   const exists = prev.directChats.some(
-        //     (room) => room._id === updatedDirectChatData._id
-        //   );
-
-        //   if (exists) return { directChats: prev.directChats.sort(sortFn) };
-
-        //   return {
-        //     directChats: [...prev.directChats, updatedDirectChatData].sort(
-        //       sortFn
-        //     ),
-        //   };
-        // });
-
-        // 로직을 많이 간소화한 축약형
-        set((prev) => ({
-          directChats: prev.directChats.some(
-            (room) => room._id === updatedDirectChatData._id
-          )
-            ? prev.directChats.sort(sortFn)
-            : [...prev.directChats, updatedDirectChatData].sort(sortFn),
-        }));
-
-        // 중간 스타일 구조
-        // set((prev) => {
-        //   const exists = prev.directChats.some(
-        //     (room) => room._id === updatedDirectChatData._id
-        //   );
-
-        //   return exists
-        //     ? { directChats: prev.directChats.sort(sortFn) }
-        //     : {
-        //         directChats: [...prev.directChats, updatedDirectChatData].sort(
-        //           sortFn
-        //         ),
-        //       };
-        // });
-      });
+      // socket.on("invisibleDirectChat", (updatedDirectChatData) => {
+      //   // 로직을 많이 간소화한 축약형
+      //   set((prev) => ({
+      //     directChats: prev.directChats.some(
+      //       (room) => room._id === updatedDirectChatData._id
+      //     )
+      //       ? prev.directChats.sort(sortFn)
+      //       : [...prev.directChats, updatedDirectChatData].sort(sortFn),
+      //   }));
 
       // 이미 존재하는 다이렉트 채팅방 업데이트
       socket.on("updatedDirectChat", (updatedDirectChatData) => {
@@ -106,22 +75,6 @@ const useDirectChatStore = create<DirectChatStore>((set) => ({
             .sort(sortFn),
         }));
       });
-
-      // socket.on("updatedDirectChat", (updatedDirectChatData) => {
-      //   // set((prev) => ({
-      //   //   directChats: prev.directChats.concat(updatedDirectChatData),
-      //   // }));
-
-      //   console.log(updatedDirectChatData);
-
-      //   set((prev) => ({
-      //     directChats: [...prev.directChats, updatedDirectChatData].sort(
-      //       (a, b) =>
-      //         new Date(b.lastMessageDate).getTime() -
-      //         new Date(a.lastMessageDate).getTime()
-      //     ),
-      //   }));
-      // });
 
       const resData: { directChats: DirectChatData[] } = await response.json();
 
@@ -151,18 +104,12 @@ const useDirectChatStore = create<DirectChatStore>((set) => ({
 
       const resData = await response.json();
 
-      // set({ directChatRoomId: resData.roomId });
-
       // 다이렉트 채팅방 추가 시에 중복을 방지하기 위해 some 사용
       set((prev) => {
         const exists = prev.directChats.some(
           (room) => room._id === resData.directChat._id
         );
         // 중복된 다이렉트 채팅방은 추가하지 않음
-        // return exists
-        //   ? prev
-        //   : { directChats: [...prev.directChats, resData.directChat] };
-
         return exists
           ? prev
           : {
