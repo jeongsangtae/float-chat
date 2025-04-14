@@ -9,6 +9,44 @@ const ObjectId = mongodb.ObjectId;
 
 const router = express.Router();
 
+// 온라인 친구 목록 조회 라우터
+router.get("/onlineFriends", async (req, res) => {
+  try {
+    const othersData = await accessToken(req, res);
+
+    if (!othersData) {
+      return res.status(401).json({ message: "jwt error" });
+    }
+
+    const userId = new ObjectId(othersData._id);
+
+    // const io = req.app.get("io"); // Express 앱에서 Socket.io 인스턴스를 가져옴
+    const onlineUsers = req.app.get("onlineUsers"); // onlineUsers Map을 가져옴
+
+    // 친구 목록 조회
+    const friends = await db
+      .getDb()
+      .collection("friends")
+      .find({ $or: [{ "requester.id": userId }, { "receiver.id": userId }] })
+      .toArray();
+
+    // 온라인 친구만 필터링
+    const onlineFriends = friends.filter((friend) => {
+      const friendId =
+        friend.requester.id.toString() === userId.toString()
+          ? friend.receiver.id.toString()
+          : friend.requester.id.toString();
+
+      return onlineUsers.get(friendId);
+      // return friendId;
+    });
+
+    res.status(200).json({ onlineFriends });
+  } catch (error) {
+    errorHandler(res, error, "온라인 친구 목록 조회 중 오류 발생");
+  }
+});
+
 // 친구 목록 조회 라우터
 router.get("/friends", async (req, res) => {
   try {

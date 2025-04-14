@@ -5,12 +5,19 @@ import useFriendStore from "../../store/friendStore";
 
 import AddFriend from "./AddFriend";
 import Friend from "./Friend";
+import OnlineFriend from "./OnlineFriend";
 import PendingFriends from "./PendingFriends";
 
 const Friends = () => {
   const { userInfo } = useAuthStore();
-  const { friends, loadFriends, friendRequests, loadFriendRequests } =
-    useFriendStore();
+  const {
+    onlineFriends,
+    friends,
+    loadOnlineFriends,
+    loadFriends,
+    friendRequests,
+    loadFriendRequests,
+  } = useFriendStore();
 
   const [toggleFriend, setToggleFriend] = useState<boolean>(false);
   const [activeTab, setActiveTab] = useState<string | null>(null);
@@ -33,6 +40,10 @@ const Friends = () => {
 
   const userId = userInfo?._id;
 
+  const filteredOnlineFriends = onlineFriends.map((friend) => {
+    return friend.requester.id === userId ? friend.receiver : friend.requester;
+  });
+
   const filteredFriends = friends.map((friend) => {
     return friend.requester.id === userId ? friend.receiver : friend.requester;
   });
@@ -43,6 +54,9 @@ const Friends = () => {
       <button onClick={friendToggleHandler}>친구</button>
       {toggleFriend && (
         <>
+          <button onClick={() => activeTabHandler("online", loadOnlineFriends)}>
+            온라인
+          </button>
           <button onClick={() => activeTabHandler("all", loadFriends)}>
             모두
           </button>
@@ -54,6 +68,15 @@ const Friends = () => {
           <button onClick={() => activeTabHandler("addFriend")}>
             친구 추가하기
           </button>
+          {activeTab === "online" &&
+            filteredOnlineFriends.map((friend) => (
+              <OnlineFriend
+                key={friend.id}
+                userId={userInfo?._id ?? ""}
+                id={friend.id}
+                nickname={friend.nickname}
+              />
+            ))}
           {activeTab === "all" &&
             filteredFriends.map((friend) => (
               <Friend

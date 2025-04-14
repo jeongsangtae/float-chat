@@ -10,11 +10,13 @@ const apiURL = import.meta.env.VITE_API_URL;
 
 interface FriendStore {
   socket: Socket | null;
+  onlineFriends: Friend[];
   friends: Friend[];
   friendRequests: FriendRequest[];
   status: number;
   statusMessage: string;
   resetStatusMessage: () => void;
+  loadOnlineFriends: () => Promise<void>;
   loadFriends: () => Promise<void>;
   loadFriendRequests: () => Promise<void>;
   sendFriendRequest: (
@@ -28,12 +30,33 @@ interface FriendStore {
 
 const useFriendStore = create<FriendStore>((set) => ({
   socket: null,
+  onlineFriends: [],
   friends: [],
   friendRequests: [],
   status: 0,
   statusMessage: "",
   resetStatusMessage: () => {
     set({ statusMessage: "" });
+  },
+
+  loadOnlineFriends: async () => {
+    try {
+      const response = await fetch(`${apiURL}/onlineFriends`, {
+        credentials: "include",
+      });
+
+      if (!response.ok) {
+        throw new Error("온라인 친구 목록 조회 실패");
+      }
+
+      const resData = await response.json();
+      set({ onlineFriends: resData.onlineFriends });
+    } catch (error) {
+      console.error("에러 내용:", error);
+      alert(
+        "온라인 친구 목록 조회 중 문제가 발생했습니다. 새로고침 후 다시 시도해 주세요."
+      );
+    }
   },
 
   loadFriends: async () => {
