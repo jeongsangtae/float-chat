@@ -18,9 +18,13 @@ router.get("/onlineFriends", async (req, res) => {
       return res.status(401).json({ message: "jwt error" });
     }
 
+    console.log(othersData._id);
+
     const userId = new ObjectId(othersData._id);
 
-    // const io = req.app.get("io"); // Express 앱에서 Socket.io 인스턴스를 가져옴
+    console.log(userId);
+
+    const io = req.app.get("io"); // Express 앱에서 Socket.io 인스턴스를 가져옴
     const onlineUsers = req.app.get("onlineUsers"); // onlineUsers Map을 가져옴
 
     // 친구 목록 조회
@@ -37,9 +41,12 @@ router.get("/onlineFriends", async (req, res) => {
           ? friend.receiver.id.toString()
           : friend.requester.id.toString();
 
-      return onlineUsers.get(friendId);
+      return onlineUsers.has(friendId);
       // return friendId;
     });
+
+    // console.log(friends, "친구 목록");
+    // console.log(onlineFriends, "온라인 친구만 필터링");
 
     res.status(200).json({ onlineFriends });
   } catch (error) {

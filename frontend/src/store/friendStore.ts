@@ -49,6 +49,19 @@ const useFriendStore = create<FriendStore>((set) => ({
         throw new Error("온라인 친구 목록 조회 실패");
       }
 
+      const socket = useSocketStore.getState().socket;
+      if (!socket) return; // 소켓이 없으면 실행 안 함
+
+      // 기존 이벤트 리스너 제거 후 재등록 (중복 방지)
+      socket.off("onlineFriend");
+
+      socket.on("onlineFriend", (onlineFriends) => {
+        console.log(onlineFriends);
+        set((prev) => ({
+          onlineFriends: [...prev.onlineFriends, onlineFriends],
+        }));
+      });
+
       const resData = await response.json();
       set({ onlineFriends: resData.onlineFriends });
     } catch (error) {

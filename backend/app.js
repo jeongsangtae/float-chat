@@ -1,6 +1,7 @@
 const path = require("path");
 
 const express = require("express");
+const mongodb = require("mongodb");
 const dotenv = require("dotenv");
 
 const http = require("http"); // http 모듈 추가
@@ -21,6 +22,8 @@ const friendRoutes = require("./routes/friend-routes");
 const app = express();
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
+
+const ObjectId = mongodb.ObjectId;
 
 dotenv.config();
 
@@ -94,9 +97,47 @@ app.set("roomUsers", roomUsers);
 io.on("connection", (socket) => {
   console.log("클라이언트가 연결되었습니다:", socket.id);
 
-  socket.on("registerUser", (userId) => {
+  socket.on("registerUser", async (userId) => {
     onlineUsers.set(userId, socket.id);
     console.log(`사용자 온라인: ${userId}, ${socket.id}`);
+
+    // let userId = new ObjectId(userId);
+
+    const friends = await db
+      .getDb()
+      .collection("friends")
+      .find({
+        $or: [
+          { "requester.id": new ObjectId(userId) },
+          { "receiver.id": new ObjectId(userId) },
+        ],
+      })
+      .toArray();
+
+    const onlineFriends = friends.filter((friend) => {
+      const friendId =
+        friend.requester.id.toString() === userId.toString()
+          ? friend.receiver.id.toString()
+          : friend.requester.id.toString();
+
+      return onlineUsers.has(friendId);
+    });
+
+    console.log(friends, "친구 목록");
+
+    console.log(onlineFriends, "로그인한 사용자 친구 목록");
+
+    friends.forEach((friend) => {
+      const friendId =
+        friend.requester.id.toString() === userId.toString()
+          ? friend.receiver.id.toString()
+          : friend.requester.id.toString();
+
+      const friendSocketId = onlineUsers.get(friendId);
+      if (friendSocketId) {
+        io.to(friendSocketId).emit("onlineFriend", onlineFriends);
+      }
+    });
   });
 
   socket.on("leaveRoom", (roomId) => {
