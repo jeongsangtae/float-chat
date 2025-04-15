@@ -114,18 +114,7 @@ io.on("connection", (socket) => {
       })
       .toArray();
 
-    const onlineFriends = friends.filter((friend) => {
-      const friendId =
-        friend.requester.id.toString() === userId.toString()
-          ? friend.receiver.id.toString()
-          : friend.requester.id.toString();
-
-      return onlineUsers.has(friendId);
-    });
-
     console.log(friends, "친구 목록");
-
-    console.log(onlineFriends, "로그인한 사용자 친구 목록");
 
     friends.forEach((friend) => {
       const friendId =
@@ -133,9 +122,12 @@ io.on("connection", (socket) => {
           ? friend.receiver.id.toString()
           : friend.requester.id.toString();
 
+      console.log(friend, "친구 정보");
+
       const friendSocketId = onlineUsers.get(friendId);
+
       if (friendSocketId) {
-        io.to(friendSocketId).emit("onlineFriend", onlineFriends);
+        io.to(friendSocketId).emit("onlineFriend", friend);
       }
     });
   });
