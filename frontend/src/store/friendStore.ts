@@ -55,10 +55,13 @@ const useFriendStore = create<FriendStore>((set) => ({
       // 기존 이벤트 리스너 제거 후 재등록 (중복 방지)
       socket.off("onlineFriend");
 
-      socket.on("onlineFriend", (onlineFriends) => {
-        console.log(onlineFriends);
+      socket.on("onlineFriend", (onlineFriendData) => {
         set((prev) => ({
-          onlineFriends: [...prev.onlineFriends, onlineFriends],
+          onlineFriends: prev.onlineFriends.some(
+            (friend) => friend._id === onlineFriendData._id
+          )
+            ? prev.onlineFriends
+            : [...prev.onlineFriends, onlineFriendData],
         }));
       });
 
