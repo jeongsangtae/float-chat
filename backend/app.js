@@ -114,15 +114,11 @@ io.on("connection", (socket) => {
       })
       .toArray();
 
-    console.log(friends, "친구 목록");
-
     friends.forEach((friend) => {
       const friendId =
         friend.requester.id.toString() === userId.toString()
           ? friend.receiver.id.toString()
           : friend.requester.id.toString();
-
-      console.log(friend, "친구 정보");
 
       const friendSocketId = onlineUsers.get(friendId);
 
@@ -173,13 +169,39 @@ io.on("connection", (socket) => {
   // socket.on("disconnect", () => {
   //   console.log("클라이언트 연결이 끊어졌습니다:", socket.id);
   // });
-  socket.on("disconnect", () => {
+  socket.on("disconnect", async () => {
     console.log("클라이언트 연결이 끊어졌습니다:", socket.id);
+
+    // 연결이 끊긴 소켓 ID를 가진 userId를 찾음
     for (const [userId, socketId] of onlineUsers.entries()) {
       if (socketId === socket.id) {
-        onlineUsers.delete(userId);
-        console.log(`사용자 오프라인: ${userId}`);
-        break;
+        onlineUsers.delete(userId); // onlineUsers Map에서 삭제
+
+        // 친구 목록을 DB에서 조회
+        const friends = await db
+          .getDb()
+          .collection("friends")
+          .find({
+            $or: [
+              { "requester.id": new ObjectId(userId) },
+              { "receiver.id": new ObjectId(userId) },
+            ],
+          })
+          .toArray();
+
+        // 친구들에게 offline 신호 전송
+        friends.forEach((friend) => {
+          const friendId =
+            friend.requester.id.toString() === userId.toString()
+              ? friend.receiver.id.toString()
+              : friend.requester.id.toString();
+
+          const friendSocketId = onlineUsers.get(friendId);
+
+          if (friendSocketId) {
+            io.to(friendSocketId).emit("offlineFriend", friend);
+          }
+        });
       }
     }
   });

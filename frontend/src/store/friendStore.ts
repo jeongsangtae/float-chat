@@ -65,6 +65,16 @@ const useFriendStore = create<FriendStore>((set) => ({
         }));
       });
 
+      socket.off("offlineFriend");
+
+      socket.on("offlineFriend", (offlineFriendData) => {
+        set((prev) => ({
+          onlineFriends: prev.onlineFriends.filter(
+            (friend) => friend._id !== offlineFriendData._id
+          ),
+        }));
+      });
+
       const resData = await response.json();
       set({ onlineFriends: resData.onlineFriends });
     } catch (error) {
