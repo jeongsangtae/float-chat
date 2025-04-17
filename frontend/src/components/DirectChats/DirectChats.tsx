@@ -22,33 +22,18 @@ const DirectChats = () => {
     }
   }, [isLoggedIn]);
 
-  // const filteredDirectChats = directChats.map((directChat) => ({
-  //   ...directChat,
-  //   otherUser: directChat.participants.find(
-  //     (participant) => participant._id !== userInfo?._id
-  //   ),
-  // }));
-
   const onlineFriendIds = onlineFriends.map((friend) =>
     friend.requester.id === userInfo?._id
       ? friend.receiver.id
       : friend.requester.id
   );
 
-  console.log(onlineFriends);
-
-  console.log(onlineFriendIds);
-
   const filteredDirectChats = directChats.map((directChat) => {
     const otherUser = directChat.participants.find(
       (participant) => participant._id !== userInfo?._id
     );
 
-    console.log(otherUser);
-
     const onlineChecked = onlineFriendIds.includes(otherUser?._id ?? "");
-
-    console.log(onlineChecked);
 
     return {
       ...directChat,
@@ -56,8 +41,6 @@ const DirectChats = () => {
       onlineChecked,
     };
   });
-
-  console.log(filteredDirectChats);
 
   return (
     <>
