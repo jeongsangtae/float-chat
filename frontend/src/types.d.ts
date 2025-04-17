@@ -22,6 +22,7 @@ export interface DirectChatProps {
   _id: string;
   otherUserId: string;
   otherUserNickname: string;
+  onlineChecked: boolean;
 }
 
 export interface GroupChatData {

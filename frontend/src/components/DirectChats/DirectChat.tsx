@@ -4,7 +4,11 @@ import { DirectChatProps } from "../../types";
 import useDirectChatStore from "../../store/directChatStore";
 import useSocketStore from "../../store/socketStore";
 
-const DirectChat = ({ _id, otherUserNickname }: DirectChatProps) => {
+const DirectChat = ({
+  _id,
+  otherUserNickname,
+  onlineChecked,
+}: DirectChatProps) => {
   const navigate = useNavigate();
 
   const { getDirectChat, closeDirectChat } = useDirectChatStore();
@@ -21,7 +25,7 @@ const DirectChat = ({ _id, otherUserNickname }: DirectChatProps) => {
 
   return (
     <>
-      <div>다이렉트 채팅방</div>
+      <div>{onlineChecked ? "온라인" : "오프라인"}</div>
       <Link to={`${_id}`}>
         <div>{otherUserNickname}</div>
       </Link>
