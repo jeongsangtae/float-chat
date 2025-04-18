@@ -1,0 +1,16 @@
+.chat-input-container {
+}
+
+.chat-input-container textarea {
+  font: inherit;
+  font-size: 0.8rem;
+  flex-grow: 1;
+  padding: 0.5rem;
+  border: none;
+  resize: none;
+  width: 100%;
+  overflow-y: auto;
+  background-color: white;
+  color: black;
+  line-height: 1rem;
+}
