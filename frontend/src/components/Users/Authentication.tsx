@@ -1,3 +1,4 @@
+import { ReactNode } from "react";
 import { useParams } from "react-router-dom";
 
 import useAuthStore from "../../store/authStore";
@@ -6,7 +7,11 @@ import useGroupChatStore from "../../store/groupChatStore";
 
 import NoAccess from "./NoAccess";
 
-const Authentication = ({ children }) => {
+interface AuthenticationProps {
+  children: ReactNode;
+}
+
+const Authentication = ({ children }: AuthenticationProps) => {
   const { roomId } = useParams();
   const { isLoggedIn } = useAuthStore();
   const { directChats } = useDirectChatStore();
@@ -16,10 +21,6 @@ const Authentication = ({ children }) => {
     !roomId ||
     directChats.some((directChat) => directChat._id === roomId) ||
     groupChats.some((groupChat) => groupChat._id === roomId);
-
-  console.log(checkedRoom);
-
-  console.log(isLoggedIn);
 
   if (!isLoggedIn) {
     return (

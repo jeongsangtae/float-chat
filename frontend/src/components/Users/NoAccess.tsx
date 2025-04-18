@@ -1,4 +1,9 @@
-const NoAccess = ({ title, description }) => {
+interface NoAccessProps {
+  title: string;
+  description: string;
+}
+
+const NoAccess = ({ title, description }: NoAccessProps) => {
   return (
     <div>
       <h1>{title}</h1>

@@ -12,26 +12,22 @@ import Authentication from "./components/Users/Authentication";
 const router = createBrowserRouter([
   {
     path: "/", // RootLayout이 모든 경로에 적용
-    element: (
-      <Authentication>
-        <RootLayout />
-      </Authentication>
-    ),
+    element: <RootLayout />,
     errorElement: <NotFound />,
     children: [
       { index: true, element: <Navigate to="/me" replace /> }, // 루트 경로 접근 시 /me로 리다이렉트
       {
         path: "me",
-        element: (
-          <Authentication>
-            <DirectChatPage />
-          </Authentication>
-        ), // 기본 /me 경로 및 레이아웃 역할
+        element: <DirectChatPage />, // 기본 /me 경로 및 레이아웃 역할
         children: [
           { index: true, element: <EmptyChatPage /> },
           {
             path: ":roomId",
-            element: <DirectChatDetailsPage />,
+            element: (
+              <Authentication>
+                <DirectChatDetailsPage />
+              </Authentication>
+            ),
           },
         ],
       },
@@ -41,7 +37,11 @@ const router = createBrowserRouter([
       },
       {
         path: "group-chat/:roomId",
-        element: <GroupChatDetailsPage />,
+        element: (
+          <Authentication>
+            <GroupChatDetailsPage />
+          </Authentication>
+        ),
       },
     ],
   },
