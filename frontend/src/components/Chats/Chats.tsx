@@ -38,10 +38,6 @@ const Chats = ({ roomId }: RoomId) => {
     // 날짜를 ex)"2025년 4월 12일"처럼 보이도록 가공
     const currentDate = `${year}년 ${parseInt(month)}월 ${parseInt(day)}일`;
 
-    console.log(year, parseInt(year));
-    console.log(month, parseInt(month));
-    console.log(day, parseInt(day));
-
     // 이전 메시지 날짜와 현재 메시지 날짜가 다르면 날짜 라인을 보여줌
     const showDateLine = currentDate !== prevDate;
 
@@ -64,9 +60,6 @@ const Chats = ({ roomId }: RoomId) => {
   return (
     <>
       <p>{roomId}</p>
-      {/* {messages.map((message) => (
-        <Chat key={message._id} message={message.message} date={message.date} />
-      ))} */}
       {dateLineAndMessages}
     </>
   );
