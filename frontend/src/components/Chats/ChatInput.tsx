@@ -21,11 +21,13 @@ const ChatInput = ({ roomId }: RoomId) => {
   ): void => {
     const textarea = textareaRef.current;
 
+    console.log(textarea);
+
     if (textarea) {
       // 높이를 초기화하여 scrollHeight 값을 올바르게 계산
       textarea.style.height = "auto";
       const newHeight = textarea.scrollHeight; // 새로운 높이 계산
-      textarea.style.height = `${newHeight}px`;
+      // textarea.style.height = `${newHeight}px`;
 
       // 텍스트 입력창의 최대 높이를 설정하고, 그 이상은 스크롤 사용
       if (newHeight <= 112) {
