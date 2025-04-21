@@ -41,7 +41,7 @@ const Chats = ({ roomId }: RoomId) => {
     // 이전 메시지 날짜와 현재 메시지 날짜가 다르면 날짜 라인을 보여줌
     const showDateLine = currentDate !== prevDate;
 
-    // 현재 메시지 날짜를 prevDate에 저장해 다름 메시지 비교에 사용
+    // 현재 메시지 날짜를 prevDate에 저장해 다른 메시지 비교에 사용
     prevDate = currentDate;
 
     return (

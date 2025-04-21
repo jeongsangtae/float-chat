@@ -4,3 +4,8 @@
 .chat-message {
   white-space: pre-line;
 }
+
+.chat-message span {
+  font-size: 0.8rem;
+  color: gray;
+}
