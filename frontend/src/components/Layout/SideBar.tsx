@@ -10,7 +10,13 @@ import Login from "../Users/Login";
 import Signup from "../Users/Signup";
 import GroupChatForm from "../GroupChats/GroupChatForm";
 
-const SideBar = () => {
+import classes from "./SideBar.module.css";
+
+interface SideBarProps {
+  onLeaveGroupChat: () => void;
+}
+
+const SideBar = ({ onLeaveGroupChat }: SideBarProps) => {
   const { isLoggedIn, userInfo, renewToken, refreshTokenExp, logout } =
     useAuthStore();
   const { activeModal, toggleModal } = useModalStore();
@@ -61,14 +67,14 @@ const SideBar = () => {
   };
 
   return (
-    <>
+    <div className={classes.sidebar}>
       {isLoggedIn && (
         <>
-          <p>{userInfo?.nickname}</p>
-          <button onClick={logoutHandler}>로그아웃</button>
+          <button onClick={onLeaveGroupChat}>아이콘 들어갈 위치</button>
           <GroupChats />
         </>
       )}
+
       {filteredModals.map(({ type, label, component: Component }) => (
         <div key={type}>
           <button onClick={() => toggleModal(type)}>{label}</button>
@@ -77,7 +83,14 @@ const SideBar = () => {
           )}
         </div>
       ))}
-    </>
+
+      {isLoggedIn && (
+        <div className={classes["user-info"]}>
+          <p>{userInfo?.nickname}</p>
+          <button onClick={logoutHandler}>로그아웃</button>
+        </div>
+      )}
+    </div>
   );
 };
 

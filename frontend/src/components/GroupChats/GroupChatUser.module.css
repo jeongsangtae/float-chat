@@ -1,0 +1,11 @@
+/* .group-chat-users {
+  width: 15%;
+  background-color: #36393f;
+  padding: 1rem;
+  overflow-y: auto;
+} */
+
+.group-chat-users {
+  flex-grow: 1;
+  overflow-y: auto;
+}

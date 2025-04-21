@@ -1,0 +1,22 @@
+.group-chat-details {
+  display: flex;
+  margin-left: 13%;
+  height: 100vh;
+}
+/* 
+.group-chat-users {
+  width: 15%;
+  background-color: #36393f;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+} */
+
+.group-chat-content {
+  width: 85%;
+  padding: 1rem;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}

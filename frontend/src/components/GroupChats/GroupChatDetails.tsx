@@ -9,6 +9,8 @@ import Chats from "../Chats/Chats";
 import GroupChatInvite from "./GroupChatInvite";
 import GroupChatUsers from "./GroupChatUsers";
 
+import classes from "./GroupChatDetails.module.css";
+
 const GroupChatDetails = () => {
   const { roomId } = useParams<{ roomId: string }>();
 
@@ -30,9 +32,12 @@ const GroupChatDetails = () => {
   });
 
   return (
-    <>
-      <GroupChatUsers roomId={roomId} />
-      <button onClick={toggleHandler}>친구 초대 버튼</button>
+    <div className={classes["group-chat-details"]}>
+      <div className={classes["group-chat-sidebar"]}>
+        <GroupChatUsers roomId={roomId} />
+        <button onClick={toggleHandler}>친구 초대 버튼</button>
+      </div>
+
       {toggle &&
         filteredFriends.map((friend) => (
           <GroupChatInvite
@@ -42,9 +47,12 @@ const GroupChatDetails = () => {
             nickname={friend.nickname}
           />
         ))}
-      <Chats roomId={roomId} />
-      <ChatInput roomId={roomId} />
-    </>
+
+      <div className={classes["group-chat-content"]}>
+        <Chats roomId={roomId} />
+        <ChatInput roomId={roomId} />
+      </div>
+    </div>
   );
 };
 

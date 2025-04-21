@@ -1,0 +1,15 @@
+.layout {
+  display: flex;
+  height: 100vh;
+  background-color: #2f3136;
+  color: white;
+}
+
+.main-content {
+  flex: 1;
+  padding: 1rem;
+  background-color: #36393f;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}

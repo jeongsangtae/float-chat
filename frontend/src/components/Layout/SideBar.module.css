@@ -1,0 +1,26 @@
+.sidebar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  /* width: 250px; */
+  width: 13%;
+  background-color: #2f3136;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  overflow-y: auto;
+  z-index: 1000;
+}
+
+.user-info {
+  margin-top: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  font-size: 0.9rem;
+  background-color: #2f3136;
+  border-top: 1px solid #444;
+}
