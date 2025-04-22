@@ -68,21 +68,23 @@ const SideBar = ({ onLeaveGroupChat }: SideBarProps) => {
 
   return (
     <div className={classes.sidebar}>
-      {isLoggedIn && (
-        <>
-          <button onClick={onLeaveGroupChat}>아이콘 들어갈 위치</button>
-          <GroupChats />
-        </>
-      )}
+      <div className={classes["sidebar-top"]}>
+        {isLoggedIn && (
+          <>
+            <button onClick={onLeaveGroupChat}>아이콘 들어갈 위치</button>
+            <GroupChats />
+          </>
+        )}
 
-      {filteredModals.map(({ type, label, component: Component }) => (
-        <div key={type}>
-          <button onClick={() => toggleModal(type)}>{label}</button>
-          {activeModal === type && (
-            <Component onToggle={() => toggleModal(type)} />
-          )}
-        </div>
-      ))}
+        {filteredModals.map(({ type, label, component: Component }) => (
+          <div key={type}>
+            <button onClick={() => toggleModal(type)}>{label}</button>
+            {activeModal === type && (
+              <Component onToggle={() => toggleModal(type)} />
+            )}
+          </div>
+        ))}
+      </div>
 
       {isLoggedIn && (
         <div className={classes["user-info"]}>
