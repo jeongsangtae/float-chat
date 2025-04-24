@@ -7,6 +7,10 @@
   list-style: none;
   border-radius: 4px;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+
+  /* 그룹 채팅방 메뉴창 고정된 위치로 열기 */
+  /* top: 80px;
+  left: 30px; */
 }
 
 .context-menu button {

@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import React, { ReactNode } from "react";
 
 export interface ModalProps {
   children?: ReactNode;
@@ -25,11 +25,20 @@ export interface DirectChatProps {
   onlineChecked: boolean;
 }
 
+export interface ContextMenu {
+  visible: boolean;
+  x: number;
+  y: number;
+  id: string | null;
+}
+
 export interface GroupChatData {
   _id: string; // ObjectId는 JSON으로 변환되면 string으로 직렬화
   hostId: string;
   title: string;
   date?: string;
+  contextMenu: ContextMenu;
+  setContextMenu: React.Dispatch<React.SetStateAction<ContextMenu>>;
 }
 
 export interface GroupChatInvites {

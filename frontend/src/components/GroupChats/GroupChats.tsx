@@ -1,11 +1,20 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import useGroupChatStore from "../../store/groupChatStore";
 import GroupChat from "./GroupChat";
+
+import { ContextMenu } from "../../types";
 
 import LoadingIndicator from "../UI/LoadingIndicator";
 
 const GroupChats = () => {
   const { loading, groupChats, getGroupChats } = useGroupChatStore();
+
+  const [contextMenu, setContextMenu] = useState<ContextMenu>({
+    visible: false,
+    x: 0,
+    y: 0,
+    id: null,
+  });
 
   useEffect(() => {
     getGroupChats();
@@ -27,6 +36,8 @@ const GroupChats = () => {
             _id={groupChat._id}
             hostId={groupChat.hostId}
             title={groupChat.title}
+            contextMenu={contextMenu}
+            setContextMenu={setContextMenu}
           />
         ))
       )}
