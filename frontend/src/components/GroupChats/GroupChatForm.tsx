@@ -4,7 +4,7 @@ import useGroupChatStore from "../../store/groupChatStore";
 import useModalStore from "../../store/modalStore";
 
 import { ModalProps } from "../../types";
-import AuthModal from "../UI/AuthModal";
+import Modal from "../UI/Modal";
 
 const GroupChatForm = ({ onToggle }: ModalProps) => {
   const { userInfo } = useAuthStore();
@@ -53,7 +53,7 @@ const GroupChatForm = ({ onToggle }: ModalProps) => {
   };
 
   return (
-    <AuthModal onToggle={onToggle}>
+    <Modal onToggle={onToggle}>
       <form onSubmit={submitHandler}>
         <h2>그룹 채팅방 {modalData.method === "POST" ? "만들기" : "수정"}</h2>
         <p>
@@ -79,7 +79,7 @@ const GroupChatForm = ({ onToggle }: ModalProps) => {
           </button>
         </div>
       </form>
-    </AuthModal>
+    </Modal>
   );
 };
 

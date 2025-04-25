@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import AuthModal from "../UI/AuthModal";
+import Modal from "../UI/Modal";
 import { ModalProps } from "../../types";
 
 interface signupDataType {
@@ -66,7 +66,7 @@ const Signup = ({ onToggle }: ModalProps) => {
   };
 
   return (
-    <AuthModal onToggle={onToggle}>
+    <Modal onToggle={onToggle}>
       <form onSubmit={submitHandler}>
         <h2>회원가입</h2>
         <label htmlFor="email">이메일</label>
@@ -131,7 +131,7 @@ const Signup = ({ onToggle }: ModalProps) => {
         {error && <p>{errorMessage}</p>}
         <button type="submit">가입</button>
       </form>
-    </AuthModal>
+    </Modal>
   );
 };
 

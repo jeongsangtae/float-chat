@@ -1,8 +1,8 @@
 import { ModalProps } from "../../types";
 
-import classes from "./AuthModal.module.css";
+import classes from "./Modal.module.css";
 
-const AuthModal = ({ children, onToggle }: ModalProps) => {
+const Modal = ({ children, onToggle }: ModalProps) => {
   return (
     <>
       <div className={classes.backdrop} onClick={onToggle} />
@@ -13,4 +13,4 @@ const AuthModal = ({ children, onToggle }: ModalProps) => {
   );
 };
 
-export default AuthModal;
+export default Modal;

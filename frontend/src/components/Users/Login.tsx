@@ -1,7 +1,7 @@
 import { useState } from "react";
 import useAuthStore from "../../store/authStore";
 
-import AuthModal from "../UI/AuthModal";
+import Modal from "../UI/Modal";
 import { ModalProps } from "../../types";
 
 interface loginDataType {
@@ -60,7 +60,7 @@ const Login = ({ onToggle }: ModalProps) => {
   };
 
   return (
-    <AuthModal onToggle={onToggle}>
+    <Modal onToggle={onToggle}>
       <form onSubmit={submitHandler}>
         <h2>로그인</h2>
         <label htmlFor="email">이메일</label>
@@ -89,7 +89,7 @@ const Login = ({ onToggle }: ModalProps) => {
         {error && <p>{errorMessage}</p>}
         <button type="submit">로그인</button>
       </form>
-    </AuthModal>
+    </Modal>
   );
 };
 

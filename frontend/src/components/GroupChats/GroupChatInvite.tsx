@@ -6,6 +6,7 @@ const GroupChatInvite = ({
   roomId,
   friendId,
   nickname,
+  onToggle,
 }: GroupChatInviteProps) => {
   const { inviteGroupChat } = useGroupChatStore();
 
@@ -16,6 +17,7 @@ const GroupChatInvite = ({
     }
 
     await inviteGroupChat({ roomId, friendId, nickname });
+    onToggle();
   };
 
   return (
