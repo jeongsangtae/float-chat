@@ -27,6 +27,7 @@ const GroupChat = ({
     event: React.MouseEvent<HTMLDivElement>
   ): void => {
     event.preventDefault();
+    event.stopPropagation(); // 우클릭 이벤트가 전역 우클릭 이벤트까지 퍼지지 않게 막음
 
     // 이미 열려 있고 같은 _id 그룹 채팅방을 열었을 경우 (닫기)
     // if (contextMenu.visible && contextMenu.id === _id) {
@@ -73,8 +74,8 @@ const GroupChat = ({
   };
 
   useEffect(() => {
-    // 외부 클릭 감지 함수
-    const contectMenuOutsideClickHandler = (event: MouseEvent): void => {
+    // 외부 좌클릭 감지 함수
+    const outsideClickHandler = (event: MouseEvent): void => {
       // 메뉴창이 열려 있는지 확인
       // DOM 요소가 존재하는지 확인
       // 클릭한 요소가 메뉴 내부가 아니라면 (외부 클릭) 메뉴를 닫기
@@ -89,11 +90,22 @@ const GroupChat = ({
       }
     };
 
-    // 클릭 이벤트를 전역에 등록
-    document.addEventListener("click", contectMenuOutsideClickHandler);
+    // 외부 우클릭 감지 함수
+    const outsideContextMenuHandler = (event: MouseEvent): void => {
+      if (contextMenu.visible) {
+        event.preventDefault(); // 기본 브라우저 컨텍스트 메뉴 막기
+        contextMenuCloseHandler(); //메뉴창 닫기
+      }
+    };
+
+    // 좌클릭 이벤트를 전역에 등록
+    document.addEventListener("click", outsideClickHandler);
+    // 우클릭 이벤트를 전역에 등록
+    document.addEventListener("contextmenu", outsideContextMenuHandler);
     // 컴포넌트가 언마운트되거나 context.visible이 변경되면 클린업
     return () => {
-      document.removeEventListener("click", contectMenuOutsideClickHandler);
+      document.removeEventListener("click", outsideClickHandler);
+      document.removeEventListener("contextmenu", outsideContextMenuHandler);
     };
   }, [contextMenu.visible]); // visible 상태가 바뀔 때마다 리렌더링
 
