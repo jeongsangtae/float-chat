@@ -1,5 +1,8 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { BsFillChatSquareFill } from "react-icons/bs";
+import { LuLogOut } from "react-icons/lu";
+
 import useAuthStore from "../../store/authStore";
 import useModalStore from "../../store/modalStore";
 import useSocketStore from "../../store/socketStore";
@@ -71,7 +74,14 @@ const SideBar = ({ onLeaveGroupChat }: SideBarProps) => {
       <div className={classes["sidebar-top"]}>
         {isLoggedIn && (
           <>
-            <button onClick={onLeaveGroupChat}>아이콘 들어갈 위치</button>
+            <button
+              className={classes["home-button"]}
+              onClick={onLeaveGroupChat}
+            >
+              <BsFillChatSquareFill className={classes["chat-icon"]} />
+              <div className={`${classes.eye} ${classes["left-eye"]}`}></div>
+              <div className={`${classes.eye} ${classes["right-eye"]}`}></div>
+            </button>
             <GroupChats />
           </>
         )}
@@ -89,7 +99,9 @@ const SideBar = ({ onLeaveGroupChat }: SideBarProps) => {
       {isLoggedIn && (
         <div className={classes["user-info"]}>
           <p>{userInfo?.nickname}</p>
-          <button onClick={logoutHandler}>로그아웃</button>
+          <button onClick={logoutHandler}>
+            로그아웃 <LuLogOut />
+          </button>
         </div>
       )}
     </div>
