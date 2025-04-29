@@ -30,12 +30,13 @@
   flex-direction: column;
   gap: 1rem;
   padding: 0.5rem;
+  align-items: center;
 }
 
 .home-button {
   position: relative;
-  width: 3.5rem;
-  height: 3.5rem;
+  width: 3rem;
+  height: 3rem;
   border-radius: 16px;
   background-color: #1abc9c;
   border: none;
@@ -54,7 +55,7 @@
 
 .chat-icon {
   top: 2px;
-  font-size: 2rem;
+  font-size: 1.75rem;
   color: white;
   position: relative;
   z-index: 1;
@@ -63,7 +64,7 @@
 .eye {
   position: absolute;
   /* top: 25px; */
-  top: 1.45rem;
+  top: 1.25rem;
   width: 0.375rem;
   height: 0.375rem;
   background-color: #1abc9c;
@@ -72,13 +73,11 @@
 }
 
 .left-eye {
-  /* left: 21px; */
-  left: 1.2rem;
+  left: 0.95rem;
 }
 
 .right-eye {
-  /* right: 21px; */
-  right: 1.2rem;
+  right: 0.95rem;
 }
 
 /* .user-info {
@@ -107,6 +106,27 @@
   left: 0;
   color: white;
 } */
+.group-chat-form-button {
+  position: relative;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 16px;
+  color: white;
+  font-size: 1.75rem;
+  background-color: #1abc9c;
+  border: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.group-chat-form-button:hover {
+  background-color: #16a085;
+  transform: scale(1.05);
+}
 
 .user-info {
   position: absolute;

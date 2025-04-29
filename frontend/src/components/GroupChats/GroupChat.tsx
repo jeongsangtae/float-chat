@@ -111,7 +111,10 @@ const GroupChat = ({
 
   return (
     <>
-      <div onContextMenu={contextMenuOpenHandler}>
+      <div
+        className={classes["group-chat"]}
+        onContextMenu={contextMenuOpenHandler}
+      >
         <Link to={`/group-chat/${_id.toString()}`}>{title}</Link>
       </div>
       {contextMenu.visible && contextMenu.id === _id && (

@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, ReactNode } from "react";
 import { useNavigate } from "react-router-dom";
 import { BsFillChatSquareFill } from "react-icons/bs";
 import { LuLogOut } from "react-icons/lu";
@@ -12,6 +12,8 @@ import GroupChats from "../GroupChats/GroupChats";
 import Login from "../Users/Login";
 import Signup from "../Users/Signup";
 import GroupChatForm from "../GroupChats/GroupChatForm";
+
+import { IoMdAddCircle } from "react-icons/io";
 
 import classes from "./SideBar.module.css";
 
@@ -29,15 +31,27 @@ const SideBar = ({ onLeaveGroupChat }: SideBarProps) => {
 
   const modals: {
     type: ModalType;
-    label: string;
+    label: ReactNode;
     component: React.ComponentType<ModalProps>;
+    className?: string;
   }[] = [
-    { type: "login", label: "로그인", component: Login },
-    { type: "signup", label: "회원가입", component: Signup },
+    {
+      type: "login",
+      label: "로그인",
+      component: Login,
+      className: classes["auth-button"],
+    },
+    {
+      type: "signup",
+      label: "회원가입",
+      component: Signup,
+      className: classes["auth-button"],
+    },
     {
       type: "groupChatForm",
-      label: "+",
+      label: <IoMdAddCircle />,
       component: GroupChatForm,
+      className: classes["group-chat-form-button"],
     },
   ];
 
@@ -86,14 +100,18 @@ const SideBar = ({ onLeaveGroupChat }: SideBarProps) => {
           </>
         )}
 
-        {filteredModals.map(({ type, label, component: Component }) => (
-          <div key={type}>
-            <button onClick={() => toggleModal(type)}>{label}</button>
-            {activeModal === type && (
-              <Component onToggle={() => toggleModal(type)} />
-            )}
-          </div>
-        ))}
+        {filteredModals.map(
+          ({ type, label, component: Component, className }) => (
+            <div key={type}>
+              <button className={className} onClick={() => toggleModal(type)}>
+                {label}
+              </button>
+              {activeModal === type && (
+                <Component onToggle={() => toggleModal(type)} />
+              )}
+            </div>
+          )
+        )}
       </div>
 
       {isLoggedIn && (
