@@ -34,11 +34,11 @@
 
 .home-button {
   position: relative;
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 16px;
   background-color: #1abc9c;
-  /* border: none; */
+  border: none;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -53,8 +53,8 @@
 }
 
 .chat-icon {
-  top: 3px;
-  font-size: 30px;
+  top: 2px;
+  font-size: 2rem;
   color: white;
   position: relative;
   z-index: 1;
@@ -62,20 +62,23 @@
 
 .eye {
   position: absolute;
-  top: 25px;
-  width: 6px;
-  height: 6px;
+  /* top: 25px; */
+  top: 1.45rem;
+  width: 0.375rem;
+  height: 0.375rem;
   background-color: #1abc9c;
   border-radius: 50%;
   z-index: 2;
 }
 
 .left-eye {
-  left: 19px;
+  /* left: 21px; */
+  left: 1.2rem;
 }
 
 .right-eye {
-  right: 19px;
+  /* right: 21px; */
+  right: 1.2rem;
 }
 
 /* .user-info {
