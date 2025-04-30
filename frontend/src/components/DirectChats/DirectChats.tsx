@@ -8,6 +8,8 @@ import useDirectChatStore from "../../store/directChatStore";
 import useFriendStore from "../../store/friendStore";
 import GroupChatInviteList from "../GroupChats/GroupChatInviteList";
 
+import classes from "./DirectChats.module.css";
+
 const DirectChats = () => {
   const { isLoggedIn, userInfo } = useAuthStore();
   const { getGroupChatInvites, groupChatInvites } = useGroupChatStore();
@@ -43,21 +45,23 @@ const DirectChats = () => {
   });
 
   return (
-    <>
+    <div className={classes["chat-container"]}>
       {isLoggedIn && (
         <>
-          <Friends />
-          {filteredDirectChats.map((filteredDirectChat) => (
-            <DirectChat
-              key={filteredDirectChat._id}
-              _id={filteredDirectChat._id}
-              otherUserId={filteredDirectChat.otherUser?._id ?? ""}
-              otherUserNickname={
-                filteredDirectChat.otherUser?.nickname ?? "알 수 없음"
-              }
-              onlineChecked={filteredDirectChat.onlineChecked}
-            />
-          ))}
+          <div className={classes["sub-sidebar"]}>
+            <Friends />
+            {filteredDirectChats.map((filteredDirectChat) => (
+              <DirectChat
+                key={filteredDirectChat._id}
+                _id={filteredDirectChat._id}
+                otherUserId={filteredDirectChat.otherUser?._id ?? ""}
+                otherUserNickname={
+                  filteredDirectChat.otherUser?.nickname ?? "알 수 없음"
+                }
+                onlineChecked={filteredDirectChat.onlineChecked}
+              />
+            ))}
+          </div>
 
           {groupChatInvites.map((groupChatInvite) => (
             <GroupChatInviteList
@@ -72,7 +76,7 @@ const DirectChats = () => {
           ))}
         </>
       )}
-    </>
+    </div>
   );
 };
 
