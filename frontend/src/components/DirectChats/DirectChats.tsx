@@ -45,38 +45,38 @@ const DirectChats = () => {
   });
 
   return (
-    <div className={classes["chat-container"]}>
-      {isLoggedIn && (
-        <>
-          <div className={classes["sub-sidebar"]}>
-            <Friends />
-            {filteredDirectChats.map((filteredDirectChat) => (
-              <DirectChat
-                key={filteredDirectChat._id}
-                _id={filteredDirectChat._id}
-                otherUserId={filteredDirectChat.otherUser?._id ?? ""}
-                otherUserNickname={
-                  filteredDirectChat.otherUser?.nickname ?? "알 수 없음"
-                }
-                onlineChecked={filteredDirectChat.onlineChecked}
-              />
-            ))}
-          </div>
+    // <div>
+    //   {isLoggedIn && (
+    <>
+      <div>
+        {/* <Friends /> */}
+        {filteredDirectChats.map((filteredDirectChat) => (
+          <DirectChat
+            key={filteredDirectChat._id}
+            _id={filteredDirectChat._id}
+            otherUserId={filteredDirectChat.otherUser?._id ?? ""}
+            otherUserNickname={
+              filteredDirectChat.otherUser?.nickname ?? "알 수 없음"
+            }
+            onlineChecked={filteredDirectChat.onlineChecked}
+          />
+        ))}
+      </div>
 
-          {groupChatInvites.map((groupChatInvite) => (
-            <GroupChatInviteList
-              key={groupChatInvite._id}
-              groupChatId={groupChatInvite.roomId}
-              groupChatInviteId={groupChatInvite._id}
-              requester={groupChatInvite.requester}
-              requesterNickname={groupChatInvite.requesterNickname}
-              roomTitle={groupChatInvite.roomTitle}
-              status={groupChatInvite.status}
-            />
-          ))}
-        </>
-      )}
-    </div>
+      {groupChatInvites.map((groupChatInvite) => (
+        <GroupChatInviteList
+          key={groupChatInvite._id}
+          groupChatId={groupChatInvite.roomId}
+          groupChatInviteId={groupChatInvite._id}
+          requester={groupChatInvite.requester}
+          requesterNickname={groupChatInvite.requesterNickname}
+          roomTitle={groupChatInvite.roomTitle}
+          status={groupChatInvite.status}
+        />
+      ))}
+    </>
+    //   )}
+    // </div>
   );
 };
 
