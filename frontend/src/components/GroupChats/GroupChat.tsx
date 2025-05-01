@@ -92,10 +92,10 @@ const GroupChat = ({
 
     // 외부 우클릭 감지 함수
     const outsideContextMenuHandler = (event: MouseEvent): void => {
-      if (contextMenu.visible) {
-        event.preventDefault(); // 기본 브라우저 컨텍스트 메뉴 막기
-        contextMenuCloseHandler(); //메뉴창 닫기
-      }
+      // if (contextMenu.visible) {
+      event.preventDefault(); // 기본 브라우저 컨텍스트 메뉴 막기
+      contextMenuCloseHandler(); //메뉴창 닫기
+      // }
     };
 
     // 좌클릭 이벤트를 전역에 등록
