@@ -8,8 +8,7 @@ const DirectChatPage = () => {
   return (
     <>
       {/* <DirectChats /> */}
-      <DirectChatMainContent />
-      <Outlet />
+      <DirectChatMainContent>{<Outlet />}</DirectChatMainContent>
     </>
   );
 };

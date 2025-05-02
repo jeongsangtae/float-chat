@@ -1,9 +1,9 @@
-/* .full-content {
+.full-content {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
 }
 
-.main-content {
+/* .main-content {
   display: flex;
   flex-direction: column;
 } */
