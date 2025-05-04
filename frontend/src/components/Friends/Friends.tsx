@@ -29,6 +29,7 @@ const Friends = ({ toggleFriend }: FriendsProps) => {
 
   useEffect(() => {
     activeTabHandler("all", loadFriends);
+    // activeTabHandler("online", loadOnlineFriends);
     loadFriendRequests();
   }, []);
 
