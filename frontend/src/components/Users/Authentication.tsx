@@ -1,17 +1,14 @@
-import { ReactNode } from "react";
 import { useParams } from "react-router-dom";
 
 import useAuthStore from "../../store/authStore";
 import useDirectChatStore from "../../store/directChatStore";
 import useGroupChatStore from "../../store/groupChatStore";
 
+import { ChildrenProps } from "../../types";
+
 import NoAccess from "./NoAccess";
 
-interface AuthenticationProps {
-  children: ReactNode;
-}
-
-const Authentication = ({ children }: AuthenticationProps) => {
+const Authentication = ({ children }: ChildrenProps) => {
   const { roomId } = useParams();
   const { isLoggedIn } = useAuthStore();
   const { directChats } = useDirectChatStore();

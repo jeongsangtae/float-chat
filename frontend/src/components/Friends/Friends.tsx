@@ -10,7 +10,11 @@ import PendingFriends from "./PendingFriends";
 
 import classes from "./Friends.module.css";
 
-const Friends = ({ toggleFriend }) => {
+interface FriendsProps {
+  toggleFriend: boolean;
+}
+
+const Friends = ({ toggleFriend }: FriendsProps) => {
   const { userInfo } = useAuthStore();
   const {
     onlineFriends,
@@ -21,17 +25,12 @@ const Friends = ({ toggleFriend }) => {
     loadFriendRequests,
   } = useFriendStore();
 
-  // const [toggleFriend, setToggleFriend] = useState<boolean>(false);
   const [activeTab, setActiveTab] = useState<string | null>(null);
 
   useEffect(() => {
     activeTabHandler("all", loadFriends);
     loadFriendRequests();
   }, []);
-
-  // const friendToggleHandler = (): void => {
-  //   setToggleFriend(!toggleFriend);
-  // };
 
   const activeTabHandler = (tab: string, action?: () => void): void => {
     if (activeTab !== tab) {
@@ -52,8 +51,6 @@ const Friends = ({ toggleFriend }) => {
 
   return (
     <>
-      {/* <button>온라인</button> */}
-      {/* <button onClick={friendToggleHandler}>친구</button> */}
       <div className={classes["friend-menu"]}>
         {toggleFriend && (
           <>

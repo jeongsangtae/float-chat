@@ -1,11 +1,13 @@
 import { useState } from "react";
 
-import DirectChatSidebar from "./DirectChatSidebar";
+import { ChildrenProps } from "../../types";
 
-import classes from "./DirectChatMainContent.module.css";
+import DirectChatSidebar from "./DirectChatSidebar";
 import Friends from "../Friends/Friends";
 
-const DirectChatMainContent = ({ children }) => {
+import classes from "./DirectChatMainContent.module.css";
+
+const DirectChatMainContent = ({ children }: ChildrenProps) => {
   const [toggleFriend, setToggleFriend] = useState<boolean>(false);
 
   const friendToggleHandler = (): void => {

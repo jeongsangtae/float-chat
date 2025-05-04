@@ -1,14 +1,13 @@
 import { useEffect } from "react";
 
 import DirectChat from "./DirectChat";
-import Friends from "../Friends/Friends";
 import useAuthStore from "../../store/authStore";
 import useGroupChatStore from "../../store/groupChatStore";
 import useDirectChatStore from "../../store/directChatStore";
 import useFriendStore from "../../store/friendStore";
 import GroupChatInviteList from "../GroupChats/GroupChatInviteList";
 
-import classes from "./DirectChats.module.css";
+// import classes from "./DirectChats.module.css";
 
 const DirectChats = () => {
   const { isLoggedIn, userInfo } = useAuthStore();
@@ -45,11 +44,8 @@ const DirectChats = () => {
   });
 
   return (
-    // <div>
-    //   {isLoggedIn && (
     <>
       <div>
-        {/* <Friends /> */}
         {filteredDirectChats.map((filteredDirectChat) => (
           <DirectChat
             key={filteredDirectChat._id}
@@ -75,8 +71,6 @@ const DirectChats = () => {
         />
       ))}
     </>
-    //   )}
-    // </div>
   );
 };
 
