@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 
 import { ChildrenProps } from "../../types";
 
@@ -8,11 +9,31 @@ import Friends from "../Friends/Friends";
 import classes from "./DirectChatMainContent.module.css";
 
 const DirectChatMainContent = ({ children }: ChildrenProps) => {
-  const [toggleFriend, setToggleFriend] = useState<boolean>(false);
+  const navigate = useNavigate();
+  const location = useLocation();
 
+  const [toggleFriend, setToggleFriend] = useState<boolean>(false);
+  const [selectedMainContent, setSeletedMainContent] = useState<
+    "friends" | "directChat" | null
+  >(null);
+
+  // const friendToggleHandler = (): void => {
+  //   setToggleFriend(!toggleFriend);
+  // };
+
+  // 함수 이름 변경 필요
   const friendToggleHandler = (): void => {
-    setToggleFriend(!toggleFriend);
+    // setSeletedMainContent((prev) => (prev === "friends" ? null : "friends"));
+    navigate("/me");
   };
+
+  useEffect(() => {
+    if (location.pathname === "/me") {
+      setSeletedMainContent("friends");
+    } else if (location.pathname.startsWith("/me/")) {
+      setSeletedMainContent("directChat");
+    }
+  }, [location.pathname]);
 
   return (
     <div className={classes["full-content"]}>
@@ -20,8 +41,10 @@ const DirectChatMainContent = ({ children }: ChildrenProps) => {
         <DirectChatSidebar onFriendToggle={friendToggleHandler} />
       </div>
       <div className={classes["main-content"]}>
-        {toggleFriend && <Friends toggleFriend={toggleFriend} />}
-        {children}
+        {selectedMainContent === "friends" && <Friends toggleFriend={true} />}
+        {selectedMainContent === "directChat" && children}
+        {/* {toggleFriend && <Friends toggleFriend={toggleFriend} />} */}
+        {/* {children} */}
       </div>
     </div>
   );
