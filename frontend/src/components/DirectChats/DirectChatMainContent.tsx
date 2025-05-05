@@ -27,7 +27,8 @@ const DirectChatMainContent = ({ children }: ChildrenProps) => {
   // 함수 이름 변경 필요
   const friendToggleHandler = (): void => {
     // setSeletedMainContent((prev) => (prev === "friends" ? null : "friends"));
-    navigate("/");
+    navigate("/me");
+    // setToggleFriend(!toggleFriend);
   };
 
   useEffect(() => {
@@ -47,6 +48,7 @@ const DirectChatMainContent = ({ children }: ChildrenProps) => {
           </div>
           <div className={classes["main-content"]}>
             {selectedMainContent === "friends" && (
+              // <Friends toggleFriend={true} />
               <Friends toggleFriend={true} />
             )}
             {selectedMainContent === "directChat" && children}

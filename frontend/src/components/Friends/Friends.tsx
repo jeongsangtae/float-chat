@@ -46,9 +46,11 @@ const Friends = ({ toggleFriend }: FriendsProps) => {
     return friend.requester.id === userId ? friend.receiver : friend.requester;
   });
 
-  const filteredFriends = friends.map((friend) => {
-    return friend.requester.id === userId ? friend.receiver : friend.requester;
-  });
+  // const filteredFriends = friends.map((friend) => {
+  //   return friend.requester.id === userId ? friend.receiver : friend.requester;
+  // });
+
+  console.log(friends);
 
   return (
     <>
@@ -85,13 +87,22 @@ const Friends = ({ toggleFriend }: FriendsProps) => {
                     nickname={friend.nickname}
                   />
                 ))}
-              {activeTab === "all" &&
+              {/* {activeTab === "all" &&
                 filteredFriends.map((friend) => (
                   <Friend
                     key={friend.id}
                     userId={userInfo?._id ?? ""}
                     id={friend.id}
                     nickname={friend.nickname}
+                  />
+                ))} */}
+              {activeTab === "all" &&
+                friends.map((friend) => (
+                  <Friend
+                    key={friend._id}
+                    userId={userInfo?._id ?? ""}
+                    id={friend._id}
+                    nickname={friend.friend.nickname}
                   />
                 ))}
               {activeTab === "pending" &&
