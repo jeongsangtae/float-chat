@@ -73,38 +73,61 @@ router.get("/friends", async (req, res) => {
       .find({ $or: [{ "requester.id": userId }, { "receiver.id": userId }] })
       .toArray();
 
-    const friendss = await db
-      .getDb()
-      .collection("friends")
-      .aggregate([
-        {
-          $match: {
-            $or: [{ "requester.id": userId }, { "receiver.id": userId }],
-          },
-        },
-        {
-          $project: {
-            friend: {
-              $cond: [
-                { $eq: ["$requester.id", userId] },
-                "$receiver",
-                "$requester",
-              ],
-            },
-          },
-        },
-        {
-          $group: {
-            _id: "$friend.id",
-            friend: { $first: "$friend" },
-          },
-        },
-      ])
-      .toArray();
+    // const friendss = await db
+    //   .getDb()
+    //   .collection("friends")
+    //   .aggregate([
+    //     {
+    //       $match: {
+    //         $or: [{ "requester.id": userId }, { "receiver.id": userId }],
+    //       },
+    //     },
+    //     {
+    //       $project: {
+    //         friend: {
+    //           $cond: [
+    //             { $eq: ["$requester.id", userId] },
+    //             "$receiver",
+    //             "$requester",
+    //           ],
+    //         },
+    //       },
+    //     },
+    //     {
+    //       $group: {
+    //         _id: "$friend.id",
+    //         friend: { $first: "$friend" },
+    //       },
+    //     },
+    //   ])
+    //   .toArray();
 
-    console.log(friends, "/", friendss);
+    // const friendss = await db
+    //   .getDb()
+    //   .collection("friends")
+    //   .aggregate([
+    //     {
+    //       $match: {
+    //         $or: [{ "requester.id": userId }, { "receiver.id": userId }],
+    //       },
+    //     },
+    //     {
+    //       $project: {
+    //         friend: {
+    //           $cond: [
+    //             { $eq: ["$requester.id", userId] },
+    //             "$receiver",
+    //             "$requester",
+    //           ],
+    //         },
+    //       },
+    //     },
+    //   ])
+    //   .toArray();
 
-    res.status(200).json({ friendss });
+    // console.log(friends, "/", friendss);
+
+    res.status(200).json({ friends });
   } catch (error) {
     errorHandler(res, error, "친구 목록 조회 중 오류 발생");
   }

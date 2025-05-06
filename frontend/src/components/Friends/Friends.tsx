@@ -28,8 +28,8 @@ const Friends = ({ toggleFriend }: FriendsProps) => {
   const [activeTab, setActiveTab] = useState<string | null>(null);
 
   useEffect(() => {
-    activeTabHandler("all", loadFriends);
-    // activeTabHandler("online", loadOnlineFriends);
+    // activeTabHandler("all", loadFriends);
+    activeTabHandler("online", loadOnlineFriends);
     loadFriendRequests();
   }, []);
 
@@ -46,11 +46,21 @@ const Friends = ({ toggleFriend }: FriendsProps) => {
     return friend.requester.id === userId ? friend.receiver : friend.requester;
   });
 
-  // const filteredFriends = friends.map((friend) => {
-  //   return friend.requester.id === userId ? friend.receiver : friend.requester;
-  // });
+  const filteredFriends = friends.map((friend) => {
+    return friend.requester.id === userId ? friend.receiver : friend.requester;
+  });
 
-  console.log(friends);
+  // const filteredFriends = friends
+  //   .map((friend) => {
+  //     return friend.requester.id === userId
+  //       ? friend.receiver
+  //       : friend.requester;
+  //   })
+  //   .filter(
+  //     (friend, index, self) =>
+  //       friend.id !== userId &&
+  //       index === self.findIndex((f) => f.id === friend.id)
+  //   );
 
   return (
     <>
@@ -87,22 +97,13 @@ const Friends = ({ toggleFriend }: FriendsProps) => {
                     nickname={friend.nickname}
                   />
                 ))}
-              {/* {activeTab === "all" &&
+              {activeTab === "all" &&
                 filteredFriends.map((friend) => (
                   <Friend
                     key={friend.id}
                     userId={userInfo?._id ?? ""}
                     id={friend.id}
                     nickname={friend.nickname}
-                  />
-                ))} */}
-              {activeTab === "all" &&
-                friends.map((friend) => (
-                  <Friend
-                    key={friend._id}
-                    userId={userInfo?._id ?? ""}
-                    id={friend._id}
-                    nickname={friend.friend.nickname}
                   />
                 ))}
               {activeTab === "pending" &&

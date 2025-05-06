@@ -15,20 +15,13 @@ const DirectChatMainContent = ({ children }: ChildrenProps) => {
   const location = useLocation();
 
   const { isLoggedIn } = useAuthStore();
-  const [toggleFriend, setToggleFriend] = useState<boolean>(false);
   const [selectedMainContent, setSeletedMainContent] = useState<
     "friends" | "directChat" | null
   >(null);
 
-  // const friendToggleHandler = () => {
-  //   setToggleFriend(!toggleFriend)
-  // }
-
   // 함수 이름 변경 필요
   const friendToggleHandler = (): void => {
-    // setSeletedMainContent((prev) => (prev === "friends" ? null : "friends"));
     navigate("/me");
-    // setToggleFriend(!toggleFriend);
   };
 
   useEffect(() => {
@@ -48,12 +41,9 @@ const DirectChatMainContent = ({ children }: ChildrenProps) => {
           </div>
           <div className={classes["main-content"]}>
             {selectedMainContent === "friends" && (
-              // <Friends toggleFriend={true} />
               <Friends toggleFriend={true} />
             )}
             {selectedMainContent === "directChat" && children}
-            {/* {toggleFriend && <Friends toggleFriend={toggleFriend} />}
-            {children} */}
           </div>
         </div>
       )}
