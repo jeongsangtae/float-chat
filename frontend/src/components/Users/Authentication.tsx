@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useParams, Navigate } from "react-router-dom";
 
 import useAuthStore from "../../store/authStore";
 import useDirectChatStore from "../../store/directChatStore";
@@ -20,12 +20,11 @@ const Authentication = ({ children }: ChildrenProps) => {
     groupChats.some((groupChat) => groupChat._id === roomId);
 
   if (!isLoggedIn) {
-    return (
-      <NoAccess
-        title="로그인이 필요합니다."
-        description="로그인 하지 않은 사용자는 접근할 수 없습니다."
-      />
-    );
+    return <Navigate to="/login" replace />;
+    // <NoAccess
+    //   title="로그인이 필요합니다."
+    //   description="로그인 하지 않은 사용자는 접근할 수 없습니다."
+    // />
   }
 
   if (!checkedRoom) {

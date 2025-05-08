@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import useAuthStore from "../../store/authStore";
 
 import Modal from "../UI/Modal";
@@ -13,6 +14,7 @@ const Login = ({ onToggle }: ModalProps) => {
   // 환경 변수에서 API URL 가져오기
   const apiURL = import.meta.env.VITE_API_URL;
 
+  const navigate = useNavigate();
   const { login } = useAuthStore();
 
   const [loginData, setLoginData] = useState<loginDataType>({
@@ -52,6 +54,7 @@ const Login = ({ onToggle }: ModalProps) => {
 
       await login();
       onToggle();
+      navigate("/me");
     } catch (error) {
       console.error("에러 내용:", error);
       alert("로그인 중에 문제가 발생했습니다. 새로고침 후 다시 시도해 주세요.");

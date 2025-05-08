@@ -8,11 +8,20 @@ import RootLayout from "./pages/RootLayout";
 import NotFound from "./components/Users/NotFound";
 
 import Authentication from "./components/Users/Authentication";
+import TestMainContent from "./components/Layout/TestMainContent";
 
 const router = createBrowserRouter([
   {
+    path: "/login",
+    element: <TestMainContent />,
+  },
+  {
     path: "/", // RootLayout이 모든 경로에 적용
-    element: <RootLayout />,
+    element: (
+      <Authentication>
+        <RootLayout />
+      </Authentication>
+    ),
     errorElement: <NotFound />,
     children: [
       { index: true, element: <Navigate to="/me" replace /> }, // 루트 경로 접근 시 /me로 리다이렉트

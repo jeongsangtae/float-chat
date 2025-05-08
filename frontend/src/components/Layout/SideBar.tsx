@@ -80,7 +80,7 @@ const SideBar = ({ onLeaveGroupChat }: SideBarProps) => {
   const logoutHandler = async (): Promise<void> => {
     await logout();
     disconnect();
-    navigate("/");
+    navigate("/login");
   };
 
   return (
