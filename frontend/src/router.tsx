@@ -10,42 +10,79 @@ import NotFound from "./components/Users/NotFound";
 import Authentication from "./components/Users/Authentication";
 import TestMainContent from "./components/Layout/TestMainContent";
 
+// const router = createBrowserRouter([
+//   {
+//     path: "/login",
+//     element: <TestMainContent />,
+//   },
+//   {
+//     path: "/", // RootLayout이 모든 경로에 적용
+//     element: (
+//       // <Authentication>
+//       <RootLayout />
+//       // </Authentication>
+//     ),
+//     errorElement: <NotFound />,
+//     children: [
+//       { index: true, element: <Navigate to="/me" replace /> }, // 루트 경로 접근 시 /me로 리다이렉트
+//       {
+//         path: "me",
+//         element: <DirectChatPage />, // 기본 /me 경로 및 레이아웃 역할
+//         children: [
+//           { index: true, element: <EmptyChatPage /> },
+//           {
+//             path: ":roomId",
+//             element: (
+//               <Authentication>
+//                 <DirectChatDetailsPage />
+//               </Authentication>
+//             ),
+//           },
+//         ],
+//       },
+//       {
+//         path: "group-chat",
+//         element: <GroupChatPage />,
+//       },
+//       {
+//         path: "group-chat/:roomId",
+//         element: (
+//           <Authentication>
+//             <GroupChatDetailsPage />
+//           </Authentication>
+//         ),
+//       },
+//     ],
+//   },
+// ]);
+
 const router = createBrowserRouter([
+  { path: "/login", element: <TestMainContent /> },
+  { path: "/", element: <Navigate to="/login" replace /> },
   {
-    path: "/login",
-    element: <TestMainContent />,
-  },
-  {
-    path: "/", // RootLayout이 모든 경로에 적용
-    element: (
-      <Authentication>
-        <RootLayout />
-      </Authentication>
-    ),
+    path: "/me",
+    element: <RootLayout />,
     errorElement: <NotFound />,
     children: [
-      { index: true, element: <Navigate to="/me" replace /> }, // 루트 경로 접근 시 /me로 리다이렉트
+      { index: true, element: <EmptyChatPage /> },
       {
-        path: "me",
-        element: <DirectChatPage />, // 기본 /me 경로 및 레이아웃 역할
-        children: [
-          { index: true, element: <EmptyChatPage /> },
-          {
-            path: ":roomId",
-            element: (
-              <Authentication>
-                <DirectChatDetailsPage />
-              </Authentication>
-            ),
-          },
-        ],
+        path: ":roomId",
+        element: (
+          <Authentication>
+            <DirectChatDetailsPage />
+          </Authentication>
+        ),
       },
+    ],
+  },
+  {
+    path: "/group-chat",
+    element: <RootLayout />,
+    errorElement: <NotFound />,
+    children: [
+      { index: true, element: <GroupChatPage /> },
       {
-        path: "group-chat",
-        element: <GroupChatPage />,
-      },
-      {
-        path: "group-chat/:roomId",
+        path: ":roomId",
         element: (
           <Authentication>
             <GroupChatDetailsPage />

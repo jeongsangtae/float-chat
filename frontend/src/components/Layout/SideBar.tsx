@@ -81,6 +81,7 @@ const SideBar = ({ onLeaveGroupChat }: SideBarProps) => {
     await logout();
     disconnect();
     navigate("/login");
+    // navigate("/me");
   };
 
   return (
