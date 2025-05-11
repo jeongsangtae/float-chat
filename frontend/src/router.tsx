@@ -9,6 +9,7 @@ import NotFound from "./components/Users/NotFound";
 
 import Authentication from "./components/Users/Authentication";
 import TestMainContent from "./components/Layout/TestMainContent";
+import Friends from "./components/Friends/Friends";
 
 // const router = createBrowserRouter([
 //   {
@@ -59,24 +60,31 @@ import TestMainContent from "./components/Layout/TestMainContent";
 const router = createBrowserRouter([
   { path: "/login", element: <TestMainContent /> },
   { path: "/", element: <Navigate to="/login" replace /> },
+
   {
     path: "/me",
     element: <RootLayout />,
     errorElement: <NotFound />,
     children: [
-      { index: true, element: <EmptyChatPage /> },
       {
-        path: ":roomId",
-        element: (
-          <Authentication>
-            <DirectChatDetailsPage />
-          </Authentication>
-        ),
+        path: "",
+        element: <DirectChatPage />, // 여기서 서브 사이드바 + Outlet 포함
+        children: [
+          { index: true, element: <Friends /> }, // 친구 관련 내용
+          {
+            path: ":roomId",
+            element: (
+              <Authentication>
+                <DirectChatDetailsPage />
+              </Authentication>
+            ),
+          },
+        ],
       },
     ],
   },
   {
-    path: "/group-chat",
+    path: "group-chat",
     element: <RootLayout />,
     errorElement: <NotFound />,
     children: [
