@@ -2,9 +2,13 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import useAuthStore from "../../store/authStore";
 
+import { ChildrenProps } from "../../types";
+
 import Login from "../Users/Login";
 
-const TestMainContent = () => {
+import classes from "./TestMainContent.module.css";
+
+const TestMainContent = ({ children }: ChildrenProps) => {
   const navigate = useNavigate();
   const { isLoggedIn } = useAuthStore();
 
@@ -23,8 +27,13 @@ const TestMainContent = () => {
 
   return (
     <>
-      <div>비로그인 상태의 메인 콘텐츠 내용</div>
-      <Login onToggle={toggleHandler} />
+      <div className={classes.backdrop}>
+        <div className={classes.modal}>
+          {/* <Login onToggle={toggleHandler} /> */}
+          {children}
+          {/* <Login /> */}
+        </div>
+      </div>
     </>
   );
 };

@@ -53,7 +53,7 @@ const Login = ({ onToggle }: ModalProps) => {
       }
 
       await login();
-      onToggle();
+      // onToggle();
       navigate("/me");
     } catch (error) {
       console.error("에러 내용:", error);
@@ -63,36 +63,36 @@ const Login = ({ onToggle }: ModalProps) => {
   };
 
   return (
-    <Modal onToggle={onToggle}>
-      <form onSubmit={submitHandler}>
-        <h2>로그인</h2>
-        <label htmlFor="email">이메일</label>
-        <div>
-          <input
-            required
-            type="email"
-            id="email"
-            name="email"
-            value={loginData.email}
-            onChange={inputChangeHandler}
-          />
-        </div>
+    // <Modal onToggle={onToggle}>
+    <form onSubmit={submitHandler}>
+      <h2>로그인</h2>
+      <label htmlFor="email">이메일</label>
+      <div>
+        <input
+          required
+          type="email"
+          id="email"
+          name="email"
+          value={loginData.email}
+          onChange={inputChangeHandler}
+        />
+      </div>
 
-        <label htmlFor="password">비밀번호</label>
-        <div>
-          <input
-            required
-            type="password"
-            id="password"
-            name="password"
-            value={loginData.password}
-            onChange={inputChangeHandler}
-          />
-        </div>
-        {error && <p>{errorMessage}</p>}
-        <button type="submit">로그인</button>
-      </form>
-    </Modal>
+      <label htmlFor="password">비밀번호</label>
+      <div>
+        <input
+          required
+          type="password"
+          id="password"
+          name="password"
+          value={loginData.password}
+          onChange={inputChangeHandler}
+        />
+      </div>
+      {error && <p>{errorMessage}</p>}
+      <button type="submit">로그인</button>
+    </form>
+    // </Modal>
   );
 };
 

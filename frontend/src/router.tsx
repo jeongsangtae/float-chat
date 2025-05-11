@@ -10,6 +10,8 @@ import NotFound from "./components/Users/NotFound";
 import Authentication from "./components/Users/Authentication";
 import TestMainContent from "./components/Layout/TestMainContent";
 import Friends from "./components/Friends/Friends";
+import SignupPage from "./pages/SignupPage";
+import LoginPage from "./pages/LoginPage";
 
 // const router = createBrowserRouter([
 //   {
@@ -58,7 +60,8 @@ import Friends from "./components/Friends/Friends";
 // ]);
 
 const router = createBrowserRouter([
-  { path: "/login", element: <TestMainContent /> },
+  { path: "/login", element: <LoginPage /> },
+  { path: "/signup", element: <SignupPage /> },
   { path: "/", element: <Navigate to="/login" replace /> },
 
   {
