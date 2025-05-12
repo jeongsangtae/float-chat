@@ -2,15 +2,12 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import useAuthStore from "../../store/authStore";
 
-import Modal from "../UI/Modal";
-import { ModalProps } from "../../types";
-
 interface loginDataType {
   email: string;
   password: string;
 }
 
-const Login = ({ onToggle }: ModalProps) => {
+const Login = () => {
   // 환경 변수에서 API URL 가져오기
   const apiURL = import.meta.env.VITE_API_URL;
 
@@ -30,6 +27,10 @@ const Login = ({ onToggle }: ModalProps) => {
   ): void => {
     const { name, value } = event.target;
     setLoginData({ ...loginData, [name]: value });
+  };
+
+  const signupMoveHandler = () => {
+    navigate("/signup");
   };
 
   const submitHandler = async (
@@ -53,7 +54,6 @@ const Login = ({ onToggle }: ModalProps) => {
       }
 
       await login();
-      // onToggle();
       navigate("/me");
     } catch (error) {
       console.error("에러 내용:", error);
@@ -63,36 +63,40 @@ const Login = ({ onToggle }: ModalProps) => {
   };
 
   return (
-    // <Modal onToggle={onToggle}>
-    <form onSubmit={submitHandler}>
-      <h2>로그인</h2>
-      <label htmlFor="email">이메일</label>
-      <div>
-        <input
-          required
-          type="email"
-          id="email"
-          name="email"
-          value={loginData.email}
-          onChange={inputChangeHandler}
-        />
-      </div>
+    <>
+      <form onSubmit={submitHandler}>
+        <h2>로그인</h2>
+        <label htmlFor="email">이메일</label>
+        <div>
+          <input
+            required
+            type="email"
+            id="email"
+            name="email"
+            value={loginData.email}
+            onChange={inputChangeHandler}
+          />
+        </div>
 
-      <label htmlFor="password">비밀번호</label>
+        <label htmlFor="password">비밀번호</label>
+        <div>
+          <input
+            required
+            type="password"
+            id="password"
+            name="password"
+            value={loginData.password}
+            onChange={inputChangeHandler}
+          />
+        </div>
+        {error && <p>{errorMessage}</p>}
+        <button type="submit">로그인</button>
+      </form>
       <div>
-        <input
-          required
-          type="password"
-          id="password"
-          name="password"
-          value={loginData.password}
-          onChange={inputChangeHandler}
-        />
+        계정이 필요한가요?
+        <button onClick={signupMoveHandler}>가입하기</button>
       </div>
-      {error && <p>{errorMessage}</p>}
-      <button type="submit">로그인</button>
-    </form>
-    // </Modal>
+    </>
   );
 };
 

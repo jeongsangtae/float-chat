@@ -1,7 +1,5 @@
 import React, { useState } from "react";
-
-import Modal from "../UI/Modal";
-import { ModalProps } from "../../types";
+import { useNavigate } from "react-router-dom";
 
 interface signupDataType {
   email: string;
@@ -11,9 +9,11 @@ interface signupDataType {
   confirmPassword: string;
 }
 
-const Signup = ({ onToggle }: ModalProps) => {
+const Signup = () => {
   // 환경 변수에서 API URL 가져오기
   const apiURL = import.meta.env.VITE_API_URL;
+
+  const navigate = useNavigate();
 
   const [signupData, setSignupData] = useState<signupDataType>({
     email: "",
@@ -31,6 +31,10 @@ const Signup = ({ onToggle }: ModalProps) => {
   ): void => {
     const { name, value } = event.target;
     setSignupData({ ...signupData, [name]: value });
+  };
+
+  const loginMoveHandler = () => {
+    navigate("/login");
   };
 
   const submitHandler = async (
@@ -54,8 +58,8 @@ const Signup = ({ onToggle }: ModalProps) => {
       }
 
       console.log("회원가입 성공");
-      onToggle();
       // setError(false)
+      loginMoveHandler();
     } catch (error) {
       console.error("에러 내용:", error);
       alert(
@@ -66,7 +70,7 @@ const Signup = ({ onToggle }: ModalProps) => {
   };
 
   return (
-    <Modal onToggle={onToggle}>
+    <>
       <form onSubmit={submitHandler}>
         <h2>회원가입</h2>
         <label htmlFor="email">이메일</label>
@@ -131,7 +135,11 @@ const Signup = ({ onToggle }: ModalProps) => {
         {error && <p>{errorMessage}</p>}
         <button type="submit">가입</button>
       </form>
-    </Modal>
+      <div>
+        이미 계정이 있으신가요?
+        <button onClick={loginMoveHandler}>로그인</button>
+      </div>
+    </>
   );
 };
 

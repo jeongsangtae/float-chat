@@ -71,7 +71,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: "",
-        element: <DirectChatPage />, // 여기서 서브 사이드바 + Outlet 포함
+        element: <DirectChatPage />, // 메인 콘텐츠 + 서브 사이드바 + Outlet 포함
         children: [
           { index: true, element: <Friends /> }, // 친구 관련 내용
           {
