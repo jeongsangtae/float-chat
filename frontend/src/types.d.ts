@@ -129,5 +129,3 @@ export interface Notification {
   type: "friendRequest" | "messageNotification" | "groupChatInviteNotification";
   data: NotificationData;
 }
-
-export type ModalType = "login" | "signup" | "groupChatForm";
