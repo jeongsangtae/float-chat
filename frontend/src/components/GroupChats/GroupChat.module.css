@@ -18,9 +18,19 @@
   transform: scale(1.05);
 }
 
-.group-chat a {
+.title {
+  display: inline-block;
   color: white;
   text-decoration: none;
+  white-space: nowrap; /* 텍스트 자동 줄바꿈 방지 */
+  overflow: hidden; /* 글자가 요소 범위를 넘어가지 않도록 방지 */
+  text-overflow: ellipsis; /* 텍스트가 넘칠 경우 ... 으로 생략해 출력 */
+  font-size: 1rem;
+  transition: font-size 0.2s ease;
+}
+
+.title-small {
+  font-size: 0.65rem;
 }
 
 .context-menu {

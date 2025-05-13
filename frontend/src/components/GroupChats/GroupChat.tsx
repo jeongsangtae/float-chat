@@ -73,6 +73,7 @@ const GroupChat = ({
     contextMenuCloseHandler();
   };
 
+  // 그룹 채팅방이 최소 하나라도 존재하는 경우 작동
   useEffect(() => {
     // 외부 좌클릭 감지 함수
     const outsideClickHandler = (event: MouseEvent): void => {
@@ -115,7 +116,15 @@ const GroupChat = ({
         className={classes["group-chat"]}
         onContextMenu={contextMenuOpenHandler}
       >
-        <Link to={`/group-chat/${_id.toString()}`}>{title}</Link>
+        <Link
+          to={`/group-chat/${_id.toString()}`}
+          className={`${classes.title} ${
+            title.length > 12 ? classes["title-small"] : ""
+          }`}
+          title={title}
+        >
+          {title}
+        </Link>
       </div>
       {contextMenu.visible && contextMenu.id === _id && (
         <ul
