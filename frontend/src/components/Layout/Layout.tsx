@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { ReactNode, useEffect } from "react";
 
 import Notification from "../UI/Notification";
 import SideBar from "./SideBar";
@@ -11,6 +11,18 @@ interface LayoutProps {
 }
 
 const Layout = ({ children, onLeaveGroupChat }: LayoutProps) => {
+  useEffect(() => {
+    const preventContextMenu = (event: MouseEvent) => {
+      event.preventDefault();
+    };
+
+    document.addEventListener("contextmenu", preventContextMenu);
+
+    return () => {
+      document.removeEventListener("contextmenu", preventContextMenu);
+    };
+  }, []);
+
   return (
     <div className={classes.layout}>
       <SideBar onLeaveGroupChat={onLeaveGroupChat} />

@@ -26,42 +26,6 @@ const SideBar = ({ onLeaveGroupChat }: SideBarProps) => {
 
   const navigate = useNavigate();
 
-  // const modals: {
-  //   type: ModalType;
-  //   label: ReactNode;
-  //   component: React.ComponentType<ModalProps>;
-  //   className?: string;
-  // }[] = [
-  //   {
-  //     type: "login",
-  //     label: "로그인",
-  //     component: Login,
-  //     className: classes["auth-button"],
-  //   },
-  //   {
-  //     type: "signup",
-  //     label: "회원가입",
-  //     component: Signup,
-  //     className: classes["auth-button"],
-  //   },
-  //   {
-  //     type: "groupChatForm",
-  //     label: <IoMdAddCircle />,
-  //     component: GroupChatForm,
-  //     className: classes["group-chat-form-button"],
-  //   },
-  // ];
-
-  // const filteredModals = modals.filter(({ type }) => {
-  //   if (isLoggedIn) {
-  //     // 로그인 상태에서는 "login"과 "signup" 모달을 제외
-  //     return type !== "login" && type !== "signup";
-  //   }
-
-  //   // 비로그인 상태에서는 "createGroupChat" 모달을 제외
-  //   return type !== "groupChatForm";
-  // });
-
   // 앱이 처음 로드될 때 로그인 상태 확인
   useEffect(() => {
     const renewTokens = async () => {
@@ -97,19 +61,6 @@ const SideBar = ({ onLeaveGroupChat }: SideBarProps) => {
             <GroupChats />
           </>
         )}
-
-        {/* {filteredModals.map(
-          ({ type, label, component: Component, className }) => (
-            <div key={type}>
-              <button className={className} onClick={() => toggleModal(type)}>
-                {label}
-              </button>
-              {activeModal === type && (
-                <Component onToggle={() => toggleModal(type)} />
-              )}
-            </div>
-          )
-        )} */}
 
         {isLoggedIn && (
           <div>
