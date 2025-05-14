@@ -14,8 +14,8 @@
 }
 
 .group-chat:hover {
-  background-color: #16a085;
-  transform: scale(1.05);
+  background-color: #00b8db;
+  /* transform: scale(1.05); */
 }
 
 .title {
@@ -24,13 +24,49 @@
   text-decoration: none;
   white-space: nowrap; /* 텍스트 자동 줄바꿈 방지 */
   overflow: hidden; /* 글자가 요소 범위를 넘어가지 않도록 방지 */
-  text-overflow: ellipsis; /* 텍스트가 넘칠 경우 ... 으로 생략해 출력 */
+  /* text-overflow: ellipsis;  */ /* 텍스트가 넘칠 경우 ... 으로 생략해 출력 */
   font-size: 1rem;
   transition: font-size 0.2s ease;
 }
 
 .title-small {
   font-size: 0.65rem;
+}
+
+.tooltip-text::before {
+  content: "";
+  position: absolute;
+  right: 100%; /* 툴팁의 왼쪽 바깥 */
+  top: 50%;
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 0.25rem 0.2rem 0.25rem 0;
+  border-color: transparent #1abc9c transparent transparent;
+}
+
+.tooltip-text {
+  position: absolute;
+  left: calc(100% + 0.5rem); /* 버튼의 오른쪽 바깥으로 0.5rem 떨어져 위치 */
+  top: 50%;
+  transform: translateY(-50%); /* 수직 가운데 정렬 */
+  background-color: #1abc9c;
+  color: #fff;
+  padding: 0.65rem 0.5rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  white-space: nowrap;
+  z-index: 100;
+  pointer-events: none;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.group-chat:hover .tooltip-text {
+  visibility: visible;
+  opacity: 1;
 }
 
 .context-menu {

@@ -121,10 +121,13 @@ const GroupChat = ({
           className={`${classes.title} ${
             title.length > 12 ? classes["title-small"] : ""
           }`}
-          title={title}
+          // title={title}
         >
           {title}
         </Link>
+        {title.length && (
+          <span className={classes["tooltip-text"]}>{title}</span>
+        )}
       </div>
       {contextMenu.visible && contextMenu.id === _id && (
         <ul
