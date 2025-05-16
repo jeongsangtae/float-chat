@@ -1,12 +1,12 @@
-import TestMainContent from "../components/Layout/TestMainContent";
+import AuthLayout from "../components/Layout/AuthLayout";
 import Login from "../components/Users/Login";
 
 const LoginPage = () => {
   return (
     <>
-      <TestMainContent>
+      <AuthLayout>
         <Login />
-      </TestMainContent>
+      </AuthLayout>
     </>
   );
 };

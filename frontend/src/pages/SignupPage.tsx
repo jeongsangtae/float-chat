@@ -1,12 +1,12 @@
-import TestMainContent from "../components/Layout/TestMainContent";
+import AuthLayout from "../components/Layout/AuthLayout";
 import Signup from "../components/Users/Signup";
 
 const SignupPage = () => {
   return (
     <>
-      <TestMainContent>
+      <AuthLayout>
         <Signup />
-      </TestMainContent>
+      </AuthLayout>
     </>
   );
 };
