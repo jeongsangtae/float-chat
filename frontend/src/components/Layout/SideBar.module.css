@@ -18,7 +18,7 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  width: 5rem;
+  width: 4.5rem;
   height: 100vh;
   background-color: #2f3136;
   /* padding: 1rem;
@@ -50,6 +50,32 @@
 
 .home-button:hover {
   background-color: #00b8db;
+}
+
+.indicator {
+  position: absolute;
+  left: -0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 0.25rem;
+  height: 0.5rem;
+  background-color: #fff;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  border-top-right-radius: 0.5rem;
+  border-bottom-right-radius: 0.5rem;
+  opacity: 0;
+  transition: all 0.3s ease;
+}
+
+.home-button:hover .indicator {
+  height: 1.25rem;
+  opacity: 1;
+}
+
+.home-button.active .indicator {
+  height: 2.5rem;
+  opacity: 1;
 }
 
 .active {

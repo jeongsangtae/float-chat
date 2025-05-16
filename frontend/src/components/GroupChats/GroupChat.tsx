@@ -130,6 +130,7 @@ const GroupChat = ({
         >
           {title}
         </Link>
+        <span className={classes.indicator} />
         {title && <span className={classes["tooltip-text"]}>{title}</span>}
       </div>
       {contextMenu.visible && contextMenu.id === _id && (

@@ -11,7 +11,7 @@ const RootLayout = () => {
   // 함수 이름 변경 필요
   const leaveGroupChatHandler = (): void => {
     leaveGroupChat();
-    navigate("/");
+    navigate("/me");
   };
 
   return (

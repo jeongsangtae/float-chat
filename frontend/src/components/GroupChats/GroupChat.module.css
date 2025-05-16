@@ -15,7 +15,6 @@
 
 .group-chat:hover {
   background-color: #00b8db;
-  /* transform: scale(1.05); */
 }
 
 .title {
@@ -31,6 +30,32 @@
 
 .title-small {
   font-size: 0.65rem;
+}
+
+.indicator {
+  position: absolute;
+  left: -0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 0.25rem;
+  height: 0.5rem;
+  background-color: #fff;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  border-top-right-radius: 0.5rem;
+  border-bottom-right-radius: 0.5rem;
+  opacity: 0;
+  transition: all 0.3s ease;
+}
+
+.group-chat:hover .indicator {
+  height: 1.25rem;
+  opacity: 1;
+}
+
+.group-chat.active .indicator {
+  height: 2.5rem;
+  opacity: 1;
 }
 
 .active {

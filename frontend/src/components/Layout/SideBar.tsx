@@ -59,6 +59,7 @@ const SideBar = ({ onLeaveGroupChat }: SideBarProps) => {
               }`}
               onClick={onLeaveGroupChat}
             >
+              <span className={classes.indicator} />
               <BsFillChatSquareFill className={classes["chat-icon"]} />
               <div className={`${classes.eye} ${classes["left-eye"]}`}></div>
               <div className={`${classes.eye} ${classes["right-eye"]}`}></div>
