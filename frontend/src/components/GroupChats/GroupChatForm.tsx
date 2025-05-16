@@ -69,6 +69,7 @@ const GroupChatForm = ({ onToggle }: ModalProps) => {
             id="title"
             name="title"
             defaultValue={modalData.method === "POST" ? title : modalData.title}
+            maxLength={30}
             placeholder="내용 입력"
             onChange={inputChangeHandler}
           />

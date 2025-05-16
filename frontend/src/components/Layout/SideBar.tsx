@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { BsFillChatSquareFill } from "react-icons/bs";
 import { LuLogOut } from "react-icons/lu";
 
@@ -25,6 +25,9 @@ const SideBar = ({ onLeaveGroupChat }: SideBarProps) => {
   const { disconnect } = useSocketStore();
 
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const active = location.pathname === "/me"; // 홈 버튼 기준 경로
 
   // 앱이 처음 로드될 때 로그인 상태 확인
   useEffect(() => {
@@ -51,7 +54,9 @@ const SideBar = ({ onLeaveGroupChat }: SideBarProps) => {
         {isLoggedIn && (
           <>
             <button
-              className={classes["home-button"]}
+              className={`${classes["home-button"]} ${
+                active ? classes.active : ""
+              }`}
               onClick={onLeaveGroupChat}
             >
               <BsFillChatSquareFill className={classes["chat-icon"]} />

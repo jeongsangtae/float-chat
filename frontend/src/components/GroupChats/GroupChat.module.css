@@ -33,6 +33,10 @@
   font-size: 0.65rem;
 }
 
+.active {
+  background-color: #00b8db;
+}
+
 .tooltip-text::before {
   content: "";
   position: absolute;

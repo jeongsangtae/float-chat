@@ -49,8 +49,11 @@
 }
 
 .home-button:hover {
-  background-color: #16a085;
-  transform: scale(1.05);
+  background-color: #00b8db;
+}
+
+.active {
+  background-color: #00b8db;
 }
 
 .chat-icon {

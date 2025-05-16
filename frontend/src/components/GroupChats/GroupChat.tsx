@@ -1,5 +1,5 @@
 import React, { useRef, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 
 import useAuthStore from "../../store/authStore";
 import useGroupChatStore from "../../store/groupChatStore";
@@ -19,7 +19,12 @@ const GroupChat = ({
   const { userInfo } = useAuthStore();
   const { deleteGroupChat, leaveGroupChat } = useGroupChatStore();
   const { toggleModal } = useModalStore();
+
   const navigate = useNavigate();
+  const location = useLocation();
+
+  // 그룹 채팅방 버튼 기준 경로
+  const active = location.pathname === `/group-chat/${_id}`;
 
   const contextMenuRef = useRef<HTMLUListElement | null>(null);
 
@@ -59,13 +64,13 @@ const GroupChat = ({
   const groupChatDeleteHandler = async (): Promise<void> => {
     await deleteGroupChat(_id);
     contextMenuCloseHandler();
-    navigate("/");
+    navigate("/me");
   };
 
   const groupChatLeaveHandler = async (): Promise<void> => {
     await leaveGroupChat(_id);
     contextMenuCloseHandler();
-    navigate("/");
+    navigate("/me");
   };
 
   const groupChatEditHandler = (): void => {
@@ -113,7 +118,7 @@ const GroupChat = ({
   return (
     <>
       <div
-        className={classes["group-chat"]}
+        className={`${classes["group-chat"]} ${active ? classes.active : ""}`}
         onContextMenu={contextMenuOpenHandler}
       >
         <Link
@@ -125,9 +130,7 @@ const GroupChat = ({
         >
           {title}
         </Link>
-        {title.length && (
-          <span className={classes["tooltip-text"]}>{title}</span>
-        )}
+        {title && <span className={classes["tooltip-text"]}>{title}</span>}
       </div>
       {contextMenu.visible && contextMenu.id === _id && (
         <ul
