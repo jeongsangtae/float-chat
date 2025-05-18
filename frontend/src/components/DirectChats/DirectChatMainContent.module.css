@@ -1,9 +1,15 @@
 .full-content {
   display: flex;
   flex-direction: row;
+  height: 100vh;
+  border-radius: 0.5rem;
+  border: 1px solid #444;
+  /* border: 1px solid rgba(255, 255, 255, 0.1); */
 }
 
-/* .main-content {
-  display: flex;
-  flex-direction: column;
-} */
+.main-content {
+  flex: 1;
+  height: 100%;
+  padding: 1rem;
+  overflow-y: auto;
+}

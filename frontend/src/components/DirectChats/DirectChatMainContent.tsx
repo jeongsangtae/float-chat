@@ -22,9 +22,9 @@ const DirectChatMainContent = ({ children }: ChildrenProps) => {
     <>
       {isLoggedIn && (
         <div className={classes["full-content"]}>
-          <div className={classes["sub-sidebar"]}>
-            <DirectChatSidebar onFriendToggle={friendToggleHandler} />
-          </div>
+          {/* <div className={classes["sub-sidebar"]}> */}
+          <DirectChatSidebar onFriendToggle={friendToggleHandler} />
+          {/* </div> */}
           <div className={classes["main-content"]}>{children}</div>
         </div>
       )}
