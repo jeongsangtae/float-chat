@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
 import useAuthStore from "../../store/authStore";
 import useGroupChatStore from "../../store/groupChatStore";
 import useFriendStore from "../../store/friendStore";
+import useLayoutStore from "../../store/layoutStore";
 
 import ChatInput from "../Chats/ChatInput";
 import Chats from "../Chats/Chats";
@@ -19,6 +20,7 @@ const GroupChatDetails = () => {
   const { userInfo } = useAuthStore();
   const { groupChats } = useGroupChatStore();
   const { friends, loadFriends } = useFriendStore();
+  const { setView, setGroupChatTitle } = useLayoutStore();
 
   const [toggle, setToggle] = useState<boolean>(false);
 
@@ -36,10 +38,15 @@ const GroupChatDetails = () => {
 
   const groupChat = groupChats.find((groupChat) => groupChat._id === roomId);
 
+  useEffect(() => {
+    setView("groupChat");
+    setGroupChatTitle(groupChat?.title ?? "");
+  }, [groupChat?.title]);
+
   return (
     <div className={classes["group-chat-details"]}>
       <div className={classes["group-chat-sidebar"]}>
-        {groupChat?.title}'s server
+        {groupChat?.title}
         <div>
           참여자 목록 <GroupChatUsers roomId={roomId} />
         </div>

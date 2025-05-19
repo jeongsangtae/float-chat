@@ -28,7 +28,7 @@
 }
 
 .friend-submenu .active {
-  cursor: inherit;
+  cursor: default;
   background-color: #45484e;
   /* background-color: #2f3136; */
 }

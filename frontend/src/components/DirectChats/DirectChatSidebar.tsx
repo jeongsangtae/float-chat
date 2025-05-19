@@ -10,6 +10,7 @@ const DirectChatSidebar = ({ onFriendToggle }: DirectChatSidebarProps) => {
   return (
     <div className={classes["sub-sidebar"]}>
       <button onClick={onFriendToggle}>친구</button>
+      다이렉트 채팅방
       <DirectChats />
     </div>
   );

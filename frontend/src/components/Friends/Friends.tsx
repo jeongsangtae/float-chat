@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 
 import useAuthStore from "../../store/authStore";
 import useFriendStore from "../../store/friendStore";
+import useLayoutStore from "../../store/layoutStore";
 
 import AddFriend from "./AddFriend";
 import Friend from "./Friend";
@@ -23,10 +24,13 @@ const Friends = () => {
 
   const [activeTab, setActiveTab] = useState<string | null>(null);
 
+  const { setView } = useLayoutStore();
+
   useEffect(() => {
     // activeTabHandler("all", loadFriends);
     activeTabHandler("online", loadOnlineFriends);
     loadFriendRequests();
+    setView("friends");
   }, []);
 
   const activeTabHandler = (tab: string, action?: () => void): void => {
