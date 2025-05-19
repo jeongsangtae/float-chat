@@ -65,19 +65,27 @@ const Friends = () => {
           <div className={classes["friend-submenu"]}>
             <button
               onClick={() => activeTabHandler("online", loadOnlineFriends)}
+              className={activeTab === "online" ? classes.active : ""}
             >
               온라인
             </button>
-            <button onClick={() => activeTabHandler("all", loadFriends)}>
+            <button
+              onClick={() => activeTabHandler("all", loadFriends)}
+              className={activeTab === "all" ? classes.active : ""}
+            >
               모두
             </button>
             <button
               onClick={() => activeTabHandler("pending", loadFriendRequests)}
+              className={activeTab === "pending" ? classes.active : ""}
             >
               대기 중{" "}
               {friendRequests.length > 0 && `(${friendRequests.length})`}
             </button>
-            <button onClick={() => activeTabHandler("addFriend")}>
+            <button
+              onClick={() => activeTabHandler("addFriend")}
+              className={activeTab === "addFriend" ? classes.active : ""}
+            >
               친구 추가하기
             </button>
           </div>
