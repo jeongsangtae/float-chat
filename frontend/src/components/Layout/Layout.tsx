@@ -31,15 +31,17 @@ const Layout = ({ children, onLeaveGroupChat }: LayoutProps) => {
   }, []);
 
   return (
-    <div className={classes.layout}>
-      <div>
+    <div className={classes.wrapper}>
+      <div className={classes.header}>
         {currentView === "friends" && "친구"}
         {currentView === "directChat" && "다이렉트 메시지"}
         {currentView === "groupChat" && groupChatTitle}
       </div>
-      <SideBar onLeaveGroupChat={onLeaveGroupChat} />
-      <div className={classes["main-content"]}>{children}</div>
-      <Notification />
+      <div className={classes.layout}>
+        <SideBar onLeaveGroupChat={onLeaveGroupChat} />
+        <div className={classes["main-content"]}>{children}</div>
+        <Notification />
+      </div>
     </div>
   );
 };
