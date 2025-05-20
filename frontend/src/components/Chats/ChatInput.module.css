@@ -1,16 +1,40 @@
 .chat-input-container {
+  position: sticky;
+  /* position: fixed; */
+  bottom: 0;
+  width: 100%;
+  padding: 0.5rem;
+  z-index: 100;
 }
 
-.chat-input-container textarea {
+.input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-wrapper textarea {
   font: inherit;
   font-size: 0.8rem;
-  flex-grow: 1;
-  padding: 0.5rem;
-  border: none;
-  resize: none;
+  padding: 0.5rem 3rem 0.5rem 0.5rem;
   width: 100%;
+  resize: none;
   overflow-y: auto;
-  background-color: white;
-  color: black;
-  line-height: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 0.5rem;
+  line-height: 1.2rem;
+  box-sizing: border-box;
+}
+
+.input-wrapper button {
+  position: absolute;
+  right: 0.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  padding: 0.3rem 0.8rem;
+  background-color: #ccc;
+  color: white;
+  border: none;
+  border-radius: 0.3rem;
+  cursor: pointer;
 }

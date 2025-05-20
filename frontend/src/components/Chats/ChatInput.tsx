@@ -62,14 +62,16 @@ const ChatInput = ({ roomId }: RoomId) => {
 
   return (
     <div className={classes["chat-input-container"]}>
-      <textarea
-        onChange={inputChangeHandler}
-        rows={1}
-        value={message}
-        placeholder="메시지를 입력해주세요."
-        ref={textareaRef}
-      />
-      <button onClick={sendMessageHandler}>전송</button>
+      <div className={classes["input-wrapper"]}>
+        <textarea
+          onChange={inputChangeHandler}
+          rows={1}
+          value={message}
+          placeholder="메시지를 입력해주세요."
+          ref={textareaRef}
+        />
+        <button onClick={sendMessageHandler}>전송</button>
+      </div>
     </div>
   );
 };

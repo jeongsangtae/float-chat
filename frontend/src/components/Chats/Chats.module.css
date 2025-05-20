@@ -1,3 +1,11 @@
+/* .chats-container {
+  overflow-y: auto;
+} */
+
+.chats-container {
+  overflow-y: auto;
+}
+
 .date-line {
   text-align: center;
   font-size: 0.85rem;

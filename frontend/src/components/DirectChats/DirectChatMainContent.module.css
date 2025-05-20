@@ -1,4 +1,4 @@
-.full-content {
+.direct-chat-full-content {
   display: flex;
   flex-direction: row;
   height: 100vh;
@@ -7,8 +7,8 @@
   /* border: 1px solid rgba(255, 255, 255, 0.1); */
 }
 
-.main-content {
+.direct-chat-main-content {
   flex: 1;
   height: 100%;
-  overflow-y: auto;
+  /* overflow-y: auto; */
 }

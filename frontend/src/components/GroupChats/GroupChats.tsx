@@ -27,20 +27,16 @@ const GroupChats = () => {
 
   return (
     <>
-      {groupChats.length === 0 ? (
-        <p>그룹 채팅방이 없습니다.</p>
-      ) : (
-        groupChats.map((groupChat) => (
-          <GroupChat
-            key={groupChat._id}
-            _id={groupChat._id}
-            hostId={groupChat.hostId}
-            title={groupChat.title}
-            contextMenu={contextMenu}
-            setContextMenu={setContextMenu}
-          />
-        ))
-      )}
+      {groupChats.map((groupChat) => (
+        <GroupChat
+          key={groupChat._id}
+          _id={groupChat._id}
+          hostId={groupChat.hostId}
+          title={groupChat.title}
+          contextMenu={contextMenu}
+          setContextMenu={setContextMenu}
+        />
+      ))}
     </>
   );
 };

@@ -58,10 +58,10 @@ const Chats = ({ roomId }: RoomId) => {
   });
 
   return (
-    <>
+    <div className={classes["chats-container"]}>
       <p>{roomId}</p>
       {dateLineAndMessages}
-    </>
+    </div>
   );
 };
 
