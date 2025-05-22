@@ -30,10 +30,12 @@ const ChatInput = ({ roomId }: RoomId) => {
       // textarea.style.height = `${newHeight}px`;
 
       // 텍스트 입력창의 최대 높이를 설정하고, 그 이상은 스크롤 사용
-      if (newHeight <= 112) {
+      if (newHeight <= 360) {
+        textarea.style.overflowY = "hidden";
         textarea.style.height = `${newHeight}px`;
       } else {
-        textarea.style.height = "112px";
+        textarea.style.overflowY = "auto";
+        textarea.style.height = "360px";
       }
     }
 
