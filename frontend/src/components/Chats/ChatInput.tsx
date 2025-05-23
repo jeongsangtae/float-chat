@@ -14,7 +14,10 @@ const ChatInput = ({ roomId }: RoomId) => {
   const { directChats, getDirectChat } = useDirectChatStore();
 
   const [message, setMessage] = useState<string>("");
+
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
+
+  const isMessageValid = message.trim().length > 0;
 
   const inputChangeHandler = (
     event: React.ChangeEvent<HTMLTextAreaElement>
@@ -42,17 +45,10 @@ const ChatInput = ({ roomId }: RoomId) => {
     setMessage(event.target.value);
   };
 
-  const sendMessageHandler = async (
-    event: React.MouseEvent<HTMLButtonElement>
-  ): Promise<void> => {
-    event.preventDefault();
+  const sendMessageHandler = async (): Promise<void> => {
+    if (!roomId || !userInfo || !isMessageValid) return;
 
-    if (!roomId || !userInfo) {
-      console.error("roomId 또는 userInfo가 정의되지 않았습니다.");
-      return;
-    }
-
-    await sendMessage(roomId, message, userInfo);
+    await sendMessage(roomId, message.trim(), userInfo);
     setMessage("");
 
     const directChatChecked = directChats.find((room) => room._id === roomId);
@@ -62,17 +58,30 @@ const ChatInput = ({ roomId }: RoomId) => {
     }
   };
 
+  const keyPressHandler = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (event.key === "Enter" && !event.shiftKey) {
+      event.preventDefault(); // 줄바꿈 방지
+      sendMessageHandler();
+    }
+  };
+
   return (
     <div className={classes["chat-input-container"]}>
       <div className={classes["input-wrapper"]}>
         <textarea
           onChange={inputChangeHandler}
+          onKeyDown={keyPressHandler}
           rows={1}
           value={message}
           placeholder="메시지를 입력해주세요."
           ref={textareaRef}
         />
-        <button onClick={sendMessageHandler}>전송</button>
+        <button
+          onClick={sendMessageHandler}
+          className={!isMessageValid ? classes.disable : ""}
+        >
+          전송
+        </button>
       </div>
     </div>
   );

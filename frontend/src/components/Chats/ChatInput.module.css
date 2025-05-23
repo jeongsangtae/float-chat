@@ -86,3 +86,8 @@
   border-radius: 0.3rem;
   cursor: pointer;
 }
+
+.disable {
+  opacity: 0.5;
+  pointer-events: none;
+}
