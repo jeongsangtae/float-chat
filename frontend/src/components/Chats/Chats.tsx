@@ -52,7 +52,11 @@ const Chats = ({ roomId }: RoomId) => {
         )}
 
         {/* 실제 채팅 메시지 렌더링 */}
-        <Chat message={message.message} date={message.date} />
+        <Chat
+          nickname={message.nickname}
+          message={message.message}
+          date={message.date}
+        />
       </div>
     );
   });

@@ -1,11 +1,11 @@
 .chat-container {
 }
 
-.chat-message {
+.chat-header {
   white-space: pre-line;
 }
 
-.chat-message span {
+.chat-header span:last-child {
   font-size: 0.8rem;
   color: gray;
 }

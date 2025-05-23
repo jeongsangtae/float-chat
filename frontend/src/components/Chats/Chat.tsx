@@ -2,7 +2,11 @@ import { ChatMessage } from "../../types";
 
 import classes from "./Chat.module.css";
 
-const Chat = ({ message, date }: Pick<ChatMessage, "message" | "date">) => {
+const Chat = ({
+  nickname,
+  message,
+  date,
+}: Pick<ChatMessage, "nickname" | "message" | "date">) => {
   // 공백 기준으로 날짜와 시간을 분리
   const [dateOnly, timeOnly] = date.split(" ");
 
@@ -74,9 +78,11 @@ const Chat = ({ message, date }: Pick<ChatMessage, "message" | "date">) => {
 
   return (
     <div className={classes["chat-container"]}>
-      <p className={classes["chat-message"]}>
-        {message} <span>{resultDate}</span>
-      </p>
+      <div className={classes["chat-header"]}>
+        <span className={classes["chat-nickname"]}>{nickname}</span>
+        <span className={classes["chat-date"]}>{resultDate}</span>
+      </div>
+      <div className={classes["chat-message"]}>{message}</div>
     </div>
   );
 };

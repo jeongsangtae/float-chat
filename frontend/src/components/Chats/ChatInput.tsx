@@ -24,8 +24,6 @@ const ChatInput = ({ roomId }: RoomId) => {
   ): void => {
     const textarea = textareaRef.current;
 
-    console.log(textarea);
-
     if (textarea) {
       // 높이를 초기화하여 scrollHeight 값을 올바르게 계산
       textarea.style.height = "auto";

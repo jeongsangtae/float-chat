@@ -47,7 +47,7 @@ router.post("/chat/:roomId", async (req, res) => {
     }
 
     // 클라이언트에서 보낸 데이터 추출
-    const { roomId, message, email } = req.body;
+    const { roomId, message, email, nickname } = req.body;
 
     let date = new Date();
     let kstDate = new Date(date.getTime() + 9 * 60 * 60 * 1000);
@@ -56,6 +56,7 @@ router.post("/chat/:roomId", async (req, res) => {
     const newMessage = {
       roomId: new ObjectId(roomId), // MongoDB ObjectId로 변환된 roomId
       email,
+      nickname,
       message,
       date: `${kstDate.getFullYear()}.${(kstDate.getMonth() + 1)
         .toString()

@@ -92,6 +92,7 @@ const useChatStore = create<ChatStore>((set) => ({
       roomId,
       message,
       email: userInfo.email,
+      nickname: userInfo.nickname,
     };
 
     try {

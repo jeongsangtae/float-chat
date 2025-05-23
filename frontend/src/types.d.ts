@@ -88,8 +88,9 @@ export interface RoomId {
 export interface ChatMessage {
   _id: string;
   roomId: string;
-  message: string;
   email: string;
+  nickname: string;
+  message: string;
   date: string;
 }
 
