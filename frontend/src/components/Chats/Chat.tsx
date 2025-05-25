@@ -79,6 +79,8 @@ const Chat = ({
     resultDate = `${shortYear}. ${numMonth}. ${numDay}. ${ampm} ${resultHour}:${minute}`;
   }
 
+  const hoverDate = `${ampm} ${resultHour}:${minute}`;
+
   return (
     <div className={classes["chat-container"]}>
       {showNickname && (
@@ -87,7 +89,13 @@ const Chat = ({
           <span className={classes["chat-date"]}>{resultDate}</span>
         </div>
       )}
-      <div className={classes["chat-message"]}>{message}</div>
+      <div className={classes["chat-message"]}>
+        {message}
+        {!showNickname && (
+          <span className={classes["chat-hover-date"]}>{hoverDate}</span>
+        )}
+      </div>
+      {/* <div className={classes["chat-message"]}>{message}</div> */}
     </div>
   );
 };

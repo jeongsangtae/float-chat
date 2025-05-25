@@ -7,5 +7,17 @@
 
 .chat-header span:last-child {
   font-size: 0.8rem;
-  color: gray;
+  color: #808080;
+}
+
+.chat-hover-date {
+  font-size: 0.8rem;
+  color: #808080;
+  /* color: #999; */
+  margin-left: 0.5rem;
+  opacity: 0;
+}
+
+.chat-message:hover .chat-hover-date {
+  opacity: 1;
 }
