@@ -30,6 +30,7 @@ const Chats = ({ roomId }: RoomId) => {
   }, [roomId]);
 
   let prevDate = ""; // 이전 메시지의 날짜를 저장하는 변수 (날짜 줄 중복 방지)
+  let prevNickname = ""; // 이전 닉네임을 저장하는 변수
 
   const dateLineAndMessages = messages.map((message) => {
     // 메시지의 날짜에서 년, 월, 일을 추출 (ex: "2025.04.12 13:25:12")
@@ -44,6 +45,17 @@ const Chats = ({ roomId }: RoomId) => {
     // 현재 메시지 날짜를 prevDate에 저장해 다른 메시지 비교에 사용
     prevDate = currentDate;
 
+    // 이전 메시지와 같은 사용자인지 확인
+    const sameUserAsPrevious = message.nickname === prevNickname;
+
+    // 사용자가 달라졌거나 날짜가 바뀌었으면 닉네임을 보여줌
+    const showNickname = !sameUserAsPrevious || showDateLine;
+
+    // 닉네임을 보여주는 경우에만 현재 닉네임을 저장해 다음 비교에 사용
+    if (showNickname) {
+      prevNickname = message.nickname;
+    }
+
     return (
       <div key={message._id}>
         {/* 날짜가 바뀌었을 경우에만 날짜 구분선 출력 */}
@@ -56,6 +68,7 @@ const Chats = ({ roomId }: RoomId) => {
           nickname={message.nickname}
           message={message.message}
           date={message.date}
+          showNickname={showNickname}
         />
       </div>
     );

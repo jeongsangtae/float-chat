@@ -6,7 +6,10 @@ const Chat = ({
   nickname,
   message,
   date,
-}: Pick<ChatMessage, "nickname" | "message" | "date">) => {
+  showNickname,
+}: Pick<ChatMessage, "nickname" | "message" | "date"> & {
+  showNickname: boolean;
+}) => {
   // 공백 기준으로 날짜와 시간을 분리
   const [dateOnly, timeOnly] = date.split(" ");
 
@@ -78,10 +81,12 @@ const Chat = ({
 
   return (
     <div className={classes["chat-container"]}>
-      <div className={classes["chat-header"]}>
-        <span className={classes["chat-nickname"]}>{nickname}</span>
-        <span className={classes["chat-date"]}>{resultDate}</span>
-      </div>
+      {showNickname && (
+        <div className={classes["chat-header"]}>
+          <span className={classes["chat-nickname"]}>{nickname}</span>
+          <span className={classes["chat-date"]}>{resultDate}</span>
+        </div>
+      )}
       <div className={classes["chat-message"]}>{message}</div>
     </div>
   );
