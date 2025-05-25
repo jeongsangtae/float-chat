@@ -70,21 +70,38 @@
   background-color: #333333;
 }
 
-.input-wrapper button {
+/* .input-wrapper button {
   position: absolute;
-  /* right: 0.5rem; */
   right: 0.75rem;
   bottom: 0.9rem;
-  /* top: 50%;
-  transform: translateY(-50%); */
-  /* bottom: 50%;
-  transform: translateY(50%); */
   padding: 0.3rem 0.8rem;
   background-color: #ccc;
   color: white;
   border: none;
   border-radius: 0.3rem;
   cursor: pointer;
+} */
+
+.send-button {
+  position: absolute;
+  font-size: 1.5rem;
+  right: 0.75rem;
+  bottom: 0.9rem;
+  color: #b1b1b1;
+  border: none;
+  border-radius: 0.3rem;
+  cursor: pointer;
+  /* padding: 0.3rem 0.8rem; */
+  /* background-color: #ccc; */
+  /* right: 0.5rem; */
+  /* top: 50%;
+  transform: translateY(-50%); */
+  /* bottom: 50%;
+  transform: translateY(50%); */
+}
+
+.send-button:hover {
+  color: white;
 }
 
 .disable {

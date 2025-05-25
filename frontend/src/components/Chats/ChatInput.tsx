@@ -1,4 +1,5 @@
 import React, { useState, useRef } from "react";
+import { IoMdSend } from "react-icons/io";
 
 import useAuthStore from "../../store/authStore";
 import useChatStore from "../../store/chatStore";
@@ -74,12 +75,12 @@ const ChatInput = ({ roomId }: RoomId) => {
           placeholder="메시지를 입력해주세요."
           ref={textareaRef}
         />
-        <button
+        <IoMdSend
           onClick={sendMessageHandler}
-          className={!isMessageValid ? classes.disable : ""}
-        >
-          전송
-        </button>
+          className={`${classes["send-button"]} ${
+            !isMessageValid ? classes.disable : ""
+          }`}
+        />
       </div>
     </div>
   );
