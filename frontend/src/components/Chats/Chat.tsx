@@ -82,7 +82,11 @@ const Chat = ({
   const hoverDate = `${ampm} ${resultHour}:${minute}`;
 
   return (
-    <div className={classes["chat-container"]}>
+    <div
+      className={`${classes["chat-container"]} ${
+        showNickname ? classes["other-user"] : ""
+      }`}
+    >
       {showNickname && (
         <div className={classes["chat-header"]}>
           <span className={classes["chat-nickname"]}>{nickname}</span>

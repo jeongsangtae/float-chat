@@ -1,13 +1,23 @@
 .chat-container {
+  margin-bottom: 0.25rem;
+}
+
+.other-user {
+  margin-top: 1rem;
 }
 
 .chat-header {
   white-space: pre-line;
+  margin-bottom: 0.25rem;
 }
 
 .chat-header span:last-child {
   font-size: 0.8rem;
   color: #808080;
+}
+
+.chat-date {
+  margin-left: 0.5rem;
 }
 
 .chat-hover-date {
