@@ -30,7 +30,7 @@ const Chats = ({ roomId }: RoomId) => {
   }, [roomId]);
 
   let prevDate = ""; // 이전 메시지의 날짜를 저장하는 변수 (날짜 줄 중복 방지)
-  let prevUserEmail = ""; // 이전 닉네임을 저장하는 변수
+  let prevUserEmail = ""; // 이전 이메일을 저장하는 변수
 
   const dateLineAndMessages = messages.map((message) => {
     // 메시지의 날짜에서 년, 월, 일을 추출 (ex: "2025.04.12 13:25:12")

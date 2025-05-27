@@ -20,6 +20,15 @@ interface AuthStore {
   verifyUser: () => Promise<void>;
   refreshToken: () => Promise<void>;
   refreshTokenExp: () => Promise<void>;
+  editNicknameForm: (
+    nickname: string,
+    userInfo: UserInfo,
+    modalData: {
+      method: "POST" | "PATCH";
+      _id?: string;
+      nickname?: string;
+    }
+  ) => Promise<void>;
 }
 
 const useAuthStore = create<AuthStore>((set, get) => ({
@@ -234,6 +243,32 @@ const useAuthStore = create<AuthStore>((set, get) => ({
       localStorage.setItem("refreshTokenExp", resData.tokenExp);
     } catch (error) {
       console.error("사용자 인증 오류", error);
+    }
+  },
+
+  editNicknameForm: async (nickname, userInfo, modalData) => {
+    try {
+      const { _id, email, username } = userInfo;
+
+      const requestBody = { _id, email, username, nickname, modalData };
+
+      const response = await fetch(`${apiURL}/editNicknameForm`, {
+        method: modalData.method,
+        body: JSON.stringify(requestBody),
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+      });
+
+      if (!response.ok) {
+        throw new Error(`닉네임 수정 실패`);
+      }
+
+      const resData = await response.json();
+    } catch (error) {
+      console.error("에러 내용:", error);
+      alert(
+        "닉네임 수정 중 문제가 발생했습니다. 새로고침 후 다시 시도해 주세요."
+      );
     }
   },
 }));
