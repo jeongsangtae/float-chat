@@ -248,10 +248,13 @@ const useAuthStore = create<AuthStore>((set, get) => ({
 
   editNicknameForm: async (nickname, userInfo, modalData) => {
     try {
+      console.log(nickname, userInfo, modalData);
+
       const { _id, email, username } = userInfo;
 
       const requestBody = { _id, email, username, nickname, modalData };
 
+      console.log(requestBody, modalData, modalData.method);
       const response = await fetch(`${apiURL}/editNicknameForm`, {
         method: modalData.method,
         body: JSON.stringify(requestBody),
@@ -264,6 +267,16 @@ const useAuthStore = create<AuthStore>((set, get) => ({
       }
 
       const resData = await response.json();
+
+      console.log(resData.editNickname);
+
+      set((prev) => ({
+        ...prev,
+        userInfo: {
+          ...prev.userInfo!,
+          nickname: resData.editNickname.nickname,
+        },
+      }));
     } catch (error) {
       console.error("에러 내용:", error);
       alert(

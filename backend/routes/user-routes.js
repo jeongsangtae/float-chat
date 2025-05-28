@@ -206,6 +206,74 @@ router.get("/refreshTokenExp", async (req, res) => {
   }
 });
 
+router.patch("/editNicknameForm", async (req, res) => {
+  try {
+    const othersData = await accessToken(req, res);
+
+    if (!othersData) {
+      return res.status(401).json({ message: "jwt error" });
+    }
+
+    console.log(othersData);
+
+    console.log("백엔드에서 req.body:", req.body);
+
+    const requestBody = req.body;
+
+    console.log(requestBody.modalData);
+
+    let date = new Date();
+    let kstDate = new Date(date.getTime() + 9 * 60 * 60 * 1000);
+
+    const userInfo = await db
+      .getDb()
+      .collection("users")
+      .findOne({ _id: new ObjectId(requestBody.modalData._id) });
+
+    if (!userInfo) {
+      return res
+        .status(404)
+        .json({ message: "사용자 정보를 찾을 수 없습니다." });
+    }
+
+    // 그룹 채팅방 내용과 마찬가지로 로그인한 사용자 이메일이 아닌, 프론트엔드에서 전달한 이메일 정보를 사용하는 것이 좋은가?
+    // 만약 로그인한 사용자 이메일이 더 나은 방법이라면, 프론트엔드에서 전달한 이메일 정보가 굳이 필요하지 않기 때문에 관련 내용 삭제 필요
+    if (userInfo.email !== othersData.email) {
+      return res
+        .status(403)
+        .json({ message: "사용자 정보를 수정할 권한이 없습니다." });
+    }
+
+    const editNickname = {
+      nickname: requestBody.nickname,
+      date: `${kstDate.getFullYear()}.${(kstDate.getMonth() + 1)
+        .toString()
+        .padStart(2, "0")}.${kstDate
+        .getDate()
+        .toString()
+        .padStart(2, "0")} ${kstDate
+        .getHours()
+        .toString()
+        .padStart(2, "0")}:${kstDate
+        .getMinutes()
+        .toString()
+        .padStart(2, "0")}:${kstDate.getSeconds().toString().padStart(2, "0")}`,
+    };
+
+    await db
+      .getDb()
+      .collection("users")
+      .updateOne(
+        { _id: new ObjectId(requestBody.modalData._id) },
+        { $set: editNickname }
+      );
+
+    res.status(200).json({ editNickname });
+  } catch (error) {
+    errorHandler(res, error, "사용자 닉네임 수정 중 오류 발생");
+  }
+});
+
 // 로그아웃 처리, 쿠키에서 토큰 제거
 router.post("/logout", async (req, res) => {
   const isProduction = process.env.NODE_ENV === "production";

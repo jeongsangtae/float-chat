@@ -28,6 +28,8 @@ const EditNicknameForm = ({ onToggle }: ModalProps) => {
       return;
     }
 
+    console.log(nickname, modalData);
+
     try {
       await editNicknameForm(nickname, userInfo, modalData);
 
@@ -46,7 +48,7 @@ const EditNicknameForm = ({ onToggle }: ModalProps) => {
       <form onSubmit={submitHandler}>
         <h2>사용자 닉네임 변경</h2>
         <div>
-          <div>채팅방 이름</div>
+          <div>이전 닉네임</div>
           <input
             required
             type="text"
