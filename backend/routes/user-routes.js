@@ -19,6 +19,10 @@ router.post("/signup", async (req, res) => {
   try {
     const { email, nickname, username, password, confirmPassword } = req.body;
 
+    // 닉네임, 사용자명을 한글, 영문 대소문자, 숫자만 허용 (특수문자 제외)
+    const nicknameRegex = /^[가-힣a-zA-Z0-9]+$/;
+    const usernameRegex = /^[가-힣a-zA-Z0-9]+$/;
+
     // 이메일, 닉네임, 사용자명, 패스워드 등 잘못된 입력을 확인하는 코드
     // 조건이 맞지 않으면 오류 메시지와 함께 요청을 거절
     if (
@@ -30,7 +34,9 @@ router.post("/signup", async (req, res) => {
       !email.includes("@") ||
       username.trim().length > 5 ||
       password.trim().length < 6 ||
-      password !== confirmPassword
+      password !== confirmPassword ||
+      nickname.trim().length < 2 ||
+      nickname.trim().length > 15
     ) {
       let message = "잘못된 입력입니다. 다시 입력해주세요.";
 
@@ -40,11 +46,29 @@ router.post("/signup", async (req, res) => {
         message = "비밀번호를 6자리 이상 입력해 주세요.";
       } else if (password !== confirmPassword) {
         message = "비밀번호와 동일하게 입력해 주세요.";
+      } else if (nickname.trim().length < 2 || nickname.trim().length > 15) {
+        message = "닉네임은 2자 이상 15자 이하로 입력해 주세요.";
       }
 
       res.status(400).json({ message });
       return;
     }
+
+    // 형식 검사 (닉네임, 사용자명)
+    if (!nicknameRegex.test(nickname)) {
+      return res.status(400).json({
+        message: "닉네임은 한글, 영문, 숫자만 사용할 수 있습니다.",
+      });
+    }
+
+    if (!usernameRegex.test(username)) {
+      return res.status(400).json({
+        message: "사용자명은 한글, 영문, 숫자만 사용할 수 있습니다.",
+      });
+    }
+
+    let date = new Date();
+    let kstDate = new Date(date.getTime() + 9 * 60 * 60 * 1000);
 
     // DB에서 이미 사용 중인 이메일인지 확인
     const existingUser = await db
@@ -67,6 +91,18 @@ router.post("/signup", async (req, res) => {
       nickname,
       username,
       password: hashPassword,
+      date: `${kstDate.getFullYear()}.${(kstDate.getMonth() + 1)
+        .toString()
+        .padStart(2, "0")}.${kstDate
+        .getDate()
+        .toString()
+        .padStart(2, "0")} ${kstDate
+        .getHours()
+        .toString()
+        .padStart(2, "0")}:${kstDate
+        .getMinutes()
+        .toString()
+        .padStart(2, "0")}:${kstDate.getSeconds().toString().padStart(2, "0")}`,
     };
 
     // 새 사용자 데이터를 MongoDB에 저장
@@ -206,6 +242,7 @@ router.get("/refreshTokenExp", async (req, res) => {
   }
 });
 
+// 닉네임 수정 라우터
 router.patch("/editNicknameForm", async (req, res) => {
   try {
     const othersData = await accessToken(req, res);
@@ -221,9 +258,6 @@ router.patch("/editNicknameForm", async (req, res) => {
     const requestBody = req.body;
 
     console.log(requestBody.modalData);
-
-    let date = new Date();
-    let kstDate = new Date(date.getTime() + 9 * 60 * 60 * 1000);
 
     const userInfo = await db
       .getDb()
@@ -246,18 +280,6 @@ router.patch("/editNicknameForm", async (req, res) => {
 
     const editNickname = {
       nickname: requestBody.nickname,
-      date: `${kstDate.getFullYear()}.${(kstDate.getMonth() + 1)
-        .toString()
-        .padStart(2, "0")}.${kstDate
-        .getDate()
-        .toString()
-        .padStart(2, "0")} ${kstDate
-        .getHours()
-        .toString()
-        .padStart(2, "0")}:${kstDate
-        .getMinutes()
-        .toString()
-        .padStart(2, "0")}:${kstDate.getSeconds().toString().padStart(2, "0")}`,
     };
 
     await db

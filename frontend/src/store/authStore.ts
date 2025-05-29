@@ -271,10 +271,10 @@ const useAuthStore = create<AuthStore>((set, get) => ({
       console.log(resData.editNickname);
 
       set((prev) => ({
-        ...prev,
+        ...prev, // 기존 상태 전체를 유지
         userInfo: {
-          ...prev.userInfo!,
-          nickname: resData.editNickname.nickname,
+          ...prev.userInfo!, // 기존 사용자 정보 유지 및 !를 사용해 userInfo가 null이 아님을 단언
+          nickname: resData.editNickname.nickname, // nickname만 덮어쓰기
         },
       }));
     } catch (error) {
