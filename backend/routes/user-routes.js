@@ -251,13 +251,13 @@ router.patch("/editNicknameForm", async (req, res) => {
       return res.status(401).json({ message: "jwt error" });
     }
 
-    console.log(othersData);
+    // console.log(othersData);
 
-    console.log("백엔드에서 req.body:", req.body);
+    // console.log("백엔드에서 req.body:", req.body);
 
     const requestBody = req.body;
 
-    console.log(requestBody.modalData);
+    // console.log(requestBody.modalData);
 
     const userId = new ObjectId(requestBody.modalData._id);
     const newNickname = requestBody.nickname;
@@ -368,6 +368,38 @@ router.patch("/editNicknameForm", async (req, res) => {
           { $set: { receiverNickname: newNickname } }
         ),
     ]);
+
+    // 다이렉트 채팅방 닉네입 업데이트 실시반 반영 로직
+    const directChats = await db
+      .getDb()
+      .collection("directChats")
+      .find({ "participants._id": requestBody.modalData._id })
+      .toArray();
+
+    console.log(directChats, "다이렉트 채팅방 참여한 목록");
+
+    // socket.io를 통해 새 메시지를 해당 채팅방에 브로드캐스트
+    const io = req.app.get("io");
+    const onlineUsers = req.app.get("onlineUsers");
+    // const socketId = onlineUsers.get();
+
+    directChats.forEach((directChat) => {
+      directChat.participants.forEach((participant) => {
+        const participantId = participant._id.toString();
+
+        // 본인이 아닌 다른 참여자
+        if (participantId !== requestBody.modalData._id) {
+          const targetSocketId = onlineUsers.get(participantId);
+
+          if (targetSocketId) {
+            io.to(targetSocketId).emit("directChatNicknameUpdated", {
+              userEmail: userInfo.email,
+              newNickname,
+            });
+          }
+        }
+      });
+    });
 
     res.status(200).json({ editNickname });
   } catch (error) {
