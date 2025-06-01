@@ -265,7 +265,7 @@ router.patch("/editNicknameForm", async (req, res) => {
     const userInfo = await db
       .getDb()
       .collection("users")
-      .findOne({ _id: new ObjectId(requestBody.modalData._id) });
+      .findOne({ _id: userId });
 
     if (!userInfo) {
       return res
@@ -285,92 +285,89 @@ router.patch("/editNicknameForm", async (req, res) => {
       nickname: newNickname,
     };
 
-    await db
-      .getDb()
-      .collection("users")
-      .updateOne(
-        { _id: new ObjectId(requestBody.modalData._id) },
-        { $set: editNickname }
-      );
+    await Promise.all([
+      // users 컬렉션: _id 기준으로 닉네임 업데이트
+      db
+        .getDb()
+        .collection("users")
+        .updateOne({ _id: userId }, { $set: editNickname }),
 
-    // chatMessages 컬렉션: email 기준 업데이트
-    await db
-      .getDb()
-      .collection("chatMessages")
-      .updateMany(
-        { email: userInfo.email },
-        { $set: { nickname: newNickname } }
-      );
+      // chatMessages 컬렉션: email 기준 업데이트
+      db
+        .getDb()
+        .collection("chatMessages")
+        .updateMany(
+          { email: userInfo.email },
+          { $set: { nickname: newNickname } }
+        ),
 
-    // groupChat 컬렉션: hostId 기준 업데이트
-    await db
-      .getDb()
-      .collection("groupChat")
-      .updateMany(
-        { hostId: requestBody.modalData._id },
-        { $set: { nickname: newNickname } }
-      );
+      // groupChat 컬렉션: hostId 기준 업데이트
+      db
+        .getDb()
+        .collection("groupChat")
+        .updateMany(
+          { hostId: requestBody.modalData._id },
+          { $set: { nickname: newNickname } }
+        ),
 
-    // directChats 컬렉션: participants 배열 내에서 _id 일치 시 업데이트
-    await db
-      .getDb()
-      .collection("directChats")
-      .updateMany(
-        { "participants._id": requestBody.modalData._id },
-        { $set: { "participants.$[participant].nickname": newNickname } },
-        { arrayFilters: [{ "participant._id": requestBody.modalData._id }] }
-      );
+      // directChats 컬렉션: participants 배열 내에서 _id 일치 시 업데이트
+      db
+        .getDb()
+        .collection("directChats")
+        .updateMany(
+          { "participants._id": requestBody.modalData._id },
+          { $set: { "participants.$[participant].nickname": newNickname } },
+          { arrayFilters: [{ "participant._id": requestBody.modalData._id }] }
+        ),
 
-    // friends 컬렉션: requester 또는 receiver 내의 _id 일치 시 업데이트
-    await db
-      .getDb()
-      .collection("friends")
-      .updateMany(
-        { "requester.id": userId },
-        { $set: { "requester.nickname": newNickname } }
-      );
+      // friends 컬렉션: requester.id 또는 receiver.id 내의 _id 일치 시 업데이트
+      db
+        .getDb()
+        .collection("friends")
+        .updateMany(
+          { "requester.id": userId },
+          { $set: { "requester.nickname": newNickname } }
+        ),
+      db
+        .getDb()
+        .collection("friends")
+        .updateMany(
+          { "receiver.id": userId },
+          { $set: { "receiver.nickname": newNickname } }
+        ),
 
-    await db
-      .getDb()
-      .collection("friends")
-      .updateMany(
-        { "receiver.id": userId },
-        { $set: { "receiver.nickname": newNickname } }
-      );
+      // friendRequests 컬렉션: requester 또는 receiver 일치 시 업데이트
+      db
+        .getDb()
+        .collection("friendRequests")
+        .updateMany(
+          { requester: userId },
+          { $set: { requesterNickname: newNickname } }
+        ),
+      db
+        .getDb()
+        .collection("friendRequests")
+        .updateMany(
+          { receiver: userId },
+          { $set: { receiverNickname: newNickname } }
+        ),
 
-    // friendRequests 컬렉션: requester 또는 receiver 일치 시 업데이트
-    await db
-      .getDb()
-      .collection("friendRequests")
-      .updateMany(
-        { requester: userId },
-        { $set: { requesterNickname: newNickname } }
-      );
-
-    await db
-      .getDb()
-      .collection("friendRequests")
-      .updateMany(
-        { receiver: userId },
-        { $set: { receiverNickname: newNickname } }
-      );
-
-    // groupChatInvites 컬렉션: requester 또는 receiver 일치 시 업데이트
-    await db
-      .getDb()
-      .collection("groupChatInvites")
-      .updateMany(
-        { requester: userId },
-        { $set: { requesterNickname: newNickname } }
-      );
-
-    await db
-      .getDb()
-      .collection("groupChatInvites")
-      .updateMany(
-        { receiver: userId },
-        { $set: { receiverNickname: newNickname } }
-      );
+      // groupChatInvites 컬렉션: requester 또는 receiver 일치 시 업데이트
+      db
+        .getDb()
+        .collection("groupChatInvites")
+        .updateMany(
+          { requester: userId },
+          { $set: { requesterNickname: newNickname } }
+        ),
+      db
+        .getDb()
+        .collection("groupChatInvites")
+        .updateMany(
+          { receiver: userId },
+          { $set: { receiverNickname: newNickname } }
+        ),
+    ]);
 
     res.status(200).json({ editNickname });
   } catch (error) {
