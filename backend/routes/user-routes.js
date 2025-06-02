@@ -256,10 +256,11 @@ router.patch("/editNicknameForm", async (req, res) => {
     // console.log("백엔드에서 req.body:", req.body);
 
     const requestBody = req.body;
+    const currentUserId = requestBody.modalData._id;
 
     // console.log(requestBody.modalData);
 
-    const userId = new ObjectId(requestBody.modalData._id);
+    const userId = new ObjectId(currentUserId);
     const newNickname = requestBody.nickname;
 
     const userInfo = await db
@@ -306,7 +307,7 @@ router.patch("/editNicknameForm", async (req, res) => {
         .getDb()
         .collection("groupChat")
         .updateMany(
-          { hostId: requestBody.modalData._id },
+          { hostId: currentUserId },
           { $set: { nickname: newNickname } }
         ),
 
@@ -315,9 +316,9 @@ router.patch("/editNicknameForm", async (req, res) => {
         .getDb()
         .collection("directChats")
         .updateMany(
-          { "participants._id": requestBody.modalData._id },
+          { "participants._id": currentUserId },
           { $set: { "participants.$[participant].nickname": newNickname } },
-          { arrayFilters: [{ "participant._id": requestBody.modalData._id }] }
+          { arrayFilters: [{ "participant._id": currentUserId }] }
         ),
 
       // friends 컬렉션: requester.id 또는 receiver.id 내의 _id 일치 시 업데이트
@@ -369,11 +370,11 @@ router.patch("/editNicknameForm", async (req, res) => {
         ),
     ]);
 
-    // 다이렉트 채팅방 닉네입 업데이트 실시반 반영 로직
+    // 다이렉트 채팅방 닉네입 업데이트 실시간 반영 로직
     const directChats = await db
       .getDb()
       .collection("directChats")
-      .find({ "participants._id": requestBody.modalData._id })
+      .find({ "participants._id": currentUserId })
       .toArray();
 
     console.log(directChats, "다이렉트 채팅방 참여한 목록");
@@ -381,25 +382,42 @@ router.patch("/editNicknameForm", async (req, res) => {
     // socket.io를 통해 새 메시지를 해당 채팅방에 브로드캐스트
     const io = req.app.get("io");
     const onlineUsers = req.app.get("onlineUsers");
-    // const socketId = onlineUsers.get();
 
-    directChats.forEach((directChat) => {
-      directChat.participants.forEach((participant) => {
-        const participantId = participant._id.toString();
+    // directChats.forEach((directChat) => {
+    //   directChat.participants.forEach((participant) => {
+    //     const participantId = participant._id.toString();
 
-        // 본인이 아닌 다른 참여자
-        if (participantId !== requestBody.modalData._id) {
-          const targetSocketId = onlineUsers.get(participantId);
+    //     // 본인이 아닌 다른 참여자
+    //     if (participantId !== currentUserId) {
+    //       const targetSocketId = onlineUsers.get(participantId);
 
-          if (targetSocketId) {
-            io.to(targetSocketId).emit("directChatNicknameUpdated", {
-              userEmail: userInfo.email,
-              newNickname,
-            });
-          }
+    //       if (targetSocketId) {
+    //         io.to(targetSocketId).emit("directChatNicknameUpdated", {
+    //           userEmail: userInfo.email,
+    //           newNickname,
+    //         });
+    //       }
+    //     }
+    //   });
+    // });
+
+    for (const directChat of directChats) {
+      // 본인이 아닌 다른 참여자
+      const otherParticipants = directChat.participants.filter(
+        (participant) => participant._id.toString() !== currentUserId
+      );
+
+      otherParticipants.forEach((otherParticipant) => {
+        const socketId = onlineUsers.get(otherParticipant._id.toString());
+
+        if (socketId) {
+          io.to(socketId).emit("directChatNicknameUpdated", {
+            userEmail: userInfo.email,
+            newNickname,
+          });
         }
       });
-    });
+    }
 
     res.status(200).json({ editNickname });
   } catch (error) {
