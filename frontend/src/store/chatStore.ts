@@ -80,9 +80,9 @@ const useChatStore = create<ChatStore>((set) => ({
       if (!socket) return; // 소켓이 없으면 실행 안 함
 
       // 기존 이벤트 리스너 제거 후 재등록 (중복 방지)
-      socket.off("directChatNicknameUpdated");
+      socket.off("chatNicknameUpdated");
 
-      socket.on("directChatNicknameUpdated", ({ userEmail, newNickname }) => {
+      socket.on("chatNicknameUpdated", ({ userEmail, newNickname }) => {
         set((prevMsg) => ({
           messages: prevMsg.messages.map((msg) => {
             return msg.email === userEmail
