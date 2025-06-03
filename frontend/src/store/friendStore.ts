@@ -99,6 +99,33 @@ const useFriendStore = create<FriendStore>((set) => ({
       if (!socket) return; // 소켓이 없으면 실행 안 함
 
       // 기존 이벤트 리스너 제거 후 재등록 (중복 방지)
+      socket.off("friendNicknameUpdated");
+
+      socket.on("friendNicknameUpdated", ({ userId, newNickname }) => {
+        set((prev) => ({
+          friends: prev.friends.map((friend) => {
+            // 요청자와 수신자 중 누가 닉네임을 바꿨는지 확인
+            const isRequester = friend.requester.id === userId;
+            const isReceiver = friend.receiver.id === userId;
+
+            // 닉네임을 바꾼 대상이 아니면 원본 그대로 반환
+            if (!isRequester && !isReceiver) return friend;
+
+            // 닉네임을 바꾼 대상만 업데이트하고 나머지는 그대로 유지
+            return {
+              ...friend,
+              requester: isRequester
+                ? { ...friend.requester, nickname: newNickname }
+                : friend.requester,
+              receiver: isReceiver
+                ? { ...friend.receiver, nickname: newNickname }
+                : friend.receiver,
+            };
+          }),
+        }));
+      });
+
+      // 기존 이벤트 리스너 제거 후 재등록 (중복 방지)
       socket.off("friendAdd");
 
       socket.on("friendAdd", (newFriend) => {

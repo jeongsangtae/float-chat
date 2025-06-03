@@ -370,15 +370,6 @@ router.patch("/editNicknameForm", async (req, res) => {
         ),
     ]);
 
-    // 다이렉트 채팅방 닉네입 업데이트 실시간 반영 로직
-    // const directChats = await db
-    //   .getDb()
-    //   .collection("directChats")
-    //   .find({ "participants._id": currentUserId })
-    //   .toArray();
-
-    // console.log(directChats, "다이렉트 채팅방 참여한 목록");
-
     // 친구 목록을 불러와 실시간 반영에 사용
     const friends = await db
       .getDb()
@@ -407,26 +398,13 @@ router.patch("/editNicknameForm", async (req, res) => {
           userEmail: userInfo.email,
           newNickname,
         });
+
+        io.to(socketId).emit("friendNicknameUpdated", {
+          userId: currentUserId,
+          newNickname,
+        });
       }
     }
-
-    // for (const directChat of directChats) {
-    //   // 본인이 아닌 다른 참여자
-    //   const otherParticipants = directChat.participants.filter(
-    //     (participant) => participant._id.toString() !== currentUserId
-    //   );
-
-    //   otherParticipants.forEach((otherParticipant) => {
-    //     const socketId = onlineUsers.get(otherParticipant._id.toString());
-
-    //     if (socketId) {
-    //       io.to(socketId).emit("directChatNicknameUpdated", {
-    //         userEmail: userInfo.email,
-    //         newNickname,
-    //       });
-    //     }
-    //   });
-    // }
 
     res.status(200).json({ editNickname });
   } catch (error) {
