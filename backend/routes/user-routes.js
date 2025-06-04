@@ -377,7 +377,15 @@ router.patch("/editNicknameForm", async (req, res) => {
       .find({ $or: [{ "requester.id": userId }, { "receiver.id": userId }] })
       .toArray();
 
+    // 친구 요청 목록을 불러와 실시간 반영에 사용
+    const friendRequests = await db
+      .getDb()
+      .collection("friendRequests")
+      .find({ $or: [{ requester: userId }, { receiver: userId }] })
+      .toArray();
+
     const friendIds = new Set();
+    const friendRequestIds = new Set();
 
     // socket.io를 통해 새 메시지를 해당 채팅방에 브로드캐스트
     const io = req.app.get("io");
@@ -391,6 +399,14 @@ router.patch("/editNicknameForm", async (req, res) => {
       friendIds.add(friendId);
     }
 
+    for (const friendRequest of friendRequests) {
+      const friendRequestId =
+        friendRequest.requester.toString() === currentUserId
+          ? friendRequest.receiver.toString()
+          : friendRequest.requester.toString();
+      friendRequestIds.add(friendRequestId);
+    }
+
     for (const friendId of friendIds) {
       const socketId = onlineUsers.get(friendId);
       if (socketId) {
@@ -400,6 +416,16 @@ router.patch("/editNicknameForm", async (req, res) => {
         });
 
         io.to(socketId).emit("friendNicknameUpdated", {
+          userId: currentUserId,
+          newNickname,
+        });
+      }
+    }
+
+    for (const friendRequestId of friendRequestIds) {
+      const socketId = onlineUsers.get(friendRequestId);
+      if (socketId) {
+        io.to(socketId).emit("friendRequestNicknameUpdated", {
           userId: currentUserId,
           newNickname,
         });
