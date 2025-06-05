@@ -211,6 +211,24 @@ const useFriendStore = create<FriendStore>((set) => ({
       if (!socket) return; // 소켓이 없으면 실행 안 함
 
       // 기존 이벤트 리스너 제거 후 재등록 (중복 방지)
+      socket.off("friendRequestNicknameUpdated");
+
+      socket.on("friendRequestNicknameUpdated", ({ userId, newNickname }) => {
+        set((prev) => ({
+          friendRequests: prev.friendRequests.map((friendRequest) => {
+            const updatedFriendRequest = { ...friendRequest };
+
+            if (friendRequest.requester === userId) {
+              updatedFriendRequest.requesterNickname = newNickname;
+            } else if (friendRequest.receiver === userId) {
+              updatedFriendRequest.receiverNickname = newNickname;
+            }
+            return updatedFriendRequest;
+          }),
+        }));
+      });
+
+      // 기존 이벤트 리스너 제거 후 재등록 (중복 방지)
       socket.off("acceptFriend");
 
       // 수락한 친구 요청을 상대방 화면에 실시간 반영
