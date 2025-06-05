@@ -169,6 +169,7 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
       const resData: { groupChatUsers: Omit<UserInfo, "tokenExp">[] } =
         await response.json();
 
+      console.log(resData.groupChatUsers);
       set({ groupChatUsers: resData.groupChatUsers });
     } catch (error) {
       console.error("에러 내용:", error);

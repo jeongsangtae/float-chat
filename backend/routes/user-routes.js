@@ -384,8 +384,19 @@ router.patch("/editNicknameForm", async (req, res) => {
       .find({ $or: [{ requester: userId }, { receiver: userId }] })
       .toArray();
 
+    // 사용자 목록을 불러와 실시간 반영에 사용
+    // const users = await db.getDb().collection("users").find({})
+
+    // 그룹 채팅방 목록을 불러와 실시간 반영에 사용
+    const groupChats = await db
+      .getDb()
+      .collection("groupChats")
+      .find({ users: currentUserId })
+      .toArray();
+
     const friendIds = new Set();
     const friendRequestIds = new Set();
+    const groupChatUserIds = new Set();
 
     // socket.io를 통해 새 메시지를 해당 채팅방에 브로드캐스트
     const io = req.app.get("io");
@@ -407,6 +418,14 @@ router.patch("/editNicknameForm", async (req, res) => {
       friendRequestIds.add(friendRequestId);
     }
 
+    for (const groupChat of groupChats) {
+      groupChat.users.forEach((groupChatUserId) => {
+        if (groupChatUserId !== currentUserId) {
+          groupChatUserIds.add(groupChatUserId);
+        }
+      });
+    }
+
     for (const friendId of friendIds) {
       const socketId = onlineUsers.get(friendId);
       if (socketId) {
@@ -426,6 +445,16 @@ router.patch("/editNicknameForm", async (req, res) => {
       const socketId = onlineUsers.get(friendRequestId);
       if (socketId) {
         io.to(socketId).emit("friendRequestNicknameUpdated", {
+          userId: currentUserId,
+          newNickname,
+        });
+      }
+    }
+
+    for (const groupChatUserId of groupChatUserIds) {
+      const socketId = onlineUsers.get(groupChatUserId);
+      if (socketId) {
+        io.to(socketId).emit("groupChatUserNicknameUpdated", {
           userId: currentUserId,
           newNickname,
         });
