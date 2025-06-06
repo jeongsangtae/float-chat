@@ -418,11 +418,17 @@ router.patch("/editNicknameForm", async (req, res) => {
       friendRequestIds.add(friendRequestId);
     }
 
+    // for (const groupChat of groupChats) {
+    //   groupChat.users.forEach((groupChatUserId) => {
+    //     if (groupChatUserId !== currentUserId) {
+    //       groupChatUserIds.add(groupChatUserId);
+    //     }
+    //   });
+    // }
+
     for (const groupChat of groupChats) {
       groupChat.users.forEach((groupChatUserId) => {
-        if (groupChatUserId !== currentUserId) {
-          groupChatUserIds.add(groupChatUserId);
-        }
+        groupChatUserIds.add(groupChatUserId);
       });
     }
 
