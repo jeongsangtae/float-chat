@@ -317,6 +317,24 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
       if (!socket) return; // 소켓이 없으면 실행 안 함
 
       // 기존 이벤트 리스너 제거 후 재등록 (중복 방지)
+      socket.off("groupChatInviteNicknameUpdated");
+
+      // 그룹 채팅방 초대 닉네임 업데이트 실시간 반영
+      socket.on("groupChatInviteNicknameUpdated", ({ userId, newNickname }) => {
+        set((prev) => ({
+          groupChatInvites: prev.groupChatInvites.map((groupChatInvite) => {
+            const updatedGroupChatInvite = { ...groupChatInvite };
+
+            if (groupChatInvite.requester === userId) {
+              updatedGroupChatInvite.requesterNickname = newNickname;
+            } else if (groupChatInvite.receiver === userId) {
+              updatedGroupChatInvite.receiverNickname = newNickname;
+            }
+            return updatedGroupChatInvite;
+          }),
+        }));
+      });
+
       socket.off("groupChatInvite");
 
       // 그룹 채팅방 초대 실시간 반영

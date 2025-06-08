@@ -394,9 +394,16 @@ router.patch("/editNicknameForm", async (req, res) => {
       .find({ users: currentUserId })
       .toArray();
 
+    const groupChatInvites = await db
+      .getDb()
+      .collection("groupChatInvites")
+      .find({ $or: [{ requester: userId }, { receiver: userId }] })
+      .toArray();
+
     const friendIds = new Set();
     const friendRequestIds = new Set();
     const groupChatUserIds = new Set();
+    const groupChatInviteIds = new Set();
 
     // socket.io를 통해 새 메시지를 해당 채팅방에 브로드캐스트
     const io = req.app.get("io");
@@ -431,6 +438,11 @@ router.patch("/editNicknameForm", async (req, res) => {
       });
     }
 
+    for (const groupChatInvite of groupChatInvites) {
+      groupChatInviteIds.add(groupChatInvite.requester.toString());
+      groupChatInviteIds.add(groupChatInvite.receiver.toString());
+    }
+
     for (const friendId of friendIds) {
       const socketId = onlineUsers.get(friendId);
       if (socketId) {
@@ -460,6 +472,16 @@ router.patch("/editNicknameForm", async (req, res) => {
       const socketId = onlineUsers.get(groupChatUserId);
       if (socketId) {
         io.to(socketId).emit("groupChatUserNicknameUpdated", {
+          userId: currentUserId,
+          newNickname,
+        });
+      }
+    }
+
+    for (const groupChatInviteId of groupChatInviteIds) {
+      const socketId = onlineUsers.get(groupChatInviteId);
+      if (socketId) {
+        io.to(socketId).emit("groupChatInviteNicknameUpdated", {
           userId: currentUserId,
           newNickname,
         });
