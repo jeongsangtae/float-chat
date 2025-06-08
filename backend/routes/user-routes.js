@@ -402,12 +402,19 @@ router.patch("/editNicknameForm", async (req, res) => {
     const io = req.app.get("io");
     const onlineUsers = req.app.get("onlineUsers");
 
+    // 닉네임을 변경한 사용자를 제외한 친구 목록 _id를 추출
+    // for (const friend of friends) {
+    //   const friendId =
+    //     friend.requester.id.toString() === currentUserId
+    //       ? friend.receiver.id.toString()
+    //       : friend.requester.id.toString();
+    //   friendIds.add(friendId);
+    // }
+
+    // 닉네임을 변경한 사용자를 포함한 친구 목록 _id를 추출
     for (const friend of friends) {
-      const friendId =
-        friend.requester.id.toString() === currentUserId
-          ? friend.receiver.id.toString()
-          : friend.requester.id.toString();
-      friendIds.add(friendId);
+      friendIds.add(friend.requester.id.toString());
+      friendIds.add(friend.receiver.id.toString());
     }
 
     for (const friendRequest of friendRequests) {
@@ -417,14 +424,6 @@ router.patch("/editNicknameForm", async (req, res) => {
           : friendRequest.requester.toString();
       friendRequestIds.add(friendRequestId);
     }
-
-    // for (const groupChat of groupChats) {
-    //   groupChat.users.forEach((groupChatUserId) => {
-    //     if (groupChatUserId !== currentUserId) {
-    //       groupChatUserIds.add(groupChatUserId);
-    //     }
-    //   });
-    // }
 
     for (const groupChat of groupChats) {
       groupChat.users.forEach((groupChatUserId) => {

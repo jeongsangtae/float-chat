@@ -254,7 +254,6 @@ const useAuthStore = create<AuthStore>((set, get) => ({
 
       const requestBody = { _id, email, username, nickname, modalData };
 
-      console.log(requestBody, modalData, modalData.method);
       const response = await fetch(`${apiURL}/editNicknameForm`, {
         method: modalData.method,
         body: JSON.stringify(requestBody),
@@ -267,8 +266,6 @@ const useAuthStore = create<AuthStore>((set, get) => ({
       }
 
       const resData = await response.json();
-
-      console.log(resData.editNickname);
 
       set((prev) => ({
         ...prev, // 기존 상태 전체를 유지

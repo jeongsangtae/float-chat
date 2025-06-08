@@ -79,7 +79,6 @@ const useFriendStore = create<FriendStore>((set) => ({
         }));
       });
 
-      // 기존 이벤트 리스너 제거 후 재등록 (중복 방지)
       socket.off("onlineFriend");
 
       socket.on("onlineFriend", (onlineFriendData) => {

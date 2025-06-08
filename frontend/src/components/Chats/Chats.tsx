@@ -7,10 +7,8 @@ import Chat from "./Chat";
 import { RoomId } from "../../types";
 
 import classes from "./Chats.module.css";
-import useAuthStore from "../../store/authStore";
 
 const Chats = ({ roomId }: RoomId) => {
-  const { userInfo } = useAuthStore();
   const { chatData, messages } = useChatStore();
   const { joinGroupChat, leaveGroupChat } = useSocketStore();
 
@@ -29,7 +27,7 @@ const Chats = ({ roomId }: RoomId) => {
       return;
     }
     chatData(roomId);
-  }, [roomId, userInfo?.nickname]);
+  }, [roomId]);
 
   let prevDate = ""; // 이전 메시지의 날짜를 저장하는 변수 (날짜 줄 중복 방지)
   let prevUserEmail = ""; // 이전 이메일을 저장하는 변수

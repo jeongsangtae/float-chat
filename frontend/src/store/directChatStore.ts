@@ -38,9 +38,8 @@ const useDirectChatStore = create<DirectChatStore>((set) => ({
         new Date(b.lastMessageDate).getTime() -
         new Date(a.lastMessageDate).getTime();
 
+      // 기존 이벤트 리스너 제거 후 재등록 (중복 방지)
       socket.off("invisibleDirectChat");
-
-      socket.off("updatedDirectChat");
 
       // 다이렉트 채팅방이 화면에 보이지 않을 때 추가
       socket.on("invisibleDirectChat", (updatedDirectChatData) => {
@@ -62,6 +61,8 @@ const useDirectChatStore = create<DirectChatStore>((set) => ({
       //       ? prev.directChats.sort(sortFn)
       //       : [...prev.directChats, updatedDirectChatData].sort(sortFn),
       //   }));
+
+      socket.off("updatedDirectChat");
 
       // 이미 존재하는 다이렉트 채팅방 업데이트
       socket.on("updatedDirectChat", (updatedDirectChatData) => {
