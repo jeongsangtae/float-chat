@@ -39,6 +39,32 @@ const useDirectChatStore = create<DirectChatStore>((set) => ({
         new Date(a.lastMessageDate).getTime();
 
       // 기존 이벤트 리스너 제거 후 재등록 (중복 방지)
+      socket.off("directChatUserNicknameUpdated");
+
+      socket.on("directChatUserNicknameUpdated", ({ userId, newNickname }) => {
+        set((prev) => ({
+          directChats: prev.directChats.map((directChat) => {
+            const isUser = directChat.participants.some(
+              (participant) => participant._id === userId
+            );
+
+            if (!isUser) return directChat;
+
+            const nicknameUpdatedParticipants = directChat.participants.map(
+              (participant) =>
+                participant._id === userId
+                  ? { ...participant, nickname: newNickname }
+                  : participant
+            );
+
+            return {
+              ...directChat,
+              participants: nicknameUpdatedParticipants,
+            };
+          }),
+        }));
+      });
+
       socket.off("invisibleDirectChat");
 
       // 다이렉트 채팅방이 화면에 보이지 않을 때 추가
