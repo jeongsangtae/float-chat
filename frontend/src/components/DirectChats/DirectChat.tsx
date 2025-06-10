@@ -4,6 +4,8 @@ import { DirectChatProps } from "../../types";
 import useDirectChatStore from "../../store/directChatStore";
 import useSocketStore from "../../store/socketStore";
 
+import classes from "./DirectChat.module.css";
+
 const DirectChat = ({
   _id,
   otherUserNickname,
@@ -26,7 +28,7 @@ const DirectChat = ({
   return (
     <>
       <div>{onlineChecked ? "온라인" : "오프라인"}</div>
-      <Link to={`${_id}`}>
+      <Link to={`${_id}`} className={classes["direct-chat-nickname"]}>
         <div>{otherUserNickname}</div>
       </Link>
       <button onClick={closeDirectChatHandler}>닫기</button>
