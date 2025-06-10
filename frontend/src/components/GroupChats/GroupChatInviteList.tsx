@@ -5,6 +5,8 @@ import { GroupChatInviteListProps } from "../../types";
 import useAuthStore from "../../store/authStore";
 import useGroupChatStore from "../../store/groupChatStore";
 
+import classes from "./GroupChatInviteList.module.css";
+
 const GroupChatInviteList = ({
   groupChatId,
   groupChatInviteId,
@@ -37,22 +39,29 @@ const GroupChatInviteList = ({
   const participant = status === "참여중";
 
   return (
-    <>
-      <ul>
-        <li>{requesterNickname}</li>
-        <li>{roomTitle}</li>
-        {!sendRequest && !participant && (
-          <>
-            <button onClick={acceptGroupChatInviteHandler}>수락</button>
-            <button onClick={rejectGroupChatInviteHandler}>거절</button>
-          </>
-        )}
+    <li className={classes["group-chat-invite-item"]}>
+      <div className={classes["group-chat-invite-info"]}>
+        <div className={classes["group-chat-invite-info-title"]}>
+          {roomTitle}
+        </div>
+        <div className={classes["group-chat-invite-info-nickname"]}>
+          초대자: {requesterNickname}
+        </div>
+      </div>
 
-        {!sendRequest && participant && (
+      {!sendRequest && !participant && (
+        <div className={classes["group-chat-invite-buttons"]}>
+          <button onClick={acceptGroupChatInviteHandler}>수락</button>
+          <button onClick={rejectGroupChatInviteHandler}>거절</button>
+        </div>
+      )}
+
+      {!sendRequest && participant && (
+        <div className={classes["group-chat-invite-text"]}>
           <button onClick={groupChatMoveHandler}>참여중</button>
-        )}
-      </ul>
-    </>
+        </div>
+      )}
+    </li>
   );
 };
 
