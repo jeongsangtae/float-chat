@@ -26,13 +26,23 @@ const DirectChat = ({
   };
 
   return (
-    <>
-      <div>{onlineChecked ? "온라인" : "오프라인"}</div>
+    <div className={classes["direct-chat"]}>
+      <div
+        className={
+          onlineChecked ? classes["online-dot"] : classes["offline-dot"]
+        }
+      ></div>
+      <div className={classes.avatar}>{otherUserNickname.charAt(0)}</div>
       <Link to={`${_id}`} className={classes["direct-chat-nickname"]}>
         <div>{otherUserNickname}</div>
       </Link>
-      <button onClick={closeDirectChatHandler}>닫기</button>
-    </>
+      <button
+        className={classes["direct-chat-close"]}
+        onClick={closeDirectChatHandler}
+      >
+        X
+      </button>
+    </div>
   );
 };
 

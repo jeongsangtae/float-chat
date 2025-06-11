@@ -384,12 +384,6 @@ router.patch("/editNicknameForm", async (req, res) => {
       .find({ $or: [{ requester: userId }, { receiver: userId }] })
       .toArray();
 
-    // const directChats = await db
-    //   .getDb()
-    //   .collection("directChats")
-    //   .find({ participants: { $elemMatch: { _id: currentUserId } } })
-    //   .toArray();
-
     // 그룹 채팅방 목록을 불러와 실시간 반영에 사용
     const groupChats = await db
       .getDb()
@@ -405,7 +399,6 @@ router.patch("/editNicknameForm", async (req, res) => {
 
     const friendIds = new Set();
     const friendRequestIds = new Set();
-    // const directChatUserIds = new Set();
     const groupChatUserIds = new Set();
     const groupChatInviteIds = new Set();
 
@@ -435,14 +428,6 @@ router.patch("/editNicknameForm", async (req, res) => {
           : friendRequest.requester.toString();
       friendRequestIds.add(friendRequestId);
     }
-
-    // for (const directChat of directChats) {
-    //   directChat.participants.forEach((participant) => {
-    //     if (participant._id.toString() !== currentUserId) {
-    //       directChatUserIds.add(participant._id);
-    //     }
-    //   });
-    // }
 
     for (const groupChat of groupChats) {
       groupChat.users.forEach((groupChatUserId) => {
@@ -484,16 +469,6 @@ router.patch("/editNicknameForm", async (req, res) => {
         });
       }
     }
-
-    // for (const directChatUserId of directChatUserIds) {
-    //   const socketId = onlineUsers.get(directChatUserId);
-    //   if (socketId) {
-    //     io.to(socketId).emit("directChatUserNicknameUpdated", {
-    //       userId: currentUserId,
-    //       newNickname,
-    //     });
-    //   }
-    // }
 
     for (const groupChatUserId of groupChatUserIds) {
       const socketId = onlineUsers.get(groupChatUserId);
