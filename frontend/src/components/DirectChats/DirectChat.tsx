@@ -1,5 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { DirectChatProps } from "../../types";
+import { IoClose } from "react-icons/io5";
 
 import useDirectChatStore from "../../store/directChatStore";
 import useSocketStore from "../../store/socketStore";
@@ -26,21 +27,29 @@ const DirectChat = ({
   };
 
   return (
-    <div className={classes["direct-chat"]}>
-      <div
-        className={
-          onlineChecked ? classes["online-dot"] : classes["offline-dot"]
-        }
-      ></div>
-      <div className={classes.avatar}>{otherUserNickname.charAt(0)}</div>
-      <Link to={`${_id}`} className={classes["direct-chat-nickname"]}>
-        <div>{otherUserNickname}</div>
+    <div
+      className={`${classes["direct-chat-wrapper"]} ${
+        currentRoom === _id ? classes.active : ""
+      }`}
+    >
+      <Link to={`${_id}`} className={classes["direct-chat"]}>
+        <div className={classes.avatar}>
+          {otherUserNickname.charAt(0)}
+          <div
+            className={
+              onlineChecked ? classes["online-dot"] : classes["offline-dot"]
+            }
+          />
+        </div>
+        <div className={classes["direct-chat-nickname"]}>
+          <div>{otherUserNickname}</div>
+        </div>
       </Link>
       <button
         className={classes["direct-chat-close"]}
         onClick={closeDirectChatHandler}
       >
-        X
+        <IoClose className={classes["direct-chat-close-icon"]} />
       </button>
     </div>
   );

@@ -1,26 +1,43 @@
+.direct-chat-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem;
+  transition: background-color 0.2s;
+  cursor: pointer;
+  margin-bottom: 0.1rem;
+}
+
+.direct-chat-wrapper:hover {
+  border-radius: 8px;
+  background-color: #38393f;
+  /* background-color: #313438; */
+}
+
+.direct-chat-wrapper:hover .direct-chat-close {
+  opacity: 1;
+}
+
+.direct-chat-wrapper:hover .direct-chat-nickname {
+  color: white;
+}
+
 .direct-chat {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.5rem;
-  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+  flex: 1;
 }
 
-.online-dot {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background-color: green;
-}
-
-.offline-dot {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background-color: gray;
+.active {
+  border-radius: 8px;
+  background-color: #414147;
 }
 
 .avatar {
+  position: relative;
   width: 2rem;
   height: 2rem;
   border-radius: 50%;
@@ -32,12 +49,35 @@
   color: white;
 }
 
+.online-dot,
+.offline-dot {
+  position: absolute;
+  width: 0.8rem;
+  height: 0.8rem;
+  bottom: -1px;
+  right: -1px;
+  border-radius: 50%;
+  background-color: #02ac02;
+  border: 2px solid #1e1e1e;
+}
+
+.offline-dot {
+  background-color: gray;
+}
+
+.active .direct-chat-nickname {
+  color: white;
+}
+
 .direct-chat-nickname {
   color: #b3b3b3;
-  text-decoration: none;
+  margin-left: 0.25rem;
 }
 
 .direct-chat-close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background: none;
   border: none;
   color: #999;
@@ -48,17 +88,7 @@
   transition: opacity 0.2s;
 }
 
-.direct-chat:hover .direct-chat-close {
-  opacity: 1;
-}
-
-.direct-chat:hover .direct-chat-nickname {
-  color: white;
-}
-
-.direct-chat:hover {
-  border-radius: 8px;
-  /* background-color: #414147; */ /* 활성화 상태 배경색 */
-  background-color: #38393f; /* 호버 상태 배경색 */
-  /* background-color: #313438; */
+.direct-chat-close-icon {
+  font-size: 1.25rem;
+  color: #bebebe;
 }
