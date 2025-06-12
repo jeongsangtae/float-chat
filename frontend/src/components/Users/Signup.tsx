@@ -7,6 +7,7 @@ interface signupDataType {
   username: string;
   password: string;
   confirmPassword: string;
+  avatarColor: string;
 }
 
 const Signup = () => {
@@ -15,12 +16,36 @@ const Signup = () => {
 
   const navigate = useNavigate();
 
+  const avatarColors = [
+    "#D32F2F",
+    "#C2185B",
+    "#7B1FA2",
+    "#512DA8",
+    "#303F9F",
+    "#1976D2",
+    "#0288D1",
+    "#0097A7",
+    "#00796B",
+    "#388E3C",
+    "#689F38",
+    "#FFA000",
+    "#F57C00",
+    "#E64A19",
+    "#5D4037",
+    "#455A64",
+    "#607D8B",
+    "#009688",
+    "#AB47BC",
+    "#1E88E5",
+  ];
+
   const [signupData, setSignupData] = useState<signupDataType>({
     email: "",
     nickname: "",
     username: "",
     password: "",
     confirmPassword: "",
+    avatarColor: avatarColors[Math.floor(Math.random() * avatarColors.length)], // 랜덤으로 색 배정
   });
 
   const [error, setError] = useState<boolean>(false);
@@ -92,6 +117,7 @@ const Signup = () => {
             type="text"
             id="nickname"
             name="nickname"
+            maxLength={15}
             value={signupData.nickname}
             onChange={inputChangeHandler}
           />

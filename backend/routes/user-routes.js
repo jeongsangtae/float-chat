@@ -17,7 +17,14 @@ const router = express.Router();
 
 router.post("/signup", async (req, res) => {
   try {
-    const { email, nickname, username, password, confirmPassword } = req.body;
+    const {
+      email,
+      nickname,
+      username,
+      password,
+      confirmPassword,
+      avatarColor,
+    } = req.body;
 
     // 닉네임, 사용자명을 한글, 영문 대소문자, 숫자만 허용 (특수문자 제외)
     const nicknameRegex = /^[가-힣a-zA-Z0-9]+$/;
@@ -91,6 +98,7 @@ router.post("/signup", async (req, res) => {
       nickname,
       username,
       password: hashPassword,
+      avatarColor,
       date: `${kstDate.getFullYear()}.${(kstDate.getMonth() + 1)
         .toString()
         .padStart(2, "0")}.${kstDate
