@@ -6,6 +6,8 @@ import useFriendStore from "../../store/friendStore";
 import useGroupChatStore from "../../store/groupChatStore";
 import useDirectChatStore from "../../store/directChatStore";
 
+import classes from "./OnlineFriend.module.css";
+
 const OnlineFriend = ({ id, userId, nickname }: FriendUser) => {
   const navigate = useNavigate();
 
@@ -36,14 +38,18 @@ const OnlineFriend = ({ id, userId, nickname }: FriendUser) => {
   };
 
   return (
-    <>
-      <ul>
-        <li>
-          <button onClick={directChatHandler}>{nickname}</button>
-          <button onClick={deleteFriendHandler}>삭제</button>
-        </li>
-      </ul>
-    </>
+    <li className={classes["online-friend-wrapper"]}>
+      <div className={classes.avatar}>
+        {nickname.charAt(0)}
+        {/* <div
+            className={
+              onlineChecked ? classes["online-dot"] : classes["offline-dot"]
+            }
+          /> */}
+      </div>
+      <button onClick={directChatHandler}>{nickname}</button>
+      <button onClick={deleteFriendHandler}>삭제</button>
+    </li>
   );
 };
 

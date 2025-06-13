@@ -1,6 +1,8 @@
 import useAuthStore from "../../store/authStore";
 import useFriendStore from "../../store/friendStore";
 
+import classes from "./PendingFriends.module.css";
+
 interface PendingFriendsProps {
   friendRequestId: string;
   requester: string;
@@ -36,18 +38,34 @@ const PendingFriends = ({
   return (
     <>
       {sendRequest ? (
-        <ul>
-          <li>{receiverNickname}</li>
-          <li>{status}</li>
+        <li className={classes["pending-friend-wrapper"]}>
+          <div className={classes.avatar}>
+            {receiverNickname.charAt(0)}
+            {/* <div
+            className={
+              onlineChecked ? classes["online-dot"] : classes["offline-dot"]
+            }
+          /> */}
+          </div>
+          <div>{receiverNickname}</div>
+          <div>{status}</div>
           <button onClick={rejectFriendHandler}>취소</button>
-        </ul>
+        </li>
       ) : (
-        <ul>
-          <li>{requesterNickname}</li>
-          <li>{status}</li>
+        <li className={classes["pending-friend-wrapper"]}>
+          <div className={classes.avatar}>
+            {requesterNickname.charAt(0)}
+            {/* <div
+            className={
+              onlineChecked ? classes["online-dot"] : classes["offline-dot"]
+            }
+          /> */}
+          </div>
+          <div>{requesterNickname}</div>
+          <div>{status}</div>
           <button onClick={acceptFriendHandler}>수락</button>
           <button onClick={rejectFriendHandler}>거절</button>
-        </ul>
+        </li>
       )}
     </>
   );

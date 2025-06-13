@@ -95,36 +95,42 @@ const Friends = () => {
           </div>
 
           <div className={classes["friend-content"]}>
-            {activeTab === "online" &&
-              filteredOnlineFriends.map((friend) => (
-                <OnlineFriend
-                  key={friend.id}
-                  userId={userInfo?._id ?? ""}
-                  id={friend.id}
-                  nickname={friend.nickname}
-                />
-              ))}
-            {activeTab === "all" &&
-              filteredFriends.map((friend) => (
-                <Friend
-                  key={friend.id}
-                  userId={userInfo?._id ?? ""}
-                  id={friend.id}
-                  nickname={friend.nickname}
-                />
-              ))}
-            {activeTab === "pending" &&
-              friendRequests.map((friendRequest) => (
-                <PendingFriends
-                  key={friendRequest._id}
-                  friendRequestId={friendRequest._id}
-                  requester={friendRequest.requester}
-                  requesterNickname={friendRequest.requesterNickname}
-                  receiver={friendRequest.receiver}
-                  receiverNickname={friendRequest.receiverNickname}
-                  status={friendRequest.status}
-                />
-              ))}
+            <ul className={classes["online-friends"]}>
+              {activeTab === "online" &&
+                filteredOnlineFriends.map((friend) => (
+                  <OnlineFriend
+                    key={friend.id}
+                    userId={userInfo?._id ?? ""}
+                    id={friend.id}
+                    nickname={friend.nickname}
+                  />
+                ))}
+            </ul>
+            <ul className={classes.friends}>
+              {activeTab === "all" &&
+                filteredFriends.map((friend) => (
+                  <Friend
+                    key={friend.id}
+                    userId={userInfo?._id ?? ""}
+                    id={friend.id}
+                    nickname={friend.nickname}
+                  />
+                ))}
+            </ul>
+            <ul className={classes["pending-friends"]}>
+              {activeTab === "pending" &&
+                friendRequests.map((friendRequest) => (
+                  <PendingFriends
+                    key={friendRequest._id}
+                    friendRequestId={friendRequest._id}
+                    requester={friendRequest.requester}
+                    requesterNickname={friendRequest.requesterNickname}
+                    receiver={friendRequest.receiver}
+                    receiverNickname={friendRequest.receiverNickname}
+                    status={friendRequest.status}
+                  />
+                ))}
+            </ul>
             {activeTab === "addFriend" && <AddFriend />}
           </div>
         </>

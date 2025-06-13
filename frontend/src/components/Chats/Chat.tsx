@@ -89,6 +89,14 @@ const Chat = ({
     >
       {showNickname && (
         <div className={classes["chat-header"]}>
+          <div className={classes.avatar}>
+            {nickname.charAt(0)}
+            {/* <div
+            className={
+              onlineChecked ? classes["online-dot"] : classes["offline-dot"]
+            }
+          /> */}
+          </div>
           <span className={classes["chat-nickname"]}>{nickname}</span>
           <span className={classes["chat-date"]}>{resultDate}</span>
         </div>
