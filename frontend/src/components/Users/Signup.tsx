@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-interface signupDataType {
+interface SignupDataType {
   email: string;
   nickname: string;
   username: string;
@@ -39,7 +39,7 @@ const Signup = () => {
     "#1E88E5",
   ];
 
-  const [signupData, setSignupData] = useState<signupDataType>({
+  const [signupData, setSignupData] = useState<SignupDataType>({
     email: "",
     nickname: "",
     username: "",

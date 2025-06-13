@@ -172,3 +172,15 @@
   color: white;
   z-index: 10;
 }
+
+.avatar {
+  position: relative;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  color: white;
+}

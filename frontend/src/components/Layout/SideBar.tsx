@@ -92,6 +92,17 @@ const SideBar = ({ onLeaveGroupChat }: SideBarProps) => {
 
       {isLoggedIn && (
         <div className={classes["user-info"]}>
+          <div
+            className={classes.avatar}
+            style={{ backgroundColor: userInfo?.avatarColor || "#ccc" }}
+          >
+            {userInfo?.nickname.charAt(0)}
+            {/* <div
+            className={
+              onlineChecked ? classes["online-dot"] : classes["offline-dot"]
+            }
+          /> */}
+          </div>
           <p>{userInfo?.nickname}</p>
           <IoMdSettings onClick={nicknameEditHandler} />
           {activeModal === "editNicknameForm" && (
