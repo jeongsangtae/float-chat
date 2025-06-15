@@ -8,7 +8,7 @@ import useDirectChatStore from "../../store/directChatStore";
 
 import classes from "./Friend.module.css";
 
-const Friend = ({ id, userId, nickname }: FriendUser) => {
+const Friend = ({ id, userId, nickname, avatarColor }: FriendUser) => {
   const navigate = useNavigate();
 
   const { deleteFriend } = useFriendStore();
@@ -45,7 +45,10 @@ const Friend = ({ id, userId, nickname }: FriendUser) => {
 
   return (
     <li className={classes["friend-wrapper"]}>
-      <div className={classes.avatar}>
+      <div
+        className={classes.avatar}
+        style={{ backgroundColor: avatarColor || "#ccc" }}
+      >
         {nickname.charAt(0)}
         {/* <div
             className={

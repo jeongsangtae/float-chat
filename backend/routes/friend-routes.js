@@ -225,8 +225,10 @@ router.post("/friendRequests", async (req, res) => {
       .insertOne({
         requester: requesterId,
         requesterNickname: requestBody.nickname,
+        requesterAvatarColor: requestBody.avatarColor,
         receiver: receiverId,
         receiverNickname: searchUser.nickname,
+        receiverAvatarColor: searchUser.avatarColor,
         status: "보류",
         date: `${kstDate.getFullYear()}.${(kstDate.getMonth() + 1)
           .toString()
@@ -302,10 +304,12 @@ router.post("/acceptFriend", async (req, res) => {
       requester: {
         id: friendRequest.requester,
         nickname: friendRequest.requesterNickname,
+        avatarColor: friendRequest.requesterAvatarColor,
       },
       receiver: {
         id: friendRequest.receiver,
         nickname: friendRequest.receiverNickname,
+        avatarColor: friendRequest.receiverAvatarColor,
       },
       status: "수락됨",
       date: `${kstDate.getFullYear()}.${(kstDate.getMonth() + 1)

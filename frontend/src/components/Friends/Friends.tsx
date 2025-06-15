@@ -103,9 +103,11 @@ const Friends = () => {
                     userId={userInfo?._id ?? ""}
                     id={friend.id}
                     nickname={friend.nickname}
+                    avatarColor={friend.avatarColor}
                   />
                 ))}
             </ul>
+
             <ul className={classes.friends}>
               {activeTab === "all" &&
                 filteredFriends.map((friend) => (
@@ -114,9 +116,11 @@ const Friends = () => {
                     userId={userInfo?._id ?? ""}
                     id={friend.id}
                     nickname={friend.nickname}
+                    avatarColor={friend.avatarColor}
                   />
                 ))}
             </ul>
+
             <ul className={classes["pending-friends"]}>
               {activeTab === "pending" &&
                 friendRequests.map((friendRequest) => (
@@ -125,8 +129,10 @@ const Friends = () => {
                     friendRequestId={friendRequest._id}
                     requester={friendRequest.requester}
                     requesterNickname={friendRequest.requesterNickname}
+                    requesterAvatarColor={friendRequest.requesterAvatarColor}
                     receiver={friendRequest.receiver}
                     receiverNickname={friendRequest.receiverNickname}
+                    receiverAvatarColor={friendRequest.receiverAvatarColor}
                     status={friendRequest.status}
                   />
                 ))}

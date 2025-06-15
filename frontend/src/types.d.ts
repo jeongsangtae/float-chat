@@ -99,6 +99,7 @@ export interface FriendUser {
   id: string; // _id 대신 id 사용
   userId: string;
   nickname: string;
+  avatarColor: string;
 }
 
 export interface Friend {
@@ -113,8 +114,10 @@ export interface FriendRequest {
   _id: string;
   requester: string;
   requesterNickname: string;
+  requesterAvatarColor: string;
   receiver: string;
   receiverNickname: string;
+  receiverAvatarColor: string;
   date: string;
   status: string;
 }

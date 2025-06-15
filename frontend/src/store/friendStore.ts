@@ -212,6 +212,7 @@ const useFriendStore = create<FriendStore>((set) => ({
       // 기존 이벤트 리스너 제거 후 재등록 (중복 방지)
       socket.off("friendRequestNicknameUpdated");
 
+      // 친구 요청 대기중 사용자 닉네임이 변경되면 실시간 반영해 업데이트
       socket.on("friendRequestNicknameUpdated", ({ userId, newNickname }) => {
         set((prev) => ({
           friendRequests: prev.friendRequests.map((friendRequest) => {
@@ -269,6 +270,7 @@ const useFriendStore = create<FriendStore>((set) => ({
       email: userInfo.email,
       username: userInfo.username,
       nickname: userInfo.nickname,
+      avatarColor: userInfo.avatarColor,
       searchUserEmail,
     };
 

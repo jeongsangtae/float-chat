@@ -7,8 +7,10 @@ interface PendingFriendsProps {
   friendRequestId: string;
   requester: string;
   requesterNickname: string;
+  requesterAvatarColor: string;
   receiver: string;
   receiverNickname: string;
+  receiverAvatarColor: string;
   status: string;
 }
 
@@ -16,8 +18,10 @@ const PendingFriends = ({
   friendRequestId,
   requester,
   requesterNickname,
+  requesterAvatarColor,
   // receiver,
   receiverNickname,
+  receiverAvatarColor,
   status,
 }: PendingFriendsProps) => {
   const { userInfo } = useAuthStore();
@@ -39,7 +43,10 @@ const PendingFriends = ({
     <>
       {sendRequest ? (
         <li className={classes["pending-friend-wrapper"]}>
-          <div className={classes.avatar}>
+          <div
+            className={classes.avatar}
+            style={{ backgroundColor: receiverAvatarColor || "#ccc" }}
+          >
             {receiverNickname.charAt(0)}
             {/* <div
             className={
@@ -53,7 +60,10 @@ const PendingFriends = ({
         </li>
       ) : (
         <li className={classes["pending-friend-wrapper"]}>
-          <div className={classes.avatar}>
+          <div
+            className={classes.avatar}
+            style={{ backgroundColor: requesterAvatarColor || "#ccc" }}
+          >
             {requesterNickname.charAt(0)}
             {/* <div
             className={
