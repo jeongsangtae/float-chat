@@ -32,7 +32,7 @@ const Friend = ({ id, userId, nickname, avatarColor }: FriendUser) => {
       return;
     }
 
-    const roomId = await directChatForm(id, nickname);
+    const roomId = await directChatForm(id, nickname, avatarColor);
 
     // if (directChatRoomId) {
     //   navigate(`/me/${directChatRoomId}`);

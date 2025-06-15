@@ -32,7 +32,7 @@ const OnlineFriend = ({ id, userId, nickname, avatarColor }: FriendUser) => {
       return;
     }
 
-    const roomId = await directChatForm(id, nickname);
+    const roomId = await directChatForm(id, nickname, avatarColor);
 
     navigate(`/me/${roomId}`);
   };

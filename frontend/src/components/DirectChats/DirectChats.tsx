@@ -54,6 +54,9 @@ const DirectChats = () => {
             otherUserNickname={
               filteredDirectChat.otherUser?.nickname ?? "알 수 없음"
             }
+            otherUserAvatarColor={
+              filteredDirectChat.otherUser?.avatarColor ?? "#ccc"
+            }
             onlineChecked={filteredDirectChat.onlineChecked}
           />
         ))}

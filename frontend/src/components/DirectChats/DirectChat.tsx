@@ -10,6 +10,7 @@ import classes from "./DirectChat.module.css";
 const DirectChat = ({
   _id,
   otherUserNickname,
+  otherUserAvatarColor,
   onlineChecked,
 }: DirectChatProps) => {
   const navigate = useNavigate();
@@ -33,7 +34,10 @@ const DirectChat = ({
       }`}
     >
       <Link to={`${_id}`} className={classes["direct-chat"]}>
-        <div className={classes.avatar}>
+        <div
+          className={classes.avatar}
+          style={{ backgroundColor: otherUserAvatarColor }}
+        >
           {otherUserNickname.charAt(0)}
           <div
             className={

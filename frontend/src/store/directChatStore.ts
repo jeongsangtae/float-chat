@@ -13,7 +13,11 @@ interface DirectChatStore {
   directChats: DirectChatData[];
   // directChatRoomId: string;
   getDirectChat: () => Promise<void>;
-  directChatForm: (id: string, nickname: string) => Promise<void>;
+  directChatForm: (
+    id: string,
+    nickname: string,
+    avatarColor: string
+  ) => Promise<void>;
   closeDirectChat: (_id: string) => Promise<void>;
 }
 
@@ -114,9 +118,9 @@ const useDirectChatStore = create<DirectChatStore>((set) => ({
     }
   },
 
-  directChatForm: async (id, nickname) => {
+  directChatForm: async (id, nickname, avatarColor) => {
     try {
-      const requestBody = { id, nickname };
+      const requestBody = { id, nickname, avatarColor };
 
       const response = await fetch(`${apiURL}/directChatForm`, {
         method: "POST",

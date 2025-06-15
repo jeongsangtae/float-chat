@@ -12,6 +12,7 @@ export interface ModalProps {
 export interface Participants {
   _id: string;
   nickname: string;
+  avatarColor: string;
   isVisible: boolean;
 }
 
@@ -26,6 +27,7 @@ export interface DirectChatProps {
   _id: string;
   otherUserId: string;
   otherUserNickname: string;
+  otherUserAvatarColor: string;
   onlineChecked: boolean;
 }
 

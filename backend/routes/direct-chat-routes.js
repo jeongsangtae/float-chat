@@ -110,9 +110,15 @@ router.post("/directChatForm", async (req, res) => {
         {
           _id: othersData._id.toString(),
           nickname: othersData.nickname,
+          avatarColor: othersData.avatarColor,
           isVisible: true,
         }, // 현재 사용자
-        { _id: friendData.id, nickname: friendData.nickname, isVisible: false }, // 친구
+        {
+          _id: friendData.id,
+          nickname: friendData.nickname,
+          avatarColor: friendData.avatarColor,
+          isVisible: false,
+        }, // 친구
       ],
       date: formatKSTDate,
       lastMessageDate: formatKSTDate,
