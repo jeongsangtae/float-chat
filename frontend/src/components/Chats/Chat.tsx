@@ -7,7 +7,8 @@ const Chat = ({
   message,
   date,
   showNickname,
-}: Pick<ChatMessage, "nickname" | "message" | "date"> & {
+  avatarColor,
+}: Pick<ChatMessage, "nickname" | "message" | "date" | "avatarColor"> & {
   showNickname: boolean;
 }) => {
   // 공백 기준으로 날짜와 시간을 분리
@@ -89,7 +90,10 @@ const Chat = ({
     >
       {showNickname && (
         <div className={classes["chat-header"]}>
-          <div className={classes.avatar}>
+          <div
+            className={classes.avatar}
+            style={{ backgroundColor: avatarColor || "#ccc" }}
+          >
             {nickname.charAt(0)}
             {/* <div
             className={

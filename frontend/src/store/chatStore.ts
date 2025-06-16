@@ -109,6 +109,7 @@ const useChatStore = create<ChatStore>((set) => ({
       message,
       email: userInfo.email,
       nickname: userInfo.nickname,
+      avatarColor: userInfo.avatarColor,
     };
 
     try {

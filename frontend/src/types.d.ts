@@ -94,6 +94,7 @@ export interface ChatMessage {
   email: string;
   nickname: string;
   message: string;
+  avatarColor: string;
   date: string;
 }
 

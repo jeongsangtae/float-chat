@@ -69,6 +69,7 @@ const Chats = ({ roomId }: RoomId) => {
           message={message.message}
           date={message.date}
           showNickname={showNickname}
+          avatarColor={message.avatarColor}
         />
       </div>
     );

@@ -476,6 +476,7 @@ router.post("/acceptGroupChat", async (req, res) => {
           email: othersData.email,
           nickname: othersData.nickname,
           username: othersData.username,
+          avatarColor: othersData.avatarColor,
         });
       }
     });

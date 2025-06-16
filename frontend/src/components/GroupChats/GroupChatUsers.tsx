@@ -16,10 +16,16 @@ const GroupChatUsers = ({ roomId }: RoomId) => {
     getGroupChatUsers(roomId);
   }, [roomId]);
 
+  console.log(groupChatUsers);
+
   return (
     <>
       {groupChatUsers.map((user) => (
-        <GroupChatUser key={user._id} nickname={user.nickname} />
+        <GroupChatUser
+          key={user._id}
+          nickname={user.nickname}
+          avatarColor={user.avatarColor}
+        />
       ))}
     </>
   );
