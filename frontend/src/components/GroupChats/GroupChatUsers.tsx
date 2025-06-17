@@ -16,8 +16,6 @@ const GroupChatUsers = ({ roomId }: RoomId) => {
     getGroupChatUsers(roomId);
   }, [roomId]);
 
-  console.log(groupChatUsers);
-
   return (
     <>
       {groupChatUsers.map((user) => (

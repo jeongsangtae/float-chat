@@ -56,7 +56,10 @@ export interface GroupChatInvites {
   receiver: string;
   receiverNickname: string;
   date: string;
+  kstDate: string;
   status: string;
+  participantCount: number;
+  avatarColor: string;
 }
 
 export interface GroupChatInviteProps {
@@ -73,6 +76,9 @@ export interface GroupChatInviteListProps {
   requesterNickname: string;
   roomTitle: string;
   status: string;
+  kstDate: string;
+  participantCount: number;
+  avatarColor: string;
 }
 
 export interface UserInfo {
@@ -136,4 +142,5 @@ export interface Notification {
   id: string;
   type: "friendRequest" | "messageNotification" | "groupChatInviteNotification";
   data: NotificationData;
+  avatarColor?: string;
 }

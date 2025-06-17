@@ -53,7 +53,12 @@ const useSocketStore = create<SocketStore>((set, get) => ({
         set((state) => ({
           notification: [
             ...state.notification,
-            { type: "friendRequest", data: newRequest, id: newRequest.id },
+            {
+              type: "friendRequest",
+              data: newRequest,
+              id: newRequest.id,
+              avatarColor: newRequest.avatarColor,
+            },
           ],
         }));
 

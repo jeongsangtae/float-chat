@@ -20,6 +20,14 @@ const Notification = () => {
     <div className={classes["notification-container"]}>
       {notification.map((notif, index) => (
         <div key={index} className={classes["notification-item"]}>
+          {notif.type === "friendRequest" && (
+            <div
+              className={classes.avatar}
+              style={{ backgroundColor: notif.avatarColor || "#ccc" }}
+            >
+              {notificationMessage[notif.type]?.(notif.data)[0]}
+            </div>
+          )}
           <p>
             {notificationMessage[notif.type]?.(notif.data) || "알 수 없는 알림"}
           </p>

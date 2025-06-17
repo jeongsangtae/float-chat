@@ -26,6 +26,18 @@
   color: #b3b3b3;
 }
 
+.avatar {
+  position: relative;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  color: white;
+}
+
 .group-chat-invite-buttons {
   padding: 0.4rem 0.8rem;
   font-size: 0.85rem;

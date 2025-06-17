@@ -14,6 +14,9 @@ const GroupChatInviteList = ({
   requesterNickname,
   roomTitle,
   status,
+  kstDate,
+  participantCount,
+  avatarColor,
 }: GroupChatInviteListProps) => {
   const navigate = useNavigate();
   const { userInfo } = useAuthStore();
@@ -42,10 +45,22 @@ const GroupChatInviteList = ({
     <li className={classes["group-chat-invite-item"]}>
       <div className={classes["group-chat-invite-info"]}>
         <div className={classes["group-chat-invite-info-title"]}>
-          {roomTitle}
+          {roomTitle} 멤버 {participantCount}명
         </div>
         <div className={classes["group-chat-invite-info-nickname"]}>
-          초대자: {requesterNickname}
+          <div
+            className={classes.avatar}
+            style={{ backgroundColor: avatarColor || "#ccc" }}
+          >
+            {requesterNickname.charAt(0)}
+            {/* <div
+              className={
+                onlineChecked ? classes["online-dot"] : classes["offline-dot"]
+              }
+            /> */}
+          </div>
+          {requesterNickname}님의 초대
+          <div>{kstDate}</div>
         </div>
       </div>
 

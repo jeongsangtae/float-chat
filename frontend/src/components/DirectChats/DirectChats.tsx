@@ -75,6 +75,9 @@ const DirectChats = () => {
                 requesterNickname={groupChatInvite.requesterNickname}
                 roomTitle={groupChatInvite.roomTitle}
                 status={groupChatInvite.status}
+                kstDate={groupChatInvite.kstDate}
+                participantCount={groupChatInvite.participantCount}
+                avatarColor={groupChatInvite.avatarColor}
               />
             ))}
           </ul>
