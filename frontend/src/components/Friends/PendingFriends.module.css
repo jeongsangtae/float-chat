@@ -1,6 +1,21 @@
 .pending-friend-wrapper {
   display: flex;
   align-items: center;
+  width: 70%;
+}
+
+.pending-friend-wrapper:hover {
+  border-radius: 8px;
+  background-color: #4f545c;
+}
+
+.pending-friend-info {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  cursor: pointer;
 }
 
 .avatar {
@@ -13,4 +28,53 @@
   justify-content: center;
   font-weight: bold;
   color: white;
+}
+
+.pending-friend-nickname {
+  font-size: 1rem;
+  color: white;
+  margin-left: 0.25rem;
+}
+
+.pending-friend-button {
+  width: 3.75rem;
+}
+
+.pending-friend-buttons {
+  /* width: 3.75rem; */
+  width: 7.35rem;
+}
+
+.pending-friend-cancel-button,
+.pending-friend-accept-button,
+.pending-friend-reject-button {
+  background-color: #929292;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 0.3rem 0.75rem;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.pending-friend-accept-button {
+  background-color: #4caf50;
+}
+
+.pending-friend-reject-button {
+  background-color: #d9363e;
+  margin: 0 0.5rem;
+}
+
+.pending-friend-cancel-button:hover {
+  background-color: #797979;
+}
+
+.pending-friend-accept-button:hover {
+  background-color: #2ecc71;
+}
+
+.pending-friend-reject-button:hover {
+  background-color: #c43732;
 }

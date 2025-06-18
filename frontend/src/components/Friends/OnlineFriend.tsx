@@ -40,18 +40,30 @@ const OnlineFriend = ({ id, userId, nickname, avatarColor }: FriendUser) => {
   return (
     <li className={classes["online-friend-wrapper"]}>
       <div
-        className={classes.avatar}
-        style={{ backgroundColor: avatarColor || "#ccc" }}
+        className={classes["online-friend-info"]}
+        onClick={directChatHandler}
       >
-        {nickname.charAt(0)}
-        {/* <div
+        <div
+          className={classes.avatar}
+          style={{ backgroundColor: avatarColor || "#ccc" }}
+        >
+          {nickname.charAt(0)}
+          {/* <div
             className={
               onlineChecked ? classes["online-dot"] : classes["offline-dot"]
             }
           /> */}
+        </div>
+        <div className={classes["online-friend-nickname"]}>{nickname}</div>
       </div>
-      <button onClick={directChatHandler}>{nickname}</button>
-      <button onClick={deleteFriendHandler}>삭제</button>
+      <div className={classes["online-friend-buttons"]}>
+        <button
+          className={classes["online-friend-delete-button"]}
+          onClick={deleteFriendHandler}
+        >
+          삭제
+        </button>
+      </div>
     </li>
   );
 };

@@ -363,8 +363,6 @@ router.post("/groupChat/:roomId/invite", async (req, res) => {
 
     // console.log(groupChatParticipant ? "참여중" : "미참여");
 
-    console.log(groupChat.users.length);
-
     const newGroupChatInvite = {
       roomId: groupChat._id,
       roomTitle: groupChat.title,

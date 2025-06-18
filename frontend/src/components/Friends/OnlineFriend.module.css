@@ -1,6 +1,21 @@
 .online-friend-wrapper {
   display: flex;
   align-items: center;
+  width: 70%;
+}
+
+.online-friend-wrapper:hover {
+  border-radius: 8px;
+  background-color: #4f545c;
+}
+
+.online-friend-info {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  cursor: pointer;
 }
 
 .avatar {
@@ -13,4 +28,32 @@
   justify-content: center;
   font-weight: bold;
   color: white;
+}
+
+.online-friend-nickname {
+  font-size: 1rem;
+  color: white;
+  margin-left: 0.25rem;
+}
+
+.online-friend-buttons {
+  width: 3.75rem;
+}
+
+.online-friend-delete-button {
+  /* background-color: #929292; */
+  background-color: #d9363e;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 0.3rem 0.75rem;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.online-friend-delete-button:hover {
+  /* background-color: #797979; */
+  /* background-color: #ff4d4f; */
+  background-color: #c43732;
 }

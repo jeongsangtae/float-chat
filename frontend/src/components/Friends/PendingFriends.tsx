@@ -43,38 +43,65 @@ const PendingFriends = ({
     <>
       {sendRequest ? (
         <li className={classes["pending-friend-wrapper"]}>
-          <div
-            className={classes.avatar}
-            style={{ backgroundColor: receiverAvatarColor || "#ccc" }}
-          >
-            {receiverNickname.charAt(0)}
-            {/* <div
+          <div className={classes["pending-friend-info"]}>
+            <div
+              className={classes.avatar}
+              style={{ backgroundColor: receiverAvatarColor || "#ccc" }}
+            >
+              {receiverNickname.charAt(0)}
+              {/* <div
             className={
               onlineChecked ? classes["online-dot"] : classes["offline-dot"]
             }
           /> */}
+            </div>
+            <div className={classes["pending-friend-nickname"]}>
+              {receiverNickname}
+            </div>
           </div>
-          <div>{receiverNickname}</div>
-          <div>{status}</div>
-          <button onClick={rejectFriendHandler}>취소</button>
+          {/* <div>{status}</div> */}
+          <div className={classes["pending-friend-button"]}>
+            <button
+              className={classes["pending-friend-cancel-button"]}
+              onClick={rejectFriendHandler}
+            >
+              취소
+            </button>
+          </div>
         </li>
       ) : (
         <li className={classes["pending-friend-wrapper"]}>
-          <div
-            className={classes.avatar}
-            style={{ backgroundColor: requesterAvatarColor || "#ccc" }}
-          >
-            {requesterNickname.charAt(0)}
-            {/* <div
+          <div className={classes["pending-friend-info"]}>
+            <div
+              className={classes.avatar}
+              style={{ backgroundColor: requesterAvatarColor || "#ccc" }}
+            >
+              {requesterNickname.charAt(0)}
+              {/* <div
             className={
               onlineChecked ? classes["online-dot"] : classes["offline-dot"]
             }
           /> */}
+            </div>
+            <div className={classes["pending-friend-nickname"]}>
+              {requesterNickname}
+            </div>
           </div>
-          <div>{requesterNickname}</div>
-          <div>{status}</div>
-          <button onClick={acceptFriendHandler}>수락</button>
-          <button onClick={rejectFriendHandler}>거절</button>
+          {/* <div>{status}</div> */}
+          <div className={classes["pending-friend-buttons"]}>
+            <button
+              className={classes["pending-friend-accept-button"]}
+              onClick={acceptFriendHandler}
+            >
+              수락
+            </button>
+            <button
+              className={classes["pending-friend-reject-button"]}
+              onClick={rejectFriendHandler}
+            >
+              거절
+            </button>
+          </div>
         </li>
       )}
     </>
