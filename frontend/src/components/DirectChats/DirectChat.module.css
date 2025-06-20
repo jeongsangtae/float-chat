@@ -72,6 +72,13 @@
 .direct-chat-nickname {
   color: #b3b3b3;
   margin-left: 0.25rem;
+  width: 8rem;
+}
+
+.nickname-text {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .direct-chat-close {

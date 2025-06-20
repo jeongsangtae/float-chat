@@ -19,18 +19,38 @@ const Notification = () => {
   return (
     <div className={classes["notification-container"]}>
       {notification.map((notif, index) => (
+        // <div key={index} className={classes["notification-item"]}>
+        //   {notif.type === "friendRequest" && (
+        //     <div
+        //       className={classes.avatar}
+        //       style={{ backgroundColor: notif.avatarColor || "#ccc" }}
+        //     >
+        //       {notif.data.requester?.charAt(0)}
+        //     </div>
+        //   )}
+        //   <p className={classes["notification-content"]}>
+        //     {notificationMessage[notif.type]?.(notif.data) || "알 수 없는 알림"}
+        //   </p>
+        // </div>
         <div key={index} className={classes["notification-item"]}>
-          {notif.type === "friendRequest" && (
+          <div className={classes["notification-avatar"]}>
             <div
               className={classes.avatar}
-              style={{ backgroundColor: notif.avatarColor || "#ccc" }}
+              style={{ backgroundColor: notif.avatarColor }}
             >
               {notif.data.requester?.charAt(0)}
             </div>
-          )}
-          <p className={classes["notification-content"]}>
-            {notificationMessage[notif.type]?.(notif.data) || "알 수 없는 알림"}
-          </p>
+          </div>
+          <div className={classes["notification-content"]}>
+            <div className={classes["notification-nickname"]}>
+              {notificationMessage[notif.type]?.(notif.data) ||
+                "알 수 없는 알림"}
+            </div>
+            <div className={classes["notification-message"]}>
+              {notificationMessage[notif.type]?.(notif.data) ||
+                "알 수 없는 알림"}
+            </div>
+          </div>
         </div>
       ))}
     </div>

@@ -38,6 +38,10 @@
 
 .notification-content {
   font-size: 1rem;
+  /* white-space: normal;
+  word-break: break-word;
+  line-height: 1.4;
+  width: calc(100% - 2.5rem); */
 }
 
 /* 나타날 때 애니메이션 */
