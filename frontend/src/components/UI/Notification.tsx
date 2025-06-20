@@ -25,10 +25,10 @@ const Notification = () => {
               className={classes.avatar}
               style={{ backgroundColor: notif.avatarColor || "#ccc" }}
             >
-              {notificationMessage[notif.type]?.(notif.data)[0]}
+              {notif.data.requester?.charAt(0)}
             </div>
           )}
-          <p>
+          <p className={classes["notification-content"]}>
             {notificationMessage[notif.type]?.(notif.data) || "알 수 없는 알림"}
           </p>
         </div>

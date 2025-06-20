@@ -92,27 +92,39 @@ const SideBar = ({ onLeaveGroupChat }: SideBarProps) => {
 
       {isLoggedIn && (
         <div className={classes["user-info"]}>
-          <div
-            className={classes.avatar}
-            style={{ backgroundColor: userInfo?.avatarColor || "#ccc" }}
-          >
-            {userInfo?.nickname.charAt(0)}
-            {/* <div
+          <div className={classes["user-info-left"]}>
+            <div
+              className={classes.avatar}
+              style={{ backgroundColor: userInfo?.avatarColor || "#ccc" }}
+            >
+              {userInfo?.nickname.charAt(0)}
+              {/* <div
             className={
               onlineChecked ? classes["online-dot"] : classes["offline-dot"]
             }
           /> */}
+            </div>
+            <p className={classes["user-info-nickname"]}>
+              {userInfo?.nickname}
+            </p>
           </div>
-          <p>{userInfo?.nickname}</p>
-          <IoMdSettings onClick={nicknameEditHandler} />
+          <div className={classes["user-info-right"]}>
+            <button
+              className={classes["user-info-edit"]}
+              onClick={nicknameEditHandler}
+            >
+              <IoMdSettings />
+            </button>
+            <button className={classes.logout} onClick={logoutHandler}>
+              <LuLogOut />
+            </button>
+          </div>
+
           {activeModal === "editNicknameForm" && (
             <EditNicknameForm
               onToggle={() => toggleModal("editNicknameForm")}
             />
           )}
-          <button onClick={logoutHandler}>
-            로그아웃 <LuLogOut />
-          </button>
         </div>
       )}
     </div>
