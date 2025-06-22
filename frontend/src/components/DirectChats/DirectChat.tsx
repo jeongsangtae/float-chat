@@ -46,7 +46,7 @@ const DirectChat = ({
           />
         </div>
         <div className={classes["direct-chat-nickname"]}>
-          <div className={classes["nickname-text"]}>{otherUserNickname}</div>
+          {otherUserNickname}
         </div>
       </Link>
       <button
