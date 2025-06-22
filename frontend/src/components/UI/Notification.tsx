@@ -1,4 +1,4 @@
-import { NotificationData } from "../../types";
+// import { NotificationData } from "../../types";
 
 import useSocketStore from "../../store/socketStore";
 
@@ -7,18 +7,17 @@ import classes from "./Notification.module.css";
 const Notification = () => {
   const { notification } = useSocketStore();
 
-  const notificationMessage = {
-    friendRequest: (data: NotificationData) =>
-      `${data.requester} 님이 친구 요청을 보냈습니다.`,
-    messageNotification: (data: NotificationData) =>
-      `${data.roomTitle}에서 새로운 메시지 추가`,
-    groupChatInviteNotification: (data: NotificationData) =>
-      `${data.roomTitle} 그룹 채팅에 초대했습니다.`,
-  };
+  // const notificationMessage = {
+  //   friendRequest: (data: NotificationData) => `친구 요청`,
+  //   messageNotification: (data: NotificationData) =>
+  //     `${data.roomTitle} 새로운 메시지`,
+  //   groupChatInviteNotification: (data: NotificationData) =>
+  //     `${data.roomTitle} 그룹 채팅 초대`,
+  // };
 
   return (
     <div className={classes["notification-container"]}>
-      {notification.map((notif, index) => (
+      {notification.map((notif) => (
         // <div key={index} className={classes["notification-item"]}>
         //   {notif.type === "friendRequest" && (
         //     <div
@@ -32,23 +31,26 @@ const Notification = () => {
         //     {notificationMessage[notif.type]?.(notif.data) || "알 수 없는 알림"}
         //   </p>
         // </div>
-        <div key={index} className={classes["notification-item"]}>
+        <div key={notif.id} className={classes["notification-item"]}>
           <div className={classes["notification-avatar"]}>
             <div
               className={classes.avatar}
               style={{ backgroundColor: notif.avatarColor }}
             >
-              {notif.data.requester?.charAt(0)}
+              {notif.senderNickname.charAt(0)}
             </div>
           </div>
           <div className={classes["notification-content"]}>
             <div className={classes["notification-nickname"]}>
-              {notificationMessage[notif.type]?.(notif.data) ||
-                "알 수 없는 알림"}
+              {notif.senderNickname}{" "}
+              {notif.type === "messageNotification" &&
+                notif.roomTitle &&
+                ` (${notif.roomTitle})`}
             </div>
             <div className={classes["notification-message"]}>
-              {notificationMessage[notif.type]?.(notif.data) ||
-                "알 수 없는 알림"}
+              {notif.type === "groupChatInviteNotification" && notif.roomTitle
+                ? `${notif.roomTitle} ${notif.message}`
+                : notif.message}
             </div>
           </div>
         </div>

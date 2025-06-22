@@ -404,7 +404,9 @@ router.post("/groupChat/:roomId/invite", async (req, res) => {
       io.to(receiverSocketId).emit("groupChatInviteNotification", {
         id: new ObjectId().toString(),
         roomTitle: groupChat.title,
-        message: "새로운 그룹 채팅방 초대 요청이 도착했습니다.",
+        senderNickname: othersData.nickname,
+        avatarColor: othersData.avatarColor,
+        message: "그룹 채팅방 초대",
       });
 
       // 그룹 채팅방 초대 정보를 socket으로 전달

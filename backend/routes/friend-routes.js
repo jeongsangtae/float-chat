@@ -255,9 +255,9 @@ router.post("/friendRequests", async (req, res) => {
     if (receiverSocketId) {
       io.to(receiverSocketId).emit("friendRequest", {
         id: new ObjectId().toString(),
-        requester: requestBody.nickname,
+        senderNickname: requestBody.nickname,
         avatarColor: requestBody.avatarColor,
-        message: "새로운 친구 요청이 도착했습니다.",
+        message: "친구 요청",
       });
       console.log("친구 요청 알림 전송 완료");
     }

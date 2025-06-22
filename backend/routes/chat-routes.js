@@ -145,7 +145,7 @@ router.post("/chat/:roomId", async (req, res) => {
       // directChat 데이터를 chatRoom 형식으로 변환
       chatRoom = {
         _id: directChat._id,
-        title: othersData.nickname,
+        title: "",
         users: directChat.participants.map((participant) => participant._id), // users와 같은 형식으로 변환
       };
     }
@@ -175,7 +175,9 @@ router.post("/chat/:roomId", async (req, res) => {
         io.to(socketId).emit("messageNotification", {
           id: new ObjectId().toString(),
           roomTitle: chatRoom.title,
-          message: "새로운 메시지가 추가되었습니다.",
+          senderNickname: othersData.nickname,
+          avatarColor: othersData.avatarColor,
+          message,
         });
       }
     });

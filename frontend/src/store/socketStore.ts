@@ -55,9 +55,10 @@ const useSocketStore = create<SocketStore>((set, get) => ({
             ...state.notification,
             {
               type: "friendRequest",
-              data: newRequest,
               id: newRequest.id,
+              senderNickname: newRequest.senderNickname,
               avatarColor: newRequest.avatarColor,
+              message: newRequest.message,
             },
           ],
         }));
@@ -68,7 +69,7 @@ const useSocketStore = create<SocketStore>((set, get) => ({
               (notif) => notif.id !== newRequest.id
             ),
           }));
-        }, 7000);
+        }, 60000);
 
         useFriendStore.getState().loadFriendRequests();
       });
@@ -84,8 +85,11 @@ const useSocketStore = create<SocketStore>((set, get) => ({
             ...state.notification,
             {
               type: "messageNotification",
-              data: newMessage,
               id: newMessage.id,
+              roomTitle: newMessage.roomTitle,
+              senderNickname: newMessage.senderNickname,
+              avatarColor: newMessage.avatarColor,
+              message: newMessage.message,
             },
           ],
         }));
@@ -96,7 +100,7 @@ const useSocketStore = create<SocketStore>((set, get) => ({
               (notif) => notif.id !== newMessage.id
             ),
           }));
-        }, 7000);
+        }, 60000);
       });
 
       newSocket.on("groupChatInviteNotification", (groupChatInvite) => {
@@ -107,8 +111,11 @@ const useSocketStore = create<SocketStore>((set, get) => ({
             ...state.notification,
             {
               type: "groupChatInviteNotification",
-              data: groupChatInvite,
               id: groupChatInvite.id,
+              roomTitle: groupChatInvite.roomTitle,
+              senderNickname: groupChatInvite.senderNickname,
+              avatarColor: groupChatInvite.avatarColor,
+              message: groupChatInvite.message,
             },
           ],
         }));
@@ -119,7 +126,7 @@ const useSocketStore = create<SocketStore>((set, get) => ({
               (notif) => notif.id !== groupChatInvite.id
             ),
           }));
-        }, 7000);
+        }, 60000);
       });
 
       set({ socket: newSocket });

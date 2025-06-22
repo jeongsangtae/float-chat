@@ -131,16 +131,18 @@ export interface FriendRequest {
   status: string;
 }
 
-export interface NotificationData {
-  id: string;
-  message: string;
-  requester?: string; // 친구 요청일 경우만 존재
-  roomTitle?: string; // 메시지 알림일 경우만 존재
-}
+// export interface NotificationData {
+//   id: string;
+//   message: string;
+//   senderNickname: string;
+//   roomTitle?: string;
+// }
 
 export interface Notification {
-  id: string;
   type: "friendRequest" | "messageNotification" | "groupChatInviteNotification";
-  data: NotificationData;
-  avatarColor?: string;
+  id: string;
+  roomTitle?: string;
+  senderNickname: string;
+  avatarColor: string;
+  message: string;
 }
