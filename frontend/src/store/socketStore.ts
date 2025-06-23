@@ -69,7 +69,7 @@ const useSocketStore = create<SocketStore>((set, get) => ({
               (notif) => notif.id !== newRequest.id
             ),
           }));
-        }, 60000);
+        }, 7000);
 
         useFriendStore.getState().loadFriendRequests();
       });
@@ -100,7 +100,7 @@ const useSocketStore = create<SocketStore>((set, get) => ({
               (notif) => notif.id !== newMessage.id
             ),
           }));
-        }, 60000);
+        }, 7000);
       });
 
       newSocket.on("groupChatInviteNotification", (groupChatInvite) => {
@@ -126,7 +126,7 @@ const useSocketStore = create<SocketStore>((set, get) => ({
               (notif) => notif.id !== groupChatInvite.id
             ),
           }));
-        }, 60000);
+        }, 7000);
       });
 
       set({ socket: newSocket });
