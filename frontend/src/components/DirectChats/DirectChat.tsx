@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { DirectChatProps } from "../../types";
 import { IoClose } from "react-icons/io5";
 
@@ -14,6 +14,9 @@ const DirectChat = ({
   onlineChecked,
 }: DirectChatProps) => {
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const active = location.pathname === `/me/${_id}`;
 
   const { getDirectChat, closeDirectChat } = useDirectChatStore();
   const { currentRoom } = useSocketStore();
@@ -30,7 +33,7 @@ const DirectChat = ({
   return (
     <div
       className={`${classes["direct-chat-wrapper"]} ${
-        currentRoom === _id ? classes.active : ""
+        active ? classes.active : ""
       }`}
     >
       <Link to={`${_id}`} className={classes["direct-chat"]}>

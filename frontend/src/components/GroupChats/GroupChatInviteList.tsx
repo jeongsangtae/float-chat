@@ -79,34 +79,6 @@ const GroupChatInviteList = ({
 
   return (
     <li className={classes["group-chat-invite-item"]}>
-      {/* <div className={classes["group-chat-invite-info"]}>
-        <div className={classes["group-chat-invite-info-title"]}>
-          {roomTitle} 멤버 {participantCount}명
-        </div>
-        <div className={classes["group-chat-invite-info-nickname"]}>
-          <div
-            className={classes.avatar}
-            style={{ backgroundColor: avatarColor || "#ccc" }}
-          >
-            {requesterNickname.charAt(0)}
-          </div>
-          {requesterNickname}님의 초대
-          <div>{kstDate}</div>
-        </div>
-      </div>
-
-      {!sendRequest && !participant && (
-        <div className={classes["group-chat-invite-buttons"]}>
-          <button onClick={acceptGroupChatInviteHandler}>수락</button>
-          <button onClick={rejectGroupChatInviteHandler}>거절</button>
-        </div>
-      )}
-
-      {!sendRequest && participant && (
-        <div className={classes["group-chat-invite-text"]}>
-          <button onClick={groupChatMoveHandler}>참여중</button>
-        </div>
-      )} */}
       <div className={classes["group-chat-invite-main"]}>
         <div
           className={classes.avatar}
@@ -133,8 +105,18 @@ const GroupChatInviteList = ({
 
       {!sendRequest && !participant && (
         <div className={classes["group-chat-invite-buttons"]}>
-          <button onClick={acceptGroupChatInviteHandler}>수락</button>
-          <button onClick={rejectGroupChatInviteHandler}>거절</button>
+          <button
+            className={classes["group-chat-invite-accept-button"]}
+            onClick={acceptGroupChatInviteHandler}
+          >
+            수락
+          </button>
+          <button
+            className={classes["group-chat-invite-reject-button"]}
+            onClick={rejectGroupChatInviteHandler}
+          >
+            거절
+          </button>
         </div>
       )}
 
