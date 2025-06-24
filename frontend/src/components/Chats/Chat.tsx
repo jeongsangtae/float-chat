@@ -88,7 +88,7 @@ const Chat = ({
         showNickname ? classes["other-user"] : ""
       }`}
     >
-      {showNickname && (
+      {showNickname ? (
         <div className={classes["chat-header"]}>
           <div
             className={classes.avatar}
@@ -101,17 +101,20 @@ const Chat = ({
             }
           /> */}
           </div>
-          <span className={classes["chat-nickname"]}>{nickname}</span>
-          <span className={classes["chat-date"]}>{resultDate}</span>
+          <div className={classes["chat-content"]}>
+            <div className={classes["chat-info"]}>
+              <span className={classes["chat-nickname"]}>{nickname}</span>
+              <span className={classes["chat-date"]}>{resultDate}</span>
+            </div>
+            <div className={classes["chat-message"]}>{message}</div>
+          </div>
+        </div>
+      ) : (
+        <div className={classes["chat-messages"]}>
+          {message}
+          <span className={classes["chat-hover-date"]}>{hoverDate}</span>
         </div>
       )}
-      <div className={classes["chat-message"]}>
-        {message}
-        {!showNickname && (
-          <span className={classes["chat-hover-date"]}>{hoverDate}</span>
-        )}
-      </div>
-      {/* <div className={classes["chat-message"]}>{message}</div> */}
     </div>
   );
 };

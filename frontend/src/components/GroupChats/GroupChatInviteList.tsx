@@ -43,13 +43,14 @@ const GroupChatInviteList = ({
 
   const ampm = am ? "오전" : "오후";
   const now = new Date();
-  const msgDate = new Date(parseInt(year), numMonth - 1, numDay);
+  const groupChatInviteDate = new Date(parseInt(year), numMonth - 1, numDay);
   const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
   const yesterday = new Date(today);
   yesterday.setDate(today.getDate() - 1);
 
-  const todayChecked = msgDate.getTime() === today.getTime();
-  const yesterdayChecked = msgDate.getTime() === yesterday.getTime();
+  const todayChecked = groupChatInviteDate.getTime() === today.getTime();
+  const yesterdayChecked =
+    groupChatInviteDate.getTime() === yesterday.getTime();
 
   let resultDate = `${ampm} ${resultHour}:${minute}`;
 

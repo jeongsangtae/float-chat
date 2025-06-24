@@ -9,29 +9,52 @@
 .chat-header {
   display: flex;
   align-items: center;
+  gap: 0.75rem;
   white-space: pre-line;
   margin-bottom: 0.25rem;
 }
 
-.chat-header span:last-child {
-  font-size: 0.8rem;
-  color: #808080;
-}
-
 .avatar {
   position: relative;
-  width: 2rem;
-  height: 2rem;
+  width: 2.5rem;
+  height: 2.5rem;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: bold;
+  font-size: 1.2rem;
   color: white;
+}
+
+.chat-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.chat-info {
+  display: flex;
+  align-items: center;
+}
+
+.chat-nickname {
+  font-weight: bold;
 }
 
 .chat-date {
   margin-left: 0.5rem;
+  font-size: 0.8rem;
+  color: #808080;
+}
+
+.chat-message {
+  word-break: break-word;
+  white-space: pre-wrap;
+}
+
+.chat-messages {
+  padding-left: 3.25rem;
 }
 
 .chat-hover-date {
@@ -42,6 +65,6 @@
   opacity: 0;
 }
 
-.chat-message:hover .chat-hover-date {
+.chat-messages:hover .chat-hover-date {
   opacity: 1;
 }
