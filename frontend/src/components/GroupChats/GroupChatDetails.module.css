@@ -1,23 +1,26 @@
 .group-chat-details {
   display: flex;
-  margin-left: 13%;
   height: 100vh;
+  border-radius: 0.5rem;
+  border: 1px solid #444;
 }
 
-/* 
-.group-chat-users {
-  width: 15%;
-  background-color: #36393f;
-  padding: 1rem;
+.group-chat-sidebar {
+  width: 15rem;
+  /* height: 100vh; */
+  height: 100%;
+  background-color: #2f3136;
   display: flex;
   flex-direction: column;
+  padding: 0.75rem;
   overflow-y: auto;
-} */
+}
 
 .group-chat-content {
-  width: 85%;
-  padding: 1rem;
-  overflow-y: auto;
   display: flex;
+  flex: 1;
+  height: 100%;
   flex-direction: column;
+  padding: 0.5rem 1rem 1rem 1rem;
+  overflow-y: auto;
 }

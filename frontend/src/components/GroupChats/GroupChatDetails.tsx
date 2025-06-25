@@ -46,11 +46,11 @@ const GroupChatDetails = () => {
   return (
     <div className={classes["group-chat-details"]}>
       <div className={classes["group-chat-sidebar"]}>
-        {groupChat?.title}
+        <button onClick={toggleHandler}>친구 초대 버튼</button>
+        {/* {groupChat?.title} */}
         <div>
           참여자 목록 <GroupChatUsers roomId={roomId} />
         </div>
-        <button onClick={toggleHandler}>친구 초대 버튼</button>
       </div>
 
       {toggle && (

@@ -10,9 +10,13 @@
   overflow-y: auto;
 } */
 
-.group-chat-users {
+.group-chat-user {
   display: flex;
   align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  flex: 1;
+  margin-bottom: 0.1rem;
 }
 
 .avatar {
@@ -25,4 +29,13 @@
   justify-content: center;
   font-weight: bold;
   color: white;
+}
+
+.group-chat-user-nickname {
+  color: #b3b3b3;
+  margin-left: 0.25rem;
+  width: 8rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }

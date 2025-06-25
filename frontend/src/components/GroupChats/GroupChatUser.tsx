@@ -7,7 +7,7 @@ const GroupChatUser = ({
   avatarColor,
 }: Pick<UserInfo, "nickname" | "avatarColor">) => {
   return (
-    <div className={classes["group-chat-users"]}>
+    <div className={classes["group-chat-user"]}>
       <div
         className={classes.avatar}
         style={{ backgroundColor: avatarColor || "#ccc" }}
@@ -19,7 +19,7 @@ const GroupChatUser = ({
             }
           /> */}
       </div>
-      <p>{nickname}</p>
+      <div className={classes["group-chat-user-nickname"]}>{nickname}</div>
     </div>
   );
 };
