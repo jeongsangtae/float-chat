@@ -7,10 +7,34 @@ import { ModalProps } from "../../types";
 import Modal from "../UI/Modal";
 
 const EditNicknameForm = ({ onToggle }: ModalProps) => {
+  const avatarColors = [
+    "#D32F2F",
+    "#C2185B",
+    "#7B1FA2",
+    "#512DA8",
+    "#303F9F",
+    "#1976D2",
+    "#0288D1",
+    "#0097A7",
+    "#00796B",
+    "#388E3C",
+    "#689F38",
+    "#FFA000",
+    "#F57C00",
+    "#E64A19",
+    "#5D4037",
+    "#455A64",
+    "#607D8B",
+    "#009688",
+    "#AB47BC",
+    "#1E88E5",
+  ];
+
   const { userInfo, editNicknameForm } = useAuthStore();
   const { modalData } = useModalStore();
 
   const [nickname, setNickname] = useState<string>("");
+  // const [avatarColor, setAvatarColor] = useState<string>(modalData.avatarColor || "#ccc");
 
   const inputChangeHandler = (
     event: React.ChangeEvent<HTMLInputElement>
@@ -51,9 +75,9 @@ const EditNicknameForm = ({ onToggle }: ModalProps) => {
   return (
     <Modal onToggle={onToggle}>
       <form onSubmit={submitHandler}>
-        <h2>사용자 닉네임 변경</h2>
+        <h2>프로필 수정</h2>
         <div>
-          <div>이전 닉네임</div>
+          <div>닉네임</div>
           <input
             required
             type="text"
@@ -64,6 +88,29 @@ const EditNicknameForm = ({ onToggle }: ModalProps) => {
             placeholder="내용 입력"
             onChange={inputChangeHandler}
           />
+        </div>
+        <div>
+          <div>아바타 색상</div>
+          <div>
+            {avatarColors.map((color) => (
+              <button
+                type="button"
+                key={color}
+                style={{
+                  backgroundColor: color,
+                  width: "2rem",
+                  height: "2rem",
+                  borderRadius: "50%",
+                  border:
+                    userInfo?.avatarColor === color
+                      ? "2px solid black"
+                      : "none",
+                }}
+              >
+                {/* {color} */}
+              </button>
+            ))}
+          </div>
         </div>
         <div>
           <button type="submit">수정</button>
