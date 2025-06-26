@@ -39,8 +39,23 @@
 }
 
 .date-line {
-  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   font-size: 0.85rem;
-  color: gray;
-  margin: 0.5rem 0;
+  font-weight: bold;
+  color: #9c9c9c;
+  margin-top: 1.5em;
+  gap: 0.5rem;
+}
+
+.date-line::before,
+.date-line::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  border-top: 1px solid rgba(128, 128, 128, 0.2);
+  /* background-color: gray; */
+  /* transform: scaleY(0.2); */
+  /* transform-origin: center; */
 }
