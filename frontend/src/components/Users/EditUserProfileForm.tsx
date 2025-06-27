@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 
 import useAuthStore from "../../store/authStore";
 import useModalStore from "../../store/modalStore";
@@ -6,7 +6,9 @@ import useModalStore from "../../store/modalStore";
 import { ModalProps } from "../../types";
 import Modal from "../UI/Modal";
 
-const EditNicknameForm = ({ onToggle }: ModalProps) => {
+import classes from "./EditUserProfileForm.module.css";
+
+const EditUserProfileForm = ({ onToggle }: ModalProps) => {
   const avatarColors = [
     "#D32F2F",
     "#C2185B",
@@ -34,13 +36,21 @@ const EditNicknameForm = ({ onToggle }: ModalProps) => {
   const { modalData } = useModalStore();
 
   const [nickname, setNickname] = useState<string>("");
-  // const [avatarColor, setAvatarColor] = useState<string>(modalData.avatarColor || "#ccc");
+  const [avatarColor, setAvatarColor] = useState<string>(
+    userInfo?.avatarColor || "#ccc"
+  );
 
   const inputChangeHandler = (
     event: React.ChangeEvent<HTMLInputElement>
   ): void => {
     setNickname(event.target.value);
   };
+
+  // const avatarColorSelected = (
+  //   event: React.MouseEvent<HTMLButtonElement>
+  // ): void => {
+  //   setAvatarColor(event.target.value);
+  // };
 
   const submitHandler = async (
     event: React.FormEvent<HTMLFormElement>
@@ -94,20 +104,29 @@ const EditNicknameForm = ({ onToggle }: ModalProps) => {
           <div>
             {avatarColors.map((color) => (
               <button
+                className={classes["avatar-color-button"]}
                 type="button"
                 key={color}
                 style={{
                   backgroundColor: color,
-                  width: "2rem",
-                  height: "2rem",
-                  borderRadius: "50%",
                   border:
-                    userInfo?.avatarColor === color
+                    avatarColor === color
+                      ? "2px solid white"
+                      : userInfo?.avatarColor === color
                       ? "2px solid black"
                       : "none",
+                  width:
+                    avatarColor === color || userInfo?.avatarColor === color
+                      ? "2.2rem"
+                      : "2rem",
+                  height:
+                    avatarColor === color || userInfo?.avatarColor === color
+                      ? "2.2rem"
+                      : "2rem",
                 }}
+                onClick={() => setAvatarColor(color)}
               >
-                {/* {color} */}
+                {userInfo?.nickname.charAt(0)}
               </button>
             ))}
           </div>
@@ -120,4 +139,4 @@ const EditNicknameForm = ({ onToggle }: ModalProps) => {
   );
 };
 
-export default EditNicknameForm;
+export default EditUserProfileForm;

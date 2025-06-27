@@ -10,7 +10,7 @@ import useSocketStore from "../../store/socketStore";
 
 import GroupChats from "../GroupChats/GroupChats";
 import GroupChatForm from "../GroupChats/GroupChatForm";
-import EditNicknameForm from "../Users/EditNicknameForm";
+import EditUserProfileForm from "../Users/EditUserProfileForm";
 
 import classes from "./SideBar.module.css";
 
@@ -42,7 +42,7 @@ const SideBar = ({ onLeaveGroupChat }: SideBarProps) => {
   }, [isLoggedIn]);
 
   const nicknameEditHandler = (): void => {
-    toggleModal("editNicknameForm", "PATCH", {
+    toggleModal("editUserProfileForm", "PATCH", {
       _id: userInfo?._id,
       nickname: userInfo?.nickname,
     });
@@ -120,9 +120,9 @@ const SideBar = ({ onLeaveGroupChat }: SideBarProps) => {
             </button>
           </div>
 
-          {activeModal === "editNicknameForm" && (
-            <EditNicknameForm
-              onToggle={() => toggleModal("editNicknameForm")}
+          {activeModal === "editUserProfileForm" && (
+            <EditUserProfileForm
+              onToggle={() => toggleModal("editUserProfileForm")}
             />
           )}
         </div>
