@@ -20,8 +20,9 @@ interface AuthStore {
   verifyUser: () => Promise<void>;
   refreshToken: () => Promise<void>;
   refreshTokenExp: () => Promise<void>;
-  editNicknameForm: (
+  editUserProfileForm: (
     nickname: string,
+    avatarColor: string,
     userInfo: UserInfo,
     modalData: {
       method: "POST" | "PATCH";
@@ -246,15 +247,22 @@ const useAuthStore = create<AuthStore>((set, get) => ({
     }
   },
 
-  editNicknameForm: async (nickname, userInfo, modalData) => {
+  editUserProfileForm: async (nickname, avatarColor, userInfo, modalData) => {
     try {
-      console.log(nickname, userInfo, modalData);
+      console.log(nickname, avatarColor, userInfo, modalData);
 
       const { _id, email, username } = userInfo;
 
-      const requestBody = { _id, email, username, nickname, modalData };
+      const requestBody = {
+        _id,
+        email,
+        username,
+        nickname,
+        avatarColor,
+        modalData,
+      };
 
-      const response = await fetch(`${apiURL}/editNicknameForm`, {
+      const response = await fetch(`${apiURL}/editUserProfileForm`, {
         method: modalData.method,
         body: JSON.stringify(requestBody),
         headers: { "Content-Type": "application/json" },
@@ -262,7 +270,7 @@ const useAuthStore = create<AuthStore>((set, get) => ({
       });
 
       if (!response.ok) {
-        throw new Error(`닉네임 수정 실패`);
+        throw new Error(`사용자 정보 수정 실패`);
       }
 
       const resData = await response.json();
@@ -272,12 +280,13 @@ const useAuthStore = create<AuthStore>((set, get) => ({
         userInfo: {
           ...prev.userInfo!, // 기존 사용자 정보 유지 및 !를 사용해 userInfo가 null이 아님을 단언
           nickname: resData.editNickname.nickname, // nickname만 덮어쓰기
+          // avatarColor: resData.avatarColor
         },
       }));
     } catch (error) {
       console.error("에러 내용:", error);
       alert(
-        "닉네임 수정 중 문제가 발생했습니다. 새로고침 후 다시 시도해 주세요."
+        "사용자 정보 수정 중 문제가 발생했습니다. 새로고침 후 다시 시도해 주세요."
       );
     }
   },

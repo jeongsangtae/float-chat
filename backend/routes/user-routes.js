@@ -251,7 +251,7 @@ router.get("/refreshTokenExp", async (req, res) => {
 });
 
 // 닉네임 수정 라우터
-router.patch("/editNicknameForm", async (req, res) => {
+router.patch("/editUserProfileForm", async (req, res) => {
   try {
     const othersData = await accessToken(req, res);
 

@@ -32,7 +32,7 @@ const EditUserProfileForm = ({ onToggle }: ModalProps) => {
     "#1E88E5",
   ];
 
-  const { userInfo, editNicknameForm } = useAuthStore();
+  const { userInfo, editUserProfileForm } = useAuthStore();
   const { modalData } = useModalStore();
 
   const [nickname, setNickname] = useState<string>("");
@@ -70,14 +70,14 @@ const EditUserProfileForm = ({ onToggle }: ModalProps) => {
     }
 
     try {
-      await editNicknameForm(nickname, userInfo, modalData);
+      await editUserProfileForm(nickname, avatarColor, userInfo, modalData);
 
-      console.log("사용자 닉네임 수정 성공");
+      console.log("사용자 정보 수정 성공");
       onToggle();
     } catch (error) {
       console.error("에러 내용:", error);
       alert(
-        "사용자 닉네임을 수정하는 중에 문제가 발생했습니다. 새로고침 후 다시 시도해 주세요."
+        "사용자 정보를 수정하는 중에 문제가 발생했습니다. 새로고침 후 다시 시도해 주세요."
       );
     }
   };
@@ -109,12 +109,20 @@ const EditUserProfileForm = ({ onToggle }: ModalProps) => {
                 key={color}
                 style={{
                   backgroundColor: color,
-                  border:
-                    avatarColor === color
-                      ? "2px solid white"
-                      : userInfo?.avatarColor === color
-                      ? "2px solid black"
-                      : "none",
+                  border: avatarColor === color ? "2px solid white" : "none",
+                  // border:
+                  //   avatarColor === color &&
+                  //   avatarColor !== userInfo?.avatarColor
+                  //     ? "2px solid white"
+                  //     : userInfo?.avatarColor === color
+                  //     ? "2px solid black"
+                  //     : "none",
+                  // border:
+                  //   avatarColor === color
+                  //     ? "2px solid white"
+                  //     : userInfo?.avatarColor === color
+                  //     ? "2px solid black"
+                  //     : "none",
                   width:
                     avatarColor === color || userInfo?.avatarColor === color
                       ? "2.2rem"

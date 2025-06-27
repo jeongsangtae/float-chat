@@ -41,10 +41,11 @@ const SideBar = ({ onLeaveGroupChat }: SideBarProps) => {
     renewTokens();
   }, [isLoggedIn]);
 
-  const nicknameEditHandler = (): void => {
+  const userProfileEditHandler = (): void => {
     toggleModal("editUserProfileForm", "PATCH", {
       _id: userInfo?._id,
       nickname: userInfo?.nickname,
+      avatarColor: userInfo?.avatarColor,
     });
   };
 
@@ -111,7 +112,7 @@ const SideBar = ({ onLeaveGroupChat }: SideBarProps) => {
           <div className={classes["user-info-right"]}>
             <button
               className={classes["user-info-edit"]}
-              onClick={nicknameEditHandler}
+              onClick={userProfileEditHandler}
             >
               <IoMdSettings />
             </button>
