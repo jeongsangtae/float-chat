@@ -125,18 +125,25 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
       if (!socket) return; // 소켓이 없으면 실행 안 함
 
       // 기존 이벤트 리스너 제거 후 재등록 (중복 방지)
-      socket.off("groupChatUserNicknameUpdated");
+      socket.off("groupChatProfileUpdated");
 
       // 그룹 채팅방 참여자 중 한 사용자가 닉네임을 변경했을 때, 해당 사용자의 닉네임을 실시간 반영해 업데이트
-      socket.on("groupChatUserNicknameUpdated", ({ userId, newNickname }) => {
-        set((prev) => ({
-          groupChatUsers: prev.groupChatUsers.map((groupChatUser) => {
-            return groupChatUser._id === userId
-              ? { ...groupChatUser, nickname: newNickname }
-              : groupChatUser;
-          }),
-        }));
-      });
+      socket.on(
+        "groupChatProfileUpdated",
+        ({ userId, newNickname, newAvatarColor }) => {
+          set((prev) => ({
+            groupChatUsers: prev.groupChatUsers.map((groupChatUser) => {
+              return groupChatUser._id === userId
+                ? {
+                    ...groupChatUser,
+                    nickname: newNickname,
+                    avatarColor: newAvatarColor,
+                  }
+                : groupChatUser;
+            }),
+          }));
+        }
+      );
 
       socket.off("acceptGroupChat");
 
@@ -317,23 +324,27 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
       if (!socket) return; // 소켓이 없으면 실행 안 함
 
       // 기존 이벤트 리스너 제거 후 재등록 (중복 방지)
-      socket.off("groupChatInviteNicknameUpdated");
+      socket.off("groupChatInviteProfileUpdated");
 
       // 그룹 채팅방 초대 닉네임 업데이트 실시간 반영
-      socket.on("groupChatInviteNicknameUpdated", ({ userId, newNickname }) => {
-        set((prev) => ({
-          groupChatInvites: prev.groupChatInvites.map((groupChatInvite) => {
-            const updatedGroupChatInvite = { ...groupChatInvite };
+      socket.on(
+        "groupChatInviteProfileUpdated",
+        ({ userId, newNickname, newAvatarColor }) => {
+          set((prev) => ({
+            groupChatInvites: prev.groupChatInvites.map((groupChatInvite) => {
+              const updatedGroupChatInvite = { ...groupChatInvite };
 
-            if (groupChatInvite.requester === userId) {
-              updatedGroupChatInvite.requesterNickname = newNickname;
-            } else if (groupChatInvite.receiver === userId) {
-              updatedGroupChatInvite.receiverNickname = newNickname;
-            }
-            return updatedGroupChatInvite;
-          }),
-        }));
-      });
+              if (groupChatInvite.requester === userId) {
+                updatedGroupChatInvite.requesterNickname = newNickname;
+                updatedGroupChatInvite.avatarColor = newAvatarColor;
+              } else if (groupChatInvite.receiver === userId) {
+                updatedGroupChatInvite.receiverNickname = newNickname;
+              }
+              return updatedGroupChatInvite;
+            }),
+          }));
+        }
+      );
 
       socket.off("groupChatInvite");
 

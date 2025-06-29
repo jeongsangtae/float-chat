@@ -53,31 +53,42 @@ const useFriendStore = create<FriendStore>((set) => ({
       if (!socket) return; // 소켓이 없으면 실행 안 함
 
       // 기존 이벤트 리스너 제거 후 재등록 (중복 방지)
-      socket.off("friendNicknameUpdated");
+      socket.off("friendProfileUpdated");
 
-      socket.on("friendNicknameUpdated", ({ userId, newNickname }) => {
-        set((prev) => ({
-          onlineFriends: prev.onlineFriends.map((onlineFriend) => {
-            // 요청자와 수신자 중 누가 닉네임을 바꿨는지 확인
-            const isRequester = onlineFriend.requester.id === userId;
-            const isReceiver = onlineFriend.receiver.id === userId;
+      socket.on(
+        "friendProfileUpdated",
+        ({ userId, newNickname, newAvatarColor }) => {
+          set((prev) => ({
+            onlineFriends: prev.onlineFriends.map((onlineFriend) => {
+              // 요청자와 수신자 중 누가 닉네임을 바꿨는지 확인
+              const isRequester = onlineFriend.requester.id === userId;
+              const isReceiver = onlineFriend.receiver.id === userId;
 
-            // 닉네임을 바꾼 대상이 아니면 원본 그대로 반환
-            if (!isRequester && !isReceiver) return onlineFriend;
+              // 닉네임을 바꾼 대상이 아니면 원본 그대로 반환
+              if (!isRequester && !isReceiver) return onlineFriend;
 
-            // 닉네임을 바꾼 대상만 업데이트하고 나머지는 그대로 유지
-            return {
-              ...onlineFriend,
-              requester: isRequester
-                ? { ...onlineFriend.requester, nickname: newNickname }
-                : onlineFriend.requester,
-              receiver: isReceiver
-                ? { ...onlineFriend.receiver, nickname: newNickname }
-                : onlineFriend.receiver,
-            };
-          }),
-        }));
-      });
+              // 닉네임을 바꾼 대상만 업데이트하고 나머지는 그대로 유지
+              return {
+                ...onlineFriend,
+                requester: isRequester
+                  ? {
+                      ...onlineFriend.requester,
+                      nickname: newNickname,
+                      avatarColor: newAvatarColor,
+                    }
+                  : onlineFriend.requester,
+                receiver: isReceiver
+                  ? {
+                      ...onlineFriend.receiver,
+                      nickname: newNickname,
+                      avatarColor: newAvatarColor,
+                    }
+                  : onlineFriend.receiver,
+              };
+            }),
+          }));
+        }
+      );
 
       socket.off("onlineFriend");
 
@@ -125,31 +136,42 @@ const useFriendStore = create<FriendStore>((set) => ({
       if (!socket) return; // 소켓이 없으면 실행 안 함
 
       // 기존 이벤트 리스너 제거 후 재등록 (중복 방지)
-      socket.off("friendNicknameUpdated");
+      socket.off("friendProfileUpdated");
 
-      socket.on("friendNicknameUpdated", ({ userId, newNickname }) => {
-        set((prev) => ({
-          friends: prev.friends.map((friend) => {
-            // 요청자와 수신자 중 누가 닉네임을 바꿨는지 확인
-            const isRequester = friend.requester.id === userId;
-            const isReceiver = friend.receiver.id === userId;
+      socket.on(
+        "friendProfileUpdated",
+        ({ userId, newNickname, newAvatarColor }) => {
+          set((prev) => ({
+            friends: prev.friends.map((friend) => {
+              // 요청자와 수신자 중 누가 닉네임을 바꿨는지 확인
+              const isRequester = friend.requester.id === userId;
+              const isReceiver = friend.receiver.id === userId;
 
-            // 닉네임을 바꾼 대상이 아니면 원본 그대로 반환
-            if (!isRequester && !isReceiver) return friend;
+              // 닉네임을 바꾼 대상이 아니면 원본 그대로 반환
+              if (!isRequester && !isReceiver) return friend;
 
-            // 닉네임을 바꾼 대상만 업데이트하고 나머지는 그대로 유지
-            return {
-              ...friend,
-              requester: isRequester
-                ? { ...friend.requester, nickname: newNickname }
-                : friend.requester,
-              receiver: isReceiver
-                ? { ...friend.receiver, nickname: newNickname }
-                : friend.receiver,
-            };
-          }),
-        }));
-      });
+              // 닉네임을 바꾼 대상만 업데이트하고 나머지는 그대로 유지
+              return {
+                ...friend,
+                requester: isRequester
+                  ? {
+                      ...friend.requester,
+                      nickname: newNickname,
+                      avatarColor: newAvatarColor,
+                    }
+                  : friend.requester,
+                receiver: isReceiver
+                  ? {
+                      ...friend.receiver,
+                      nickname: newNickname,
+                      avatarColor: newAvatarColor,
+                    }
+                  : friend.receiver,
+              };
+            }),
+          }));
+        }
+      );
 
       // 기존 이벤트 리스너 제거 후 재등록 (중복 방지)
       socket.off("friendAdd");
@@ -210,23 +232,28 @@ const useFriendStore = create<FriendStore>((set) => ({
       if (!socket) return; // 소켓이 없으면 실행 안 함
 
       // 기존 이벤트 리스너 제거 후 재등록 (중복 방지)
-      socket.off("friendRequestNicknameUpdated");
+      socket.off("friendRequestProfileUpdated");
 
       // 친구 요청 대기중 사용자 닉네임이 변경되면 실시간 반영해 업데이트
-      socket.on("friendRequestNicknameUpdated", ({ userId, newNickname }) => {
-        set((prev) => ({
-          friendRequests: prev.friendRequests.map((friendRequest) => {
-            const updatedFriendRequest = { ...friendRequest };
+      socket.on(
+        "friendRequestProfileUpdated",
+        ({ userId, newNickname, newAvatarColor }) => {
+          set((prev) => ({
+            friendRequests: prev.friendRequests.map((friendRequest) => {
+              const updatedFriendRequest = { ...friendRequest };
 
-            if (friendRequest.requester === userId) {
-              updatedFriendRequest.requesterNickname = newNickname;
-            } else if (friendRequest.receiver === userId) {
-              updatedFriendRequest.receiverNickname = newNickname;
-            }
-            return updatedFriendRequest;
-          }),
-        }));
-      });
+              if (friendRequest.requester === userId) {
+                updatedFriendRequest.requesterNickname = newNickname;
+                updatedFriendRequest.requesterAvatarColor = newAvatarColor;
+              } else if (friendRequest.receiver === userId) {
+                updatedFriendRequest.receiverNickname = newNickname;
+                updatedFriendRequest.receiverAvatarColor = newAvatarColor;
+              }
+              return updatedFriendRequest;
+            }),
+          }));
+        }
+      );
 
       // 기존 이벤트 리스너 제거 후 재등록 (중복 방지)
       socket.off("acceptFriend");

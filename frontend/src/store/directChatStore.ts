@@ -43,31 +43,38 @@ const useDirectChatStore = create<DirectChatStore>((set) => ({
         new Date(a.lastMessageDate).getTime();
 
       // 기존 이벤트 리스너 제거 후 재등록 (중복 방지)
-      socket.off("directChatUserNicknameUpdated");
+      socket.off("directChatProfileUpdated");
 
-      socket.on("directChatUserNicknameUpdated", ({ userId, newNickname }) => {
-        set((prev) => ({
-          directChats: prev.directChats.map((directChat) => {
-            const isUser = directChat.participants.some(
-              (participant) => participant._id === userId
-            );
+      socket.on(
+        "directChatProfileUpdated",
+        ({ userId, newNickname, newAvatarColor }) => {
+          set((prev) => ({
+            directChats: prev.directChats.map((directChat) => {
+              const isUser = directChat.participants.some(
+                (participant) => participant._id === userId
+              );
 
-            if (!isUser) return directChat;
+              if (!isUser) return directChat;
 
-            const nicknameUpdatedParticipants = directChat.participants.map(
-              (participant) =>
-                participant._id === userId
-                  ? { ...participant, nickname: newNickname }
-                  : participant
-            );
+              const nicknameUpdatedParticipants = directChat.participants.map(
+                (participant) =>
+                  participant._id === userId
+                    ? {
+                        ...participant,
+                        nickname: newNickname,
+                        avatarColor: newAvatarColor,
+                      }
+                    : participant
+              );
 
-            return {
-              ...directChat,
-              participants: nicknameUpdatedParticipants,
-            };
-          }),
-        }));
-      });
+              return {
+                ...directChat,
+                participants: nicknameUpdatedParticipants,
+              };
+            }),
+          }));
+        }
+      );
 
       socket.off("invisibleDirectChat");
 

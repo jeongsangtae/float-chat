@@ -485,19 +485,22 @@ router.patch("/editUserProfileForm", async (req, res) => {
     for (const friendId of friendIds) {
       const socketId = onlineUsers.get(friendId);
       if (socketId) {
-        io.to(socketId).emit("chatNicknameUpdated", {
+        io.to(socketId).emit("chatProfileUpdated", {
           userEmail: userInfo.email,
           newNickname,
+          newAvatarColor,
         });
 
-        io.to(socketId).emit("friendNicknameUpdated", {
+        io.to(socketId).emit("friendProfileUpdated", {
           userId: currentUserId,
           newNickname,
+          newAvatarColor,
         });
 
-        io.to(socketId).emit("directChatUserNicknameUpdated", {
+        io.to(socketId).emit("directChatProfileUpdated", {
           userId: currentUserId,
           newNickname,
+          newAvatarColor,
         });
       }
     }
@@ -505,9 +508,10 @@ router.patch("/editUserProfileForm", async (req, res) => {
     for (const friendRequestId of friendRequestIds) {
       const socketId = onlineUsers.get(friendRequestId);
       if (socketId) {
-        io.to(socketId).emit("friendRequestNicknameUpdated", {
+        io.to(socketId).emit("friendRequestProfileUpdated", {
           userId: currentUserId,
           newNickname,
+          newAvatarColor,
         });
       }
     }
@@ -515,9 +519,10 @@ router.patch("/editUserProfileForm", async (req, res) => {
     for (const groupChatUserId of groupChatUserIds) {
       const socketId = onlineUsers.get(groupChatUserId);
       if (socketId) {
-        io.to(socketId).emit("groupChatUserNicknameUpdated", {
+        io.to(socketId).emit("groupChatProfileUpdated", {
           userId: currentUserId,
           newNickname,
+          newAvatarColor,
         });
       }
     }
@@ -525,9 +530,10 @@ router.patch("/editUserProfileForm", async (req, res) => {
     for (const groupChatInviteId of groupChatInviteIds) {
       const socketId = onlineUsers.get(groupChatInviteId);
       if (socketId) {
-        io.to(socketId).emit("groupChatInviteNicknameUpdated", {
+        io.to(socketId).emit("groupChatInviteProfileUpdated", {
           userId: currentUserId,
           newNickname,
+          newAvatarColor,
         });
       }
     }

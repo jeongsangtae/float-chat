@@ -247,9 +247,14 @@ const useAuthStore = create<AuthStore>((set, get) => ({
     }
   },
 
-  editUserProfileForm: async (nickname, avatarColor, userInfo, modalData) => {
+  editUserProfileForm: async (
+    trimmedNickname,
+    avatarColor,
+    userInfo,
+    modalData
+  ) => {
     try {
-      console.log(nickname, avatarColor, userInfo, modalData);
+      console.log(trimmedNickname, avatarColor, userInfo, modalData);
 
       const { _id, email, username } = userInfo;
 
@@ -257,7 +262,7 @@ const useAuthStore = create<AuthStore>((set, get) => ({
         _id,
         email,
         username,
-        nickname,
+        nickname: trimmedNickname,
         avatarColor,
         modalData,
       };

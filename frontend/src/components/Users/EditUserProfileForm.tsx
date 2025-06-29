@@ -35,10 +35,13 @@ const EditUserProfileForm = ({ onToggle }: ModalProps) => {
   const { userInfo, editUserProfileForm } = useAuthStore();
   const { modalData } = useModalStore();
 
-  const [nickname, setNickname] = useState<string>("");
+  const [nickname, setNickname] = useState<string>(userInfo?.nickname ?? "");
   const [avatarColor, setAvatarColor] = useState<string>(
     userInfo?.avatarColor || "#ccc"
   );
+
+  const trimmedNickname = nickname.trim();
+  const nicknameValid = trimmedNickname.length >= 2;
 
   const inputChangeHandler = (
     event: React.ChangeEvent<HTMLInputElement>
@@ -46,18 +49,10 @@ const EditUserProfileForm = ({ onToggle }: ModalProps) => {
     setNickname(event.target.value);
   };
 
-  // const avatarColorSelected = (
-  //   event: React.MouseEvent<HTMLButtonElement>
-  // ): void => {
-  //   setAvatarColor(event.target.value);
-  // };
-
   const submitHandler = async (
     event: React.FormEvent<HTMLFormElement>
   ): Promise<void> => {
     event.preventDefault();
-
-    const trimmedNickname = nickname.trim();
 
     if (!userInfo) {
       alert("로그인이 필요합니다. 로그인 후 다시 시도해 주세요.");
@@ -70,7 +65,12 @@ const EditUserProfileForm = ({ onToggle }: ModalProps) => {
     }
 
     try {
-      await editUserProfileForm(nickname, avatarColor, userInfo, modalData);
+      await editUserProfileForm(
+        trimmedNickname,
+        avatarColor,
+        userInfo,
+        modalData
+      );
 
       console.log("사용자 정보 수정 성공");
       onToggle();
@@ -140,7 +140,12 @@ const EditUserProfileForm = ({ onToggle }: ModalProps) => {
           </div>
         </div>
         <div>
-          <button type="submit">수정</button>
+          <button
+            type="submit"
+            className={nicknameValid ? classes.active : classes.disable}
+          >
+            수정
+          </button>
         </div>
       </form>
     </Modal>
