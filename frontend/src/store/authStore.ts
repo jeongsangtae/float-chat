@@ -279,8 +279,8 @@ const useAuthStore = create<AuthStore>((set, get) => ({
         ...prev, // 기존 상태 전체를 유지
         userInfo: {
           ...prev.userInfo!, // 기존 사용자 정보 유지 및 !를 사용해 userInfo가 null이 아님을 단언
-          nickname: resData.editNickname.nickname, // nickname만 덮어쓰기
-          // avatarColor: resData.avatarColor
+          nickname: resData.editUserProfile.nickname, // nickname만 덮어쓰기
+          avatarColor: resData.editUserProfile.avatarColor,
         },
       }));
     } catch (error) {

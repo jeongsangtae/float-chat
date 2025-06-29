@@ -250,7 +250,7 @@ router.get("/refreshTokenExp", async (req, res) => {
   }
 });
 
-// 닉네임 수정 라우터
+// 사용자 정보 수정 라우터
 router.patch("/editUserProfileForm", async (req, res) => {
   try {
     const othersData = await accessToken(req, res);
@@ -270,6 +270,7 @@ router.patch("/editUserProfileForm", async (req, res) => {
 
     const userId = new ObjectId(currentUserId);
     const newNickname = requestBody.nickname;
+    const newAvatarColor = requestBody.avatarColor;
 
     const userInfo = await db
       .getDb()
@@ -290,33 +291,31 @@ router.patch("/editUserProfileForm", async (req, res) => {
         .json({ message: "사용자 정보를 수정할 권한이 없습니다." });
     }
 
-    const editNickname = {
+    const editUserProfile = {
       nickname: newNickname,
+      avatarColor: newAvatarColor,
     };
 
     await Promise.all([
-      // users 컬렉션: _id 기준으로 닉네임 업데이트
+      // users 컬렉션: _id 기준으로 닉네임, 아바타 색 업데이트
       db
         .getDb()
         .collection("users")
-        .updateOne({ _id: userId }, { $set: editNickname }),
+        .updateOne({ _id: userId }, { $set: editUserProfile }),
 
       // chatMessages 컬렉션: email 기준 업데이트
       db
         .getDb()
         .collection("chatMessages")
-        .updateMany(
-          { email: userInfo.email },
-          { $set: { nickname: newNickname } }
-        ),
+        .updateMany({ email: userInfo.email }, { $set: editUserProfile }),
 
       // groupChat 컬렉션: hostId 기준 업데이트
       db
         .getDb()
-        .collection("groupChat")
+        .collection("groupChats")
         .updateMany(
           { hostId: currentUserId },
-          { $set: { nickname: newNickname } }
+          { $set: { hostNickname: newNickname } }
         ),
 
       // directChats 컬렉션: participants 배열 내에서 _id 일치 시 업데이트
@@ -325,7 +324,12 @@ router.patch("/editUserProfileForm", async (req, res) => {
         .collection("directChats")
         .updateMany(
           { "participants._id": currentUserId },
-          { $set: { "participants.$[participant].nickname": newNickname } },
+          {
+            $set: {
+              "participants.$[participant].nickname": newNickname,
+              "participants.$[participant].avatarColor": newAvatarColor,
+            },
+          },
           { arrayFilters: [{ "participant._id": currentUserId }] }
         ),
 
@@ -335,14 +339,24 @@ router.patch("/editUserProfileForm", async (req, res) => {
         .collection("friends")
         .updateMany(
           { "requester.id": userId },
-          { $set: { "requester.nickname": newNickname } }
+          {
+            $set: {
+              "requester.nickname": newNickname,
+              "requester.avatarColor": newAvatarColor,
+            },
+          }
         ),
       db
         .getDb()
         .collection("friends")
         .updateMany(
           { "receiver.id": userId },
-          { $set: { "receiver.nickname": newNickname } }
+          {
+            $set: {
+              "receiver.nickname": newNickname,
+              "receiver.avatarColor": newAvatarColor,
+            },
+          }
         ),
 
       // friendRequests 컬렉션: requester 또는 receiver 일치 시 업데이트
@@ -351,14 +365,24 @@ router.patch("/editUserProfileForm", async (req, res) => {
         .collection("friendRequests")
         .updateMany(
           { requester: userId },
-          { $set: { requesterNickname: newNickname } }
+          {
+            $set: {
+              requesterNickname: newNickname,
+              requesterAvatarColor: newAvatarColor,
+            },
+          }
         ),
       db
         .getDb()
         .collection("friendRequests")
         .updateMany(
           { receiver: userId },
-          { $set: { receiverNickname: newNickname } }
+          {
+            $set: {
+              receiverNickname: newNickname,
+              receiverAvatarColor: newAvatarColor,
+            },
+          }
         ),
 
       // groupChatInvites 컬렉션: requester 또는 receiver 일치 시 업데이트
@@ -367,14 +391,24 @@ router.patch("/editUserProfileForm", async (req, res) => {
         .collection("groupChatInvites")
         .updateMany(
           { requester: userId },
-          { $set: { requesterNickname: newNickname } }
+          {
+            $set: {
+              requesterNickname: newNickname,
+              requesterAvatarColor: newAvatarColor,
+            },
+          }
         ),
       db
         .getDb()
         .collection("groupChatInvites")
         .updateMany(
           { receiver: userId },
-          { $set: { receiverNickname: newNickname } }
+          {
+            $set: {
+              receiverNickname: newNickname,
+              receiverAvatarColor: newAvatarColor,
+            },
+          }
         ),
     ]);
 
@@ -498,7 +532,7 @@ router.patch("/editUserProfileForm", async (req, res) => {
       }
     }
 
-    res.status(200).json({ editNickname });
+    res.status(200).json({ editUserProfile });
   } catch (error) {
     errorHandler(res, error, "사용자 닉네임 수정 중 오류 발생");
   }
