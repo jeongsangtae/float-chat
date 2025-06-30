@@ -39,6 +39,7 @@ const EditUserProfileForm = ({ onToggle }: ModalProps) => {
   const [avatarColor, setAvatarColor] = useState<string>(
     userInfo?.avatarColor || "#ccc"
   );
+  const [errorMessage, setErrorMessage] = useState("");
 
   const trimmedNickname = nickname.trim();
   const nicknameValid = trimmedNickname.length >= 2;
@@ -46,7 +47,14 @@ const EditUserProfileForm = ({ onToggle }: ModalProps) => {
   const inputChangeHandler = (
     event: React.ChangeEvent<HTMLInputElement>
   ): void => {
-    setNickname(event.target.value);
+    const value = event.target.value;
+    setNickname(value);
+
+    if (value.trim().length < 2) {
+      setErrorMessage("두 글자 이상 입력해 주세요.");
+    } else {
+      setErrorMessage("");
+    }
   };
 
   const submitHandler = async (
@@ -59,8 +67,8 @@ const EditUserProfileForm = ({ onToggle }: ModalProps) => {
       return;
     }
 
-    if (!trimmedNickname) {
-      alert("닉네임은 공백만으로 구성될 수 없습니다.");
+    if (trimmedNickname.length < 2) {
+      setErrorMessage("두 글자 이상 입력해 주세요.");
       return;
     }
 
@@ -99,39 +107,19 @@ const EditUserProfileForm = ({ onToggle }: ModalProps) => {
             onChange={inputChangeHandler}
           />
         </div>
+        {errorMessage && <div className={classes.error}>{errorMessage}</div>}
+
         <div>
           <div>아바타 색상</div>
-          <div>
+          <div className={classes["avatar-color-list"]}>
             {avatarColors.map((color) => (
               <button
-                className={classes["avatar-color-button"]}
+                className={`${classes["avatar-color-button"]} ${
+                  avatarColor === color ? classes.selected : ""
+                }`}
                 type="button"
                 key={color}
-                style={{
-                  backgroundColor: color,
-                  border: avatarColor === color ? "2px solid white" : "none",
-                  // border:
-                  //   avatarColor === color &&
-                  //   avatarColor !== userInfo?.avatarColor
-                  //     ? "2px solid white"
-                  //     : userInfo?.avatarColor === color
-                  //     ? "2px solid black"
-                  //     : "none",
-                  // border:
-                  //   avatarColor === color
-                  //     ? "2px solid white"
-                  //     : userInfo?.avatarColor === color
-                  //     ? "2px solid black"
-                  //     : "none",
-                  width:
-                    avatarColor === color || userInfo?.avatarColor === color
-                      ? "2.2rem"
-                      : "2rem",
-                  height:
-                    avatarColor === color || userInfo?.avatarColor === color
-                      ? "2.2rem"
-                      : "2rem",
-                }}
+                style={{ backgroundColor: color }}
                 onClick={() => setAvatarColor(color)}
               >
                 {userInfo?.nickname.charAt(0)}
@@ -139,7 +127,7 @@ const EditUserProfileForm = ({ onToggle }: ModalProps) => {
             ))}
           </div>
         </div>
-        <div>
+        <div className={classes["submit-button"]}>
           <button
             type="submit"
             className={nicknameValid ? classes.active : classes.disable}
