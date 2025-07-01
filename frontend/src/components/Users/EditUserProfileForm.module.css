@@ -1,7 +1,61 @@
+.title {
+  text-align: center;
+  font-size: 1.25rem;
+  margin: 1rem 0 0.25rem 0;
+}
+
+.nickname-edit-wrapper {
+  margin: 0 0 0.75rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.nickname-edit-title {
+  font-size: 1rem;
+  margin-left: 0.5rem;
+  color: #ddd;
+}
+
+.nickname-edit-input {
+  margin: 0 0.5rem;
+  padding: 0.4rem;
+  border: 1px solid rgba(128, 128, 128, 0.2);
+  border-radius: 6px;
+  background-color: #363636;
+  color: white;
+  font-size: 0.9rem;
+}
+
+.nickname-edit-input:focus {
+  outline: none;
+  border-color: #199cf3;
+}
+
 .error {
+  height: 0.5rem;
+  line-height: 0.25rem;
   color: #f44336;
   font-size: 0.85rem;
-  margin-top: 0.25rem;
+  text-align: center;
+  /* margin-left: 0.5rem; */
+  opacity: 1;
+}
+
+.error:empty {
+  opacity: 0;
+}
+
+.underline {
+  height: 1px;
+  background-color: rgba(128, 128, 128, 0.2);
+  margin: 0.25rem 0.5rem 1.25rem 0.5rem;
+}
+
+.avatar-color-edit-title {
+  font-size: 1rem;
+  margin-left: 0.5rem;
+  color: #ddd;
 }
 
 .avatar-color-list {
@@ -61,6 +115,5 @@
   padding: 0.3rem 0.75rem;
   border-radius: 6px;
   font-size: 0.85rem;
-  pointer-events: none;
   cursor: default;
 }

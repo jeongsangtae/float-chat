@@ -93,9 +93,9 @@ const EditUserProfileForm = ({ onToggle }: ModalProps) => {
   return (
     <Modal onToggle={onToggle}>
       <form onSubmit={submitHandler}>
-        <h2>프로필 수정</h2>
-        <div>
-          <div>닉네임</div>
+        <h2 className={classes.title}>프로필</h2>
+        <div className={classes["nickname-edit-wrapper"]}>
+          <div className={classes["nickname-edit-title"]}>닉네임</div>
           <input
             required
             type="text"
@@ -105,12 +105,16 @@ const EditUserProfileForm = ({ onToggle }: ModalProps) => {
             maxLength={15}
             placeholder="내용 입력"
             onChange={inputChangeHandler}
+            className={classes["nickname-edit-input"]}
           />
         </div>
-        {errorMessage && <div className={classes.error}>{errorMessage}</div>}
+        {/* {errorMessage && <div className={classes.error}>{errorMessage}</div>} */}
+        <div className={classes.error}>{errorMessage}</div>
+
+        <div className={classes.underline}></div>
 
         <div>
-          <div>아바타 색상</div>
+          <div className={classes["avatar-color-edit-title"]}>아바타 색</div>
           <div className={classes["avatar-color-list"]}>
             {avatarColors.map((color) => (
               <button
