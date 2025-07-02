@@ -6,6 +6,8 @@ import useModalStore from "../../store/modalStore";
 import { ModalProps } from "../../types";
 import Modal from "../UI/Modal";
 
+import classes from "./GroupChatForm.module.css";
+
 const GroupChatForm = ({ onToggle }: ModalProps) => {
   const { userInfo } = useAuthStore();
   const { groupChatForm } = useGroupChatStore();
@@ -55,14 +57,16 @@ const GroupChatForm = ({ onToggle }: ModalProps) => {
   return (
     <Modal onToggle={onToggle}>
       <form onSubmit={submitHandler}>
-        <h2>그룹 채팅방 {modalData.method === "POST" ? "만들기" : "수정"}</h2>
-        <p>
+        <h2 className={classes.title}>
+          그룹 채팅방 {modalData.method === "POST" ? "만들기" : "수정"}
+        </h2>
+        <p className={classes["group-chat-form-desc"]}>
           {modalData.method === "POST"
             ? "새로운 그룹 채팅방을 만들어 보세요."
             : "그룹 채팅방 제목을 수정해 보세요."}
         </p>
         <div>
-          <div>채팅방 이름</div>
+          <div className={classes["group-chat-form-title"]}>채팅방 이름</div>
           <input
             required
             type="text"
@@ -72,11 +76,12 @@ const GroupChatForm = ({ onToggle }: ModalProps) => {
             maxLength={30}
             placeholder="내용 입력"
             onChange={inputChangeHandler}
+            className={classes["group-chat-form-input"]}
           />
         </div>
-        <div>
-          <button type="submit">
-            {modalData.method === "POST" ? "만들기" : "수정"}
+        <div className={classes["submit-button"]}>
+          <button className={classes["active"]} type="submit">
+            {modalData.method === "POST" ? "생성" : "수정"}
           </button>
         </div>
       </form>

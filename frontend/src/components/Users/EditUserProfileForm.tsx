@@ -105,11 +105,14 @@ const EditUserProfileForm = ({ onToggle }: ModalProps) => {
             maxLength={15}
             placeholder="내용 입력"
             onChange={inputChangeHandler}
-            className={classes["nickname-edit-input"]}
+            className={`${classes["nickname-edit-input"]} ${
+              errorMessage ? classes.error : ""
+            }`}
           />
         </div>
-        {/* {errorMessage && <div className={classes.error}>{errorMessage}</div>} */}
-        <div className={classes.error}>{errorMessage}</div>
+        {/* {errorMessage && <div className={classes["error-message"]}>{errorMessage}</div>} */}
+
+        <div className={classes["error-message"]}>{errorMessage}</div>
 
         <div className={classes.underline}></div>
 

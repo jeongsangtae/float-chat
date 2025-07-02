@@ -1,0 +1,63 @@
+.title {
+  text-align: center;
+  font-size: 1.5rem;
+  margin: 1.5rem 0 0.75rem 0;
+}
+
+.group-chat-form-desc {
+  text-align: center;
+  font-size: 1.2rem;
+  margin: 1rem 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.group-chat-form-title {
+  font-size: 0.95rem;
+  font-weight: bold;
+  margin-left: 0.5rem;
+  color: #ddd;
+}
+
+.group-chat-form-input {
+  margin: 0.25rem 0.5rem;
+  width: 95%;
+  padding: 0.5rem;
+  border: 1px solid rgba(128, 128, 128, 0.2);
+  border-radius: 6px;
+  background-color: #363636;
+  color: white;
+  font-size: 1.1rem;
+}
+
+.submit-button {
+  text-align: end;
+  margin: 0.5rem;
+  margin-top: 1rem;
+}
+
+.active {
+  background-color: #4caf50;
+  /* background-color: #1565c0; */
+  color: white;
+  border: none;
+  padding: 0.3rem 0.75rem;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.active:hover {
+  background-color: #3d9640;
+  /* background-color: #0d47a1; */
+}
+
+.disable {
+  pointer-events: none;
+  background-color: #555;
+  color: #aaa;
+  border: none;
+  padding: 0.3rem 0.75rem;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  cursor: default;
+}
