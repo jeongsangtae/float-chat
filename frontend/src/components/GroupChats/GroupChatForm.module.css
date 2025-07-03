@@ -29,6 +29,30 @@
   font-size: 1.1rem;
 }
 
+.group-chat-form-input:focus {
+  outline: none;
+  border-color: #199cf3;
+}
+
+.error {
+  outline: none;
+  border-color: #f44336;
+}
+
+.error-message {
+  height: 1rem;
+  line-height: 2rem;
+  color: #f44336;
+  font-size: 0.85rem;
+  text-align: center;
+  /* margin-left: 0.5rem; */
+  opacity: 1;
+}
+
+.error-message:empty {
+  opacity: 0;
+}
+
 .submit-button {
   text-align: end;
   margin: 0.5rem;

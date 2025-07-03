@@ -51,7 +51,7 @@ const EditUserProfileForm = ({ onToggle }: ModalProps) => {
     setNickname(value);
 
     if (value.trim().length < 2) {
-      setErrorMessage("두 글자 이상 입력해 주세요.");
+      setErrorMessage("2자에서 15자 사이로 입력해주세요.");
     } else {
       setErrorMessage("");
     }
@@ -68,7 +68,7 @@ const EditUserProfileForm = ({ onToggle }: ModalProps) => {
     }
 
     if (trimmedNickname.length < 2) {
-      setErrorMessage("두 글자 이상 입력해 주세요.");
+      setErrorMessage("2자에서 15자 사이로 입력해주세요.");
       return;
     }
 

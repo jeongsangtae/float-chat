@@ -14,11 +14,22 @@ const GroupChatForm = ({ onToggle }: ModalProps) => {
   const { modalData } = useModalStore();
 
   const [title, setTitle] = useState<string>("");
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const trimmedTitle = title.trim();
+  const titleValid = trimmedTitle.length >= 2;
 
   const inputChangeHandler = (
     event: React.ChangeEvent<HTMLInputElement>
   ): void => {
-    setTitle(event.target.value);
+    const value = event.target.value;
+    setTitle(value);
+
+    if (value.trim().length < 2) {
+      setErrorMessage("2자에서 30자 사이로 입력해주세요.");
+    } else {
+      setErrorMessage("");
+    }
   };
 
   const submitHandler = async (
@@ -28,6 +39,11 @@ const GroupChatForm = ({ onToggle }: ModalProps) => {
 
     if (!userInfo) {
       alert("로그인이 필요합니다. 로그인 후 다시 시도해 주세요.");
+      return;
+    }
+
+    if (trimmedTitle.length < 2) {
+      setErrorMessage("2자에서 30자 사이로 입력해주세요.");
       return;
     }
 
@@ -76,11 +92,19 @@ const GroupChatForm = ({ onToggle }: ModalProps) => {
             maxLength={30}
             placeholder="내용 입력"
             onChange={inputChangeHandler}
-            className={classes["group-chat-form-input"]}
+            className={`${classes["group-chat-form-input"]} ${
+              errorMessage ? classes.error : ""
+            }`}
           />
         </div>
+
+        <div className={classes["error-message"]}>{errorMessage}</div>
+
         <div className={classes["submit-button"]}>
-          <button className={classes["active"]} type="submit">
+          <button
+            type="submit"
+            className={titleValid ? classes.active : classes.disable}
+          >
             {modalData.method === "POST" ? "생성" : "수정"}
           </button>
         </div>

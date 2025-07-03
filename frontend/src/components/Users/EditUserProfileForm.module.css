@@ -5,7 +5,7 @@
 }
 
 .nickname-edit-wrapper {
-  margin: 0 0 0.75rem 0;
+  margin-bottom: 0.75rem;
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
@@ -76,7 +76,7 @@
   gap: 0.5rem;
   /* margin: 0.25rem 0; */
   padding: 0.5rem;
-  place-items: center; /* = justify-items: center; + align-items: center; */
+  place-items: center; /* = align-items: center; + justify-items: center; */
 }
 
 .avatar-color-button {
