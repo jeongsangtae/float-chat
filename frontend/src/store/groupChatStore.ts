@@ -23,7 +23,7 @@ interface GroupChatStore {
   getGroupChats: () => Promise<void>;
   getGroupChatUsers: (roomId: string) => Promise<void>;
   groupChatForm: (
-    title: string,
+    trimmedTitle: string,
     userInfo: UserInfo,
     modalData: {
       method: "POST" | "PATCH";
@@ -199,19 +199,18 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
     }
   },
 
-  groupChatForm: async (
-    title: string,
-    userInfo: UserInfo,
-    modalData: {
-      method: "POST" | "PATCH";
-      _id?: string;
-      title?: string;
-    }
-  ) => {
+  groupChatForm: async (trimmedTitle, userInfo, modalData) => {
     try {
       const { _id, email, username, nickname } = userInfo;
 
-      const requestBody = { title, _id, email, username, nickname, modalData };
+      const requestBody = {
+        title: trimmedTitle,
+        _id,
+        email,
+        username,
+        nickname,
+        modalData,
+      };
 
       const response = await fetch(`${apiURL}/groupChatForm`, {
         method: modalData.method,

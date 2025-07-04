@@ -35,11 +35,12 @@ const EditUserProfileForm = ({ onToggle }: ModalProps) => {
   const { userInfo, editUserProfileForm } = useAuthStore();
   const { modalData } = useModalStore();
 
-  const [nickname, setNickname] = useState<string>(userInfo?.nickname ?? "");
+  const [nickname, setNickname] = useState<string>(modalData.nickname ?? "");
   const [avatarColor, setAvatarColor] = useState<string>(
-    userInfo?.avatarColor || "#ccc"
+    modalData.avatarColor ?? "#ccc"
   );
-  const [errorMessage, setErrorMessage] = useState("");
+
+  const [errorMessage, setErrorMessage] = useState<string>("");
 
   const trimmedNickname = nickname.trim();
   const nicknameValid = trimmedNickname.length >= 2;
@@ -101,7 +102,7 @@ const EditUserProfileForm = ({ onToggle }: ModalProps) => {
             type="text"
             id="nickname"
             name="nickname"
-            defaultValue={modalData.nickname}
+            value={nickname}
             maxLength={15}
             placeholder="내용 입력"
             onChange={inputChangeHandler}

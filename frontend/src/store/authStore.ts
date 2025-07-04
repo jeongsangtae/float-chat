@@ -21,13 +21,14 @@ interface AuthStore {
   refreshToken: () => Promise<void>;
   refreshTokenExp: () => Promise<void>;
   editUserProfileForm: (
-    nickname: string,
+    trimmedNickname: string,
     avatarColor: string,
     userInfo: UserInfo,
     modalData: {
       method: "POST" | "PATCH";
       _id?: string;
       nickname?: string;
+      avatarColor?: string;
     }
   ) => Promise<void>;
 }

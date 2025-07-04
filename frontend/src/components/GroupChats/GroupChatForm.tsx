@@ -13,8 +13,9 @@ const GroupChatForm = ({ onToggle }: ModalProps) => {
   const { groupChatForm } = useGroupChatStore();
   const { modalData } = useModalStore();
 
-  const [title, setTitle] = useState<string>("");
-  const [errorMessage, setErrorMessage] = useState("");
+  const [title, setTitle] = useState<string>(modalData.title ?? "");
+
+  const [errorMessage, setErrorMessage] = useState<string>("");
 
   const trimmedTitle = title.trim();
   const titleValid = trimmedTitle.length >= 2;
@@ -59,7 +60,7 @@ const GroupChatForm = ({ onToggle }: ModalProps) => {
 
     try {
       // await groupChatForm(title, userInfo, modifiedModalData);
-      await groupChatForm(title, userInfo, modalData);
+      await groupChatForm(trimmedTitle, userInfo, modalData);
       console.log("그룹 채팅방 생성 성공");
       onToggle();
     } catch (error) {
@@ -88,7 +89,7 @@ const GroupChatForm = ({ onToggle }: ModalProps) => {
             type="text"
             id="title"
             name="title"
-            defaultValue={modalData.method === "POST" ? title : modalData.title}
+            value={title}
             maxLength={30}
             placeholder="내용 입력"
             onChange={inputChangeHandler}
