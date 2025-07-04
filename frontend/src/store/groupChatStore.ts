@@ -38,7 +38,7 @@ interface GroupChatStore {
     roomId,
     friendId,
     nickname,
-  }: Omit<GroupChatInviteProps, "onToggle">) => Promise<void>;
+  }: Omit<GroupChatInviteProps, "onToggle" | "avatarColor">) => Promise<void>;
   acceptGroupChatInvite: ({
     groupChatId,
     groupChatInviteId,

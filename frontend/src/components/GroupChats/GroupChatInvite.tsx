@@ -2,31 +2,42 @@ import { GroupChatInviteProps } from "../../types";
 
 import useGroupChatStore from "../../store/groupChatStore";
 
+import classes from "./GroupChatInvite.module.css";
+
 const GroupChatInvite = ({
   roomId,
   friendId,
   nickname,
+  avatarColor,
   onToggle,
 }: GroupChatInviteProps) => {
   const { inviteGroupChat } = useGroupChatStore();
 
   const groupChatInviteHandler = async (): Promise<void> => {
-    if (!roomId) {
-      console.error("roomId가 정의되지 않았습니다.");
-      return;
-    }
-
     await inviteGroupChat({ roomId, friendId, nickname });
     onToggle();
   };
 
   return (
-    <>
-      <ul>
-        <li>{nickname}</li>
-        <button onClick={groupChatInviteHandler}>초대</button>
-      </ul>
-    </>
+    <li className={classes["group-chat-invite-wrapper"]}>
+      <div className={classes["group-chat-invite-info"]}>
+        <div
+          className={classes.avatar}
+          style={{ backgroundColor: avatarColor || "#ccc" }}
+        >
+          {nickname.charAt(0)}
+        </div>
+        <div className={classes["group-chat-invite-nickname"]}>{nickname}</div>
+      </div>
+      <div className={classes["group-chat-invite-button-wrapper"]}>
+        <button
+          className={classes["group-chat-invite-button"]}
+          onClick={groupChatInviteHandler}
+        >
+          초대
+        </button>
+      </div>
+    </li>
   );
 };
 

@@ -1,0 +1,56 @@
+.group-chat-invite-wrapper {
+  display: flex;
+  align-items: center;
+  /* width: 70%; */
+}
+
+.group-chat-invite-wrapper:hover {
+  border-radius: 4px;
+  background-color: #4f545c;
+}
+
+.group-chat-invite-info {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  cursor: default;
+}
+
+.avatar {
+  position: relative;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  color: white;
+}
+
+.group-chat-invite-nickname {
+  font-size: 1rem;
+  color: white;
+  margin-left: 0.25rem;
+}
+
+.group-chat-invite-button-wrapper {
+  width: 3.75rem;
+}
+
+.group-chat-invite-button {
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 0.3rem 0.75rem;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.group-chat-invite-button:hover {
+  background-color: #3d9640;
+}

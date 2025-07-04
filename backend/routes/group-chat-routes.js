@@ -326,8 +326,6 @@ router.post("/groupChat/:roomId/invite", async (req, res) => {
       return res.status(401).json({ message: "jwt error" });
     }
 
-    console.log(req.body.friendId, req.body.nickname);
-
     const { friendId, nickname } = req.body;
 
     const requesterId = new ObjectId(othersData._id); // 요청 보낸 사용자

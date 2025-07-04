@@ -55,15 +55,19 @@ const GroupChatDetails = () => {
 
       {toggle && (
         <Modal onToggle={toggleHandler}>
-          {filteredFriends.map((friend) => (
-            <GroupChatInvite
-              key={friend.id}
-              roomId={roomId}
-              friendId={friend.id}
-              nickname={friend.nickname}
-              onToggle={toggleHandler}
-            />
-          ))}
+          <div>친구를 {groupChat?.title} 그룹 채팅방으로 초대하기</div>
+          <ul className={classes["group-chat-invite"]}>
+            {filteredFriends.map((friend) => (
+              <GroupChatInvite
+                key={friend.id}
+                roomId={roomId ?? ""}
+                friendId={friend.id}
+                nickname={friend.nickname}
+                avatarColor={friend.avatarColor}
+                onToggle={toggleHandler}
+              />
+            ))}
+          </ul>
         </Modal>
       )}
 

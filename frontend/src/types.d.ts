@@ -63,9 +63,10 @@ export interface GroupChatInvites {
 }
 
 export interface GroupChatInviteProps {
-  roomId?: string;
+  roomId: string;
   friendId: string;
   nickname: string;
+  avatarColor: string;
   onToggle: () => void;
 }
 
