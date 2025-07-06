@@ -18,6 +18,10 @@
   cursor: default;
 }
 
+.group-chat-invite-wrapper:hover .group-chat-invite-nickname {
+  color: white;
+}
+
 .avatar {
   position: relative;
   width: 2rem;
@@ -32,7 +36,7 @@
 
 .group-chat-invite-nickname {
   font-size: 1rem;
-  color: white;
+  color: #b3b3b3;
   margin-left: 0.25rem;
 }
 
