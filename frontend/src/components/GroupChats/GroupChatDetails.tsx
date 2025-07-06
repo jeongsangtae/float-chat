@@ -23,6 +23,7 @@ const GroupChatDetails = () => {
   const { setView, setGroupChatTitle } = useLayoutStore();
 
   const [toggle, setToggle] = useState<boolean>(false);
+  const [searchTerm, setSearchTerm] = useState<string>("");
 
   // 이름 변경 필요
   const toggleHandler = (): void => {
@@ -35,6 +36,12 @@ const GroupChatDetails = () => {
   const filteredFriends = friends.map((friend) => {
     return friend.requester.id === userId ? friend.receiver : friend.requester;
   });
+
+  const searchFriends = filteredFriends.filter(
+    (friendData) =>
+      friendData.nickname.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      friendData.email?.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   const groupChat = groupChats.find((groupChat) => groupChat._id === roomId);
 
@@ -62,11 +69,15 @@ const GroupChatDetails = () => {
 
             <div className={classes["group-chat-invite-search"]}>
               <div>검색하는 공간</div>
-              <input />
+              <input
+                placeholder="사용자 검색"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
             </div>
 
             <ul className={classes["group-chat-invite"]}>
-              {filteredFriends.map((friend) => (
+              {searchFriends.map((friend) => (
                 <GroupChatInvite
                   key={friend.id}
                   roomId={roomId ?? ""}

@@ -108,6 +108,7 @@ export interface ChatMessage {
 export interface FriendUser {
   id: string; // _id 대신 id 사용
   userId: string;
+  email?: string;
   nickname: string;
   avatarColor: string;
 }
@@ -123,9 +124,11 @@ export interface Friend {
 export interface FriendRequest {
   _id: string;
   requester: string;
+  requesterEmail: string;
   requesterNickname: string;
   requesterAvatarColor: string;
   receiver: string;
+  receiverEmail: string;
   receiverNickname: string;
   receiverAvatarColor: string;
   date: string;

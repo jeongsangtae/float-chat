@@ -102,6 +102,7 @@ const Friends = () => {
                     key={friend.id}
                     userId={userInfo?._id ?? ""}
                     id={friend.id}
+                    // email={friend.email}
                     nickname={friend.nickname}
                     avatarColor={friend.avatarColor}
                   />
@@ -115,6 +116,7 @@ const Friends = () => {
                     key={friend.id}
                     userId={userInfo?._id ?? ""}
                     id={friend.id}
+                    // email={friend.email}
                     nickname={friend.nickname}
                     avatarColor={friend.avatarColor}
                   />

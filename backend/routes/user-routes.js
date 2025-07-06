@@ -540,7 +540,7 @@ router.patch("/editUserProfileForm", async (req, res) => {
 
     res.status(200).json({ editUserProfile });
   } catch (error) {
-    errorHandler(res, error, "사용자 닉네임 수정 중 오류 발생");
+    errorHandler(res, error, "사용자 정보 수정 중 오류 발생");
   }
 });
 

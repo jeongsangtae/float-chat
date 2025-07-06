@@ -224,9 +224,11 @@ router.post("/friendRequests", async (req, res) => {
       .collection("friendRequests")
       .insertOne({
         requester: requesterId,
+        requesterEmail: requestBody.email,
         requesterNickname: requestBody.nickname,
         requesterAvatarColor: requestBody.avatarColor,
         receiver: receiverId,
+        receiverEmail: searchUser.email,
         receiverNickname: searchUser.nickname,
         receiverAvatarColor: searchUser.avatarColor,
         status: "보류",
@@ -304,11 +306,13 @@ router.post("/acceptFriend", async (req, res) => {
     const newFriend = {
       requester: {
         id: friendRequest.requester,
+        email: friendRequest.requesterEmail,
         nickname: friendRequest.requesterNickname,
         avatarColor: friendRequest.requesterAvatarColor,
       },
       receiver: {
         id: friendRequest.receiver,
+        email: friendRequest.receiverEmail,
         nickname: friendRequest.receiverNickname,
         avatarColor: friendRequest.receiverAvatarColor,
       },
