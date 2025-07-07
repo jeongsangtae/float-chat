@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { IoIosSearch } from "react-icons/io";
+import { IoClose } from "react-icons/io5";
 
 import useAuthStore from "../../store/authStore";
 import useGroupChatStore from "../../store/groupChatStore";
@@ -68,12 +70,23 @@ const GroupChatDetails = () => {
             </div>
 
             <div className={classes["group-chat-invite-search"]}>
-              <div>검색하는 공간</div>
               <input
-                placeholder="사용자 검색"
+                type="text"
+                className={classes["group-chat-invite-search-input"]}
+                placeholder="친구 검색"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
+              {searchTerm ? (
+                <IoClose
+                  className={classes["group-chat-invite-search-delete-icon"]}
+                  onClick={() => setSearchTerm("")}
+                />
+              ) : (
+                <IoIosSearch
+                  className={classes["group-chat-invite-search-icon"]}
+                />
+              )}
             </div>
 
             <ul className={classes["group-chat-invite"]}>

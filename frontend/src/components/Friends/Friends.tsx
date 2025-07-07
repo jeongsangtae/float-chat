@@ -1,4 +1,6 @@
 import { useState, useEffect } from "react";
+import { IoIosSearch } from "react-icons/io";
+import { IoClose } from "react-icons/io5";
 
 import useAuthStore from "../../store/authStore";
 import useFriendStore from "../../store/friendStore";
@@ -23,6 +25,7 @@ const Friends = () => {
   } = useFriendStore();
 
   const [activeTab, setActiveTab] = useState<string | null>(null);
+  const [searchTerm, setSearchTerm] = useState<string>("");
 
   const { setView } = useLayoutStore();
 
@@ -49,6 +52,24 @@ const Friends = () => {
   const filteredFriends = friends.map((friend) => {
     return friend.requester.id === userId ? friend.receiver : friend.requester;
   });
+
+  const searchOnlineFriends = filteredOnlineFriends.filter(
+    (friendData) =>
+      friendData.nickname.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      friendData.email?.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  const searchFriends = filteredFriends.filter(
+    (friendData) =>
+      friendData.nickname.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      friendData.email?.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  // const searchFriendRequests = friendRequests.filter(
+  //   (friendData) =>
+  //     friendData.nickname.toLowerCase().includes(searchTerm.toLowerCase()) ||
+  //     friendData.email?.toLowerCase().includes(searchTerm.toLowerCase())
+  // );
 
   // const filteredFriends = friends
   //   .map((friend) => {
@@ -95,9 +116,27 @@ const Friends = () => {
           </div>
 
           <div className={classes["friend-content"]}>
+            <div className={classes["friend-search"]}>
+              <input
+                type="text"
+                className={classes["friend-search-input"]}
+                placeholder="친구 검색"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+              {searchTerm ? (
+                <IoClose
+                  className={classes["friend-search-delete-icon"]}
+                  onClick={() => setSearchTerm("")}
+                />
+              ) : (
+                <IoIosSearch className={classes["friend-search-icon"]} />
+              )}
+            </div>
+
             <ul className={classes["online-friends"]}>
               {activeTab === "online" &&
-                filteredOnlineFriends.map((friend) => (
+                searchOnlineFriends.map((friend) => (
                   <OnlineFriend
                     key={friend.id}
                     userId={userInfo?._id ?? ""}
@@ -111,7 +150,7 @@ const Friends = () => {
 
             <ul className={classes.friends}>
               {activeTab === "all" &&
-                filteredFriends.map((friend) => (
+                searchFriends.map((friend) => (
                   <Friend
                     key={friend.id}
                     userId={userInfo?._id ?? ""}
