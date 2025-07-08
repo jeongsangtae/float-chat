@@ -38,6 +38,61 @@
   overflow-y: auto;
 }
 
+.friend-search {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 70%;
+  padding: 0.5rem;
+  border: 1px solid rgba(133, 133, 133, 0.5);
+  border-radius: 8px;
+  margin: 1rem 0;
+  margin-top: 0.5rem;
+}
+
+.friend-search:focus-within {
+  outline: none;
+  border-color: #199cf3;
+}
+
+.friend-search-input {
+  padding-right: 1.5rem;
+  width: 100%;
+  background-color: transparent;
+  border: 1px solid transparent;
+  border-radius: 0.5rem;
+  font-size: 0.95rem;
+  color: white;
+}
+
+.friend-search-input:focus {
+  outline: none;
+}
+
+.friend-search-input:focus::placeholder {
+  opacity: 0.5;
+}
+
+.friend-search-delete-icon {
+  position: absolute;
+  right: 0.5rem;
+  color: #858585;
+  font-size: 1.15rem;
+  cursor: pointer;
+}
+
+.friend-search-delete-icon:hover {
+  color: white;
+}
+
+.friend-search-icon {
+  position: absolute;
+  right: 0.5rem;
+  color: #858585;
+  pointer-events: none;
+  font-size: 1.25rem;
+}
+
 .online-friends,
 .friends,
 .pending-friends {

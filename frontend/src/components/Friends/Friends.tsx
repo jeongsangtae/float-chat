@@ -65,11 +65,22 @@ const Friends = () => {
       friendData.email?.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  // const searchFriendRequests = friendRequests.filter(
-  //   (friendData) =>
-  //     friendData.nickname.toLowerCase().includes(searchTerm.toLowerCase()) ||
-  //     friendData.email?.toLowerCase().includes(searchTerm.toLowerCase())
-  // );
+  const searchFriendRequests = friendRequests.filter((friendRequest) => {
+    const currentRequester = friendRequest.requester === userId;
+
+    const nickname = currentRequester
+      ? friendRequest.receiverNickname
+      : friendRequest.requesterNickname;
+
+    const email = currentRequester
+      ? friendRequest.receiverEmail
+      : friendRequest.requesterEmail;
+
+    return (
+      nickname.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      email.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  });
 
   // const filteredFriends = friends
   //   .map((friend) => {
@@ -116,23 +127,25 @@ const Friends = () => {
           </div>
 
           <div className={classes["friend-content"]}>
-            <div className={classes["friend-search"]}>
-              <input
-                type="text"
-                className={classes["friend-search-input"]}
-                placeholder="친구 검색"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-              />
-              {searchTerm ? (
-                <IoClose
-                  className={classes["friend-search-delete-icon"]}
-                  onClick={() => setSearchTerm("")}
+            {activeTab !== "addFriend" && (
+              <div className={classes["friend-search"]}>
+                <input
+                  type="text"
+                  className={classes["friend-search-input"]}
+                  placeholder="친구 검색"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
                 />
-              ) : (
-                <IoIosSearch className={classes["friend-search-icon"]} />
-              )}
-            </div>
+                {searchTerm ? (
+                  <IoClose
+                    className={classes["friend-search-delete-icon"]}
+                    onClick={() => setSearchTerm("")}
+                  />
+                ) : (
+                  <IoIosSearch className={classes["friend-search-icon"]} />
+                )}
+              </div>
+            )}
 
             <ul className={classes["online-friends"]}>
               {activeTab === "online" &&
@@ -164,7 +177,7 @@ const Friends = () => {
 
             <ul className={classes["pending-friends"]}>
               {activeTab === "pending" &&
-                friendRequests.map((friendRequest) => (
+                searchFriendRequests.map((friendRequest) => (
                   <PendingFriends
                     key={friendRequest._id}
                     friendRequestId={friendRequest._id}
@@ -178,6 +191,7 @@ const Friends = () => {
                   />
                 ))}
             </ul>
+
             {activeTab === "addFriend" && <AddFriend />}
           </div>
         </>
