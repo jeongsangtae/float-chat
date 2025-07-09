@@ -45,12 +45,34 @@ const Friends = () => {
 
   const userId = userInfo?._id;
 
-  const filteredOnlineFriends = onlineFriends.map((friend) => {
-    return friend.requester.id === userId ? friend.receiver : friend.requester;
+  const onlineFriendIds = onlineFriends.map((onlineFriend) =>
+    onlineFriend.requester.id === userId
+      ? onlineFriend.receiver.id
+      : onlineFriend.requester.id
+  );
+
+  const filteredOnlineFriends = onlineFriends.map((onlineFriend) => {
+    const onlineFriendInfo =
+      onlineFriend.requester.id === userId
+        ? onlineFriend.receiver
+        : onlineFriend.requester;
+
+    return {
+      ...onlineFriendInfo,
+      onlineChecked: true,
+    };
   });
 
   const filteredFriends = friends.map((friend) => {
-    return friend.requester.id === userId ? friend.receiver : friend.requester;
+    const friendInfo =
+      friend.requester.id === userId ? friend.receiver : friend.requester;
+
+    const onlineChecked = onlineFriendIds.includes(friendInfo.id);
+
+    return {
+      ...friendInfo,
+      onlineChecked,
+    };
   });
 
   const searchOnlineFriends = filteredOnlineFriends.filter(
@@ -149,14 +171,14 @@ const Friends = () => {
 
             <ul className={classes["online-friends"]}>
               {activeTab === "online" &&
-                searchOnlineFriends.map((friend) => (
+                searchOnlineFriends.map((onlineFriend) => (
                   <OnlineFriend
-                    key={friend.id}
+                    key={onlineFriend.id}
                     userId={userInfo?._id ?? ""}
-                    id={friend.id}
-                    // email={friend.email}
-                    nickname={friend.nickname}
-                    avatarColor={friend.avatarColor}
+                    id={onlineFriend.id}
+                    nickname={onlineFriend.nickname}
+                    avatarColor={onlineFriend.avatarColor}
+                    onlineChecked={onlineFriend.onlineChecked}
                   />
                 ))}
             </ul>
@@ -168,9 +190,9 @@ const Friends = () => {
                     key={friend.id}
                     userId={userInfo?._id ?? ""}
                     id={friend.id}
-                    // email={friend.email}
                     nickname={friend.nickname}
                     avatarColor={friend.avatarColor}
+                    onlineChecked={friend.onlineChecked}
                   />
                 ))}
             </ul>

@@ -111,6 +111,7 @@ export interface FriendUser {
   email?: string;
   nickname: string;
   avatarColor: string;
+  onlineChecked: boolean;
 }
 
 export interface Friend {
