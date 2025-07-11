@@ -31,6 +31,22 @@
   color: white;
 }
 
+.online-dot,
+.offline-dot {
+  position: absolute;
+  width: 0.8rem;
+  height: 0.8rem;
+  bottom: -1px;
+  right: -1px;
+  border-radius: 50%;
+  background-color: #02ac02;
+  border: 2px solid #1e1e1e;
+}
+
+.offline-dot {
+  background-color: gray;
+}
+
 .group-chat-user-nickname {
   color: #b3b3b3;
   margin-left: 0.25rem;

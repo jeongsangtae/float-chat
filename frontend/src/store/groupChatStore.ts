@@ -7,6 +7,7 @@ import useSocketStore from "./socketStore";
 import {
   UserInfo,
   GroupChatData,
+  GroupChatUserData,
   GroupChatInvites,
   GroupChatInviteProps,
   GroupChatInviteListProps,
@@ -18,7 +19,7 @@ interface GroupChatStore {
   socket: Socket | null;
   loading: boolean;
   groupChats: GroupChatData[];
-  groupChatUsers: Omit<UserInfo, "tokenExp">[];
+  groupChatUsers: GroupChatUserData[];
   groupChatInvites: GroupChatInvites[];
   getGroupChats: () => Promise<void>;
   getGroupChatUsers: (roomId: string) => Promise<void>;
@@ -186,7 +187,7 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
         }));
       });
 
-      const resData: { groupChatUsers: Omit<UserInfo, "tokenExp">[] } =
+      const resData: { groupChatUsers: GroupChatUserData[] } =
         await response.json();
 
       console.log(resData.groupChatUsers);

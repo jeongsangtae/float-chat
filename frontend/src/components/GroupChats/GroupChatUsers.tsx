@@ -18,11 +18,12 @@ const GroupChatUsers = ({ roomId }: RoomId) => {
 
   return (
     <>
-      {groupChatUsers.map((user) => (
+      {groupChatUsers.map((groupChatUser) => (
         <GroupChatUser
-          key={user._id}
-          nickname={user.nickname}
-          avatarColor={user.avatarColor}
+          key={groupChatUser._id}
+          nickname={groupChatUser.nickname}
+          avatarColor={groupChatUser.avatarColor}
+          onlineChecked={groupChatUser.onlineChecked}
         />
       ))}
     </>

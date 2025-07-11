@@ -60,9 +60,20 @@ router.get("/groupChat/:roomId/users", async (req, res) => {
       )
       .toArray();
 
-    console.log(groupChatUsers);
+    const onlineUsers = req.app.get("onlineUsers");
 
-    res.status(200).json({ groupChatUsers });
+    const groupChatUsersOnlineChecked = groupChatUsers.map((groupChatUser) => ({
+      ...groupChatUser,
+      onlineChecked: onlineUsers.has(groupChatUser._id.toString()),
+    }));
+
+    console.log("그룹 채팅방에 참여한 사용자 목록", groupChatUsers);
+    console.log(
+      "그룹 채팅방에 참여한 사용자 온라인 유무",
+      groupChatUsersOnlineChecked
+    );
+
+    res.status(200).json({ groupChatUsers: groupChatUsersOnlineChecked });
   } catch (error) {
     errorHandler(res, error, "그룹 채팅방 참여자 조회 중 오류 발생");
   }

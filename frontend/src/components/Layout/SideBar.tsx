@@ -99,11 +99,11 @@ const SideBar = ({ onLeaveGroupChat }: SideBarProps) => {
               style={{ backgroundColor: userInfo?.avatarColor || "#ccc" }}
             >
               {userInfo?.nickname.charAt(0)}
-              {/* <div
-            className={
-              onlineChecked ? classes["online-dot"] : classes["offline-dot"]
-            }
-          /> */}
+              <div
+                className={
+                  isLoggedIn ? classes["online-dot"] : classes["offline-dot"]
+                }
+              />
             </div>
             <p className={classes["user-info-nickname"]}>
               {userInfo?.nickname}

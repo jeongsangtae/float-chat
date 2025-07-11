@@ -47,6 +47,16 @@ export interface GroupChatData {
   setContextMenu: React.Dispatch<React.SetStateAction<ContextMenu>>;
 }
 
+export interface GroupChatUserData {
+  _id: string;
+  email: string;
+  username: string;
+  nickname: string;
+  avatarColor: string;
+  date: string;
+  onlineChecked: boolean;
+}
+
 export interface GroupChatInvites {
   _id: string;
   roomId: string;
