@@ -8,3 +8,68 @@
   padding: 0.75rem;
   overflow-y: auto;
 }
+
+.friend {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem;
+  cursor: pointer;
+  color: #b3b3b3;
+}
+
+.friend:hover {
+  border-radius: 8px;
+  color: white;
+  background-color: #38393f;
+}
+
+.friend-left {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.friend-icon {
+  display: flex;
+  align-items: center;
+  font-size: 1.2rem;
+}
+
+.friend-text {
+  font-weight: bold;
+}
+
+.friend-right {
+  position: relative;
+  width: 1.1rem;
+  height: 1.1rem;
+  border-radius: 50%;
+  background-color: #f33;
+  overflow: hidden;
+
+  /* position: relative;
+  width: 1.1rem;
+  height: 1.1rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  font-weight: bold;
+  background-color: #f33;
+  color: white; */
+  /* margin-right: 0.1rem; */
+}
+
+.friend-request-count {
+  position: absolute;
+  top: 50%;
+  left: 48%;
+  transform: translate(-50%, -50%);
+  font-size: 0.8rem;
+  font-weight: bold;
+  color: white;
+  line-height: 1;
+  text-align: center;
+}

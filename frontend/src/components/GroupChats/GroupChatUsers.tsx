@@ -16,16 +16,37 @@ const GroupChatUsers = ({ roomId }: RoomId) => {
     getGroupChatUsers(roomId);
   }, [roomId]);
 
+  const onlineUsers = groupChatUsers.filter(
+    (groupChatUser) => groupChatUser.onlineChecked
+  );
+  const offlineUsers = groupChatUsers.filter(
+    (groupChatUser) => !groupChatUser.onlineChecked
+  );
+
   return (
     <>
-      {groupChatUsers.map((groupChatUser) => (
-        <GroupChatUser
-          key={groupChatUser._id}
-          nickname={groupChatUser.nickname}
-          avatarColor={groupChatUser.avatarColor}
-          onlineChecked={groupChatUser.onlineChecked}
-        />
-      ))}
+      <div>
+        <div>온라인</div>
+        {onlineUsers.map((onlineUser) => (
+          <GroupChatUser
+            key={onlineUser._id}
+            nickname={onlineUser.nickname}
+            avatarColor={onlineUser.avatarColor}
+            onlineChecked={onlineUser.onlineChecked}
+          />
+        ))}
+      </div>
+      <div>
+        <div>오프라인</div>
+        {offlineUsers.map((offlineUsers) => (
+          <GroupChatUser
+            key={offlineUsers._id}
+            nickname={offlineUsers.nickname}
+            avatarColor={offlineUsers.avatarColor}
+            onlineChecked={offlineUsers.onlineChecked}
+          />
+        ))}
+      </div>
     </>
   );
 };
