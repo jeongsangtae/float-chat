@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { IoIosSearch } from "react-icons/io";
-import { IoClose } from "react-icons/io5";
+import { IoClose, IoPersonAddSharp } from "react-icons/io5";
 
 import useAuthStore from "../../store/authStore";
 import useGroupChatStore from "../../store/groupChatStore";
@@ -55,11 +55,19 @@ const GroupChatDetails = () => {
   return (
     <div className={classes["group-chat-details"]}>
       <div className={classes["group-chat-sidebar"]}>
-        <button onClick={toggleHandler}>친구 초대 버튼</button>
-        {/* {groupChat?.title} */}
-        <div>
-          참여자 목록 <GroupChatUsers roomId={roomId} />
+        <div
+          className={classes["group-chat-invite-button"]}
+          onClick={toggleHandler}
+        >
+          <div className={classes["group-chat-invite-icon"]}>
+            <IoPersonAddSharp />
+          </div>
+          <span className={classes["group-chat-invite-text"]}>초대</span>
         </div>
+
+        <div className={classes.underline}></div>
+
+        <GroupChatUsers roomId={roomId} />
       </div>
 
       {toggle && (

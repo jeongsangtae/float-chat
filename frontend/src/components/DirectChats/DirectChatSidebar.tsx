@@ -30,13 +30,13 @@ const DirectChatSidebar = ({ onFriendToggle }: DirectChatSidebarProps) => {
           <span className={classes["friend-text"]}>친구</span>
         </div>
 
-        <div className={classes["friend-right"]}>
-          {friendRequests.length > 0 && (
+        {friendRequests.length > 0 && (
+          <div className={classes["friend-right"]}>
             <span className={classes["friend-request-count"]}>
               {friendRequests.length > 99 ? "99" : friendRequests.length}
             </span>
-          )}
-        </div>
+          </div>
+        )}
       </div>
       <div className={classes.underline}></div>
       <div className={classes["direct-chat-text"]}>다이렉트 채팅방</div>

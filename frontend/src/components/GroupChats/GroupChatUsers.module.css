@@ -1,0 +1,33 @@
+.online-users {
+  padding: 0.5rem;
+}
+
+.online-text {
+  font-weight: bold;
+}
+
+.online-user-count {
+  font-size: 0.95rem;
+}
+
+.offline-users {
+  padding: 0.5rem;
+}
+
+.offline-text-wrapper {
+  font-size: 0.95rem;
+}
+
+.offline-text {
+  font-weight: bold;
+}
+
+.offline-user-count {
+  font-size: 0.95rem;
+}
+
+.line {
+  display: inline-block;
+  transform: scaleX(0.8);
+  margin: 0 0.2rem;
+}

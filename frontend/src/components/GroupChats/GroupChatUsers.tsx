@@ -1,8 +1,10 @@
-import { RoomId } from "../../types";
+import { useEffect } from "react";
 
 import useGroupChatStore from "../../store/groupChatStore";
-import { useEffect } from "react";
 import GroupChatUser from "./GroupChatUser";
+
+import { RoomId } from "../../types";
+import classes from "./GroupChatUsers.module.css";
 
 const GroupChatUsers = ({ roomId }: RoomId) => {
   const { groupChatUsers, getGroupChatUsers } = useGroupChatStore();
@@ -25,8 +27,15 @@ const GroupChatUsers = ({ roomId }: RoomId) => {
 
   return (
     <>
-      <div>
-        <div>온라인</div>
+      <div className={classes["online-users"]}>
+        <div>
+          <span className={classes["online-text"]}>온라인</span>
+          <span className={classes.line}>ㅡ</span>
+          <span className={classes["online-user-count"]}>
+            {onlineUsers.length}
+          </span>
+        </div>
+
         {onlineUsers.map((onlineUser) => (
           <GroupChatUser
             key={onlineUser._id}
@@ -36,14 +45,21 @@ const GroupChatUsers = ({ roomId }: RoomId) => {
           />
         ))}
       </div>
-      <div>
-        <div>오프라인</div>
-        {offlineUsers.map((offlineUsers) => (
+      <div className={classes["offline-users"]}>
+        <div className={classes["offline-text-wrapper"]}>
+          <span className={classes["offline-text"]}>오프라인</span>
+          <span className={classes.line}>ㅡ</span>
+          <span className={classes["offline-user-count"]}>
+            {offlineUsers.length}
+          </span>
+        </div>
+
+        {offlineUsers.map((offlineUser) => (
           <GroupChatUser
-            key={offlineUsers._id}
-            nickname={offlineUsers.nickname}
-            avatarColor={offlineUsers.avatarColor}
-            onlineChecked={offlineUsers.onlineChecked}
+            key={offlineUser._id}
+            nickname={offlineUser.nickname}
+            avatarColor={offlineUser.avatarColor}
+            onlineChecked={offlineUser.onlineChecked}
           />
         ))}
       </div>
