@@ -5,7 +5,7 @@
   background-color: #2f3136;
   display: flex;
   flex-direction: column;
-  padding: 0.75rem;
+  padding: 0.75rem 0.5rem;
   overflow-y: auto;
 }
 
@@ -13,7 +13,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0.5rem;
+  padding: 0.75rem;
   cursor: pointer;
   color: #b3b3b3;
 }
@@ -22,6 +22,12 @@
   border-radius: 8px;
   color: white;
   background-color: #38393f;
+}
+
+.active {
+  border-radius: 8px;
+  background-color: #414147;
+  color: white;
 }
 
 .friend-left {
@@ -72,4 +78,21 @@
   color: white;
   line-height: 1;
   text-align: center;
+}
+
+.underline {
+  height: 1px;
+  background-color: rgba(128, 128, 128, 0.2);
+  margin: 0.5rem 0;
+}
+
+.direct-chat-text {
+  color: #b3b3b3;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.9rem;
+}
+
+.direct-chat-text:hover {
+  color: white;
+  cursor: default;
 }

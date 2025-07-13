@@ -1,3 +1,5 @@
+import { useLocation } from "react-router-dom";
+
 import DirectChats from "./DirectChats";
 import { FaUserFriends } from "react-icons/fa";
 
@@ -9,25 +11,35 @@ interface DirectChatSidebarProps {
 }
 
 const DirectChatSidebar = ({ onFriendToggle }: DirectChatSidebarProps) => {
+  const location = useLocation();
+
+  const active = location.pathname === `/me`;
+
   const { friendRequests } = useFriendStore();
+
   return (
     <div className={classes["sub-sidebar"]}>
-      <div className={classes.friend} onClick={onFriendToggle}>
+      <div
+        className={`${classes.friend} ${active ? classes.active : ""}`}
+        onClick={onFriendToggle}
+      >
         <div className={classes["friend-left"]}>
           <div className={classes["friend-icon"]}>
             <FaUserFriends />
           </div>
           <span className={classes["friend-text"]}>친구</span>
         </div>
+
         <div className={classes["friend-right"]}>
           {friendRequests.length > 0 && (
             <span className={classes["friend-request-count"]}>
-              {friendRequests.length > 99 ? "99+" : friendRequests.length}
+              {friendRequests.length > 99 ? "99" : friendRequests.length}
             </span>
           )}
         </div>
       </div>
-      다이렉트 채팅방
+      <div className={classes.underline}></div>
+      <div className={classes["direct-chat-text"]}>다이렉트 채팅방</div>
       <DirectChats />
     </div>
   );

@@ -1,10 +1,10 @@
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { DirectChatProps } from "../../types";
 import { IoClose } from "react-icons/io5";
 
 import useDirectChatStore from "../../store/directChatStore";
 import useSocketStore from "../../store/socketStore";
 
+import { DirectChatProps } from "../../types";
 import classes from "./DirectChat.module.css";
 
 const DirectChat = ({
