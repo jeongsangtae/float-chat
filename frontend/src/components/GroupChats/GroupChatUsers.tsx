@@ -28,12 +28,10 @@ const GroupChatUsers = ({ roomId }: RoomId) => {
   return (
     <>
       <div className={classes["online-users"]}>
-        <div>
+        <div className={classes["online-text-wrapper"]}>
           <span className={classes["online-text"]}>온라인</span>
           <span className={classes.line}>ㅡ</span>
-          <span className={classes["online-user-count"]}>
-            {onlineUsers.length}
-          </span>
+          <span>{onlineUsers.length}</span>
         </div>
 
         {onlineUsers.map((onlineUser) => (
@@ -49,9 +47,7 @@ const GroupChatUsers = ({ roomId }: RoomId) => {
         <div className={classes["offline-text-wrapper"]}>
           <span className={classes["offline-text"]}>오프라인</span>
           <span className={classes.line}>ㅡ</span>
-          <span className={classes["offline-user-count"]}>
-            {offlineUsers.length}
-          </span>
+          <span>{offlineUsers.length}</span>
         </div>
 
         {offlineUsers.map((offlineUser) => (

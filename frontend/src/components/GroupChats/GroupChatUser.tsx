@@ -10,7 +10,7 @@ const GroupChatUser = ({
   return (
     <div className={classes["group-chat-user"]}>
       <div
-        className={classes.avatar}
+        className={`${classes.avatar} ${onlineChecked ? "" : classes.offline}`}
         style={{ backgroundColor: avatarColor || "#ccc" }}
       >
         {nickname.charAt(0)}
@@ -20,7 +20,13 @@ const GroupChatUser = ({
           }
         />
       </div>
-      <div className={classes["group-chat-user-nickname"]}>{nickname}</div>
+      <div
+        className={`${classes["group-chat-user-nickname"]} ${
+          onlineChecked ? "" : classes.offline
+        }`}
+      >
+        {nickname}
+      </div>
     </div>
   );
 };

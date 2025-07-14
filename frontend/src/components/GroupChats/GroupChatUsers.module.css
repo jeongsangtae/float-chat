@@ -1,29 +1,17 @@
-.online-users {
-  padding: 0.5rem;
-}
-
-.online-text {
-  font-weight: bold;
-}
-
-.online-user-count {
-  font-size: 0.95rem;
-}
-
+.online-users,
 .offline-users {
   padding: 0.5rem;
+  color: #b3b3b3;
 }
 
+.online-text-wrapper,
 .offline-text-wrapper {
   font-size: 0.95rem;
 }
 
+.online-text,
 .offline-text {
   font-weight: bold;
-}
-
-.offline-user-count {
-  font-size: 0.95rem;
 }
 
 .line {

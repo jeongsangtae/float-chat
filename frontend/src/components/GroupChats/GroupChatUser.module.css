@@ -30,6 +30,19 @@
   color: white;
 }
 
+/* .offline-avatar {
+  position: relative;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  color: white;
+  opacity: 0.3;
+} */
+
 .online-dot,
 .offline-dot {
   position: absolute;
@@ -47,10 +60,14 @@
 }
 
 .group-chat-user-nickname {
-  color: #b3b3b3;
+  color: white;
   margin-left: 0.25rem;
   width: 8rem;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.offline {
+  opacity: 0.3;
 }

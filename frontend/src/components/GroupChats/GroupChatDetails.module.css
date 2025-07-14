@@ -158,6 +158,6 @@
   flex: 1;
   height: 100%;
   flex-direction: column;
-  padding: 0.5rem 1rem 1rem 1rem;
+  padding: 0.5rem 1rem 1rem 0.75rem;
   overflow-y: auto;
 }

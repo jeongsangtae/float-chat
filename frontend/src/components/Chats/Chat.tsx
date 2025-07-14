@@ -111,8 +111,8 @@ const Chat = ({
         </div>
       ) : (
         <div className={classes["chat-messages"]}>
-          {message}
           <span className={classes["chat-hover-date"]}>{hoverDate}</span>
+          {message}
         </div>
       )}
     </div>
