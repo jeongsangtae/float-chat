@@ -7,6 +7,7 @@ import { IoMdAddCircle, IoMdSettings } from "react-icons/io";
 import useAuthStore from "../../store/authStore";
 import useModalStore from "../../store/modalStore";
 import useSocketStore from "../../store/socketStore";
+import useFriendStore from "../../store/friendStore";
 
 import GroupChats from "../GroupChats/GroupChats";
 import GroupChatForm from "../GroupChats/GroupChatForm";
@@ -23,6 +24,7 @@ const SideBar = ({ onLeaveGroupChat }: SideBarProps) => {
     useAuthStore();
   const { activeModal, toggleModal } = useModalStore();
   const { disconnect } = useSocketStore();
+  const { friendRequests } = useFriendStore();
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -71,7 +73,16 @@ const SideBar = ({ onLeaveGroupChat }: SideBarProps) => {
               <BsFillChatSquareFill className={classes["chat-icon"]} />
               <div className={`${classes.eye} ${classes["left-eye"]}`}></div>
               <div className={`${classes.eye} ${classes["right-eye"]}`}></div>
+
+              {friendRequests.length > 0 && (
+                <div className={classes["friend-request-badge"]}>
+                  <span className={classes["friend-request-count"]}>
+                    {friendRequests.length > 99 ? "99" : friendRequests.length}
+                  </span>
+                </div>
+              )}
             </button>
+
             <GroupChats />
           </>
         )}
