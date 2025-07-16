@@ -43,6 +43,7 @@ const GroupChatUsers = ({ roomId }: RoomId) => {
           />
         ))}
       </div>
+
       <div className={classes["offline-users"]}>
         <div className={classes["offline-text-wrapper"]}>
           <span className={classes["offline-text"]}>오프라인</span>

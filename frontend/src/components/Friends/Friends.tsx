@@ -104,6 +104,28 @@ const Friends = () => {
     );
   });
 
+  const sendFriendRequests = searchFriendRequests.map((searchFriendRequest) => {
+    const sendRequest = userInfo?._id === searchFriendRequest.requester;
+
+    if (sendRequest) {
+      return {
+        id: searchFriendRequest._id,
+        friendRequestId: searchFriendRequest._id,
+        nickname: searchFriendRequest.receiverNickname,
+        avatarColor: searchFriendRequest.requesterAvatarColor,
+        sendRequest: sendRequest,
+      };
+    } else {
+      return {
+        id: searchFriendRequest._id,
+        friendRequestId: searchFriendRequest._id,
+        nickname: searchFriendRequest.requesterNickname,
+        avatarColor: searchFriendRequest.requesterAvatarColor,
+        sendRequest: sendRequest,
+      };
+    }
+  });
+
   // const filteredFriends = friends
   //   .map((friend) => {
   //     return friend.requester.id === userId
@@ -197,7 +219,7 @@ const Friends = () => {
                 ))}
             </ul>
 
-            <ul className={classes["pending-friends"]}>
+            {/* <ul className={classes["pending-friends"]}>
               {activeTab === "pending" &&
                 searchFriendRequests.map((friendRequest) => (
                   <PendingFriends
@@ -211,6 +233,29 @@ const Friends = () => {
                     receiverAvatarColor={friendRequest.receiverAvatarColor}
                     status={friendRequest.status}
                   />
+                ))}
+            </ul> */}
+
+            <ul className={classes["pending-friends"]}>
+              {activeTab === "pending" &&
+                sendFriendRequests.map((friendRequest) => (
+                  <div>
+                    <div>
+                      <span>
+                        {!friendRequest.sendRequest ? "받음" : "보냄"}
+                      </span>
+                      <span>ㅡ</span>
+                      <span>{friendRequest.length}</span>
+                    </div>
+
+                    <PendingFriends
+                      key={friendRequest.id}
+                      friendRequestId={friendRequest.friendRequestId}
+                      nickname={friendRequest.nickname}
+                      avatarColor={friendRequest.avatarColor}
+                      sendRequest={friendRequest.sendRequest}
+                    />
+                  </div>
                 ))}
             </ul>
 
