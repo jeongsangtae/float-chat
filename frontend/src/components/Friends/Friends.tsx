@@ -105,26 +105,34 @@ const Friends = () => {
   });
 
   const sendFriendRequests = searchFriendRequests.map((searchFriendRequest) => {
-    const sendRequest = userInfo?._id === searchFriendRequest.requester;
+    const sendRequest = userId === searchFriendRequest.requester;
 
     if (sendRequest) {
       return {
         id: searchFriendRequest._id,
-        friendRequestId: searchFriendRequest._id,
         nickname: searchFriendRequest.receiverNickname,
-        avatarColor: searchFriendRequest.requesterAvatarColor,
+        avatarColor: searchFriendRequest.receiverAvatarColor,
         sendRequest: sendRequest,
       };
     } else {
       return {
         id: searchFriendRequest._id,
-        friendRequestId: searchFriendRequest._id,
         nickname: searchFriendRequest.requesterNickname,
         avatarColor: searchFriendRequest.requesterAvatarColor,
         sendRequest: sendRequest,
       };
     }
   });
+
+  // 내가 보낸 요청: sendRequest === true
+  const sentRequests = sendFriendRequests.filter(
+    (sendFriendRequest) => sendFriendRequest.sendRequest
+  );
+
+  // 내가 받은 요청: sendRequest === false
+  const receiverRequests = sendFriendRequests.filter(
+    (sendFriendRequest) => !sendFriendRequest.sendRequest
+  );
 
   // const filteredFriends = friends
   //   .map((friend) => {
@@ -219,44 +227,48 @@ const Friends = () => {
                 ))}
             </ul>
 
-            {/* <ul className={classes["pending-friends"]}>
-              {activeTab === "pending" &&
-                searchFriendRequests.map((friendRequest) => (
-                  <PendingFriends
-                    key={friendRequest._id}
-                    friendRequestId={friendRequest._id}
-                    requester={friendRequest.requester}
-                    requesterNickname={friendRequest.requesterNickname}
-                    requesterAvatarColor={friendRequest.requesterAvatarColor}
-                    receiver={friendRequest.receiver}
-                    receiverNickname={friendRequest.receiverNickname}
-                    receiverAvatarColor={friendRequest.receiverAvatarColor}
-                    status={friendRequest.status}
-                  />
-                ))}
-            </ul> */}
-
             <ul className={classes["pending-friends"]}>
-              {activeTab === "pending" &&
-                sendFriendRequests.map((friendRequest) => (
+              {activeTab === "pending" && (
+                <>
                   <div>
-                    <div>
-                      <span>
-                        {!friendRequest.sendRequest ? "받음" : "보냄"}
-                      </span>
-                      <span>ㅡ</span>
-                      <span>{friendRequest.length}</span>
-                    </div>
-
-                    <PendingFriends
-                      key={friendRequest.id}
-                      friendRequestId={friendRequest.friendRequestId}
-                      nickname={friendRequest.nickname}
-                      avatarColor={friendRequest.avatarColor}
-                      sendRequest={friendRequest.sendRequest}
-                    />
+                    {receiverRequests.length > 0 && (
+                      <div>
+                        <span>받음</span>
+                        <span>ㅡ</span>
+                        <span>{receiverRequests.length}</span>
+                      </div>
+                    )}
+                    {receiverRequests.map((receiverRequest) => (
+                      <PendingFriends
+                        key={receiverRequest.id}
+                        friendRequestId={receiverRequest.id}
+                        nickname={receiverRequest.nickname}
+                        avatarColor={receiverRequest.avatarColor}
+                        sendRequest={receiverRequest.sendRequest}
+                      />
+                    ))}
                   </div>
-                ))}
+
+                  <div>
+                    {sentRequests.length > 0 && (
+                      <div>
+                        <span>보냄</span>
+                        <span>ㅡ</span>
+                        <span>{sentRequests.length}</span>
+                      </div>
+                    )}
+                    {sentRequests.map((sentRequest) => (
+                      <PendingFriends
+                        key={sentRequest.id}
+                        friendRequestId={sentRequest.id}
+                        nickname={sentRequest.nickname}
+                        avatarColor={sentRequest.avatarColor}
+                        sendRequest={sentRequest.sendRequest}
+                      />
+                    ))}
+                  </div>
+                </>
+              )}
             </ul>
 
             {activeTab === "addFriend" && <AddFriend />}
