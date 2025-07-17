@@ -163,13 +163,16 @@ const Friends = () => {
             >
               모두
             </button>
-            <button
-              onClick={() => activeTabHandler("pending", loadFriendRequests)}
-              className={activeTab === "pending" ? classes.active : ""}
-            >
-              대기 중{" "}
-              {friendRequests.length > 0 && `(${friendRequests.length})`}
-            </button>
+            {friendRequests.length > 0 && (
+              <button
+                onClick={() => activeTabHandler("pending", loadFriendRequests)}
+                className={activeTab === "pending" ? classes.active : ""}
+              >
+                대기 중{" "}
+                {receiverRequests.length > 0 && `(${receiverRequests.length})`}
+              </button>
+            )}
+
             <button
               onClick={() => activeTabHandler("addFriend")}
               className={activeTab === "addFriend" ? classes.active : ""}
@@ -179,25 +182,27 @@ const Friends = () => {
           </div>
 
           <div className={classes["friend-content"]}>
-            {activeTab !== "addFriend" && (
-              <div className={classes["friend-search"]}>
-                <input
-                  type="text"
-                  className={classes["friend-search-input"]}
-                  placeholder="친구 검색"
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                />
-                {searchTerm ? (
-                  <IoClose
-                    className={classes["friend-search-delete-icon"]}
-                    onClick={() => setSearchTerm("")}
+            {activeTab !== "addFriend" &&
+              // 검색창은 대기중 탭이면서 friendRequests 없을 땐 숨김
+              !(activeTab === "pending" && friendRequests.length === 0) && (
+                <div className={classes["friend-search"]}>
+                  <input
+                    type="text"
+                    className={classes["friend-search-input"]}
+                    placeholder="친구 검색"
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
                   />
-                ) : (
-                  <IoIosSearch className={classes["friend-search-icon"]} />
-                )}
-              </div>
-            )}
+                  {searchTerm ? (
+                    <IoClose
+                      className={classes["friend-search-delete-icon"]}
+                      onClick={() => setSearchTerm("")}
+                    />
+                  ) : (
+                    <IoIosSearch className={classes["friend-search-icon"]} />
+                  )}
+                </div>
+              )}
 
             <ul className={classes["online-friends"]}>
               {activeTab === "online" &&
@@ -230,43 +235,53 @@ const Friends = () => {
             <ul className={classes["pending-friends"]}>
               {activeTab === "pending" && (
                 <>
-                  <div>
-                    {receiverRequests.length > 0 && (
+                  {friendRequests.length === 0 ? (
+                    <div>
+                      대기 중인 친구 요청이 없어요. <br />
+                      <strong>'친구 추가하기'</strong>를 클릭해 친구 요청을
+                      보내세요.
+                    </div>
+                  ) : (
+                    <>
                       <div>
-                        <span>받음</span>
-                        <span>ㅡ</span>
-                        <span>{receiverRequests.length}</span>
+                        {receiverRequests.length > 0 && (
+                          <div>
+                            <span>받음</span>
+                            <span>ㅡ</span>
+                            <span>{receiverRequests.length}</span>
+                          </div>
+                        )}
+                        {receiverRequests.map((receiverRequest) => (
+                          <PendingFriends
+                            key={receiverRequest.id}
+                            friendRequestId={receiverRequest.id}
+                            nickname={receiverRequest.nickname}
+                            avatarColor={receiverRequest.avatarColor}
+                            sendRequest={receiverRequest.sendRequest}
+                          />
+                        ))}
                       </div>
-                    )}
-                    {receiverRequests.map((receiverRequest) => (
-                      <PendingFriends
-                        key={receiverRequest.id}
-                        friendRequestId={receiverRequest.id}
-                        nickname={receiverRequest.nickname}
-                        avatarColor={receiverRequest.avatarColor}
-                        sendRequest={receiverRequest.sendRequest}
-                      />
-                    ))}
-                  </div>
 
-                  <div>
-                    {sentRequests.length > 0 && (
                       <div>
-                        <span>보냄</span>
-                        <span>ㅡ</span>
-                        <span>{sentRequests.length}</span>
+                        {sentRequests.length > 0 && (
+                          <div>
+                            <span>보냄</span>
+                            <span>ㅡ</span>
+                            <span>{sentRequests.length}</span>
+                          </div>
+                        )}
+                        {sentRequests.map((sentRequest) => (
+                          <PendingFriends
+                            key={sentRequest.id}
+                            friendRequestId={sentRequest.id}
+                            nickname={sentRequest.nickname}
+                            avatarColor={sentRequest.avatarColor}
+                            sendRequest={sentRequest.sendRequest}
+                          />
+                        ))}
                       </div>
-                    )}
-                    {sentRequests.map((sentRequest) => (
-                      <PendingFriends
-                        key={sentRequest.id}
-                        friendRequestId={sentRequest.id}
-                        nickname={sentRequest.nickname}
-                        avatarColor={sentRequest.avatarColor}
-                        sendRequest={sentRequest.sendRequest}
-                      />
-                    ))}
-                  </div>
+                    </>
+                  )}
                 </>
               )}
             </ul>
