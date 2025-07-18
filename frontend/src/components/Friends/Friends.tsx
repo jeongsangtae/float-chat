@@ -168,8 +168,16 @@ const Friends = () => {
                 onClick={() => activeTabHandler("pending", loadFriendRequests)}
                 className={activeTab === "pending" ? classes.active : ""}
               >
-                대기 중{" "}
-                {receiverRequests.length > 0 && `(${receiverRequests.length})`}
+                대기 중
+                {receiverRequests.length > 0 && (
+                  <div className={classes["friend-request-badge"]}>
+                    <span className={classes["friend-request-count"]}>
+                      {receiverRequests.length > 99
+                        ? "99"
+                        : receiverRequests.length}
+                    </span>
+                  </div>
+                )}
               </button>
             )}
 

@@ -33,6 +33,21 @@
   /* background-color: #2f3136; */
 }
 
+.friend-request-badge {
+  display: inline-block;
+  margin-left: 0.5rem;
+  width: 1rem;
+  height: 1rem;
+  border-radius: 50%;
+  background-color: #f33;
+}
+
+.friend-request-count {
+  font-size: 0.75rem;
+  font-weight: bold;
+  color: white;
+}
+
 /* .pending-button {
   animation: fadeInUp 0.3s ease;
 }

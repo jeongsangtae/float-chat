@@ -58,6 +58,10 @@ const SideBar = ({ onLeaveGroupChat }: SideBarProps) => {
     // navigate("/me");
   };
 
+  const receiverRequests = friendRequests.filter(
+    (friendRequest) => friendRequest.receiver === userInfo?._id
+  );
+
   return (
     <div className={classes.sidebar}>
       <div className={classes["sidebar-top"]}>
@@ -74,10 +78,20 @@ const SideBar = ({ onLeaveGroupChat }: SideBarProps) => {
               <div className={`${classes.eye} ${classes["left-eye"]}`}></div>
               <div className={`${classes.eye} ${classes["right-eye"]}`}></div>
 
-              {friendRequests.length > 0 && (
+              {/* {friendRequests.length > 0 && (
                 <div className={classes["friend-request-badge"]}>
                   <span className={classes["friend-request-count"]}>
                     {friendRequests.length > 99 ? "99" : friendRequests.length}
+                  </span>
+                </div>
+              )} */}
+
+              {receiverRequests.length > 0 && (
+                <div className={classes["friend-request-badge"]}>
+                  <span className={classes["friend-request-count"]}>
+                    {receiverRequests.length > 99
+                      ? "99"
+                      : receiverRequests.length}
                   </span>
                 </div>
               )}

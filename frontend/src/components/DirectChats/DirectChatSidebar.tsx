@@ -3,8 +3,10 @@ import { useLocation } from "react-router-dom";
 import DirectChats from "./DirectChats";
 import { FaUserFriends } from "react-icons/fa";
 
-import classes from "./DirectChatSidebar.module.css";
 import useFriendStore from "../../store/friendStore";
+import useAuthStore from "../../store/authStore";
+
+import classes from "./DirectChatSidebar.module.css";
 
 interface DirectChatSidebarProps {
   onFriendToggle: () => void;
@@ -15,7 +17,12 @@ const DirectChatSidebar = ({ onFriendToggle }: DirectChatSidebarProps) => {
 
   const active = location.pathname === `/me`;
 
+  const { userInfo } = useAuthStore();
   const { friendRequests } = useFriendStore();
+
+  const receiverRequests = friendRequests.filter(
+    (friendRequest) => friendRequest.receiver === userInfo?._id
+  );
 
   return (
     <div className={classes["sub-sidebar"]}>
@@ -30,10 +37,10 @@ const DirectChatSidebar = ({ onFriendToggle }: DirectChatSidebarProps) => {
           <span className={classes["friend-text"]}>친구</span>
         </div>
 
-        {friendRequests.length > 0 && (
+        {receiverRequests.length > 0 && (
           <div className={classes["friend-right"]}>
             <span className={classes["friend-request-count"]}>
-              {friendRequests.length > 99 ? "99" : friendRequests.length}
+              {receiverRequests.length > 99 ? "99" : receiverRequests.length}
             </span>
           </div>
         )}
