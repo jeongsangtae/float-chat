@@ -78,14 +78,6 @@ const SideBar = ({ onLeaveGroupChat }: SideBarProps) => {
               <div className={`${classes.eye} ${classes["left-eye"]}`}></div>
               <div className={`${classes.eye} ${classes["right-eye"]}`}></div>
 
-              {/* {friendRequests.length > 0 && (
-                <div className={classes["friend-request-badge"]}>
-                  <span className={classes["friend-request-count"]}>
-                    {friendRequests.length > 99 ? "99" : friendRequests.length}
-                  </span>
-                </div>
-              )} */}
-
               {receiverRequests.length > 0 && (
                 <div className={classes["friend-request-badge"]}>
                   <span className={classes["friend-request-count"]}>

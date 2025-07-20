@@ -5,6 +5,7 @@ import { IoClose } from "react-icons/io5";
 import useAuthStore from "../../store/authStore";
 import useFriendStore from "../../store/friendStore";
 import useLayoutStore from "../../store/layoutStore";
+import useFilteredFriends from "./hooks/useFilteredFriends";
 
 import AddFriend from "./AddFriend";
 import Friend from "./Friend";
@@ -29,6 +30,21 @@ const Friends = () => {
 
   const { setView } = useLayoutStore();
 
+  const userId = userInfo?._id ?? "";
+
+  const {
+    filteredOnlineFriends,
+    filteredFriends,
+    sentRequests,
+    receiverRequests,
+  } = useFilteredFriends(
+    friends,
+    onlineFriends,
+    friendRequests,
+    userId,
+    searchTerm
+  );
+
   useEffect(() => {
     // activeTabHandler("all", loadFriends);
     activeTabHandler("online", loadOnlineFriends);
@@ -43,96 +59,94 @@ const Friends = () => {
     }
   };
 
-  const userId = userInfo?._id;
+  // const onlineFriendIds = onlineFriends.map((onlineFriend) =>
+  //   onlineFriend.requester.id === userId
+  //     ? onlineFriend.receiver.id
+  //     : onlineFriend.requester.id
+  // );
 
-  const onlineFriendIds = onlineFriends.map((onlineFriend) =>
-    onlineFriend.requester.id === userId
-      ? onlineFriend.receiver.id
-      : onlineFriend.requester.id
-  );
+  // const filteredOnlineFriends = onlineFriends.map((onlineFriend) => {
+  //   const onlineFriendInfo =
+  //     onlineFriend.requester.id === userId
+  //       ? onlineFriend.receiver
+  //       : onlineFriend.requester;
 
-  const filteredOnlineFriends = onlineFriends.map((onlineFriend) => {
-    const onlineFriendInfo =
-      onlineFriend.requester.id === userId
-        ? onlineFriend.receiver
-        : onlineFriend.requester;
+  //   return {
+  //     ...onlineFriendInfo,
+  //     onlineChecked: true,
+  //   };
+  // });
 
-    return {
-      ...onlineFriendInfo,
-      onlineChecked: true,
-    };
-  });
+  // const searchOnlineFriends = filteredOnlineFriends.filter(
+  //   (friendData) =>
+  //     friendData.nickname.toLowerCase().includes(searchTerm.toLowerCase()) ||
+  //     friendData.email?.toLowerCase().includes(searchTerm.toLowerCase())
+  // );
 
-  const filteredFriends = friends.map((friend) => {
-    const friendInfo =
-      friend.requester.id === userId ? friend.receiver : friend.requester;
+  // const filteredFriends = friends.map((friend) => {
+  //   const friendInfo =
+  //     friend.requester.id === userId ? friend.receiver : friend.requester;
 
-    const onlineChecked = onlineFriendIds.includes(friendInfo.id);
+  //   const onlineChecked = onlineFriendIds.includes(friendInfo.id);
 
-    return {
-      ...friendInfo,
-      onlineChecked,
-    };
-  });
+  //   return {
+  //     ...friendInfo,
+  //     onlineChecked,
+  //   };
+  // });
 
-  const searchOnlineFriends = filteredOnlineFriends.filter(
-    (friendData) =>
-      friendData.nickname.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      friendData.email?.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  // const searchFriends = filteredFriends.filter(
+  //   (friendData) =>
+  //     friendData.nickname.toLowerCase().includes(searchTerm.toLowerCase()) ||
+  //     friendData.email?.toLowerCase().includes(searchTerm.toLowerCase())
+  // );
 
-  const searchFriends = filteredFriends.filter(
-    (friendData) =>
-      friendData.nickname.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      friendData.email?.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  // const searchFriendRequests = friendRequests.filter((friendRequest) => {
+  //   const currentRequester = friendRequest.requester === userId;
 
-  const searchFriendRequests = friendRequests.filter((friendRequest) => {
-    const currentRequester = friendRequest.requester === userId;
+  //   const nickname = currentRequester
+  //     ? friendRequest.receiverNickname
+  //     : friendRequest.requesterNickname;
 
-    const nickname = currentRequester
-      ? friendRequest.receiverNickname
-      : friendRequest.requesterNickname;
+  //   const email = currentRequester
+  //     ? friendRequest.receiverEmail
+  //     : friendRequest.requesterEmail;
 
-    const email = currentRequester
-      ? friendRequest.receiverEmail
-      : friendRequest.requesterEmail;
+  //   return (
+  //     nickname.toLowerCase().includes(searchTerm.toLowerCase()) ||
+  //     email.toLowerCase().includes(searchTerm.toLowerCase())
+  //   );
+  // });
 
-    return (
-      nickname.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      email.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-  });
+  // const sendFriendRequests = searchFriendRequests.map((searchFriendRequest) => {
+  //   const sendRequest = userId === searchFriendRequest.requester;
 
-  const sendFriendRequests = searchFriendRequests.map((searchFriendRequest) => {
-    const sendRequest = userId === searchFriendRequest.requester;
+  //   if (sendRequest) {
+  //     return {
+  //       id: searchFriendRequest._id,
+  //       nickname: searchFriendRequest.receiverNickname,
+  //       avatarColor: searchFriendRequest.receiverAvatarColor,
+  //       sendRequest: sendRequest,
+  //     };
+  //   } else {
+  //     return {
+  //       id: searchFriendRequest._id,
+  //       nickname: searchFriendRequest.requesterNickname,
+  //       avatarColor: searchFriendRequest.requesterAvatarColor,
+  //       sendRequest: sendRequest,
+  //     };
+  //   }
+  // });
 
-    if (sendRequest) {
-      return {
-        id: searchFriendRequest._id,
-        nickname: searchFriendRequest.receiverNickname,
-        avatarColor: searchFriendRequest.receiverAvatarColor,
-        sendRequest: sendRequest,
-      };
-    } else {
-      return {
-        id: searchFriendRequest._id,
-        nickname: searchFriendRequest.requesterNickname,
-        avatarColor: searchFriendRequest.requesterAvatarColor,
-        sendRequest: sendRequest,
-      };
-    }
-  });
+  // // 내가 보낸 요청: sendRequest === true
+  // const sentRequests = sendFriendRequests.filter(
+  //   (sendFriendRequest) => sendFriendRequest.sendRequest
+  // );
 
-  // 내가 보낸 요청: sendRequest === true
-  const sentRequests = sendFriendRequests.filter(
-    (sendFriendRequest) => sendFriendRequest.sendRequest
-  );
-
-  // 내가 받은 요청: sendRequest === false
-  const receiverRequests = sendFriendRequests.filter(
-    (sendFriendRequest) => !sendFriendRequest.sendRequest
-  );
+  // // 내가 받은 요청: sendRequest === false
+  // const receiverRequests = sendFriendRequests.filter(
+  //   (sendFriendRequest) => !sendFriendRequest.sendRequest
+  // );
 
   // const filteredFriends = friends
   //   .map((friend) => {
@@ -214,28 +228,28 @@ const Friends = () => {
 
             <ul className={classes["online-friends"]}>
               {activeTab === "online" &&
-                searchOnlineFriends.map((onlineFriend) => (
+                filteredOnlineFriends.map((filteredOnlineFriend) => (
                   <OnlineFriend
-                    key={onlineFriend.id}
+                    key={filteredOnlineFriend.id}
                     userId={userInfo?._id ?? ""}
-                    id={onlineFriend.id}
-                    nickname={onlineFriend.nickname}
-                    avatarColor={onlineFriend.avatarColor}
-                    onlineChecked={onlineFriend.onlineChecked}
+                    id={filteredOnlineFriend.id}
+                    nickname={filteredOnlineFriend.nickname}
+                    avatarColor={filteredOnlineFriend.avatarColor}
+                    onlineChecked={filteredOnlineFriend.onlineChecked}
                   />
                 ))}
             </ul>
 
             <ul className={classes.friends}>
               {activeTab === "all" &&
-                searchFriends.map((friend) => (
+                filteredFriends.map((filteredFriend) => (
                   <Friend
-                    key={friend.id}
+                    key={filteredFriend.id}
                     userId={userInfo?._id ?? ""}
-                    id={friend.id}
-                    nickname={friend.nickname}
-                    avatarColor={friend.avatarColor}
-                    onlineChecked={friend.onlineChecked}
+                    id={filteredFriend.id}
+                    nickname={filteredFriend.nickname}
+                    avatarColor={filteredFriend.avatarColor}
+                    onlineChecked={filteredFriend.onlineChecked}
                   />
                 ))}
             </ul>
