@@ -87,7 +87,7 @@ const useFilteredFriends = (
     (sendFriendRequest) => sendFriendRequest.sendRequest
   );
 
-  const receiverRequests = sendFriendRequests.filter(
+  const receivedRequests = sendFriendRequests.filter(
     (sendFriendRequest) => !sendFriendRequest.sendRequest
   );
 
@@ -95,7 +95,7 @@ const useFilteredFriends = (
     filteredOnlineFriends,
     filteredFriends,
     sentRequests,
-    receiverRequests,
+    receivedRequests,
   };
 };
 

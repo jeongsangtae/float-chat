@@ -130,3 +130,34 @@
   padding: 0;
   margin: 0;
 }
+
+.received-requests,
+.sent-requests {
+  padding: 0.25rem;
+  margin-bottom: 1rem;
+  color: white;
+}
+
+.received-text-wrapper,
+.sent-text-wrapper {
+  margin-bottom: 1rem;
+  font-size: 0.95rem;
+}
+
+.received-text,
+.sent-text {
+  font-weight: bold;
+}
+
+.line {
+  display: inline-block;
+  transform: scaleX(0.8);
+  margin: 0 0.2rem;
+}
+
+.underline {
+  height: 1px;
+  width: 70%;
+  background-color: rgba(128, 128, 128, 0.2);
+  margin: 0.5rem 0;
+}

@@ -36,7 +36,7 @@ const Friends = () => {
     filteredOnlineFriends,
     filteredFriends,
     sentRequests,
-    receiverRequests,
+    receivedRequests,
   } = useFilteredFriends(
     friends,
     onlineFriends,
@@ -58,107 +58,6 @@ const Friends = () => {
       action?.();
     }
   };
-
-  // const onlineFriendIds = onlineFriends.map((onlineFriend) =>
-  //   onlineFriend.requester.id === userId
-  //     ? onlineFriend.receiver.id
-  //     : onlineFriend.requester.id
-  // );
-
-  // const filteredOnlineFriends = onlineFriends.map((onlineFriend) => {
-  //   const onlineFriendInfo =
-  //     onlineFriend.requester.id === userId
-  //       ? onlineFriend.receiver
-  //       : onlineFriend.requester;
-
-  //   return {
-  //     ...onlineFriendInfo,
-  //     onlineChecked: true,
-  //   };
-  // });
-
-  // const searchOnlineFriends = filteredOnlineFriends.filter(
-  //   (friendData) =>
-  //     friendData.nickname.toLowerCase().includes(searchTerm.toLowerCase()) ||
-  //     friendData.email?.toLowerCase().includes(searchTerm.toLowerCase())
-  // );
-
-  // const filteredFriends = friends.map((friend) => {
-  //   const friendInfo =
-  //     friend.requester.id === userId ? friend.receiver : friend.requester;
-
-  //   const onlineChecked = onlineFriendIds.includes(friendInfo.id);
-
-  //   return {
-  //     ...friendInfo,
-  //     onlineChecked,
-  //   };
-  // });
-
-  // const searchFriends = filteredFriends.filter(
-  //   (friendData) =>
-  //     friendData.nickname.toLowerCase().includes(searchTerm.toLowerCase()) ||
-  //     friendData.email?.toLowerCase().includes(searchTerm.toLowerCase())
-  // );
-
-  // const searchFriendRequests = friendRequests.filter((friendRequest) => {
-  //   const currentRequester = friendRequest.requester === userId;
-
-  //   const nickname = currentRequester
-  //     ? friendRequest.receiverNickname
-  //     : friendRequest.requesterNickname;
-
-  //   const email = currentRequester
-  //     ? friendRequest.receiverEmail
-  //     : friendRequest.requesterEmail;
-
-  //   return (
-  //     nickname.toLowerCase().includes(searchTerm.toLowerCase()) ||
-  //     email.toLowerCase().includes(searchTerm.toLowerCase())
-  //   );
-  // });
-
-  // const sendFriendRequests = searchFriendRequests.map((searchFriendRequest) => {
-  //   const sendRequest = userId === searchFriendRequest.requester;
-
-  //   if (sendRequest) {
-  //     return {
-  //       id: searchFriendRequest._id,
-  //       nickname: searchFriendRequest.receiverNickname,
-  //       avatarColor: searchFriendRequest.receiverAvatarColor,
-  //       sendRequest: sendRequest,
-  //     };
-  //   } else {
-  //     return {
-  //       id: searchFriendRequest._id,
-  //       nickname: searchFriendRequest.requesterNickname,
-  //       avatarColor: searchFriendRequest.requesterAvatarColor,
-  //       sendRequest: sendRequest,
-  //     };
-  //   }
-  // });
-
-  // // 내가 보낸 요청: sendRequest === true
-  // const sentRequests = sendFriendRequests.filter(
-  //   (sendFriendRequest) => sendFriendRequest.sendRequest
-  // );
-
-  // // 내가 받은 요청: sendRequest === false
-  // const receiverRequests = sendFriendRequests.filter(
-  //   (sendFriendRequest) => !sendFriendRequest.sendRequest
-  // );
-
-  // const filteredFriends = friends
-  //   .map((friend) => {
-  //     return friend.requester.id === userId
-  //       ? friend.receiver
-  //       : friend.requester;
-  //   })
-  //   .filter(
-  //     (friend, index, self) =>
-  //       friend.id !== userId &&
-  //       index === self.findIndex((f) => f.id === friend.id)
-  //   );
 
   return (
     <>
@@ -183,12 +82,12 @@ const Friends = () => {
                 className={activeTab === "pending" ? classes.active : ""}
               >
                 대기 중
-                {receiverRequests.length > 0 && (
+                {receivedRequests.length > 0 && (
                   <div className={classes["friend-request-badge"]}>
                     <span className={classes["friend-request-count"]}>
-                      {receiverRequests.length > 99
+                      {receivedRequests.length > 99
                         ? "99"
-                        : receiverRequests.length}
+                        : receivedRequests.length}
                     </span>
                   </div>
                 )}
@@ -265,43 +164,51 @@ const Friends = () => {
                     </div>
                   ) : (
                     <>
-                      <div>
-                        {receiverRequests.length > 0 && (
-                          <div>
-                            <span>받음</span>
-                            <span>ㅡ</span>
-                            <span>{receiverRequests.length}</span>
+                      {receivedRequests.length > 0 && (
+                        <div className={classes["received-requests"]}>
+                          <div className={classes["received-text-wrapper"]}>
+                            <span className={classes["received-text"]}>
+                              받음
+                            </span>
+                            <span className={classes.line}>ㅡ</span>
+                            <span>{receivedRequests.length}</span>
                           </div>
-                        )}
-                        {receiverRequests.map((receiverRequest) => (
-                          <PendingFriends
-                            key={receiverRequest.id}
-                            friendRequestId={receiverRequest.id}
-                            nickname={receiverRequest.nickname}
-                            avatarColor={receiverRequest.avatarColor}
-                            sendRequest={receiverRequest.sendRequest}
-                          />
-                        ))}
-                      </div>
 
-                      <div>
-                        {sentRequests.length > 0 && (
-                          <div>
-                            <span>보냄</span>
-                            <span>ㅡ</span>
+                          <div className={classes.underline}></div>
+
+                          {receivedRequests.map((receivedRequest) => (
+                            <PendingFriends
+                              key={receivedRequest.id}
+                              friendRequestId={receivedRequest.id}
+                              nickname={receivedRequest.nickname}
+                              avatarColor={receivedRequest.avatarColor}
+                              sendRequest={receivedRequest.sendRequest}
+                            />
+                          ))}
+                        </div>
+                      )}
+
+                      {sentRequests.length > 0 && (
+                        <div className={classes["sent-requests"]}>
+                          <div className={classes["sent-text-wrapper"]}>
+                            <span className={classes["sent-text"]}>보냄</span>
+                            <span className={classes.line}>ㅡ</span>
                             <span>{sentRequests.length}</span>
                           </div>
-                        )}
-                        {sentRequests.map((sentRequest) => (
-                          <PendingFriends
-                            key={sentRequest.id}
-                            friendRequestId={sentRequest.id}
-                            nickname={sentRequest.nickname}
-                            avatarColor={sentRequest.avatarColor}
-                            sendRequest={sentRequest.sendRequest}
-                          />
-                        ))}
-                      </div>
+
+                          <div className={classes.underline}></div>
+
+                          {sentRequests.map((sentRequest) => (
+                            <PendingFriends
+                              key={sentRequest.id}
+                              friendRequestId={sentRequest.id}
+                              nickname={sentRequest.nickname}
+                              avatarColor={sentRequest.avatarColor}
+                              sendRequest={sentRequest.sendRequest}
+                            />
+                          ))}
+                        </div>
+                      )}
                     </>
                   )}
                 </>
