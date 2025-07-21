@@ -100,6 +100,7 @@ const EditUserProfileForm = ({ onToggle }: ModalProps) => {
           <input
             required
             type="text"
+            autoComplete="off"
             id="nickname"
             name="nickname"
             value={nickname}

@@ -1,0 +1,104 @@
+.title {
+  margin: 1rem 0 0.5rem 0;
+}
+
+.description {
+  margin: 0;
+  margin-bottom: 1rem;
+}
+
+.add-friend-search-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 70%;
+  padding: 0.1rem 0.25rem;
+  border: 1px solid rgba(133, 133, 133, 0.5);
+  border-radius: 8px;
+  margin: 1rem 0;
+  margin-top: 0.5rem;
+}
+
+.add-friend-search-wrapper:focus-within {
+  outline: none;
+  border-color: #199cf3;
+}
+
+.add-friend-search-input {
+  margin-left: 0.25rem;
+  padding-right: 1.5rem;
+  width: 100%;
+  background-color: transparent;
+  border: 1px solid transparent;
+  border-radius: 0.5rem;
+  font-size: 1.05rem;
+  color: white;
+}
+
+.add-friend-search-input:focus {
+  outline: none;
+}
+
+.add-friend-search-input::placeholder {
+  font-size: 1.05rem;
+}
+
+.add-friend-search-input:focus::placeholder {
+  opacity: 0.5;
+}
+
+/* .add-friend-search-input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 1000px transparent inset;
+  -webkit-text-fill-color: white;
+  transition: background-color 5000s ease-in-out 0s;
+} */
+
+.add-friend-send-button {
+  font-size: 0.9rem;
+  font-weight: bold;
+  margin: 0.5rem;
+  padding: 0.5rem 0.7rem;
+  /* padding: 0.4rem 0.9rem; */
+  border: none;
+  border-radius: 8px;
+  color: white;
+  background-color: #4caf50;
+  white-space: nowrap;
+}
+
+.active {
+  cursor: pointer;
+}
+
+.active:hover {
+  background-color: #3d9640;
+}
+
+.disable {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.status-message {
+  color: #d9363e;
+}
+
+.friend-search-delete-icon {
+  position: absolute;
+  right: 0.5rem;
+  color: #858585;
+  font-size: 1.15rem;
+  cursor: pointer;
+}
+
+.friend-search-delete-icon:hover {
+  color: white;
+}
+
+.friend-search-icon {
+  position: absolute;
+  right: 0.5rem;
+  color: #858585;
+  pointer-events: none;
+  font-size: 1.25rem;
+}

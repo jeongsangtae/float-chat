@@ -3,6 +3,8 @@ import { useState, useEffect } from "react";
 import useAuthStore from "../../store/authStore";
 import useFriendStore from "../../store/friendStore";
 
+import classes from "./AddFriend.module.css";
+
 const AddFriend = () => {
   const { userInfo } = useAuthStore();
   const {
@@ -44,15 +46,29 @@ const AddFriend = () => {
 
   return (
     <>
-      <p>검색창</p>
-      <input
-        type="text"
-        placeholder="추가할 친구의 이메일을 입력하세요."
-        value={searchUserEmail}
-        onChange={(e) => setSearchUserEmail(e.target.value)}
-      />
-      <button onClick={addFriendHandler}>친구 요청 보내기</button>
-      <p>{statusMessage}</p>
+      <h2 className={classes.title}>친구 추가하기</h2>
+      <p className={classes.description}>
+        사용자 이메일을 사용하여 친구를 추가할 수 있어요.
+      </p>
+      <div className={classes["add-friend-search-wrapper"]}>
+        <input
+          type="text"
+          autoComplete="off"
+          placeholder="추가할 사용자의 이메일을 입력하세요."
+          value={searchUserEmail}
+          className={classes["add-friend-search-input"]}
+          onChange={(e) => setSearchUserEmail(e.target.value)}
+        />
+        <button
+          className={`${classes["add-friend-send-button"]} ${
+            searchUserEmail ? classes.active : classes.disable
+          }`}
+          onClick={addFriendHandler}
+        >
+          친구 요청 보내기
+        </button>
+      </div>
+      <p className={classes["status-message"]}>{statusMessage}</p>
     </>
   );
 };
