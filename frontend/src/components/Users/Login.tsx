@@ -1,6 +1,9 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+
 import useAuthStore from "../../store/authStore";
+
+import classes from "./Login.module.css";
 
 interface loginDataType {
   email: string;
@@ -19,7 +22,7 @@ const Login = () => {
     password: "",
   });
 
-  const [error, setError] = useState<boolean>(false);
+  // const [error, setError] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>("");
 
   const inputChangeHandler = (
@@ -48,7 +51,7 @@ const Login = () => {
 
       if (!response.ok) {
         const errorData = await response.json();
-        setError(true);
+        // setError(true);
         setErrorMessage(errorData.message);
         return;
       }
@@ -65,36 +68,46 @@ const Login = () => {
   return (
     <>
       <form onSubmit={submitHandler}>
-        <h2>로그인</h2>
-        <label htmlFor="email">이메일</label>
-        <div>
+        <h2 className={classes.title}>내 계정으로 로그인</h2>
+        <div className={classes["login-email-wrapper"]}>
+          <label htmlFor="email" className={classes["login-email-label"]}>
+            이메일
+          </label>
           <input
             required
             type="email"
             id="email"
             name="email"
             value={loginData.email}
+            className={classes["login-email-input"]}
             onChange={inputChangeHandler}
           />
         </div>
 
-        <label htmlFor="password">비밀번호</label>
-        <div>
+        <div className={classes["login-password-wrapper"]}>
+          <label htmlFor="password" className={classes["login-password-label"]}>
+            비밀번호
+          </label>
           <input
             required
             type="password"
             id="password"
             name="password"
             value={loginData.password}
+            className={classes["login-password-input"]}
             onChange={inputChangeHandler}
           />
         </div>
-        {error && <p>{errorMessage}</p>}
-        <button type="submit">로그인</button>
+        <p className={classes["error-message"]}>{errorMessage}</p>
+        <button type="submit" className={classes["login-button"]}>
+          로그인
+        </button>
       </form>
-      <div>
+      <div className={classes["signup-wrapper"]}>
         계정이 필요한가요?
-        <button onClick={signupMoveHandler}>가입하기</button>
+        <button onClick={signupMoveHandler} className={classes.signup}>
+          가입하기
+        </button>
       </div>
     </>
   );

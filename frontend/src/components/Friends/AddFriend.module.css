@@ -82,23 +82,3 @@
 .status-message {
   color: #d9363e;
 }
-
-.friend-search-delete-icon {
-  position: absolute;
-  right: 0.5rem;
-  color: #858585;
-  font-size: 1.15rem;
-  cursor: pointer;
-}
-
-.friend-search-delete-icon:hover {
-  color: white;
-}
-
-.friend-search-icon {
-  position: absolute;
-  right: 0.5rem;
-  color: #858585;
-  pointer-events: none;
-  font-size: 1.25rem;
-}

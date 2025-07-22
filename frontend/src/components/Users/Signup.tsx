@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+import classes from "./Signup.module.css";
+
 interface SignupDataType {
   email: string;
   nickname: string;
@@ -48,7 +50,7 @@ const Signup = () => {
     avatarColor: avatarColors[Math.floor(Math.random() * avatarColors.length)], // 랜덤으로 색 배정
   });
 
-  const [error, setError] = useState<boolean>(false);
+  // const [error, setError] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>("");
 
   const inputChangeHandler = (
@@ -77,7 +79,7 @@ const Signup = () => {
 
       if (!response.ok) {
         const errorData = await response.json();
-        setError(true);
+        // setError(true);
         setErrorMessage(errorData.message);
         return;
       }
@@ -97,73 +99,106 @@ const Signup = () => {
   return (
     <>
       <form onSubmit={submitHandler}>
-        <h2>회원가입</h2>
-        <label htmlFor="email">이메일</label>
-        <div>
+        <h2 className={classes.title}>계정 만들기</h2>
+        <div className={classes["signup-email-wrapper"]}>
+          <label htmlFor="email" className={classes["signup-email-label"]}>
+            이메일
+          </label>
           <input
             required
             type="email"
             id="email"
             name="email"
             value={signupData.email}
+            className={classes["signup-email-input"]}
             onChange={inputChangeHandler}
           />
         </div>
 
-        <label htmlFor="nickname">닉네임</label>
-        <div>
+        <div className={classes["signup-nickname-wrapper"]}>
+          <label
+            htmlFor="nickname"
+            className={classes["signup-nickname-label"]}
+          >
+            닉네임
+          </label>
           <input
             required
             type="text"
             id="nickname"
             name="nickname"
+            autoComplete="off"
             maxLength={15}
             value={signupData.nickname}
+            className={classes["signup-nickname-input"]}
             onChange={inputChangeHandler}
           />
         </div>
 
-        <label htmlFor="username">사용자명</label>
-        <div>
+        <div className={classes["signup-username-wrapper"]}>
+          <label
+            htmlFor="username"
+            className={classes["signup-username-label"]}
+          >
+            사용자명
+          </label>
           <input
             required
             type="text"
             id="username"
             name="username"
+            autoComplete="off"
             value={signupData.username}
+            className={classes["signup-username-input"]}
             onChange={inputChangeHandler}
           />
         </div>
 
-        <label htmlFor="password">비밀번호</label>
-        <div>
+        <div className={classes["signup-password-wrapper"]}>
+          <label
+            htmlFor="password"
+            className={classes["signup-password-label"]}
+          >
+            비밀번호
+          </label>
           <input
             required
             type="password"
             id="password"
             name="password"
             value={signupData.password}
+            className={classes["signup-password-input"]}
             onChange={inputChangeHandler}
           />
         </div>
 
-        <label htmlFor="confirm-password">비밀번호 확인</label>
-        <div>
+        <div className={classes["signup-confirm-password-wrapper"]}>
+          <label
+            htmlFor="confirm-password"
+            className={classes["signup-confirm-password-label"]}
+          >
+            비밀번호 확인
+          </label>
           <input
             required
             type="password"
             id="confirm-password"
             name="confirmPassword"
             value={signupData.confirmPassword}
+            className={classes["signup-confirm-password-input"]}
             onChange={inputChangeHandler}
           />
         </div>
-        {error && <p>{errorMessage}</p>}
-        <button type="submit">가입</button>
+        <p className={classes["error-message"]}>{errorMessage}</p>
+        <button type="submit" className={classes["signup-button"]}>
+          계정 만들기
+        </button>
       </form>
-      <div>
+      <div className={classes["login-wrapper"]}>
         이미 계정이 있으신가요?
-        <button onClick={loginMoveHandler}>로그인</button>
+        <button onClick={loginMoveHandler} className={classes.login}>
+          로그인
+        </button>
       </div>
     </>
   );
