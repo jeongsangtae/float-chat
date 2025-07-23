@@ -19,6 +19,9 @@ const DirectChatDetails = () => {
 
   return (
     <div className={classes["detail-content"]}>
+      <div>아바타</div>
+      <h1>상대방 닉네임</h1>
+      <div>님과 나눈 다이렉트 채팅방 첫 시작 부분</div>
       <Chats roomId={roomId} />
       <ChatInput roomId={roomId} />
     </div>

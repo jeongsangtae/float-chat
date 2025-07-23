@@ -114,6 +114,8 @@ const GroupChatDetails = () => {
       )}
 
       <div className={classes["group-chat-content"]}>
+        <h1>호스트 닉네임님의 그룹 채팅방 제목에 오신 것을 환영합니다</h1>
+        <p>서버가 시작된 곳</p>
         <Chats roomId={roomId} />
         <ChatInput roomId={roomId} />
       </div>

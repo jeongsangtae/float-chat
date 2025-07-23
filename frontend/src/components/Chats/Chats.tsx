@@ -77,7 +77,17 @@ const Chats = ({ roomId }: RoomId) => {
 
   return (
     <div className={classes["chats-container"]}>
-      <p>{roomId}</p>
+      <div>
+        <div>다이렉트 채팅방 관련 첫 시작 부분</div>
+        {/* <div>아바타 보여지는 공간</div>
+        <div>닉네임 보여지는 공간</div>
+        <div>상대방 닉네임님과 나눈 다이렉트 채팅방 첫 시작 부분이에요.</div> */}
+      </div>
+      <div>
+        <div>그룹 채팅방 관련 첫 시작 부분</div>
+        {/* <h1>호스트 닉네임님의 그룹 채팅방 제목에 오신 것을 환영합니다</h1>
+        <p>서버가 시작된 곳이에요.</p> */}
+      </div>
       {dateLineAndMessages}
     </div>
   );

@@ -46,11 +46,6 @@
   border-color: #199cf3;
 }
 
-.error {
-  outline: none;
-  border-color: #f44336;
-}
-
 .error-message {
   height: 0.1rem;
   line-height: 0.5rem;
