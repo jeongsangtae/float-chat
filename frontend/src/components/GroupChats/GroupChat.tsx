@@ -15,7 +15,7 @@ const GroupChat = ({
   title,
   contextMenu,
   setContextMenu,
-}: GroupChatData) => {
+}: Omit<GroupChatData, "hostNickname" | "date">) => {
   const { userInfo } = useAuthStore();
   const { deleteGroupChat, leaveGroupChat } = useGroupChatStore();
   const { toggleModal } = useModalStore();

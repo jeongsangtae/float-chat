@@ -2,6 +2,8 @@ import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 
 import useLayoutStore from "../../store/layoutStore";
+import useAuthStore from "../../store/authStore";
+import useDirectChatStore from "../../store/directChatStore";
 
 import ChatInput from "../Chats/ChatInput";
 import Chats from "../Chats/Chats";
@@ -12,17 +14,31 @@ const DirectChatDetails = () => {
   const { roomId } = useParams<{ roomId: string }>();
 
   const { setView } = useLayoutStore();
+  const { userInfo } = useAuthStore();
+  const { directChats } = useDirectChatStore();
 
   useEffect(() => {
     setView("directChat");
   }, []);
 
+  const directChat = directChats.find(
+    (directChat) => directChat._id === roomId
+  );
+
+  const otherUser = directChat?.participants.find(
+    (participant) => participant._id !== userInfo?._id
+  );
+
   return (
     <div className={classes["detail-content"]}>
-      <div>아바타</div>
-      <h1>상대방 닉네임</h1>
-      <div>님과 나눈 다이렉트 채팅방 첫 시작 부분</div>
-      <Chats roomId={roomId} />
+      <Chats
+        roomId={roomId}
+        type="direct"
+        chatInfo={{
+          nickname: otherUser?.nickname,
+          avatarColor: otherUser?.avatarColor,
+        }}
+      />
       <ChatInput roomId={roomId} />
     </div>
   );

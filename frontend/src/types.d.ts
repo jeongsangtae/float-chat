@@ -41,6 +41,7 @@ export interface ContextMenu {
 export interface GroupChatData {
   _id: string; // ObjectId는 JSON으로 변환되면 string으로 직렬화
   hostId: string;
+  hostNickname: string;
   title: string;
   date?: string;
   contextMenu: ContextMenu;
@@ -103,6 +104,19 @@ export interface UserInfo {
 
 export interface RoomId {
   roomId?: string;
+}
+
+export interface ChatInfo {
+  nickname?: string;
+  avatarColor?: string;
+  title?: string;
+  hostNickname?: string;
+}
+
+export interface ChatsProps {
+  roomId?: string;
+  type: "direct" | "group";
+  chatInfo: ChatInfo;
 }
 
 export interface ChatMessage {
