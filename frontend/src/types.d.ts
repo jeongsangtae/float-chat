@@ -110,7 +110,6 @@ export interface ChatInfo {
   nickname?: string;
   avatarColor?: string;
   title?: string;
-  hostNickname?: string;
 }
 
 export interface ChatsProps {

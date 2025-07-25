@@ -119,7 +119,6 @@ const GroupChatDetails = () => {
           type="group"
           chatInfo={{
             title: groupChat?.title,
-            hostNickname: groupChat?.hostNickname,
           }}
         />
         <ChatInput roomId={roomId} />

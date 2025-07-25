@@ -9,6 +9,7 @@ import ChatInput from "../Chats/ChatInput";
 import Chats from "../Chats/Chats";
 
 import classes from "./DirectChatDetails.module.css";
+import DirectChatPanel from "./DirectChatPanel";
 
 const DirectChatDetails = () => {
   const { roomId } = useParams<{ roomId: string }>();
@@ -40,6 +41,12 @@ const DirectChatDetails = () => {
         }}
       />
       <ChatInput roomId={roomId} />
+      <DirectChatPanel
+        chatInfo={{
+          nickname: otherUser?.nickname,
+          avatarColor: otherUser?.avatarColor,
+        }}
+      />
     </div>
   );
 };

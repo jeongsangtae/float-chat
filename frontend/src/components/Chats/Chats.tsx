@@ -91,8 +91,8 @@ const Chats = ({ roomId, type, chatInfo }: ChatsProps) => {
       )}
       {type === "group" && (
         <div className={classes["group-chat-starting"]}>
-          <h1>
-            {chatInfo.hostNickname}님의 {chatInfo.title}에 오신 것을 환영합니다
+          <h1 className={classes.title}>
+            {chatInfo.title}에 오신 것을 환영합니다
           </h1>
           <div>이 서버가 시작된 곳이에요.</div>
         </div>

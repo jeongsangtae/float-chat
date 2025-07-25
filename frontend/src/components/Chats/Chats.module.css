@@ -67,6 +67,14 @@
   margin-top: 0.5rem;
 }
 
+.title {
+  max-width: 25%;
+  line-height: 1.2;
+  text-align: center;
+  word-break: keep-all; /* 단어 단위로 줄바꿈 (한글도 적용됨) */
+  overflow-wrap: break-word; /* 단어가 너무 길면 줄바꿈 허용 */
+}
+
 .date-line {
   display: flex;
   align-items: center;
