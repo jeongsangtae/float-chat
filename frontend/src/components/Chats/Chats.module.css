@@ -38,6 +38,35 @@
   background-color: #333333;
 }
 
+.direct-chat-starting {
+  margin-top: 0.5rem;
+}
+
+.avatar {
+  position: relative;
+  width: 4.5rem;
+  height: 4.5rem;
+  font-size: 2.5rem;
+  border-radius: 50%;
+  background-color: #ccc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  color: white;
+}
+
+.nickname {
+  margin: 1rem 0 1.25rem 0;
+}
+
+.group-chat-starting {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 0.5rem;
+}
+
 .date-line {
   display: flex;
   align-items: center;
@@ -45,7 +74,7 @@
   font-size: 0.85rem;
   font-weight: bold;
   color: #9c9c9c;
-  margin-top: 1.5em;
+  margin-top: 1em;
   gap: 0.5rem;
 }
 

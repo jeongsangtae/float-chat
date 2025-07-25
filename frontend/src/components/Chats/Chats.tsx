@@ -78,23 +78,23 @@ const Chats = ({ roomId, type, chatInfo }: ChatsProps) => {
   return (
     <div className={classes["chats-container"]}>
       {type === "direct" && (
-        <div>
+        <div className={classes["direct-chat-starting"]}>
           <div
             className={classes.avatar}
             style={{ backgroundColor: chatInfo.avatarColor }}
           >
             {chatInfo.nickname?.charAt(0)}
           </div>
-          <h1>{chatInfo.nickname}</h1>
+          <h1 className={classes.nickname}>{chatInfo.nickname}</h1>
           <div>{chatInfo.nickname}님과 나눈 다이렉트 채팅방 첫 부분이에요.</div>
         </div>
       )}
       {type === "group" && (
-        <div>
+        <div className={classes["group-chat-starting"]}>
           <h1>
             {chatInfo.hostNickname}님의 {chatInfo.title}에 오신 것을 환영합니다
           </h1>
-          <p>이 서버가 시작된 곳이에요.</p>
+          <div>이 서버가 시작된 곳이에요.</div>
         </div>
       )}
       {dateLineAndMessages}
