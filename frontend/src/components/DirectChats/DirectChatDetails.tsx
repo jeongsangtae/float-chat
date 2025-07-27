@@ -31,16 +31,20 @@ const DirectChatDetails = () => {
   );
 
   return (
-    <div className={classes["detail-content"]}>
-      <Chats
-        roomId={roomId}
-        type="direct"
-        chatInfo={{
-          nickname: otherUser?.nickname,
-          avatarColor: otherUser?.avatarColor,
-        }}
-      />
-      <ChatInput roomId={roomId} />
+    <div className={classes["direct-chat-detail-wrapper"]}>
+      <div className={classes["direct-chat-detail-content"]}>
+        <div className={classes["direct-chat-area"]}>
+          <Chats
+            roomId={roomId}
+            type="direct"
+            chatInfo={{
+              nickname: otherUser?.nickname,
+              avatarColor: otherUser?.avatarColor,
+            }}
+          />
+          <ChatInput roomId={roomId} />
+        </div>
+      </div>
       <DirectChatPanel
         chatInfo={{
           nickname: otherUser?.nickname,

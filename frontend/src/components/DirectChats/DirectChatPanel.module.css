@@ -1,0 +1,50 @@
+.direct-chat-panel {
+  display: flex;
+  flex-direction: column;
+  width: 19rem;
+  /* height: 100vh; */
+  border-radius: 0.5rem;
+  border-left: 1px solid #444;
+}
+
+.avatar-header {
+  height: 9rem;
+  width: 100%;
+}
+
+.direct-chat-other-info {
+  /* width: 19rem; */
+  /* flex: 1; */
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background-color: #2f3136;
+  padding: 1rem 0.75rem;
+  overflow-y: visible;
+}
+
+.avatar {
+  /* position: relative; */
+  position: absolute;
+  /* top: 7.5rem; */
+  top: -2.25rem;
+  /* right: 13.5rem; */
+  width: 4.5rem;
+  height: 4.5rem;
+  font-size: 2.5rem;
+  border-radius: 50%;
+  background-color: #ccc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  color: white;
+  box-shadow: 0 0 0 5px #2f3136;
+  z-index: 1;
+}
+
+.nickname {
+  margin: 1rem 0 1.25rem 0;
+  margin-top: 2.25rem;
+}
