@@ -1,7 +1,7 @@
 .direct-chat-panel {
   display: flex;
   flex-direction: column;
-  width: 19rem;
+  width: 21.5rem;
   /* height: 100vh; */
   border-radius: 0.5rem;
   border-left: 1px solid #444;
@@ -20,7 +20,7 @@
   flex-direction: column;
   height: 100%;
   background-color: #2f3136;
-  padding: 1rem 0.75rem;
+  padding: 1rem;
   overflow-y: visible;
 }
 
@@ -42,6 +42,22 @@
   color: white;
   box-shadow: 0 0 0 5px #2f3136;
   z-index: 1;
+}
+
+.online-dot,
+.offline-dot {
+  position: absolute;
+  width: 1.5rem;
+  height: 1.5rem;
+  bottom: -1px;
+  right: -1px;
+  border-radius: 50%;
+  background-color: #02ac02;
+  border: 5px solid #1e1e1e;
+}
+
+.offline-dot {
+  background-color: gray;
 }
 
 .nickname {
