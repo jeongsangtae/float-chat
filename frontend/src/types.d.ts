@@ -31,6 +31,12 @@ export interface DirectChatProps {
   onlineChecked: boolean;
 }
 
+export interface DirectChatPanelProps {
+  chatInfo: ChatInfo;
+  onlineChecked: boolean;
+  friendSince: string;
+}
+
 export interface ContextMenu {
   visible: boolean;
   x: number;

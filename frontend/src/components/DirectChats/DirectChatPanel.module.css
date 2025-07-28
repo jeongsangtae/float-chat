@@ -61,6 +61,32 @@
 }
 
 .nickname {
-  margin: 1rem 0 1.25rem 0;
+  margin: 1rem 0 0.5rem 0;
   margin-top: 2.25rem;
+}
+
+.friend-since-wrapper {
+  padding: 0.75rem;
+  background-color: #414147;
+  border-radius: 8px;
+}
+
+.friend-since-label {
+  font-size: 0.85rem;
+  font-weight: bold;
+}
+
+.friend-since {
+  margin-top: 0.15rem;
+  font-size: 0.875rem;
+}
+
+.not-friend {
+  padding: 0.75rem;
+  background-color: #414147;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 0.9rem;
+  color: white;
+  text-align: center;
 }

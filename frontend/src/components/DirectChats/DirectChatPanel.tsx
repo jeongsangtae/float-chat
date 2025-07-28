@@ -1,4 +1,4 @@
-import { ChatsProps } from "../../types";
+import { DirectChatPanelProps } from "../../types";
 
 import classes from "./DirectChatPanel.module.css";
 
@@ -6,7 +6,7 @@ const DirectChatPanel = ({
   chatInfo,
   onlineChecked,
   friendSince,
-}: Pick<ChatsProps, "chatInfo">) => {
+}: DirectChatPanelProps) => {
   console.log(onlineChecked, friendSince);
 
   return (
@@ -30,10 +30,14 @@ const DirectChatPanel = ({
         </div>
         <h3 className={classes.nickname}>{chatInfo.nickname}</h3>
 
-        <div>
-          <div>친구 시작일:</div>
-          <div>{friendSince ? friendSince : "친구가 아닌 사용자"}</div>
-        </div>
+        {friendSince ? (
+          <div className={classes["friend-since-wrapper"]}>
+            <div className={classes["friend-since-label"]}>친구 시작일:</div>
+            <div className={classes["friend-since"]}>{friendSince}</div>
+          </div>
+        ) : (
+          <div className={classes["not-friend"]}>친구가 아닌 사용자</div>
+        )}
       </div>
     </div>
   );

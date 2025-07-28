@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { useParams } from "react-router-dom";
 
 import useLayoutStore from "../../store/layoutStore";
@@ -33,7 +33,7 @@ const DirectChatDetails = () => {
     (participant) => participant._id !== userInfo?._id
   );
 
-  const friendSince = (() => {
+  const friendSince = useMemo(() => {
     const dateStr = friends.find((friend) => {
       return (
         (friend.requester.id === userInfo?._id &&
@@ -49,9 +49,7 @@ const DirectChatDetails = () => {
     const [year, month, day] = datePart.split(".");
 
     return `${year}년 ${parseInt(month)}월 ${parseInt(day)}일`;
-  })();
-
-  console.log(friendSince);
+  }, [friends, userInfo?._id, otherUser?._id]);
 
   const onlineChecked = onlineFriends.some((onlineFriend) => {
     const targetId =
@@ -63,26 +61,25 @@ const DirectChatDetails = () => {
 
   return (
     <div className={classes["direct-chat-detail-wrapper"]}>
-      <div className={classes["direct-chat-detail-content"]}>
-        <div className={classes["direct-chat-area"]}>
-          <Chats
-            roomId={roomId}
-            type="direct"
-            chatInfo={{
-              nickname: otherUser?.nickname,
-              avatarColor: otherUser?.avatarColor,
-            }}
-          />
-          <ChatInput roomId={roomId} />
-        </div>
+      <div className={classes["direct-chat-area"]}>
+        <Chats
+          roomId={roomId}
+          type="direct"
+          chatInfo={{
+            nickname: otherUser?.nickname,
+            avatarColor: otherUser?.avatarColor,
+          }}
+        />
+        <ChatInput roomId={roomId} />
       </div>
+
       <DirectChatPanel
         chatInfo={{
           nickname: otherUser?.nickname,
           avatarColor: otherUser?.avatarColor,
         }}
-        friendSince={friendSince}
         onlineChecked={onlineChecked}
+        friendSince={friendSince ?? ""}
       />
     </div>
   );

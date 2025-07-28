@@ -3,17 +3,11 @@
   height: 100vh;
 }
 
-.direct-chat-detail-content {
-  display: flex;
-  flex: 1;
-  /* flex-direction: column; */
-  padding: 0.5rem 1rem 1rem 0.75rem;
-}
-
 .direct-chat-area {
-  flex: 1;
   display: flex;
+  flex: 1;
   flex-direction: column;
+  padding: 0.5rem 1rem 1rem 0.75rem;
 }
 
 /* .chats-container {
