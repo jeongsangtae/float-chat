@@ -8,11 +8,12 @@ import useGroupChatStore from "../../store/groupChatStore";
 import useFriendStore from "../../store/friendStore";
 import useLayoutStore from "../../store/layoutStore";
 
-import ChatInput from "../Chats/ChatInput";
+import Modal from "../UI/Modal";
 import Chats from "../Chats/Chats";
+import ChatInput from "../Chats/ChatInput";
 import GroupChatInvite from "./GroupChatInvite";
 import GroupChatUsers from "./GroupChatUsers";
-import Modal from "../UI/Modal";
+import GroupChatPanel from "./GroupChatPanel";
 
 import classes from "./GroupChatDetails.module.css";
 
@@ -46,6 +47,8 @@ const GroupChatDetails = () => {
   );
 
   const groupChat = groupChats.find((groupChat) => groupChat._id === roomId);
+
+  console.log(groupChat);
 
   useEffect(() => {
     setView("groupChat");
@@ -113,7 +116,7 @@ const GroupChatDetails = () => {
         </Modal>
       )}
 
-      <div className={classes["group-chat-content"]}>
+      <div className={classes["group-chat-area"]}>
         <Chats
           roomId={roomId}
           type="group"
@@ -123,6 +126,12 @@ const GroupChatDetails = () => {
         />
         <ChatInput roomId={roomId} />
       </div>
+
+      <GroupChatPanel
+        groupChatSince={groupChat?.date}
+        hostNickname={groupChat?.hostNickname}
+        // hostAvatarColor={groupChat.hostAvatarColor}
+      />
     </div>
   );
 };
