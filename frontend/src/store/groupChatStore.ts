@@ -202,7 +202,7 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
 
   groupChatForm: async (trimmedTitle, userInfo, modalData) => {
     try {
-      const { _id, email, username, nickname } = userInfo;
+      const { _id, email, username, nickname, avatarColor } = userInfo;
 
       const requestBody = {
         title: trimmedTitle,
@@ -210,6 +210,7 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
         email,
         username,
         nickname,
+        avatarColor,
         modalData,
       };
 

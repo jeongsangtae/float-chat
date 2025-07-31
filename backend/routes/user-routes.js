@@ -315,7 +315,12 @@ router.patch("/editUserProfileForm", async (req, res) => {
         .collection("groupChats")
         .updateMany(
           { hostId: currentUserId },
-          { $set: { hostNickname: newNickname } }
+          {
+            $set: {
+              hostNickname: newNickname,
+              hostAvatarColor: newAvatarColor,
+            },
+          }
         ),
 
       // directChats 컬렉션: participants 배열 내에서 _id 일치 시 업데이트

@@ -93,6 +93,7 @@ router.post("/groupChatForm", async (req, res) => {
       hostEmail: groupChatData.email,
       hostUsername: groupChatData.username,
       hostNickname: groupChatData.nickname,
+      hostAvatarColor: groupChatData.avatarColor,
       date: `${kstDate.getFullYear()}.${(kstDate.getMonth() + 1)
         .toString()
         .padStart(2, "0")}.${kstDate
@@ -127,8 +128,8 @@ router.patch("/groupChatForm", async (req, res) => {
 
     const groupChatData = req.body;
 
-    let date = new Date();
-    let kstDate = new Date(date.getTime() + 9 * 60 * 60 * 1000);
+    // let date = new Date();
+    // let kstDate = new Date(date.getTime() + 9 * 60 * 60 * 1000);
 
     const groupChat = await db
       .getDb()
@@ -151,18 +152,6 @@ router.patch("/groupChatForm", async (req, res) => {
     const editGroupChat = {
       _id: new ObjectId(groupChatData.modalData._id),
       title: groupChatData.title,
-      date: `${kstDate.getFullYear()}.${(kstDate.getMonth() + 1)
-        .toString()
-        .padStart(2, "0")}.${kstDate
-        .getDate()
-        .toString()
-        .padStart(2, "0")} ${kstDate
-        .getHours()
-        .toString()
-        .padStart(2, "0")}:${kstDate
-        .getMinutes()
-        .toString()
-        .padStart(2, "0")}:${kstDate.getSeconds().toString().padStart(2, "0")}`,
     };
 
     await db
@@ -170,7 +159,7 @@ router.patch("/groupChatForm", async (req, res) => {
       .collection("groupChats")
       .updateOne(
         { _id: new ObjectId(groupChatData.modalData._id) },
-        { $set: editGroupChat }
+        { $set: { title: editGroupChat.title } }
       );
 
     // Socket.io 및 onlineUsers Map 가져오기
