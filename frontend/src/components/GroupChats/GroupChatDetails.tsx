@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useParams } from "react-router-dom";
 import { IoIosSearch } from "react-icons/io";
 import { IoClose, IoPersonAddSharp } from "react-icons/io5";
@@ -21,7 +21,7 @@ const GroupChatDetails = () => {
   const { roomId } = useParams<{ roomId: string }>();
 
   const { userInfo } = useAuthStore();
-  const { groupChats } = useGroupChatStore();
+  const { groupChats, getGroupChats } = useGroupChatStore();
   const { friends, loadFriends } = useFriendStore();
   const { setView, setGroupChatTitle } = useLayoutStore();
 
@@ -48,12 +48,24 @@ const GroupChatDetails = () => {
 
   const groupChat = groupChats.find((groupChat) => groupChat._id === roomId);
 
-  console.log(groupChat);
+  const groupChatSince = useMemo(() => {
+    const groupChatDateStr = groupChat?.date;
+    if (!groupChatDateStr) return null;
+
+    const [groupChatSinceDate] = groupChatDateStr.split(" ");
+    const [year, month, day] = groupChatSinceDate.split(".");
+
+    return `${year}년 ${Number(month)}월 ${Number(day)}일`;
+  }, [groupChat?.date]);
 
   useEffect(() => {
     setView("groupChat");
     setGroupChatTitle(groupChat?.title ?? "");
   }, [groupChat?.title]);
+
+  useEffect(() => {
+    getGroupChats();
+  }, []);
 
   return (
     <div className={classes["group-chat-details"]}>
@@ -128,9 +140,9 @@ const GroupChatDetails = () => {
       </div>
 
       <GroupChatPanel
-        groupChatSince={groupChat?.date}
-        hostNickname={groupChat?.hostNickname}
-        // hostAvatarColor={groupChat.hostAvatarColor}
+        groupChatSince={groupChatSince ?? ""}
+        hostNickname={groupChat?.hostNickname ?? ""}
+        hostAvatarColor={groupChat?.hostAvatarColor ?? ""}
       />
     </div>
   );

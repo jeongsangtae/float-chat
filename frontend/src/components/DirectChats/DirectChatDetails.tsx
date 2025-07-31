@@ -34,7 +34,7 @@ const DirectChatDetails = () => {
   );
 
   const friendSince = useMemo(() => {
-    const dateStr = friends.find((friend) => {
+    const friendSinceDateStr = friends.find((friend) => {
       return (
         (friend.requester.id === userInfo?._id &&
           friend.receiver.id === otherUser?._id) ||
@@ -43,12 +43,12 @@ const DirectChatDetails = () => {
       );
     })?.date;
 
-    if (!dateStr) return null;
+    if (!friendSinceDateStr) return null;
 
-    const [datePart] = dateStr.split(" ");
-    const [year, month, day] = datePart.split(".");
+    const [friendSinceDate] = friendSinceDateStr.split(" ");
+    const [year, month, day] = friendSinceDate.split(".");
 
-    return `${year}년 ${parseInt(month)}월 ${parseInt(day)}일`;
+    return `${year}년 ${Number(month)}월 ${Number(day)}일`;
   }, [friends, userInfo?._id, otherUser?._id]);
 
   const onlineChecked = onlineFriends.some((onlineFriend) => {

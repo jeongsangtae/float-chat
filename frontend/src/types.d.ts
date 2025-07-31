@@ -100,6 +100,12 @@ export interface GroupChatInviteListProps {
   avatarColor: string;
 }
 
+export interface GroupChatPanelProps {
+  groupChatSince: string;
+  hostNickname: string;
+  hostAvatarColor: string;
+}
+
 export interface UserInfo {
   _id: string;
   email: string;

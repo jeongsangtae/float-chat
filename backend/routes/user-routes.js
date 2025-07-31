@@ -524,7 +524,13 @@ router.patch("/editUserProfileForm", async (req, res) => {
     for (const groupChatUserId of groupChatUserIds) {
       const socketId = onlineUsers.get(groupChatUserId);
       if (socketId) {
-        io.to(socketId).emit("groupChatProfileUpdated", {
+        io.to(socketId).emit("groupChatHostProfileUpdated", {
+          userId: currentUserId,
+          newNickname,
+          newAvatarColor,
+        });
+
+        io.to(socketId).emit("groupChatUserProfileUpdated", {
           userId: currentUserId,
           newNickname,
           newAvatarColor,
