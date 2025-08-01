@@ -67,12 +67,6 @@ router.get("/groupChat/:roomId/users", async (req, res) => {
       onlineChecked: onlineUsers.has(groupChatUser._id.toString()),
     }));
 
-    console.log("그룹 채팅방에 참여한 사용자 목록", groupChatUsers);
-    console.log(
-      "그룹 채팅방에 참여한 사용자 온라인 유무",
-      groupChatUsersOnlineChecked
-    );
-
     res.status(200).json({ groupChatUsers: groupChatUsersOnlineChecked });
   } catch (error) {
     errorHandler(res, error, "그룹 채팅방 참여자 조회 중 오류 발생");
@@ -199,8 +193,6 @@ router.delete("/groupChat/:roomId", async (req, res) => {
         .json({ message: "그룹 채팅방을 찾을 수 없습니다." });
     }
 
-    console.log("삭제할 그룹 채팅방:", groupChat);
-
     await db.getDb().collection("chatMessages").deleteMany({ roomId });
 
     await db.getDb().collection("groupChatInvites").deleteMany({ roomId });
@@ -249,10 +241,6 @@ router.delete("/leaveGroupChat/:roomId", async (req, res) => {
         .status(404)
         .json({ message: "그룹 채팅방을 찾을 수 없습니다." });
     }
-
-    console.log("나갈 그룹 채팅방:", groupChat);
-
-    console.log(othersData._id);
 
     // users 배열에서 로그인한 사용자 ID 제거
     const updatedUsers = groupChat.users.filter(
@@ -359,8 +347,6 @@ router.post("/groupChat/:roomId/invite", async (req, res) => {
       (userId) => userId === receiverId.toString()
     );
 
-    // console.log(groupChatParticipant ? "참여중" : "미참여");
-
     const newGroupChatInvite = {
       roomId: groupChat._id,
       roomTitle: groupChat.title,
@@ -395,8 +381,6 @@ router.post("/groupChat/:roomId/invite", async (req, res) => {
     const io = req.app.get("io"); // Express 앱에서 Socket.io 인스턴스를 가져옴
     const onlineUsers = req.app.get("onlineUsers"); // onlineUsers Map을 가져옴
     const receiverSocketId = onlineUsers.get(friendId.toString());
-
-    console.log(newGroupChatInvite);
 
     if (receiverSocketId) {
       io.to(receiverSocketId).emit("groupChatInviteNotification", {

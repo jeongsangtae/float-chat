@@ -209,7 +209,6 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
       const resData: { groupChatUsers: GroupChatUserData[] } =
         await response.json();
 
-      console.log(resData.groupChatUsers);
       set({ groupChatUsers: resData.groupChatUsers });
     } catch (error) {
       console.error("에러 내용:", error);
@@ -485,8 +484,6 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
   acceptGroupChatInvite: async ({ groupChatId, groupChatInviteId }) => {
     try {
       const requestBody = { groupChatId, groupChatInviteId };
-
-      console.log(groupChatId, groupChatInviteId);
 
       const response = await fetch(`${apiURL}/acceptGroupChat`, {
         method: "POST",

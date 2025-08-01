@@ -18,11 +18,7 @@ router.get("/onlineFriends", async (req, res) => {
       return res.status(401).json({ message: "jwt error" });
     }
 
-    console.log(othersData._id);
-
     const userId = new ObjectId(othersData._id);
-
-    console.log(userId);
 
     const io = req.app.get("io"); // Express 앱에서 Socket.io 인스턴스를 가져옴
     const onlineUsers = req.app.get("onlineUsers"); // onlineUsers Map을 가져옴
@@ -64,8 +60,6 @@ router.get("/friends", async (req, res) => {
     }
 
     const userId = new ObjectId(othersData._id);
-
-    console.log(userId);
 
     const friends = await db
       .getDb()
@@ -149,8 +143,6 @@ router.get("/friendRequests", async (req, res) => {
       .collection("friendRequests")
       .find({ $or: [{ requester: userId }, { receiver: userId }] })
       .toArray();
-
-    // console.log(friendRequests);
 
     res.status(200).json({ friendRequests });
   } catch (error) {
@@ -404,9 +396,6 @@ router.delete("/rejectFriend/:friendRequestId", async (req, res) => {
 
     const socketId = onlineUsers.get(otherUserId.toString());
 
-    // console.log(onlineUsers);
-    // console.log("소켓 ID:", socketId);
-
     if (socketId) {
       io.to(socketId).emit("rejectFriend", friendRequestId);
     }
@@ -429,8 +418,6 @@ router.delete("/deleteFriend/:friendId", async (req, res) => {
     const userId = new ObjectId(othersData._id);
 
     const friendId = new ObjectId(req.params.friendId);
-
-    console.log(userId, friendId);
 
     await db
       .getDb()

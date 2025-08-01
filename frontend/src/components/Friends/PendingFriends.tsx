@@ -18,12 +18,10 @@ const PendingFriends = ({
   const { acceptFriendRequest, rejectFriendRequest } = useFriendStore();
 
   const acceptFriendHandler = (): void => {
-    console.log(friendRequestId);
     acceptFriendRequest(friendRequestId);
   };
 
   const rejectFriendHandler = (): void => {
-    console.log(friendRequestId);
     rejectFriendRequest(friendRequestId);
   };
 

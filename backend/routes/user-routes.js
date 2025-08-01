@@ -259,14 +259,8 @@ router.patch("/editUserProfileForm", async (req, res) => {
       return res.status(401).json({ message: "jwt error" });
     }
 
-    // console.log(othersData);
-
-    // console.log("백엔드에서 req.body:", req.body);
-
     const requestBody = req.body;
     const currentUserId = requestBody.modalData._id;
-
-    // console.log(requestBody.modalData);
 
     const userId = new ObjectId(currentUserId);
     const newNickname = requestBody.nickname;
