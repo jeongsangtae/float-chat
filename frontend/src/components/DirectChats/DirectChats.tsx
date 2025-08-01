@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 
 import DirectChat from "./DirectChat";
 import useAuthStore from "../../store/authStore";
@@ -23,25 +23,27 @@ const DirectChats = () => {
     }
   }, [isLoggedIn]);
 
-  const onlineFriendIds = onlineFriends.map((friend) =>
-    friend.requester.id === userInfo?._id
-      ? friend.receiver.id
-      : friend.requester.id
-  );
-
-  const filteredDirectChats = directChats.map((directChat) => {
-    const otherUser = directChat.participants.find(
-      (participant) => participant._id !== userInfo?._id
+  const filteredDirectChats = useMemo(() => {
+    const onlineFriendIds = onlineFriends.map((friend) =>
+      friend.requester.id === userInfo?._id
+        ? friend.receiver.id
+        : friend.requester.id
     );
 
-    const onlineChecked = onlineFriendIds.includes(otherUser?._id ?? "");
+    return directChats.map((directChat) => {
+      const otherUser = directChat.participants.find(
+        (participant) => participant._id !== userInfo?._id
+      );
 
-    return {
-      ...directChat,
-      otherUser,
-      onlineChecked,
-    };
-  });
+      const onlineChecked = onlineFriendIds.includes(otherUser?._id ?? "");
+
+      return {
+        ...directChat,
+        otherUser,
+        onlineChecked,
+      };
+    });
+  }, [directChats, onlineFriends, userInfo?._id]);
 
   return (
     <>

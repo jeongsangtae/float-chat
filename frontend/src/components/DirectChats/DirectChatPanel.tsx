@@ -7,8 +7,6 @@ const DirectChatPanel = ({
   onlineChecked,
   friendSince,
 }: DirectChatPanelProps) => {
-  console.log(onlineChecked, friendSince);
-
   return (
     <div className={classes["direct-chat-panel"]}>
       <div

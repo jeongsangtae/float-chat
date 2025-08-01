@@ -51,13 +51,15 @@ const DirectChatDetails = () => {
     return `${year}년 ${Number(month)}월 ${Number(day)}일`;
   }, [friends, userInfo?._id, otherUser?._id]);
 
-  const onlineChecked = onlineFriends.some((onlineFriend) => {
-    const targetId =
-      onlineFriend.requester.id === userInfo?._id
-        ? onlineFriend.receiver.id
-        : onlineFriend.requester.id;
-    return targetId === otherUser?._id;
-  });
+  const onlineChecked = useMemo(() => {
+    return onlineFriends.some((onlineFriend) => {
+      const targetId =
+        onlineFriend.requester.id === userInfo?._id
+          ? onlineFriend.receiver.id
+          : onlineFriend.requester.id;
+      return targetId === otherUser?._id;
+    });
+  }, [onlineFriends, userInfo?._id, otherUser?._id]);
 
   return (
     <div className={classes["direct-chat-detail-wrapper"]}>
