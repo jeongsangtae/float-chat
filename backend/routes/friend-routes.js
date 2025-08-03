@@ -127,6 +127,30 @@ router.get("/friends", async (req, res) => {
   }
 });
 
+router.get("/otherUserFriends/:otherUserId", async (req, res) => {
+  try {
+    // const othersData = await accessToken(req, res);
+
+    // if (!othersData) {
+    //   return res.status(401).json({ message: "jwt error" });
+    // }
+
+    const { otherUserId } = req.params;
+
+    const userId = new ObjectId(otherUserId);
+
+    const otherUserfriends = await db
+      .getDb()
+      .collection("friends")
+      .find({ $or: [{ "requester.id": userId }, { "receiver.id": userId }] })
+      .toArray();
+
+    res.status(200).json({ otherUserfriends });
+  } catch (error) {
+    errorHandler(res, error, "친구 목록 조회 중 오류 발생");
+  }
+});
+
 // 친구 요청 목록 조회 라우터
 router.get("/friendRequests", async (req, res) => {
   try {

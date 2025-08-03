@@ -18,14 +18,15 @@ const DirectChatDetails = () => {
 
   const { setView } = useLayoutStore();
   const { userInfo } = useAuthStore();
-  const { friends, loadFriends, onlineFriends } = useFriendStore();
+  const {
+    friends,
+    loadFriends,
+    otherUserFriends,
+    onlineFriends,
+    loadOtherUserFriends,
+  } = useFriendStore();
   const { directChats } = useDirectChatStore();
   const { groupChats } = useGroupChatStore();
-
-  useEffect(() => {
-    setView("directChat");
-    loadFriends();
-  }, []);
 
   const directChat = directChats.find(
     (directChat) => directChat._id === roomId
@@ -34,6 +35,33 @@ const DirectChatDetails = () => {
   const otherUser = directChat?.participants.find(
     (participant) => participant._id !== userInfo?._id
   );
+
+  console.log(otherUser?._id);
+
+  useEffect(() => {
+    setView("directChat");
+    loadFriends();
+  }, []);
+
+  // useEffect(() => {
+  //   if (otherUser?._id) {
+  //     loadOtherUserFriends(otherUser?._id);
+  //   }
+  // }, [otherUser?._id]);
+
+  const otherUserFriendIds = useMemo(() => {
+    if (!otherUserFriends || !otherUser?._id) return [];
+
+    return (
+      otherUserFriends?.map((otherUserFriend) => {
+        return otherUserFriend.requester.id === otherUser?._id
+          ? otherUserFriend.receiver.id
+          : otherUserFriend.requester.id;
+      }) ?? []
+    );
+  }, [otherUserFriends, otherUser?._id]);
+
+  console.log(otherUserFriendIds);
 
   const friendSince = useMemo(() => {
     const friendSinceDateStr = friends.find((friend) => {
@@ -71,7 +99,20 @@ const DirectChatDetails = () => {
     return users.includes(userInfo._id) && users.includes(otherUser._id);
   });
 
-  console.log(groupChatsShared);
+  console.log(friends);
+  console.log(otherUserFriends);
+
+  const userFriendIds = friends.map((friend) => {
+    friend.requester._id === userInfo?._id
+      ? friend.receiver.id
+      : friend.requester.id;
+  });
+
+  // const otherUserFriendIds = otherUserFriends.map((otherUserFriend) => {
+  //   otherUserFriend.requester._id === otherUser?._id
+  //     ? otherUserFriend.receiver.id
+  //     : otherUserFriend.requester.id;
+  // });
 
   return (
     <div className={classes["direct-chat-detail-wrapper"]}>

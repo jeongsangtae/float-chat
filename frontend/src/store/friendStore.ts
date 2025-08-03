@@ -12,12 +12,14 @@ interface FriendStore {
   socket: Socket | null;
   onlineFriends: Friend[];
   friends: Friend[];
+  otherUserFriends: Friend[];
   friendRequests: FriendRequest[];
   status: number;
   statusMessage: string;
   resetStatusMessage: () => void;
   loadOnlineFriends: () => Promise<void>;
   loadFriends: () => Promise<void>;
+  loadOtherUserFriends: (otherUserId: string) => Promise<void>;
   loadFriendRequests: () => Promise<void>;
   sendFriendRequest: (
     userInfo: Omit<UserInfo, "tokenExp">, // tokenExp를 제외하고 사용
@@ -32,6 +34,7 @@ const useFriendStore = create<FriendStore>((set) => ({
   socket: null,
   onlineFriends: [],
   friends: [],
+  otherUserFriends: [],
   friendRequests: [],
   status: 0,
   statusMessage: "",
@@ -212,6 +215,31 @@ const useFriendStore = create<FriendStore>((set) => ({
       console.error("에러 내용:", error);
       alert(
         "친구 목록 조회 중 문제가 발생했습니다. 새로고침 후 다시 시도해 주세요."
+      );
+    }
+  },
+
+  loadOtherUserFriends: async (otherUserId) => {
+    console.log(otherUserId);
+    try {
+      const response = await fetch(
+        `${apiURL}/otherUserFriends/${otherUserId}`,
+        {
+          credentials: "include",
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("다른 사용자 친구 요청 조회 실패");
+      }
+
+      const resData: { otherUserFriends: Friend[] } = await response.json();
+
+      set({ otherUserFriends: resData.otherUserFriends });
+    } catch (error) {
+      console.error("에러 내용:", error);
+      alert(
+        "다른 사용자 친구 목록 조회 중 문제가 발생했습니다. 새로고침 후 다시 시도해 주세요."
       );
     }
   },
