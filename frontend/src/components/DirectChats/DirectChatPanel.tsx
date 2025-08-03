@@ -39,7 +39,15 @@ const DirectChatPanel = ({
         )}
 
         {groupChatsShared && (
-          <div>같이 있는 서버 - {groupChatsShared.length}</div>
+          <div className={classes["share-content-wrapper"]}>
+            <div className={classes["group-chat-share"]}>
+              같이 있는 그룹 채팅방 - {groupChatsShared.length}
+            </div>
+            <div className={classes.underline}></div>
+            <div className={classes["group-chat-share-friend"]}>
+              같이 아는 친구
+            </div>
+          </div>
         )}
       </div>
     </div>
