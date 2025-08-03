@@ -5,7 +5,7 @@ import useAuthStore from "../../store/authStore";
 import useGroupChatStore from "../../store/groupChatStore";
 import useModalStore from "../../store/modalStore";
 
-import { GroupChatData } from "../../types";
+import { GroupChatProps } from "../../types";
 
 import classes from "./GroupChat.module.css";
 
@@ -15,7 +15,7 @@ const GroupChat = ({
   title,
   contextMenu,
   setContextMenu,
-}: Omit<GroupChatData, "hostNickname" | "hostAvatarColor" | "date">) => {
+}: GroupChatProps) => {
   const { userInfo } = useAuthStore();
   const { deleteGroupChat, leaveGroupChat } = useGroupChatStore();
   const { toggleModal } = useModalStore();

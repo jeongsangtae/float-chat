@@ -35,6 +35,7 @@ export interface DirectChatPanelProps {
   chatInfo: ChatInfo;
   onlineChecked: boolean;
   friendSince: string;
+  groupChatsShared: GroupChatData[];
 }
 
 export interface ContextMenu {
@@ -47,12 +48,13 @@ export interface ContextMenu {
 export interface GroupChatData {
   _id: string; // ObjectId는 JSON으로 변환되면 string으로 직렬화
   hostId: string;
+  hostEmail: string;
+  hostUsername: string;
   hostNickname: string;
   hostAvatarColor: string;
   title: string;
   date?: string;
-  contextMenu: ContextMenu;
-  setContextMenu: React.Dispatch<React.SetStateAction<ContextMenu>>;
+  users?: string[];
 }
 
 export interface GroupChatUserData {
@@ -78,6 +80,14 @@ export interface GroupChatInvites {
   status: string;
   participantCount: number;
   avatarColor: string;
+}
+
+export interface GroupChatProps {
+  _id: string;
+  hostId: string;
+  title: string;
+  contextMenu: ContextMenu;
+  setContextMenu: React.Dispatch<React.SetStateAction<ContextMenu>>;
 }
 
 export interface GroupChatInviteProps {

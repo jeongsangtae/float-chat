@@ -6,6 +6,7 @@ const DirectChatPanel = ({
   chatInfo,
   onlineChecked,
   friendSince,
+  groupChatsShared,
 }: DirectChatPanelProps) => {
   return (
     <div className={classes["direct-chat-panel"]}>
@@ -35,6 +36,10 @@ const DirectChatPanel = ({
           </div>
         ) : (
           <div className={classes["not-friend"]}>친구가 아닌 사용자</div>
+        )}
+
+        {groupChatsShared && (
+          <div>같이 있는 서버 - {groupChatsShared.length}</div>
         )}
       </div>
     </div>

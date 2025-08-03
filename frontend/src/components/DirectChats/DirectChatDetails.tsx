@@ -5,6 +5,7 @@ import useLayoutStore from "../../store/layoutStore";
 import useAuthStore from "../../store/authStore";
 import useFriendStore from "../../store/friendStore";
 import useDirectChatStore from "../../store/directChatStore";
+import useGroupChatStore from "../../store/groupChatStore";
 
 import ChatInput from "../Chats/ChatInput";
 import Chats from "../Chats/Chats";
@@ -19,6 +20,7 @@ const DirectChatDetails = () => {
   const { userInfo } = useAuthStore();
   const { friends, loadFriends, onlineFriends } = useFriendStore();
   const { directChats } = useDirectChatStore();
+  const { groupChats } = useGroupChatStore();
 
   useEffect(() => {
     setView("directChat");
@@ -61,6 +63,16 @@ const DirectChatDetails = () => {
     });
   }, [onlineFriends, userInfo?._id, otherUser?._id]);
 
+  const groupChatsShared = groupChats.filter((groupChat) => {
+    if (!userInfo || !otherUser) return false;
+
+    const users = groupChat.users ?? [];
+
+    return users.includes(userInfo._id) && users.includes(otherUser._id);
+  });
+
+  console.log(groupChatsShared);
+
   return (
     <div className={classes["direct-chat-detail-wrapper"]}>
       <div className={classes["direct-chat-area"]}>
@@ -82,6 +94,7 @@ const DirectChatDetails = () => {
         }}
         onlineChecked={onlineChecked}
         friendSince={friendSince ?? ""}
+        groupChatsShared={groupChatsShared}
       />
     </div>
   );
