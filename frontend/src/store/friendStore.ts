@@ -235,6 +235,8 @@ const useFriendStore = create<FriendStore>((set) => ({
 
       const resData: { otherUserFriends: Friend[] } = await response.json();
 
+      console.log(resData.otherUserFriends);
+
       set({ otherUserFriends: resData.otherUserFriends });
     } catch (error) {
       console.error("에러 내용:", error);

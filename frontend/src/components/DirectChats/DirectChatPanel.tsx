@@ -7,7 +7,10 @@ const DirectChatPanel = ({
   onlineChecked,
   friendSince,
   groupChatsShared,
+  mutualFriendUsers,
 }: DirectChatPanelProps) => {
+  console.log(mutualFriendUsers);
+
   return (
     <div className={classes["direct-chat-panel"]}>
       <div
@@ -38,15 +41,23 @@ const DirectChatPanel = ({
           <div className={classes["not-friend"]}>친구가 아닌 사용자</div>
         )}
 
-        {groupChatsShared && (
+        {(groupChatsShared.length || mutualFriendUsers.length) > 0 && (
           <div className={classes["share-content-wrapper"]}>
-            <div className={classes["group-chat-share"]}>
-              같이 있는 그룹 채팅방 - {groupChatsShared.length}
-            </div>
-            <div className={classes.underline}></div>
-            <div className={classes["group-chat-share-friend"]}>
-              같이 아는 친구
-            </div>
+            {groupChatsShared.length > 0 && (
+              <div className={classes["group-chat-share"]}>
+                같이 있는 그룹 채팅방 - {groupChatsShared.length}
+              </div>
+            )}
+
+            {groupChatsShared.length > 0 && mutualFriendUsers.length > 0 && (
+              <div className={classes.underline}></div>
+            )}
+
+            {mutualFriendUsers.length > 0 && (
+              <div className={classes["group-chat-share-friend"]}>
+                같이 아는 친구 - {mutualFriendUsers.length}
+              </div>
+            )}
           </div>
         )}
       </div>

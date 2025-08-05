@@ -137,15 +137,21 @@ router.get("/otherUserFriends/:otherUserId", async (req, res) => {
 
     const { otherUserId } = req.params;
 
+    console.log(otherUserId);
+
     const userId = new ObjectId(otherUserId);
 
-    const otherUserfriends = await db
+    console.log(userId);
+
+    const otherUserFriends = await db
       .getDb()
       .collection("friends")
       .find({ $or: [{ "requester.id": userId }, { "receiver.id": userId }] })
       .toArray();
 
-    res.status(200).json({ otherUserfriends });
+    console.log(otherUserFriends);
+
+    res.status(200).json({ otherUserFriends });
   } catch (error) {
     errorHandler(res, error, "친구 목록 조회 중 오류 발생");
   }

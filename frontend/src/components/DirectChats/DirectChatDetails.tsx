@@ -36,32 +36,30 @@ const DirectChatDetails = () => {
     (participant) => participant._id !== userInfo?._id
   );
 
-  console.log(otherUser?._id);
-
   useEffect(() => {
     setView("directChat");
     loadFriends();
   }, []);
 
-  // useEffect(() => {
-  //   if (otherUser?._id) {
-  //     loadOtherUserFriends(otherUser?._id);
-  //   }
-  // }, [otherUser?._id]);
+  useEffect(() => {
+    if (otherUser?._id) {
+      loadOtherUserFriends(otherUser?._id);
+    }
+  }, [otherUser?._id]);
 
-  const otherUserFriendIds = useMemo(() => {
-    if (!otherUserFriends || !otherUser?._id) return [];
+  // const otherUserFriendIds = useMemo(() => {
+  //   if (!otherUserFriends || !otherUser?._id) return [];
 
-    return (
-      otherUserFriends?.map((otherUserFriend) => {
-        return otherUserFriend.requester.id === otherUser?._id
-          ? otherUserFriend.receiver.id
-          : otherUserFriend.requester.id;
-      }) ?? []
-    );
-  }, [otherUserFriends, otherUser?._id]);
+  //   return (
+  //     otherUserFriends?.map((otherUserFriend) => {
+  //       return otherUserFriend.requester.id === otherUser?._id
+  //         ? otherUserFriend.receiver.id
+  //         : otherUserFriend.requester.id;
+  //     }) ?? []
+  //   );
+  // }, [otherUserFriends, otherUser?._id]);
 
-  console.log(otherUserFriendIds);
+  // console.log(otherUserFriendIds);
 
   const friendSince = useMemo(() => {
     const friendSinceDateStr = friends.find((friend) => {
@@ -99,20 +97,55 @@ const DirectChatDetails = () => {
     return users.includes(userInfo._id) && users.includes(otherUser._id);
   });
 
+  console.log(otherUser?._id);
   console.log(friends);
   console.log(otherUserFriends);
 
-  const userFriendIds = friends.map((friend) => {
-    friend.requester._id === userInfo?._id
-      ? friend.receiver.id
-      : friend.requester.id;
+  const mutualFriends = friends.filter((friend) => {
+    const userFriendId =
+      friend.requester.id === userInfo?._id
+        ? friend.receiver.id
+        : friend.requester.id;
+
+    if (userFriendId === otherUser?._id) return false;
+
+    return otherUserFriends.some((otherUserFriend) => {
+      const otherUserFriendId =
+        otherUserFriend.requester.id === otherUser?._id
+          ? otherUserFriend.receiver.id
+          : otherUserFriend.requester.id;
+
+      return (
+        otherUserFriendId === userFriendId &&
+        otherUserFriendId !== userInfo?._id // 나 자신도 제외
+      );
+    });
   });
 
+  const mutualFriendUsers = mutualFriends.map((mutualFriend) => {
+    return mutualFriend.requester.id === userInfo?._id
+      ? mutualFriend.receiver
+      : mutualFriend.requester;
+  });
+
+  console.log(mutualFriends);
+  console.log(mutualFriendUsers);
+
+  // const userFriendIds = friends.map((friend) => {
+  //   return friend.requester.id === userInfo?._id
+  //     ? friend.receiver.id
+  //     : friend.requester.id;
+  // });
+
+  // console.log(userFriendIds);
+
   // const otherUserFriendIds = otherUserFriends.map((otherUserFriend) => {
-  //   otherUserFriend.requester._id === otherUser?._id
+  //   return otherUserFriend.requester.id === otherUser?._id
   //     ? otherUserFriend.receiver.id
   //     : otherUserFriend.requester.id;
   // });
+
+  // console.log(otherUserFriendIds);
 
   return (
     <div className={classes["direct-chat-detail-wrapper"]}>
@@ -136,7 +169,12 @@ const DirectChatDetails = () => {
         onlineChecked={onlineChecked}
         friendSince={friendSince ?? ""}
         groupChatsShared={groupChatsShared}
+        mutualFriendUsers={mutualFriendUsers}
       />
+
+      {/* <button onClick={() => loadOtherUserFriends(otherUser?._id ?? "")}>
+        테스트 버튼
+      </button> */}
     </div>
   );
 };
