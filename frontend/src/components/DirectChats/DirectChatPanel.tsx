@@ -9,8 +9,6 @@ const DirectChatPanel = ({
   groupChatsShared,
   mutualFriendUsers,
 }: DirectChatPanelProps) => {
-  console.log(mutualFriendUsers);
-
   return (
     <div className={classes["direct-chat-panel"]}>
       <div

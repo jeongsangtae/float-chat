@@ -127,6 +127,7 @@ router.get("/friends", async (req, res) => {
   }
 });
 
+// 다른 사용자 친구 목록 조회 라우터
 router.get("/otherUserFriends/:otherUserId", async (req, res) => {
   try {
     // const othersData = await accessToken(req, res);

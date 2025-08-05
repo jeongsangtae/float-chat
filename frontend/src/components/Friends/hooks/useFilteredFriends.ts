@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 
-import { Friend, FriendRequest } from "../../../types";
+import { Friend, FriendUser, FriendRequest } from "../../../types";
 
 const useFilteredFriends = (
   friends: Friend[],
@@ -34,8 +34,24 @@ const useFilteredFriends = (
       .map((onlineFriend) => ({ ...onlineFriend, onlineChecked: true }));
   }, [onlineFriends, userId, searchTerm]);
 
+  // const filteredFriends = useMemo(() => {
+  //   return friends
+  //     .map((friend) =>
+  //       friend.requester.id === userId ? friend.receiver : friend.requester
+  //     )
+  //     .filter(
+  //       (friend) =>
+  //         friend.nickname.toLowerCase().includes(searchTerm.toLowerCase()) ||
+  //         friend.email?.toLowerCase().includes(searchTerm.toLowerCase())
+  //     )
+  //     .map((friend) => ({
+  //       ...friend,
+  //       onlineChecked: onlineFriendIds.includes(friend.id),
+  //     }));
+  // }, [friends, userId, onlineFriendIds, searchTerm]);
+
   const filteredFriends = useMemo(() => {
-    return friends
+    const friendsList = friends
       .map((friend) =>
         friend.requester.id === userId ? friend.receiver : friend.requester
       )
@@ -48,6 +64,18 @@ const useFilteredFriends = (
         ...friend,
         onlineChecked: onlineFriendIds.includes(friend.id),
       }));
+
+    console.log(friendsList);
+
+    // 친구 ID를 기준으로 고유한 친구만 추출 (중복 제거)
+    const uniqueMapId = new Map<string, Omit<FriendUser, "userId">>();
+
+    for (const friend of friendsList) {
+      console.log(friend);
+      uniqueMapId.set(friend.id, friend); // 동일한 ID가 있으면 나중 것이 덮어씀
+    }
+
+    return Array.from(uniqueMapId.values());
   }, [friends, userId, onlineFriendIds, searchTerm]);
 
   const sendFriendRequests = useMemo(() => {

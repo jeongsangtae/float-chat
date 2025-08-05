@@ -52,12 +52,24 @@ const Friends = () => {
     setView("friends");
   }, []);
 
+  // 친구 목록에서 중복된 ID 확인하는 체크용 useEffect
+  useEffect(() => {
+    const ids = filteredFriends.map((f) => f.id);
+    const duplicates = ids.filter((id, i) => ids.indexOf(id) !== i);
+    if (duplicates.length > 0) {
+      console.warn("🔁 중복된 친구 ID:", duplicates);
+    }
+  }, [filteredFriends]);
+
   const activeTabHandler = (tab: string, action?: () => void): void => {
     if (activeTab !== tab) {
       setActiveTab(tab);
       action?.();
     }
   };
+
+  console.log(filteredFriends);
+  console.log(filteredOnlineFriends);
 
   return (
     <>
@@ -129,7 +141,7 @@ const Friends = () => {
               {activeTab === "online" &&
                 filteredOnlineFriends.map((filteredOnlineFriend) => (
                   <OnlineFriend
-                    key={filteredOnlineFriend.id}
+                    key={`online-${filteredOnlineFriend.id}`}
                     userId={userInfo?._id ?? ""}
                     id={filteredOnlineFriend.id}
                     nickname={filteredOnlineFriend.nickname}
@@ -143,7 +155,7 @@ const Friends = () => {
               {activeTab === "all" &&
                 filteredFriends.map((filteredFriend) => (
                   <Friend
-                    key={filteredFriend.id}
+                    key={`friend-${filteredFriend.id}`}
                     userId={userInfo?._id ?? ""}
                     id={filteredFriend.id}
                     nickname={filteredFriend.nickname}
@@ -178,7 +190,7 @@ const Friends = () => {
 
                           {receivedRequests.map((receivedRequest) => (
                             <PendingFriends
-                              key={receivedRequest.id}
+                              key={`received-${receivedRequest.id}`}
                               friendRequestId={receivedRequest.id}
                               nickname={receivedRequest.nickname}
                               avatarColor={receivedRequest.avatarColor}
@@ -200,7 +212,7 @@ const Friends = () => {
 
                           {sentRequests.map((sentRequest) => (
                             <PendingFriends
-                              key={sentRequest.id}
+                              key={`sent-${sentRequest.id}`}
                               friendRequestId={sentRequest.id}
                               nickname={sentRequest.nickname}
                               avatarColor={sentRequest.avatarColor}

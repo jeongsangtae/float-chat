@@ -97,9 +97,9 @@ const DirectChatDetails = () => {
     return users.includes(userInfo._id) && users.includes(otherUser._id);
   });
 
-  console.log(otherUser?._id);
-  console.log(friends);
-  console.log(otherUserFriends);
+  // console.log(otherUser?._id);
+  // console.log(friends);
+  // console.log(otherUserFriends);
 
   const mutualFriends = friends.filter((friend) => {
     const userFriendId =
@@ -128,8 +128,8 @@ const DirectChatDetails = () => {
       : mutualFriend.requester;
   });
 
-  console.log(mutualFriends);
-  console.log(mutualFriendUsers);
+  // console.log(mutualFriends);
+  // console.log(mutualFriendUsers);
 
   // const userFriendIds = friends.map((friend) => {
   //   return friend.requester.id === userInfo?._id
