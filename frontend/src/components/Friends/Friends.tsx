@@ -53,13 +53,14 @@ const Friends = () => {
   }, []);
 
   // 친구 목록에서 중복된 ID 확인하는 체크용 useEffect
-  useEffect(() => {
-    const ids = filteredFriends.map((f) => f.id);
-    const duplicates = ids.filter((id, i) => ids.indexOf(id) !== i);
-    if (duplicates.length > 0) {
-      console.warn("🔁 중복된 친구 ID:", duplicates);
-    }
-  }, [filteredFriends]);
+  // 필요할 때 다시 주석 해제해야 함
+  // useEffect(() => {
+  //   const ids = filteredFriends.map((f) => f.id);
+  //   const duplicates = ids.filter((id, i) => ids.indexOf(id) !== i);
+  //   if (duplicates.length > 0) {
+  //     console.warn("🔁 중복된 친구 ID:", duplicates);
+  //   }
+  // }, [filteredFriends]);
 
   const activeTabHandler = (tab: string, action?: () => void): void => {
     if (activeTab !== tab) {
@@ -67,9 +68,6 @@ const Friends = () => {
       action?.();
     }
   };
-
-  console.log(filteredFriends);
-  console.log(filteredOnlineFriends);
 
   return (
     <>

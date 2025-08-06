@@ -31,11 +31,19 @@ export interface DirectChatProps {
   onlineChecked: boolean;
 }
 
+export interface MutualFriendUser {
+  id: string;
+  email?: string;
+  nickname: string;
+  avatarColor: string;
+}
+
 export interface DirectChatPanelProps {
   chatInfo: ChatInfo;
   onlineChecked: boolean;
   friendSince: string;
-  groupChatsShared: GroupChatData[];
+  mutualGroupChats: GroupChatData[];
+  mutualFriendUsers: MutualFriendUser[];
 }
 
 export interface ContextMenu {

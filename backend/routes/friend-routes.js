@@ -138,19 +138,13 @@ router.get("/otherUserFriends/:otherUserId", async (req, res) => {
 
     const { otherUserId } = req.params;
 
-    console.log(otherUserId);
-
     const userId = new ObjectId(otherUserId);
-
-    console.log(userId);
 
     const otherUserFriends = await db
       .getDb()
       .collection("friends")
       .find({ $or: [{ "requester.id": userId }, { "receiver.id": userId }] })
       .toArray();
-
-    console.log(otherUserFriends);
 
     res.status(200).json({ otherUserFriends });
   } catch (error) {

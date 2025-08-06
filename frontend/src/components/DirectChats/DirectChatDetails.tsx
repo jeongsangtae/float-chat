@@ -47,20 +47,6 @@ const DirectChatDetails = () => {
     }
   }, [otherUser?._id]);
 
-  // const otherUserFriendIds = useMemo(() => {
-  //   if (!otherUserFriends || !otherUser?._id) return [];
-
-  //   return (
-  //     otherUserFriends?.map((otherUserFriend) => {
-  //       return otherUserFriend.requester.id === otherUser?._id
-  //         ? otherUserFriend.receiver.id
-  //         : otherUserFriend.requester.id;
-  //     }) ?? []
-  //   );
-  // }, [otherUserFriends, otherUser?._id]);
-
-  // console.log(otherUserFriendIds);
-
   const friendSince = useMemo(() => {
     const friendSinceDateStr = friends.find((friend) => {
       return (
@@ -89,17 +75,13 @@ const DirectChatDetails = () => {
     });
   }, [onlineFriends, userInfo?._id, otherUser?._id]);
 
-  const groupChatsShared = groupChats.filter((groupChat) => {
+  const mutualGroupChats = groupChats.filter((groupChat) => {
     if (!userInfo || !otherUser) return false;
 
     const users = groupChat.users ?? [];
 
     return users.includes(userInfo._id) && users.includes(otherUser._id);
   });
-
-  // console.log(otherUser?._id);
-  // console.log(friends);
-  // console.log(otherUserFriends);
 
   const mutualFriends = friends.filter((friend) => {
     const userFriendId =
@@ -128,25 +110,6 @@ const DirectChatDetails = () => {
       : mutualFriend.requester;
   });
 
-  // console.log(mutualFriends);
-  // console.log(mutualFriendUsers);
-
-  // const userFriendIds = friends.map((friend) => {
-  //   return friend.requester.id === userInfo?._id
-  //     ? friend.receiver.id
-  //     : friend.requester.id;
-  // });
-
-  // console.log(userFriendIds);
-
-  // const otherUserFriendIds = otherUserFriends.map((otherUserFriend) => {
-  //   return otherUserFriend.requester.id === otherUser?._id
-  //     ? otherUserFriend.receiver.id
-  //     : otherUserFriend.requester.id;
-  // });
-
-  // console.log(otherUserFriendIds);
-
   return (
     <div className={classes["direct-chat-detail-wrapper"]}>
       <div className={classes["direct-chat-area"]}>
@@ -168,13 +131,9 @@ const DirectChatDetails = () => {
         }}
         onlineChecked={onlineChecked}
         friendSince={friendSince ?? ""}
-        groupChatsShared={groupChatsShared}
+        mutualGroupChats={mutualGroupChats}
         mutualFriendUsers={mutualFriendUsers}
       />
-
-      {/* <button onClick={() => loadOtherUserFriends(otherUser?._id ?? "")}>
-        테스트 버튼
-      </button> */}
     </div>
   );
 };

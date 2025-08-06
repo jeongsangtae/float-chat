@@ -65,13 +65,10 @@ const useFilteredFriends = (
         onlineChecked: onlineFriendIds.includes(friend.id),
       }));
 
-    console.log(friendsList);
-
     // 친구 ID를 기준으로 고유한 친구만 추출 (중복 제거)
     const uniqueMapId = new Map<string, Omit<FriendUser, "userId">>();
 
     for (const friend of friendsList) {
-      console.log(friend);
       uniqueMapId.set(friend.id, friend); // 동일한 ID가 있으면 나중 것이 덮어씀
     }
 

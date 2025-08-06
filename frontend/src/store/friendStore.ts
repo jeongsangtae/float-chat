@@ -220,7 +220,6 @@ const useFriendStore = create<FriendStore>((set) => ({
   },
 
   loadOtherUserFriends: async (otherUserId) => {
-    console.log(otherUserId);
     try {
       const response = await fetch(
         `${apiURL}/otherUserFriends/${otherUserId}`,
@@ -234,8 +233,6 @@ const useFriendStore = create<FriendStore>((set) => ({
       }
 
       const resData: { otherUserFriends: Friend[] } = await response.json();
-
-      console.log(resData.otherUserFriends);
 
       set({ otherUserFriends: resData.otherUserFriends });
     } catch (error) {

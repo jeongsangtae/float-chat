@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { DirectChatPanelProps } from "../../types";
 
 import classes from "./DirectChatPanel.module.css";
@@ -6,7 +7,7 @@ const DirectChatPanel = ({
   chatInfo,
   onlineChecked,
   friendSince,
-  groupChatsShared,
+  mutualGroupChats,
   mutualFriendUsers,
 }: DirectChatPanelProps) => {
   return (
@@ -39,15 +40,23 @@ const DirectChatPanel = ({
           <div className={classes["not-friend"]}>친구가 아닌 사용자</div>
         )}
 
-        {(groupChatsShared.length || mutualFriendUsers.length) > 0 && (
+        {(mutualGroupChats.length || mutualFriendUsers.length) > 0 && (
           <div className={classes["share-content-wrapper"]}>
-            {groupChatsShared.length > 0 && (
+            {mutualGroupChats.length > 0 && (
               <div className={classes["group-chat-share"]}>
-                같이 있는 그룹 채팅방 - {groupChatsShared.length}
+                같이 있는 그룹 채팅방 - {mutualGroupChats.length}
               </div>
             )}
 
-            {groupChatsShared.length > 0 && mutualFriendUsers.length > 0 && (
+            {mutualGroupChats.map((mutualGroupChat) => (
+              <Link to={`${mutualGroupChat._id}`}>
+                <div>
+                  <div>그룹 채팅방</div>
+                </div>
+              </Link>
+            ))}
+
+            {mutualGroupChats.length > 0 && mutualFriendUsers.length > 0 && (
               <div className={classes.underline}></div>
             )}
 
@@ -56,6 +65,14 @@ const DirectChatPanel = ({
                 같이 아는 친구 - {mutualFriendUsers.length}
               </div>
             )}
+
+            {mutualFriendUsers.map((mutualFriendUser) => (
+              <Link to={`${mutualFriendUser.id}`}>
+                <div>
+                  <div>친구</div>
+                </div>
+              </Link>
+            ))}
           </div>
         )}
       </div>
