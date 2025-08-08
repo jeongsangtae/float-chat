@@ -24,7 +24,7 @@
   overflow-y: visible;
 }
 
-.avatar {
+.direct-chat-other-info-avatar {
   /* position: relative; */
   position: absolute;
   /* top: 7.5rem; */
@@ -44,8 +44,8 @@
   z-index: 1;
 }
 
-.online-dot,
-.offline-dot {
+.direct-chat-other-info-online-dot,
+.direct-chat-other-info-offline-dot {
   position: absolute;
   width: 1.5rem;
   height: 1.5rem;
@@ -56,7 +56,7 @@
   border: 5px solid #1e1e1e;
 }
 
-.offline-dot {
+.direct-chat-other-info-offline-dot {
   background-color: gray;
 }
 
@@ -91,16 +91,62 @@
   text-align: center;
 }
 
-.share-content-wrapper {
+.mutual-content-wrapper {
   margin-top: 0.75rem;
   padding: 0.75rem;
   background-color: #414147;
   border-radius: 8px;
 }
 
-.group-chat-share {
+.mutual-group-chat-count {
   font-size: 0.95rem;
   font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.mutual-group-chat {
+  display: flex;
+  text-decoration: none;
+  padding: 0.3rem 0.5rem;
+  align-items: center;
+}
+
+.mutual-group-chat:hover {
+  border-radius: 8px;
+  background-color: #38393f;
+}
+
+.mutual-group-chat-icon {
+  /* position: relative; */
+  flex-shrink: 0; /* flex에서 크기 줄어드는 거 방지 */
+  width: 3rem;
+  min-width: 3rem; /* 안전 장치 */
+  height: 3rem;
+  border-radius: 16px;
+  background-color: #00b8db;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  color: white;
+  white-space: nowrap; /* 텍스트 자동 줄바꿈 방지 */
+  overflow: hidden; /* 글자가 요소 범위를 넘어가지 않도록 방지 */
+}
+
+.mutual-group-chat-icon-small {
+  font-size: 0.65rem;
+}
+
+.mutual-group-chat-title {
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis; /* 텍스트가 넘칠 경우 ... 으로 생략해 출력 */
+  min-width: 0;
+  color: white;
+  font-weight: bold;
+  margin-left: 0.75rem;
 }
 
 .underline {
@@ -109,7 +155,60 @@
   margin: 0.5rem 0;
 }
 
-.group-chat-share-friend {
+.mutual-friend-user-count {
   font-size: 0.95rem;
   font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.mutual-friend-user:hover {
+  border-radius: 8px;
+  background-color: #38393f;
+}
+
+.mutual-friend-user {
+  display: flex;
+  text-decoration: none;
+  padding: 0.3rem 0.5rem;
+  align-items: center;
+}
+
+.mutual-friend-user-avatar {
+  position: relative;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background-color: #ccc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  color: white;
+}
+
+.mutual-friend-user-online-dot,
+.mutual-friend-user-offline-dot {
+  position: absolute;
+  width: 0.8rem;
+  height: 0.8rem;
+  bottom: -1px;
+  right: -1px;
+  border-radius: 50%;
+  background-color: #02ac02;
+  border: 2px solid #1e1e1e;
+}
+
+.mutual-friend-user-offline-dot {
+  background-color: gray;
+}
+
+.mutual-friend-user-nickname {
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis; /* 텍스트가 넘칠 경우 ... 으로 생략해 출력 */
+  min-width: 0;
+  color: white;
+  font-weight: bold;
+  margin-left: 0.75rem;
 }

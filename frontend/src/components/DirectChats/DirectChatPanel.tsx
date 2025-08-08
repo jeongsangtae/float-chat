@@ -19,13 +19,15 @@ const DirectChatPanel = ({
 
       <div className={classes["direct-chat-other-info"]}>
         <div
-          className={classes.avatar}
+          className={classes["direct-chat-other-info-avatar"]}
           style={{ backgroundColor: chatInfo.avatarColor }}
         >
           {chatInfo.nickname?.charAt(0)}
           <div
             className={
-              onlineChecked ? classes["online-dot"] : classes["offline-dot"]
+              onlineChecked
+                ? classes["direct-chat-other-info-online-dot"]
+                : classes["direct-chat-other-info-offline-dot"]
             }
           />
         </div>
@@ -41,17 +43,29 @@ const DirectChatPanel = ({
         )}
 
         {(mutualGroupChats.length || mutualFriendUsers.length) > 0 && (
-          <div className={classes["share-content-wrapper"]}>
+          <div className={classes["mutual-content-wrapper"]}>
             {mutualGroupChats.length > 0 && (
-              <div className={classes["group-chat-share"]}>
+              <div className={classes["mutual-group-chat-count"]}>
                 같이 있는 그룹 채팅방 - {mutualGroupChats.length}
               </div>
             )}
 
             {mutualGroupChats.map((mutualGroupChat) => (
-              <Link to={`${mutualGroupChat._id}`}>
-                <div>
-                  <div>그룹 채팅방</div>
+              <Link
+                to={`/group-chat/${mutualGroupChat._id}`}
+                className={classes["mutual-group-chat"]}
+              >
+                <div
+                  className={`${classes["mutual-group-chat-icon"]} ${
+                    mutualGroupChat.title.length > 12
+                      ? classes["mutual-group-chat-icon-small"]
+                      : ""
+                  }`}
+                >
+                  {mutualGroupChat.title}
+                </div>
+                <div className={classes["mutual-group-chat-title"]}>
+                  {mutualGroupChat.title}
                 </div>
               </Link>
             ))}
@@ -61,15 +75,33 @@ const DirectChatPanel = ({
             )}
 
             {mutualFriendUsers.length > 0 && (
-              <div className={classes["group-chat-share-friend"]}>
+              <div className={classes["mutual-friend-user-count"]}>
                 같이 아는 친구 - {mutualFriendUsers.length}
               </div>
             )}
 
             {mutualFriendUsers.map((mutualFriendUser) => (
-              <Link to={`${mutualFriendUser.id}`}>
+              <Link
+                to={`/me/${mutualFriendUser.id}`}
+                className={classes["mutual-friend-user"]}
+              >
                 <div>
-                  <div>친구</div>
+                  <div
+                    className={classes["mutual-friend-user-avatar"]}
+                    style={{ backgroundColor: mutualFriendUser.avatarColor }}
+                  >
+                    {mutualFriendUser.nickname.charAt(0)}
+                    <div
+                      className={
+                        onlineChecked
+                          ? classes["mutual-friend-user-online-dot"]
+                          : classes["mutual-friend-user-offline-dot"]
+                      }
+                    />
+                  </div>
+                </div>
+                <div className={classes["mutual-friend-user-nickname"]}>
+                  {mutualFriendUser.nickname}
                 </div>
               </Link>
             ))}
