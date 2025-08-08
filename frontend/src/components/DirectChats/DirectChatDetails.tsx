@@ -110,6 +110,27 @@ const DirectChatDetails = () => {
       : mutualFriend.requester;
   });
 
+  const mutualFriendUsersWithRoomId = mutualFriendUsers.map(
+    (mutualFriendUser) => {
+      const directChatId = directChats.find((directChat) => {
+        const hasUserInfo = directChat.participants.some((participant) => {
+          return participant._id === userInfo?._id;
+        });
+
+        const hasFriend = directChat.participants.some((participant) => {
+          return participant._id === mutualFriendUser.id;
+        });
+
+        return hasUserInfo && hasFriend;
+      });
+
+      return {
+        ...mutualFriendUser,
+        roomId: directChatId?._id ?? "",
+      };
+    }
+  );
+
   return (
     <div className={classes["direct-chat-detail-wrapper"]}>
       <div className={classes["direct-chat-area"]}>
@@ -132,7 +153,8 @@ const DirectChatDetails = () => {
         onlineChecked={onlineChecked}
         friendSince={friendSince ?? ""}
         mutualGroupChats={mutualGroupChats}
-        mutualFriendUsers={mutualFriendUsers}
+        // mutualFriendUsers={mutualFriendUsers}
+        mutualFriendUsersWithRoomId={mutualFriendUsersWithRoomId}
       />
     </div>
   );

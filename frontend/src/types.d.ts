@@ -36,6 +36,7 @@ export interface MutualFriendUser {
   email?: string;
   nickname: string;
   avatarColor: string;
+  roomId: string;
 }
 
 export interface DirectChatPanelProps {
@@ -43,7 +44,8 @@ export interface DirectChatPanelProps {
   onlineChecked: boolean;
   friendSince: string;
   mutualGroupChats: GroupChatData[];
-  mutualFriendUsers: MutualFriendUser[];
+  // mutualFriendUsers: MutualFriendUser[];
+  mutualFriendUsersWithRoomId: MutualFriendUser[];
 }
 
 export interface ContextMenu {

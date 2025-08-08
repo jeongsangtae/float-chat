@@ -8,7 +8,8 @@ const DirectChatPanel = ({
   onlineChecked,
   friendSince,
   mutualGroupChats,
-  mutualFriendUsers,
+  // mutualFriendUsers,
+  mutualFriendUsersWithRoomId,
 }: DirectChatPanelProps) => {
   return (
     <div className={classes["direct-chat-panel"]}>
@@ -42,7 +43,8 @@ const DirectChatPanel = ({
           <div className={classes["not-friend"]}>친구가 아닌 사용자</div>
         )}
 
-        {(mutualGroupChats.length || mutualFriendUsers.length) > 0 && (
+        {(mutualGroupChats.length || mutualFriendUsersWithRoomId.length) >
+          0 && (
           <div className={classes["mutual-content-wrapper"]}>
             {mutualGroupChats.length > 0 && (
               <div className={classes["mutual-group-chat-count"]}>
@@ -70,27 +72,30 @@ const DirectChatPanel = ({
               </Link>
             ))}
 
-            {mutualGroupChats.length > 0 && mutualFriendUsers.length > 0 && (
-              <div className={classes.underline}></div>
-            )}
+            {mutualGroupChats.length > 0 &&
+              mutualFriendUsersWithRoomId.length > 0 && (
+                <div className={classes.underline}></div>
+              )}
 
-            {mutualFriendUsers.length > 0 && (
+            {mutualFriendUsersWithRoomId.length > 0 && (
               <div className={classes["mutual-friend-user-count"]}>
-                같이 아는 친구 - {mutualFriendUsers.length}
+                같이 아는 친구 - {mutualFriendUsersWithRoomId.length}
               </div>
             )}
 
-            {mutualFriendUsers.map((mutualFriendUser) => (
+            {mutualFriendUsersWithRoomId.map((mutualFriendUserWithRoomId) => (
               <Link
-                to={`/me/${mutualFriendUser.id}`}
+                to={`/me/${mutualFriendUserWithRoomId.roomId}`}
                 className={classes["mutual-friend-user"]}
               >
                 <div>
                   <div
                     className={classes["mutual-friend-user-avatar"]}
-                    style={{ backgroundColor: mutualFriendUser.avatarColor }}
+                    style={{
+                      backgroundColor: mutualFriendUserWithRoomId.avatarColor,
+                    }}
                   >
-                    {mutualFriendUser.nickname.charAt(0)}
+                    {mutualFriendUserWithRoomId.nickname.charAt(0)}
                     <div
                       className={
                         onlineChecked
@@ -101,7 +106,7 @@ const DirectChatPanel = ({
                   </div>
                 </div>
                 <div className={classes["mutual-friend-user-nickname"]}>
-                  {mutualFriendUser.nickname}
+                  {mutualFriendUserWithRoomId.nickname}
                 </div>
               </Link>
             ))}
