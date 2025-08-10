@@ -104,32 +104,61 @@ const DirectChatDetails = () => {
     });
   });
 
+  // const mutualFriendUsers = mutualFriends.map((mutualFriend) => {
+  //   return mutualFriend.requester.id === userInfo?._id
+  //     ? mutualFriend.receiver
+  //     : mutualFriend.requester;
+  // });
+
+  // const mutualFriendUsersWithRoomId = mutualFriendUsers.map(
+  //   (mutualFriendUser) => {
+  //     const directChatId = directChats.find((directChat) => {
+  //       const hasUserInfo = directChat.participants.some((participant) => {
+  //         return participant._id === userInfo?._id;
+  //       });
+
+  //       const hasFriend = directChat.participants.some((participant) => {
+  //         return participant._id === mutualFriendUser.id;
+  //       });
+
+  //       return hasUserInfo && hasFriend;
+  //     });
+
+  //     return {
+  //       ...mutualFriendUser,
+  //       roomId: directChatId?._id ?? "",
+  //     };
+  //   }
+  // );
+
+  // 사용자와 다른 사용자 모두와 친구인 사용자 목록
+  // 각 객체는 함께 아는 친구 정보, 나 그리고 해당 사용자 간의 1:1 채팅방 ID를 포함
   const mutualFriendUsers = mutualFriends.map((mutualFriend) => {
-    return mutualFriend.requester.id === userInfo?._id
-      ? mutualFriend.receiver
-      : mutualFriend.requester;
-  });
+    // mutualFriend에서 "나"가 아닌 함께 아는 친구 정보 추출
+    const mutualFriendInfo =
+      mutualFriend.requester.id === userInfo?._id
+        ? mutualFriend.receiver
+        : mutualFriend.requester;
 
-  const mutualFriendUsersWithRoomId = mutualFriendUsers.map(
-    (mutualFriendUser) => {
-      const directChatId = directChats.find((directChat) => {
-        const hasUserInfo = directChat.participants.some((participant) => {
-          return participant._id === userInfo?._id;
-        });
-
-        const hasFriend = directChat.participants.some((participant) => {
-          return participant._id === mutualFriendUser.id;
-        });
-
-        return hasUserInfo && hasFriend;
+    // "나"와 함께 아는 친구 사이의 1:1 다이렉트 채팅방 찾기
+    const directChat = directChats.find((directChat) => {
+      const hasUserInfo = directChat.participants.some((participant) => {
+        return participant._id === userInfo?._id;
       });
 
-      return {
-        ...mutualFriendUser,
-        roomId: directChatId?._id ?? "",
-      };
-    }
-  );
+      const hasFriend = directChat.participants.some((participant) => {
+        return participant._id === mutualFriendInfo.id;
+      });
+
+      return hasUserInfo && hasFriend;
+    });
+
+    // 함께 아는 친구 정보 + roomId 반환
+    return {
+      ...mutualFriendInfo,
+      roomId: directChat?._id ?? "",
+    };
+  });
 
   return (
     <div className={classes["direct-chat-detail-wrapper"]}>
@@ -153,8 +182,8 @@ const DirectChatDetails = () => {
         onlineChecked={onlineChecked}
         friendSince={friendSince ?? ""}
         mutualGroupChats={mutualGroupChats}
-        // mutualFriendUsers={mutualFriendUsers}
-        mutualFriendUsersWithRoomId={mutualFriendUsersWithRoomId}
+        mutualFriendUsers={mutualFriendUsers}
+        // mutualFriendUsersWithRoomId={mutualFriendUsersWithRoomId}
       />
     </div>
   );

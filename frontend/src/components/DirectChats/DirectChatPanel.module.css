@@ -162,17 +162,17 @@
   margin-bottom: 0.5rem;
 }
 
-.mutual-friend-user:hover {
-  border-radius: 8px;
-  /* background-color: #38393f; */
-  background-color: #525258;
-}
-
 .mutual-friend-user {
   display: flex;
   text-decoration: none;
   padding: 0.3rem 0.5rem;
   align-items: center;
+}
+
+.mutual-friend-user:hover {
+  border-radius: 8px;
+  /* background-color: #38393f; */
+  background-color: #525258;
 }
 
 .mutual-friend-user-avatar {
