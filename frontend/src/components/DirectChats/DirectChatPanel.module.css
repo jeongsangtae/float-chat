@@ -98,20 +98,51 @@
   border-radius: 8px;
 }
 
-.mutual-group-chat-count {
-  font-size: 0.95rem;
-  font-weight: bold;
-  margin-bottom: 0.5rem;
+.mutual-content-wrapper > *:not(:last-child) {
+  margin-bottom: 0.75rem;
 }
 
-.mutual-group-chat {
+.mutual-group-chat-count,
+.mutual-friend-user-count {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+}
+
+.mutual-group-chat-text-wrapper,
+.mutual-friend-user-text-wrapper {
+  font-size: 0.95rem;
+}
+
+.mutual-group-chat-text,
+.mutual-friend-user-text {
+  font-weight: bold;
+}
+
+.line {
+  display: inline-block;
+  transform: scaleX(0.8);
+  margin: 0 0.2rem;
+}
+
+.mutual-group-chat-icon-wrapper,
+.mutual-friend-user-icon-wrapper {
+  display: flex;
+  font-size: 1.4rem;
+  color: #bdb8b8;
+}
+
+.mutual-group-chat,
+.mutual-friend-user {
   display: flex;
   text-decoration: none;
   padding: 0.3rem 0.5rem;
   align-items: center;
 }
 
-.mutual-group-chat:hover {
+.mutual-group-chat:hover,
+.mutual-friend-user:hover {
   border-radius: 8px;
   /* background-color: #38393f; */
   background-color: #525258;
@@ -139,7 +170,8 @@
   font-size: 0.65rem;
 }
 
-.mutual-group-chat-title {
+.mutual-group-chat-title,
+.mutual-friend-user-nickname {
   flex: 1;
   white-space: nowrap;
   overflow: hidden;
@@ -150,29 +182,14 @@
   margin-left: 0.75rem;
 }
 
+.mutual-friend-user-nickname {
+  margin-left: 1rem;
+}
+
 .underline {
   height: 1px;
   background-color: rgba(128, 128, 128, 0.2);
-  margin: 0.5rem 0;
-}
-
-.mutual-friend-user-count {
-  font-size: 0.95rem;
-  font-weight: bold;
-  margin-bottom: 0.5rem;
-}
-
-.mutual-friend-user {
-  display: flex;
-  text-decoration: none;
-  padding: 0.3rem 0.5rem;
-  align-items: center;
-}
-
-.mutual-friend-user:hover {
-  border-radius: 8px;
-  /* background-color: #38393f; */
-  background-color: #525258;
+  margin: 0.75rem 0;
 }
 
 .mutual-friend-user-avatar {
@@ -203,15 +220,4 @@
 
 .mutual-friend-user-offline-dot {
   background-color: gray;
-}
-
-.mutual-friend-user-nickname {
-  flex: 1;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis; /* 텍스트가 넘칠 경우 ... 으로 생략해 출력 */
-  min-width: 0;
-  color: white;
-  font-weight: bold;
-  margin-left: 1rem;
 }

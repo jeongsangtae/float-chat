@@ -1,5 +1,8 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { DirectChatPanelProps } from "../../types";
+
+import { IoIosArrowForward, IoIosArrowDown } from "react-icons/io";
 
 import classes from "./DirectChatPanel.module.css";
 
@@ -9,8 +12,18 @@ const DirectChatPanel = ({
   friendSince,
   mutualGroupChats,
   mutualFriendUsers,
-}: // mutualFriendUsersWithRoomId,
-DirectChatPanelProps) => {
+}: DirectChatPanelProps) => {
+  const [showMutualGroupChats, setShowMutualGroupChats] = useState(false);
+  const [showMutualFriends, setShowMutualFriends] = useState(false);
+
+  const toggleMutualGroupChatsHandler = () => {
+    setShowMutualGroupChats(!showMutualGroupChats);
+  };
+
+  const toggleMutualFriendsHandler = () => {
+    setShowMutualFriends(!showMutualFriends);
+  };
+
   return (
     <div className={classes["direct-chat-panel"]}>
       <div
@@ -46,68 +59,110 @@ DirectChatPanelProps) => {
         {(mutualGroupChats.length || mutualFriendUsers.length) > 0 && (
           <div className={classes["mutual-content-wrapper"]}>
             {mutualGroupChats.length > 0 && (
-              <div className={classes["mutual-group-chat-count"]}>
-                같이 있는 그룹 채팅방 - {mutualGroupChats.length}
+              <div
+                className={classes["mutual-group-chat-count"]}
+                onClick={toggleMutualGroupChatsHandler}
+              >
+                <div className={classes["mutual-group-chat-text-wrapper"]}>
+                  <span className={classes["mutual-group-chat-text"]}>
+                    같이 있는 그룹 채팅방
+                  </span>
+                  <span className={classes.line}>ㅡ</span>
+                  <span>{mutualGroupChats.length}</span>
+                </div>
+
+                <div className={classes["mutual-group-chat-icon-wrapper"]}>
+                  {!showMutualGroupChats ? (
+                    <IoIosArrowForward />
+                  ) : (
+                    <IoIosArrowDown />
+                  )}
+                </div>
               </div>
             )}
 
-            {mutualGroupChats.map((mutualGroupChat) => (
-              <Link
-                to={`/group-chat/${mutualGroupChat._id}`}
-                className={classes["mutual-group-chat"]}
-              >
-                <div
-                  className={`${classes["mutual-group-chat-icon"]} ${
-                    mutualGroupChat.title.length > 12
-                      ? classes["mutual-group-chat-icon-small"]
-                      : ""
-                  }`}
-                >
-                  {mutualGroupChat.title}
-                </div>
-                <div className={classes["mutual-group-chat-title"]}>
-                  {mutualGroupChat.title}
-                </div>
-              </Link>
-            ))}
+            {showMutualGroupChats && (
+              <>
+                {mutualGroupChats.map((mutualGroupChat) => (
+                  <Link
+                    to={`/group-chat/${mutualGroupChat._id}`}
+                    className={classes["mutual-group-chat"]}
+                  >
+                    <div
+                      className={`${classes["mutual-group-chat-icon"]} ${
+                        mutualGroupChat.title.length > 12
+                          ? classes["mutual-group-chat-icon-small"]
+                          : ""
+                      }`}
+                    >
+                      {mutualGroupChat.title}
+                    </div>
+                    <div className={classes["mutual-group-chat-title"]}>
+                      {mutualGroupChat.title}
+                    </div>
+                  </Link>
+                ))}
+              </>
+            )}
 
             {mutualGroupChats.length > 0 && mutualFriendUsers.length > 0 && (
               <div className={classes.underline}></div>
             )}
 
             {mutualFriendUsers.length > 0 && (
-              <div className={classes["mutual-friend-user-count"]}>
-                같이 아는 친구 - {mutualFriendUsers.length}
+              <div
+                className={classes["mutual-friend-user-count"]}
+                onClick={toggleMutualFriendsHandler}
+              >
+                <div className={classes["mutual-friend-user-text-wrapper"]}>
+                  <span className={classes["mutual-friend-user-text"]}>
+                    같이 아는 친구
+                  </span>
+                  <span className={classes.line}>ㅡ</span>
+                  <span>{mutualFriendUsers.length}</span>
+                </div>
+
+                <div className={classes["mutual-friend-user-icon-wrapper"]}>
+                  {!showMutualFriends ? (
+                    <IoIosArrowForward />
+                  ) : (
+                    <IoIosArrowDown />
+                  )}
+                </div>
               </div>
             )}
 
-            {mutualFriendUsers.map((mutualFriendUser) => (
-              <Link
-                to={`/me/${mutualFriendUser.roomId}`}
-                className={classes["mutual-friend-user"]}
-              >
-                <div>
-                  <div
-                    className={classes["mutual-friend-user-avatar"]}
-                    style={{
-                      backgroundColor: mutualFriendUser.avatarColor,
-                    }}
+            {showMutualFriends && (
+              <>
+                {mutualFriendUsers.map((mutualFriendUser) => (
+                  <Link
+                    to={`/me/${mutualFriendUser.roomId}`}
+                    className={classes["mutual-friend-user"]}
                   >
-                    {mutualFriendUser.nickname.charAt(0)}
-                    <div
-                      className={
-                        onlineChecked
-                          ? classes["mutual-friend-user-online-dot"]
-                          : classes["mutual-friend-user-offline-dot"]
-                      }
-                    />
-                  </div>
-                </div>
-                <div className={classes["mutual-friend-user-nickname"]}>
-                  {mutualFriendUser.nickname}
-                </div>
-              </Link>
-            ))}
+                    <div>
+                      <div
+                        className={classes["mutual-friend-user-avatar"]}
+                        style={{
+                          backgroundColor: mutualFriendUser.avatarColor,
+                        }}
+                      >
+                        {mutualFriendUser.nickname.charAt(0)}
+                        <div
+                          className={
+                            onlineChecked
+                              ? classes["mutual-friend-user-online-dot"]
+                              : classes["mutual-friend-user-offline-dot"]
+                          }
+                        />
+                      </div>
+                    </div>
+                    <div className={classes["mutual-friend-user-nickname"]}>
+                      {mutualFriendUser.nickname}
+                    </div>
+                  </Link>
+                ))}
+              </>
+            )}
           </div>
         )}
       </div>
