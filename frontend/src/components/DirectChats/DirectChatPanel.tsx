@@ -85,6 +85,7 @@ const DirectChatPanel = ({
               <>
                 {mutualGroupChats.map((mutualGroupChat) => (
                   <Link
+                    key={`mutualGroupChat-${mutualGroupChat._id}`}
                     to={`/group-chat/${mutualGroupChat._id}`}
                     className={classes["mutual-group-chat"]}
                   >
@@ -136,6 +137,9 @@ const DirectChatPanel = ({
               <>
                 {mutualFriendUsers.map((mutualFriendUser) => (
                   <Link
+                    key={`mutualFriend-${
+                      mutualFriendUser.id || mutualFriendUser.roomId
+                    }`}
                     to={`/me/${mutualFriendUser.roomId}`}
                     className={classes["mutual-friend-user"]}
                   >

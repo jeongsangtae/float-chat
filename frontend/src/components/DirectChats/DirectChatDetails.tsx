@@ -83,55 +83,59 @@ const DirectChatDetails = () => {
     return users.includes(userInfo._id) && users.includes(otherUser._id);
   });
 
-  const mutualFriends = friends.filter((friend) => {
-    const userFriendId =
-      friend.requester.id === userInfo?._id
-        ? friend.receiver.id
-        : friend.requester.id;
+  const mutualFriends = useMemo(() => {
+    return friends.filter((friend) => {
+      const userFriendId =
+        friend.requester.id === userInfo?._id
+          ? friend.receiver.id
+          : friend.requester.id;
 
-    if (userFriendId === otherUser?._id) return false;
+      if (userFriendId === otherUser?._id) return false;
 
-    return otherUserFriends.some((otherUserFriend) => {
-      const otherUserFriendId =
-        otherUserFriend.requester.id === otherUser?._id
-          ? otherUserFriend.receiver.id
-          : otherUserFriend.requester.id;
+      return otherUserFriends.some((otherUserFriend) => {
+        const otherUserFriendId =
+          otherUserFriend.requester.id === otherUser?._id
+            ? otherUserFriend.receiver.id
+            : otherUserFriend.requester.id;
 
-      return (
-        otherUserFriendId === userFriendId &&
-        otherUserFriendId !== userInfo?._id // 나 자신도 제외
-      );
+        return (
+          otherUserFriendId === userFriendId &&
+          otherUserFriendId !== userInfo?._id // 나 자신도 제외
+        );
+      });
     });
-  });
+  }, [friends, otherUserFriends, userInfo?._id, otherUser?._id]);
 
   // 사용자와 다른 사용자 모두와 친구인 사용자 목록
   // 각 객체는 함께 아는 친구 정보, 나 그리고 해당 사용자 간의 1:1 채팅방 ID를 포함
-  const mutualFriendUsers = mutualFriends.map((mutualFriend) => {
-    // mutualFriend에서 "나"가 아닌 함께 아는 친구 정보 추출
-    const mutualFriendInfo =
-      mutualFriend.requester.id === userInfo?._id
-        ? mutualFriend.receiver
-        : mutualFriend.requester;
+  const mutualFriendUsers = useMemo(() => {
+    return mutualFriends.map((mutualFriend) => {
+      // mutualFriend에서 "나"가 아닌 함께 아는 친구 정보 추출
+      const mutualFriendInfo =
+        mutualFriend.requester.id === userInfo?._id
+          ? mutualFriend.receiver
+          : mutualFriend.requester;
 
-    // "나"와 함께 아는 친구 사이의 1:1 다이렉트 채팅방 찾기
-    const directChat = directChats.find((directChat) => {
-      const hasUserInfo = directChat.participants.some((participant) => {
-        return participant._id === userInfo?._id;
+      // "나"와 함께 아는 친구 사이의 1:1 다이렉트 채팅방 찾기
+      const directChat = directChats.find((directChat) => {
+        const hasUserInfo = directChat.participants.some((participant) => {
+          return participant._id === userInfo?._id;
+        });
+
+        const hasFriend = directChat.participants.some((participant) => {
+          return participant._id === mutualFriendInfo.id;
+        });
+
+        return hasUserInfo && hasFriend;
       });
 
-      const hasFriend = directChat.participants.some((participant) => {
-        return participant._id === mutualFriendInfo.id;
-      });
-
-      return hasUserInfo && hasFriend;
+      // 함께 아는 친구 정보 + roomId 반환
+      return {
+        ...mutualFriendInfo,
+        roomId: directChat?._id ?? "",
+      };
     });
-
-    // 함께 아는 친구 정보 + roomId 반환
-    return {
-      ...mutualFriendInfo,
-      roomId: directChat?._id ?? "",
-    };
-  });
+  }, [mutualFriends, directChats, userInfo?._id]);
 
   return (
     <div className={classes["direct-chat-detail-wrapper"]}>
