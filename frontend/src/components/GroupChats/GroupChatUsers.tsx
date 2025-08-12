@@ -6,17 +6,18 @@ import GroupChatUser from "./GroupChatUser";
 import { RoomId } from "../../types";
 import classes from "./GroupChatUsers.module.css";
 
-const GroupChatUsers = ({ roomId }: RoomId) => {
-  const { groupChatUsers, getGroupChatUsers } = useGroupChatStore();
+// const GroupChatUsers = ({ roomId }: RoomId) => {
+const GroupChatUsers = ({ groupChatUsers }) => {
+  // const { groupChatUsers, getGroupChatUsers } = useGroupChatStore();
 
-  useEffect(() => {
-    if (!roomId) {
-      console.error("roomId가 정의되지 않았습니다.");
-      return;
-    }
+  // useEffect(() => {
+  //   if (!roomId) {
+  //     console.error("roomId가 정의되지 않았습니다.");
+  //     return;
+  //   }
 
-    getGroupChatUsers(roomId);
-  }, [roomId]);
+  //   getGroupChatUsers(roomId);
+  // }, [roomId]);
 
   const onlineUsers = groupChatUsers.filter(
     (groupChatUser) => groupChatUser.onlineChecked

@@ -21,7 +21,8 @@ const GroupChatDetails = () => {
   const { roomId } = useParams<{ roomId: string }>();
 
   const { userInfo } = useAuthStore();
-  const { groupChats, getGroupChats } = useGroupChatStore();
+  const { groupChats, getGroupChats, groupChatUsers, getGroupChatUsers } =
+    useGroupChatStore();
   const { friends, loadFriends } = useFriendStore();
   const { setView, setGroupChatTitle } = useLayoutStore();
 
@@ -67,6 +68,17 @@ const GroupChatDetails = () => {
     getGroupChats();
   }, []);
 
+  useEffect(() => {
+    if (!roomId) {
+      console.error("roomId가 정의되지 않았습니다.");
+      return;
+    }
+
+    getGroupChatUsers(roomId);
+  }, [roomId]);
+
+  console.log(groupChatUsers);
+
   return (
     <div className={classes["group-chat-details"]}>
       <div className={classes["group-chat-sidebar"]}>
@@ -82,7 +94,7 @@ const GroupChatDetails = () => {
 
         <div className={classes.underline}></div>
 
-        <GroupChatUsers roomId={roomId} />
+        <GroupChatUsers groupChatUsers={groupChatUsers} />
       </div>
 
       {toggle && (
@@ -143,6 +155,7 @@ const GroupChatDetails = () => {
         groupChatSince={groupChatSince ?? ""}
         hostNickname={groupChat?.hostNickname ?? ""}
         hostAvatarColor={groupChat?.hostAvatarColor ?? ""}
+        groupChatUsers={groupChatUsers}
       />
     </div>
   );

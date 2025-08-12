@@ -65,10 +65,62 @@
   margin-top: 2.25rem;
 }
 
+.group-chat-users-wrapper {
+  padding: 0.75rem;
+  background-color: #414147;
+  border-radius: 8px;
+}
+
+.group-chat-user {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  flex: 1;
+}
+
+.group-chat-user-avatar {
+  position: relative;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  color: white;
+}
+
+.online-dot,
+.offline-dot {
+  position: absolute;
+  width: 0.8rem;
+  height: 0.8rem;
+  bottom: -1px;
+  right: -1px;
+  border-radius: 50%;
+  background-color: #02ac02;
+  border: 2px solid #1e1e1e;
+}
+
+.offline-dot {
+  background-color: gray;
+}
+
+.group-chat-user-nickname {
+  color: white;
+  margin-left: 0.25rem;
+  width: 8rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .group-chat-since-wrapper {
   padding: 0.75rem;
   background-color: #414147;
   border-radius: 8px;
+  margin-top: 0.75rem;
 }
 
 .group-chat-since-label {

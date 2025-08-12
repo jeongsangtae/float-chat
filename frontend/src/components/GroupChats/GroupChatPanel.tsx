@@ -5,7 +5,15 @@ const GroupChatPanel = ({
   groupChatSince,
   hostNickname,
   hostAvatarColor,
+  groupChatUsers,
 }: GroupChatPanelProps) => {
+  const onlineUsers = groupChatUsers.filter(
+    (groupChatUser) => groupChatUser.onlineChecked
+  );
+  const offlineUsers = groupChatUsers.filter(
+    (groupChatUser) => !groupChatUser.onlineChecked
+  );
+
   return (
     <div className={classes["group-chat-panel"]}>
       <div
@@ -26,6 +34,36 @@ const GroupChatPanel = ({
           /> */}
         </div>
         <h3 className={classes.nickname}>{hostNickname}</h3>
+
+        <div className={classes["group-chat-users-wrapper"]}>
+          <div>총 {groupChatUsers.length}명 참여</div>
+          {groupChatUsers.map((groupChatUser) => (
+            <div
+              key={`groupChatUser-${groupChatUser._id}`}
+              className={classes["group-chat-user"]}
+            >
+              <div
+                className={classes["group-chat-user-avatar"]}
+                style={{
+                  backgroundColor: groupChatUser.avatarColor,
+                }}
+              >
+                {groupChatUser.nickname.charAt(0)}
+                <div
+                  className={
+                    groupChatUser.onlineChecked
+                      ? classes["online-dot"]
+                      : classes["offline-dot"]
+                  }
+                />
+              </div>
+              <div className={classes["group-chat-user-nickname"]}>
+                {groupChatUser.nickname}
+              </div>
+            </div>
+          ))}
+          <div></div>
+        </div>
 
         <div className={classes["group-chat-since-wrapper"]}>
           <div className={classes["group-chat-since-label"]}>
