@@ -1,24 +1,10 @@
-import { useEffect } from "react";
-
-import useGroupChatStore from "../../store/groupChatStore";
 import GroupChatUser from "./GroupChatUser";
 
-import { RoomId } from "../../types";
+import { GroupChatUsersProps } from "../../types";
+
 import classes from "./GroupChatUsers.module.css";
 
-// const GroupChatUsers = ({ roomId }: RoomId) => {
-const GroupChatUsers = ({ groupChatUsers }) => {
-  // const { groupChatUsers, getGroupChatUsers } = useGroupChatStore();
-
-  // useEffect(() => {
-  //   if (!roomId) {
-  //     console.error("roomId가 정의되지 않았습니다.");
-  //     return;
-  //   }
-
-  //   getGroupChatUsers(roomId);
-  // }, [roomId]);
-
+const GroupChatUsers = ({ groupChatUsers }: GroupChatUsersProps) => {
   const onlineUsers = groupChatUsers.filter(
     (groupChatUser) => groupChatUser.onlineChecked
   );

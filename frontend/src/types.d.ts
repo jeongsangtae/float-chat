@@ -77,6 +77,10 @@ export interface GroupChatUserData {
   onlineChecked: boolean;
 }
 
+export interface GroupChatUsersProps {
+  groupChatUsers: GroupChatUserData[];
+}
+
 export interface GroupChatInvites {
   _id: string;
   roomId: string;
@@ -124,6 +128,7 @@ export interface GroupChatPanelProps {
   groupChatSince: string;
   hostNickname: string;
   hostAvatarColor: string;
+  groupChatUsers: GroupChatUserData[];
 }
 
 export interface UserInfo {
