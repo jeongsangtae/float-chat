@@ -1,13 +1,17 @@
 import { create } from "zustand";
 
 interface ModalStore {
-  activeModal: "groupChatForm" | "editUserProfileForm" | null;
+  activeModal:
+    | "groupChatForm"
+    | "editUserProfileForm"
+    | "groupChatAnnouncementForm"
+    | null;
   modalData: {
     method: "POST" | "PATCH";
     [key: string]: any;
   };
   toggleModal: (
-    type: "groupChatForm" | "editUserProfileForm",
+    type: "groupChatForm" | "editUserProfileForm" | "groupChatAnnouncementForm",
     method?: "POST" | "PATCH",
     data?: Record<string, any>
   ) => void;

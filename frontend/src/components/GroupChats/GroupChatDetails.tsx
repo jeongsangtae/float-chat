@@ -153,6 +153,8 @@ const GroupChatDetails = () => {
 
       <GroupChatPanel
         groupChatSince={groupChatSince ?? ""}
+        userId={userInfo?._id ?? ""}
+        hostId={groupChat?.hostId ?? ""}
         hostNickname={groupChat?.hostNickname ?? ""}
         hostAvatarColor={groupChat?.hostAvatarColor ?? ""}
         groupChatUsers={groupChatUsers}

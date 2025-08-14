@@ -1,14 +1,24 @@
 import { useState } from "react";
 
+import GroupChatAnnouncementForm from "./GroupChatAnnouncementForm";
+
 import { GroupChatPanelProps } from "../../types";
+
+import { FiEdit } from "react-icons/fi";
+import { IoIosArrowUp, IoIosArrowDown } from "react-icons/io";
 import classes from "./GroupChatPanel.module.css";
+import useModalStore from "../../store/modalStore";
 
 const GroupChatPanel = ({
   groupChatSince,
+  userId,
+  hostId,
   hostNickname,
   hostAvatarColor,
   groupChatUsers,
 }: GroupChatPanelProps) => {
+  const { activeModal, toggleModal } = useModalStore();
+
   const [showGroupChatUsers, setShowGroupChatUsers] = useState(false);
 
   // 온라인과 오프라인 분리
@@ -31,6 +41,12 @@ const GroupChatPanel = ({
 
   const toggleGroupChatUsersHandler = () => {
     setShowGroupChatUsers(!showGroupChatUsers);
+  };
+
+  const groupChatAnnouncementEditHandler = () => {
+    toggleModal("groupChatAnnouncementForm", "PATCH", {
+      _id: userId,
+    });
   };
 
   return (
@@ -56,8 +72,16 @@ const GroupChatPanel = ({
 
         <div>
           <div>공지 출력하는 공간</div>
-          <div>호스트만 보여지는 버튼 (공지 수정 버튼)</div>
+          {userId === hostId && (
+            <FiEdit onClick={groupChatAnnouncementEditHandler} />
+          )}
         </div>
+
+        {activeModal === "groupChatAnnouncementForm" && (
+          <GroupChatAnnouncementForm
+            onToggle={() => toggleModal("groupChatAnnouncementForm")}
+          />
+        )}
 
         <div className={classes["group-chat-users-wrapper"]}>
           <div>총 {groupChatUsers.length}명 참여</div>
@@ -89,7 +113,7 @@ const GroupChatPanel = ({
 
           {groupChatUsers.length > 3 && (
             <button onClick={toggleGroupChatUsersHandler}>
-              {!showGroupChatUsers ? "펼치기" : "접기"}
+              {!showGroupChatUsers ? <IoIosArrowDown /> : <IoIosArrowUp />}
             </button>
           )}
         </div>

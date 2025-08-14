@@ -126,6 +126,8 @@ export interface GroupChatInviteListProps {
 
 export interface GroupChatPanelProps {
   groupChatSince: string;
+  userId: string;
+  hostId: string;
   hostNickname: string;
   hostAvatarColor: string;
   groupChatUsers: GroupChatUserData[];
