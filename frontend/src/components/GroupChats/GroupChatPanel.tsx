@@ -11,10 +11,12 @@ import useModalStore from "../../store/modalStore";
 
 const GroupChatPanel = ({
   groupChatSince,
+  groupChatId,
   userId,
   hostId,
   hostNickname,
   hostAvatarColor,
+  announcement,
   groupChatUsers,
 }: GroupChatPanelProps) => {
   const { activeModal, toggleModal } = useModalStore();
@@ -45,7 +47,8 @@ const GroupChatPanel = ({
 
   const groupChatAnnouncementEditHandler = () => {
     toggleModal("groupChatAnnouncementForm", "PATCH", {
-      _id: userId,
+      groupChatId,
+      announcement,
     });
   };
 

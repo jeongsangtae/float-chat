@@ -62,6 +62,7 @@ export interface GroupChatData {
   hostUsername: string;
   hostNickname: string;
   hostAvatarColor: string;
+  announcement?: string;
   title: string;
   date?: string;
   users?: string[];
@@ -126,10 +127,12 @@ export interface GroupChatInviteListProps {
 
 export interface GroupChatPanelProps {
   groupChatSince: string;
+  groupChatId: string;
   userId: string;
   hostId: string;
   hostNickname: string;
   hostAvatarColor: string;
+  announcement?: string;
   groupChatUsers: GroupChatUserData[];
 }
 

@@ -174,6 +174,74 @@ router.patch("/groupChatForm", async (req, res) => {
   }
 });
 
+// 그룹 채팅방 공지 수정 라우터
+router.patch("/groupChatAnnouncementForm", async (req, res) => {
+  try {
+    const othersData = await accessToken(req, res);
+
+    if (!othersData) {
+      return res.status(401).json({ message: "jwt error" });
+    }
+
+    const requestBody = req.body;
+
+    // let date = new Date();
+    // let kstDate = new Date(date.getTime() + 9 * 60 * 60 * 1000);
+
+    const groupChat = await db
+      .getDb()
+      .collection("groupChats")
+      .findOne({ _id: new ObjectId(requestBody.modalData.groupChatId) });
+
+    if (!groupChat) {
+      return res
+        .status(404)
+        .json({ message: "그룹 채팅방을 찾을 수 없습니다." });
+    }
+
+    // 로그인한 사용자 이메일이 아닌, 프론트엔드에서 전달한 이메일 정보를 사용하는 것이 좋은가 ?
+    // 결론은 프론트엔드에서 전달한 이메일 데이터로 권한 체크를 하면 안됨
+    // 프론트 데이터는 조작 가능하기 때문에 서버에서 인증된 토큰 데이터를 사용해야 함
+    if (groupChat.hostEmail !== othersData.email) {
+      return res
+        .status(403)
+        .json({ message: "그룹 채팅방을 수정할 권한이 없습니다." });
+    }
+
+    // 공지 삭제 허용 로직 or 에러 처리
+    // if (requestBody.trimmedAnnouncement?.length === 0) {
+    // }
+
+    const editGroupChatAnnouncement = {
+      announcement: requestBody.trimmedAnnouncement,
+    };
+
+    await db
+      .getDb()
+      .collection("groupChats")
+      .updateOne(
+        { _id: new ObjectId(requestBody.modalData.groupChatId) },
+        { $set: { announcement: editGroupChatAnnouncement.announcement } }
+      );
+
+    // // Socket.io 및 onlineUsers Map 가져오기
+    // const io = req.app.get("io"); // Express 앱에서 Socket.io 인스턴스를 가져옴
+    // const onlineUsers = req.app.get("onlineUsers"); // onlineUsers Map을 가져옴
+
+    // // 그룹 채팅방에 참여한 사용자들에게 실시간 알림 전송
+    // groupChat.users.forEach((userId) => {
+    //   const socketId = onlineUsers.get(userId);
+    //   if (socketId) {
+    //     io.to(socketId).emit("groupChatEdit", editGroupChat);
+    //   }
+    // });
+
+    res.status(200).json({ editGroupChatAnnouncement });
+  } catch (error) {
+    errorHandler(res, error, "그룹 채팅방 공지 수정 중 오류 발생");
+  }
+});
+
 // 그룹 채팅방 삭제 라우터
 router.delete("/groupChat/:roomId", async (req, res) => {
   try {
