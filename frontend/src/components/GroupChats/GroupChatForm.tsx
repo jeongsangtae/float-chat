@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import useAuthStore from "../../store/authStore";
+// import useAuthStore from "../../store/authStore";
 import useGroupChatStore from "../../store/groupChatStore";
 import useModalStore from "../../store/modalStore";
 
@@ -9,7 +9,7 @@ import Modal from "../UI/Modal";
 import classes from "./GroupChatForm.module.css";
 
 const GroupChatForm = ({ onToggle }: ModalProps) => {
-  const { userInfo } = useAuthStore();
+  // const { userInfo } = useAuthStore();
   const { groupChatForm } = useGroupChatStore();
   const { modalData } = useModalStore();
 
@@ -38,10 +38,10 @@ const GroupChatForm = ({ onToggle }: ModalProps) => {
   ): Promise<void> => {
     event.preventDefault();
 
-    if (!userInfo) {
-      alert("로그인이 필요합니다. 로그인 후 다시 시도해 주세요.");
-      return;
-    }
+    // if (!userInfo) {
+    //   alert("로그인이 필요합니다. 로그인 후 다시 시도해 주세요.");
+    //   return;
+    // }
 
     if (trimmedTitle.length < 2) {
       setErrorMessage("2자에서 30자 사이로 입력해주세요.");
@@ -60,7 +60,7 @@ const GroupChatForm = ({ onToggle }: ModalProps) => {
 
     try {
       // await groupChatForm(title, userInfo, modifiedModalData);
-      await groupChatForm(trimmedTitle, userInfo, modalData);
+      await groupChatForm(trimmedTitle, modalData);
       console.log("그룹 채팅방 생성 성공");
       onToggle();
     } catch (error) {

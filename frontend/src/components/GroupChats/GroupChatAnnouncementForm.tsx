@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import useAuthStore from "../../store/authStore";
+// import useAuthStore from "../../store/authStore";
 import useModalStore from "../../store/modalStore";
 import useGroupChatStore from "../../store/groupChatStore";
 
@@ -8,7 +8,7 @@ import { ModalProps } from "../../types";
 import Modal from "../UI/Modal";
 
 const GroupChatAnnouncementForm = ({ onToggle }: ModalProps) => {
-  const { userInfo } = useAuthStore();
+  // const { userInfo } = useAuthStore();
   const { modalData } = useModalStore();
   const { groupChatAnnouncementForm } = useGroupChatStore();
 
@@ -40,12 +40,10 @@ const GroupChatAnnouncementForm = ({ onToggle }: ModalProps) => {
   ): Promise<void> => {
     event.preventDefault();
 
-    if (!userInfo) {
-      alert("로그인이 필요합니다. 로그인 후 다시 시도해 주세요.");
-      return;
-    }
-
-    console.log("문제없음 ?");
+    // if (!userInfo) {
+    //   alert("로그인이 필요합니다. 로그인 후 다시 시도해 주세요.");
+    //   return;
+    // }
 
     // if (trimmedAnnouncement.length < 30) {
     //   setErrorMessage("30자 이하로 입력해주세요.");
@@ -53,7 +51,8 @@ const GroupChatAnnouncementForm = ({ onToggle }: ModalProps) => {
     // }
 
     try {
-      await groupChatAnnouncementForm(trimmedAnnouncement, userInfo, modalData);
+      // await groupChatAnnouncementForm(trimmedAnnouncement, userInfo, modalData);
+      await groupChatAnnouncementForm(trimmedAnnouncement, modalData);
       console.log("그룹 채팅방 공지 수정 성공");
       onToggle();
     } catch (error) {

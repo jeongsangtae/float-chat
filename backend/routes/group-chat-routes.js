@@ -120,7 +120,7 @@ router.patch("/groupChatForm", async (req, res) => {
       return res.status(401).json({ message: "jwt error" });
     }
 
-    const groupChatData = req.body;
+    const requestBody = req.body;
 
     // let date = new Date();
     // let kstDate = new Date(date.getTime() + 9 * 60 * 60 * 1000);
@@ -128,7 +128,7 @@ router.patch("/groupChatForm", async (req, res) => {
     const groupChat = await db
       .getDb()
       .collection("groupChats")
-      .findOne({ _id: new ObjectId(groupChatData.modalData._id) });
+      .findOne({ _id: new ObjectId(requestBody.modalData._id) });
 
     if (!groupChat) {
       return res
@@ -144,15 +144,15 @@ router.patch("/groupChatForm", async (req, res) => {
     }
 
     const editGroupChat = {
-      _id: new ObjectId(groupChatData.modalData._id),
-      title: groupChatData.title,
+      _id: new ObjectId(requestBody.modalData._id),
+      title: requestBody.title,
     };
 
     await db
       .getDb()
       .collection("groupChats")
       .updateOne(
-        { _id: new ObjectId(groupChatData.modalData._id) },
+        { _id: new ObjectId(requestBody.modalData._id) },
         { $set: { title: editGroupChat.title } }
       );
 

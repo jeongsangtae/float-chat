@@ -74,7 +74,7 @@ const GroupChatPanel = ({
         <h3 className={classes.nickname}>{hostNickname}</h3>
 
         <div>
-          <div>공지 출력하는 공간</div>
+          <div>{announcement}</div>
           {userId === hostId && (
             <FiEdit onClick={groupChatAnnouncementEditHandler} />
           )}

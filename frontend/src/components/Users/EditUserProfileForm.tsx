@@ -33,6 +33,7 @@ const EditUserProfileForm = ({ onToggle }: ModalProps) => {
   ];
 
   const { userInfo, editUserProfileForm } = useAuthStore();
+  // const { editUserProfileForm } = useAuthStore();
   const { modalData } = useModalStore();
 
   const [nickname, setNickname] = useState<string>(modalData.nickname ?? "");
@@ -63,10 +64,10 @@ const EditUserProfileForm = ({ onToggle }: ModalProps) => {
   ): Promise<void> => {
     event.preventDefault();
 
-    if (!userInfo) {
-      alert("로그인이 필요합니다. 로그인 후 다시 시도해 주세요.");
-      return;
-    }
+    // if (!userInfo) {
+    //   alert("로그인이 필요합니다. 로그인 후 다시 시도해 주세요.");
+    //   return;
+    // }
 
     if (trimmedNickname.length < 2) {
       setErrorMessage("2자에서 15자 사이로 입력해주세요.");
@@ -77,7 +78,7 @@ const EditUserProfileForm = ({ onToggle }: ModalProps) => {
       await editUserProfileForm(
         trimmedNickname,
         avatarColor,
-        userInfo,
+        // userInfo,
         modalData
       );
 

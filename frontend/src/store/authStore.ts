@@ -23,7 +23,7 @@ interface AuthStore {
   editUserProfileForm: (
     trimmedNickname: string,
     avatarColor: string,
-    userInfo: UserInfo,
+    // userInfo: UserInfo,
     modalData: {
       method: "POST" | "PATCH";
       _id?: string;
@@ -251,18 +251,16 @@ const useAuthStore = create<AuthStore>((set, get) => ({
   editUserProfileForm: async (
     trimmedNickname,
     avatarColor,
-    userInfo,
+    // userInfo,
     modalData
   ) => {
     try {
-      console.log(trimmedNickname, avatarColor, userInfo, modalData);
-
-      const { _id, email, username } = userInfo;
+      // const { _id, email, username } = userInfo;
 
       const requestBody = {
-        _id,
-        email,
-        username,
+        // _id,
+        // email,
+        // username,
         nickname: trimmedNickname,
         avatarColor,
         modalData,
