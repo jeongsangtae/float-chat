@@ -73,12 +73,24 @@ const GroupChatPanel = ({
         </div>
         <h3 className={classes.nickname}>{hostNickname}</h3>
 
-        <div>
+        <div className={classes["group-chat-announcement-wrapper"]}>
+          <div className={classes["group-chat-announcement-header"]}>
+            <span>📌공지사항</span>
+            {userId === hostId && (
+              <FiEdit onClick={groupChatAnnouncementEditHandler} />
+            )}
+          </div>
+          <div className={classes["group-chat-announcement-content"]}>
+            {announcement || "등록된 공지가 없습니다."}
+          </div>
+        </div>
+
+        {/* <div>
           <div>{announcement}</div>
           {userId === hostId && (
             <FiEdit onClick={groupChatAnnouncementEditHandler} />
           )}
-        </div>
+        </div> */}
 
         {activeModal === "groupChatAnnouncementForm" && (
           <GroupChatAnnouncementForm

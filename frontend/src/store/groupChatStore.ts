@@ -25,7 +25,6 @@ interface GroupChatStore {
   getGroupChatUsers: (roomId: string) => Promise<void>;
   groupChatForm: (
     trimmedTitle: string,
-    // userInfo: UserInfo,
     modalData: {
       method: "POST" | "PATCH";
       _id?: string;
@@ -34,7 +33,6 @@ interface GroupChatStore {
   ) => Promise<void>;
   groupChatAnnouncementForm: (
     trimmedAnnouncement: string,
-    // userInfo: UserInfo,
     modalData: {
       method: "POST" | "PATCH";
       groupChatId?: string;
@@ -229,17 +227,7 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
 
   groupChatForm: async (trimmedTitle, modalData) => {
     try {
-      // const { _id, email, username, nickname, avatarColor } = userInfo;
-
-      const requestBody = {
-        title: trimmedTitle,
-        // _id,
-        // email,
-        // username,
-        // nickname,
-        // avatarColor,
-        modalData,
-      };
+      const requestBody = { title: trimmedTitle, modalData };
 
       const response = await fetch(`${apiURL}/groupChatForm`, {
         method: modalData.method,
@@ -281,24 +269,10 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
     }
   },
 
-  groupChatAnnouncementForm: async (
-    trimmedAnnouncement,
-    // userInfo,
-    modalData
-  ) => {
+  groupChatAnnouncementForm: async (trimmedAnnouncement, modalData) => {
     try {
-      // const { _id, email, username, nickname, avatarColor } = userInfo;
-
       // 사용자 정보 관련 내용 삭제하는 것을 고려중 사용되지 않고 있음
-      const requestBody = {
-        trimmedAnnouncement,
-        // _id,
-        // email,
-        // username,
-        // nickname,
-        // avatarColor,
-        modalData,
-      };
+      const requestBody = { trimmedAnnouncement, modalData };
 
       const response = await fetch(`${apiURL}/groupChatAnnouncementForm`, {
         method: modalData.method,

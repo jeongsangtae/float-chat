@@ -65,10 +65,35 @@
   margin-top: 2.25rem;
 }
 
+.group-chat-announcement-wrapper {
+  padding: 0.75rem;
+  background-color: #414147;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  /* color: #f1f1f1; */
+}
+
+.group-chat-announcement-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #ffd966;
+}
+
+.group-chat-announcement-content {
+  line-height: 1.5;
+  white-space: pre-wrap;
+  /* color: #e1e1e1; */
+  font-size: 0.9rem;
+}
+
 .group-chat-users-wrapper {
   padding: 0.75rem;
   background-color: #414147;
   border-radius: 8px;
+  margin-top: 0.75rem;
 }
 
 .group-chat-user {
