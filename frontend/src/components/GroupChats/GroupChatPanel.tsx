@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import GroupChatAnnouncementForm from "./GroupChatAnnouncementForm";
 
@@ -40,6 +40,10 @@ const GroupChatPanel = ({
 
   // 현재 화면에 보여줄 사용자 목록
   const displayedUsers = showGroupChatUsers ? allUsers : previewUsers;
+
+  useEffect(() => {
+    setShowGroupChatUsers(false);
+  }, [groupChatId]);
 
   const toggleGroupChatUsersHandler = () => {
     setShowGroupChatUsers(!showGroupChatUsers);

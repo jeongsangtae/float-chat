@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { DirectChatPanelProps } from "../../types";
 
@@ -15,6 +15,11 @@ const DirectChatPanel = ({
 }: DirectChatPanelProps) => {
   const [showMutualGroupChats, setShowMutualGroupChats] = useState(false);
   const [showMutualFriends, setShowMutualFriends] = useState(false);
+
+  useEffect(() => {
+    setShowMutualGroupChats(false);
+    setShowMutualFriends(false);
+  }, [chatInfo]);
 
   const toggleMutualGroupChatsHandler = () => {
     setShowMutualGroupChats(!showMutualGroupChats);

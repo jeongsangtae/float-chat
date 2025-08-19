@@ -6,6 +6,8 @@ import useGroupChatStore from "../../store/groupChatStore";
 import { ModalProps } from "../../types";
 import Modal from "../UI/Modal";
 
+import classes from "./GroupChatAnnouncementForm.module.css";
+
 const GroupChatAnnouncementForm = ({ onToggle }: ModalProps) => {
   const { modalData } = useModalStore();
   const { groupChatAnnouncementForm } = useGroupChatStore();
@@ -17,10 +19,10 @@ const GroupChatAnnouncementForm = ({ onToggle }: ModalProps) => {
   const [errorMessage, setErrorMessage] = useState<string>("");
 
   const trimmedAnnouncement = announcement.trim();
-  // const announcementValid = trimmedAnnouncement.length >= 2;
+  const announcementValid = trimmedAnnouncement.length >= 2;
 
   const inputChangeHandler = (
-    event: React.ChangeEvent<HTMLInputElement>
+    event: React.ChangeEvent<HTMLTextAreaElement>
   ): void => {
     const value = event.target.value;
 
@@ -57,28 +59,32 @@ const GroupChatAnnouncementForm = ({ onToggle }: ModalProps) => {
 
   return (
     <Modal onToggle={onToggle}>
-      <form onSubmit={submitHandler}>
-        <h2>그룹 채팅방 공지</h2>
-        <p>호스트 전용 공간</p>
+      <form
+        // className={classes["group-chat-announcement-form"]}
+        onSubmit={submitHandler}
+      >
+        <h2 className={classes.title}>그룹 채팅방 공지</h2>
         <div>
-          <div>공지 내용</div>
-          <input
-            type="text"
+          <div className={classes["group-chat-announcement-title"]}>
+            공지 내용
+          </div>
+          <textarea
             id="announcement"
             name="announcement"
             value={announcement}
-            maxLength={30}
+            maxLength={50}
             placeholder="내용 입력"
             onChange={inputChangeHandler}
+            className={classes["group-chat-announcement-textarea"]}
           />
         </div>
 
         <div>{errorMessage}</div>
 
-        <div>
+        <div className={classes["submit-button"]}>
           <button
             type="submit"
-            // className={announcementValid ? classes.active : classes.disable}
+            className={announcementValid ? classes.active : classes.disable}
           >
             수정
           </button>
