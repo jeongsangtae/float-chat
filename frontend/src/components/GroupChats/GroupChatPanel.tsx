@@ -75,7 +75,7 @@ const GroupChatPanel = ({
 
         <div className={classes["group-chat-announcement-wrapper"]}>
           <div className={classes["group-chat-announcement-header"]}>
-            <span>📌공지사항</span>
+            <span>📌 공지사항</span>
             {userId === hostId && (
               <FiEdit onClick={groupChatAnnouncementEditHandler} />
             )}
@@ -99,7 +99,9 @@ const GroupChatPanel = ({
         )}
 
         <div className={classes["group-chat-users-wrapper"]}>
-          <div>총 {groupChatUsers.length}명 참여</div>
+          <div className={classes["group-chat-users-header"]}>
+            👥 총 {groupChatUsers.length}명 참여
+          </div>
           {displayedUsers.map((displayedUser) => (
             <div
               key={`groupChatUser-${displayedUser._id}`}
@@ -127,14 +129,20 @@ const GroupChatPanel = ({
           ))}
 
           {groupChatUsers.length > 3 && (
-            <button onClick={toggleGroupChatUsersHandler}>
-              {!showGroupChatUsers ? <IoIosArrowDown /> : <IoIosArrowUp />}
-            </button>
+            <div className={classes["group-chat-users-button-wrapper"]}>
+              <button
+                className={classes["group-chat-users-button"]}
+                onClick={toggleGroupChatUsersHandler}
+              >
+                {!showGroupChatUsers ? <IoIosArrowDown /> : <IoIosArrowUp />}
+              </button>
+            </div>
           )}
         </div>
 
         <div className={classes["group-chat-since-wrapper"]}>
           <div className={classes["group-chat-since-label"]}>
+            <span className={classes["group-chat-since-label-emoji"]}>📅</span>
             그룹 채팅방 생성일:
           </div>
           <div className={classes["group-chat-since"]}>{groupChatSince}</div>

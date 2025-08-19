@@ -49,7 +49,10 @@ const DirectChatPanel = ({
 
         {friendSince ? (
           <div className={classes["friend-since-wrapper"]}>
-            <div className={classes["friend-since-label"]}>친구 시작일:</div>
+            <div className={classes["friend-since-label"]}>
+              <span className={classes["friend-since-label-emoji"]}>📅</span>
+              친구 시작일:
+            </div>
             <div className={classes["friend-since"]}>{friendSince}</div>
           </div>
         ) : (

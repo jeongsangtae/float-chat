@@ -77,9 +77,13 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  font-weight: 600;
+  font-weight: bold;
   margin-bottom: 0.5rem;
   color: #ffd966;
+  /* color: #5daeff; */
+  /* color: #57f287; */
+  /* color: #9b6dff; */
+  /* color: #e1e1e1; */
 }
 
 .group-chat-announcement-content {
@@ -93,12 +97,22 @@
   padding: 0.75rem;
   background-color: #414147;
   border-radius: 8px;
+  font-size: 0.95rem;
   margin-top: 0.75rem;
+}
+
+.group-chat-users-header {
+  display: flex;
+  align-items: center;
+  font-weight: bold;
+  color: #ffd966;
+  /* margin-bottom: 0.5rem; */
 }
 
 .group-chat-user {
   display: flex;
   align-items: center;
+  font-size: 1rem;
   gap: 0.5rem;
   padding: 0.5rem;
   flex: 1;
@@ -141,6 +155,22 @@
   text-overflow: ellipsis;
 }
 
+.group-chat-users-button-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* margin-top: 0.5rem; */
+}
+
+.group-chat-users-button {
+  display: flex;
+  align-items: center;
+  border: none;
+  font-size: 1.2rem;
+  background-color: transparent;
+  color: #bdb8b8;
+}
+
 .group-chat-since-wrapper {
   padding: 0.75rem;
   background-color: #414147;
@@ -149,8 +179,16 @@
 }
 
 .group-chat-since-label {
+  /* display: flex;
+  align-items: center; */
   font-size: 0.85rem;
   font-weight: bold;
+  color: #ffd966;
+}
+
+.group-chat-since-label-emoji {
+  font-size: 0.95rem;
+  margin-right: 0.25rem;
 }
 
 .group-chat-since {

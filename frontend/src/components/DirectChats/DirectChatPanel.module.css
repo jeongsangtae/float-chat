@@ -72,8 +72,15 @@
 }
 
 .friend-since-label {
+  /* display: flex;
+  align-items: center; */
   font-size: 0.85rem;
   font-weight: bold;
+}
+
+.friend-since-label-emoji {
+  font-size: 0.95rem;
+  margin-right: 0.25rem;
 }
 
 .friend-since {
