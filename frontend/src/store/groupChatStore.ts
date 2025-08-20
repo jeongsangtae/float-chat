@@ -95,9 +95,23 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
         }
       );
 
+      // 그룹 채팅방 수정 소켓
       socket.off("groupChatEdit");
 
       socket.on("groupChatEdit", (updatedGroupChatData) => {
+        set((prev) => ({
+          groupChats: prev.groupChats.map((groupChat) =>
+            groupChat._id === updatedGroupChatData._id
+              ? { ...groupChat, ...updatedGroupChatData }
+              : groupChat
+          ),
+        }));
+      });
+
+      // 그룹 채팅방 공지 수정 소켓
+      socket.off("groupChatAnnouncementEdit");
+
+      socket.on("groupChatAnnouncementEdit", (updatedGroupChatData) => {
         set((prev) => ({
           groupChats: prev.groupChats.map((groupChat) =>
             groupChat._id === updatedGroupChatData._id

@@ -77,8 +77,6 @@ const GroupChatDetails = () => {
     getGroupChatUsers(roomId);
   }, [roomId]);
 
-  console.log(groupChatUsers);
-
   return (
     <div className={classes["group-chat-details"]}>
       <div className={classes["group-chat-sidebar"]}>

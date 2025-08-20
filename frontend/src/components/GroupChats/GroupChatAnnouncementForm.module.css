@@ -1,12 +1,12 @@
-/* .group-chat-announcement-form {
-  width: 400px;
-  padding: 1.5rem;
-} */
+.group-chat-announcement-form {
+  margin: 0 0.25rem 0.5rem 0;
+  padding: 0;
+}
 
 .title {
   text-align: center;
   font-size: 1.5rem;
-  margin: 1.5rem 0 0.75rem 0;
+  margin: 1.75rem 0 1.25rem 0.25rem;
 }
 
 .group-chat-announcement-title {
@@ -20,7 +20,7 @@
   font: inherit;
   margin: 0.25rem 0.5rem;
   width: 95%;
-  min-height: 4rem;
+  min-height: 6rem;
   padding: 0.5rem;
   line-height: 1rem;
   border: 1px solid rgba(133, 133, 133, 0.5);
@@ -68,8 +68,8 @@
 
 .submit-button {
   text-align: end;
-  margin: 0.5rem;
-  margin-top: 1rem;
+  margin: 0.25rem;
+  margin-top: 0.75rem;
 }
 
 .active {

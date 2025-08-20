@@ -213,6 +213,7 @@ router.patch("/groupChatAnnouncementForm", async (req, res) => {
     // }
 
     const editGroupChatAnnouncement = {
+      _id: new ObjectId(requestBody.modalData.groupChatId),
       announcement: requestBody.trimmedAnnouncement,
     };
 
@@ -224,17 +225,20 @@ router.patch("/groupChatAnnouncementForm", async (req, res) => {
         { $set: { announcement: editGroupChatAnnouncement.announcement } }
       );
 
-    // // Socket.io 및 onlineUsers Map 가져오기
-    // const io = req.app.get("io"); // Express 앱에서 Socket.io 인스턴스를 가져옴
-    // const onlineUsers = req.app.get("onlineUsers"); // onlineUsers Map을 가져옴
+    // Socket.io 및 onlineUsers Map 가져오기
+    const io = req.app.get("io"); // Express 앱에서 Socket.io 인스턴스를 가져옴
+    const onlineUsers = req.app.get("onlineUsers"); // onlineUsers Map을 가져옴
 
-    // // 그룹 채팅방에 참여한 사용자들에게 실시간 알림 전송
-    // groupChat.users.forEach((userId) => {
-    //   const socketId = onlineUsers.get(userId);
-    //   if (socketId) {
-    //     io.to(socketId).emit("groupChatEdit", editGroupChat);
-    //   }
-    // });
+    // 그룹 채팅방에 참여한 사용자들에게 실시간 알림 전송
+    groupChat.users.forEach((userId) => {
+      const socketId = onlineUsers.get(userId);
+      if (socketId) {
+        io.to(socketId).emit(
+          "groupChatAnnouncementEdit",
+          editGroupChatAnnouncement
+        );
+      }
+    });
 
     res.status(200).json({ editGroupChatAnnouncement });
   } catch (error) {

@@ -60,7 +60,7 @@ const GroupChatAnnouncementForm = ({ onToggle }: ModalProps) => {
   return (
     <Modal onToggle={onToggle}>
       <form
-        // className={classes["group-chat-announcement-form"]}
+        className={classes["group-chat-announcement-form"]}
         onSubmit={submitHandler}
       >
         <h2 className={classes.title}>그룹 채팅방 공지</h2>
