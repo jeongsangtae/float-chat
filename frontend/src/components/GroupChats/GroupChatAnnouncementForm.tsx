@@ -19,7 +19,8 @@ const GroupChatAnnouncementForm = ({ onToggle }: ModalProps) => {
   const [errorMessage, setErrorMessage] = useState<string>("");
 
   const trimmedAnnouncement = announcement.trim();
-  const announcementValid = trimmedAnnouncement.length >= 2;
+  const announcementValid =
+    trimmedAnnouncement.length >= 1 && trimmedAnnouncement.length <= 50;
 
   const inputChangeHandler = (
     event: React.ChangeEvent<HTMLTextAreaElement>
@@ -28,8 +29,8 @@ const GroupChatAnnouncementForm = ({ onToggle }: ModalProps) => {
 
     setAnnouncement(value);
 
-    if (value.trim().length >= 30) {
-      setErrorMessage("30자 이하로 입력해주세요.");
+    if (value.trim().length >= 50) {
+      setErrorMessage("최대 글자 수에 도달했습니다.");
     } else {
       setErrorMessage("");
     }
@@ -79,7 +80,22 @@ const GroupChatAnnouncementForm = ({ onToggle }: ModalProps) => {
           />
         </div>
 
-        <div>{errorMessage}</div>
+        <div className={classes["group-chat-announcement-count-wrapper"]}>
+          <span
+            className={
+              announcement.length >= 50 ? classes["count-max"] : classes.count
+            }
+          >
+            {announcement.length}/50
+          </span>
+          {announcement.length >= 50 && (
+            <span className={classes["count-warning-message"]}>
+              {errorMessage}
+            </span>
+          )}
+        </div>
+
+        {/* <div>{errorMessage}</div> */}
 
         <div className={classes["submit-button"]}>
           <button

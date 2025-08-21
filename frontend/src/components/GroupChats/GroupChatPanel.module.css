@@ -147,12 +147,23 @@
 }
 
 .group-chat-user-nickname {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
   color: white;
   margin-left: 0.25rem;
   width: 8rem;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.group-chat-host-user-icon {
+  width: 0.9rem;
+  height: 0.9rem;
+  color: #ffd966;
+  position: relative;
+  top: -1px;
 }
 
 .group-chat-users-button-wrapper {

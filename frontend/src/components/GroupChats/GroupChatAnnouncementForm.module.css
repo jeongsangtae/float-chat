@@ -66,10 +66,35 @@
   background-color: #333333;
 }
 
+.group-chat-announcement-count-wrapper {
+  margin-left: 0.45rem;
+  opacity: 1;
+}
+
+.count-max {
+  font-size: 0.85rem;
+  color: #f44336;
+  font-weight: bold;
+}
+
+.count {
+  font-size: 0.85rem;
+  color: #7fcc97;
+}
+
+.count-warning-message {
+  /* height: 1rem;
+  line-height: 2rem;
+  text-align: center; */
+  margin-left: 0.2rem;
+  color: #f44336;
+  font-size: 0.85rem;
+}
+
 .submit-button {
   text-align: end;
   margin: 0.25rem;
-  margin-top: 0.75rem;
+  margin-top: 0.5rem;
 }
 
 .active {

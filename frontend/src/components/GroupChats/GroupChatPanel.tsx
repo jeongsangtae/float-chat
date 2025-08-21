@@ -6,6 +6,7 @@ import { GroupChatPanelProps } from "../../types";
 
 import { FiEdit } from "react-icons/fi";
 import { IoIosArrowUp, IoIosArrowDown } from "react-icons/io";
+import { Crown } from "lucide-react";
 import classes from "./GroupChatPanel.module.css";
 import useModalStore from "../../store/modalStore";
 
@@ -127,7 +128,10 @@ const GroupChatPanel = ({
                 />
               </div>
               <div className={classes["group-chat-user-nickname"]}>
-                {displayedUser.nickname}
+                <span>{displayedUser.nickname}</span>
+                {hostNickname === displayedUser.nickname && (
+                  <Crown className={classes["group-chat-host-user-icon"]} />
+                )}
               </div>
             </div>
           ))}
