@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import useModalStore from "../../store/modalStore";
 import useGroupChatStore from "../../store/groupChatStore";
@@ -22,18 +22,38 @@ const GroupChatAnnouncementForm = ({ onToggle }: ModalProps) => {
   const announcementValid =
     trimmedAnnouncement.length >= 1 && trimmedAnnouncement.length <= 50;
 
+  useEffect(() => {
+    if (announcement.length === 50) {
+      setErrorMessage("최대 글자 수에 도달했습니다.");
+    } else {
+      setErrorMessage("");
+    }
+  }, [announcement]);
+
   const inputChangeHandler = (
     event: React.ChangeEvent<HTMLTextAreaElement>
   ): void => {
     const value = event.target.value;
 
+    if (value.length > 50) {
+      return; // 50자 넘으면 반영하지 않음
+    }
+
     setAnnouncement(value);
 
-    if (value.trim().length >= 50) {
+    if (value.length === 50) {
       setErrorMessage("최대 글자 수에 도달했습니다.");
     } else {
       setErrorMessage("");
     }
+
+    // setAnnouncement(value);
+
+    // if (value.length >= 50) {
+    //   setErrorMessage("최대 글자 수에 도달했습니다.");
+    // } else {
+    //   setErrorMessage("");
+    // }
   };
 
   const submitHandler = async (
@@ -73,7 +93,7 @@ const GroupChatAnnouncementForm = ({ onToggle }: ModalProps) => {
             id="announcement"
             name="announcement"
             value={announcement}
-            maxLength={50}
+            // maxLength={50}
             placeholder="내용 입력"
             onChange={inputChangeHandler}
             className={classes["group-chat-announcement-textarea"]}
