@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 
 import GroupChatAnnouncementForm from "./GroupChatAnnouncementForm";
 
-import { GroupChatPanelProps } from "../../types";
+import { GroupChatUserData, GroupChatPanelProps } from "../../types";
 
 import { FiEdit } from "react-icons/fi";
 import { IoIosArrowUp, IoIosArrowDown } from "react-icons/io";
@@ -33,14 +33,31 @@ const GroupChatPanel = ({
     (groupChatUser) => !groupChatUser.onlineChecked
   );
 
+  const prioritizeHost = (users: GroupChatUserData[]) => {
+    return users.sort((a, b) => {
+      if (a.nickname === hostNickname) return -1; // 호스트는 앞으로
+      if (b.nickname === hostNickname) return 1;
+      return 0;
+    });
+  };
+
+  const sortedOnlineUsers = prioritizeHost([...onlineUsers]);
+  const sortedOfflineUsers = prioritizeHost([...offlineUsers]);
+
+  const allUsers = [...sortedOnlineUsers, ...sortedOfflineUsers];
+
+  const previewUsers = allUsers.slice(0, 3);
+
+  const displayedUsers = showGroupChatUsers ? allUsers : previewUsers;
+
   // 온라인 우선으롤 정렬된 전체 사용자 목록
-  const allUsers = [...onlineUsers, ...offlineUsers];
+  // const allUsers = [...onlineUsers, ...offlineUsers];
 
   // 온라인 사용자 우선, 부족하면 오프라인으로 채워서 최대 3명까지만 미리보기
-  const previewUsers = [...onlineUsers, ...offlineUsers].slice(0, 3);
+  // const previewUsers = [...onlineUsers, ...offlineUsers].slice(0, 3);
 
   // 현재 화면에 보여줄 사용자 목록
-  const displayedUsers = showGroupChatUsers ? allUsers : previewUsers;
+  // const displayedUsers = showGroupChatUsers ? allUsers : previewUsers;
 
   useEffect(() => {
     setShowGroupChatUsers(false);

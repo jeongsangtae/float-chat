@@ -100,44 +100,33 @@ const GroupChatAnnouncementForm = ({ onToggle }: ModalProps) => {
           />
         </div>
 
-        {/* <div className={classes["group-chat-announcement-count-wrapper"]}>
-          <span
-            className={
-              announcement.length >= 50 ? classes["count-max"] : classes.count
-            }
-          >
-            {announcement.length}/50
-          </span>
-          {announcement.length >= 50 && (
-            <span className={classes["count-warning-message"]}>
-              {errorMessage}
-            </span>
-          )}
-        </div> */}
-
         <div className={classes["group-chat-announcement-count-wrapper"]}>
           <div className={classes["progress-container"]}>
             <div
-              className={classes["progress-bar"]}
+              className={`${classes["progress-bar"]} ${
+                announcement.length >= 50
+                  ? classes["progress-bar-max"]
+                  : announcement.length >= 30
+                  ? classes["progress-bar-warning"]
+                  : ""
+              }`}
               style={{ width: `${(announcement.length / 50) * 100}%` }}
             ></div>
           </div>
           <span
-            className={
+            className={`${classes["progress-count"]} ${
               announcement.length >= 50
                 ? classes["progress-count-max"]
-                : classes["progress-count"]
-            }
+                : announcement.length >= 30
+                ? classes["progress-count-warning"]
+                : ""
+            }`}
           >
             {announcement.length}/50
           </span>
         </div>
 
-        {/* {announcement.length >= 50 && ( */}
         <div className={classes["count-warning-message"]}>{errorMessage}</div>
-        {/* )} */}
-
-        {/* <div>{errorMessage}</div> */}
 
         <div className={classes["submit-button"]}>
           <button

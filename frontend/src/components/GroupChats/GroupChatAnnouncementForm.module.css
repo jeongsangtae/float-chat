@@ -82,26 +82,40 @@
 .progress-container {
   flex: 1;
   height: 0.35rem;
-  background-color: #333;
+  background-color: #5c5c5c;
   overflow: hidden;
+  border-radius: 4px;
 }
 
 .progress-bar {
   height: 100%;
-  background: #4caf50;
+  background-color: #4caf50;
   transition: width 0.2s ease;
-  border-radius: 4px;
 }
 
-.progress-count-max {
-  font-size: 0.85rem;
-  color: #f44336;
-  font-weight: bold;
+.progress-bar-warning {
+  background-color: #ff9800;
+}
+
+.progress-bar-max {
+  /* background-color: #f44336; */
+  /* background-color: #d32f2f; */
+  /* background-color: #b71c1c; */
+  background-color: #c62828;
 }
 
 .progress-count {
   font-size: 0.85rem;
   color: #7fcc97;
+}
+
+.progress-count-warning {
+  color: #fca727;
+}
+
+.progress-count-max {
+  color: #f44336;
+  font-weight: bold;
 }
 
 .count-warning-message {
