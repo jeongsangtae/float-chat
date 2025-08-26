@@ -33,31 +33,30 @@ const GroupChatPanel = ({
     (groupChatUser) => !groupChatUser.onlineChecked
   );
 
+  // 사용자 배열에서 호스트를 최상단으로 정렬하는 내용
   const prioritizeHost = (users: GroupChatUserData[]) => {
     return users.sort((a, b) => {
-      if (a.nickname === hostNickname) return -1; // 호스트는 앞으로
-      if (b.nickname === hostNickname) return 1;
-      return 0;
+      if (a.nickname === hostNickname) return -1; // a가 호스트면 앞으로
+      if (b.nickname === hostNickname) return 1; // b가 호스트면 앞으로
+      return 0; // 둘 다 호스트가 아니라면 순서 유지
     });
   };
 
+  // 온라인 사용자 목록 (호스트가 있다면 최상단으로 정렬)
   const sortedOnlineUsers = prioritizeHost([...onlineUsers]);
+
+  // 오프라인 사용자 목록 (호스트가 있다면 최상단으로 정렬)
   const sortedOfflineUsers = prioritizeHost([...offlineUsers]);
 
+  // 온라인 우선으로 정렬된 전체 사용자 목록
+  // 각 그룹 내에서는 호스트가 최상단에 위치
   const allUsers = [...sortedOnlineUsers, ...sortedOfflineUsers];
 
+  // 온라인 사용자 우선, 부족하면 오프라인으로 채워서 최대 3명까지만 미리보기
   const previewUsers = allUsers.slice(0, 3);
 
-  const displayedUsers = showGroupChatUsers ? allUsers : previewUsers;
-
-  // 온라인 우선으롤 정렬된 전체 사용자 목록
-  // const allUsers = [...onlineUsers, ...offlineUsers];
-
-  // 온라인 사용자 우선, 부족하면 오프라인으로 채워서 최대 3명까지만 미리보기
-  // const previewUsers = [...onlineUsers, ...offlineUsers].slice(0, 3);
-
   // 현재 화면에 보여줄 사용자 목록
-  // const displayedUsers = showGroupChatUsers ? allUsers : previewUsers;
+  const displayedUsers = showGroupChatUsers ? allUsers : previewUsers;
 
   useEffect(() => {
     setShowGroupChatUsers(false);
@@ -106,13 +105,6 @@ const GroupChatPanel = ({
             {announcement || "등록된 공지가 없습니다."}
           </div>
         </div>
-
-        {/* <div>
-          <div>{announcement}</div>
-          {userId === hostId && (
-            <FiEdit onClick={groupChatAnnouncementEditHandler} />
-          )}
-        </div> */}
 
         {activeModal === "groupChatAnnouncementForm" && (
           <GroupChatAnnouncementForm

@@ -18,13 +18,20 @@ const router = createBrowserRouter([
   {
     path: "/me",
     element: <RootLayout />,
-    errorElement: <NotFound />,
+    // errorElement: <NotFound />,
     children: [
       {
         path: "",
-        element: <DirectChatPage />, // 메인 콘텐츠 + 서브 사이드바 + Outlet 포함
+        element: (
+          // <Authentication>
+          <DirectChatPage />
+          // </Authentication>
+        ), // 메인 콘텐츠 + 서브 사이드바 + Outlet 포함
         children: [
-          { index: true, element: <Friends /> }, // 친구 관련 내용
+          {
+            index: true,
+            element: <Friends />,
+          }, // 친구 관련 내용
           {
             path: ":roomId",
             element: (
@@ -40,9 +47,16 @@ const router = createBrowserRouter([
   {
     path: "group-chat",
     element: <RootLayout />,
-    errorElement: <NotFound />,
+    // errorElement: <NotFound />,
     children: [
-      { index: true, element: <GroupChatPage /> },
+      {
+        index: true,
+        element: (
+          <Authentication>
+            <GroupChatPage />
+          </Authentication>
+        ),
+      },
       {
         path: ":roomId",
         element: (
@@ -53,6 +67,7 @@ const router = createBrowserRouter([
       },
     ],
   },
+  { path: "*", element: <NotFound /> },
 ]);
 
 export default router;

@@ -46,25 +46,12 @@ const GroupChatAnnouncementForm = ({ onToggle }: ModalProps) => {
     } else {
       setErrorMessage("");
     }
-
-    // setAnnouncement(value);
-
-    // if (value.length >= 50) {
-    //   setErrorMessage("최대 글자 수에 도달했습니다.");
-    // } else {
-    //   setErrorMessage("");
-    // }
   };
 
   const submitHandler = async (
     event: React.FormEvent<HTMLFormElement>
   ): Promise<void> => {
     event.preventDefault();
-
-    // if (trimmedAnnouncement.length < 30) {
-    //   setErrorMessage("30자 이하로 입력해주세요.");
-    //   return;
-    // }
 
     try {
       await groupChatAnnouncementForm(trimmedAnnouncement, modalData);
@@ -93,7 +80,6 @@ const GroupChatAnnouncementForm = ({ onToggle }: ModalProps) => {
             id="announcement"
             name="announcement"
             value={announcement}
-            // maxLength={50}
             placeholder="내용 입력"
             onChange={inputChangeHandler}
             className={classes["group-chat-announcement-textarea"]}
