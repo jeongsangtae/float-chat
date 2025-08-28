@@ -146,13 +146,17 @@
   background-color: gray;
 }
 
-.group-chat-user-nickname {
+.group-chat-user-nickname-wrapper {
   display: flex;
   align-items: center;
   gap: 0.25rem;
   color: white;
   margin-left: 0.25rem;
-  width: 8rem;
+  max-width: 8rem;
+}
+
+.group-chat-user-nickname {
+  flex: 1;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;

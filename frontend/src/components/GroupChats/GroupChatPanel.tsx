@@ -136,8 +136,10 @@ const GroupChatPanel = ({
                   }
                 />
               </div>
-              <div className={classes["group-chat-user-nickname"]}>
-                <span>{displayedUser.nickname}</span>
+              <div className={classes["group-chat-user-nickname-wrapper"]}>
+                <span className={classes["group-chat-user-nickname"]}>
+                  {displayedUser.nickname}
+                </span>
                 {hostNickname === displayedUser.nickname && (
                   <Crown className={classes["group-chat-host-user-icon"]} />
                 )}

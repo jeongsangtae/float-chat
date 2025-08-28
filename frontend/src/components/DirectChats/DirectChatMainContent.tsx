@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import { ChildrenProps } from "../../types";
 
@@ -19,15 +19,6 @@ const DirectChatMainContent = ({ children }: ChildrenProps) => {
     navigate("/me");
   };
 
-  // if (!isLoggedIn) {
-  //   return (
-  //     <NoAccess
-  //       title="로그인이 필요합니다."
-  //       description="로그인 하지 않은 사용자는 접근할 수 없습니다."
-  //     />
-  //   );
-  // }
-
   return (
     <>
       {isLoggedIn ? (
@@ -36,10 +27,17 @@ const DirectChatMainContent = ({ children }: ChildrenProps) => {
           <div className={classes["direct-chat-main-content"]}>{children}</div>
         </div>
       ) : (
-        <NoAccess
-          title="로그인이 필요합니다."
-          description="로그인 하지 않은 사용자는 접근할 수 없습니다."
-        />
+        <>
+          <NoAccess
+            title="로그인이 필요합니다."
+            description="로그인 하지 않은 사용자는 접근할 수 없습니다."
+            label="로그인 하러가기"
+            path="/login"
+          />
+          <Link to="/login">
+            <button>로그인 하러가기</button>
+          </Link>
+        </>
       )}
     </>
   );
