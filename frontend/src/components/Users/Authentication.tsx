@@ -46,7 +46,6 @@ const Authentication = ({ children }: ChildrenProps) => {
         <NoAccess
           title="로그인이 필요합니다."
           description="로그인 하지 않은 사용자는 접근할 수 없습니다."
-          // isLoggedIn={isLoggedIn}
           label="로그인 하러가기"
           path="/login"
         />
@@ -60,7 +59,6 @@ const Authentication = ({ children }: ChildrenProps) => {
         <NoAccess
           title="존재하지 않는 채팅방입니다."
           description="요청하신 채팅방을 찾을 수 없습니다."
-          // isLoggedIn={isLoggedIn}
           label="홈으로 돌아가기"
           path="/"
         />

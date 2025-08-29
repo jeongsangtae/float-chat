@@ -9,28 +9,13 @@ interface NoAccessProps {
   path: string;
 }
 
-const NoAccess = ({
-  title,
-  description,
-  // isLoggedIn,
-  label,
-  path,
-}: NoAccessProps) => {
+const NoAccess = ({ title, description, label, path }: NoAccessProps) => {
   return (
     <div className={classes["no-access"]}>
       <h1>{title}</h1>
       <p>{description}</p>
-      {/* {!isLoggedIn ? (
-        <Link to="/login">
-          <button>로그인 하러가기</button>
-        </Link>
-      ) : (
-        <Link to="/">
-          <button>홈으로 돌아가기</button>
-        </Link>
-      )} */}
-      <Link to={path}>
-        <button>{label}</button>
+      <Link to={path} className={classes["redirect-button-wrapper"]}>
+        <button className={classes["redirect-button"]}>{label}</button>
       </Link>
     </div>
   );

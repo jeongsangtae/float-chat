@@ -9,3 +9,23 @@
   z-index: 9999;
   /* overflow: hidden; */
 }
+
+.redirect-button-wrapper {
+  text-decoration: none;
+  margin-top: 1rem;
+}
+
+.redirect-button {
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem 2rem;
+  border-radius: 4px;
+  color: white;
+  background-color: #474747;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+}
+
+.redirect-button:hover {
+  background-color: #5a5a5a;
+}

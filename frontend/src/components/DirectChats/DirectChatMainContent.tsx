@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import { ChildrenProps } from "../../types";
 
@@ -34,9 +34,6 @@ const DirectChatMainContent = ({ children }: ChildrenProps) => {
             label="로그인 하러가기"
             path="/login"
           />
-          <Link to="/login">
-            <button>로그인 하러가기</button>
-          </Link>
         </>
       )}
     </>
