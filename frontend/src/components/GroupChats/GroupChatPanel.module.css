@@ -86,6 +86,25 @@
   /* color: #e1e1e1; */
 }
 
+.group-chat-announcement-icon-wrapper {
+  display: flex;
+}
+
+.group-chat-announcement-delete-icon {
+  width: 1.1rem;
+  height: 1.1rem;
+  margin-right: 1rem;
+  cursor: pointer;
+}
+
+.group-chat-announcement-edit-icon {
+  width: 1rem;
+  height: 1rem;
+  position: relative;
+  top: 2px;
+  cursor: pointer;
+}
+
 .group-chat-announcement-content {
   line-height: 1.5;
   white-space: pre-wrap;

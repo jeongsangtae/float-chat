@@ -1,12 +1,13 @@
 import { useState, useEffect } from "react";
 
 import GroupChatAnnouncementForm from "./GroupChatAnnouncementForm";
+import GroupChatAnnouncementDeleteConfirm from "./GroupChatAnnouncementDeleteConfirm";
 
 import { GroupChatUserData, GroupChatPanelProps } from "../../types";
 
 import { FiEdit } from "react-icons/fi";
 import { IoIosArrowUp, IoIosArrowDown } from "react-icons/io";
-import { Crown } from "lucide-react";
+import { Crown, Trash2, SquarePen } from "lucide-react";
 import classes from "./GroupChatPanel.module.css";
 import useModalStore from "../../store/modalStore";
 
@@ -66,6 +67,14 @@ const GroupChatPanel = ({
     setShowGroupChatUsers(!showGroupChatUsers);
   };
 
+  const groupChatAnnouncementDeleteHandler = () => {
+    toggleModal("groupChatAnnouncementDeleteConfirm", "PATCH", {
+      groupChatId,
+    });
+
+    console.log("클릭됨");
+  };
+
   const groupChatAnnouncementEditHandler = () => {
     toggleModal("groupChatAnnouncementForm", "PATCH", {
       groupChatId,
@@ -98,13 +107,31 @@ const GroupChatPanel = ({
           <div className={classes["group-chat-announcement-header"]}>
             <span>📌 공지사항</span>
             {userId === hostId && (
-              <FiEdit onClick={groupChatAnnouncementEditHandler} />
+              <div className={classes["group-chat-announcement-icon-wrapper"]}>
+                {announcement && (
+                  <Trash2
+                    className={classes["group-chat-announcement-delete-icon"]}
+                    onClick={groupChatAnnouncementDeleteHandler}
+                  />
+                )}
+                <SquarePen
+                  className={classes["group-chat-announcement-edit-icon"]}
+                  onClick={groupChatAnnouncementEditHandler}
+                />
+                {/* <FiEdit onClick={groupChatAnnouncementEditHandler} /> */}
+              </div>
             )}
           </div>
           <div className={classes["group-chat-announcement-content"]}>
             {announcement || "등록된 공지가 없습니다."}
           </div>
         </div>
+
+        {activeModal === "groupChatAnnouncementDeleteConfirm" && (
+          <GroupChatAnnouncementDeleteConfirm
+            onToggle={() => toggleModal("groupChatAnnouncementDeleteConfirm")}
+          />
+        )}
 
         {activeModal === "groupChatAnnouncementForm" && (
           <GroupChatAnnouncementForm

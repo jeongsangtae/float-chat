@@ -5,13 +5,18 @@ interface ModalStore {
     | "groupChatForm"
     | "editUserProfileForm"
     | "groupChatAnnouncementForm"
+    | "groupChatAnnouncementDeleteConfirm"
     | null;
   modalData: {
     method: "POST" | "PATCH";
     [key: string]: any;
   };
   toggleModal: (
-    type: "groupChatForm" | "editUserProfileForm" | "groupChatAnnouncementForm",
+    type:
+      | "groupChatForm"
+      | "editUserProfileForm"
+      | "groupChatAnnouncementForm"
+      | "groupChatAnnouncementDeleteConfirm",
     method?: "POST" | "PATCH",
     data?: Record<string, any>
   ) => void;
