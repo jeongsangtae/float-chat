@@ -39,6 +39,10 @@ interface GroupChatStore {
       announcement?: string;
     }
   ) => Promise<void>;
+  groupChatAnnouncementDelete: (
+    announcement: string,
+    modalData: { method: "POST" | "PATCH"; groupChatId?: string }
+  ) => Promise<void>;
   deleteGroupChat: (_id: string) => Promise<void>;
   leaveGroupChat: (_id: string) => Promise<void>;
   getGroupChatInvites: () => Promise<void>;
@@ -306,6 +310,32 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
       console.error("에러 내용:", error);
       alert(
         "그룹 채팅방 공지 수정 중 문제가 발생했습니다. 새로고침 후 다시 시도해 주세요."
+      );
+    }
+  },
+
+  groupChatAnnouncementDelete: async (announcement, modalData) => {
+    try {
+      const requestBody = { announcement, modalData };
+
+      const response = await fetch(`${apiURL}/groupChatAnnouncementDelete`, {
+        method: modalData.method,
+        body: JSON.stringify(requestBody),
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+      });
+
+      if (!response.ok) {
+        throw new Error(`그룹 채팅방 삭제 수정 실패`);
+      }
+
+      const resData = await response.json();
+
+      console.log(resData);
+    } catch (error) {
+      console.error("에러 내용:", error);
+      alert(
+        "그룹 채팅방 공지 삭제 중 문제가 발생했습니다. 새로고침 후 다시 시도해 주세요."
       );
     }
   },

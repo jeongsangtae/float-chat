@@ -5,7 +5,7 @@ interface ModalStore {
     | "groupChatForm"
     | "editUserProfileForm"
     | "groupChatAnnouncementForm"
-    | "groupChatAnnouncementDeleteConfirm"
+    | "groupChatAnnouncementDelete"
     | null;
   modalData: {
     method: "POST" | "PATCH";
@@ -16,7 +16,7 @@ interface ModalStore {
       | "groupChatForm"
       | "editUserProfileForm"
       | "groupChatAnnouncementForm"
-      | "groupChatAnnouncementDeleteConfirm",
+      | "groupChatAnnouncementDelete",
     method?: "POST" | "PATCH",
     data?: Record<string, any>
   ) => void;

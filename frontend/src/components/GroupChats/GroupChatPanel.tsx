@@ -5,7 +5,7 @@ import GroupChatAnnouncementDeleteConfirm from "./GroupChatAnnouncementDeleteCon
 
 import { GroupChatUserData, GroupChatPanelProps } from "../../types";
 
-import { FiEdit } from "react-icons/fi";
+// import { FiEdit } from "react-icons/fi";
 import { IoIosArrowUp, IoIosArrowDown } from "react-icons/io";
 import { Crown, Trash2, SquarePen } from "lucide-react";
 import classes from "./GroupChatPanel.module.css";
@@ -67,19 +67,19 @@ const GroupChatPanel = ({
     setShowGroupChatUsers(!showGroupChatUsers);
   };
 
-  const groupChatAnnouncementDeleteHandler = () => {
-    toggleModal("groupChatAnnouncementDeleteConfirm", "PATCH", {
-      groupChatId,
-    });
-
-    console.log("클릭됨");
-  };
-
   const groupChatAnnouncementEditHandler = () => {
     toggleModal("groupChatAnnouncementForm", "PATCH", {
       groupChatId,
       announcement,
     });
+  };
+
+  const groupChatAnnouncementDeleteHandler = () => {
+    toggleModal("groupChatAnnouncementDelete", "PATCH", {
+      groupChatId,
+    });
+
+    console.log("클릭됨");
   };
 
   return (
@@ -127,15 +127,15 @@ const GroupChatPanel = ({
           </div>
         </div>
 
-        {activeModal === "groupChatAnnouncementDeleteConfirm" && (
-          <GroupChatAnnouncementDeleteConfirm
-            onToggle={() => toggleModal("groupChatAnnouncementDeleteConfirm")}
-          />
-        )}
-
         {activeModal === "groupChatAnnouncementForm" && (
           <GroupChatAnnouncementForm
             onToggle={() => toggleModal("groupChatAnnouncementForm")}
+          />
+        )}
+
+        {activeModal === "groupChatAnnouncementDelete" && (
+          <GroupChatAnnouncementDeleteConfirm
+            onToggle={() => toggleModal("groupChatAnnouncementDelete")}
           />
         )}
 

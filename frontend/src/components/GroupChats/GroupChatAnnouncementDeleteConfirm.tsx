@@ -6,11 +6,11 @@ import Modal from "../UI/Modal";
 
 const GroupChatAnnouncementDeleteConfirm = ({ onToggle }: ModalProps) => {
   const { modalData } = useModalStore();
-  const { groupChatAnnouncementForm } = useGroupChatStore();
+  const { groupChatAnnouncementDelete } = useGroupChatStore();
 
   const confirmHandler = async () => {
     try {
-      // await groupChatAnnouncementForm("", modalData); // announcement를 ""로 초기화
+      await groupChatAnnouncementDelete("", modalData); // announcement를 ""로 초기화
       console.log("그룹 채팅방 공지 삭제 성공");
       onToggle();
     } catch (error) {

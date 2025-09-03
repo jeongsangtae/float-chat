@@ -205,7 +205,7 @@ router.patch("/groupChatAnnouncementForm", async (req, res) => {
     if (groupChat.hostEmail !== othersData.email) {
       return res
         .status(403)
-        .json({ message: "그룹 채팅방을 수정할 권한이 없습니다." });
+        .json({ message: "그룹 채팅방 공지사항을 수정할 권한이 없습니다." });
     }
 
     // 공지 삭제 허용 로직 or 에러 처리
@@ -241,6 +241,60 @@ router.patch("/groupChatAnnouncementForm", async (req, res) => {
     });
 
     res.status(200).json({ editGroupChatAnnouncement });
+  } catch (error) {
+    errorHandler(res, error, "그룹 채팅방 공지 수정 중 오류 발생");
+  }
+});
+
+// 그룹 채팅방 공지 삭제 라우터
+router.patch("/groupChatAnnouncementDelete", async (req, res) => {
+  try {
+    const othersData = await accessToken(req, res);
+
+    if (!othersData) {
+      return res.status(401).json({ message: "jwt error" });
+    }
+
+    const requestBody = req.body;
+
+    const groupChat = await db
+      .getDb()
+      .collection("groupChats")
+      .findOne({ _id: new ObjectId(requestBody.modalData.groupChatId) });
+
+    if (!groupChat) {
+      return res
+        .status(404)
+        .json({ message: "그룹 채팅방을 찾을 수 없습니다." });
+    }
+
+    // 로그인한 사용자 이메일이 아닌, 프론트엔드에서 전달한 이메일 정보를 사용하는 것이 좋은가 ?
+    // 결론은 프론트엔드에서 전달한 이메일 데이터로 권한 체크를 하면 안됨
+    // 프론트 데이터는 조작 가능하기 때문에 서버에서 인증된 토큰 데이터를 사용해야 함
+    if (groupChat.hostEmail !== othersData.email) {
+      return res
+        .status(403)
+        .json({ message: "그룹 채팅방 공지사항을 삭제할 권한이 없습니다." });
+    }
+
+    // 공지 삭제 허용 로직 or 에러 처리
+    // if (requestBody.trimmedAnnouncement?.length === 0) {
+    // }
+
+    const deleteGroupChatAnnouncement = {
+      _id: new ObjectId(requestBody.modalData.groupChatId),
+      announcement: requestBody.announcement,
+    };
+
+    await db
+      .getDb()
+      .collection("groupChats")
+      .updateOne(
+        { _id: new ObjectId(requestBody.modalData.groupChatId) },
+        { $set: { announcement: deleteGroupChatAnnouncement.announcement } }
+      );
+
+    res.status(200).json({ deleteGroupChatAnnouncement });
   } catch (error) {
     errorHandler(res, error, "그룹 채팅방 공지 수정 중 오류 발생");
   }
