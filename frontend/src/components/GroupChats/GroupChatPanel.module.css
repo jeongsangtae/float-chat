@@ -5,11 +5,14 @@
   /* height: 100vh; */
   border-radius: 0.5rem;
   border-left: 1px solid #444;
+  /* overflow-y: auto; */
 }
 
 .avatar-header {
   height: 9rem;
+  /* min-height: 7.75rem; */
   width: 100%;
+  flex-shrink: 0;
 }
 
 .group-chat-host-info {
@@ -142,6 +145,10 @@
 /* 스크롤바 핸들에 액티브 상태일 때 스타일 설정 */
 .group-chat-announcement-content::-webkit-scrollbar-thumb:active {
   background-color: #333333;
+}
+
+.announcement-full-content {
+  max-height: none;
 }
 
 .group-chat-users-wrapper {

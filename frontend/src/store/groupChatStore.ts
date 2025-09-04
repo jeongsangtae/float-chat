@@ -125,6 +125,18 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
         }));
       });
 
+      socket.off("groupChatAnnouncementDelete");
+
+      socket.on("groupChatAnnouncementDelete", (updatedGroupChatData) => {
+        set((prev) => ({
+          groupChats: prev.groupChats.map((groupChat) =>
+            groupChat._id === updatedGroupChatData._id
+              ? { ...groupChat, ...updatedGroupChatData }
+              : groupChat
+          ),
+        }));
+      });
+
       // 기존 이벤트 리스너 제거 후 재등록 (중복 방지)
       socket.off("groupChatDelete");
 

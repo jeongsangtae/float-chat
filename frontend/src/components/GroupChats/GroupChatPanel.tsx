@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 import GroupChatAnnouncementForm from "./GroupChatAnnouncementForm";
 import GroupChatAnnouncementDeleteConfirm from "./GroupChatAnnouncementDeleteConfirm";
@@ -24,6 +24,9 @@ const GroupChatPanel = ({
   const { activeModal, toggleModal } = useModalStore();
 
   const [showGroupChatUsers, setShowGroupChatUsers] = useState(false);
+  const [announcementOverflow, setAnnouncementOverflow] = useState(false);
+  const [showAnnouncementContent, setShowAnnouncementContent] = useState(false);
+  const announcementRef = useRef<HTMLDivElement | null>(null);
 
   // 온라인과 오프라인 분리
   const onlineUsers = groupChatUsers.filter(
@@ -63,8 +66,21 @@ const GroupChatPanel = ({
     setShowGroupChatUsers(false);
   }, [groupChatId]);
 
+  useEffect(() => {
+    if (announcementRef.current) {
+      const announcementDiv = announcementRef.current;
+      setAnnouncementOverflow(
+        announcementDiv.scrollHeight > announcementDiv.clientHeight
+      );
+    }
+  }, [announcement]);
+
   const toggleGroupChatUsersHandler = () => {
     setShowGroupChatUsers(!showGroupChatUsers);
+  };
+
+  const toggleAnnouncementContentHandler = () => {
+    setShowAnnouncementContent(!showAnnouncementContent);
   };
 
   const groupChatAnnouncementEditHandler = () => {
@@ -122,9 +138,22 @@ const GroupChatPanel = ({
               </div>
             )}
           </div>
-          <div className={classes["group-chat-announcement-content"]}>
+          <div
+            className={`${classes["group-chat-announcement-content"]} ${
+              !showAnnouncementContent
+                ? ""
+                : classes["announcement-full-content"]
+            }`}
+            ref={announcementRef}
+          >
             {announcement || "등록된 공지가 없습니다."}
           </div>
+
+          {announcementOverflow && (
+            <button onClick={toggleAnnouncementContentHandler}>
+              {!showAnnouncementContent ? <IoIosArrowDown /> : <IoIosArrowUp />}
+            </button>
+          )}
         </div>
 
         {activeModal === "groupChatAnnouncementForm" && (
