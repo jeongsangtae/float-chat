@@ -150,9 +150,18 @@ const GroupChatPanel = ({
           </div>
 
           {announcementOverflow && (
-            <button onClick={toggleAnnouncementContentHandler}>
-              {!showAnnouncementContent ? <IoIosArrowDown /> : <IoIosArrowUp />}
-            </button>
+            <div className={classes["group-chat-announcement-button-wrapper"]}>
+              <button
+                className={classes["group-chat-announcement-button"]}
+                onClick={toggleAnnouncementContentHandler}
+              >
+                {!showAnnouncementContent ? (
+                  <IoIosArrowDown />
+                ) : (
+                  <IoIosArrowUp />
+                )}
+              </button>
+            </div>
           )}
         </div>
 
