@@ -4,6 +4,8 @@ import useGroupChatStore from "../../store/groupChatStore";
 import { ModalProps } from "../../types";
 import Modal from "../UI/Modal";
 
+import classes from "./GroupChatAnnouncementDeleteConfirm.module.css";
+
 const GroupChatAnnouncementDeleteConfirm = ({ onToggle }: ModalProps) => {
   const { modalData } = useModalStore();
   const { groupChatAnnouncementDelete } = useGroupChatStore();
@@ -21,11 +23,17 @@ const GroupChatAnnouncementDeleteConfirm = ({ onToggle }: ModalProps) => {
 
   return (
     <Modal onToggle={onToggle}>
-      <h2>공지사항 삭제</h2>
-      <p>정말 공지사항을 삭제하시겠습니까?</p>
-      <div>
-        <button onClick={confirmHandler}>삭제</button>
-        <button onClick={onToggle}>취소</button>
+      <div className={classes["group-chat-announcement-delete-confirm"]}>
+        <h2 className={classes.title}>공지사항 삭제</h2>
+        <p className={classes.message}>정말 공지사항을 삭제하시겠습니까?</p>
+        <div className={classes["button-wrapper"]}>
+          <button className={classes["delete-button"]} onClick={confirmHandler}>
+            삭제
+          </button>
+          <button className={classes["cancel-button"]} onClick={onToggle}>
+            취소
+          </button>
+        </div>
       </div>
     </Modal>
   );

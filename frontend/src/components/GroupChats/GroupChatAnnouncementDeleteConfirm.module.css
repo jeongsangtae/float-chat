@@ -1,0 +1,57 @@
+.group-chat-announcement-delete-confirm {
+  margin: 0 0.25rem 0.5rem 0;
+  padding: 0;
+  text-align: center;
+}
+
+.title {
+  font-size: 1.5rem;
+  margin: 1.75rem 0 1.25rem 0.25rem;
+  color: #f44336; /* 삭제는 경고 느낌 */
+}
+
+.message {
+  font-size: 0.95rem;
+  color: #ddd;
+  margin: 0.5rem 0 1.25rem 0.25rem;
+  padding: 0.25rem;
+  line-height: 1.4;
+}
+
+.button-wrapper {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin: 0.25rem;
+}
+
+.delete-button {
+  background-color: #c62828;
+  color: white;
+  border: none;
+  padding: 0.35rem 0.9rem;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.delete-button:hover {
+  background-color: #b71c1c;
+}
+
+.cancel-button {
+  background-color: #555;
+  color: #ddd;
+  border: none;
+  padding: 0.35rem 0.9rem;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.cancel-button:hover {
+  background-color: #616161;
+}
