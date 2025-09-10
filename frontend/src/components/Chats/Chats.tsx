@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 import useChatStore from "../../store/chatStore";
 import useSocketStore from "../../store/socketStore";
@@ -11,6 +11,12 @@ import classes from "./Chats.module.css";
 const Chats = ({ roomId, type, chatInfo }: ChatsProps) => {
   const { chatData, messages } = useChatStore();
   const { joinGroupChat, leaveGroupChat } = useSocketStore();
+
+  const chatContainerRef = useRef(null);
+  const messagesEndRef = useRef(null);
+
+  const [showNewMessageButton, setShowNewMessageButton] = useState(false);
+  const [toBottomButton, setToBottomButton] = useState(false);
 
   useEffect(() => {
     if (!roomId) {
@@ -28,6 +34,47 @@ const Chats = ({ roomId, type, chatInfo }: ChatsProps) => {
     }
     chatData(roomId);
   }, [roomId]);
+
+  useEffect(() => {
+    const { scrollTop, scrollHeight, clientHeight } = chatContainerRef.current;
+
+    // console.log(scrollTop + clientHeight >= scrollHeight - 1);
+
+    if (scrollTop + clientHeight >= scrollHeight - 1) {
+      setToBottomButton(false);
+      scrollToBottomHandler();
+    } else {
+      scrollToBottomHandler();
+    }
+  }, [messages]);
+
+  const scrollToBottomHandler = () => {
+    messagesEndRef.current?.scrollIntoView();
+  };
+
+  // const scrollToNewMessagesHandler = () => {
+  //   messagesEndRef.current?.scrollIntoView();
+  //   setShowNewMessageButton(false); // 버튼 숨기기
+  // };
+
+  const handleScroll = () => {
+    const { scrollTop, scrollHeight, clientHeight } = chatContainerRef.current;
+
+    console.log(`scrollTop: ${scrollTop}`);
+    console.log(`clientHeight: ${clientHeight}`);
+    console.log(`scrollHeight: ${scrollHeight}`);
+
+    console.log(scrollTop + clientHeight >= scrollHeight - 1);
+
+    // 오차를 줄이기 위해 -1을 사용
+    if (scrollTop + clientHeight >= scrollHeight - 1) {
+      setToBottomButton(false);
+    } else {
+      setToBottomButton(true);
+    }
+
+    console.log(toBottomButton);
+  };
 
   let prevDate = ""; // 이전 메시지의 날짜를 저장하는 변수 (날짜 줄 중복 방지)
   let prevUserEmail = ""; // 이전 이메일을 저장하는 변수
@@ -76,7 +123,11 @@ const Chats = ({ roomId, type, chatInfo }: ChatsProps) => {
   });
 
   return (
-    <div className={classes["chats-container"]}>
+    <div
+      className={classes["chats-container"]}
+      ref={chatContainerRef}
+      onScroll={handleScroll}
+    >
       {type === "direct" && (
         <div className={classes["direct-chat-starting"]}>
           <div
@@ -89,6 +140,7 @@ const Chats = ({ roomId, type, chatInfo }: ChatsProps) => {
           <div>{chatInfo.nickname}님과 나눈 다이렉트 채팅방 첫 부분이에요.</div>
         </div>
       )}
+
       {type === "group" && (
         <div className={classes["group-chat-starting"]}>
           <h1 className={classes.title}>
@@ -97,7 +149,19 @@ const Chats = ({ roomId, type, chatInfo }: ChatsProps) => {
           <div>이 서버가 시작된 곳이에요.</div>
         </div>
       )}
+
       {dateLineAndMessages}
+
+      <div ref={messagesEndRef} />
+
+      {toBottomButton && (
+        <div
+          className={classes["bottom-button"]}
+          onClick={scrollToBottomHandler}
+        >
+          최신 메시지로 이동
+        </div>
+      )}
     </div>
   );
 };
