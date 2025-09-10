@@ -1,7 +1,7 @@
 .backdrop {
   position: fixed;
   inset: 0;
-  background-color: #313338; /* 디스코드 배경 스타일 */
+  background-color: #313338;
   display: flex;
   justify-content: center;
   align-items: center;

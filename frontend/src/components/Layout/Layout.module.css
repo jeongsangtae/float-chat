@@ -26,6 +26,6 @@
   background-color: #36393f;
   display: flex;
   flex-direction: column;
+  overflow-y: hidden;
   /* padding: 1rem; */
-  /* overflow-y: auto; */
 }
