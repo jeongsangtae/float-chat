@@ -12,8 +12,8 @@ const Chats = ({ roomId, type, chatInfo }: ChatsProps) => {
   const { chatData, messages } = useChatStore();
   const { joinGroupChat, leaveGroupChat } = useSocketStore();
 
-  const chatContainerRef = useRef(null);
-  const messagesEndRef = useRef(null);
+  const chatContainerRef = useRef<HTMLDivElement | null>(null);
+  const messagesEndRef = useRef<HTMLDivElement | null>(null);
 
   const [showNewMessageButton, setShowNewMessageButton] = useState(false);
   const [toBottomButton, setToBottomButton] = useState(false);
@@ -36,7 +36,11 @@ const Chats = ({ roomId, type, chatInfo }: ChatsProps) => {
   }, [roomId]);
 
   useEffect(() => {
-    const { scrollTop, scrollHeight, clientHeight } = chatContainerRef.current;
+    const container = chatContainerRef.current;
+
+    if (!container) return;
+
+    const { scrollTop, scrollHeight, clientHeight } = container;
 
     // console.log(scrollTop + clientHeight >= scrollHeight - 1);
 
@@ -44,6 +48,7 @@ const Chats = ({ roomId, type, chatInfo }: ChatsProps) => {
       setToBottomButton(false);
       scrollToBottomHandler();
     } else {
+      setToBottomButton(true);
       scrollToBottomHandler();
     }
   }, [messages]);
@@ -58,7 +63,11 @@ const Chats = ({ roomId, type, chatInfo }: ChatsProps) => {
   // };
 
   const handleScroll = () => {
-    const { scrollTop, scrollHeight, clientHeight } = chatContainerRef.current;
+    const container = chatContainerRef.current;
+
+    if (!container) return;
+
+    const { scrollTop, scrollHeight, clientHeight } = container;
 
     console.log(`scrollTop: ${scrollTop}`);
     console.log(`clientHeight: ${clientHeight}`);
@@ -123,36 +132,58 @@ const Chats = ({ roomId, type, chatInfo }: ChatsProps) => {
   });
 
   return (
-    <div
-      className={classes["chats-container"]}
-      ref={chatContainerRef}
-      onScroll={handleScroll}
-    >
-      {type === "direct" && (
-        <div className={classes["direct-chat-starting"]}>
-          <div
-            className={classes.avatar}
-            style={{ backgroundColor: chatInfo.avatarColor }}
-          >
-            {chatInfo.nickname?.charAt(0)}
+    <div className={classes.chats}>
+      <div
+        className={classes["chats-container"]}
+        ref={chatContainerRef}
+        onScroll={handleScroll}
+      >
+        {type === "direct" && (
+          <div className={classes["direct-chat-starting"]}>
+            <div
+              className={classes.avatar}
+              style={{ backgroundColor: chatInfo.avatarColor }}
+            >
+              {chatInfo.nickname?.charAt(0)}
+            </div>
+            <h1 className={classes.nickname}>{chatInfo.nickname}</h1>
+            <div>
+              {chatInfo.nickname}님과 나눈 다이렉트 채팅방 첫 부분이에요.
+            </div>
           </div>
-          <h1 className={classes.nickname}>{chatInfo.nickname}</h1>
-          <div>{chatInfo.nickname}님과 나눈 다이렉트 채팅방 첫 부분이에요.</div>
+        )}
+
+        {type === "group" && (
+          <div className={classes["group-chat-starting"]}>
+            <h1 className={classes.title}>
+              {chatInfo.title}에 오신 것을 환영합니다
+            </h1>
+            <div>이 서버가 시작된 곳이에요.</div>
+          </div>
+        )}
+
+        <div>{dateLineAndMessages}</div>
+
+        <div ref={messagesEndRef} />
+
+        {/* {toBottomButton && (
+        <div
+          className={classes["bottom-button"]}
+          onClick={scrollToBottomHandler}
+        >
+          최신 메시지로 이동
         </div>
-      )}
+      )} */}
+      </div>
 
-      {type === "group" && (
-        <div className={classes["group-chat-starting"]}>
-          <h1 className={classes.title}>
-            {chatInfo.title}에 오신 것을 환영합니다
-          </h1>
-          <div>이 서버가 시작된 곳이에요.</div>
-        </div>
-      )}
-
-      {dateLineAndMessages}
-
-      <div ref={messagesEndRef} />
+      {/* {showNewMessageButton && (
+       <button
+         onClick={scrollToNewMessagesHandler}
+         className={classes["new-message-button"]}
+       >
+         새로운 메시지
+       </button>
+     )} */}
 
       {toBottomButton && (
         <div
