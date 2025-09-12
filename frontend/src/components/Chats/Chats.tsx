@@ -7,13 +7,15 @@ import Chat from "./Chat";
 
 import { ChatsProps } from "../../types";
 import classes from "./Chats.module.css";
+import useAuthStore from "../../store/authStore";
 
 const Chats = ({ roomId, type, chatInfo }: ChatsProps) => {
+  const { userInfo } = useAuthStore();
   const { chatData, messages } = useChatStore();
   const { joinGroupChat, leaveGroupChat } = useSocketStore();
 
   const chatContainerRef = useRef<HTMLDivElement | null>(null);
-  const messagesEndRef = useRef<HTMLDivElement | null>(null);
+  // const messagesEndRef = useRef<HTMLDivElement | null>(null);
 
   const [showNewMessageButton, setShowNewMessageButton] = useState(false);
   const [toBottomButton, setToBottomButton] = useState(false);
@@ -42,25 +44,42 @@ const Chats = ({ roomId, type, chatInfo }: ChatsProps) => {
 
     const { scrollTop, scrollHeight, clientHeight } = container;
 
+    const isAtBottom = scrollTop + clientHeight >= scrollHeight - 1;
+    const lateMessage = messages[messages.length - 1];
+    const currentUser = lateMessage?.email === userInfo?.email;
+
     // console.log(scrollTop + clientHeight >= scrollHeight - 1);
 
-    if (scrollTop + clientHeight >= scrollHeight - 1) {
-      setToBottomButton(false);
+    if (isAtBottom || currentUser) {
+      // 스크롤이 이미 맨 아래이거나 본인이 메시지를 추가한 경우
       scrollToBottomHandler();
+      setShowNewMessageButton(false);
+      // setToBottomButton(false);
     } else {
-      setToBottomButton(true);
-      scrollToBottomHandler();
+      // 다른 사용자가 메시지를 보낸 경우, 버튼만 보여주고 스크롤 유지
+      // setToBottomButton(true);
+      // scrollToBottomHandler();
+      setShowNewMessageButton(true);
     }
   }, [messages]);
 
   const scrollToBottomHandler = () => {
-    messagesEndRef.current?.scrollIntoView();
+    // messagesEndRef.current?.scrollIntoView({ block: "nearest" });
+
+    const container = chatContainerRef.current;
+    if (!container) return;
+
+    container.scrollTop = container.scrollHeight;
   };
 
-  // const scrollToNewMessagesHandler = () => {
-  //   messagesEndRef.current?.scrollIntoView();
-  //   setShowNewMessageButton(false); // 버튼 숨기기
-  // };
+  const scrollToNewMessagesHandler = () => {
+    const container = chatContainerRef.current;
+    if (!container) return;
+
+    container.scrollTop = container.scrollHeight;
+
+    setShowNewMessageButton(false); // 버튼 숨기기
+  };
 
   const handleScroll = () => {
     const container = chatContainerRef.current;
@@ -78,6 +97,7 @@ const Chats = ({ roomId, type, chatInfo }: ChatsProps) => {
     // 오차를 줄이기 위해 -1을 사용
     if (scrollTop + clientHeight >= scrollHeight - 1) {
       setToBottomButton(false);
+      setShowNewMessageButton(false);
     } else {
       setToBottomButton(true);
     }
@@ -132,58 +152,46 @@ const Chats = ({ roomId, type, chatInfo }: ChatsProps) => {
   });
 
   return (
-    <div className={classes.chats}>
-      <div
-        className={classes["chats-container"]}
-        ref={chatContainerRef}
-        onScroll={handleScroll}
-      >
-        {type === "direct" && (
-          <div className={classes["direct-chat-starting"]}>
-            <div
-              className={classes.avatar}
-              style={{ backgroundColor: chatInfo.avatarColor }}
-            >
-              {chatInfo.nickname?.charAt(0)}
-            </div>
-            <h1 className={classes.nickname}>{chatInfo.nickname}</h1>
-            <div>
-              {chatInfo.nickname}님과 나눈 다이렉트 채팅방 첫 부분이에요.
-            </div>
+    // <div className={classes.chats}>
+    <div
+      className={classes["chats-container"]}
+      ref={chatContainerRef}
+      onScroll={handleScroll}
+    >
+      {type === "direct" && (
+        <div className={classes["direct-chat-starting"]}>
+          <div
+            className={classes.avatar}
+            style={{ backgroundColor: chatInfo.avatarColor }}
+          >
+            {chatInfo.nickname?.charAt(0)}
           </div>
-        )}
-
-        {type === "group" && (
-          <div className={classes["group-chat-starting"]}>
-            <h1 className={classes.title}>
-              {chatInfo.title}에 오신 것을 환영합니다
-            </h1>
-            <div>이 서버가 시작된 곳이에요.</div>
-          </div>
-        )}
-
-        <div>{dateLineAndMessages}</div>
-
-        <div ref={messagesEndRef} />
-
-        {/* {toBottomButton && (
-        <div
-          className={classes["bottom-button"]}
-          onClick={scrollToBottomHandler}
-        >
-          최신 메시지로 이동
+          <h1 className={classes.nickname}>{chatInfo.nickname}</h1>
+          <div>{chatInfo.nickname}님과 나눈 다이렉트 채팅방 첫 부분이에요.</div>
         </div>
-      )} */}
-      </div>
+      )}
 
-      {/* {showNewMessageButton && (
-       <button
-         onClick={scrollToNewMessagesHandler}
-         className={classes["new-message-button"]}
-       >
-         새로운 메시지
-       </button>
-     )} */}
+      {type === "group" && (
+        <div className={classes["group-chat-starting"]}>
+          <h1 className={classes.title}>
+            {chatInfo.title}에 오신 것을 환영합니다
+          </h1>
+          <div>이 서버가 시작된 곳이에요.</div>
+        </div>
+      )}
+
+      <div>{dateLineAndMessages}</div>
+
+      {/* <div ref={messagesEndRef} /> */}
+
+      {showNewMessageButton && (
+        <button
+          onClick={scrollToNewMessagesHandler}
+          className={classes["new-message-button"]}
+        >
+          새로운 메시지
+        </button>
+      )}
 
       {toBottomButton && (
         <div
@@ -194,6 +202,16 @@ const Chats = ({ roomId, type, chatInfo }: ChatsProps) => {
         </div>
       )}
     </div>
+
+    // {/* {toBottomButton && (
+    //   <div
+    //     className={classes["bottom-button"]}
+    //     onClick={scrollToBottomHandler}
+    //   >
+    //     최신 메시지로 이동
+    //   </div>
+    // )} */}
+    // </div>
   );
 };
 
