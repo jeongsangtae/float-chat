@@ -19,9 +19,6 @@ const GroupChatAnnouncementForm = ({ onToggle }: ModalProps) => {
   const [errorMessage, setErrorMessage] = useState<string>("");
 
   const trimmedAnnouncement = announcement.trim();
-  // const announcementValid =
-  //   trimmedAnnouncement.length >= 1 && trimmedAnnouncement.length <= 50;
-
   const announcementValid = trimmedAnnouncement.length <= 50;
 
   useEffect(() => {
