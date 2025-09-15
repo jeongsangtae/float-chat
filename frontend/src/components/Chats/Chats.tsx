@@ -20,6 +20,11 @@ const Chats = ({ roomId, type, chatInfo }: ChatsProps) => {
   const [showNewMessageButton, setShowNewMessageButton] = useState(false);
   const [toBottomButton, setToBottomButton] = useState(false);
 
+  // 테스트를 위한 마지막 메시지 id 관련 useState
+  const [lastReadMessageId, setLastReadMessageId] = useState<string | null>(
+    null
+  );
+
   useEffect(() => {
     if (!roomId) {
       console.error("roomId가 정의되지 않았습니다.");
@@ -37,67 +42,100 @@ const Chats = ({ roomId, type, chatInfo }: ChatsProps) => {
     chatData(roomId);
   }, [roomId]);
 
+  // 읽음 포인터 정보를 저장하는 테스트용 useEffect
   useEffect(() => {
     const container = chatContainerRef.current;
-
     if (!container) return;
 
     const { scrollTop, scrollHeight, clientHeight } = container;
 
     const isAtBottom = scrollTop + clientHeight >= scrollHeight - 1;
-    const lateMessage = messages[messages.length - 1];
-    const currentUser = lateMessage?.email === userInfo?.email;
-    const nearBottom = scrollTop + clientHeight >= scrollHeight - 100;
-
-    console.log(
-      firstRender.current,
-      isAtBottom,
-      currentUser,
-      nearBottom,
-      scrollTop + clientHeight,
-      scrollHeight - 100
-    );
-
-    // console.log(scrollTop + clientHeight >= scrollHeight - 1);
-
-    // if (isAtBottom || currentUser) {
-    //   // 스크롤이 이미 맨 아래이거나 본인이 메시지를 추가한 경우
-    //   scrollToBottomHandler();
-    //   setShowNewMessageButton(false);
-    //   // setToBottomButton(false);
-    // } else {
-    //   // 다른 사용자가 메시지를 보낸 경우, 버튼만 보여주고 스크롤 유지
-    //   // setToBottomButton(true);
-    //   // scrollToBottomHandler();
-    //   setShowNewMessageButton(true);
-    // }
-
-    if (firstRender.current) {
-      // 초기 렌더링 시에 스크롤이 최하단에 유지
-      scrollToBottomHandler();
-      setShowNewMessageButton(false);
-      setToBottomButton(false);
-      firstRender.current = false;
-    } else if (isAtBottom) {
-      // 스크롤이 최하단에 위치했을 때 그대로 최하단에 계속 유지
-      scrollToBottomHandler();
-      setShowNewMessageButton(false);
-      setToBottomButton(false);
-    } else if (currentUser) {
-      // 메시지를 보낸 사용자의 경우 스크롤이 최하단에 위치
-      scrollToBottomHandler();
-      setShowNewMessageButton(false);
-      setToBottomButton(false);
-    } else if (nearBottom && !currentUser) {
-      // 메시지를 보낸 사용자가 아니며, 스크롤이 최하단에서 일정 거리 떨어진 경우
-      scrollToBottomHandler();
-      setShowNewMessageButton(false);
-      setToBottomButton(false);
-    } else {
-      setShowNewMessageButton(true);
-      setToBottomButton(false);
+    if (isAtBottom && messages.length > 0) {
+      setLastReadMessageId(messages[messages.length - 1]._id);
     }
   }, [messages]);
+
+  // 새로고침 또는 다시 방에 들어올 때, 메시지 ID를 불러오는 테스트용 useEffect
+  useEffect(() => {
+    if (!chatContainerRef.current || !messages.length) return;
+
+    if (!lastReadMessageId) {
+      // 읽은 메시지 없으면 그냥 최하단으로 이동
+      chatContainerRef.current.scrollTo({
+        top: chatContainerRef.current.scrollHeight,
+        behavior: "auto",
+      });
+    } else {
+      // 읽은 메시지 위치 찾기
+      const idx = messages.findIndex((m) => m._id === lastReadMessageId);
+      if (idx !== -1) {
+        const target = document.getElementById(`msg-${messages[idx]._id}`);
+        target?.scrollIntoView({ block: "start" });
+      }
+    }
+  }, [messages, lastReadMessageId]);
+
+  // useEffect(() => {
+  //   const container = chatContainerRef.current;
+
+  //   if (!container) return;
+
+  //   const { scrollTop, scrollHeight, clientHeight } = container;
+
+  //   const isAtBottom = scrollTop + clientHeight >= scrollHeight - 1;
+  //   const lateMessage = messages[messages.length - 1];
+  //   const currentUser = lateMessage?.email === userInfo?.email;
+  //   const nearBottom = scrollTop + clientHeight >= scrollHeight - 100;
+
+  //   console.log(
+  //     firstRender.current,
+  //     isAtBottom,
+  //     currentUser,
+  //     nearBottom,
+  //     scrollTop + clientHeight,
+  //     scrollHeight - 100
+  //   );
+
+  //   // console.log(scrollTop + clientHeight >= scrollHeight - 1);
+
+  //   // if (isAtBottom || currentUser) {
+  //   //   // 스크롤이 이미 맨 아래이거나 본인이 메시지를 추가한 경우
+  //   //   scrollToBottomHandler();
+  //   //   setShowNewMessageButton(false);
+  //   //   // setToBottomButton(false);
+  //   // } else {
+  //   //   // 다른 사용자가 메시지를 보낸 경우, 버튼만 보여주고 스크롤 유지
+  //   //   // setToBottomButton(true);
+  //   //   // scrollToBottomHandler();
+  //   //   setShowNewMessageButton(true);
+  //   // }
+
+  //   if (firstRender.current) {
+  //     // 초기 렌더링 시에 스크롤이 최하단에 유지
+  //     scrollToBottomHandler();
+  //     setShowNewMessageButton(false);
+  //     setToBottomButton(false);
+  //     firstRender.current = false;
+  //   } else if (isAtBottom) {
+  //     // 스크롤이 최하단에 위치했을 때 그대로 최하단에 계속 유지
+  //     scrollToBottomHandler();
+  //     setShowNewMessageButton(false);
+  //     setToBottomButton(false);
+  //   } else if (currentUser) {
+  //     // 메시지를 보낸 사용자의 경우 스크롤이 최하단에 위치
+  //     scrollToBottomHandler();
+  //     setShowNewMessageButton(false);
+  //     setToBottomButton(false);
+  //   } else if (nearBottom && !currentUser) {
+  //     // 메시지를 보낸 사용자가 아니며, 스크롤이 최하단에서 일정 거리 떨어진 경우
+  //     scrollToBottomHandler();
+  //     setShowNewMessageButton(false);
+  //     setToBottomButton(false);
+  //   } else {
+  //     setShowNewMessageButton(true);
+  //     setToBottomButton(false);
+  //   }
+  // }, [messages]);
 
   const scrollToBottomHandler = () => {
     // messagesEndRef.current?.scrollIntoView({ block: "nearest" });
