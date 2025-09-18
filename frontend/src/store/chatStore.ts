@@ -11,6 +11,7 @@ const apiURL = import.meta.env.VITE_API_URL;
 interface ChatStore {
   socket: Socket | null;
   messages: ChatMessage[];
+  lastReadMessageId: [];
   newMessage: () => void;
   chatData: (roomId: string) => Promise<void>;
   sendMessage: (
@@ -18,12 +19,16 @@ interface ChatStore {
     message: string,
     userInfo: UserInfo
   ) => Promise<void>;
+  saveLastReadMessageId: (
+    roomId: string,
+    lastVisibleMessageId: string
+  ) => Promise<void>;
 }
 
 const useChatStore = create<ChatStore>((set) => ({
   socket: null,
   messages: [],
-
+  lastReadMessageId: [],
   newMessage: () => {
     const socket = useSocketStore.getState().socket;
     // console.log("소켓 있음? :", socket);
@@ -133,6 +138,32 @@ const useChatStore = create<ChatStore>((set) => ({
       console.error("에러 내용:", error);
       alert(
         "메시지를 전송하는 데 문제가 발생했습니다. 새로고침 후 다시 시도해 주세요."
+      );
+    }
+  },
+  saveLastReadMessageId: async (roomId, lastVisibleMessageId) => {
+    console.log(roomId, lastVisibleMessageId);
+    try {
+      // 서버로 메시지를 POST 요청으로 전송
+      const response = await fetch(
+        `${apiURL}/chat/${roomId}/lastVisibleMessage`,
+        {
+          method: "POST",
+          body: JSON.stringify({ lastVisibleMessageId }),
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("마지막 메시지 ID 전송 실패");
+      }
+
+      console.log("마지막 메시지 ID 전송 성공");
+    } catch (error) {
+      console.error("에러 내용:", error);
+      alert(
+        "마지막 메시지 ID를 전송하는 데 문제가 발생했습니다. 새로고침 후 다시 시도해 주세요."
       );
     }
   },

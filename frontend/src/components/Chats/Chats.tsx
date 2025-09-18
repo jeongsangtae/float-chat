@@ -11,7 +11,7 @@ import useAuthStore from "../../store/authStore";
 
 const Chats = ({ roomId, type, chatInfo }: ChatsProps) => {
   const { userInfo } = useAuthStore();
-  const { chatData, messages } = useChatStore();
+  const { chatData, messages, saveLastReadMessageId } = useChatStore();
   const { joinGroupChat, leaveGroupChat } = useSocketStore();
 
   const chatContainerRef = useRef<HTMLDivElement | null>(null);
@@ -44,6 +44,7 @@ const Chats = ({ roomId, type, chatInfo }: ChatsProps) => {
   useEffect(() => {
     const container = chatContainerRef.current;
     if (!container) return;
+    if (!roomId) return;
 
     const handleScroll = () => {
       const messagesInView = messages.filter((msg) => {
@@ -59,7 +60,8 @@ const Chats = ({ roomId, type, chatInfo }: ChatsProps) => {
       const lastVisibleMessageId =
         messagesInView[messagesInView.length - 1]._id;
 
-      console.log("화면에 마지막으로 보이는 메시지 ID:", lastVisibleMessageId);
+      saveLastReadMessageId(roomId, lastVisibleMessageId);
+      // console.log("화면에 마지막으로 보이는 메시지 ID:", lastVisibleMessageId);
     };
 
     container.addEventListener("scroll", handleScroll);

@@ -188,4 +188,70 @@ router.post("/chat/:roomId", async (req, res) => {
   }
 });
 
+// 마지막 메시지 ID 저장 라우터
+router.post("/chat/:roomId/lastVisibleMessage", async (req, res) => {
+  try {
+    const othersData = await accessToken(req, res);
+
+    if (!othersData) {
+      return res.status(401).json({ message: "jwt error" });
+    }
+
+    // 클라이언트에서 보낸 데이터 추출
+    let roomId = req.params.roomId;
+    const lastVisibleMessageId = req.body.lastVisibleMessageId;
+
+    console.log("데이터 확인: ", roomId, othersData._id, lastVisibleMessageId);
+
+    roomId = new ObjectId(roomId);
+
+    // console.log(roomId, othersData._id, lastVisibleMessage);
+
+    // let date = new Date();
+    // let kstDate = new Date(date.getTime() + 9 * 60 * 60 * 1000);
+
+    // 마지막 메시지 ID 저장
+    const lastVisibleMessage = {
+      userId: othersData._id,
+      roomId,
+      lastVisibleMessageId,
+    };
+
+    // 마지막 메시지 정보를 lastReadMessages 컬렉션에 저장
+    // await db
+    //   .getDb()
+    //   .collection("lastReadMessages")
+    //   .updateOne(
+    //     { userId: othersData._id, "rooms.roomId": roomId },
+    //     {
+    //       $set: {
+    //         "rooms.$.lastVisibleMessageId": lastVisibleMessageId,
+    //         // updatedAt: new Date(),
+    //       },
+    //     },
+    //     { upsert: true }
+    //   );
+
+    await db
+      .getDb()
+      .collection("lastReadMessages")
+      .updateOne(
+        {
+          userId: lastVisibleMessage.userId,
+          roomId: lastVisibleMessage.roomId,
+        },
+        {
+          $set: {
+            lastVisibleMessageId: lastVisibleMessage.lastVisibleMessageId,
+          },
+        },
+        { upsert: true }
+      );
+
+    // res.status(200).json({ lastVisibleMessage });
+  } catch (error) {
+    errorHandler(res, error, "채팅 메시지 저장 중 오류 발생");
+  }
+});
+
 module.exports = router;
