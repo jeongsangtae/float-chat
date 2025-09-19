@@ -248,9 +248,9 @@ router.post("/chat/:roomId/lastVisibleMessage", async (req, res) => {
         { upsert: true }
       );
 
-    // res.status(200).json({ lastVisibleMessage });
+    res.status(200).json({ lastVisibleMessage });
   } catch (error) {
-    errorHandler(res, error, "채팅 메시지 저장 중 오류 발생");
+    errorHandler(res, error, "마지막 메시지 ID 저장 중 오류 발생");
   }
 });
 
