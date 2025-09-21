@@ -31,7 +31,15 @@ router.get("/chat/:roomId", async (req, res) => {
       .sort({ date: 1 }) // 날짜 기준으로 정렬 (오름차순)
       .toArray();
 
-    res.status(200).json({ messages });
+    const lastReadMessage = await db
+      .getDb()
+      .collection("lastReadMessages")
+      .findOne({ userId: othersData._id, roomId });
+
+    res.status(200).json({
+      messages,
+      lastReadMessage,
+    });
   } catch (error) {
     errorHandler(res, error, "채팅 메시지 조회 중 오류 발생");
   }

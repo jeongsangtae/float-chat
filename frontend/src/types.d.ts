@@ -171,6 +171,12 @@ export interface ChatMessage {
   date: string;
 }
 
+export interface LastReadMessage {
+  userId: string;
+  roomId: string;
+  lastVisibleMessageId: string | null;
+}
+
 export interface FriendUser {
   id: string; // _id 대신 id 사용
   userId: string;

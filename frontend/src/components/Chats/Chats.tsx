@@ -11,7 +11,8 @@ import useAuthStore from "../../store/authStore";
 
 const Chats = ({ roomId, type, chatInfo }: ChatsProps) => {
   const { userInfo } = useAuthStore();
-  const { chatData, messages, saveLastReadMessageId } = useChatStore();
+  const { chatData, messages, lastReadMessage, saveLastReadMessageId } =
+    useChatStore();
   const { joinGroupChat, leaveGroupChat } = useSocketStore();
 
   const chatContainerRef = useRef<HTMLDivElement | null>(null);
@@ -109,7 +110,24 @@ const Chats = ({ roomId, type, chatInfo }: ChatsProps) => {
   useEffect(() => {
     const container = chatContainerRef.current;
 
+    console.log(lastReadMessage?.lastVisibleMessageId);
+
     if (!container) return;
+
+    if (lastReadMessage) {
+      const targetEl =
+        messageRefs.current[lastReadMessage.lastVisibleMessageId || ""];
+
+      if (targetEl) {
+        targetEl.scrollIntoView({ block: "nearest" });
+        return; // lastReadMessage 적용 완료 시 아래 로직은 실행되지 않음
+      }
+    } else {
+      // lastReadMessage가 없으면 방 입장 시 최하단으로 이동
+      scrollToBottomHandler();
+      setShowNewMessageButton(false);
+      setToBottomButton(false);
+    }
 
     const { scrollTop, scrollHeight, clientHeight } = container;
 
@@ -119,6 +137,7 @@ const Chats = ({ roomId, type, chatInfo }: ChatsProps) => {
     const nearBottom = scrollTop + clientHeight >= scrollHeight - 100;
 
     console.log(
+      lastReadMessage,
       firstRender.current,
       isAtBottom,
       currentUser,
@@ -141,24 +160,33 @@ const Chats = ({ roomId, type, chatInfo }: ChatsProps) => {
     //   setShowNewMessageButton(true);
     // }
 
-    if (firstRender.current) {
-      // 초기 렌더링 시에 스크롤이 최하단에 유지
-      scrollToBottomHandler();
-      setShowNewMessageButton(false);
-      setToBottomButton(false);
-      firstRender.current = false;
-    } else if (isAtBottom) {
-      // 스크롤이 최하단에 위치했을 때 그대로 최하단에 계속 유지
-      scrollToBottomHandler();
-      setShowNewMessageButton(false);
-      setToBottomButton(false);
-    } else if (currentUser) {
-      // 메시지를 보낸 사용자의 경우 스크롤이 최하단에 위치
-      scrollToBottomHandler();
-      setShowNewMessageButton(false);
-      setToBottomButton(false);
-    } else if (nearBottom && !currentUser) {
-      // 메시지를 보낸 사용자가 아니며, 스크롤이 최하단에서 일정 거리 떨어진 경우
+    // if (firstRender.current) {
+    //   // 초기 렌더링 시에 스크롤이 최하단에 유지
+    //   scrollToBottomHandler();
+    //   setShowNewMessageButton(false);
+    //   setToBottomButton(false);
+    //   firstRender.current = false;
+    // } else if (isAtBottom) {
+    //   // 스크롤이 최하단에 위치했을 때 그대로 최하단에 계속 유지
+    //   scrollToBottomHandler();
+    //   setShowNewMessageButton(false);
+    //   setToBottomButton(false);
+    // } else if (currentUser) {
+    //   // 메시지를 보낸 사용자의 경우 스크롤이 최하단에 위치
+    //   scrollToBottomHandler();
+    //   setShowNewMessageButton(false);
+    //   setToBottomButton(false);
+    // } else if (nearBottom && !currentUser) {
+    //   // 메시지를 보낸 사용자가 아니며, 스크롤이 최하단에서 일정 거리 떨어진 경우
+    //   scrollToBottomHandler();
+    //   setShowNewMessageButton(false);
+    //   setToBottomButton(false);
+    // } else {
+    //   setShowNewMessageButton(true);
+    //   setToBottomButton(false);
+    // }
+
+    if (isAtBottom || currentUser || nearBottom) {
       scrollToBottomHandler();
       setShowNewMessageButton(false);
       setToBottomButton(false);
@@ -166,7 +194,7 @@ const Chats = ({ roomId, type, chatInfo }: ChatsProps) => {
       setShowNewMessageButton(true);
       setToBottomButton(false);
     }
-  }, [messages]);
+  }, [messages, lastReadMessage]);
 
   const scrollToBottomHandler = () => {
     // messagesEndRef.current?.scrollIntoView({ block: "nearest" });

@@ -4,14 +4,14 @@ import { Socket } from "socket.io-client";
 
 import useSocketStore from "./socketStore";
 
-import { ChatMessage, UserInfo } from "../types";
+import { ChatMessage, LastReadMessage, UserInfo } from "../types";
 
 const apiURL = import.meta.env.VITE_API_URL;
 
 interface ChatStore {
   socket: Socket | null;
   messages: ChatMessage[];
-  lastReadMessageId: [];
+  lastReadMessage: LastReadMessage | null;
   newMessage: () => void;
   chatData: (roomId: string) => Promise<void>;
   sendMessage: (
@@ -28,7 +28,7 @@ interface ChatStore {
 const useChatStore = create<ChatStore>((set) => ({
   socket: null,
   messages: [],
-  lastReadMessageId: [],
+  lastReadMessage: null,
   newMessage: () => {
     const socket = useSocketStore.getState().socket;
     // console.log("소켓 있음? :", socket);
@@ -102,7 +102,10 @@ const useChatStore = create<ChatStore>((set) => ({
 
       const resData = await response.json();
 
-      set({ messages: resData.messages });
+      set({
+        messages: resData.messages,
+        lastReadMessage: resData.lastReadMessage,
+      });
     } catch (error) {
       console.error("에러 내용:", error);
       alert(
@@ -141,6 +144,7 @@ const useChatStore = create<ChatStore>((set) => ({
       );
     }
   },
+
   saveLastReadMessageId: async (roomId, lastVisibleMessageId) => {
     console.log(roomId, lastVisibleMessageId);
     try {
