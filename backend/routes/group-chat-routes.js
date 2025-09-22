@@ -76,6 +76,16 @@ router.get("/groupChat/:roomId/users", async (req, res) => {
 // 그룹 채팅방 추가 라우터
 router.post("/groupChatForm", async (req, res) => {
   try {
+    const othersData = await accessToken(req, res);
+
+    if (!othersData) {
+      return res.status(401).json({ message: "jwt error" });
+    }
+
+    console.log(othersData);
+
+    let hostId = othersData._id.toString();
+
     const groupChatData = req.body;
 
     let date = new Date();
@@ -83,11 +93,11 @@ router.post("/groupChatForm", async (req, res) => {
 
     const newGroupChat = {
       title: groupChatData.title,
-      hostId: groupChatData._id,
-      hostEmail: groupChatData.email,
-      hostUsername: groupChatData.username,
-      hostNickname: groupChatData.nickname,
-      hostAvatarColor: groupChatData.avatarColor,
+      hostId: hostId,
+      hostEmail: othersData.email,
+      hostUsername: othersData.username,
+      hostNickname: othersData.nickname,
+      hostAvatarColor: othersData.avatarColor,
       date: `${kstDate.getFullYear()}.${(kstDate.getMonth() + 1)
         .toString()
         .padStart(2, "0")}.${kstDate
@@ -100,7 +110,7 @@ router.post("/groupChatForm", async (req, res) => {
         .getMinutes()
         .toString()
         .padStart(2, "0")}:${kstDate.getSeconds().toString().padStart(2, "0")}`,
-      users: [groupChatData._id],
+      users: [hostId],
     };
 
     await db.getDb().collection("groupChats").insertOne(newGroupChat);

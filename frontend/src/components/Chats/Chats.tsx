@@ -120,14 +120,24 @@ const Chats = ({ roomId, type, chatInfo }: ChatsProps) => {
 
       if (targetEl) {
         targetEl.scrollIntoView({ block: "nearest" });
-        return; // lastReadMessage 적용 완료 시 아래 로직은 실행되지 않음
+
+        const lastMessageChecked =
+          lastReadMessage.lastVisibleMessageId ===
+          messages[messages.length - 1]?._id;
+
+        if (lastMessageChecked) {
+          scrollToBottomHandler();
+        }
+
+        // return; // lastReadMessage 적용 완료 시 아래 로직은 실행되지 않음
       }
-    } else {
-      // lastReadMessage가 없으면 방 입장 시 최하단으로 이동
-      scrollToBottomHandler();
-      setShowNewMessageButton(false);
-      setToBottomButton(false);
     }
+    // } else {
+    //   // lastReadMessage가 없으면 방 입장 시 최하단으로 이동
+    //   scrollToBottomHandler();
+    //   setShowNewMessageButton(false);
+    //   setToBottomButton(false);
+    // }
 
     const { scrollTop, scrollHeight, clientHeight } = container;
 
@@ -136,15 +146,7 @@ const Chats = ({ roomId, type, chatInfo }: ChatsProps) => {
     const currentUser = lateMessage?.email === userInfo?.email;
     const nearBottom = scrollTop + clientHeight >= scrollHeight - 100;
 
-    console.log(
-      lastReadMessage,
-      firstRender.current,
-      isAtBottom,
-      currentUser,
-      nearBottom,
-      scrollTop + clientHeight,
-      scrollHeight - 100
-    );
+    console.log(nearBottom, scrollTop + clientHeight, scrollHeight - 100);
 
     // console.log(scrollTop + clientHeight >= scrollHeight - 1);
 
