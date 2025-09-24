@@ -15,9 +15,8 @@ const Chats = ({ roomId, type, chatInfo }: ChatsProps) => {
     useChatStore();
   const { joinGroupChat, leaveGroupChat } = useSocketStore();
 
+  const initialMessageCount = useRef<number | null>(null);
   const chatContainerRef = useRef<HTMLDivElement | null>(null);
-  // const firstRender = useRef(true);
-  // const prevMessageCount = useRef(0);
 
   const messageRefs = useRef<Record<string, HTMLDivElement | null>>({});
 
@@ -38,36 +37,49 @@ const Chats = ({ roomId, type, chatInfo }: ChatsProps) => {
       console.error("roomId가 정의되지 않았습니다.");
       return;
     }
+
     chatData(roomId);
   }, [roomId]);
 
-  // 스크롤 마지막에 보여지는 메시지 _id를 확인하는 테스트 로직
-  // 마지막 메시지 _id를 Zustand 그리고 백엔드를 통해 전달해 저장할 예정
+  // 스크롤 마지막에 보여지는 메시지 _id를 전달하는 로직
+  // 마지막 메시지 _id를 Zustand 그리고 백엔드를 통해 전달
+  // debounce 패턴을 추가해 스크롤이 멈추고 1초 뒤에 마지막 메시지 _id 전달
   useEffect(() => {
     const container = chatContainerRef.current;
     if (!container || !roomId) return;
 
+    let timeoutId: ReturnType<typeof setTimeout> | null = null;
+
     const handleScroll = () => {
-      const messagesInView = messages.filter((msg) => {
-        const el = messageRefs.current[msg._id];
-        if (!el) return false;
-        const rect = el.getBoundingClientRect();
-        return rect.bottom <= window.innerHeight;
-        // return rect.top >= 0 && rect.bottom <= window.innerHeight;
-      });
+      // 기존 타이머 있으면 제거
+      if (timeoutId) clearTimeout(timeoutId);
 
-      if (messagesInView.length === 0) return;
+      // 스크롤 멈추고 1초 후 실행
+      timeoutId = setTimeout(() => {
+        const messagesInView = messages.filter((msg) => {
+          const el = messageRefs.current[msg._id];
+          if (!el) return false;
+          const rect = el.getBoundingClientRect();
+          return rect.bottom <= window.innerHeight;
+          // return rect.top >= 0 && rect.bottom <= window.innerHeight;
+        });
 
-      const lastVisibleMessageId =
-        messagesInView[messagesInView.length - 1]._id;
+        if (messagesInView.length === 0) return;
 
-      saveLastReadMessageId(roomId, lastVisibleMessageId);
-      // console.log("화면에 마지막으로 보이는 메시지 ID:", lastVisibleMessageId);
+        const lastVisibleMessageId =
+          messagesInView[messagesInView.length - 1]._id;
+
+        saveLastReadMessageId(roomId, lastVisibleMessageId);
+        // console.log("화면에 마지막으로 보이는 메시지 ID:", lastVisibleMessageId);
+      }, 1000);
     };
 
     container.addEventListener("scroll", handleScroll);
 
-    return () => container.removeEventListener("scroll", handleScroll);
+    return () => {
+      container.removeEventListener("scroll", handleScroll);
+      if (timeoutId) clearTimeout(timeoutId); // 정리
+    };
   }, [messages]);
 
   useEffect(() => {
@@ -90,8 +102,6 @@ const Chats = ({ roomId, type, chatInfo }: ChatsProps) => {
     }
   }, [lastReadMessage, roomId]);
 
-  const initialMessageCount = useRef<number | null>(null);
-
   useEffect(() => {
     const container = chatContainerRef.current;
 
@@ -103,7 +113,10 @@ const Chats = ({ roomId, type, chatInfo }: ChatsProps) => {
 
     console.log(messages.length, initialMessageCount.current);
 
-    if (messages.length <= initialMessageCount.current) {
+    if (
+      initialMessageCount.current !== null &&
+      messages.length <= initialMessageCount.current
+    ) {
       return;
     }
 
@@ -126,75 +139,12 @@ const Chats = ({ roomId, type, chatInfo }: ChatsProps) => {
     }
   }, [messages]);
 
-  // debounce 패턴을 추가한 useEffect
-  // useEffect(() => {
-  //   const container = chatContainerRef.current;
-  //   if (!container || !roomId) return;
-
-  //   let timeoutId: ReturnType<typeof setTimeout> | null = null;
-
-  //   const handleScroll = () => {
-  //     // 기존 타이머 있으면 제거
-  //     if (timeoutId) clearTimeout(timeoutId);
-
-  //     // 스크롤 멈추고 1초 후 실행
-  //     timeoutId = setTimeout(() => {
-  //       const messagesInView = messages.filter((msg) => {
-  //         const el = messageRefs.current[msg._id];
-  //         if (!el) return false;
-  //         const rect = el.getBoundingClientRect();
-  //         return rect.bottom <= window.innerHeight;
-  //         // return rect.top >= 0 && rect.bottom <= window.innerHeight;
-  //       });
-
-  //       if (messagesInView.length > 0) {
-  //         const lastVisibleMessageId =
-  //           messagesInView[messagesInView.length - 1]._id;
-  //         saveLastReadMessageId(roomId, lastVisibleMessageId);
-  //         // console.log("화면에 마지막으로 보이는 메시지 ID:", lastVisibleMessageId);
-  //       }
-  //     }, 1000);
-  //   };
-
-  //   container.addEventListener("scroll", handleScroll);
-
-  //   return () => {
-  //     container.removeEventListener("scroll", handleScroll);
-  //     if (timeoutId) clearTimeout(timeoutId); // 정리
-  //   };
-  // }, [messages]);
-
   // useEffect(() => {
   //   const container = chatContainerRef.current;
 
   //   console.log(lastReadMessage?.lastVisibleMessageId);
 
   //   if (!container) return;
-
-  //   if (lastReadMessage) {
-  //     const targetEl =
-  //       messageRefs.current[lastReadMessage.lastVisibleMessageId || ""];
-
-  //     if (targetEl) {
-  //       targetEl.scrollIntoView({ block: "nearest" });
-
-  //       const lastMessageChecked =
-  //         lastReadMessage.lastVisibleMessageId ===
-  //         messages[messages.length - 1]?._id;
-
-  //       if (lastMessageChecked) {
-  //         scrollToBottomHandler();
-  //       }
-
-  //       // return; // lastReadMessage 적용 완료 시 아래 로직은 실행되지 않음
-  //     }
-  //   }
-  //   // } else {
-  //   //   // lastReadMessage가 없으면 방 입장 시 최하단으로 이동
-  //   //   scrollToBottomHandler();
-  //   //   setShowNewMessageButton(false);
-  //   //   setToBottomButton(false);
-  //   // }
 
   //   const { scrollTop, scrollHeight, clientHeight } = container;
 
@@ -203,49 +153,18 @@ const Chats = ({ roomId, type, chatInfo }: ChatsProps) => {
   //   const currentUser = lateMessage?.email === userInfo?.email;
   //   const nearBottom = scrollTop + clientHeight >= scrollHeight - 100;
 
-  //   console.log(nearBottom, scrollTop + clientHeight, scrollHeight - 100);
-
-  //   // console.log(scrollTop + clientHeight >= scrollHeight - 1);
-
-  //   // if (isAtBottom || currentUser) {
-  //   //   // 스크롤이 이미 맨 아래이거나 본인이 메시지를 추가한 경우
-  //   //   scrollToBottomHandler();
-  //   //   setShowNewMessageButton(false);
-  //   //   // setToBottomButton(false);
-  //   // } else {
-  //   //   // 다른 사용자가 메시지를 보낸 경우, 버튼만 보여주고 스크롤 유지
-  //   //   // setToBottomButton(true);
-  //   //   // scrollToBottomHandler();
-  //   //   setShowNewMessageButton(true);
-  //   // }
-
-  //   // if (firstRender.current) {
-  //   //   // 초기 렌더링 시에 스크롤이 최하단에 유지
-  //   //   scrollToBottomHandler();
-  //   //   setShowNewMessageButton(false);
-  //   //   setToBottomButton(false);
-  //   //   firstRender.current = false;
-  //   // } else if (isAtBottom) {
-  //   //   // 스크롤이 최하단에 위치했을 때 그대로 최하단에 계속 유지
-  //   //   scrollToBottomHandler();
-  //   //   setShowNewMessageButton(false);
-  //   //   setToBottomButton(false);
-  //   // } else if (currentUser) {
-  //   //   // 메시지를 보낸 사용자의 경우 스크롤이 최하단에 위치
-  //   //   scrollToBottomHandler();
-  //   //   setShowNewMessageButton(false);
-  //   //   setToBottomButton(false);
-  //   // } else if (nearBottom && !currentUser) {
-  //   //   // 메시지를 보낸 사용자가 아니며, 스크롤이 최하단에서 일정 거리 떨어진 경우
-  //   //   scrollToBottomHandler();
-  //   //   setShowNewMessageButton(false);
-  //   //   setToBottomButton(false);
-  //   // } else {
-  //   //   setShowNewMessageButton(true);
-  //   //   setToBottomButton(false);
-  //   // }
-
-  //   if (isAtBottom || currentUser || nearBottom) {
+  //   if (isAtBottom) {
+  //     // 스크롤이 최하단에 위치했을 때 그대로 최하단에 계속 유지
+  //     scrollToBottomHandler();
+  //     setShowNewMessageButton(false);
+  //     setToBottomButton(false);
+  //   } else if (currentUser) {
+  //     // 메시지를 보낸 사용자의 경우 스크롤이 최하단에 위치
+  //     scrollToBottomHandler();
+  //     setShowNewMessageButton(false);
+  //     setToBottomButton(false);
+  //   } else if (nearBottom && !currentUser) {
+  //     // 메시지를 보낸 사용자가 아니며, 스크롤이 최하단에서 일정 거리 떨어진 경우
   //     scrollToBottomHandler();
   //     setShowNewMessageButton(false);
   //     setToBottomButton(false);
