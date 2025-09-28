@@ -15,8 +15,8 @@ interface SocketStore {
   currentRoom: string | null; // 방 번호인 _id (로컬 스토리지에서 가져옴)
   notification: Notification[];
   connect: () => void;
-  joinGroupChat: (roomId: string) => void;
-  leaveGroupChat: () => void;
+  joinChatRoom: (roomId: string) => void;
+  leaveChatRoom: () => void;
   disconnect: () => void;
 }
 
@@ -41,7 +41,7 @@ const useSocketStore = create<SocketStore>((set, get) => ({
         // 새로고침 후 자동으로 마지막 채팅방 다시 입장
         const lastRoom = localStorage.getItem("currentRoom");
         if (lastRoom) {
-          get().joinGroupChat(lastRoom);
+          get().joinChatRoom(lastRoom);
           // useChatStore.getState().newMessage(); // 메시지 수신 이벤트 등록 추가
         }
       });
@@ -138,7 +138,7 @@ const useSocketStore = create<SocketStore>((set, get) => ({
     }
   },
 
-  joinGroupChat: (roomId) => {
+  joinChatRoom: (roomId) => {
     const socket = get().socket;
     if (!socket) return;
 
@@ -156,7 +156,7 @@ const useSocketStore = create<SocketStore>((set, get) => ({
   },
 
   // 방을 이동할 때 먼저 사용될 방 나가기 로직
-  leaveGroupChat: () => {
+  leaveChatRoom: () => {
     const socket = get().socket;
     if (!socket || !get().currentRoom) return;
 

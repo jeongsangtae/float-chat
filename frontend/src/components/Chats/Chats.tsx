@@ -13,7 +13,7 @@ const Chats = ({ roomId, type, chatInfo }: ChatsProps) => {
   const { userInfo } = useAuthStore();
   const { chatData, messages, lastReadMessage, saveLastReadMessageId } =
     useChatStore();
-  const { joinGroupChat, leaveGroupChat } = useSocketStore();
+  const { joinChatRoom, leaveChatRoom } = useSocketStore();
 
   const initialMessageCount = useRef<number | null>(null);
   const chatContainerRef = useRef<HTMLDivElement | null>(null);
@@ -28,8 +28,8 @@ const Chats = ({ roomId, type, chatInfo }: ChatsProps) => {
       console.error("roomId가 정의되지 않았습니다.");
       return;
     }
-    leaveGroupChat();
-    joinGroupChat(roomId);
+    leaveChatRoom();
+    joinChatRoom(roomId);
   }, [roomId]);
 
   useEffect(() => {
@@ -72,7 +72,7 @@ const Chats = ({ roomId, type, chatInfo }: ChatsProps) => {
         saveLastReadMessageId(roomId, lastVisibleMessageId);
         localStorage.setItem("lastVisibleMessageId", lastVisibleMessageId);
         // console.log("화면에 마지막으로 보이는 메시지 ID:", lastVisibleMessageId);
-      }, 1000);
+      }, 500);
     };
 
     container.addEventListener("scroll", handleScroll);
@@ -120,18 +120,18 @@ const Chats = ({ roomId, type, chatInfo }: ChatsProps) => {
       "lastVisibleMessageId"
     );
 
-    if (messages.length > 0 && initialMessageCount.current === null) {
-      initialMessageCount.current = messages.length;
-    }
+    // if (messages.length > 0 && initialMessageCount.current === null) {
+    //   initialMessageCount.current = messages.length;
+    // }
 
-    console.log(messages.length, initialMessageCount.current);
+    // console.log(messages.length, initialMessageCount.current);
 
-    if (
-      initialMessageCount.current !== null &&
-      messages.length <= initialMessageCount.current
-    ) {
-      return;
-    }
+    // if (
+    //   initialMessageCount.current !== null &&
+    //   messages.length <= initialMessageCount.current
+    // ) {
+    //   return;
+    // }
 
     const { scrollTop, scrollHeight, clientHeight } = container;
 

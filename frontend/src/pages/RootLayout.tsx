@@ -6,16 +6,16 @@ import Layout from "../components/Layout/Layout";
 
 const RootLayout = () => {
   const navigate = useNavigate();
-  const { leaveGroupChat } = useSocketStore();
+  const { leaveChatRoom } = useSocketStore();
 
   // 함수 이름 변경 필요
-  const leaveGroupChatHandler = (): void => {
-    leaveGroupChat();
+  const leaveChatRoomHandler = (): void => {
+    leaveChatRoom();
     navigate("/me");
   };
 
   return (
-    <Layout onLeaveGroupChat={leaveGroupChatHandler}>
+    <Layout onLeaveChatRoom={leaveChatRoomHandler}>
       <Outlet />
     </Layout>
   );

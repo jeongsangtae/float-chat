@@ -9,10 +9,10 @@ import classes from "./Layout.module.css";
 
 interface LayoutProps {
   children: ReactNode;
-  onLeaveGroupChat: () => void;
+  onLeaveChatRoom: () => void;
 }
 
-const Layout = ({ children, onLeaveGroupChat }: LayoutProps) => {
+const Layout = ({ children, onLeaveChatRoom }: LayoutProps) => {
   const { currentView, groupChatTitle } = useLayoutStore();
 
   useEffect(() => {
@@ -38,7 +38,7 @@ const Layout = ({ children, onLeaveGroupChat }: LayoutProps) => {
         {currentView === "groupChat" && groupChatTitle}
       </div>
       <div className={classes.layout}>
-        <SideBar onLeaveGroupChat={onLeaveGroupChat} />
+        <SideBar onLeaveGroupChat={onLeaveChatRoom} />
         <div className={classes["main-content"]}>{children}</div>
         <Notification />
       </div>
