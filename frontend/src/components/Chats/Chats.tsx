@@ -70,7 +70,10 @@ const Chats = ({ roomId, type, chatInfo }: ChatsProps) => {
           messagesInView[messagesInView.length - 1]._id;
 
         saveLastReadMessageId(roomId, lastVisibleMessageId);
-        localStorage.setItem("lastVisibleMessageId", lastVisibleMessageId);
+        localStorage.setItem(
+          `lastVisibleMessageId-${roomId}`,
+          lastVisibleMessageId
+        );
         // console.log("화면에 마지막으로 보이는 메시지 ID:", lastVisibleMessageId);
       }, 500);
     };
@@ -82,6 +85,21 @@ const Chats = ({ roomId, type, chatInfo }: ChatsProps) => {
       if (timeoutId) clearTimeout(timeoutId); // 정리
     };
   }, [messages]);
+
+  useEffect(() => {
+    if (!roomId) return;
+
+    const savedId = localStorage.getItem(`lastVisibleMessageId-${roomId}`);
+
+    if (savedId) {
+      setTimeout(() => {
+        const targetEl = messageRefs.current[savedId];
+        if (targetEl) {
+          targetEl.scrollIntoView({ block: "nearest" });
+        }
+      }, 0);
+    }
+  }, [roomId]);
 
   useEffect(() => {
     if (!roomId) return;
@@ -116,9 +134,9 @@ const Chats = ({ roomId, type, chatInfo }: ChatsProps) => {
 
     // if (!initialMessageCount.current) return
 
-    const loadLastVisibleMessageId = localStorage.getItem(
-      "lastVisibleMessageId"
-    );
+    // const loadLastVisibleMessageId = localStorage.getItem(
+    //   `lastVisibleMessageId-${roomId}`
+    // );
 
     // if (messages.length > 0 && initialMessageCount.current === null) {
     //   initialMessageCount.current = messages.length;
@@ -144,17 +162,26 @@ const Chats = ({ roomId, type, chatInfo }: ChatsProps) => {
       scrollToBottomHandler();
       setShowNewMessageButton(false);
       setToBottomButton(false);
-    } else if (loadLastVisibleMessageId) {
-      const targetEl = messageRefs.current[loadLastVisibleMessageId];
-      if (targetEl) {
-        targetEl.scrollIntoView({ block: "nearest" });
-      }
-      setShowNewMessageButton(true);
-      setToBottomButton(false);
     } else {
       setShowNewMessageButton(true);
       setToBottomButton(false);
     }
+
+    // if (isAtBottom || nearBottom) {
+    //   scrollToBottomHandler();
+    //   setShowNewMessageButton(false);
+    //   setToBottomButton(false);
+    // } else if (loadLastVisibleMessageId) {
+    //   const targetEl = messageRefs.current[loadLastVisibleMessageId];
+    //   if (targetEl) {
+    //     targetEl.scrollIntoView({ block: "nearest" });
+    //   }
+    //   setShowNewMessageButton(true);
+    //   setToBottomButton(false);
+    // } else {
+    //   setShowNewMessageButton(true);
+    //   setToBottomButton(false);
+    // }
 
     // if (isAtBottom || currentUser || nearBottom) {
     //   scrollToBottomHandler();
