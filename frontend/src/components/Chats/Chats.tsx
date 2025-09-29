@@ -86,46 +86,41 @@ const Chats = ({ roomId, type, chatInfo }: ChatsProps) => {
     };
   }, [messages]);
 
-  useEffect(() => {
-    if (!roomId) return;
+  // useEffect(() => {
+  //   if (!roomId) return;
 
-    const savedId = localStorage.getItem(`lastVisibleMessageId-${roomId}`);
+  //   const savedId = localStorage.getItem(`lastVisibleMessageId-${roomId}`);
 
-    if (savedId) {
-      setTimeout(() => {
-        const targetEl = messageRefs.current[savedId];
-        if (targetEl) {
-          targetEl.scrollIntoView({ block: "nearest" });
-        }
-      }, 0);
-    }
-  }, [roomId]);
+  //   if (savedId) {
+  //     setTimeout(() => {
+  //       const targetEl = messageRefs.current[savedId];
+  //       if (targetEl) {
+  //         targetEl.scrollIntoView({ block: "nearest" });
+  //       }
+  //     }, 0);
+  //   }
+  // }, [roomId]);
 
-  useEffect(() => {
-    if (!roomId) return;
+  // useEffect(() => {
+  //   if (!roomId) return;
 
-    if (lastReadMessage) {
-      const targetEl =
-        messageRefs.current[lastReadMessage.lastVisibleMessageId || ""];
-      if (targetEl) {
-        targetEl.scrollIntoView({ block: "nearest" });
+  //   if (lastReadMessage) {
+  //     const targetEl =
+  //       messageRefs.current[lastReadMessage.lastVisibleMessageId || ""];
+  //     if (targetEl) {
+  //       targetEl.scrollIntoView({ block: "nearest" });
 
-        // localStorage.setItem(
-        //   "lastVisibleMessageId",
-        //   lastReadMessage.lastVisibleMessageId || ""
-        // );
-
-        const lastMessageChecked =
-          lastReadMessage.lastVisibleMessageId ===
-          messages[messages.length - 1]?._id;
-        if (lastMessageChecked) scrollToBottomHandler();
-      }
-    } else {
-      scrollToBottomHandler();
-      setShowNewMessageButton(false);
-      setToBottomButton(false);
-    }
-  }, [lastReadMessage, roomId]);
+  //       const lastMessageChecked =
+  //         lastReadMessage.lastVisibleMessageId ===
+  //         messages[messages.length - 1]?._id;
+  //       if (lastMessageChecked) scrollToBottomHandler();
+  //     }
+  //   } else {
+  //     scrollToBottomHandler();
+  //     setShowNewMessageButton(false);
+  //     setToBottomButton(false);
+  //   }
+  // }, [lastReadMessage, roomId]);
 
   useEffect(() => {
     const container = chatContainerRef.current;
@@ -154,18 +149,18 @@ const Chats = ({ roomId, type, chatInfo }: ChatsProps) => {
     const { scrollTop, scrollHeight, clientHeight } = container;
 
     const isAtBottom = scrollTop + clientHeight >= scrollHeight - 1;
-    // const lateMessage = messages[messages.length - 1];
-    // const currentUser = lateMessage?.email === userInfo?.email;
+    const lastMessage = messages[messages.length - 1];
+    const currentUser = lastMessage?.email === userInfo?.email;
     const nearBottom = scrollTop + clientHeight >= scrollHeight - 100;
 
-    if (isAtBottom || nearBottom) {
-      scrollToBottomHandler();
-      setShowNewMessageButton(false);
-      setToBottomButton(false);
-    } else {
-      setShowNewMessageButton(true);
-      setToBottomButton(false);
-    }
+    // if (isAtBottom || nearBottom) {
+    //   scrollToBottomHandler();
+    //   setShowNewMessageButton(false);
+    //   setToBottomButton(false);
+    // } else {
+    //   setShowNewMessageButton(true);
+    //   setToBottomButton(false);
+    // }
 
     // if (isAtBottom || nearBottom) {
     //   scrollToBottomHandler();
@@ -183,14 +178,32 @@ const Chats = ({ roomId, type, chatInfo }: ChatsProps) => {
     //   setToBottomButton(false);
     // }
 
-    // if (isAtBottom || currentUser || nearBottom) {
-    //   scrollToBottomHandler();
-    //   setShowNewMessageButton(false);
-    //   setToBottomButton(false);
-    // } else {
-    //   setShowNewMessageButton(true);
-    //   setToBottomButton(false);
-    // }
+    // 조건부를 수정해, 마지막으로 읽은 메시지 ID 내용을 확인하고 존재할 경우 만약 마지막으로 읽은 메시지 Id 내용과 마지막 메시지 ID가 동일하면 그대로 스크롤을 바닥, 아니라면 마지막으로 읽은 메시지 ID 기준으로 스크롤이 유지되도록 구성하는 조건부를 추가하는 것을 고려중
+    // currentUser까지 확인하는 조건부에서 수정해봐야 함
+
+    if (isAtBottom || currentUser || nearBottom) {
+      console.log(lastReadMessage);
+      if (lastReadMessage && lastMessage) {
+        console.log(lastReadMessage.lastVisibleMessageId === lastMessage._id);
+        if (lastReadMessage.lastVisibleMessageId === lastMessage._id) {
+          scrollToBottomHandler();
+          setShowNewMessageButton(false);
+          setToBottomButton(false);
+        } else {
+          const targetEl =
+            messageRefs.current[lastReadMessage.lastVisibleMessageId || ""];
+          if (targetEl) {
+            targetEl.scrollIntoView({ block: "nearest" });
+          }
+        }
+      }
+      // scrollToBottomHandler();
+      // setShowNewMessageButton(false);
+      // setToBottomButton(false);
+    } else {
+      setShowNewMessageButton(true);
+      setToBottomButton(false);
+    }
   }, [messages]);
 
   // useEffect(() => {

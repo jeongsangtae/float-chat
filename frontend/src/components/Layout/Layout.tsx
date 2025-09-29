@@ -38,7 +38,7 @@ const Layout = ({ children, onLeaveChatRoom }: LayoutProps) => {
         {currentView === "groupChat" && groupChatTitle}
       </div>
       <div className={classes.layout}>
-        <SideBar onLeaveGroupChat={onLeaveChatRoom} />
+        <SideBar onLeaveChatRoom={onLeaveChatRoom} />
         <div className={classes["main-content"]}>{children}</div>
         <Notification />
       </div>

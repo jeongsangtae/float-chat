@@ -16,10 +16,10 @@ import EditUserProfileForm from "../Users/EditUserProfileForm";
 import classes from "./SideBar.module.css";
 
 interface SideBarProps {
-  onLeaveGroupChat: () => void;
+  onLeaveChatRoom: () => void;
 }
 
-const SideBar = ({ onLeaveGroupChat }: SideBarProps) => {
+const SideBar = ({ onLeaveChatRoom }: SideBarProps) => {
   const { isLoggedIn, userInfo, renewToken, refreshTokenExp, logout } =
     useAuthStore();
   const { activeModal, toggleModal } = useModalStore();
@@ -71,7 +71,7 @@ const SideBar = ({ onLeaveGroupChat }: SideBarProps) => {
               className={`${classes["home-button"]} ${
                 active ? classes.active : ""
               }`}
-              onClick={onLeaveGroupChat}
+              onClick={onLeaveChatRoom}
             >
               <span className={classes.indicator} />
               <BsFillChatSquareFill className={classes["chat-icon"]} />
