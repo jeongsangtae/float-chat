@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import { shallow } from "zustand/shallow";
 
 import useChatStore from "../../store/chatStore";
 import useSocketStore from "../../store/socketStore";
@@ -11,12 +12,23 @@ import useAuthStore from "../../store/authStore";
 
 const Chats = ({ roomId, type, chatInfo }: ChatsProps) => {
   const { userInfo } = useAuthStore();
-  const { chatData, messages, lastReadMessage, saveLastReadMessageId } =
-    useChatStore();
+  // const { chatData, messages, lastReadMessage, saveLastReadMessageId } =
+  //   useChatStore();
+
+  const chatData = useChatStore((state) => state.chatData);
+  const lastReadMessage = useChatStore((state) => state.lastReadMessage);
+  const saveLastReadMessageId = useChatStore(
+    (state) => state.saveLastReadMessageId
+  );
+  const messages = useChatStore((state) => state.messages, shallow);
+
   const { joinChatRoom, leaveChatRoom } = useSocketStore();
 
-  const initialMessageCount = useRef<number | null>(null);
+  // const initialMessageCount = useRef<number | null>(null);
   const chatContainerRef = useRef<HTMLDivElement | null>(null);
+  // const prevMessagesLength = useRef<number>(messages.length);
+  // const prevMessagesLength = useRef<number>(0);
+  const firstRender = useRef<boolean>(false);
 
   const messageRefs = useRef<Record<string, HTMLDivElement | null>>({});
 
@@ -28,8 +40,11 @@ const Chats = ({ roomId, type, chatInfo }: ChatsProps) => {
       console.error("roomId가 정의되지 않았습니다.");
       return;
     }
+
     leaveChatRoom();
     joinChatRoom(roomId);
+
+    firstRender.current = true;
   }, [roomId]);
 
   useEffect(() => {
@@ -101,26 +116,144 @@ const Chats = ({ roomId, type, chatInfo }: ChatsProps) => {
   //   }
   // }, [roomId]);
 
+  useEffect(() => {
+    if (!roomId) return;
+
+    if (lastReadMessage) {
+      const targetEl =
+        messageRefs.current[lastReadMessage.lastVisibleMessageId || ""];
+      if (targetEl) {
+        targetEl.scrollIntoView({ block: "nearest" });
+
+        const lastMessageChecked =
+          lastReadMessage.lastVisibleMessageId ===
+          messages[messages.length - 1]?._id;
+
+        if (lastMessageChecked) scrollToBottomHandler();
+      }
+    } else {
+      scrollToBottomHandler();
+      setShowNewMessageButton(false);
+      setToBottomButton(false);
+    }
+  }, [lastReadMessage, roomId]);
+
   // useEffect(() => {
-  //   if (!roomId) return;
+  //   const container = chatContainerRef.current;
 
-  //   if (lastReadMessage) {
-  //     const targetEl =
-  //       messageRefs.current[lastReadMessage.lastVisibleMessageId || ""];
-  //     if (targetEl) {
-  //       targetEl.scrollIntoView({ block: "nearest" });
+  //   if (!container) return;
 
-  //       const lastMessageChecked =
-  //         lastReadMessage.lastVisibleMessageId ===
-  //         messages[messages.length - 1]?._id;
-  //       if (lastMessageChecked) scrollToBottomHandler();
+  //   const { scrollTop, scrollHeight, clientHeight } = container;
+
+  //   const isAtBottom = scrollTop + clientHeight >= scrollHeight - 1;
+  //   // const currentUser = lastMessage?.email === userInfo?.email;
+  //   const nearBottom = scrollTop + clientHeight >= scrollHeight - 100;
+  //   const lastMessage = messages[messages.length - 1];
+  //   const isNewMessage = messages.length > prevMessagesLength.current;
+
+  //   console.log(
+  //     `새로운 메시지: ${isNewMessage}`,
+  //     `메시지 길이: ${messages.length}`,
+  //     `이전 메시지 길이: ${prevMessagesLength.current}`
+  //   );
+
+  //   prevMessagesLength.current = messages.length; // 최신 상태 저장
+
+  //   console.log(
+  //     `업데이트된 후 이전 메시지 길이: ${prevMessagesLength.current}`
+  //   );
+
+  //   // "내가 쓴 메시지인지" 체크
+  //   const isMyMessage = lastMessage?.email === userInfo?.email;
+
+  //   console.log(`새로운 메시지 확인: ${isNewMessage}`);
+  //   console.log(`내가 메시지 쓴지 확인: ${isMyMessage}`);
+
+  //   if (isNewMessage) {
+  //     // 새로운 메시지가 추가됐고, 내가 쓴 메시지라면 스크롤 최하단 이동
+  //     if (isMyMessage) {
+  //       scrollToBottomHandler();
+  //       setShowNewMessageButton(false);
+  //       setToBottomButton(false);
+  //       return;
   //     }
-  //   } else {
+  //   }
+
+  //   // 마지막 읽은 메시지 위치 복원 로직
+  //   if (lastReadMessage && lastMessage) {
+  //     if (lastReadMessage.lastVisibleMessageId === lastMessage._id) {
+  //       scrollToBottomHandler();
+  //       setShowNewMessageButton(false);
+  //       setToBottomButton(false);
+  //     } else {
+  //       const targetEl =
+  //         messageRefs.current[lastReadMessage.lastVisibleMessageId || ""];
+  //       if (targetEl) {
+  //         targetEl.scrollIntoView({ block: "nearest" });
+  //       }
+  //     }
+  //   } else if (isAtBottom || nearBottom) {
   //     scrollToBottomHandler();
   //     setShowNewMessageButton(false);
   //     setToBottomButton(false);
+  //   } else {
+  //     setShowNewMessageButton(true);
+  //     setToBottomButton(false);
   //   }
-  // }, [lastReadMessage, roomId]);
+  // }, [messages]);
+
+  // useEffect(() => {
+  //   const container = chatContainerRef.current;
+
+  //   if (!container) return;
+
+  //   // if (!initialMessageCount.current) return
+
+  //   // const loadLastVisibleMessageId = localStorage.getItem(
+  //   //   `lastVisibleMessageId-${roomId}`
+  //   // );
+
+  //   // if (messages.length > 0 && initialMessageCount.current === null) {
+  //   //   initialMessageCount.current = messages.length;
+  //   // }
+
+  //   // console.log(messages.length, initialMessageCount.current);
+
+  //   // if (
+  //   //   initialMessageCount.current !== null &&
+  //   //   messages.length <= initialMessageCount.current
+  //   // ) {
+  //   //   return;
+  //   // }
+
+  //   const { scrollTop, scrollHeight, clientHeight } = container;
+
+  //   const isAtBottom = scrollTop + clientHeight >= scrollHeight - 1;
+  //   const lastMessage = messages[messages.length - 1];
+  //   const currentUser = lastMessage?.email === userInfo?.email;
+  //   const nearBottom = scrollTop + clientHeight >= scrollHeight - 100;
+
+  //   if (isAtBottom || currentUser || nearBottom) {
+  //     console.log(lastReadMessage);
+  //     if (lastReadMessage && lastMessage) {
+  //       console.log(lastReadMessage.lastVisibleMessageId === lastMessage._id);
+  //       if (lastReadMessage.lastVisibleMessageId === lastMessage._id) {
+  //         scrollToBottomHandler();
+  //         setShowNewMessageButton(false);
+  //         setToBottomButton(false);
+  //       } else {
+  //         const targetEl =
+  //           messageRefs.current[lastReadMessage.lastVisibleMessageId || ""];
+  //         if (targetEl) {
+  //           targetEl.scrollIntoView({ block: "nearest" });
+  //         }
+  //       }
+  //     }
+  //   } else {
+  //     setShowNewMessageButton(true);
+  //     setToBottomButton(false);
+  //   }
+  // }, [messages]);
 
   useEffect(() => {
     const container = chatContainerRef.current;
@@ -153,93 +286,23 @@ const Chats = ({ roomId, type, chatInfo }: ChatsProps) => {
     const currentUser = lastMessage?.email === userInfo?.email;
     const nearBottom = scrollTop + clientHeight >= scrollHeight - 100;
 
-    // if (isAtBottom || nearBottom) {
-    //   scrollToBottomHandler();
-    //   setShowNewMessageButton(false);
-    //   setToBottomButton(false);
-    // } else {
-    //   setShowNewMessageButton(true);
-    //   setToBottomButton(false);
-    // }
+    console.log(firstRender.current);
+    console.log(currentUser);
 
-    // if (isAtBottom || nearBottom) {
-    //   scrollToBottomHandler();
-    //   setShowNewMessageButton(false);
-    //   setToBottomButton(false);
-    // } else if (loadLastVisibleMessageId) {
-    //   const targetEl = messageRefs.current[loadLastVisibleMessageId];
-    //   if (targetEl) {
-    //     targetEl.scrollIntoView({ block: "nearest" });
-    //   }
-    //   setShowNewMessageButton(true);
-    //   setToBottomButton(false);
-    // } else {
-    //   setShowNewMessageButton(true);
-    //   setToBottomButton(false);
-    // }
-
-    // 조건부를 수정해, 마지막으로 읽은 메시지 ID 내용을 확인하고 존재할 경우 만약 마지막으로 읽은 메시지 Id 내용과 마지막 메시지 ID가 동일하면 그대로 스크롤을 바닥, 아니라면 마지막으로 읽은 메시지 ID 기준으로 스크롤이 유지되도록 구성하는 조건부를 추가하는 것을 고려중
-    // currentUser까지 확인하는 조건부에서 수정해봐야 함
+    if (firstRender.current) {
+      firstRender.current = false;
+      return;
+    }
 
     if (isAtBottom || currentUser || nearBottom) {
-      console.log(lastReadMessage);
-      if (lastReadMessage && lastMessage) {
-        console.log(lastReadMessage.lastVisibleMessageId === lastMessage._id);
-        if (lastReadMessage.lastVisibleMessageId === lastMessage._id) {
-          scrollToBottomHandler();
-          setShowNewMessageButton(false);
-          setToBottomButton(false);
-        } else {
-          const targetEl =
-            messageRefs.current[lastReadMessage.lastVisibleMessageId || ""];
-          if (targetEl) {
-            targetEl.scrollIntoView({ block: "nearest" });
-          }
-        }
-      }
-      // scrollToBottomHandler();
-      // setShowNewMessageButton(false);
-      // setToBottomButton(false);
+      setShowNewMessageButton(false);
+      setToBottomButton(false);
+      scrollToBottomHandler();
     } else {
       setShowNewMessageButton(true);
       setToBottomButton(false);
     }
   }, [messages]);
-
-  // useEffect(() => {
-  //   const container = chatContainerRef.current;
-
-  //   console.log(lastReadMessage?.lastVisibleMessageId);
-
-  //   if (!container) return;
-
-  //   const { scrollTop, scrollHeight, clientHeight } = container;
-
-  //   const isAtBottom = scrollTop + clientHeight >= scrollHeight - 1;
-  //   const lateMessage = messages[messages.length - 1];
-  //   const currentUser = lateMessage?.email === userInfo?.email;
-  //   const nearBottom = scrollTop + clientHeight >= scrollHeight - 100;
-
-  //   if (isAtBottom) {
-  //     // 스크롤이 최하단에 위치했을 때 그대로 최하단에 계속 유지
-  //     scrollToBottomHandler();
-  //     setShowNewMessageButton(false);
-  //     setToBottomButton(false);
-  //   } else if (currentUser) {
-  //     // 메시지를 보낸 사용자의 경우 스크롤이 최하단에 위치
-  //     scrollToBottomHandler();
-  //     setShowNewMessageButton(false);
-  //     setToBottomButton(false);
-  //   } else if (nearBottom && !currentUser) {
-  //     // 메시지를 보낸 사용자가 아니며, 스크롤이 최하단에서 일정 거리 떨어진 경우
-  //     scrollToBottomHandler();
-  //     setShowNewMessageButton(false);
-  //     setToBottomButton(false);
-  //   } else {
-  //     setShowNewMessageButton(true);
-  //     setToBottomButton(false);
-  //   }
-  // }, [messages, lastReadMessage]);
 
   const scrollToBottomHandler = () => {
     // messagesEndRef.current?.scrollIntoView({ block: "nearest" });
