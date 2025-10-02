@@ -1,5 +1,4 @@
 import { useState, useEffect, useRef } from "react";
-import { shallow } from "zustand/shallow";
 
 import useChatStore from "../../store/chatStore";
 import useSocketStore from "../../store/socketStore";
@@ -12,15 +11,8 @@ import useAuthStore from "../../store/authStore";
 
 const Chats = ({ roomId, type, chatInfo }: ChatsProps) => {
   const { userInfo } = useAuthStore();
-  // const { chatData, messages, lastReadMessage, saveLastReadMessageId } =
-  //   useChatStore();
-
-  const chatData = useChatStore((state) => state.chatData);
-  const lastReadMessage = useChatStore((state) => state.lastReadMessage);
-  const saveLastReadMessageId = useChatStore(
-    (state) => state.saveLastReadMessageId
-  );
-  const messages = useChatStore((state) => state.messages, shallow);
+  const { chatData, messages, lastReadMessage, saveLastReadMessageId } =
+    useChatStore();
 
   const { joinChatRoom, leaveChatRoom } = useSocketStore();
 
@@ -44,6 +36,8 @@ const Chats = ({ roomId, type, chatInfo }: ChatsProps) => {
     leaveChatRoom();
     joinChatRoom(roomId);
 
+    console.log("두 번 실행되는지 확인1");
+
     firstRender.current = true;
   }, [roomId]);
 
@@ -54,6 +48,8 @@ const Chats = ({ roomId, type, chatInfo }: ChatsProps) => {
     }
 
     chatData(roomId);
+
+    console.log("두 번 실행되는지 확인2");
   }, [roomId]);
 
   // 스크롤 마지막에 보여지는 메시지 _id를 전달하는 로직
@@ -92,6 +88,8 @@ const Chats = ({ roomId, type, chatInfo }: ChatsProps) => {
         // console.log("화면에 마지막으로 보이는 메시지 ID:", lastVisibleMessageId);
       }, 500);
     };
+
+    console.log("두 번 실행되는지 확인3");
 
     container.addEventListener("scroll", handleScroll);
 
@@ -136,71 +134,9 @@ const Chats = ({ roomId, type, chatInfo }: ChatsProps) => {
       setShowNewMessageButton(false);
       setToBottomButton(false);
     }
+
+    console.log("두 번 실행되는지 확인4");
   }, [lastReadMessage, roomId]);
-
-  // useEffect(() => {
-  //   const container = chatContainerRef.current;
-
-  //   if (!container) return;
-
-  //   const { scrollTop, scrollHeight, clientHeight } = container;
-
-  //   const isAtBottom = scrollTop + clientHeight >= scrollHeight - 1;
-  //   // const currentUser = lastMessage?.email === userInfo?.email;
-  //   const nearBottom = scrollTop + clientHeight >= scrollHeight - 100;
-  //   const lastMessage = messages[messages.length - 1];
-  //   const isNewMessage = messages.length > prevMessagesLength.current;
-
-  //   console.log(
-  //     `새로운 메시지: ${isNewMessage}`,
-  //     `메시지 길이: ${messages.length}`,
-  //     `이전 메시지 길이: ${prevMessagesLength.current}`
-  //   );
-
-  //   prevMessagesLength.current = messages.length; // 최신 상태 저장
-
-  //   console.log(
-  //     `업데이트된 후 이전 메시지 길이: ${prevMessagesLength.current}`
-  //   );
-
-  //   // "내가 쓴 메시지인지" 체크
-  //   const isMyMessage = lastMessage?.email === userInfo?.email;
-
-  //   console.log(`새로운 메시지 확인: ${isNewMessage}`);
-  //   console.log(`내가 메시지 쓴지 확인: ${isMyMessage}`);
-
-  //   if (isNewMessage) {
-  //     // 새로운 메시지가 추가됐고, 내가 쓴 메시지라면 스크롤 최하단 이동
-  //     if (isMyMessage) {
-  //       scrollToBottomHandler();
-  //       setShowNewMessageButton(false);
-  //       setToBottomButton(false);
-  //       return;
-  //     }
-  //   }
-
-  //   // 마지막 읽은 메시지 위치 복원 로직
-  //   if (lastReadMessage && lastMessage) {
-  //     if (lastReadMessage.lastVisibleMessageId === lastMessage._id) {
-  //       scrollToBottomHandler();
-  //       setShowNewMessageButton(false);
-  //       setToBottomButton(false);
-  //     } else {
-  //       const targetEl =
-  //         messageRefs.current[lastReadMessage.lastVisibleMessageId || ""];
-  //       if (targetEl) {
-  //         targetEl.scrollIntoView({ block: "nearest" });
-  //       }
-  //     }
-  //   } else if (isAtBottom || nearBottom) {
-  //     scrollToBottomHandler();
-  //     setShowNewMessageButton(false);
-  //     setToBottomButton(false);
-  //   } else {
-  //     setShowNewMessageButton(true);
-  //     setToBottomButton(false);
-  //   }
-  // }, [messages]);
 
   // useEffect(() => {
   //   const container = chatContainerRef.current;
@@ -289,6 +225,10 @@ const Chats = ({ roomId, type, chatInfo }: ChatsProps) => {
     console.log(firstRender.current);
     console.log(currentUser);
 
+    console.log("messages length:", messages.length);
+
+    if (messages.length === 0) return;
+
     if (firstRender.current) {
       firstRender.current = false;
       return;
@@ -302,6 +242,8 @@ const Chats = ({ roomId, type, chatInfo }: ChatsProps) => {
       setShowNewMessageButton(true);
       setToBottomButton(false);
     }
+
+    console.log("두 번 실행되는지 확인5");
   }, [messages]);
 
   const scrollToBottomHandler = () => {
