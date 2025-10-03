@@ -16,7 +16,7 @@ const Chats = ({ roomId, type, chatInfo }: ChatsProps) => {
 
   const { joinChatRoom, leaveChatRoom } = useSocketStore();
 
-  // const initialMessageCount = useRef<number | null>(null);
+  const prevMessagesLength = useRef<number | null>(null);
   const chatContainerRef = useRef<HTMLDivElement | null>(null);
   // const prevMessagesLength = useRef<number>(messages.length);
   // const prevMessagesLength = useRef<number>(0);
@@ -81,9 +81,14 @@ const Chats = ({ roomId, type, chatInfo }: ChatsProps) => {
           messagesInView[messagesInView.length - 1]._id;
 
         saveLastReadMessageId(roomId, lastVisibleMessageId);
+        // localStorage.setItem(
+        //   `lastVisibleMessageId-${roomId}`,
+        //   lastVisibleMessageId
+        // );
+
         localStorage.setItem(
-          `lastVisibleMessageId-${roomId}`,
-          lastVisibleMessageId
+          `prevMessagesLength-${roomId}`,
+          String(messages.length)
         );
         // console.log("화면에 마지막으로 보이는 메시지 ID:", lastVisibleMessageId);
       }, 500);
@@ -114,29 +119,29 @@ const Chats = ({ roomId, type, chatInfo }: ChatsProps) => {
   //   }
   // }, [roomId]);
 
-  useEffect(() => {
-    if (!roomId) return;
+  // useEffect(() => {
+  //   if (!roomId) return;
 
-    if (lastReadMessage) {
-      const targetEl =
-        messageRefs.current[lastReadMessage.lastVisibleMessageId || ""];
-      if (targetEl) {
-        targetEl.scrollIntoView({ block: "nearest" });
+  //   if (lastReadMessage) {
+  //     const targetEl =
+  //       messageRefs.current[lastReadMessage.lastVisibleMessageId || ""];
+  //     if (targetEl) {
+  //       targetEl.scrollIntoView({ block: "nearest" });
 
-        const lastMessageChecked =
-          lastReadMessage.lastVisibleMessageId ===
-          messages[messages.length - 1]?._id;
+  //       const lastMessageChecked =
+  //         lastReadMessage.lastVisibleMessageId ===
+  //         messages[messages.length - 1]?._id;
 
-        if (lastMessageChecked) scrollToBottomHandler();
-      }
-    } else {
-      scrollToBottomHandler();
-      setShowNewMessageButton(false);
-      setToBottomButton(false);
-    }
+  //       if (lastMessageChecked) scrollToBottomHandler();
+  //     }
+  //   } else {
+  //     scrollToBottomHandler();
+  //     setShowNewMessageButton(false);
+  //     setToBottomButton(false);
+  //   }
 
-    console.log("두 번 실행되는지 확인4");
-  }, [lastReadMessage, roomId]);
+  //   console.log("두 번 실행되는지 확인4");
+  // }, [lastReadMessage, roomId]);
 
   // useEffect(() => {
   //   const container = chatContainerRef.current;
@@ -196,24 +201,30 @@ const Chats = ({ roomId, type, chatInfo }: ChatsProps) => {
 
     if (!container) return;
 
-    // if (!initialMessageCount.current) return
+    // if (!prevMessagesLength.current) return;
 
-    // const loadLastVisibleMessageId = localStorage.getItem(
-    //   `lastVisibleMessageId-${roomId}`
-    // );
+    const loadPrevMessagesLength = Number(
+      localStorage.getItem(`prevMessagesLength-${roomId}`)
+    );
 
-    // if (messages.length > 0 && initialMessageCount.current === null) {
-    //   initialMessageCount.current = messages.length;
-    // }
+    if (messages.length > 0 && prevMessagesLength.current === null) {
+      prevMessagesLength.current = loadPrevMessagesLength;
+    }
 
-    // console.log(messages.length, initialMessageCount.current);
+    console.log(
+      messages.length,
+      prevMessagesLength.current,
+      loadPrevMessagesLength
+    );
 
-    // if (
-    //   initialMessageCount.current !== null &&
-    //   messages.length <= initialMessageCount.current
-    // ) {
-    //   return;
-    // }
+    if (messages.length <= loadPrevMessagesLength && lastReadMessage) {
+      const targetEl =
+        messageRefs.current[lastReadMessage.lastVisibleMessageId || ""];
+      if (targetEl) {
+        targetEl.scrollIntoView({ block: "nearest" });
+      }
+      return;
+    }
 
     const { scrollTop, scrollHeight, clientHeight } = container;
 
@@ -222,17 +233,12 @@ const Chats = ({ roomId, type, chatInfo }: ChatsProps) => {
     const currentUser = lastMessage?.email === userInfo?.email;
     const nearBottom = scrollTop + clientHeight >= scrollHeight - 100;
 
-    console.log(firstRender.current);
-    console.log(currentUser);
+    // if (messages.length === 0) return;
 
-    console.log("messages length:", messages.length);
-
-    if (messages.length === 0) return;
-
-    if (firstRender.current) {
-      firstRender.current = false;
-      return;
-    }
+    // if (firstRender.current) {
+    //   firstRender.current = false;
+    //   return;
+    // }
 
     if (isAtBottom || currentUser || nearBottom) {
       setShowNewMessageButton(false);
@@ -242,6 +248,18 @@ const Chats = ({ roomId, type, chatInfo }: ChatsProps) => {
       setShowNewMessageButton(true);
       setToBottomButton(false);
     }
+
+    console.log(
+      messages.length,
+      prevMessagesLength.current,
+      loadPrevMessagesLength
+    );
+
+    // prevMessagesLength.current = messages.length;
+    // localStorage.setItem(
+    //   `prevMessagesLength-${roomId}`,
+    //   String(messages.length)
+    // );
 
     console.log("두 번 실행되는지 확인5");
   }, [messages]);
