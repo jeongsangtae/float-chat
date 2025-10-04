@@ -18,15 +18,13 @@ const Chats = ({ roomId, type, chatInfo }: ChatsProps) => {
 
   const prevMessagesLength = useRef<number | null>(null);
   const chatContainerRef = useRef<HTMLDivElement | null>(null);
-  // const prevMessagesLength = useRef<number>(messages.length);
-  // const prevMessagesLength = useRef<number>(0);
-  const firstRender = useRef<boolean>(false);
 
   const messageRefs = useRef<Record<string, HTMLDivElement | null>>({});
 
   const [showNewMessageButton, setShowNewMessageButton] = useState(false);
   const [toBottomButton, setToBottomButton] = useState(false);
 
+  // 채팅방 입장 시 기존 채팅방 나가고 새 방에 참여하는 useEffect
   useEffect(() => {
     if (!roomId) {
       console.error("roomId가 정의되지 않았습니다.");
@@ -35,12 +33,9 @@ const Chats = ({ roomId, type, chatInfo }: ChatsProps) => {
 
     leaveChatRoom();
     joinChatRoom(roomId);
-
-    console.log("두 번 실행되는지 확인1");
-
-    firstRender.current = true;
   }, [roomId]);
 
+  // 해당 채팅방의 채팅 데이터 불러오기
   useEffect(() => {
     if (!roomId) {
       console.error("roomId가 정의되지 않았습니다.");
@@ -48,13 +43,9 @@ const Chats = ({ roomId, type, chatInfo }: ChatsProps) => {
     }
 
     chatData(roomId);
-
-    console.log("두 번 실행되는지 확인2");
   }, [roomId]);
 
-  // 스크롤 마지막에 보여지는 메시지 _id를 전달하는 로직
-  // 마지막 메시지 _id를 Zustand 그리고 백엔드를 통해 전달
-  // debounce 패턴을 추가해 스크롤이 멈추고 1초 뒤에 마지막 메시지 _id 전달
+  // 스크롤이 멈춘 후 마지막으로 읽은 메시지 ID 저장하는 useEffect (디바운스 적용)
   useEffect(() => {
     const container = chatContainerRef.current;
     if (!container || !roomId) return;
@@ -65,7 +56,7 @@ const Chats = ({ roomId, type, chatInfo }: ChatsProps) => {
       // 기존 타이머 있으면 제거
       if (timeoutId) clearTimeout(timeoutId);
 
-      // 스크롤 멈추고 1초 후 실행
+      // 스크롤 멈추고 0.5초 후 실행
       timeoutId = setTimeout(() => {
         const messagesInView = messages.filter((msg) => {
           const el = messageRefs.current[msg._id];
@@ -81,20 +72,14 @@ const Chats = ({ roomId, type, chatInfo }: ChatsProps) => {
           messagesInView[messagesInView.length - 1]._id;
 
         saveLastReadMessageId(roomId, lastVisibleMessageId);
-        // localStorage.setItem(
-        //   `lastVisibleMessageId-${roomId}`,
-        //   lastVisibleMessageId
-        // );
 
+        // 메시지 개수를 로컬 스토리지에 저장
         localStorage.setItem(
           `prevMessagesLength-${roomId}`,
           String(messages.length)
         );
-        // console.log("화면에 마지막으로 보이는 메시지 ID:", lastVisibleMessageId);
       }, 500);
     };
-
-    console.log("두 번 실행되는지 확인3");
 
     container.addEventListener("scroll", handleScroll);
 
@@ -104,21 +89,7 @@ const Chats = ({ roomId, type, chatInfo }: ChatsProps) => {
     };
   }, [messages]);
 
-  // useEffect(() => {
-  //   if (!roomId) return;
-
-  //   const savedId = localStorage.getItem(`lastVisibleMessageId-${roomId}`);
-
-  //   if (savedId) {
-  //     setTimeout(() => {
-  //       const targetEl = messageRefs.current[savedId];
-  //       if (targetEl) {
-  //         targetEl.scrollIntoView({ block: "nearest" });
-  //       }
-  //     }, 0);
-  //   }
-  // }, [roomId]);
-
+  // 만약을 위해 남겨놓은 내용
   // useEffect(() => {
   //   if (!roomId) return;
 
@@ -139,84 +110,24 @@ const Chats = ({ roomId, type, chatInfo }: ChatsProps) => {
   //     setShowNewMessageButton(false);
   //     setToBottomButton(false);
   //   }
-
-  //   console.log("두 번 실행되는지 확인4");
   // }, [lastReadMessage, roomId]);
 
-  // useEffect(() => {
-  //   const container = chatContainerRef.current;
-
-  //   if (!container) return;
-
-  //   // if (!initialMessageCount.current) return
-
-  //   // const loadLastVisibleMessageId = localStorage.getItem(
-  //   //   `lastVisibleMessageId-${roomId}`
-  //   // );
-
-  //   // if (messages.length > 0 && initialMessageCount.current === null) {
-  //   //   initialMessageCount.current = messages.length;
-  //   // }
-
-  //   // console.log(messages.length, initialMessageCount.current);
-
-  //   // if (
-  //   //   initialMessageCount.current !== null &&
-  //   //   messages.length <= initialMessageCount.current
-  //   // ) {
-  //   //   return;
-  //   // }
-
-  //   const { scrollTop, scrollHeight, clientHeight } = container;
-
-  //   const isAtBottom = scrollTop + clientHeight >= scrollHeight - 1;
-  //   const lastMessage = messages[messages.length - 1];
-  //   const currentUser = lastMessage?.email === userInfo?.email;
-  //   const nearBottom = scrollTop + clientHeight >= scrollHeight - 100;
-
-  //   if (isAtBottom || currentUser || nearBottom) {
-  //     console.log(lastReadMessage);
-  //     if (lastReadMessage && lastMessage) {
-  //       console.log(lastReadMessage.lastVisibleMessageId === lastMessage._id);
-  //       if (lastReadMessage.lastVisibleMessageId === lastMessage._id) {
-  //         scrollToBottomHandler();
-  //         setShowNewMessageButton(false);
-  //         setToBottomButton(false);
-  //       } else {
-  //         const targetEl =
-  //           messageRefs.current[lastReadMessage.lastVisibleMessageId || ""];
-  //         if (targetEl) {
-  //           targetEl.scrollIntoView({ block: "nearest" });
-  //         }
-  //       }
-  //     }
-  //   } else {
-  //     setShowNewMessageButton(true);
-  //     setToBottomButton(false);
-  //   }
-  // }, [messages]);
-
+  // 메시지 변경 시 스크롤 상태 제어 useEffect
   useEffect(() => {
     const container = chatContainerRef.current;
 
     if (!container) return;
 
-    // if (!prevMessagesLength.current) return;
-
     const loadPrevMessagesLength = Number(
       localStorage.getItem(`prevMessagesLength-${roomId}`)
     );
 
+    // 이전 메시지 길이 초기화
     if (messages.length > 0 && prevMessagesLength.current === null) {
       prevMessagesLength.current = loadPrevMessagesLength;
     }
 
-    console.log(
-      messages.length,
-      prevMessagesLength.current,
-      loadPrevMessagesLength
-    );
-
+    // 이전 읽은 위치로 스크롤 (새로고침 or 방 재입장 시)
     if (messages.length <= loadPrevMessagesLength && lastReadMessage) {
       const targetEl =
         messageRefs.current[lastReadMessage.lastVisibleMessageId || ""];
@@ -226,19 +137,12 @@ const Chats = ({ roomId, type, chatInfo }: ChatsProps) => {
       return;
     }
 
+    // 새 메시지 추가 시 하단 제어
     const { scrollTop, scrollHeight, clientHeight } = container;
-
     const isAtBottom = scrollTop + clientHeight >= scrollHeight - 1;
     const lastMessage = messages[messages.length - 1];
     const currentUser = lastMessage?.email === userInfo?.email;
     const nearBottom = scrollTop + clientHeight >= scrollHeight - 100;
-
-    // if (messages.length === 0) return;
-
-    // if (firstRender.current) {
-    //   firstRender.current = false;
-    //   return;
-    // }
 
     if (isAtBottom || currentUser || nearBottom) {
       setShowNewMessageButton(false);
@@ -248,22 +152,9 @@ const Chats = ({ roomId, type, chatInfo }: ChatsProps) => {
       setShowNewMessageButton(true);
       setToBottomButton(false);
     }
-
-    console.log(
-      messages.length,
-      prevMessagesLength.current,
-      loadPrevMessagesLength
-    );
-
-    // prevMessagesLength.current = messages.length;
-    // localStorage.setItem(
-    //   `prevMessagesLength-${roomId}`,
-    //   String(messages.length)
-    // );
-
-    console.log("두 번 실행되는지 확인5");
   }, [messages]);
 
+  // 스크롤을 최하단으로 이동하는 함수
   const scrollToBottomHandler = () => {
     // messagesEndRef.current?.scrollIntoView({ block: "nearest" });
 
@@ -273,6 +164,7 @@ const Chats = ({ roomId, type, chatInfo }: ChatsProps) => {
     container.scrollTop = container.scrollHeight;
   };
 
+  // 새 메시지 버튼 클릭 시 하단으로 이동하는 함수
   const scrollToNewMessagesHandler = () => {
     const container = chatContainerRef.current;
     if (!container) return;
@@ -282,18 +174,13 @@ const Chats = ({ roomId, type, chatInfo }: ChatsProps) => {
     setShowNewMessageButton(false); // 버튼 숨기기
   };
 
+  // 스크롤 시 하단 버튼 표시 제어하는 함수
   const handleScroll = () => {
     const container = chatContainerRef.current;
 
     if (!container) return;
 
     const { scrollTop, scrollHeight, clientHeight } = container;
-
-    // console.log(`scrollTop: ${scrollTop}`);
-    // console.log(`clientHeight: ${clientHeight}`);
-    // console.log(`scrollHeight: ${scrollHeight}`);
-
-    // console.log(scrollTop + clientHeight >= scrollHeight - 1);
 
     // 오차를 줄이기 위해 -1을 사용
     if (scrollTop + clientHeight >= scrollHeight - 1) {
@@ -302,10 +189,9 @@ const Chats = ({ roomId, type, chatInfo }: ChatsProps) => {
     } else {
       setToBottomButton(true);
     }
-
-    // console.log(toBottomButton);
   };
 
+  // 날짜 / 닉네임 구분 처리
   let prevDate = ""; // 이전 메시지의 날짜를 저장하는 변수 (날짜 줄 중복 방지)
   let prevUserEmail = ""; // 이전 이메일을 저장하는 변수
 
@@ -356,12 +242,12 @@ const Chats = ({ roomId, type, chatInfo }: ChatsProps) => {
   });
 
   return (
-    // <div className={classes.chats}>
     <div
       className={classes["chats-container"]}
       ref={chatContainerRef}
       onScroll={handleScroll}
     >
+      {/* 다이렉트 채팅 시작 안내 */}
       {type === "direct" && (
         <div className={classes["direct-chat-starting"]}>
           <div
@@ -375,6 +261,7 @@ const Chats = ({ roomId, type, chatInfo }: ChatsProps) => {
         </div>
       )}
 
+      {/* 그룹 채팅 시작 안내 */}
       {type === "group" && (
         <div className={classes["group-chat-starting"]}>
           <h1 className={classes.title}>
@@ -386,6 +273,7 @@ const Chats = ({ roomId, type, chatInfo }: ChatsProps) => {
 
       <div>{dateLineAndMessages}</div>
 
+      {/* 새 메시지 버튼 */}
       {showNewMessageButton && (
         <button
           onClick={scrollToNewMessagesHandler}
@@ -395,6 +283,7 @@ const Chats = ({ roomId, type, chatInfo }: ChatsProps) => {
         </button>
       )}
 
+      {/* 최신 메시지로 이동 버튼 */}
       {toBottomButton && (
         <div
           className={classes["bottom-button"]}

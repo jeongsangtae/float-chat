@@ -142,22 +142,6 @@ const useSocketStore = create<SocketStore>((set, get) => ({
     const socket = get().socket;
     if (!socket) return;
 
-    // socket.off("messageNotification");
-
-    // const current = get().currentRoom;
-    // // 이미 같은 방이면 아무 것도 안 함
-    // if (current === roomId) {
-    //   console.log(`joinChatRoom: 이미 입장된 방입니다: ${roomId}`);
-    //   return;
-    // }
-
-    // // 이전 방이 있으면 먼저 나가기
-    // if (current) {
-    //   socket.emit("leaveRoom", current);
-    //   console.log(`joinChatRoom: 이전 방 나가기: ${current}`);
-    //   set({ currentRoom: null });
-    // }
-
     socket.emit("joinRoom", roomId); // 채팅방 입장
     set({ currentRoom: roomId });
 
