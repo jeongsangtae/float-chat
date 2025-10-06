@@ -114,16 +114,16 @@
   width: 75%; */
 
   position: absolute;
-  bottom: 5rem;
+  top: 2.15rem;
   /* left: 83%; */
-  right: 47.5%;
+  right: 18.55%;
   /* width: 2rem;
   height: 2rem; */
-  padding: 0.25rem;
+  padding: 0.35rem 33rem;
   color: white;
   border: none;
-  background-color: rgba(0, 0, 0, 0.8);
-  border-radius: 8px;
+  background-color: #2977df;
+  border-radius: 0 0 8px 8px; /* 좌상단 0, 우상단 0, 우하단 8px, 좌하단 8px */
   cursor: pointer;
 }
 
@@ -131,13 +131,13 @@
   position: absolute;
   bottom: 5rem;
   /* left: 83%; */
-  right: 47.5%;
+  right: 46.25%;
   /* width: 2rem;
   height: 2rem; */
-  padding: 0.25rem;
+  padding: 0.25rem 0.8rem;
   color: white;
   border: none;
-  background-color: rgba(0, 0, 0, 0.8);
+  background-color: #000000;
   border-radius: 8px;
   cursor: pointer;
 }

@@ -89,28 +89,24 @@ const Chats = ({ roomId, type, chatInfo }: ChatsProps) => {
     };
   }, [messages]);
 
-  // 만약을 위해 남겨놓은 내용
-  // useEffect(() => {
-  //   if (!roomId) return;
+  // 마지막으로 읽은 메시지 위치 확인 및 초기 스크롤 제어
+  useEffect(() => {
+    if (!roomId) return;
 
-  //   if (lastReadMessage) {
-  //     const targetEl =
-  //       messageRefs.current[lastReadMessage.lastVisibleMessageId || ""];
-  //     if (targetEl) {
-  //       targetEl.scrollIntoView({ block: "nearest" });
+    if (lastReadMessage) {
+      // 마지막으로 읽은 메시지가 현재 대화의 마지막 메시지라면 하단으로 스크롤
+      const lastMessageChecked =
+        lastReadMessage.lastVisibleMessageId ===
+        messages[messages.length - 1]?._id;
 
-  //       const lastMessageChecked =
-  //         lastReadMessage.lastVisibleMessageId ===
-  //         messages[messages.length - 1]?._id;
-
-  //       if (lastMessageChecked) scrollToBottomHandler();
-  //     }
-  //   } else {
-  //     scrollToBottomHandler();
-  //     setShowNewMessageButton(false);
-  //     setToBottomButton(false);
-  //   }
-  // }, [lastReadMessage, roomId]);
+      if (lastMessageChecked) scrollToBottomHandler();
+    } else {
+      // 처음 진입했거나 읽은 기록이 없는 경우, 기본적으로 하단으로 스크롤
+      scrollToBottomHandler();
+      setShowNewMessageButton(false);
+      setToBottomButton(false);
+    }
+  }, [lastReadMessage, roomId]);
 
   // 메시지 변경 시 스크롤 상태 제어 useEffect
   useEffect(() => {
@@ -279,7 +275,7 @@ const Chats = ({ roomId, type, chatInfo }: ChatsProps) => {
           onClick={scrollToNewMessagesHandler}
           className={classes["new-message-button"]}
         >
-          새로운 메시지
+          읽지않은 새로운 메시지가 있어요
         </button>
       )}
 
@@ -289,7 +285,7 @@ const Chats = ({ roomId, type, chatInfo }: ChatsProps) => {
           className={classes["bottom-button"]}
           onClick={scrollToBottomHandler}
         >
-          최신 메시지로 이동
+          최신 메시지로 이동하기
         </div>
       )}
     </div>
