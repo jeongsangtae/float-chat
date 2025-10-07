@@ -348,6 +348,8 @@ router.delete("/groupChat/:roomId", async (req, res) => {
 
     await db.getDb().collection("groupChatInvites").deleteMany({ roomId });
 
+    await db.getDb().collection("lastReadMessages").deleteMany({ roomId });
+
     await db.getDb().collection("groupChats").deleteOne({ _id: roomId });
 
     // Socket.io 및 onlineUsers Map 가져오기
