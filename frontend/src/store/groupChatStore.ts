@@ -26,7 +26,7 @@ interface GroupChatStore {
   groupChatForm: (
     trimmedTitle: string,
     modalData: {
-      method: "POST" | "PATCH";
+      method: "POST" | "PATCH" | "DELETE";
       _id?: string;
       title?: string;
     }
@@ -34,14 +34,14 @@ interface GroupChatStore {
   groupChatAnnouncementForm: (
     trimmedAnnouncement: string,
     modalData: {
-      method: "POST" | "PATCH";
+      method: "POST" | "PATCH" | "DELETE";
       groupChatId?: string;
       announcement?: string;
     }
   ) => Promise<void>;
   groupChatAnnouncementDelete: (
     announcement: string,
-    modalData: { method: "POST" | "PATCH"; groupChatId?: string }
+    modalData: { method: "POST" | "PATCH" | "DELETE"; groupChatId?: string }
   ) => Promise<void>;
   deleteGroupChat: (_id: string) => Promise<void>;
   leaveGroupChat: (_id: string) => Promise<void>;

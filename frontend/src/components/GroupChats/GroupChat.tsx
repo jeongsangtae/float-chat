@@ -8,6 +8,7 @@ import useModalStore from "../../store/modalStore";
 import { GroupChatProps } from "../../types";
 
 import classes from "./GroupChat.module.css";
+import GroupChatConfirm from "./GroupChatConfirm";
 
 const GroupChat = ({
   _id,
@@ -18,7 +19,7 @@ const GroupChat = ({
 }: GroupChatProps) => {
   const { userInfo } = useAuthStore();
   const { deleteGroupChat, leaveGroupChat } = useGroupChatStore();
-  const { toggleModal } = useModalStore();
+  const { activeModal, toggleModal } = useModalStore();
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -65,12 +66,21 @@ const GroupChat = ({
     await deleteGroupChat(_id);
     contextMenuCloseHandler();
     navigate("/me");
+
+    // toggleModal("groupChatConfirm", "DELETE", { _id });
   };
 
   const groupChatLeaveHandler = async (): Promise<void> => {
     await leaveGroupChat(_id);
     contextMenuCloseHandler();
     navigate("/me");
+
+    // toggleModal("groupChatConfirm", "DELETE", { _id });
+  };
+
+  // 테스트용 버튼
+  const groupChatConfirmHandler = () => {
+    toggleModal("groupChatConfirm", "DELETE", { _id });
   };
 
   const groupChatEditHandler = (): void => {
@@ -155,7 +165,12 @@ const GroupChat = ({
               </button>
             </>
           )}
+          <div onClick={groupChatConfirmHandler}>확인창 여는 테스트 버튼</div>
         </ul>
+      )}
+
+      {activeModal === "groupChatConfirm" && (
+        <GroupChatConfirm onToggle={() => toggleModal("groupChatConfirm")} />
       )}
     </>
   );

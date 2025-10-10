@@ -24,7 +24,7 @@ interface AuthStore {
     trimmedNickname: string,
     avatarColor: string,
     modalData: {
-      method: "POST" | "PATCH";
+      method: "POST" | "PATCH" | "DELETE";
       _id?: string;
       nickname?: string;
       avatarColor?: string;
