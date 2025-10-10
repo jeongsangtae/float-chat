@@ -178,11 +178,13 @@ const Chats = ({ roomId, type, chatInfo }: ChatsProps) => {
 
     const { scrollTop, scrollHeight, clientHeight } = container;
 
+    const isAtBottom = scrollTop + clientHeight >= scrollHeight - 1;
+
     // 오차를 줄이기 위해 -1을 사용
-    if (scrollTop + clientHeight >= scrollHeight - 1) {
+    if (isAtBottom) {
       setToBottomButton(false);
       setShowNewMessageButton(false);
-    } else {
+    } else if (!isAtBottom && !showNewMessageButton) {
       setToBottomButton(true);
     }
   };

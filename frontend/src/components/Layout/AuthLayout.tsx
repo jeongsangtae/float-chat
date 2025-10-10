@@ -6,7 +6,7 @@ import { ChildrenProps } from "../../types";
 
 import classes from "./AuthLayout.module.css";
 
-import background from "../../assets/background3.png";
+import background from "../../assets/background4.png";
 
 const AuthLayout = ({ children }: ChildrenProps) => {
   const navigate = useNavigate();
@@ -24,9 +24,6 @@ const AuthLayout = ({ children }: ChildrenProps) => {
         className={classes.backdrop}
         style={{
           backgroundImage: `url(${background})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          backgroundRepeat: "no-repeat",
         }}
       >
         <div className={classes.modal}>{children}</div>
