@@ -1,3 +1,5 @@
+import { useNavigate } from "react-router-dom";
+
 import useGroupChatStore from "../../store/groupChatStore";
 import useModalStore from "../../store/modalStore";
 
@@ -8,13 +10,17 @@ const GroupChatConfirm = ({ onToggle }: ModalProps) => {
   const { modalData } = useModalStore();
   const { deleteGroupChat } = useGroupChatStore();
 
-  // const confirmHandler = async () => {
-  //   try {
+  const navigate = useNavigate();
 
-  //   } catch(error) {
+  console.log(modalData);
 
-  //   }
-  // }
+  const confirmHandler = () => {
+    deleteGroupChat(modalData._id);
+    onToggle();
+    navigate("/me");
+
+    console.log("그룹 채팅방 삭제 성공");
+  };
 
   return (
     <Modal onToggle={onToggle}>
@@ -22,8 +28,8 @@ const GroupChatConfirm = ({ onToggle }: ModalProps) => {
         <h2>그룹 채팅방 삭제</h2>
         <p>정말 그룹 채팅방을 삭제하시겠습니까?</p>
         <div>
-          <button>삭제</button>
-          <button>취소</button>
+          <button onClick={confirmHandler}>삭제</button>
+          <button onClick={onToggle}>취소</button>
         </div>
       </div>
     </Modal>
