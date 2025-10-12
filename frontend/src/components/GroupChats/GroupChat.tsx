@@ -67,21 +67,16 @@ const GroupChat = ({
     contextMenuCloseHandler();
     // navigate("/me");
 
-    toggleModal("groupChatConfirm", "DELETE", { _id });
+    toggleModal("groupChatConfirm", "DELETE", { _id, type: "delete" });
   };
 
   const groupChatLeaveHandler = async (): Promise<void> => {
-    await leaveGroupChat(_id);
+    // await leaveGroupChat(_id);
     contextMenuCloseHandler();
-    navigate("/me");
+    // navigate("/me");
 
-    // toggleModal("groupChatConfirm", "DELETE", { _id });
+    toggleModal("groupChatConfirm", "DELETE", { _id, type: "leave" });
   };
-
-  // 테스트용 버튼
-  // const groupChatConfirmHandler = () => {
-  //   toggleModal("groupChatConfirm", "DELETE", { _id });
-  // };
 
   const groupChatEditHandler = (): void => {
     toggleModal("groupChatForm", "PATCH", { _id, title });
@@ -165,9 +160,6 @@ const GroupChat = ({
               </button>
             </>
           )}
-          {/* <button onClick={groupChatConfirmHandler}>
-            확인창 여는 테스트 버튼
-          </button> */}
         </ul>
       )}
 
