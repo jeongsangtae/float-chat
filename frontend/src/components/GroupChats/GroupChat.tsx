@@ -1,8 +1,7 @@
 import React, { useRef, useEffect } from "react";
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 import useAuthStore from "../../store/authStore";
-import useGroupChatStore from "../../store/groupChatStore";
 import useModalStore from "../../store/modalStore";
 
 import { GroupChatProps } from "../../types";
@@ -18,10 +17,8 @@ const GroupChat = ({
   setContextMenu,
 }: GroupChatProps) => {
   const { userInfo } = useAuthStore();
-  const { deleteGroupChat, leaveGroupChat } = useGroupChatStore();
   const { activeModal, toggleModal } = useModalStore();
 
-  const navigate = useNavigate();
   const location = useLocation();
 
   // 그룹 채팅방 버튼 기준 경로
@@ -63,19 +60,13 @@ const GroupChat = ({
   };
 
   const groupChatDeleteHandler = async (): Promise<void> => {
-    // await deleteGroupChat(_id);
-    contextMenuCloseHandler();
-    // navigate("/me");
-
     toggleModal("groupChatConfirm", "DELETE", { _id, type: "delete" });
+    contextMenuCloseHandler();
   };
 
   const groupChatLeaveHandler = async (): Promise<void> => {
-    // await leaveGroupChat(_id);
-    contextMenuCloseHandler();
-    // navigate("/me");
-
     toggleModal("groupChatConfirm", "DELETE", { _id, type: "leave" });
+    contextMenuCloseHandler();
   };
 
   const groupChatEditHandler = (): void => {
@@ -163,9 +154,9 @@ const GroupChat = ({
         </ul>
       )}
 
-      {activeModal === "groupChatConfirm" && (
+      {/* {activeModal === "groupChatConfirm" && (
         <GroupChatConfirm onToggle={() => toggleModal("groupChatConfirm")} />
-      )}
+      )} */}
     </>
   );
 };

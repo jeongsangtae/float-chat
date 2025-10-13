@@ -14,6 +14,7 @@ import GroupChatForm from "../GroupChats/GroupChatForm";
 import EditUserProfileForm from "../Users/EditUserProfileForm";
 
 import classes from "./SideBar.module.css";
+import GroupChatConfirm from "../GroupChats/GroupChatConfirm";
 
 interface SideBarProps {
   onLeaveChatRoom: () => void;
@@ -101,8 +102,15 @@ const SideBar = ({ onLeaveChatRoom }: SideBarProps) => {
             >
               <IoMdAddCircle />
             </button>
+
             {activeModal === "groupChatForm" && (
               <GroupChatForm onToggle={() => toggleModal("groupChatForm")} />
+            )}
+
+            {activeModal === "groupChatConfirm" && (
+              <GroupChatConfirm
+                onToggle={() => toggleModal("groupChatConfirm")}
+              />
             )}
           </div>
         )}
