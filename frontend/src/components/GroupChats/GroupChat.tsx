@@ -7,7 +7,6 @@ import useModalStore from "../../store/modalStore";
 import { GroupChatProps } from "../../types";
 
 import classes from "./GroupChat.module.css";
-import GroupChatConfirm from "./GroupChatConfirm";
 
 const GroupChat = ({
   _id,
@@ -17,7 +16,7 @@ const GroupChat = ({
   setContextMenu,
 }: GroupChatProps) => {
   const { userInfo } = useAuthStore();
-  const { activeModal, toggleModal } = useModalStore();
+  const { toggleModal } = useModalStore();
 
   const location = useLocation();
 
@@ -153,10 +152,6 @@ const GroupChat = ({
           )}
         </ul>
       )}
-
-      {/* {activeModal === "groupChatConfirm" && (
-        <GroupChatConfirm onToggle={() => toggleModal("groupChatConfirm")} />
-      )} */}
     </>
   );
 };

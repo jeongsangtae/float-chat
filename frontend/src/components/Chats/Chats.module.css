@@ -11,6 +11,8 @@
   flex: 1;
   margin-bottom: 0.5rem;
   overflow-y: auto;
+
+  position: relative;
 }
 
 /* 스크롤바 설정 */
@@ -102,6 +104,10 @@
   /* transform-origin: center; */
 }
 
+/* .button-wrapper {
+  position: absolute;
+} */
+
 .new-message-button {
   /* position: absolute;
   bottom: 5rem;
@@ -114,12 +120,14 @@
   width: 75%; */
 
   position: absolute;
-  top: 2.15rem;
+  /* top: 2.15rem; */
+  top: 0;
   /* left: 83%; */
-  right: 18.55%;
+  /* right: 18.55%; */
+  left: 35%;
   /* width: 2rem;
   height: 2rem; */
-  padding: 0.35rem 33rem;
+  padding: 0.35rem 0.8rem;
   color: white;
   border: none;
   background-color: #2977df;
@@ -129,9 +137,11 @@
 
 .bottom-button {
   position: absolute;
-  bottom: 5rem;
+  /* bottom: 5rem; */
+  bottom: 1rem;
   /* left: 83%; */
-  right: 46.25%;
+  /* right: 46.25%; */
+  left: 50%;
   /* width: 2rem;
   height: 2rem; */
   padding: 0.25rem 0.8rem;

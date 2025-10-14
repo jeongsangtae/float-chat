@@ -271,6 +271,7 @@ const Chats = ({ roomId, type, chatInfo }: ChatsProps) => {
 
       <div>{dateLineAndMessages}</div>
 
+      {/* <div className={classes["button-wrapper"]}> */}
       {/* 새 메시지 버튼 */}
       {showNewMessageButton && (
         <button
@@ -290,6 +291,7 @@ const Chats = ({ roomId, type, chatInfo }: ChatsProps) => {
           최신 메시지로 이동하기
         </div>
       )}
+      {/* </div> */}
     </div>
   );
 };
