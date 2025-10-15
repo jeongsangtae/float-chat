@@ -18,6 +18,7 @@ const Chats = ({ roomId, type, chatInfo }: ChatsProps) => {
 
   const prevMessagesLength = useRef<number | null>(null);
   const chatContainerRef = useRef<HTMLDivElement | null>(null);
+  const messagesEndRef = useRef(null);
 
   const messageRefs = useRef<Record<string, HTMLDivElement | null>>({});
 
@@ -242,8 +243,8 @@ const Chats = ({ roomId, type, chatInfo }: ChatsProps) => {
   return (
     <div
       className={classes["chats-container"]}
-      ref={chatContainerRef}
-      onScroll={handleScroll}
+      // ref={chatContainerRef}
+      // onScroll={handleScroll}
     >
       {/* 다이렉트 채팅 시작 안내 */}
       {type === "direct" && (
@@ -269,7 +270,14 @@ const Chats = ({ roomId, type, chatInfo }: ChatsProps) => {
         </div>
       )}
 
-      <div>{dateLineAndMessages}</div>
+      <div
+        className={"messages-wrapper"}
+        ref={chatContainerRef}
+        onScroll={handleScroll}
+      >
+        <div>{dateLineAndMessages}</div>
+        <div ref={messagesEndRef} />
+      </div>
 
       {/* <div className={classes["button-wrapper"]}> */}
       {/* 새 메시지 버튼 */}

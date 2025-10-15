@@ -13,6 +13,8 @@
   overflow-y: auto;
 
   position: relative;
+  /* display: flex;
+  flex-direction: column; */
 }
 
 /* 스크롤바 설정 */
@@ -82,6 +84,12 @@
   overflow-wrap: break-word; /* 단어가 너무 길면 줄바꿈 허용 */
 }
 
+.messages-wrapper {
+  flex: 1;
+  /* overflow-y: auto; */
+  padding-bottom: 4rem;
+}
+
 .date-line {
   display: flex;
   align-items: center;
@@ -124,7 +132,13 @@
   top: 0;
   /* left: 83%; */
   /* right: 18.55%; */
-  left: 35%;
+  left: 42%;
+
+  /* 테스트 내용 */
+  top: 0.4rem;
+  left: 50%;
+  transform: translateX(-50%);
+
   /* width: 2rem;
   height: 2rem; */
   padding: 0.35rem 0.8rem;
@@ -138,10 +152,14 @@
 .bottom-button {
   position: absolute;
   /* bottom: 5rem; */
+
+  /* 테스트 내용 */
   bottom: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+
   /* left: 83%; */
   /* right: 46.25%; */
-  left: 50%;
   /* width: 2rem;
   height: 2rem; */
   padding: 0.25rem 0.8rem;
