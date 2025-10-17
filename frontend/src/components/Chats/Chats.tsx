@@ -18,7 +18,6 @@ const Chats = ({ roomId, type, chatInfo }: ChatsProps) => {
 
   const prevMessagesLength = useRef<number | null>(null);
   const chatContainerRef = useRef<HTMLDivElement | null>(null);
-
   const messageRefs = useRef<Record<string, HTMLDivElement | null>>({});
 
   const [showNewMessageButton, setShowNewMessageButton] = useState(false);
@@ -140,8 +139,6 @@ const Chats = ({ roomId, type, chatInfo }: ChatsProps) => {
     const currentUser = lastMessage?.email === userInfo?.email;
     const nearBottom = scrollTop + clientHeight >= scrollHeight - 100;
 
-    // console.log(scrollTop, scrollHeight, clientHeight);
-
     if (isAtBottom || currentUser || nearBottom) {
       setShowNewMessageButton(false);
       setToBottomButton(false);
@@ -155,7 +152,6 @@ const Chats = ({ roomId, type, chatInfo }: ChatsProps) => {
   // 스크롤을 최하단으로 이동하는 함수
   const scrollToBottomHandler = () => {
     // messagesEndRef.current?.scrollIntoView({ block: "nearest" });
-
     const container = chatContainerRef.current;
     if (!container) return;
 
@@ -181,8 +177,6 @@ const Chats = ({ roomId, type, chatInfo }: ChatsProps) => {
     const { scrollTop, scrollHeight, clientHeight } = container;
 
     const isAtBottom = scrollTop + clientHeight >= scrollHeight - 1;
-
-    console.log(scrollTop, scrollHeight, clientHeight);
 
     // 오차를 줄이기 위해 -1을 사용
     if (isAtBottom) {
@@ -244,11 +238,7 @@ const Chats = ({ roomId, type, chatInfo }: ChatsProps) => {
   });
 
   return (
-    <div
-      className={classes["chats-container"]}
-      // ref={chatContainerRef}
-      // onScroll={handleScroll}
-    >
+    <div className={classes["chats-container"]}>
       <div
         className={classes["messages-container"]}
         ref={chatContainerRef}
@@ -283,7 +273,6 @@ const Chats = ({ roomId, type, chatInfo }: ChatsProps) => {
         <div>{dateLineAndMessages}</div>
       </div>
 
-      {/* <div className={classes["button-wrapper"]}> */}
       {/* 새 메시지 버튼 */}
       {showNewMessageButton && (
         <button
@@ -303,7 +292,6 @@ const Chats = ({ roomId, type, chatInfo }: ChatsProps) => {
           최신 메시지로 이동하기
         </div>
       )}
-      {/* </div> */}
     </div>
   );
 };

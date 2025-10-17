@@ -1,49 +1,9 @@
-/* .chats-container {
-  overflow-y: auto;
-} */
-
-/* .chats {
-  display: flex;
-  overflow-y: auto;
-} */
-
 .chats-container {
   flex: 1;
-  overflow-y: auto;
   margin-bottom: 0.5rem;
-
-  /* position: relative; */
+  position: relative;
   overflow: hidden;
-}
-
-/* 스크롤바 설정 */
-.chats-container::-webkit-scrollbar {
-  width: 0.6rem;
-}
-
-/* 스크롤바의 배경 트랙 설정 */
-.chats-container::-webkit-scrollbar-track {
-  /* background-color: #ebebeb; */
-  border-radius: 0.5rem;
-  /* margin-top: 0.5rem; */
-  /* margin-bottom: 0.5rem; */
-  border-left: 0.3rem solid transparent;
-}
-
-/* 스크롤바의 움직이는 핸들(슬라이더) 설정 */
-.chats-container::-webkit-scrollbar-thumb {
-  background-color: #888888;
-  border-radius: 0.5rem;
-}
-
-/* 스크롤바 핸들 호버했을 때 설정 */
-.chats-container::-webkit-scrollbar-thumb:hover {
-  background-color: #6e6e6e;
-}
-
-/* 스크롤바 핸들에 액티브 상태일 때 스타일 설정 */
-.chats-container::-webkit-scrollbar-thumb:active {
-  background-color: #333333;
+  /* overflow-y: auto; */
 }
 
 .messages-container {
@@ -51,6 +11,36 @@
   flex-direction: column;
   height: 100%;
   overflow-y: auto;
+}
+
+/* 스크롤바 설정 */
+.messages-container::-webkit-scrollbar {
+  width: 0.6rem;
+}
+
+/* 스크롤바의 배경 트랙 설정 */
+.messages-container::-webkit-scrollbar-track {
+  /* background-color: #ebebeb; */
+  border-radius: 0.5rem;
+  margin-top: 0.5rem;
+  /* margin-bottom: 0.5rem; */
+  border-left: 0.3rem solid transparent;
+}
+
+/* 스크롤바의 움직이는 핸들(슬라이더) 설정 */
+.messages-container::-webkit-scrollbar-thumb {
+  background-color: #888888;
+  border-radius: 0.5rem;
+}
+
+/* 스크롤바 핸들 호버했을 때 설정 */
+.messages-container::-webkit-scrollbar-thumb:hover {
+  background-color: #6e6e6e;
+}
+
+/* 스크롤바 핸들에 액티브 상태일 때 스타일 설정 */
+.messages-container::-webkit-scrollbar-thumb:active {
+  background-color: #333333;
 }
 
 .direct-chat-starting {
@@ -80,7 +70,6 @@
   flex-direction: column;
   align-items: center;
   margin-top: 0.5rem;
-  /* overflow-y: auto; */
 }
 
 .title {
@@ -90,12 +79,6 @@
   word-break: keep-all; /* 단어 단위로 줄바꿈 (한글도 적용됨) */
   overflow-wrap: break-word; /* 단어가 너무 길면 줄바꿈 허용 */
 }
-
-/* .messages-wrapper {
-  height: 300px;
-  overflow-y: auto;
-  position: relative;
-} */
 
 .date-line {
   display: flex;
@@ -119,67 +102,34 @@
   /* transform-origin: center; */
 }
 
-/* .button-wrapper {
-  position: absolute;
-} */
-
 .new-message-button {
-  /* position: absolute;
-  bottom: 5rem;
-  right: 47.5%;
-  transform: translateX(-50%);
-  color: #ffffff;
-  background-color: rgba(119, 119, 119, 0.8);
-  border: none;
-  border-radius: 0.5rem;
-  width: 75%; */
-
   position: absolute;
-  /* top: 2.15rem; */
-  /* top: 0; */
-  /* left: 83%; */
-  /* right: 18.55%; */
-  /* left: 42%; */
-
-  /* top: 0;
+  top: 0;
   left: 50%;
-  transform: translateX(-50%); */
-
-  /* 테스트 내용 */
-  top: 2rem;
-  left: 50%;
-  transform: translateX(-60%);
-
-  /* width: 2rem;
-  height: 2rem; */
-  padding: 0.35rem 0.8rem;
+  transform: translateX(-50%);
+  padding: 0.35rem 13.5rem;
   color: white;
   border: none;
   background-color: #2977df;
   border-radius: 0 0 8px 8px; /* 좌상단 0, 우상단 0, 우하단 8px, 좌하단 8px */
   cursor: pointer;
+  text-align: center;
+  white-space: nowrap;
+  /* max-width: 100%; */
 }
 
 .bottom-button {
   position: absolute;
-  /* bottom: 5rem; */
-  /* bottom: 0;
+  bottom: 0;
   left: 50%;
-  transform: translateX(-50%); */
-
-  /* 테스트 내용 */
-  bottom: 4.75rem;
-  left: 50%;
-  transform: translateX(-64%);
-
-  /* left: 83%; */
-  /* right: 46.25%; */
-  /* width: 2rem;
-  height: 2rem; */
+  transform: translateX(-50%);
   padding: 0.25rem 0.8rem;
   color: white;
   border: none;
   background-color: #000000;
   border-radius: 8px;
   cursor: pointer;
+  text-align: center;
+  white-space: nowrap;
+  /* max-width: 100%; */
 }
