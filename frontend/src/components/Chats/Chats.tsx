@@ -18,7 +18,6 @@ const Chats = ({ roomId, type, chatInfo }: ChatsProps) => {
 
   const prevMessagesLength = useRef<number | null>(null);
   const chatContainerRef = useRef<HTMLDivElement | null>(null);
-  const messagesEndRef = useRef(null);
 
   const messageRefs = useRef<Record<string, HTMLDivElement | null>>({});
 
@@ -141,6 +140,8 @@ const Chats = ({ roomId, type, chatInfo }: ChatsProps) => {
     const currentUser = lastMessage?.email === userInfo?.email;
     const nearBottom = scrollTop + clientHeight >= scrollHeight - 100;
 
+    // console.log(scrollTop, scrollHeight, clientHeight);
+
     if (isAtBottom || currentUser || nearBottom) {
       setShowNewMessageButton(false);
       setToBottomButton(false);
@@ -180,6 +181,8 @@ const Chats = ({ roomId, type, chatInfo }: ChatsProps) => {
     const { scrollTop, scrollHeight, clientHeight } = container;
 
     const isAtBottom = scrollTop + clientHeight >= scrollHeight - 1;
+
+    console.log(scrollTop, scrollHeight, clientHeight);
 
     // 오차를 줄이기 위해 -1을 사용
     if (isAtBottom) {
@@ -246,37 +249,38 @@ const Chats = ({ roomId, type, chatInfo }: ChatsProps) => {
       // ref={chatContainerRef}
       // onScroll={handleScroll}
     >
-      {/* 다이렉트 채팅 시작 안내 */}
-      {type === "direct" && (
-        <div className={classes["direct-chat-starting"]}>
-          <div
-            className={classes.avatar}
-            style={{ backgroundColor: chatInfo.avatarColor }}
-          >
-            {chatInfo.nickname?.charAt(0)}
-          </div>
-          <h1 className={classes.nickname}>{chatInfo.nickname}</h1>
-          <div>{chatInfo.nickname}님과 나눈 다이렉트 채팅방 첫 부분이에요.</div>
-        </div>
-      )}
-
-      {/* 그룹 채팅 시작 안내 */}
-      {type === "group" && (
-        <div className={classes["group-chat-starting"]}>
-          <h1 className={classes.title}>
-            {chatInfo.title}에 오신 것을 환영합니다
-          </h1>
-          <div>이 서버가 시작된 곳이에요.</div>
-        </div>
-      )}
-
       <div
-        className={"messages-wrapper"}
+        className={classes["messages-container"]}
         ref={chatContainerRef}
         onScroll={handleScroll}
       >
+        {/* 다이렉트 채팅 시작 안내 */}
+        {type === "direct" && (
+          <div className={classes["direct-chat-starting"]}>
+            <div
+              className={classes.avatar}
+              style={{ backgroundColor: chatInfo.avatarColor }}
+            >
+              {chatInfo.nickname?.charAt(0)}
+            </div>
+            <h1 className={classes.nickname}>{chatInfo.nickname}</h1>
+            <div>
+              {chatInfo.nickname}님과 나눈 다이렉트 채팅방 첫 부분이에요.
+            </div>
+          </div>
+        )}
+
+        {/* 그룹 채팅 시작 안내 */}
+        {type === "group" && (
+          <div className={classes["group-chat-starting"]}>
+            <h1 className={classes.title}>
+              {chatInfo.title}에 오신 것을 환영합니다
+            </h1>
+            <div>이 서버가 시작된 곳이에요.</div>
+          </div>
+        )}
+
         <div>{dateLineAndMessages}</div>
-        <div ref={messagesEndRef} />
       </div>
 
       {/* <div className={classes["button-wrapper"]}> */}
