@@ -209,8 +209,6 @@ router.post("/chat/:roomId/lastVisibleMessage", async (req, res) => {
     let roomId = req.params.roomId;
     const lastVisibleMessageId = req.body.lastVisibleMessageId;
 
-    console.log("데이터 확인: ", roomId, othersData._id, lastVisibleMessageId);
-
     roomId = new ObjectId(roomId);
 
     // console.log(roomId, othersData._id, lastVisibleMessage);

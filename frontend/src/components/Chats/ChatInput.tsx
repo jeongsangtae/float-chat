@@ -50,6 +50,13 @@ const ChatInput = ({ roomId }: RoomId) => {
     await sendMessage(roomId, message.trim(), userInfo);
     setMessage("");
 
+    const textarea = textareaRef.current;
+
+    if (textarea) {
+      textarea.style.height = "54px";
+      textarea.style.overflow = "hidden";
+    }
+
     const directChatChecked = directChats.find((room) => room._id === roomId);
 
     if (directChatChecked?.lastMessageDate) {
