@@ -53,7 +53,7 @@ const ChatInput = ({ roomId }: RoomId) => {
     const textarea = textareaRef.current;
 
     if (textarea) {
-      textarea.style.height = "54px";
+      textarea.style.height = "62px";
       textarea.style.overflow = "hidden";
     }
 
