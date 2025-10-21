@@ -97,9 +97,6 @@
   flex: 1;
   height: 1px;
   border-top: 1px solid rgba(128, 128, 128, 0.2);
-  /* background-color: gray; */
-  /* transform: scaleY(0.2); */
-  /* transform-origin: center; */
 }
 
 .new-message-button {

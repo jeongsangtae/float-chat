@@ -72,6 +72,21 @@
   color: #ddd;
 }
 
+.avatar-image-preview {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 0.5rem;
+}
+
+.avatar-image-preview img {
+  width: 80px;
+  height: 80px;
+  object-fit: cover; /* 이미지가 박스에 맞게 잘리면서 꽉 차게 표시됨 */
+  border-radius: 50%; /* 원형 아바타 형태로 표시 */
+  border: 2px solid #ccc;
+}
+
 .avatar-color-list {
   display: grid;
   grid-template-columns: repeat(5, 1fr); /* 5 X 4로 표시 */

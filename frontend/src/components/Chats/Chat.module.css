@@ -8,7 +8,6 @@
 
 .chat-header {
   display: flex;
-  /* align-items: center; */
   align-items: flex-start;
   gap: 0.75rem;
   white-space: pre-line;
@@ -53,7 +52,6 @@
 .chat-message {
   white-space: pre-line;
   word-break: break-word;
-  /* white-space: pre-wrap; */
 }
 
 .chat-messages {

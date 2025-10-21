@@ -1,10 +1,4 @@
 .chat-input-container {
-  /* position: fixed;
-  bottom: 0;
-  left: -1;
-  width: 80%;
-  padding: 0.5rem;
-  z-index: 100; */
   margin-top: auto;
   margin-bottom: 2rem;
   width: 100%;
@@ -20,21 +14,17 @@
   font: inherit;
   font-size: 1rem;
   padding: 1.2rem 3rem 1.2rem 0.8rem;
-  /* padding: 0.8rem 3rem 0.8rem 0.8rem; */
   line-height: 1.5;
   width: 100%;
   resize: none;
   overflow: hidden;
   color: white;
   background-color: #292b2f;
-  /* background-color: #40444b; */
-  /* border: 1px solid #ccc; */
   border: 1px solid #444;
   border-radius: 0.5rem;
   box-sizing: border-box;
   /* overflow-y: auto; */
   overflow-y: hidden;
-
   height: 62px;
 }
 
@@ -73,35 +63,15 @@
   background-color: #333333;
 }
 
-/* .input-wrapper button {
-  position: absolute;
-  right: 0.75rem;
-  bottom: 0.9rem;
-  padding: 0.3rem 0.8rem;
-  background-color: #ccc;
-  color: white;
-  border: none;
-  border-radius: 0.3rem;
-  cursor: pointer;
-} */
-
 .send-button {
   position: absolute;
   font-size: 1.5rem;
   right: 0.75rem;
-  bottom: 1.2rem;
-  /* bottom: 1rem; */
+  bottom: 1.1rem;
   color: #b1b1b1;
   border: none;
   border-radius: 0.3rem;
   cursor: pointer;
-  /* padding: 0.3rem 0.8rem; */
-  /* background-color: #ccc; */
-  /* right: 0.5rem; */
-  /* top: 50%;
-  transform: translateY(-50%); */
-  /* bottom: 50%;
-  transform: translateY(50%); */
 }
 
 .send-button:hover {

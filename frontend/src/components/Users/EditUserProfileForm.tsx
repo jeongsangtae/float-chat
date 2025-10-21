@@ -36,9 +36,11 @@ const EditUserProfileForm = ({ onToggle }: ModalProps) => {
   const { modalData } = useModalStore();
 
   const [nickname, setNickname] = useState<string>(modalData.nickname ?? "");
+  const [avatarMode, setAvatarMode] = useState(false);
   const [avatarColor, setAvatarColor] = useState<string>(
     modalData.avatarColor ?? "#ccc"
   );
+  const [avatarImageUrl, setAvatarImageUrl] = useState("");
 
   const [errorMessage, setErrorMessage] = useState<string>("");
 
@@ -56,6 +58,14 @@ const EditUserProfileForm = ({ onToggle }: ModalProps) => {
     } else {
       setErrorMessage("");
     }
+  };
+
+  const avatarModeChangeHandler = () => {
+    setAvatarMode(!avatarMode);
+  };
+
+  const avatarImageUrlChangeHandler = (event) => {
+    setAvatarImageUrl(event.target.value);
   };
 
   const submitHandler = async (
@@ -109,22 +119,43 @@ const EditUserProfileForm = ({ onToggle }: ModalProps) => {
         <div className={classes.underline}></div>
 
         <div>
-          <div className={classes["avatar-color-edit-title"]}>아바타 색</div>
-          <div className={classes["avatar-color-list"]}>
-            {avatarColors.map((color) => (
-              <button
-                className={`${classes["avatar-color-button"]} ${
-                  avatarColor === color ? classes.selected : ""
-                }`}
-                type="button"
-                key={color}
-                style={{ backgroundColor: color }}
-                onClick={() => setAvatarColor(color)}
-              >
-                {userInfo?.nickname.charAt(0)}
-              </button>
-            ))}
+          <div className={classes["avatar-header"]}>
+            <div className={classes["avatar-color-edit-title"]}>
+              {avatarMode ? "아바타 이미지" : "아바타 색"}
+            </div>
+            <button type="button" onClick={avatarModeChangeHandler}>
+              {avatarMode ? "아바타 색" : "아바타 이미지"}
+            </button>
           </div>
+          {avatarMode ? (
+            <div>
+              <div className={classes["avatar-image-preview"]}>
+                <img src={avatarImageUrl} />
+              </div>
+              <input
+                type="url"
+                value={avatarImageUrl}
+                onChange={avatarImageUrlChangeHandler}
+                placeholder="이미지 URL을 입력하세요"
+              />
+            </div>
+          ) : (
+            <div className={classes["avatar-color-list"]}>
+              {avatarColors.map((color) => (
+                <button
+                  className={`${classes["avatar-color-button"]} ${
+                    avatarColor === color ? classes.selected : ""
+                  }`}
+                  type="button"
+                  key={color}
+                  style={{ backgroundColor: color }}
+                  onClick={() => setAvatarColor(color)}
+                >
+                  {userInfo?.nickname.charAt(0)}
+                </button>
+              ))}
+            </div>
+          )}
         </div>
         <div className={classes["submit-button"]}>
           <button
