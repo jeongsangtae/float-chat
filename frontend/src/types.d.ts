@@ -142,6 +142,7 @@ export interface UserInfo {
   username: string;
   nickname: string;
   avatarColor: string;
+  avatarImageUrl: string;
   tokenExp: number;
 }
 

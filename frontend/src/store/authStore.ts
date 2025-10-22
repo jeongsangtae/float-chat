@@ -20,16 +20,23 @@ interface AuthStore {
   verifyUser: () => Promise<void>;
   refreshToken: () => Promise<void>;
   refreshTokenExp: () => Promise<void>;
-  editUserProfileForm: (
-    trimmedNickname: string,
-    avatarColor: string,
+  editUserProfileForm: ({
+    trimmedNickname,
+    avatarColor,
+    avatarImageUrl,
+    modalData,
+  }: {
+    trimmedNickname: string;
+    avatarColor?: string;
+    avatarImageUrl?: string;
     modalData: {
       method: "POST" | "PATCH" | "DELETE";
       _id?: string;
       nickname?: string;
       avatarColor?: string;
-    }
-  ) => Promise<void>;
+      avatarImageUrl?: string;
+    };
+  }) => Promise<void>;
 }
 
 const useAuthStore = create<AuthStore>((set, get) => ({
@@ -247,11 +254,16 @@ const useAuthStore = create<AuthStore>((set, get) => ({
     }
   },
 
-  editUserProfileForm: async (trimmedNickname, avatarColor, modalData) => {
+  editUserProfileForm: async ({
+    trimmedNickname,
+    avatarColor,
+    avatarImageUrl,
+    modalData,
+  }) => {
     try {
       const requestBody = {
         nickname: trimmedNickname,
-        avatarColor,
+        ...(avatarImageUrl ? { avatarImageUrl } : { avatarColor }),
         modalData,
       };
 

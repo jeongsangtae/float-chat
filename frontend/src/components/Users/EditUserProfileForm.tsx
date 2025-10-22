@@ -40,7 +40,9 @@ const EditUserProfileForm = ({ onToggle }: ModalProps) => {
   const [avatarColor, setAvatarColor] = useState<string>(
     modalData.avatarColor ?? "#ccc"
   );
-  const [avatarImageUrl, setAvatarImageUrl] = useState("");
+  const [avatarImageUrl, setAvatarImageUrl] = useState<string>(
+    modalData.avatarImageUrl ?? ""
+  );
 
   const [errorMessage, setErrorMessage] = useState<string>("");
 
@@ -64,7 +66,9 @@ const EditUserProfileForm = ({ onToggle }: ModalProps) => {
     setAvatarMode(!avatarMode);
   };
 
-  const avatarImageUrlChangeHandler = (event) => {
+  const avatarImageUrlChangeHandler = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     setAvatarImageUrl(event.target.value);
   };
 
@@ -79,7 +83,28 @@ const EditUserProfileForm = ({ onToggle }: ModalProps) => {
     }
 
     try {
-      await editUserProfileForm(trimmedNickname, avatarColor, modalData);
+      if (avatarMode) {
+        // 객체 기반 방식
+        await editUserProfileForm({
+          trimmedNickname,
+          avatarImageUrl,
+          modalData,
+        });
+
+        // 위치 기반 방식
+        // await editUserProfileForm(
+        //   trimmedNickname,
+        //   "",
+        //   avatarImageUrl,
+        //   modalData
+        // );
+      } else {
+        // 객체 기반 방식
+        await editUserProfileForm({ trimmedNickname, avatarColor, modalData });
+
+        // 위치 기반 방식
+        // await editUserProfileForm(trimmedNickname, avatarColor, "", modalData);
+      }
 
       console.log("사용자 정보 수정 성공");
       onToggle();

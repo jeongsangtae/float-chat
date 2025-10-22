@@ -49,6 +49,7 @@ const SideBar = ({ onLeaveChatRoom }: SideBarProps) => {
       _id: userInfo?._id,
       nickname: userInfo?.nickname,
       avatarColor: userInfo?.avatarColor,
+      avatarImageUrl: userInfo?.avatarImageUrl,
     });
   };
 
