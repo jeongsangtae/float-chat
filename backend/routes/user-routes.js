@@ -265,6 +265,7 @@ router.patch("/editUserProfileForm", async (req, res) => {
     const userId = new ObjectId(currentUserId);
     const newNickname = requestBody.nickname;
     const newAvatarColor = requestBody.avatarColor;
+    const newAvatarImageUrl = requestBody.avatarImageUrl;
 
     const userInfo = await db
       .getDb()
@@ -287,7 +288,9 @@ router.patch("/editUserProfileForm", async (req, res) => {
 
     const editUserProfile = {
       nickname: newNickname,
-      avatarColor: newAvatarColor,
+      ...(newAvatarImageUrl
+        ? { avatarImageUrl: newAvatarImageUrl, avatarColor: null }
+        : { avatarImageUrl: null, avatarColor: newAvatarColor }),
     };
 
     await Promise.all([
@@ -312,7 +315,8 @@ router.patch("/editUserProfileForm", async (req, res) => {
           {
             $set: {
               hostNickname: newNickname,
-              hostAvatarColor: newAvatarColor,
+              hostAvatarColor: newAvatarColor ?? null,
+              hostAvatarImageUrl: newAvatarImageUrl ?? null,
             },
           }
         ),
@@ -326,7 +330,9 @@ router.patch("/editUserProfileForm", async (req, res) => {
           {
             $set: {
               "participants.$[participant].nickname": newNickname,
-              "participants.$[participant].avatarColor": newAvatarColor,
+              "participants.$[participant].avatarColor": newAvatarColor ?? null,
+              "participants.$[participant].avatarImageUrl":
+                newAvatarImageUrl ?? null,
             },
           },
           { arrayFilters: [{ "participant._id": currentUserId }] }
@@ -341,7 +347,8 @@ router.patch("/editUserProfileForm", async (req, res) => {
           {
             $set: {
               "requester.nickname": newNickname,
-              "requester.avatarColor": newAvatarColor,
+              "requester.avatarColor": newAvatarColor ?? null,
+              "requester.avatarImageUrl": newAvatarImageUrl ?? null,
             },
           }
         ),
@@ -353,7 +360,8 @@ router.patch("/editUserProfileForm", async (req, res) => {
           {
             $set: {
               "receiver.nickname": newNickname,
-              "receiver.avatarColor": newAvatarColor,
+              "receiver.avatarColor": newAvatarColor ?? null,
+              "receiver.avatarImageUrl": newAvatarImageUrl ?? null,
             },
           }
         ),
@@ -367,7 +375,8 @@ router.patch("/editUserProfileForm", async (req, res) => {
           {
             $set: {
               requesterNickname: newNickname,
-              requesterAvatarColor: newAvatarColor,
+              requesterAvatarColor: newAvatarColor ?? null,
+              requesterAvatarImageUrl: newAvatarImageUrl ?? null,
             },
           }
         ),
@@ -379,7 +388,8 @@ router.patch("/editUserProfileForm", async (req, res) => {
           {
             $set: {
               receiverNickname: newNickname,
-              receiverAvatarColor: newAvatarColor,
+              receiverAvatarColor: newAvatarColor ?? null,
+              receiverAvatarImageUrl: newAvatarImageUrl ?? null,
             },
           }
         ),
@@ -393,7 +403,8 @@ router.patch("/editUserProfileForm", async (req, res) => {
           {
             $set: {
               requesterNickname: newNickname,
-              requesterAvatarColor: newAvatarColor,
+              requesterAvatarColor: newAvatarColor ?? null,
+              requesterAvatarImageUrl: newAvatarImageUrl ?? null,
             },
           }
         ),
@@ -405,7 +416,8 @@ router.patch("/editUserProfileForm", async (req, res) => {
           {
             $set: {
               receiverNickname: newNickname,
-              receiverAvatarColor: newAvatarColor,
+              receiverAvatarColor: newAvatarColor ?? null,
+              receiverAvatarImageUrl: newAvatarImageUrl ?? null,
             },
           }
         ),
@@ -488,18 +500,21 @@ router.patch("/editUserProfileForm", async (req, res) => {
           userEmail: userInfo.email,
           newNickname,
           newAvatarColor,
+          newAvatarImageUrl,
         });
 
         io.to(socketId).emit("friendProfileUpdated", {
           userId: currentUserId,
           newNickname,
           newAvatarColor,
+          newAvatarImageUrl,
         });
 
         io.to(socketId).emit("directChatProfileUpdated", {
           userId: currentUserId,
           newNickname,
           newAvatarColor,
+          newAvatarImageUrl,
         });
       }
     }
@@ -511,6 +526,7 @@ router.patch("/editUserProfileForm", async (req, res) => {
           userId: currentUserId,
           newNickname,
           newAvatarColor,
+          newAvatarImageUrl,
         });
       }
     }
@@ -522,12 +538,14 @@ router.patch("/editUserProfileForm", async (req, res) => {
           userId: currentUserId,
           newNickname,
           newAvatarColor,
+          newAvatarImageUrl,
         });
 
         io.to(socketId).emit("groupChatUserProfileUpdated", {
           userId: currentUserId,
           newNickname,
           newAvatarColor,
+          newAvatarImageUrl,
         });
       }
     }
@@ -539,6 +557,7 @@ router.patch("/editUserProfileForm", async (req, res) => {
           userId: currentUserId,
           newNickname,
           newAvatarColor,
+          newAvatarImageUrl,
         });
       }
     }

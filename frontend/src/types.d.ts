@@ -9,6 +9,16 @@ export interface ModalProps {
   onToggle: () => void;
 }
 
+export interface UserInfo {
+  _id: string;
+  email: string;
+  username: string;
+  nickname: string;
+  avatarColor: string;
+  avatarImageUrl: string;
+  tokenExp: number;
+}
+
 export interface Participants {
   _id: string;
   nickname: string;
@@ -74,6 +84,7 @@ export interface GroupChatUserData {
   username: string;
   nickname: string;
   avatarColor: string;
+  avatarImageUrl: string;
   date: string;
   onlineChecked: boolean;
 }
@@ -134,16 +145,6 @@ export interface GroupChatPanelProps {
   hostAvatarColor: string;
   announcement?: string;
   groupChatUsers: GroupChatUserData[];
-}
-
-export interface UserInfo {
-  _id: string;
-  email: string;
-  username: string;
-  nickname: string;
-  avatarColor: string;
-  avatarImageUrl: string;
-  tokenExp: number;
 }
 
 export interface RoomId {

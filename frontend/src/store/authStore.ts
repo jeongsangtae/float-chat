@@ -267,6 +267,8 @@ const useAuthStore = create<AuthStore>((set, get) => ({
         modalData,
       };
 
+      // console.log(requestBody.avatarImageUrl, requestBody.avatarColor);
+
       const response = await fetch(`${apiURL}/editUserProfileForm`, {
         method: modalData.method,
         body: JSON.stringify(requestBody),
