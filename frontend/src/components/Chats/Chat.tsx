@@ -8,6 +8,7 @@ const Chat = ({
   date,
   showNickname,
   avatarColor,
+  avatarImageUrl,
 }: Pick<ChatMessage, "nickname" | "message" | "date" | "avatarColor"> & {
   showNickname: boolean;
 }) => {
@@ -90,17 +91,21 @@ const Chat = ({
     >
       {showNickname ? (
         <div className={classes["chat-header"]}>
-          <div
-            className={classes.avatar}
-            style={{ backgroundColor: avatarColor || "#ccc" }}
-          >
-            {nickname.charAt(0)}
-            {/* <div
+          {avatarImageUrl ? (
+            <img className={classes.avatar} src={avatarImageUrl} />
+          ) : (
+            <div
+              className={classes.avatar}
+              style={{ backgroundColor: avatarColor || "#ccc" }}
+            >
+              {nickname.charAt(0)}
+              {/* <div
             className={
               onlineChecked ? classes["online-dot"] : classes["offline-dot"]
             }
           /> */}
-          </div>
+            </div>
+          )}
           <div className={classes["chat-content"]}>
             <div className={classes["chat-info"]}>
               <span className={classes["chat-nickname"]}>{nickname}</span>

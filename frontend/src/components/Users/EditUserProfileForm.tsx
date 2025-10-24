@@ -84,7 +84,6 @@ const EditUserProfileForm = ({ onToggle }: ModalProps) => {
 
     try {
       if (avatarMode) {
-        // console.log(avatarImageUrl);
         // 객체 기반 방식
         await editUserProfileForm({
           trimmedNickname,

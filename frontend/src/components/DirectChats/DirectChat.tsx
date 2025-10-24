@@ -11,6 +11,7 @@ const DirectChat = ({
   _id,
   otherUserNickname,
   otherUserAvatarColor,
+  otherUserAvatarImageUrl,
   onlineChecked,
 }: DirectChatProps) => {
   const navigate = useNavigate();
@@ -37,17 +38,22 @@ const DirectChat = ({
       }`}
     >
       <Link to={`${_id}`} className={classes["direct-chat"]}>
-        <div
-          className={classes.avatar}
-          style={{ backgroundColor: otherUserAvatarColor }}
-        >
-          {otherUserNickname.charAt(0)}
+        {otherUserAvatarImageUrl ? (
+          <img className={classes.avatar} src={otherUserAvatarImageUrl} />
+        ) : (
           <div
-            className={
-              onlineChecked ? classes["online-dot"] : classes["offline-dot"]
-            }
-          />
-        </div>
+            className={classes.avatar}
+            style={{ backgroundColor: otherUserAvatarColor }}
+          >
+            {otherUserNickname.charAt(0)}
+            <div
+              className={
+                onlineChecked ? classes["online-dot"] : classes["offline-dot"]
+              }
+            />
+          </div>
+        )}
+
         <div className={classes["direct-chat-nickname"]}>
           {otherUserNickname}
         </div>

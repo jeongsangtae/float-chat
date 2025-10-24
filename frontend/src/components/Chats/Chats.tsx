@@ -232,6 +232,7 @@ const Chats = ({ roomId, type, chatInfo }: ChatsProps) => {
           date={message.date}
           showNickname={showNickname}
           avatarColor={message.avatarColor}
+          avatarImageUrl={message.avatarImageUrl}
         />
       </div>
     );
@@ -247,12 +248,22 @@ const Chats = ({ roomId, type, chatInfo }: ChatsProps) => {
         {/* 다이렉트 채팅 시작 안내 */}
         {type === "direct" && (
           <div className={classes["direct-chat-starting"]}>
-            <div
+            {chatInfo.avatarImageUrl ? (
+              <img className={classes.avatar} src={chatInfo.avatarImageUrl} />
+            ) : (
+              <div
+                className={classes.avatar}
+                style={{ backgroundColor: chatInfo.avatarColor }}
+              >
+                {chatInfo.nickname?.charAt(0)}
+              </div>
+            )}
+            {/* <div
               className={classes.avatar}
               style={{ backgroundColor: chatInfo.avatarColor }}
             >
               {chatInfo.nickname?.charAt(0)}
-            </div>
+            </div> */}
             <h1 className={classes.nickname}>{chatInfo.nickname}</h1>
             <div>
               {chatInfo.nickname}님과 나눈 다이렉트 채팅방 첫 부분이에요.

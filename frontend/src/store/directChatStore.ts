@@ -47,7 +47,7 @@ const useDirectChatStore = create<DirectChatStore>((set) => ({
 
       socket.on(
         "directChatProfileUpdated",
-        ({ userId, newNickname, newAvatarColor }) => {
+        ({ userId, newNickname, newAvatarColor, newAvatarImageUrl }) => {
           set((prev) => ({
             directChats: prev.directChats.map((directChat) => {
               const isUser = directChat.participants.some(
@@ -63,6 +63,7 @@ const useDirectChatStore = create<DirectChatStore>((set) => ({
                         ...participant,
                         nickname: newNickname,
                         avatarColor: newAvatarColor,
+                        avatarImageUrl: newAvatarImageUrl,
                       }
                     : participant
               );
@@ -125,9 +126,9 @@ const useDirectChatStore = create<DirectChatStore>((set) => ({
     }
   },
 
-  directChatForm: async (id, nickname, avatarColor) => {
+  directChatForm: async (id, nickname, avatarColor, avatarImageUrl) => {
     try {
-      const requestBody = { id, nickname, avatarColor };
+      const requestBody = { id, nickname, avatarColor, avatarImageUrl };
 
       const response = await fetch(`${apiURL}/directChatForm`, {
         method: "POST",

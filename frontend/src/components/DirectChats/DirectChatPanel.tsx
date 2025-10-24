@@ -31,25 +31,46 @@ const DirectChatPanel = ({
 
   return (
     <div className={classes["direct-chat-panel"]}>
-      <div
-        className={classes["avatar-header"]}
-        style={{ backgroundColor: chatInfo.avatarColor }}
-      ></div>
+      {chatInfo.avatarImageUrl ? (
+        <img className={classes.avatar} src={chatInfo.avatarImageUrl} />
+      ) : (
+        <div
+          className={classes["avatar-header"]}
+          style={{ backgroundColor: chatInfo.avatarColor }}
+        ></div>
+      )}
 
       <div className={classes["direct-chat-other-info"]}>
-        <div
-          className={classes["direct-chat-other-info-avatar"]}
-          style={{ backgroundColor: chatInfo.avatarColor }}
-        >
-          {chatInfo.nickname?.charAt(0)}
+        {chatInfo.avatarImageUrl ? (
+          <>
+            <img
+              className={classes["direct-chat-other-info-avatar"]}
+              src={chatInfo.avatarImageUrl}
+            />
+            <div
+              className={
+                onlineChecked
+                  ? classes["direct-chat-other-info-online-dot"]
+                  : classes["direct-chat-other-info-offline-dot"]
+              }
+            />
+          </>
+        ) : (
           <div
-            className={
-              onlineChecked
-                ? classes["direct-chat-other-info-online-dot"]
-                : classes["direct-chat-other-info-offline-dot"]
-            }
-          />
-        </div>
+            className={classes["direct-chat-other-info-avatar"]}
+            style={{ backgroundColor: chatInfo.avatarColor }}
+          >
+            {chatInfo.nickname?.charAt(0)}
+            <div
+              className={
+                onlineChecked
+                  ? classes["direct-chat-other-info-online-dot"]
+                  : classes["direct-chat-other-info-offline-dot"]
+              }
+            />
+          </div>
+        )}
+
         <h3 className={classes.nickname}>{chatInfo.nickname}</h3>
 
         {friendSince ? (
@@ -152,21 +173,37 @@ const DirectChatPanel = ({
                     className={classes["mutual-friend-user"]}
                   >
                     <div>
-                      <div
-                        className={classes["mutual-friend-user-avatar"]}
-                        style={{
-                          backgroundColor: mutualFriendUser.avatarColor,
-                        }}
-                      >
-                        {mutualFriendUser.nickname.charAt(0)}
+                      {mutualFriendUser.avatarImageUrl ? (
+                        <>
+                          <img
+                            className={classes.avatar}
+                            src={mutualFriendUser.avatarImageUrl}
+                          />
+                          <div
+                            className={
+                              onlineChecked
+                                ? classes["mutual-friend-user-online-dot"]
+                                : classes["mutual-friend-user-offline-dot"]
+                            }
+                          />
+                        </>
+                      ) : (
                         <div
-                          className={
-                            onlineChecked
-                              ? classes["mutual-friend-user-online-dot"]
-                              : classes["mutual-friend-user-offline-dot"]
-                          }
-                        />
-                      </div>
+                          className={classes["mutual-friend-user-avatar"]}
+                          style={{
+                            backgroundColor: mutualFriendUser.avatarColor,
+                          }}
+                        >
+                          {mutualFriendUser.nickname.charAt(0)}
+                          <div
+                            className={
+                              onlineChecked
+                                ? classes["mutual-friend-user-online-dot"]
+                                : classes["mutual-friend-user-offline-dot"]
+                            }
+                          />
+                        </div>
+                      )}
                     </div>
                     <div className={classes["mutual-friend-user-nickname"]}>
                       {mutualFriendUser.nickname}

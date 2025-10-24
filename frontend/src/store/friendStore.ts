@@ -60,7 +60,7 @@ const useFriendStore = create<FriendStore>((set) => ({
 
       socket.on(
         "friendProfileUpdated",
-        ({ userId, newNickname, newAvatarColor }) => {
+        ({ userId, newNickname, newAvatarColor, newAvatarImageUrl }) => {
           set((prev) => ({
             onlineFriends: prev.onlineFriends.map((onlineFriend) => {
               // 요청자와 수신자 중 누가 닉네임을 바꿨는지 확인
@@ -78,6 +78,7 @@ const useFriendStore = create<FriendStore>((set) => ({
                       ...onlineFriend.requester,
                       nickname: newNickname,
                       avatarColor: newAvatarColor,
+                      avatarImageUrl: newAvatarImageUrl,
                     }
                   : onlineFriend.requester,
                 receiver: isReceiver
@@ -85,6 +86,7 @@ const useFriendStore = create<FriendStore>((set) => ({
                       ...onlineFriend.receiver,
                       nickname: newNickname,
                       avatarColor: newAvatarColor,
+                      avatarImageUrl: newAvatarImageUrl,
                     }
                   : onlineFriend.receiver,
               };
@@ -143,7 +145,7 @@ const useFriendStore = create<FriendStore>((set) => ({
 
       socket.on(
         "friendProfileUpdated",
-        ({ userId, newNickname, newAvatarColor }) => {
+        ({ userId, newNickname, newAvatarColor, newAvatarImageUrl }) => {
           set((prev) => ({
             friends: prev.friends.map((friend) => {
               // 요청자와 수신자 중 누가 닉네임을 바꿨는지 확인
@@ -161,6 +163,7 @@ const useFriendStore = create<FriendStore>((set) => ({
                       ...friend.requester,
                       nickname: newNickname,
                       avatarColor: newAvatarColor,
+                      avatarImageUrl: newAvatarImageUrl,
                     }
                   : friend.requester,
                 receiver: isReceiver
@@ -168,6 +171,7 @@ const useFriendStore = create<FriendStore>((set) => ({
                       ...friend.receiver,
                       nickname: newNickname,
                       avatarColor: newAvatarColor,
+                      avatarImageUrl: newAvatarImageUrl,
                     }
                   : friend.receiver,
               };
@@ -262,7 +266,7 @@ const useFriendStore = create<FriendStore>((set) => ({
       // 친구 요청 대기중 사용자 닉네임이 변경되면 실시간 반영해 업데이트
       socket.on(
         "friendRequestProfileUpdated",
-        ({ userId, newNickname, newAvatarColor }) => {
+        ({ userId, newNickname, newAvatarColor, newAvatarImageUrl }) => {
           set((prev) => ({
             friendRequests: prev.friendRequests.map((friendRequest) => {
               const updatedFriendRequest = { ...friendRequest };
@@ -270,9 +274,13 @@ const useFriendStore = create<FriendStore>((set) => ({
               if (friendRequest.requester === userId) {
                 updatedFriendRequest.requesterNickname = newNickname;
                 updatedFriendRequest.requesterAvatarColor = newAvatarColor;
+                updatedFriendRequest.requesterAvatarImageUrl =
+                  newAvatarImageUrl;
               } else if (friendRequest.receiver === userId) {
                 updatedFriendRequest.receiverNickname = newNickname;
                 updatedFriendRequest.receiverAvatarColor = newAvatarColor;
+                updatedFriendRequest.requesterAvatarImageUrl =
+                  newAvatarImageUrl;
               }
               return updatedFriendRequest;
             }),
@@ -323,6 +331,7 @@ const useFriendStore = create<FriendStore>((set) => ({
       username: userInfo.username,
       nickname: userInfo.nickname,
       avatarColor: userInfo.avatarColor,
+      avatarImageUrl: userInfo.avatarImageUrl,
       searchUserEmail,
     };
 

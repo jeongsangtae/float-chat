@@ -89,11 +89,16 @@ const useChatStore = create<ChatStore>((set) => ({
 
       socket.on(
         "chatProfileUpdated",
-        ({ userEmail, newNickname, newAvatarColor }) => {
+        ({ userEmail, newNickname, newAvatarColor, newAvatarImageUrl }) => {
           set((prevMsg) => ({
             messages: prevMsg.messages.map((msg) => {
               return msg.email === userEmail
-                ? { ...msg, nickname: newNickname, avatarColor: newAvatarColor }
+                ? {
+                    ...msg,
+                    nickname: newNickname,
+                    avatarColor: newAvatarColor,
+                    avatarImageUrl: newAvatarImageUrl,
+                  }
                 : msg;
             }),
           }));
@@ -121,6 +126,7 @@ const useChatStore = create<ChatStore>((set) => ({
       email: userInfo.email,
       nickname: userInfo.nickname,
       avatarColor: userInfo.avatarColor,
+      avatarImageUrl: userInfo.avatarImageUrl,
     };
 
     try {

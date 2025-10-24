@@ -17,6 +17,7 @@ const GroupChatInviteList = ({
   kstDate,
   participantCount,
   avatarColor,
+  avatarImageUrl,
 }: GroupChatInviteListProps) => {
   const navigate = useNavigate();
   const { userInfo } = useAuthStore();
@@ -81,12 +82,16 @@ const GroupChatInviteList = ({
   return (
     <li className={classes["group-chat-invite-item"]}>
       <div className={classes["group-chat-invite-main"]}>
-        <div
-          className={classes.avatar}
-          style={{ backgroundColor: avatarColor || "#ccc" }}
-        >
-          {requesterNickname.charAt(0)}
-        </div>
+        {avatarImageUrl ? (
+          <img className={classes.avatar} src={avatarImageUrl} />
+        ) : (
+          <div
+            className={classes.avatar}
+            style={{ backgroundColor: avatarColor || "#ccc" }}
+          >
+            {requesterNickname.charAt(0)}
+          </div>
+        )}
 
         <div className={classes["group-chat-invite-content"]}>
           <div className={classes["sender-info"]}>

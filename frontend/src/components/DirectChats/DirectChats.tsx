@@ -59,6 +59,9 @@ const DirectChats = () => {
             otherUserAvatarColor={
               filteredDirectChat.otherUser?.avatarColor ?? "#ccc"
             }
+            otherUserAvatarImageUrl={
+              filteredDirectChat.otherUser?.avatarImageUrl ?? ""
+            }
             onlineChecked={filteredDirectChat.onlineChecked}
           />
         ))}
@@ -80,6 +83,7 @@ const DirectChats = () => {
                 kstDate={groupChatInvite.kstDate}
                 participantCount={groupChatInvite.participantCount}
                 avatarColor={groupChatInvite.avatarColor}
+                avatarImageUrl={groupChatInvite.avatarImageUrl}
               />
             ))}
           </ul>

@@ -267,8 +267,6 @@ const useAuthStore = create<AuthStore>((set, get) => ({
         modalData,
       };
 
-      // console.log(requestBody.avatarImageUrl, requestBody.avatarColor);
-
       const response = await fetch(`${apiURL}/editUserProfileForm`, {
         method: modalData.method,
         body: JSON.stringify(requestBody),
@@ -288,6 +286,7 @@ const useAuthStore = create<AuthStore>((set, get) => ({
           ...prev.userInfo!, // 기존 사용자 정보 유지 및 !를 사용해 userInfo가 null이 아님을 단언
           nickname: resData.editUserProfile.nickname, // nickname만 덮어쓰기
           avatarColor: resData.editUserProfile.avatarColor,
+          avatarImageUrl: resData.editUserProfile.avatarImageUrl,
         },
       }));
     } catch (error) {

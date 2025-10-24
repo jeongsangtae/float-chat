@@ -84,7 +84,7 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
 
       socket.on(
         "groupChatHostProfileUpdated",
-        ({ userId, newNickname, newAvatarColor }) => {
+        ({ userId, newNickname, newAvatarColor, newAvatarImageUrl }) => {
           set((prev) => ({
             groupChats: prev.groupChats.map((groupChat) =>
               groupChat.hostId === userId
@@ -92,6 +92,7 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
                     ...groupChat,
                     hostNickname: newNickname,
                     hostAvatarColor: newAvatarColor,
+                    hostAvatarImageUrl: newAvatarImageUrl,
                   }
                 : groupChat
             ),
@@ -187,7 +188,7 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
       // 그룹 채팅방 참여자 중 한 사용자가 닉네임을 변경했을 때, 해당 사용자의 닉네임을 실시간 반영해 업데이트
       socket.on(
         "groupChatUserProfileUpdated",
-        ({ userId, newNickname, newAvatarColor }) => {
+        ({ userId, newNickname, newAvatarColor, newAvatarImageUrl }) => {
           set((prev) => ({
             groupChatUsers: prev.groupChatUsers.map((groupChatUser) => {
               return groupChatUser._id === userId
@@ -195,6 +196,7 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
                     ...groupChatUser,
                     nickname: newNickname,
                     avatarColor: newAvatarColor,
+                    avatarImageUrl: newAvatarImageUrl,
                   }
                 : groupChatUser;
             }),
@@ -428,7 +430,7 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
       // 그룹 채팅방 초대 닉네임 업데이트 실시간 반영
       socket.on(
         "groupChatInviteProfileUpdated",
-        ({ userId, newNickname, newAvatarColor }) => {
+        ({ userId, newNickname, newAvatarColor, newAvatarImageUrl }) => {
           set((prev) => ({
             groupChatInvites: prev.groupChatInvites.map((groupChatInvite) => {
               const updatedGroupChatInvite = { ...groupChatInvite };
@@ -436,6 +438,7 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
               if (groupChatInvite.requester === userId) {
                 updatedGroupChatInvite.requesterNickname = newNickname;
                 updatedGroupChatInvite.avatarColor = newAvatarColor;
+                updatedGroupChatInvite.avatarImageUrl = newAvatarImageUrl;
               } else if (groupChatInvite.receiver === userId) {
                 updatedGroupChatInvite.receiverNickname = newNickname;
               }

@@ -155,6 +155,7 @@ const DirectChatDetails = () => {
         chatInfo={{
           nickname: otherUser?.nickname,
           avatarColor: otherUser?.avatarColor,
+          avatarImageUrl: otherUser?.avatarImageUrl,
         }}
         onlineChecked={onlineChecked}
         friendSince={friendSince ?? ""}
