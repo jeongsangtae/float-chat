@@ -279,8 +279,7 @@ const useFriendStore = create<FriendStore>((set) => ({
               } else if (friendRequest.receiver === userId) {
                 updatedFriendRequest.receiverNickname = newNickname;
                 updatedFriendRequest.receiverAvatarColor = newAvatarColor;
-                updatedFriendRequest.requesterAvatarImageUrl =
-                  newAvatarImageUrl;
+                updatedFriendRequest.receiverAvatarImageUrl = newAvatarImageUrl;
               }
               return updatedFriendRequest;
             }),

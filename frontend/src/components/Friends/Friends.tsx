@@ -144,6 +144,7 @@ const Friends = () => {
                     id={filteredOnlineFriend.id}
                     nickname={filteredOnlineFriend.nickname}
                     avatarColor={filteredOnlineFriend.avatarColor}
+                    avatarImageUrl={filteredOnlineFriend.avatarImageUrl}
                     onlineChecked={filteredOnlineFriend.onlineChecked}
                   />
                 ))}
@@ -158,6 +159,7 @@ const Friends = () => {
                     id={filteredFriend.id}
                     nickname={filteredFriend.nickname}
                     avatarColor={filteredFriend.avatarColor}
+                    avatarImageUrl={filteredFriend.avatarImageUrl}
                     onlineChecked={filteredFriend.onlineChecked}
                   />
                 ))}
@@ -192,6 +194,7 @@ const Friends = () => {
                               friendRequestId={receivedRequest.id}
                               nickname={receivedRequest.nickname}
                               avatarColor={receivedRequest.avatarColor}
+                              avatarImageUrl={receivedRequest.avatarImageUrl}
                               sendRequest={receivedRequest.sendRequest}
                             />
                           ))}
@@ -214,6 +217,7 @@ const Friends = () => {
                               friendRequestId={sentRequest.id}
                               nickname={sentRequest.nickname}
                               avatarColor={sentRequest.avatarColor}
+                              avatarImageUrl={sentRequest.avatarImageUrl}
                               sendRequest={sentRequest.sendRequest}
                             />
                           ))}

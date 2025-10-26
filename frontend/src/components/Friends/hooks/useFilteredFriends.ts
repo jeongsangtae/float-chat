@@ -103,6 +103,9 @@ const useFilteredFriends = (
           avatarColor: sendRequest
             ? friendRequest.receiverAvatarColor
             : friendRequest.requesterAvatarColor,
+          avatarImageUrl: sendRequest
+            ? friendRequest.receiverAvatarImageUrl
+            : friendRequest.requesterAvatarImageUrl,
           sendRequest,
         };
       });

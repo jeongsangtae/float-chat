@@ -13,6 +13,7 @@ const OnlineFriend = ({
   userId,
   nickname,
   avatarColor,
+  avatarImageUrl,
   onlineChecked,
 }: FriendUser) => {
   const navigate = useNavigate();
@@ -38,7 +39,12 @@ const OnlineFriend = ({
       return;
     }
 
-    const roomId = await directChatForm(id, nickname, avatarColor);
+    const roomId = await directChatForm(
+      id,
+      nickname,
+      avatarColor,
+      avatarImageUrl
+    );
 
     navigate(`/me/${roomId}`);
   };
@@ -49,17 +55,21 @@ const OnlineFriend = ({
         className={classes["online-friend-info"]}
         onClick={directChatHandler}
       >
-        <div
-          className={classes.avatar}
-          style={{ backgroundColor: avatarColor || "#ccc" }}
-        >
-          {nickname.charAt(0)}
+        {avatarImageUrl ? (
+          <img className={classes.avatar} src={avatarImageUrl} />
+        ) : (
           <div
-            className={
-              onlineChecked ? classes["online-dot"] : classes["offline-dot"]
-            }
-          />
-        </div>
+            className={classes.avatar}
+            style={{ backgroundColor: avatarColor || "#ccc" }}
+          >
+            {nickname.charAt(0)}
+            <div
+              className={
+                onlineChecked ? classes["online-dot"] : classes["offline-dot"]
+              }
+            />
+          </div>
+        )}
         <div className={classes["online-friend-nickname"]}>{nickname}</div>
       </div>
       <div className={classes["online-friend-buttons"]}>

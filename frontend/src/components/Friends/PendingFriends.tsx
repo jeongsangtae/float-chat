@@ -6,6 +6,7 @@ interface PendingFriendsProps {
   friendRequestId: string;
   nickname: string;
   avatarColor: string;
+  avatarImageUrl: string;
   sendRequest: boolean;
 }
 
@@ -13,6 +14,7 @@ const PendingFriends = ({
   friendRequestId,
   nickname,
   avatarColor,
+  avatarImageUrl,
   sendRequest,
 }: PendingFriendsProps) => {
   const { acceptFriendRequest, rejectFriendRequest } = useFriendStore();
@@ -29,12 +31,17 @@ const PendingFriends = ({
     <>
       <li className={classes["pending-friend-wrapper"]}>
         <div className={classes["pending-friend-info"]}>
-          <div
-            className={classes.avatar}
-            style={{ backgroundColor: avatarColor || "#ccc" }}
-          >
-            {nickname.charAt(0)}
-          </div>
+          {avatarImageUrl ? (
+            <img className={classes.avatar} src={avatarImageUrl} />
+          ) : (
+            <div
+              className={classes.avatar}
+              style={{ backgroundColor: avatarColor || "#ccc" }}
+            >
+              {nickname.charAt(0)}
+            </div>
+          )}
+
           <div className={classes["pending-friend-nickname"]}>{nickname}</div>
         </div>
         {sendRequest ? (

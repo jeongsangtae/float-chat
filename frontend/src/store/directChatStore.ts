@@ -16,7 +16,8 @@ interface DirectChatStore {
   directChatForm: (
     id: string,
     nickname: string,
-    avatarColor: string
+    avatarColor: string,
+    avatarImageUrl: string
   ) => Promise<void>;
   closeDirectChat: (_id: string) => Promise<void>;
 }

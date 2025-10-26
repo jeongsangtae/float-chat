@@ -185,6 +185,7 @@ export interface FriendUser {
   email?: string;
   nickname: string;
   avatarColor: string;
+  avatarImageUrl: string;
   onlineChecked: boolean;
 }
 
@@ -202,10 +203,12 @@ export interface FriendRequest {
   requesterEmail: string;
   requesterNickname: string;
   requesterAvatarColor: string;
+  requesterAvatarImageUrl: string;
   receiver: string;
   receiverEmail: string;
   receiverNickname: string;
   receiverAvatarColor: string;
+  receiverAvatarImageUrl: string;
   date: string;
   status: string;
 }
