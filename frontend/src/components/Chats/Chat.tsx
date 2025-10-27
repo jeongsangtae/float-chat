@@ -2,6 +2,7 @@ import { ChatMessage } from "../../types";
 
 import classes from "./Chat.module.css";
 
+// Pick를 Omit으로 변경해야 함
 const Chat = ({
   nickname,
   message,
@@ -9,7 +10,7 @@ const Chat = ({
   showNickname,
   avatarColor,
   avatarImageUrl,
-}: Pick<ChatMessage, "nickname" | "message" | "date" | "avatarColor"> & {
+}: Omit<ChatMessage, "_id" | "roomId" | "email"> & {
   showNickname: boolean;
 }) => {
   // 공백 기준으로 날짜와 시간을 분리

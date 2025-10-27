@@ -23,6 +23,7 @@ export interface Participants {
   _id: string;
   nickname: string;
   avatarColor: string;
+  avatarImageUrl: string;
   isVisible: boolean;
 }
 
@@ -38,6 +39,7 @@ export interface DirectChatProps {
   otherUserId: string;
   otherUserNickname: string;
   otherUserAvatarColor: string;
+  otherUserAvatarImageUrl: string;
   onlineChecked: boolean;
 }
 
@@ -46,6 +48,7 @@ export interface MutualFriendUser {
   email?: string;
   nickname: string;
   avatarColor: string;
+  avatarImageUrl: string;
   roomId: string;
 }
 
@@ -72,6 +75,7 @@ export interface GroupChatData {
   hostUsername: string;
   hostNickname: string;
   hostAvatarColor: string;
+  hostAvatarImageUrl: string;
   announcement?: string;
   title: string;
   date?: string;
@@ -106,6 +110,7 @@ export interface GroupChatInvites {
   status: string;
   participantCount: number;
   avatarColor: string;
+  avatarImageUrl: string;
 }
 
 export interface GroupChatProps {
@@ -121,6 +126,7 @@ export interface GroupChatInviteProps {
   friendId: string;
   nickname: string;
   avatarColor: string;
+  avatarImageUrl: string;
   onToggle: () => void;
 }
 
@@ -134,6 +140,7 @@ export interface GroupChatInviteListProps {
   kstDate: string;
   participantCount: number;
   avatarColor: string;
+  avatarImageUrl: string;
 }
 
 export interface GroupChatPanelProps {
@@ -143,6 +150,7 @@ export interface GroupChatPanelProps {
   hostId: string;
   hostNickname: string;
   hostAvatarColor: string;
+  hostAvatarImageUrl: string;
   announcement?: string;
   groupChatUsers: GroupChatUserData[];
 }
@@ -154,6 +162,7 @@ export interface RoomId {
 export interface ChatInfo {
   nickname?: string;
   avatarColor?: string;
+  avatarImageUrl?: string;
   title?: string;
 }
 
@@ -170,6 +179,7 @@ export interface ChatMessage {
   nickname: string;
   message: string;
   avatarColor: string;
+  avatarImageUrl: string;
   date: string;
 }
 
@@ -226,5 +236,6 @@ export interface Notification {
   roomTitle?: string;
   senderNickname: string;
   avatarColor: string;
+  avatarImageUrl: string;
   message: string;
 }

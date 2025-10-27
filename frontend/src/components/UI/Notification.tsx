@@ -9,14 +9,22 @@ const Notification = () => {
     <div className={classes["notification-container"]}>
       {notification.map((notif) => (
         <div key={notif.id} className={classes["notification-item"]}>
-          <div className={classes["notification-avatar"]}>
-            <div
-              className={classes.avatar}
-              style={{ backgroundColor: notif.avatarColor }}
-            >
-              {notif.senderNickname.charAt(0)}
+          {notif.avatarImageUrl ? (
+            <img
+              className={classes["notification-avatar"]}
+              src={notif.avatarImageUrl}
+            />
+          ) : (
+            <div className={classes["notification-avatar"]}>
+              <div
+                className={classes.avatar}
+                style={{ backgroundColor: notif.avatarColor }}
+              >
+                {notif.senderNickname.charAt(0)}
+              </div>
             </div>
-          </div>
+          )}
+
           <div className={classes["notification-content"]}>
             <div className={classes["notification-nickname"]}>
               {notif.senderNickname}{" "}

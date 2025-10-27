@@ -146,6 +146,7 @@ const DirectChatDetails = () => {
           chatInfo={{
             nickname: otherUser?.nickname,
             avatarColor: otherUser?.avatarColor,
+            avatarImageUrl: otherUser?.avatarImageUrl,
           }}
         />
         <ChatInput roomId={roomId} />

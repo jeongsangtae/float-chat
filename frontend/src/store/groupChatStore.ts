@@ -50,7 +50,10 @@ interface GroupChatStore {
     roomId,
     friendId,
     nickname,
-  }: Omit<GroupChatInviteProps, "onToggle" | "avatarColor">) => Promise<void>;
+  }: Omit<
+    GroupChatInviteProps,
+    "onToggle" | "avatarColor" | "avatarImageUrl"
+  >) => Promise<void>;
   acceptGroupChatInvite: ({
     groupChatId,
     groupChatInviteId,

@@ -130,6 +130,7 @@ const GroupChatDetails = () => {
                   friendId={friend.id}
                   nickname={friend.nickname}
                   avatarColor={friend.avatarColor}
+                  avatarImageUrl={friend.avatarImageUrl}
                   onToggle={toggleHandler}
                 />
               ))}
@@ -156,6 +157,7 @@ const GroupChatDetails = () => {
         hostId={groupChat?.hostId ?? ""}
         hostNickname={groupChat?.hostNickname ?? ""}
         hostAvatarColor={groupChat?.hostAvatarColor ?? ""}
+        hostAvatarImageUrl={groupChat?.hostAvatarImageUrl ?? ""}
         announcement={groupChat?.announcement ?? ""}
         groupChatUsers={groupChatUsers}
       />

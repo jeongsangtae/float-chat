@@ -18,6 +18,7 @@ const GroupChatPanel = ({
   hostId,
   hostNickname,
   hostAvatarColor,
+  hostAvatarImageUrl,
   announcement,
   groupChatUsers,
 }: GroupChatPanelProps) => {
@@ -100,23 +101,32 @@ const GroupChatPanel = ({
 
   return (
     <div className={classes["group-chat-panel"]}>
-      <div
-        className={classes["avatar-header"]}
-        style={{ backgroundColor: hostAvatarColor }}
-      ></div>
+      {hostAvatarImageUrl ? (
+        <img className={classes["avatar-header"]} src={hostAvatarImageUrl} />
+      ) : (
+        <div
+          className={classes["avatar-header"]}
+          style={{ backgroundColor: hostAvatarColor }}
+        ></div>
+      )}
 
       <div className={classes["group-chat-host-info"]}>
-        <div
-          className={classes.avatar}
-          style={{ backgroundColor: hostAvatarColor }}
-        >
-          {hostNickname?.charAt(0)}
-          {/* <div
+        {hostAvatarImageUrl ? (
+          <img className={classes.avatar} src={hostAvatarImageUrl} />
+        ) : (
+          <div
+            className={classes.avatar}
+            style={{ backgroundColor: hostAvatarColor }}
+          >
+            {hostNickname?.charAt(0)}
+            {/* <div
             className={
               onlineChecked ? classes["online-dot"] : classes["offline-dot"]
             }
           /> */}
-        </div>
+          </div>
+        )}
+
         <h3 className={classes.nickname}>{hostNickname}</h3>
 
         <div className={classes["group-chat-announcement-wrapper"]}>
@@ -186,21 +196,29 @@ const GroupChatPanel = ({
               key={`groupChatUser-${displayedUser._id}`}
               className={classes["group-chat-user"]}
             >
-              <div
-                className={classes["group-chat-user-avatar"]}
-                style={{
-                  backgroundColor: displayedUser.avatarColor,
-                }}
-              >
-                {displayedUser.nickname.charAt(0)}
-                <div
-                  className={
-                    displayedUser.onlineChecked
-                      ? classes["online-dot"]
-                      : classes["offline-dot"]
-                  }
+              {displayedUser.avatarImageUrl ? (
+                <img
+                  className={classes["group-chat-user-avatar"]}
+                  src={displayedUser.avatarImageUrl}
                 />
-              </div>
+              ) : (
+                <div
+                  className={classes["group-chat-user-avatar"]}
+                  style={{
+                    backgroundColor: displayedUser.avatarColor,
+                  }}
+                >
+                  {displayedUser.nickname.charAt(0)}
+                  <div
+                    className={
+                      displayedUser.onlineChecked
+                        ? classes["online-dot"]
+                        : classes["offline-dot"]
+                    }
+                  />
+                </div>
+              )}
+
               <div className={classes["group-chat-user-nickname-wrapper"]}>
                 <span className={classes["group-chat-user-nickname"]}>
                   {displayedUser.nickname}

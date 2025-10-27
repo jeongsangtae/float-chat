@@ -26,6 +26,7 @@ const GroupChatUsers = ({ groupChatUsers }: GroupChatUsersProps) => {
             key={onlineUser._id}
             nickname={onlineUser.nickname}
             avatarColor={onlineUser.avatarColor}
+            avatarImageUrl={onlineUser.avatarImageUrl}
             onlineChecked={onlineUser.onlineChecked}
           />
         ))}
@@ -43,6 +44,7 @@ const GroupChatUsers = ({ groupChatUsers }: GroupChatUsersProps) => {
             key={offlineUser._id}
             nickname={offlineUser.nickname}
             avatarColor={offlineUser.avatarColor}
+            avatarImageUrl={offlineUser.avatarImageUrl}
             onlineChecked={offlineUser.onlineChecked}
           />
         ))}

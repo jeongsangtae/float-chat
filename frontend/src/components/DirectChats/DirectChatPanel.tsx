@@ -32,7 +32,10 @@ const DirectChatPanel = ({
   return (
     <div className={classes["direct-chat-panel"]}>
       {chatInfo.avatarImageUrl ? (
-        <img className={classes.avatar} src={chatInfo.avatarImageUrl} />
+        <img
+          className={classes["avatar-header"]}
+          src={chatInfo.avatarImageUrl}
+        />
       ) : (
         <div
           className={classes["avatar-header"]}
@@ -176,7 +179,7 @@ const DirectChatPanel = ({
                       {mutualFriendUser.avatarImageUrl ? (
                         <>
                           <img
-                            className={classes.avatar}
+                            className={classes["mutual-friend-user-avatar"]}
                             src={mutualFriendUser.avatarImageUrl}
                           />
                           <div
