@@ -10,10 +10,7 @@ const Notification = () => {
       {notification.map((notif) => (
         <div key={notif.id} className={classes["notification-item"]}>
           {notif.avatarImageUrl ? (
-            <img
-              className={classes["notification-avatar"]}
-              src={notif.avatarImageUrl}
-            />
+            <img className={classes.avatar} src={notif.avatarImageUrl} />
           ) : (
             <div className={classes["notification-avatar"]}>
               <div

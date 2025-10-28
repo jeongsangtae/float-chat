@@ -98,6 +98,7 @@ router.post("/groupChatForm", async (req, res) => {
       hostUsername: othersData.username,
       hostNickname: othersData.nickname,
       hostAvatarColor: othersData.avatarColor,
+      hostAvatarImageUrl: othersData.avatarImageUrl,
       date: `${kstDate.getFullYear()}.${(kstDate.getMonth() + 1)
         .toString()
         .padStart(2, "0")}.${kstDate
@@ -510,6 +511,7 @@ router.post("/groupChat/:roomId/invite", async (req, res) => {
       status: groupChatParticipant ? "참여중" : "보류",
       participantCount: groupChat.users.length,
       avatarColor: othersData.avatarColor,
+      avatarImageUrl: othersData.avatarImageUrl,
       date,
       kstDate: `${kstDate.getFullYear()}.${(kstDate.getMonth() + 1)
         .toString()
@@ -541,6 +543,7 @@ router.post("/groupChat/:roomId/invite", async (req, res) => {
         roomTitle: groupChat.title,
         senderNickname: othersData.nickname,
         avatarColor: othersData.avatarColor,
+        avatarImageUrl: othersData.avatarImageUrl,
         message: "그룹 채팅방 초대",
       });
 
@@ -616,6 +619,7 @@ router.post("/acceptGroupChat", async (req, res) => {
           nickname: othersData.nickname,
           username: othersData.username,
           avatarColor: othersData.avatarColor,
+          avatarImageUrl: othersData.avatarImageUrl,
         });
       }
     });

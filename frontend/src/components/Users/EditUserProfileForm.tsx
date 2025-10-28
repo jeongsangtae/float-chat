@@ -72,6 +72,10 @@ const EditUserProfileForm = ({ onToggle }: ModalProps) => {
     setAvatarImageUrl(event.target.value);
   };
 
+  const avatarImageUrlResetHandler = () => {
+    setAvatarImageUrl("");
+  };
+
   const submitHandler = async (
     event: React.FormEvent<HTMLFormElement>
   ): Promise<void> => {
@@ -158,11 +162,15 @@ const EditUserProfileForm = ({ onToggle }: ModalProps) => {
                 <img src={avatarImageUrl} />
               </div>
               <input
+                required
                 type="url"
                 value={avatarImageUrl}
                 onChange={avatarImageUrlChangeHandler}
                 placeholder="이미지 URL을 입력하세요"
               />
+              <button type="button" onClick={avatarImageUrlResetHandler}>
+                초기화
+              </button>
             </div>
           ) : (
             <div className={classes["avatar-color-list"]}>

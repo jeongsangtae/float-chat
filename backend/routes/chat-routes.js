@@ -55,7 +55,8 @@ router.post("/chat/:roomId", async (req, res) => {
     }
 
     // 클라이언트에서 보낸 데이터 추출
-    const { roomId, message, email, nickname, avatarColor } = req.body;
+    const { roomId, message, email, nickname, avatarColor, avatarImageUrl } =
+      req.body;
 
     let date = new Date();
     let kstDate = new Date(date.getTime() + 9 * 60 * 60 * 1000);
@@ -67,6 +68,7 @@ router.post("/chat/:roomId", async (req, res) => {
       nickname,
       message,
       avatarColor,
+      avatarImageUrl,
       date: `${kstDate.getFullYear()}.${(kstDate.getMonth() + 1)
         .toString()
         .padStart(2, "0")}.${kstDate
@@ -185,6 +187,7 @@ router.post("/chat/:roomId", async (req, res) => {
           roomTitle: chatRoom.title,
           senderNickname: othersData.nickname,
           avatarColor: othersData.avatarColor,
+          avatarImageUrl: othersData.avatarImageUrl,
           message,
         });
       }

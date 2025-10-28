@@ -244,10 +244,12 @@ router.post("/friendRequests", async (req, res) => {
         requesterEmail: requestBody.email,
         requesterNickname: requestBody.nickname,
         requesterAvatarColor: requestBody.avatarColor,
+        requesterAvatarImageUrl: requestBody.avatarImageUrl,
         receiver: receiverId,
         receiverEmail: searchUser.email,
         receiverNickname: searchUser.nickname,
         receiverAvatarColor: searchUser.avatarColor,
+        receiverAvatarImageUrl: searchUser.avatarImageUrl,
         status: "보류",
         date: `${kstDate.getFullYear()}.${(kstDate.getMonth() + 1)
           .toString()
@@ -276,6 +278,7 @@ router.post("/friendRequests", async (req, res) => {
         id: new ObjectId().toString(),
         senderNickname: requestBody.nickname,
         avatarColor: requestBody.avatarColor,
+        avatarImageUrl: requestBody.avatarImageUrl,
         message: "친구 요청",
       });
       console.log("친구 요청 알림 전송 완료");
@@ -326,12 +329,14 @@ router.post("/acceptFriend", async (req, res) => {
         email: friendRequest.requesterEmail,
         nickname: friendRequest.requesterNickname,
         avatarColor: friendRequest.requesterAvatarColor,
+        avatarImageUrl: friendRequest.requesterAvatarImageUrl,
       },
       receiver: {
         id: friendRequest.receiver,
         email: friendRequest.receiverEmail,
         nickname: friendRequest.receiverNickname,
         avatarColor: friendRequest.receiverAvatarColor,
+        avatarImageUrl: friendRequest.receiverAvatarImageUrl,
       },
       status: "수락됨",
       date: `${kstDate.getFullYear()}.${(kstDate.getMonth() + 1)
