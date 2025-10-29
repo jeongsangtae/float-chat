@@ -18,8 +18,12 @@
   flex: 1;
 }
 
-.avatar {
+.avatar-img-wrapper {
   position: relative;
+}
+
+.avatar-img,
+.avatar-color {
   width: 2rem;
   height: 2rem;
   border-radius: 50%;
@@ -28,6 +32,14 @@
   justify-content: center;
   font-weight: bold;
   color: white;
+}
+
+.avatar-img {
+  object-fit: cover;
+}
+
+.avatar-color {
+  position: relative;
 }
 
 /* .offline-avatar {

@@ -102,20 +102,23 @@ const GroupChatPanel = ({
   return (
     <div className={classes["group-chat-panel"]}>
       {hostAvatarImageUrl ? (
-        <img className={classes["avatar-header"]} src={hostAvatarImageUrl} />
+        <img
+          className={classes["avatar-header-img"]}
+          src={hostAvatarImageUrl}
+        />
       ) : (
         <div
-          className={classes["avatar-header"]}
+          className={classes["avatar-header-color"]}
           style={{ backgroundColor: hostAvatarColor }}
         ></div>
       )}
 
       <div className={classes["group-chat-host-info"]}>
         {hostAvatarImageUrl ? (
-          <img className={classes.avatar} src={hostAvatarImageUrl} />
+          <img className={classes["avatar-img"]} src={hostAvatarImageUrl} />
         ) : (
           <div
-            className={classes.avatar}
+            className={classes["avatar-color"]}
             style={{ backgroundColor: hostAvatarColor }}
           >
             {hostNickname?.charAt(0)}
@@ -197,13 +200,22 @@ const GroupChatPanel = ({
               className={classes["group-chat-user"]}
             >
               {displayedUser.avatarImageUrl ? (
-                <img
-                  className={classes["group-chat-user-avatar"]}
-                  src={displayedUser.avatarImageUrl}
-                />
+                <div className={classes["group-chat-user-avatar-img-wrapper"]}>
+                  <img
+                    className={classes["group-chat-user-avatar-img"]}
+                    src={displayedUser.avatarImageUrl}
+                  />
+                  <div
+                    className={
+                      displayedUser.onlineChecked
+                        ? classes["online-dot"]
+                        : classes["offline-dot"]
+                    }
+                  />
+                </div>
               ) : (
                 <div
-                  className={classes["group-chat-user-avatar"]}
+                  className={classes["group-chat-user-avatar-color"]}
                   style={{
                     backgroundColor: displayedUser.avatarColor,
                   }}

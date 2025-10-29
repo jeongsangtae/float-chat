@@ -14,15 +14,22 @@ const GroupChatUser = ({
   return (
     <div className={classes["group-chat-user"]}>
       {avatarImageUrl ? (
-        <img
-          className={`${classes.avatar} ${
-            onlineChecked ? "" : classes.offline
-          }`}
-          src={avatarImageUrl}
-        />
+        <div className={classes["avatar-img-wrapper"]}>
+          <img
+            className={`${classes["avatar-img"]} ${
+              onlineChecked ? "" : classes.offline
+            }`}
+            src={avatarImageUrl}
+          />
+          <div
+            className={
+              onlineChecked ? classes["online-dot"] : classes["offline-dot"]
+            }
+          />
+        </div>
       ) : (
         <div
-          className={`${classes.avatar} ${
+          className={`${classes["avatar-color"]} ${
             onlineChecked ? "" : classes.offline
           }`}
           style={{ backgroundColor: avatarColor || "#ccc" }}

@@ -121,10 +121,20 @@ const SideBar = ({ onLeaveChatRoom }: SideBarProps) => {
         <div className={classes["user-info"]}>
           <div className={classes["user-info-left"]}>
             {userInfo?.avatarImageUrl ? (
-              <img className={classes.avatar} src={userInfo?.avatarImageUrl} />
+              <div className={classes["avatar-img-wrapper"]}>
+                <img
+                  className={classes["avatar-img"]}
+                  src={userInfo?.avatarImageUrl}
+                />
+                <div
+                  className={
+                    isLoggedIn ? classes["online-dot"] : classes["offline-dot"]
+                  }
+                />
+              </div>
             ) : (
               <div
-                className={classes.avatar}
+                className={classes["avatar-color"]}
                 style={{ backgroundColor: userInfo?.avatarColor || "#ccc" }}
               >
                 {userInfo?.nickname.charAt(0)}

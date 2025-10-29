@@ -40,11 +40,16 @@
   background-color: #333333;
 }
 
-.avatar-header {
+.avatar-header-img,
+.avatar-header-color {
   height: 7.5rem;
   /* min-height: 7.75rem; */
   width: 100%;
   flex-shrink: 0;
+}
+
+.avatar-header-img {
+  object-fit: cover;
 }
 
 .group-chat-host-info {
@@ -59,7 +64,8 @@
   overflow-y: visible;
 }
 
-.avatar {
+.avatar-img,
+.avatar-color {
   /* position: relative; */
   position: absolute;
   /* top: 7.5rem; */
@@ -77,6 +83,10 @@
   color: white;
   box-shadow: 0 0 0 5px #2f3136;
   z-index: 1;
+}
+
+.avatar-img {
+  object-fit: cover;
 }
 
 /* .online-dot,
@@ -223,8 +233,12 @@
   flex: 1;
 }
 
-.group-chat-user-avatar {
+.group-chat-user-avatar-img-wrapper {
   position: relative;
+}
+
+.group-chat-user-avatar-img,
+.group-chat-user-avatar-color {
   width: 2rem;
   height: 2rem;
   border-radius: 50%;
@@ -233,6 +247,14 @@
   justify-content: center;
   font-weight: bold;
   color: white;
+}
+
+.group-chat-user-avatar-img {
+  object-fit: cover;
+}
+
+.group-chat-user-avatar-color {
+  position: relative;
 }
 
 .online-dot,
