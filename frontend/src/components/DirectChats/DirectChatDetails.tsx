@@ -137,6 +137,8 @@ const DirectChatDetails = () => {
     });
   }, [mutualFriends, directChats, userInfo?._id]);
 
+  console.log(onlineChecked);
+
   return (
     <div className={classes["direct-chat-detail-wrapper"]}>
       <div className={classes["direct-chat-area"]}>

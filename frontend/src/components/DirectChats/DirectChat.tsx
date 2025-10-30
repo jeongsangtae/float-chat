@@ -39,10 +39,20 @@ const DirectChat = ({
     >
       <Link to={`${_id}`} className={classes["direct-chat"]}>
         {otherUserAvatarImageUrl ? (
-          <img className={classes.avatar} src={otherUserAvatarImageUrl} />
+          <div className={classes["avatar-img-wrapper"]}>
+            <img
+              className={classes["avatar-img"]}
+              src={otherUserAvatarImageUrl}
+            />
+            <div
+              className={
+                onlineChecked ? classes["online-dot"] : classes["offline-dot"]
+              }
+            />
+          </div>
         ) : (
           <div
-            className={classes.avatar}
+            className={classes["avatar-color"]}
             style={{ backgroundColor: otherUserAvatarColor }}
           >
             {otherUserNickname.charAt(0)}

@@ -21,8 +21,12 @@
   overflow-y: visible;
 }
 
-.direct-chat-other-info-avatar {
+.direct-chat-other-info-avatar-img-wrapper {
   position: absolute;
+}
+
+.direct-chat-other-info-avatar-img,
+.direct-chat-other-info-avatar-color {
   top: -2.25rem;
   width: 4.5rem;
   height: 4.5rem;
@@ -36,6 +40,14 @@
   color: white;
   box-shadow: 0 0 0 5px #2f3136;
   z-index: 1;
+}
+
+.direct-chat-other-info-avatar-img {
+  object-fit: cover;
+}
+
+.direct-chat-other-info-avatar-color {
+  position: absolute;
 }
 
 .direct-chat-other-info-online-dot,
@@ -190,8 +202,12 @@
   margin: 0.75rem 0;
 }
 
-.mutual-friend-user-avatar {
+.mutual-friend-user-avatar-img-wrapper {
   position: relative;
+}
+
+.mutual-friend-user-avatar-img,
+.mutual-friend-user-avatar-color {
   width: 2.75rem;
   height: 2.75rem;
   font-size: 1.25rem;
@@ -202,6 +218,14 @@
   justify-content: center;
   font-weight: bold;
   color: white;
+}
+
+.mutual-friend-user-avatar-img {
+  object-fit: cover;
+}
+
+.mutual-friend-user-avatar-color {
+  position: relative;
 }
 
 .mutual-friend-user-online-dot,

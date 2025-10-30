@@ -45,9 +45,9 @@ const DirectChatPanel = ({
 
       <div className={classes["direct-chat-other-info"]}>
         {chatInfo.avatarImageUrl ? (
-          <>
+          <div className={classes["direct-chat-other-info-avatar-img-wrapper"]}>
             <img
-              className={classes["direct-chat-other-info-avatar"]}
+              className={classes["direct-chat-other-info-avatar-img"]}
               src={chatInfo.avatarImageUrl}
             />
             <div
@@ -57,10 +57,10 @@ const DirectChatPanel = ({
                   : classes["direct-chat-other-info-offline-dot"]
               }
             />
-          </>
+          </div>
         ) : (
           <div
-            className={classes["direct-chat-other-info-avatar"]}
+            className={classes["direct-chat-other-info-avatar-color"]}
             style={{ backgroundColor: chatInfo.avatarColor }}
           >
             {chatInfo.nickname?.charAt(0)}
@@ -177,9 +177,13 @@ const DirectChatPanel = ({
                   >
                     <div>
                       {mutualFriendUser.avatarImageUrl ? (
-                        <>
+                        <div
+                          className={
+                            classes["mutual-friend-user-avatar-img-wrapper"]
+                          }
+                        >
                           <img
-                            className={classes["mutual-friend-user-avatar"]}
+                            className={classes["mutual-friend-user-avatar-img"]}
                             src={mutualFriendUser.avatarImageUrl}
                           />
                           <div
@@ -189,10 +193,10 @@ const DirectChatPanel = ({
                                 : classes["mutual-friend-user-offline-dot"]
                             }
                           />
-                        </>
+                        </div>
                       ) : (
                         <div
-                          className={classes["mutual-friend-user-avatar"]}
+                          className={classes["mutual-friend-user-avatar-color"]}
                           style={{
                             backgroundColor: mutualFriendUser.avatarColor,
                           }}

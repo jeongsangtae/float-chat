@@ -100,11 +100,6 @@ const Chat = ({
               style={{ backgroundColor: avatarColor || "#ccc" }}
             >
               {nickname.charAt(0)}
-              {/* <div
-            className={
-              onlineChecked ? classes["online-dot"] : classes["offline-dot"]
-            }
-          /> */}
             </div>
           )}
           <div className={classes["chat-content"]}>

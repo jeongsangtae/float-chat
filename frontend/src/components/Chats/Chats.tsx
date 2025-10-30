@@ -258,12 +258,6 @@ const Chats = ({ roomId, type, chatInfo }: ChatsProps) => {
                 {chatInfo.nickname?.charAt(0)}
               </div>
             )}
-            {/* <div
-              className={classes.avatar}
-              style={{ backgroundColor: chatInfo.avatarColor }}
-            >
-              {chatInfo.nickname?.charAt(0)}
-            </div> */}
             <h1 className={classes.nickname}>{chatInfo.nickname}</h1>
             <div>
               {chatInfo.nickname}님과 나눈 다이렉트 채팅방 첫 부분이에요.

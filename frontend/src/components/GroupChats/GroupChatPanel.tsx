@@ -122,11 +122,6 @@ const GroupChatPanel = ({
             style={{ backgroundColor: hostAvatarColor }}
           >
             {hostNickname?.charAt(0)}
-            {/* <div
-            className={
-              onlineChecked ? classes["online-dot"] : classes["offline-dot"]
-            }
-          /> */}
           </div>
         )}
 
