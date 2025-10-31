@@ -50,6 +50,7 @@ export interface MutualFriendUser {
   avatarColor: string;
   avatarImageUrl: string;
   roomId: string;
+  onlineChecked: boolean;
 }
 
 export interface DirectChatPanelProps {

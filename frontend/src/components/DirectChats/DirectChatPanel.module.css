@@ -21,7 +21,8 @@
   overflow-y: visible;
 }
 
-.direct-chat-other-info-avatar-img-wrapper {
+.direct-chat-other-info-avatar-img-wrapper,
+.direct-chat-other-info-avatar-color {
   position: absolute;
 }
 
@@ -44,10 +45,6 @@
 
 .direct-chat-other-info-avatar-img {
   object-fit: cover;
-}
-
-.direct-chat-other-info-avatar-color {
-  position: absolute;
 }
 
 .direct-chat-other-info-online-dot,
@@ -202,7 +199,8 @@
   margin: 0.75rem 0;
 }
 
-.mutual-friend-user-avatar-img-wrapper {
+.mutual-friend-user-avatar-img-wrapper,
+.mutual-friend-user-avatar-color {
   position: relative;
 }
 
@@ -222,10 +220,6 @@
 
 .mutual-friend-user-avatar-img {
   object-fit: cover;
-}
-
-.mutual-friend-user-avatar-color {
-  position: relative;
 }
 
 .mutual-friend-user-online-dot,

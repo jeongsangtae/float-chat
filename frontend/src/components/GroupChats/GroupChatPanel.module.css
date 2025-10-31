@@ -233,7 +233,8 @@
   flex: 1;
 }
 
-.group-chat-user-avatar-img-wrapper {
+.group-chat-user-avatar-img-wrapper,
+.group-chat-user-avatar-color {
   position: relative;
 }
 
@@ -251,10 +252,6 @@
 
 .group-chat-user-avatar-img {
   object-fit: cover;
-}
-
-.group-chat-user-avatar-color {
-  position: relative;
 }
 
 .online-dot,

@@ -188,7 +188,7 @@ const DirectChatPanel = ({
                           />
                           <div
                             className={
-                              onlineChecked
+                              mutualFriendUser.onlineChecked
                                 ? classes["mutual-friend-user-online-dot"]
                                 : classes["mutual-friend-user-offline-dot"]
                             }
@@ -204,7 +204,7 @@ const DirectChatPanel = ({
                           {mutualFriendUser.nickname.charAt(0)}
                           <div
                             className={
-                              onlineChecked
+                              mutualFriendUser.onlineChecked
                                 ? classes["mutual-friend-user-online-dot"]
                                 : classes["mutual-friend-user-offline-dot"]
                             }

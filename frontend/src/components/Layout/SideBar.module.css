@@ -202,7 +202,8 @@
   gap: 0.5rem;
 }
 
-.avatar-img-wrapper {
+.avatar-img-wrapper,
+.avatar-color {
   position: relative;
 }
 
@@ -220,10 +221,6 @@
 
 .avatar-img {
   object-fit: cover;
-}
-
-.avatar-color {
-  position: relative;
 }
 
 .online-dot,

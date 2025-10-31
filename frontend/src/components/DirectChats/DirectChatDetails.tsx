@@ -116,6 +116,14 @@ const DirectChatDetails = () => {
           ? mutualFriend.receiver
           : mutualFriend.requester;
 
+      const mutualFriendOnlineChecked = onlineFriends.some((onlineFriend) => {
+        const targetId =
+          onlineFriend.requester.id === userInfo?._id
+            ? onlineFriend.receiver.id
+            : onlineFriend.requester.id;
+        return targetId === mutualFriendInfo.id;
+      });
+
       // "나"와 함께 아는 친구 사이의 1:1 다이렉트 채팅방 찾기
       const directChat = directChats.find((directChat) => {
         const hasUserInfo = directChat.participants.some((participant) => {
@@ -129,15 +137,16 @@ const DirectChatDetails = () => {
         return hasUserInfo && hasFriend;
       });
 
-      // 함께 아는 친구 정보 + roomId 반환
+      // 함께 아는 친구 정보 + roomId + 온라인 유무 반환
       return {
         ...mutualFriendInfo,
         roomId: directChat?._id ?? "",
+        onlineChecked: mutualFriendOnlineChecked,
       };
     });
-  }, [mutualFriends, directChats, userInfo?._id]);
+  }, [mutualFriends, directChats, onlineFriends, userInfo?._id]);
 
-  console.log(onlineChecked);
+  // console.log(onlineChecked);
 
   return (
     <div className={classes["direct-chat-detail-wrapper"]}>
