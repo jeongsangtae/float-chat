@@ -6,6 +6,8 @@ import useModalStore from "../../store/modalStore";
 import { ModalProps } from "../../types";
 import Modal from "../UI/Modal";
 
+import { Palette, Image } from "lucide-react";
+
 import classes from "./EditUserProfileForm.module.css";
 
 const EditUserProfileForm = ({ onToggle }: ModalProps) => {
@@ -149,26 +151,49 @@ const EditUserProfileForm = ({ onToggle }: ModalProps) => {
 
         <div>
           <div className={classes["avatar-header"]}>
-            <div className={classes["avatar-color-edit-title"]}>
+            <div className={classes["avatar-edit-title"]}>
               {avatarMode ? "아바타 이미지" : "아바타 색"}
             </div>
-            <button type="button" onClick={avatarModeChangeHandler}>
-              {avatarMode ? "아바타 색" : "아바타 이미지"}
+            <button
+              className={classes["avatar-mode-button"]}
+              type="button"
+              onClick={avatarModeChangeHandler}
+            >
+              {avatarMode ? (
+                <>
+                  <span className={classes.icon}>
+                    <Palette />
+                  </span>
+                  아바타 색
+                </>
+              ) : (
+                <>
+                  <span className={classes.icon}>
+                    <Image />
+                  </span>
+                  아바타 이미지
+                </>
+              )}
             </button>
           </div>
           {avatarMode ? (
-            <div>
-              <div className={classes["avatar-image-preview"]}>
+            <div className={classes["avatar-img-preview-wrapper"]}>
+              <div className={classes["avatar-img-preview"]}>
                 <img src={avatarImageUrl} />
               </div>
               <input
+                className={classes["avatar-img-url-input"]}
                 required
                 type="url"
                 value={avatarImageUrl}
                 onChange={avatarImageUrlChangeHandler}
                 placeholder="이미지 URL을 입력하세요"
               />
-              <button type="button" onClick={avatarImageUrlResetHandler}>
+              <button
+                className={classes["avatar-img-reset-button"]}
+                type="button"
+                onClick={avatarImageUrlResetHandler}
+              >
                 초기화
               </button>
             </div>

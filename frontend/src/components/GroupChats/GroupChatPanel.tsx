@@ -210,7 +210,9 @@ const GroupChatPanel = ({
                 </div>
               ) : (
                 <div
-                  className={classes["group-chat-user-avatar-color"]}
+                  className={`${classes["group-chat-user-avatar-color"]} ${
+                    displayedUser.onlineChecked ? "" : classes.offline
+                  }`}
                   style={{
                     backgroundColor: displayedUser.avatarColor,
                   }}
@@ -226,7 +228,11 @@ const GroupChatPanel = ({
                 </div>
               )}
 
-              <div className={classes["group-chat-user-nickname-wrapper"]}>
+              <div
+                className={`${classes["group-chat-user-nickname-wrapper"]} ${
+                  displayedUser.onlineChecked ? "" : classes.offline
+                }`}
+              >
                 <span className={classes["group-chat-user-nickname"]}>
                   {displayedUser.nickname}
                 </span>

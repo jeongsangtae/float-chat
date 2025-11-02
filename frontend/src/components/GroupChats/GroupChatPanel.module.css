@@ -270,6 +270,10 @@
   background-color: gray;
 }
 
+.offline {
+  opacity: 0.3;
+}
+
 .group-chat-user-nickname-wrapper {
   display: flex;
   align-items: center;
