@@ -7,6 +7,7 @@ import { ModalProps } from "../../types";
 import Modal from "../UI/Modal";
 
 import { Palette, Image } from "lucide-react";
+import { IoClose } from "react-icons/io5";
 
 import classes from "./EditUserProfileForm.module.css";
 
@@ -179,23 +180,34 @@ const EditUserProfileForm = ({ onToggle }: ModalProps) => {
           {avatarMode ? (
             <div className={classes["avatar-img-preview-wrapper"]}>
               <div className={classes["avatar-img-preview"]}>
-                <img src={avatarImageUrl} />
+                {avatarImageUrl ? (
+                  <img src={avatarImageUrl} />
+                ) : (
+                  <div
+                    className={classes["avatar-color-preview"]}
+                    style={{ backgroundColor: userInfo?.avatarColor || "#ccc" }}
+                  >
+                    {userInfo?.nickname.charAt(0)}
+                  </div>
+                )}
               </div>
-              <input
-                className={classes["avatar-img-url-input"]}
-                required
-                type="url"
-                value={avatarImageUrl}
-                onChange={avatarImageUrlChangeHandler}
-                placeholder="이미지 URL을 입력하세요"
-              />
-              <button
-                className={classes["avatar-img-reset-button"]}
-                type="button"
-                onClick={avatarImageUrlResetHandler}
-              >
-                초기화
-              </button>
+              <div className={classes["avatar-img-url-input-wrapper"]}>
+                <input
+                  className={classes["avatar-img-url-input"]}
+                  required
+                  type="url"
+                  value={avatarImageUrl}
+                  onChange={avatarImageUrlChangeHandler}
+                  placeholder="이미지 URL을 입력하세요"
+                />
+                {avatarImageUrl.length > 0 && (
+                  <IoClose
+                    className={classes["avatar-img-reset-button"]}
+                    type="button"
+                    onClick={avatarImageUrlResetHandler}
+                  />
+                )}
+              </div>
             </div>
           ) : (
             <div className={classes["avatar-color-list"]}>
