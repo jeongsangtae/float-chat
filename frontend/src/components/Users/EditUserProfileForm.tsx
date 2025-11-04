@@ -47,6 +47,7 @@ const EditUserProfileForm = ({ onToggle }: ModalProps) => {
     modalData.avatarImageUrl ?? ""
   );
 
+  const [imageError, setImageError] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string>("");
 
   const trimmedNickname = nickname.trim();
@@ -73,6 +74,7 @@ const EditUserProfileForm = ({ onToggle }: ModalProps) => {
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     setAvatarImageUrl(event.target.value);
+    setImageError(false);
   };
 
   const avatarImageUrlResetHandler = () => {
@@ -180,8 +182,11 @@ const EditUserProfileForm = ({ onToggle }: ModalProps) => {
           {avatarMode ? (
             <div className={classes["avatar-img-preview-wrapper"]}>
               <div className={classes["avatar-img-preview"]}>
-                {avatarImageUrl ? (
-                  <img src={avatarImageUrl} />
+                {avatarImageUrl && !imageError ? (
+                  <img
+                    onError={() => setImageError(true)}
+                    src={avatarImageUrl}
+                  />
                 ) : (
                   <div
                     className={classes["avatar-color-preview"]}
