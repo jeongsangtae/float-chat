@@ -114,6 +114,28 @@ io.on("connection", (socket) => {
       })
       .toArray();
 
+    // 참여한 그룹 채팅방 조회
+    const groupChats = await db
+      .getDb()
+      .collection("groupChats")
+      .find({ users: userId })
+      .toArray();
+
+    console.log("그룹 채팅방 목록: ", groupChats);
+
+    groupChats.forEach((groupChat) => {
+      const participants = groupChat.users;
+      const onlineParticipants = participants.filter((participant) =>
+        onlineUsers.has(participant)
+      );
+
+      console.log("온라인 상태의 참여자 목록: ", onlineParticipants);
+
+      // const onlineParticipantsSocketId = onlineUsers.get(onlineParticipants)
+
+      // io.to(onlineParticipants)
+    });
+
     friends.forEach((friend) => {
       const friendId =
         friend.requester.id.toString() === userId.toString()
@@ -145,7 +167,31 @@ io.on("connection", (socket) => {
   });
 
   // 클라이언트를 특정 방에 참여시킴
-  socket.on("joinRoom", (roomId) => {
+  socket.on("joinRoom", async (roomId) => {
+    // const roomData = await db
+    //   .getDb()
+    //   .collection("groupChats")
+    //   .findOne({ _id: new ObjectId(roomId) });
+
+    // if (!roomData) return;
+
+    // const participants = roomData.users; // 그룹 채팅방에 속한 모든 사용자 조회
+    // const onlineUsers = app.set("onlineUsers");
+
+    // console.log("참여자: ", participants, "온라인 사용자 목록: ", onlineUsers);
+
+    // const onlineParticipants = participants.filter((participant) => {
+    //   console.log(participant);
+    //   return onlineUsers.has(participant);
+    // });
+
+    // console.log(onlineUsers.has(participant));
+    // console.log(onlineParticipants);
+
+    // onlineParticipants.forEach((onlineParticipant) => {
+    //   const onlineParticipantId = onlineParticipant
+    // })
+
     const chatRoomId = `room-${roomId}`;
     socket.join(chatRoomId);
 
@@ -153,6 +199,7 @@ io.on("connection", (socket) => {
     if (!roomUsers.has(chatRoomId)) {
       roomUsers.set(chatRoomId, []); // 방에 해당하는 배열이 없으면 새로 생성
     }
+
     roomUsers.get(chatRoomId).push(socket.id); // 해당 방에 사용자 소켓 ID 추가
 
     console.log(`방 번호: ${chatRoomId} 입장`);
