@@ -123,18 +123,44 @@ io.on("connection", (socket) => {
 
     console.log("그룹 채팅방 목록: ", groupChats);
 
-    groupChats.forEach((groupChat) => {
+    // groupChats.forEach((groupChat) => {
+    for (const groupChat of groupChats) {
+      // 테스트를 위해 추가
+      // socket.join(`room-${groupChat._id}`);
+
       const participants = groupChat.users;
-      const onlineParticipants = participants.filter((participant) =>
+
+      // 온라인 상태의 참여자만 필터링
+      const onlineParticipantIds = participants.filter((participant) =>
         onlineUsers.has(participant)
       );
 
-      console.log("온라인 상태의 참여자 목록: ", onlineParticipants);
+      console.log("온라인 상태의 참여자 목록: ", onlineParticipantIds);
 
-      // const onlineParticipantsSocketId = onlineUsers.get(onlineParticipants)
+      const onlineParticipantInfos = await db
+        .getDb()
+        .collection("users")
+        .find(
+          { _id: { $in: onlineParticipantIds.map((id) => new ObjectId(id)) } },
+          { projection: { password: 0 } }
+        )
+        .toArray();
 
-      // io.to(onlineParticipants)
-    });
+      const onlineParticipantOnlineChecked = onlineParticipantInfos.map(
+        (onlineParticipantInfo) => ({
+          ...onlineParticipantInfo,
+          onlineChecked: true,
+        })
+      );
+
+      // console.log(`room-${groupChat._id}`);
+      // console.log(onlineParticipantOnlineChecked);
+
+      io.to(`room-${groupChat._id}`).emit(
+        "groupChatUpdateOnlineUser",
+        onlineParticipantOnlineChecked
+      );
+    }
 
     friends.forEach((friend) => {
       const friendId =
