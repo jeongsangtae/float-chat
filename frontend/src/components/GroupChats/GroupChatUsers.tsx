@@ -5,6 +5,8 @@ import { GroupChatUsersProps } from "../../types";
 import classes from "./GroupChatUsers.module.css";
 
 const GroupChatUsers = ({ groupChatUsers }: GroupChatUsersProps) => {
+  // console.log(groupChatUsers);
+
   const onlineUsers = groupChatUsers.filter(
     (groupChatUser) => groupChatUser.onlineChecked
   );

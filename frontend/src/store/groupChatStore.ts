@@ -187,24 +187,21 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
 
       socket.off("groupChatUpdateOnlineUser");
 
-      socket.on(
-        "groupChatUpdateOnlineUser",
-        (onlineParticipantOnlineChecked) => {
-          console.log(onlineParticipantOnlineChecked);
-          set((prev) => ({
-            groupChatUsers: prev.groupChatUsers.map((groupChatUser) => {
-              const found = onlineParticipantOnlineChecked.find(
-                (onlineUser) => onlineUser._id === groupChatUser._id
-              );
-              return found
-                ? {
-                    ...groupChatUser,
-                  }
-                : onlineParticipantOnlineChecked;
-            }),
-          }));
-        }
-      );
+      socket.on("groupChatUpdateOnlineUser", ({ groupChatUser }) => {
+        console.log(groupChatUser);
+        // set((prev) => ({
+        //   groupChatUsers: prev.groupChatUsers.map((groupChatUser) => {
+        //     const found = onlineParticipantOnlineChecked.find(
+        //       (onlineUser) => onlineUser._id === groupChatUser._id
+        //     );
+        //     return found
+        //       ? {
+        //           ...groupChatUser,
+        //         }
+        //       : onlineParticipantOnlineChecked;
+        //   }),
+        // }));
+      });
 
       // 기존 이벤트 리스너 제거 후 재등록 (중복 방지)
       socket.off("groupChatUserProfileUpdated");

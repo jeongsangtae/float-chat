@@ -131,35 +131,50 @@ io.on("connection", (socket) => {
       const participants = groupChat.users;
 
       // 온라인 상태의 참여자만 필터링
-      const onlineParticipantIds = participants.filter((participant) =>
-        onlineUsers.has(participant)
+      const onlineParticipantIds = participants.filter(
+        (participant) => participant !== userId && onlineUsers.has(participant)
       );
 
-      console.log("온라인 상태의 참여자 목록: ", onlineParticipantIds);
+      console.log("온라인 상태의 참여자: ", onlineParticipantIds);
 
-      const onlineParticipantInfos = await db
-        .getDb()
-        .collection("users")
-        .find(
-          { _id: { $in: onlineParticipantIds.map((id) => new ObjectId(id)) } },
-          { projection: { password: 0 } }
-        )
-        .toArray();
+      for (const onlineParticipantId of onlineParticipantIds) {
+        const onlineParticipantInfo = await db
+          .getDb()
+          .collection("users")
+          .findOne(
+            { _id: new ObjectId(onlineParticipantId) },
+            { projection: { password: 0 } }
+          );
 
-      const onlineParticipantOnlineChecked = onlineParticipantInfos.map(
-        (onlineParticipantInfo) => ({
-          ...onlineParticipantInfo,
-          onlineChecked: true,
-        })
-      );
+        console.log("온라인 참여자 정보: ", onlineParticipantInfo);
+
+        const onlineParticipantSocketId = onlineUsers.get(onlineParticipantId);
+
+        if (onlineParticipantSocketId) {
+          io.to(onlineParticipantSocketId).emit("groupChatUpdateOnlineUser", {
+            groupChatUser: {
+              ...onlineParticipantInfo,
+              onlineChecked: true,
+            },
+          });
+        }
+
+        // const onlineParticipantOnlineChecked = onlineParticipantInfos.map(
+        //   (onlineParticipantInfo) => ({
+        //     ...onlineParticipantInfo,
+        //     onlineChecked: true,
+        //   })
+        // );
+      }
+      // console.log("온라인 상태의 참여자 목록: ", onlineParticipantIds);
 
       // console.log(`room-${groupChat._id}`);
       // console.log(onlineParticipantOnlineChecked);
 
-      io.to(`room-${groupChat._id}`).emit(
-        "groupChatUpdateOnlineUser",
-        onlineParticipantOnlineChecked
-      );
+      // io.to(`room-${groupChat._id}`).emit(
+      //   "groupChatUpdateOnlineUser",
+      //   onlineParticipantOnlineChecked
+      // );
     }
 
     friends.forEach((friend) => {
