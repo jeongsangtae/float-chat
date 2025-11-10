@@ -103,6 +103,7 @@ io.on("connection", (socket) => {
 
     // let userId = new ObjectId(userId);
 
+    // 친구 목록 조회
     const friends = await db
       .getDb()
       .collection("friends")
@@ -113,69 +114,6 @@ io.on("connection", (socket) => {
         ],
       })
       .toArray();
-
-    // 참여한 그룹 채팅방 조회
-    const groupChats = await db
-      .getDb()
-      .collection("groupChats")
-      .find({ users: userId })
-      .toArray();
-
-    console.log("그룹 채팅방 목록: ", groupChats);
-
-    // groupChats.forEach((groupChat) => {
-    for (const groupChat of groupChats) {
-      // 테스트를 위해 추가
-      // socket.join(`room-${groupChat._id}`);
-
-      const participants = groupChat.users;
-
-      // 온라인 상태의 참여자만 필터링
-      const onlineParticipantIds = participants.filter(
-        (participant) => participant !== userId && onlineUsers.has(participant)
-      );
-
-      console.log("온라인 상태의 참여자: ", onlineParticipantIds);
-
-      for (const onlineParticipantId of onlineParticipantIds) {
-        const onlineParticipantInfo = await db
-          .getDb()
-          .collection("users")
-          .findOne(
-            { _id: new ObjectId(onlineParticipantId) },
-            { projection: { password: 0 } }
-          );
-
-        console.log("온라인 참여자 정보: ", onlineParticipantInfo);
-
-        const onlineParticipantSocketId = onlineUsers.get(onlineParticipantId);
-
-        if (onlineParticipantSocketId) {
-          io.to(onlineParticipantSocketId).emit("groupChatUpdateOnlineUser", {
-            groupChatUser: {
-              ...onlineParticipantInfo,
-              onlineChecked: true,
-            },
-          });
-        }
-
-        // const onlineParticipantOnlineChecked = onlineParticipantInfos.map(
-        //   (onlineParticipantInfo) => ({
-        //     ...onlineParticipantInfo,
-        //     onlineChecked: true,
-        //   })
-        // );
-      }
-      // console.log("온라인 상태의 참여자 목록: ", onlineParticipantIds);
-
-      // console.log(`room-${groupChat._id}`);
-      // console.log(onlineParticipantOnlineChecked);
-
-      // io.to(`room-${groupChat._id}`).emit(
-      //   "groupChatUpdateOnlineUser",
-      //   onlineParticipantOnlineChecked
-      // );
-    }
 
     friends.forEach((friend) => {
       const friendId =
@@ -189,6 +127,47 @@ io.on("connection", (socket) => {
         io.to(friendSocketId).emit("onlineFriend", friend);
       }
     });
+
+    // 참여한 그룹 채팅방 조회
+    const groupChats = await db
+      .getDb()
+      .collection("groupChats")
+      .find({ users: userId })
+      .toArray();
+
+    for (const groupChat of groupChats) {
+      const participants = groupChat.users;
+
+      // 온라인 상태의 참여자만 필터링
+      const onlineParticipantIds = participants.filter(
+        (participant) => participant !== userId && onlineUsers.has(participant)
+      );
+
+      console.log("온라인 상태의 참여자: ", onlineParticipantIds);
+
+      for (const onlineParticipantId of onlineParticipantIds) {
+        const currentUserInfo = await db
+          .getDb()
+          .collection("users")
+          .findOne(
+            { _id: new ObjectId(userId) },
+            { projection: { password: 0 } }
+          );
+
+        console.log("온라인 참여자 정보: ", currentUserInfo);
+
+        const onlineParticipantSocketId = onlineUsers.get(onlineParticipantId);
+
+        if (onlineParticipantSocketId) {
+          io.to(onlineParticipantSocketId).emit("onlineGroupChatUser", {
+            onlineGroupChatUser: {
+              ...currentUserInfo,
+              onlineChecked: true,
+            },
+          });
+        }
+      }
+    }
   });
 
   socket.on("leaveRoom", (roomId) => {
@@ -209,30 +188,6 @@ io.on("connection", (socket) => {
 
   // 클라이언트를 특정 방에 참여시킴
   socket.on("joinRoom", async (roomId) => {
-    // const roomData = await db
-    //   .getDb()
-    //   .collection("groupChats")
-    //   .findOne({ _id: new ObjectId(roomId) });
-
-    // if (!roomData) return;
-
-    // const participants = roomData.users; // 그룹 채팅방에 속한 모든 사용자 조회
-    // const onlineUsers = app.set("onlineUsers");
-
-    // console.log("참여자: ", participants, "온라인 사용자 목록: ", onlineUsers);
-
-    // const onlineParticipants = participants.filter((participant) => {
-    //   console.log(participant);
-    //   return onlineUsers.has(participant);
-    // });
-
-    // console.log(onlineUsers.has(participant));
-    // console.log(onlineParticipants);
-
-    // onlineParticipants.forEach((onlineParticipant) => {
-    //   const onlineParticipantId = onlineParticipant
-    // })
-
     const chatRoomId = `room-${roomId}`;
     socket.join(chatRoomId);
 
@@ -290,6 +245,12 @@ io.on("connection", (socket) => {
             io.to(friendSocketId).emit("offlineFriend", friend);
           }
         });
+
+        // const groupChats = await db.getDb().collection("groupChats").find({users: userId}).toArray()
+
+        // for (const groupChat of groupChats ) {
+
+        // }
       }
     }
   });

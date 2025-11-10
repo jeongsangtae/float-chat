@@ -185,22 +185,20 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
       const socket = useSocketStore.getState().socket;
       if (!socket) return; // 소켓이 없으면 실행 안 함
 
-      socket.off("groupChatUpdateOnlineUser");
+      // 기존 이벤트 리스너 제거 후 재등록 (중복 방지)
+      socket.off("onlineGroupChatUser");
 
-      socket.on("groupChatUpdateOnlineUser", ({ groupChatUser }) => {
-        console.log(groupChatUser);
-        // set((prev) => ({
-        //   groupChatUsers: prev.groupChatUsers.map((groupChatUser) => {
-        //     const found = onlineParticipantOnlineChecked.find(
-        //       (onlineUser) => onlineUser._id === groupChatUser._id
-        //     );
-        //     return found
-        //       ? {
-        //           ...groupChatUser,
-        //         }
-        //       : onlineParticipantOnlineChecked;
-        //   }),
-        // }));
+      // 그룹 채팅방 참여자 중 온라인 상태가 된 사용자를 실시간 반영해 업데이트
+      socket.on("onlineGroupChatUser", ({ onlineGroupChatUser }) => {
+        console.log(onlineGroupChatUser);
+
+        set((prev) => ({
+          groupChatUsers: prev.groupChatUsers.map((groupChatUser) =>
+            groupChatUser._id === onlineGroupChatUser._id
+              ? { ...groupChatUser, onlineChecked: true }
+              : groupChatUser
+          ),
+        }));
       });
 
       // 기존 이벤트 리스너 제거 후 재등록 (중복 방지)
