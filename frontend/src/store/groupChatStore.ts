@@ -201,6 +201,21 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
         }));
       });
 
+      socket.off("offlineGroupChatUser");
+
+      // 그룹 채팅방 참여자 중 온라인 상태가 된 사용자를 실시간 반영해 업데이트
+      socket.on("offlineGroupChatUser", ({ offlineGroupChatUser }) => {
+        console.log(offlineGroupChatUser);
+
+        set((prev) => ({
+          groupChatUsers: prev.groupChatUsers.map((groupChatUser) =>
+            groupChatUser._id === offlineGroupChatUser._id
+              ? { ...groupChatUser, onlineChecked: false }
+              : groupChatUser
+          ),
+        }));
+      });
+
       // 기존 이벤트 리스너 제거 후 재등록 (중복 방지)
       socket.off("groupChatUserProfileUpdated");
 

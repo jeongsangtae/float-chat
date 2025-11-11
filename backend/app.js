@@ -146,22 +146,22 @@ io.on("connection", (socket) => {
       console.log("온라인 상태의 참여자: ", onlineParticipantIds);
 
       for (const onlineParticipantId of onlineParticipantIds) {
-        const currentUserInfo = await db
-          .getDb()
-          .collection("users")
-          .findOne(
-            { _id: new ObjectId(userId) },
-            { projection: { password: 0 } }
-          );
+        // const currentUserInfo = await db
+        //   .getDb()
+        //   .collection("users")
+        //   .findOne(
+        //     { _id: new ObjectId(userId) },
+        //     { projection: { password: 0 } }
+        //   );
 
-        console.log("온라인 참여자 정보: ", currentUserInfo);
+        // console.log("온라인 참여자 정보: ", currentUserInfo);
 
         const onlineParticipantSocketId = onlineUsers.get(onlineParticipantId);
 
         if (onlineParticipantSocketId) {
           io.to(onlineParticipantSocketId).emit("onlineGroupChatUser", {
             onlineGroupChatUser: {
-              ...currentUserInfo,
+              _id: userId,
               onlineChecked: true,
             },
           });
@@ -246,11 +246,34 @@ io.on("connection", (socket) => {
           }
         });
 
-        // const groupChats = await db.getDb().collection("groupChats").find({users: userId}).toArray()
+        const groupChats = await db
+          .getDb()
+          .collection("groupChats")
+          .find({ users: userId })
+          .toArray();
 
-        // for (const groupChat of groupChats ) {
+        for (const groupChat of groupChats) {
+          const participants = groupChat.users;
 
-        // }
+          const onlineParticipantIds = participants.filter(
+            (participant) =>
+              participant !== userId && onlineUsers.has(participant)
+          );
+
+          for (const onlineParticipantId of onlineParticipantIds) {
+            const onlineParticipantSocketId =
+              onlineUsers.get(onlineParticipantId);
+
+            if (onlineParticipantSocketId) {
+              io.to(onlineParticipantSocketId).emit("offlineGroupChatUser", {
+                offlineGroupChatUser: {
+                  _id: userId,
+                  onlineChecked: false,
+                },
+              });
+            }
+          }
+        }
       }
     }
   });
