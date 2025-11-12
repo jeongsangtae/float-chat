@@ -58,6 +58,7 @@ const useFriendStore = create<FriendStore>((set) => ({
       // 기존 이벤트 리스너 제거 후 재등록 (중복 방지)
       socket.off("friendProfileUpdated");
 
+      // 친구가 프로필을 업데이트했을 경우 실시간 반영
       socket.on(
         "friendProfileUpdated",
         ({ userId, newNickname, newAvatarColor, newAvatarImageUrl }) => {
@@ -97,6 +98,7 @@ const useFriendStore = create<FriendStore>((set) => ({
 
       socket.off("onlineFriend");
 
+      // 온라인 상태로 변경된 친구를 실시간 반영해 업데이트
       socket.on("onlineFriend", (onlineFriendData) => {
         set((prev) => ({
           onlineFriends: prev.onlineFriends.some(
@@ -109,6 +111,7 @@ const useFriendStore = create<FriendStore>((set) => ({
 
       socket.off("offlineFriend");
 
+      // 오프라인 상태로 변경된 친구를 실시간 반영해 업데이트
       socket.on("offlineFriend", (offlineFriendData) => {
         set((prev) => ({
           onlineFriends: prev.onlineFriends.filter(

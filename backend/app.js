@@ -99,7 +99,7 @@ io.on("connection", (socket) => {
 
   socket.on("registerUser", async (userId) => {
     onlineUsers.set(userId, socket.id);
-    console.log(`사용자 온라인: ${userId}, ${socket.id}`);
+    // console.log(`사용자 온라인: ${userId}, ${socket.id}`);
 
     // let userId = new ObjectId(userId);
 
@@ -139,23 +139,12 @@ io.on("connection", (socket) => {
       const participants = groupChat.users;
 
       // 온라인 상태의 참여자만 필터링
-      const onlineParticipantIds = participants.filter(
-        (participant) => participant !== userId && onlineUsers.has(participant)
+      const onlineParticipantIds = participants.filter((participant) =>
+        // participant !== userId && onlineUsers.has(participant)
+        onlineUsers.has(participant)
       );
 
-      console.log("온라인 상태의 참여자: ", onlineParticipantIds);
-
       for (const onlineParticipantId of onlineParticipantIds) {
-        // const currentUserInfo = await db
-        //   .getDb()
-        //   .collection("users")
-        //   .findOne(
-        //     { _id: new ObjectId(userId) },
-        //     { projection: { password: 0 } }
-        //   );
-
-        // console.log("온라인 참여자 정보: ", currentUserInfo);
-
         const onlineParticipantSocketId = onlineUsers.get(onlineParticipantId);
 
         if (onlineParticipantSocketId) {
@@ -198,7 +187,7 @@ io.on("connection", (socket) => {
 
     roomUsers.get(chatRoomId).push(socket.id); // 해당 방에 사용자 소켓 ID 추가
 
-    console.log(`방 번호: ${chatRoomId} 입장`);
+    // console.log(`방 번호: ${chatRoomId} 입장`);
   });
 
   // 클라이언트를 특정 방에서 나가게 함 (방장이 방을 삭제하는 것과는 다른 내용)
@@ -255,9 +244,9 @@ io.on("connection", (socket) => {
         for (const groupChat of groupChats) {
           const participants = groupChat.users;
 
-          const onlineParticipantIds = participants.filter(
-            (participant) =>
-              participant !== userId && onlineUsers.has(participant)
+          const onlineParticipantIds = participants.filter((participant) =>
+            // participant !== userId && onlineUsers.has(participant)
+            onlineUsers.has(participant)
           );
 
           for (const onlineParticipantId of onlineParticipantIds) {

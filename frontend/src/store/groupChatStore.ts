@@ -203,7 +203,7 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
 
       socket.off("offlineGroupChatUser");
 
-      // 그룹 채팅방 참여자 중 온라인 상태가 된 사용자를 실시간 반영해 업데이트
+      // 그룹 채팅방 참여자 중 오프라인 상태가 된 사용자를 실시간 반영해 업데이트
       socket.on("offlineGroupChatUser", ({ offlineGroupChatUser }) => {
         console.log(offlineGroupChatUser);
 
