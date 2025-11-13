@@ -8,6 +8,7 @@ import Chat from "./Chat";
 import { ChatsProps } from "../../types";
 import classes from "./Chats.module.css";
 import useAuthStore from "../../store/authStore";
+import Avatar from "../Users/Avatar";
 
 const Chats = ({ roomId, type, chatInfo }: ChatsProps) => {
   const { userInfo } = useAuthStore();
@@ -248,7 +249,15 @@ const Chats = ({ roomId, type, chatInfo }: ChatsProps) => {
         {/* 다이렉트 채팅 시작 안내 */}
         {type === "direct" && (
           <div className={classes["direct-chat-starting"]}>
-            {chatInfo.avatarImageUrl ? (
+            <Avatar
+              nickname={chatInfo.nickname ?? ""}
+              avatarImageUrl={chatInfo.avatarImageUrl}
+              avatarColor={chatInfo.avatarColor}
+              className="direct-chat-starting-avatar"
+              className2={classes["direct-chat-starting-avatar"]}
+            />
+
+            {/* {chatInfo.avatarImageUrl ? (
               <img className={classes.avatar} src={chatInfo.avatarImageUrl} />
             ) : (
               <div
@@ -257,7 +266,7 @@ const Chats = ({ roomId, type, chatInfo }: ChatsProps) => {
               >
                 {chatInfo.nickname?.charAt(0)}
               </div>
-            )}
+            )} */}
             <h1 className={classes.nickname}>{chatInfo.nickname}</h1>
             <div>
               {chatInfo.nickname}님과 나눈 다이렉트 채팅방 첫 부분이에요.

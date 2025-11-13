@@ -1,0 +1,44 @@
+.avatar-img-wrapper,
+.avatar-color {
+  position: relative;
+}
+
+.avatar-img,
+.avatar-color {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 1.2rem;
+  color: white;
+}
+
+.avatar-img {
+  object-fit: cover;
+}
+
+.direct-chat-starting-avatar {
+  width: 4.5rem;
+  height: 4.5rem;
+  font-size: 2.5rem;
+  background-color: #ccc;
+}
+
+.online-dot,
+.offline-dot {
+  position: absolute;
+  width: 0.8rem;
+  height: 0.8rem;
+  bottom: -1px;
+  right: -1px;
+  border-radius: 50%;
+  background-color: #02ac02;
+  border: 2px solid #1e1e1e;
+}
+
+.offline-dot {
+  background-color: gray;
+}

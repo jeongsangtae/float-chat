@@ -1,4 +1,5 @@
 import { ChatMessage } from "../../types";
+import Avatar from "../Users/Avatar";
 
 import classes from "./Chat.module.css";
 
@@ -92,7 +93,12 @@ const Chat = ({
     >
       {showNickname ? (
         <div className={classes["chat-header"]}>
-          {avatarImageUrl ? (
+          <Avatar
+            nickname={nickname}
+            avatarImageUrl={avatarImageUrl}
+            avatarColor={avatarColor}
+          />
+          {/* {avatarImageUrl ? (
             <img className={classes.avatar} src={avatarImageUrl} />
           ) : (
             <div
@@ -101,7 +107,7 @@ const Chat = ({
             >
               {nickname.charAt(0)}
             </div>
-          )}
+          )} */}
           <div className={classes["chat-content"]}>
             <div className={classes["chat-info"]}>
               <span className={classes["chat-nickname"]}>{nickname}</span>
