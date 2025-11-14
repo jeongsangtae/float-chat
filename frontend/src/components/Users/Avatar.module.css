@@ -5,20 +5,30 @@
 
 .avatar-img,
 .avatar-color {
-  width: 2.5rem;
-  height: 2.5rem;
+  width: 2rem;
+  height: 2rem;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: bold;
-  font-size: 1.2rem;
   color: white;
 }
 
 .avatar-img {
   object-fit: cover;
 }
+
+.chat-avatar {
+  width: 2.5rem;
+  height: 2.5rem;
+  font-size: 1.2rem;
+}
+
+/* .friend-avatar {
+  width: 2rem;
+  height: 2rem;
+} */
 
 .direct-chat-starting-avatar {
   width: 4.5rem;

@@ -7,6 +7,7 @@ import useGroupChatStore from "../../store/groupChatStore";
 import useDirectChatStore from "../../store/directChatStore";
 
 import classes from "./OnlineFriend.module.css";
+import Avatar from "../Users/Avatar";
 
 const OnlineFriend = ({
   id,
@@ -55,7 +56,16 @@ const OnlineFriend = ({
         className={classes["online-friend-info"]}
         onClick={directChatHandler}
       >
-        {avatarImageUrl ? (
+        <Avatar
+          nickname={nickname}
+          avatarImageUrl={avatarImageUrl}
+          avatarColor={avatarColor}
+          onlineChecked={onlineChecked}
+          showOnlineDot={true}
+          // extraClass="friend-avatar"
+        />
+
+        {/* {avatarImageUrl ? (
           <div className={classes["avatar-img-wrapper"]}>
             <img className={classes["avatar-img"]} src={avatarImageUrl} />
             <div
@@ -76,7 +86,8 @@ const OnlineFriend = ({
               }
             />
           </div>
-        )}
+        )} */}
+
         <div className={classes["online-friend-nickname"]}>{nickname}</div>
       </div>
       <div className={classes["online-friend-buttons"]}>

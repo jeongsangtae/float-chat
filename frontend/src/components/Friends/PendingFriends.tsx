@@ -1,4 +1,5 @@
 import useFriendStore from "../../store/friendStore";
+import Avatar from "../Users/Avatar";
 
 import classes from "./PendingFriends.module.css";
 
@@ -31,7 +32,14 @@ const PendingFriends = ({
     <>
       <li className={classes["pending-friend-wrapper"]}>
         <div className={classes["pending-friend-info"]}>
-          {avatarImageUrl ? (
+          <Avatar
+            nickname={nickname}
+            avatarImageUrl={avatarImageUrl}
+            avatarColor={avatarColor}
+            // extraClass="friend-avatar"
+          />
+
+          {/* {avatarImageUrl ? (
             <img className={classes.avatar} src={avatarImageUrl} />
           ) : (
             <div
@@ -40,7 +48,7 @@ const PendingFriends = ({
             >
               {nickname.charAt(0)}
             </div>
-          )}
+          )} */}
 
           <div className={classes["pending-friend-nickname"]}>{nickname}</div>
         </div>

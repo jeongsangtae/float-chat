@@ -15,6 +15,7 @@ import EditUserProfileForm from "../Users/EditUserProfileForm";
 
 import classes from "./SideBar.module.css";
 import GroupChatConfirm from "../GroupChats/GroupChatConfirm";
+import Avatar from "../Users/Avatar";
 
 interface SideBarProps {
   onLeaveChatRoom: () => void;
@@ -120,7 +121,16 @@ const SideBar = ({ onLeaveChatRoom }: SideBarProps) => {
       {isLoggedIn && (
         <div className={classes["user-info"]}>
           <div className={classes["user-info-left"]}>
-            {userInfo?.avatarImageUrl ? (
+            <Avatar
+              nickname={userInfo?.nickname ?? ""}
+              avatarImageUrl={userInfo?.avatarImageUrl}
+              avatarColor={userInfo?.avatarColor}
+              onlineChecked={isLoggedIn}
+              showOnlineDot={true}
+              // extraClass="friend-avatar"
+            />
+
+            {/* {userInfo?.avatarImageUrl ? (
               <div className={classes["avatar-img-wrapper"]}>
                 <img
                   className={classes["avatar-img"]}
@@ -144,7 +154,8 @@ const SideBar = ({ onLeaveChatRoom }: SideBarProps) => {
                   }
                 />
               </div>
-            )}
+            )} */}
+
             <p className={classes["user-info-nickname"]}>
               {userInfo?.nickname}
             </p>

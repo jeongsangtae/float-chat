@@ -6,8 +6,8 @@ interface AvatarProps {
   avatarColor?: string;
   onlineChecked?: boolean;
   showOnlineDot?: boolean;
-  className?: string;
-  className2?: string;
+  extraClass?: string;
+  // className2?: string;
 }
 
 const Avatar = ({
@@ -16,10 +16,10 @@ const Avatar = ({
   avatarColor,
   onlineChecked,
   showOnlineDot,
-  className,
-  className2,
-}: AvatarProps) => {
-  console.log(className, className2);
+  extraClass,
+}: // className2,
+AvatarProps) => {
+  console.log(extraClass);
 
   return (
     <>
@@ -28,7 +28,7 @@ const Avatar = ({
           <div className={classes["avatar-img-wrapper"]}>
             <img
               className={`${classes["avatar-img"]} ${
-                classes[`${className}`] ?? ""
+                classes[`${extraClass}`] ?? ""
               }`}
               // className={`${classes["avatar-img"]} ${className ?? ""}`}
               // className={`${classes["avatar-img"]} ${className2 ?? ""}`}
@@ -45,7 +45,7 @@ const Avatar = ({
         ) : (
           <img
             className={`${classes["avatar-img"]} ${
-              classes[`${className}`] ?? ""
+              classes[`${extraClass}`] ?? ""
             }`}
             // className={`${classes["avatar-img"]} ${className ?? ""}`}
             // className={`${classes["avatar-img"]} ${className2 ?? ""}`}
@@ -55,7 +55,7 @@ const Avatar = ({
       ) : (
         <div
           className={`${classes["avatar-color"]} ${
-            classes[`${className}`] ?? ""
+            classes[`${extraClass}`] ?? ""
           }`}
           // className={`${classes["avatar-color"]} ${className ?? ""}`}
           // className={`${classes["avatar-color"]} ${className2 ?? ""}`}

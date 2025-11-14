@@ -97,7 +97,9 @@ const Chat = ({
             nickname={nickname}
             avatarImageUrl={avatarImageUrl}
             avatarColor={avatarColor}
+            extraClass="chat-avatar"
           />
+
           {/* {avatarImageUrl ? (
             <img className={classes.avatar} src={avatarImageUrl} />
           ) : (
@@ -108,6 +110,7 @@ const Chat = ({
               {nickname.charAt(0)}
             </div>
           )} */}
+
           <div className={classes["chat-content"]}>
             <div className={classes["chat-info"]}>
               <span className={classes["chat-nickname"]}>{nickname}</span>
