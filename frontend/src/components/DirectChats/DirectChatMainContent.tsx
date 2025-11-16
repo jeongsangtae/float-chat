@@ -14,8 +14,7 @@ const DirectChatMainContent = ({ children }: ChildrenProps) => {
 
   const { isLoggedIn } = useAuthStore();
 
-  // 함수 이름 변경 필요
-  const friendToggleHandler = (): void => {
+  const toggleHandler = (): void => {
     navigate("/me");
   };
 
@@ -23,7 +22,7 @@ const DirectChatMainContent = ({ children }: ChildrenProps) => {
     <>
       {isLoggedIn ? (
         <div className={classes["direct-chat-full-content"]}>
-          <DirectChatSidebar onFriendToggle={friendToggleHandler} />
+          <DirectChatSidebar onToggle={toggleHandler} />
           <div className={classes["direct-chat-main-content"]}>{children}</div>
         </div>
       ) : (

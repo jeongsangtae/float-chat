@@ -6,6 +6,7 @@ import useSocketStore from "../../store/socketStore";
 
 import { DirectChatProps } from "../../types";
 import classes from "./DirectChat.module.css";
+import Avatar from "../Users/Avatar";
 
 const DirectChat = ({
   _id,
@@ -38,7 +39,15 @@ const DirectChat = ({
       }`}
     >
       <Link to={`${_id}`} className={classes["direct-chat"]}>
-        {otherUserAvatarImageUrl ? (
+        <Avatar
+          nickname={otherUserNickname}
+          avatarImageUrl={otherUserAvatarImageUrl}
+          avatarColor={otherUserAvatarColor}
+          onlineChecked={onlineChecked}
+          showOnlineDot={true}
+        />
+
+        {/* {otherUserAvatarImageUrl ? (
           <div className={classes["avatar-img-wrapper"]}>
             <img
               className={classes["avatar-img"]}
@@ -62,7 +71,7 @@ const DirectChat = ({
               }
             />
           </div>
-        )}
+        )} */}
 
         <div className={classes["direct-chat-nickname"]}>
           {otherUserNickname}

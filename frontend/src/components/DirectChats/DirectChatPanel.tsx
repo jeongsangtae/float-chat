@@ -5,6 +5,7 @@ import { DirectChatPanelProps } from "../../types";
 import { IoIosArrowForward, IoIosArrowDown } from "react-icons/io";
 
 import classes from "./DirectChatPanel.module.css";
+import Avatar from "../Users/Avatar";
 
 const DirectChatPanel = ({
   chatInfo,
@@ -44,6 +45,16 @@ const DirectChatPanel = ({
       )}
 
       <div className={classes["direct-chat-other-info"]}>
+        {/* <Avatar
+          nickname={chatInfo.nickname}
+          avatarImageUrl={chatInfo.avatarImageUrl}
+          avatarColor={chatInfo.avatarColor}
+          onlineChecked={onlineChecked}
+          showOnlineDot={true}
+          extraClass="direct-chat-other-info-avatar"
+          dotClass="direct-chat-other-info-online-check-dot"
+        /> */}
+
         {chatInfo.avatarImageUrl ? (
           <div className={classes["direct-chat-other-info-avatar-img-wrapper"]}>
             <img
@@ -176,7 +187,17 @@ const DirectChatPanel = ({
                     className={classes["mutual-friend-user"]}
                   >
                     <div>
-                      {mutualFriendUser.avatarImageUrl ? (
+                      <Avatar
+                        nickname={mutualFriendUser.nickname}
+                        avatarImageUrl={mutualFriendUser.avatarImageUrl}
+                        avatarColor={mutualFriendUser.avatarColor}
+                        onlineChecked={mutualFriendUser.onlineChecked}
+                        showOnlineDot={true}
+                        extraClass="mutual-friend-user-avatar"
+                        dotClass="mutual-friend-user-online-check-dot"
+                      />
+
+                      {/* {mutualFriendUser.avatarImageUrl ? (
                         <div
                           className={
                             classes["mutual-friend-user-avatar-img-wrapper"]
@@ -210,7 +231,7 @@ const DirectChatPanel = ({
                             }
                           />
                         </div>
-                      )}
+                      )} */}
                     </div>
                     <div className={classes["mutual-friend-user-nickname"]}>
                       {mutualFriendUser.nickname}

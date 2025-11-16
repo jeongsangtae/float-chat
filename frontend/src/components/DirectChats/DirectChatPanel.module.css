@@ -7,8 +7,10 @@
 }
 
 .avatar-header {
-  height: 9rem;
+  height: 7.5rem;
   width: 100%;
+  object-fit: cover;
+  flex-shrink: 0;
 }
 
 .direct-chat-other-info {
@@ -24,11 +26,11 @@
 .direct-chat-other-info-avatar-img-wrapper,
 .direct-chat-other-info-avatar-color {
   position: absolute;
+  top: -2.25rem;
 }
 
 .direct-chat-other-info-avatar-img,
 .direct-chat-other-info-avatar-color {
-  top: -2.25rem;
   width: 4.5rem;
   height: 4.5rem;
   font-size: 2.5rem;

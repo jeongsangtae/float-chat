@@ -9,10 +9,10 @@ import useAuthStore from "../../store/authStore";
 import classes from "./DirectChatSidebar.module.css";
 
 interface DirectChatSidebarProps {
-  onFriendToggle: () => void;
+  onToggle: () => void;
 }
 
-const DirectChatSidebar = ({ onFriendToggle }: DirectChatSidebarProps) => {
+const DirectChatSidebar = ({ onToggle }: DirectChatSidebarProps) => {
   const location = useLocation();
 
   const active = location.pathname === `/me`;
@@ -28,7 +28,7 @@ const DirectChatSidebar = ({ onFriendToggle }: DirectChatSidebarProps) => {
     <div className={classes["sub-sidebar"]}>
       <div
         className={`${classes.friend} ${active ? classes.active : ""}`}
-        onClick={onFriendToggle}
+        onClick={onToggle}
       >
         <div className={classes["friend-left"]}>
           <div className={classes["friend-icon"]}>

@@ -7,6 +7,7 @@ interface AvatarProps {
   onlineChecked?: boolean;
   showOnlineDot?: boolean;
   extraClass?: string;
+  dotClass?: string;
   // className2?: string;
 }
 
@@ -17,6 +18,7 @@ const Avatar = ({
   onlineChecked,
   showOnlineDot,
   extraClass,
+  dotClass,
 }: // className2,
 AvatarProps) => {
   console.log(extraClass);
@@ -37,7 +39,9 @@ AvatarProps) => {
             {showOnlineDot && (
               <div
                 className={
-                  onlineChecked ? classes["online-dot"] : classes["offline-dot"]
+                  onlineChecked
+                    ? `${classes["online-dot"]} ${classes[`${dotClass}`]}`
+                    : `${classes["offline-dot"]} ${classes[`${dotClass}`]}`
                 }
               />
             )}
@@ -65,7 +69,9 @@ AvatarProps) => {
           {showOnlineDot && (
             <div
               className={
-                onlineChecked ? classes["online-dot"] : classes["offline-dot"]
+                onlineChecked
+                  ? `${classes["online-dot"]} ${classes[`${dotClass}`]}`
+                  : `${classes["offline-dot"]} ${classes[`${dotClass}`]}`
               }
             />
           )}
