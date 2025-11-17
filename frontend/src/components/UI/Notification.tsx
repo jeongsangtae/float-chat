@@ -1,4 +1,5 @@
 import useSocketStore from "../../store/socketStore";
+import Avatar from "../Users/Avatar";
 
 import classes from "./Notification.module.css";
 
@@ -9,7 +10,14 @@ const Notification = () => {
     <div className={classes["notification-container"]}>
       {notification.map((notif) => (
         <div key={notif.id} className={classes["notification-item"]}>
-          {notif.avatarImageUrl ? (
+          <Avatar
+            nickname={notif.senderNickname}
+            avatarImageUrl={notif.avatarImageUrl}
+            avatarColor={notif.avatarColor}
+            extraClass="notif-avatar"
+          />
+
+          {/* {notif.avatarImageUrl ? (
             <img className={classes.avatar} src={notif.avatarImageUrl} />
           ) : (
             <div className={classes["notification-avatar"]}>
@@ -20,7 +28,7 @@ const Notification = () => {
                 {notif.senderNickname.charAt(0)}
               </div>
             </div>
-          )}
+          )} */}
 
           <div className={classes["notification-content"]}>
             <div className={classes["notification-nickname"]}>

@@ -19,6 +19,12 @@
   object-fit: cover;
 }
 
+.notif-avatar {
+  width: 3rem;
+  height: 3rem;
+  font-size: 1.2rem;
+}
+
 .chat-avatar {
   width: 2.5rem;
   height: 2.5rem;
@@ -30,11 +36,19 @@
   height: 2rem;
 } */
 
-.direct-chat-starting-avatar {
+.direct-chat-starting-avatar,
+.group-chat-host-info-avatar {
   width: 4.5rem;
   height: 4.5rem;
   font-size: 2.5rem;
   background-color: #ccc;
+}
+
+.group-chat-host-info-avatar {
+  position: absolute;
+  top: -2.25rem;
+  box-shadow: 0 0 0 5px #2f3136;
+  z-index: 1;
 }
 
 .mutual-friend-user-avatar {

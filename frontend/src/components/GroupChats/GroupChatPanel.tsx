@@ -10,6 +10,7 @@ import { IoIosArrowUp, IoIosArrowDown } from "react-icons/io";
 import { Crown, Trash2, SquarePen } from "lucide-react";
 import classes from "./GroupChatPanel.module.css";
 import useModalStore from "../../store/modalStore";
+import Avatar from "../Users/Avatar";
 
 const GroupChatPanel = ({
   groupChatSince,
@@ -114,7 +115,14 @@ const GroupChatPanel = ({
       )}
 
       <div className={classes["group-chat-host-info"]}>
-        {hostAvatarImageUrl ? (
+        <Avatar
+          nickname={hostNickname}
+          avatarImageUrl={hostAvatarImageUrl}
+          avatarColor={hostAvatarColor}
+          extraClass="group-chat-host-info-avatar"
+        />
+
+        {/* {hostAvatarImageUrl ? (
           <img className={classes["avatar-img"]} src={hostAvatarImageUrl} />
         ) : (
           <div
@@ -123,7 +131,7 @@ const GroupChatPanel = ({
           >
             {hostNickname?.charAt(0)}
           </div>
-        )}
+        )} */}
 
         <h3 className={classes.nickname}>{hostNickname}</h3>
 
@@ -194,7 +202,15 @@ const GroupChatPanel = ({
               key={`groupChatUser-${displayedUser._id}`}
               className={classes["group-chat-user"]}
             >
-              {displayedUser.avatarImageUrl ? (
+              <Avatar
+                nickname={displayedUser.nickname}
+                avatarImageUrl={displayedUser.avatarImageUrl}
+                avatarColor={displayedUser.avatarColor}
+                onlineChecked={displayedUser.onlineChecked}
+                showOnlineDot={true}
+              />
+
+              {/* {displayedUser.avatarImageUrl ? (
                 <div className={classes["group-chat-user-avatar-img-wrapper"]}>
                   <img
                     className={classes["group-chat-user-avatar-img"]}
@@ -226,7 +242,7 @@ const GroupChatPanel = ({
                     }
                   />
                 </div>
-              )}
+              )} */}
 
               <div
                 className={`${classes["group-chat-user-nickname-wrapper"]} ${

@@ -3,6 +3,7 @@ import { GroupChatInviteProps } from "../../types";
 import useGroupChatStore from "../../store/groupChatStore";
 
 import classes from "./GroupChatInvite.module.css";
+import Avatar from "../Users/Avatar";
 
 const GroupChatInvite = ({
   roomId,
@@ -22,7 +23,13 @@ const GroupChatInvite = ({
   return (
     <li className={classes["group-chat-invite-wrapper"]}>
       <div className={classes["group-chat-invite-info"]}>
-        {avatarImageUrl ? (
+        <Avatar
+          nickname={nickname}
+          avatarImageUrl={avatarImageUrl}
+          avatarColor={avatarColor}
+        />
+
+        {/* {avatarImageUrl ? (
           <img className={classes.avatar} src={avatarImageUrl} />
         ) : (
           <div
@@ -31,7 +38,7 @@ const GroupChatInvite = ({
           >
             {nickname.charAt(0)}
           </div>
-        )}
+        )} */}
 
         <div className={classes["group-chat-invite-nickname"]}>{nickname}</div>
       </div>

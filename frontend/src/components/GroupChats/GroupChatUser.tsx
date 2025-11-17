@@ -1,4 +1,5 @@
 import { GroupChatUserData } from "../../types";
+import Avatar from "../Users/Avatar";
 
 import classes from "./GroupChatUser.module.css";
 
@@ -13,7 +14,15 @@ const GroupChatUser = ({
 >) => {
   return (
     <div className={classes["group-chat-user"]}>
-      {avatarImageUrl ? (
+      <Avatar
+        nickname={nickname}
+        avatarImageUrl={avatarImageUrl}
+        avatarColor={avatarColor}
+        onlineChecked={onlineChecked}
+        showOnlineDot={true}
+      />
+
+      {/* {avatarImageUrl ? (
         <div className={classes["avatar-img-wrapper"]}>
           <img
             className={`${classes["avatar-img"]} ${
@@ -41,7 +50,7 @@ const GroupChatUser = ({
             }
           />
         </div>
-      )}
+      )} */}
 
       <div
         className={`${classes["group-chat-user-nickname"]} ${

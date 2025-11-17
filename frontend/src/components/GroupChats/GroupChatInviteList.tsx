@@ -6,6 +6,7 @@ import useAuthStore from "../../store/authStore";
 import useGroupChatStore from "../../store/groupChatStore";
 
 import classes from "./GroupChatInviteList.module.css";
+import Avatar from "../Users/Avatar";
 
 const GroupChatInviteList = ({
   groupChatId,
@@ -82,7 +83,13 @@ const GroupChatInviteList = ({
   return (
     <li className={classes["group-chat-invite-item"]}>
       <div className={classes["group-chat-invite-main"]}>
-        {avatarImageUrl ? (
+        <Avatar
+          nickname={requesterNickname}
+          avatarImageUrl={avatarImageUrl}
+          avatarColor={avatarColor}
+        />
+
+        {/* {avatarImageUrl ? (
           <img className={classes.avatar} src={avatarImageUrl} />
         ) : (
           <div
@@ -91,7 +98,7 @@ const GroupChatInviteList = ({
           >
             {requesterNickname.charAt(0)}
           </div>
-        )}
+        )} */}
 
         <div className={classes["group-chat-invite-content"]}>
           <div className={classes["sender-info"]}>
