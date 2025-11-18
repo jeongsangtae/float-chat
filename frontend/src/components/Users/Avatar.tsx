@@ -8,7 +8,6 @@ interface AvatarProps {
   showOnlineDot?: boolean;
   extraClass?: string;
   dotClass?: string;
-  // className2?: string;
 }
 
 const Avatar = ({
@@ -19,10 +18,7 @@ const Avatar = ({
   showOnlineDot,
   extraClass,
   dotClass,
-}: // className2,
-AvatarProps) => {
-  console.log(extraClass);
-
+}: AvatarProps) => {
   return (
     <>
       {avatarImageUrl ? (
@@ -32,8 +28,6 @@ AvatarProps) => {
               className={`${classes["avatar-img"]} ${
                 classes[`${extraClass}`] ?? ""
               }`}
-              // className={`${classes["avatar-img"]} ${className ?? ""}`}
-              // className={`${classes["avatar-img"]} ${className2 ?? ""}`}
               src={avatarImageUrl}
             />
             {showOnlineDot && (
@@ -51,8 +45,6 @@ AvatarProps) => {
             className={`${classes["avatar-img"]} ${
               classes[`${extraClass}`] ?? ""
             }`}
-            // className={`${classes["avatar-img"]} ${className ?? ""}`}
-            // className={`${classes["avatar-img"]} ${className2 ?? ""}`}
             src={avatarImageUrl}
           />
         )
@@ -61,8 +53,6 @@ AvatarProps) => {
           className={`${classes["avatar-color"]} ${
             classes[`${extraClass}`] ?? ""
           }`}
-          // className={`${classes["avatar-color"]} ${className ?? ""}`}
-          // className={`${classes["avatar-color"]} ${className2 ?? ""}`}
           style={{ backgroundColor: avatarColor || "#ccc" }}
         >
           {nickname.charAt(0)}

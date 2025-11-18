@@ -18,7 +18,7 @@
   cursor: pointer;
 }
 
-.avatar-img-wrapper,
+/* .avatar-img-wrapper,
 .avatar-color {
   position: relative;
 }
@@ -53,7 +53,7 @@
 
 .offline-dot {
   background-color: gray;
-}
+} */
 
 .friend-nickname {
   font-size: 1rem;
@@ -63,13 +63,9 @@
 
 .friend-buttons {
   width: 3.75rem;
-  /* width: auto; */
-  /* margin-right: 0.5rem; */
-  /* padding: 0.5rem; */
 }
 
 .friend-delete-button {
-  /* background-color: #929292; */
   background-color: #d9363e;
   color: white;
   border: none;
@@ -81,7 +77,5 @@
 }
 
 .friend-delete-button:hover {
-  /* background-color: #797979; */
-  /* background-color: #ff4d4f; */
   background-color: #c43732;
 }

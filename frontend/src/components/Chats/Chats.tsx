@@ -254,19 +254,7 @@ const Chats = ({ roomId, type, chatInfo }: ChatsProps) => {
               avatarImageUrl={chatInfo.avatarImageUrl}
               avatarColor={chatInfo.avatarColor}
               extraClass="direct-chat-starting-avatar"
-              // className2={classes["direct-chat-starting-avatar"]}
             />
-
-            {/* {chatInfo.avatarImageUrl ? (
-              <img className={classes.avatar} src={chatInfo.avatarImageUrl} />
-            ) : (
-              <div
-                className={classes.avatar}
-                style={{ backgroundColor: chatInfo.avatarColor }}
-              >
-                {chatInfo.nickname?.charAt(0)}
-              </div>
-            )} */}
 
             <h1 className={classes.nickname}>{chatInfo.nickname}</h1>
             <div>

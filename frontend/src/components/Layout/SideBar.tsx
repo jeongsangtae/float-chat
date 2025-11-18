@@ -127,34 +127,7 @@ const SideBar = ({ onLeaveChatRoom }: SideBarProps) => {
               avatarColor={userInfo?.avatarColor}
               onlineChecked={isLoggedIn}
               showOnlineDot={true}
-              // extraClass="friend-avatar"
             />
-
-            {/* {userInfo?.avatarImageUrl ? (
-              <div className={classes["avatar-img-wrapper"]}>
-                <img
-                  className={classes["avatar-img"]}
-                  src={userInfo?.avatarImageUrl}
-                />
-                <div
-                  className={
-                    isLoggedIn ? classes["online-dot"] : classes["offline-dot"]
-                  }
-                />
-              </div>
-            ) : (
-              <div
-                className={classes["avatar-color"]}
-                style={{ backgroundColor: userInfo?.avatarColor || "#ccc" }}
-              >
-                {userInfo?.nickname.charAt(0)}
-                <div
-                  className={
-                    isLoggedIn ? classes["online-dot"] : classes["offline-dot"]
-                  }
-                />
-              </div>
-            )} */}
 
             <p className={classes["user-info-nickname"]}>
               {userInfo?.nickname}

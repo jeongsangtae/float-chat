@@ -33,8 +33,7 @@ const Friend = ({
     await getGroupChatInvites();
   };
 
-  // 함수 이름 변경 필요
-  const directChatHandler = async (): Promise<void> => {
+  const openDirectChatHandler = async (): Promise<void> => {
     if (!id) {
       console.error("id가 정의되지 않았습니다.");
       return;
@@ -47,49 +46,19 @@ const Friend = ({
       avatarImageUrl
     );
 
-    // if (directChatRoomId) {
-    //   navigate(`/me/${directChatRoomId}`);
-    // } else {
-    //   console.error("채팅방 ID를 가져오지 못했습니다.");
-    // }
-
     navigate(`/me/${roomId}`);
   };
 
   return (
     <li className={classes["friend-wrapper"]}>
-      <div className={classes["friend-info"]} onClick={directChatHandler}>
+      <div className={classes["friend-info"]} onClick={openDirectChatHandler}>
         <Avatar
           nickname={nickname}
           avatarImageUrl={avatarImageUrl}
           avatarColor={avatarColor}
           onlineChecked={onlineChecked}
           showOnlineDot={true}
-          // extraClass="friend-avatar"
         />
-
-        {/* {avatarImageUrl ? (
-          <div className={classes["avatar-img-wrapper"]}>
-            <img className={classes["avatar-img"]} src={avatarImageUrl} />
-            <div
-              className={
-                onlineChecked ? classes["online-dot"] : classes["offline-dot"]
-              }
-            />
-          </div>
-        ) : (
-          <div
-            className={classes["avatar-color"]}
-            style={{ backgroundColor: avatarColor || "#ccc" }}
-          >
-            {nickname.charAt(0)}
-            <div
-              className={
-                onlineChecked ? classes["online-dot"] : classes["offline-dot"]
-              }
-            />
-          </div>
-        )} */}
 
         <div className={classes["friend-nickname"]}>{nickname}</div>
       </div>

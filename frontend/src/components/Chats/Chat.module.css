@@ -14,7 +14,7 @@
   margin-bottom: 0.25rem;
 }
 
-.avatar {
+/* .avatar {
   position: relative;
   width: 2.5rem;
   height: 2.5rem;
@@ -25,7 +25,7 @@
   font-weight: bold;
   font-size: 1.2rem;
   color: white;
-}
+} */
 
 .chat-content {
   flex: 1;

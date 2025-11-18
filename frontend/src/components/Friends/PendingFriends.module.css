@@ -18,7 +18,7 @@
   cursor: pointer;
 }
 
-.avatar {
+/* .avatar {
   position: relative;
   width: 2rem;
   height: 2rem;
@@ -28,7 +28,7 @@
   justify-content: center;
   font-weight: bold;
   color: white;
-}
+} */
 
 .pending-friend-nickname {
   font-size: 1rem;
@@ -41,7 +41,6 @@
 }
 
 .pending-friend-buttons {
-  /* width: 3.75rem; */
   width: 7.35rem;
 }
 

@@ -36,19 +36,7 @@ const PendingFriends = ({
             nickname={nickname}
             avatarImageUrl={avatarImageUrl}
             avatarColor={avatarColor}
-            // extraClass="friend-avatar"
           />
-
-          {/* {avatarImageUrl ? (
-            <img className={classes.avatar} src={avatarImageUrl} />
-          ) : (
-            <div
-              className={classes.avatar}
-              style={{ backgroundColor: avatarColor || "#ccc" }}
-            >
-              {nickname.charAt(0)}
-            </div>
-          )} */}
 
           <div className={classes["pending-friend-nickname"]}>{nickname}</div>
         </div>

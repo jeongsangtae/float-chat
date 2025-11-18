@@ -17,19 +17,6 @@ const Notification = () => {
             extraClass="notif-avatar"
           />
 
-          {/* {notif.avatarImageUrl ? (
-            <img className={classes.avatar} src={notif.avatarImageUrl} />
-          ) : (
-            <div className={classes["notification-avatar"]}>
-              <div
-                className={classes.avatar}
-                style={{ backgroundColor: notif.avatarColor }}
-              >
-                {notif.senderNickname.charAt(0)}
-              </div>
-            </div>
-          )} */}
-
           <div className={classes["notification-content"]}>
             <div className={classes["notification-nickname"]}>
               {notif.senderNickname}{" "}

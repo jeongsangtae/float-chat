@@ -100,17 +100,6 @@ const Chat = ({
             extraClass="chat-avatar"
           />
 
-          {/* {avatarImageUrl ? (
-            <img className={classes.avatar} src={avatarImageUrl} />
-          ) : (
-            <div
-              className={classes.avatar}
-              style={{ backgroundColor: avatarColor || "#ccc" }}
-            >
-              {nickname.charAt(0)}
-            </div>
-          )} */}
-
           <div className={classes["chat-content"]}>
             <div className={classes["chat-info"]}>
               <span className={classes["chat-nickname"]}>{nickname}</span>
