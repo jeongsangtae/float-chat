@@ -36,7 +36,7 @@
   background-color: #414147;
 }
 
-.avatar-img-wrapper,
+/* .avatar-img-wrapper,
 .avatar-color {
   position: relative;
 }
@@ -46,7 +46,7 @@
   width: 2rem;
   height: 2rem;
   border-radius: 50%;
-  background-color: #ccc; /* 추후 랜덤 색상으로 변경 */
+  background-color: #ccc;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -72,7 +72,7 @@
 
 .offline-dot {
   background-color: gray;
-}
+} */
 
 .active .direct-chat-nickname {
   color: white;

@@ -45,16 +45,6 @@ const DirectChatPanel = ({
       )}
 
       <div className={classes["direct-chat-other-info"]}>
-        {/* <Avatar
-          nickname={chatInfo.nickname}
-          avatarImageUrl={chatInfo.avatarImageUrl}
-          avatarColor={chatInfo.avatarColor}
-          onlineChecked={onlineChecked}
-          showOnlineDot={true}
-          extraClass="direct-chat-other-info-avatar"
-          dotClass="direct-chat-other-info-online-check-dot"
-        /> */}
-
         {chatInfo.avatarImageUrl ? (
           <div className={classes["direct-chat-other-info-avatar-img-wrapper"]}>
             <img
@@ -186,53 +176,16 @@ const DirectChatPanel = ({
                     to={`/me/${mutualFriendUser.roomId}`}
                     className={classes["mutual-friend-user"]}
                   >
-                    <div>
-                      <Avatar
-                        nickname={mutualFriendUser.nickname}
-                        avatarImageUrl={mutualFriendUser.avatarImageUrl}
-                        avatarColor={mutualFriendUser.avatarColor}
-                        onlineChecked={mutualFriendUser.onlineChecked}
-                        showOnlineDot={true}
-                        extraClass="mutual-friend-user-avatar"
-                        dotClass="mutual-friend-user-online-check-dot"
-                      />
+                    <Avatar
+                      nickname={mutualFriendUser.nickname}
+                      avatarImageUrl={mutualFriendUser.avatarImageUrl}
+                      avatarColor={mutualFriendUser.avatarColor}
+                      onlineChecked={mutualFriendUser.onlineChecked}
+                      showOnlineDot={true}
+                      extraClass="mutual-friend-user-avatar"
+                      dotClass="mutual-friend-user-online-check-dot"
+                    />
 
-                      {/* {mutualFriendUser.avatarImageUrl ? (
-                        <div
-                          className={
-                            classes["mutual-friend-user-avatar-img-wrapper"]
-                          }
-                        >
-                          <img
-                            className={classes["mutual-friend-user-avatar-img"]}
-                            src={mutualFriendUser.avatarImageUrl}
-                          />
-                          <div
-                            className={
-                              mutualFriendUser.onlineChecked
-                                ? classes["mutual-friend-user-online-dot"]
-                                : classes["mutual-friend-user-offline-dot"]
-                            }
-                          />
-                        </div>
-                      ) : (
-                        <div
-                          className={classes["mutual-friend-user-avatar-color"]}
-                          style={{
-                            backgroundColor: mutualFriendUser.avatarColor,
-                          }}
-                        >
-                          {mutualFriendUser.nickname.charAt(0)}
-                          <div
-                            className={
-                              mutualFriendUser.onlineChecked
-                                ? classes["mutual-friend-user-online-dot"]
-                                : classes["mutual-friend-user-offline-dot"]
-                            }
-                          />
-                        </div>
-                      )} */}
-                    </div>
                     <div className={classes["mutual-friend-user-nickname"]}>
                       {mutualFriendUser.nickname}
                     </div>

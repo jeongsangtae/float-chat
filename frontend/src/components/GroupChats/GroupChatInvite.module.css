@@ -22,7 +22,7 @@
   color: white;
 }
 
-.avatar {
+/* .avatar {
   position: relative;
   width: 2rem;
   height: 2rem;
@@ -32,7 +32,7 @@
   justify-content: center;
   font-weight: bold;
   color: white;
-}
+} */
 
 .group-chat-invite-nickname {
   font-size: 1rem;

@@ -29,17 +29,6 @@ const GroupChatInvite = ({
           avatarColor={avatarColor}
         />
 
-        {/* {avatarImageUrl ? (
-          <img className={classes.avatar} src={avatarImageUrl} />
-        ) : (
-          <div
-            className={classes.avatar}
-            style={{ backgroundColor: avatarColor || "#ccc" }}
-          >
-            {nickname.charAt(0)}
-          </div>
-        )} */}
-
         <div className={classes["group-chat-invite-nickname"]}>{nickname}</div>
       </div>
       <div className={classes["group-chat-invite-button-wrapper"]}>

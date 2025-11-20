@@ -47,32 +47,6 @@ const DirectChat = ({
           showOnlineDot={true}
         />
 
-        {/* {otherUserAvatarImageUrl ? (
-          <div className={classes["avatar-img-wrapper"]}>
-            <img
-              className={classes["avatar-img"]}
-              src={otherUserAvatarImageUrl}
-            />
-            <div
-              className={
-                onlineChecked ? classes["online-dot"] : classes["offline-dot"]
-              }
-            />
-          </div>
-        ) : (
-          <div
-            className={classes["avatar-color"]}
-            style={{ backgroundColor: otherUserAvatarColor }}
-          >
-            {otherUserNickname.charAt(0)}
-            <div
-              className={
-                onlineChecked ? classes["online-dot"] : classes["offline-dot"]
-              }
-            />
-          </div>
-        )} */}
-
         <div className={classes["direct-chat-nickname"]}>
           {otherUserNickname}
         </div>

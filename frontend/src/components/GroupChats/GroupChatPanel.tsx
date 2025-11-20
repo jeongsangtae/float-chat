@@ -122,17 +122,6 @@ const GroupChatPanel = ({
           extraClass="group-chat-host-info-avatar"
         />
 
-        {/* {hostAvatarImageUrl ? (
-          <img className={classes["avatar-img"]} src={hostAvatarImageUrl} />
-        ) : (
-          <div
-            className={classes["avatar-color"]}
-            style={{ backgroundColor: hostAvatarColor }}
-          >
-            {hostNickname?.charAt(0)}
-          </div>
-        )} */}
-
         <h3 className={classes.nickname}>{hostNickname}</h3>
 
         <div className={classes["group-chat-announcement-wrapper"]}>
@@ -208,41 +197,8 @@ const GroupChatPanel = ({
                 avatarColor={displayedUser.avatarColor}
                 onlineChecked={displayedUser.onlineChecked}
                 showOnlineDot={true}
+                extraClass={displayedUser.onlineChecked ? "" : "offline"}
               />
-
-              {/* {displayedUser.avatarImageUrl ? (
-                <div className={classes["group-chat-user-avatar-img-wrapper"]}>
-                  <img
-                    className={classes["group-chat-user-avatar-img"]}
-                    src={displayedUser.avatarImageUrl}
-                  />
-                  <div
-                    className={
-                      displayedUser.onlineChecked
-                        ? classes["online-dot"]
-                        : classes["offline-dot"]
-                    }
-                  />
-                </div>
-              ) : (
-                <div
-                  className={`${classes["group-chat-user-avatar-color"]} ${
-                    displayedUser.onlineChecked ? "" : classes.offline
-                  }`}
-                  style={{
-                    backgroundColor: displayedUser.avatarColor,
-                  }}
-                >
-                  {displayedUser.nickname.charAt(0)}
-                  <div
-                    className={
-                      displayedUser.onlineChecked
-                        ? classes["online-dot"]
-                        : classes["offline-dot"]
-                    }
-                  />
-                </div>
-              )} */}
 
               <div
                 className={`${classes["group-chat-user-nickname-wrapper"]} ${

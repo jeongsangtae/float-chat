@@ -89,17 +89,6 @@ const GroupChatInviteList = ({
           avatarColor={avatarColor}
         />
 
-        {/* {avatarImageUrl ? (
-          <img className={classes.avatar} src={avatarImageUrl} />
-        ) : (
-          <div
-            className={classes.avatar}
-            style={{ backgroundColor: avatarColor || "#ccc" }}
-          >
-            {requesterNickname.charAt(0)}
-          </div>
-        )} */}
-
         <div className={classes["group-chat-invite-content"]}>
           <div className={classes["sender-info"]}>
             <div className={classes.nickname}>{requesterNickname}</div>
