@@ -28,6 +28,8 @@ const GroupChatPanel = ({
   const [showGroupChatUsers, setShowGroupChatUsers] = useState(false);
   const [announcementOverflow, setAnnouncementOverflow] = useState(false);
   const [showAnnouncementContent, setShowAnnouncementContent] = useState(false);
+  const [imageError, setImageError] = useState(false);
+
   const announcementRef = useRef<HTMLDivElement | null>(null);
 
   // 온라인과 오프라인 분리
@@ -77,6 +79,10 @@ const GroupChatPanel = ({
     }
   }, [announcement]);
 
+  useEffect(() => {
+    setImageError(false);
+  }, [hostAvatarImageUrl]);
+
   const toggleGroupChatUsersHandler = () => {
     setShowGroupChatUsers(!showGroupChatUsers);
   };
@@ -96,21 +102,20 @@ const GroupChatPanel = ({
     toggleModal("groupChatAnnouncementDelete", "PATCH", {
       groupChatId,
     });
-
-    console.log("클릭됨");
   };
 
   return (
     <div className={classes["group-chat-panel"]}>
-      {hostAvatarImageUrl ? (
+      {hostAvatarImageUrl && !imageError ? (
         <img
           className={classes["avatar-header-img"]}
+          onError={() => setImageError(true)}
           src={hostAvatarImageUrl}
         />
       ) : (
         <div
           className={classes["avatar-header-color"]}
-          style={{ backgroundColor: hostAvatarColor }}
+          style={{ backgroundColor: hostAvatarColor || "#ccc" }}
         ></div>
       )}
 

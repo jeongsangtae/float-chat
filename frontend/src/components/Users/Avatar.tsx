@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import classes from "./Avatar.module.css";
 
 interface AvatarProps {
@@ -19,15 +20,22 @@ const Avatar = ({
   extraClass,
   dotClass,
 }: AvatarProps) => {
+  const [imageError, setImageError] = useState(false);
+
+  useEffect(() => {
+    setImageError(false);
+  }, [avatarImageUrl]);
+
   return (
     <>
-      {avatarImageUrl ? (
+      {avatarImageUrl && !imageError ? (
         showOnlineDot ? (
           <div className={classes["avatar-img-wrapper"]}>
             <img
               className={`${classes["avatar-img"]} ${
                 classes[`${extraClass}`] ?? ""
               }`}
+              onError={() => setImageError(true)}
               src={avatarImageUrl}
             />
             {showOnlineDot && (
@@ -45,6 +53,7 @@ const Avatar = ({
             className={`${classes["avatar-img"]} ${
               classes[`${extraClass}`] ?? ""
             }`}
+            onError={() => setImageError(true)}
             src={avatarImageUrl}
           />
         )

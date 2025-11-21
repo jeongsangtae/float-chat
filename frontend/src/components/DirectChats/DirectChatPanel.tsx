@@ -16,11 +16,16 @@ const DirectChatPanel = ({
 }: DirectChatPanelProps) => {
   const [showMutualGroupChats, setShowMutualGroupChats] = useState(false);
   const [showMutualFriends, setShowMutualFriends] = useState(false);
+  const [imageError, setImageError] = useState(false);
 
   useEffect(() => {
     setShowMutualGroupChats(false);
     setShowMutualFriends(false);
   }, [chatInfo]);
+
+  useEffect(() => {
+    setImageError(false);
+  }, [chatInfo.avatarImageUrl]);
 
   const toggleMutualGroupChatsHandler = () => {
     setShowMutualGroupChats(!showMutualGroupChats);
@@ -32,23 +37,25 @@ const DirectChatPanel = ({
 
   return (
     <div className={classes["direct-chat-panel"]}>
-      {chatInfo.avatarImageUrl ? (
+      {chatInfo.avatarImageUrl && !imageError ? (
         <img
           className={classes["avatar-header"]}
+          onError={() => setImageError(true)}
           src={chatInfo.avatarImageUrl}
         />
       ) : (
         <div
           className={classes["avatar-header"]}
-          style={{ backgroundColor: chatInfo.avatarColor }}
+          style={{ backgroundColor: chatInfo.avatarColor || "#ccc" }}
         ></div>
       )}
 
       <div className={classes["direct-chat-other-info"]}>
-        {chatInfo.avatarImageUrl ? (
+        {chatInfo.avatarImageUrl && !imageError ? (
           <div className={classes["direct-chat-other-info-avatar-img-wrapper"]}>
             <img
               className={classes["direct-chat-other-info-avatar-img"]}
+              onError={() => setImageError(true)}
               src={chatInfo.avatarImageUrl}
             />
             <div
@@ -62,7 +69,7 @@ const DirectChatPanel = ({
         ) : (
           <div
             className={classes["direct-chat-other-info-avatar-color"]}
-            style={{ backgroundColor: chatInfo.avatarColor }}
+            style={{ backgroundColor: chatInfo.avatarColor || "#ccc" }}
           >
             {chatInfo.nickname?.charAt(0)}
             <div
