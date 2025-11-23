@@ -161,6 +161,7 @@ export interface RoomId {
 }
 
 export interface ChatInfo {
+  userId?: string;
   nickname?: string;
   avatarColor?: string;
   avatarImageUrl?: string;

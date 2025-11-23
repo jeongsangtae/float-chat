@@ -21,7 +21,7 @@ const DirectChatPanel = ({
   useEffect(() => {
     setShowMutualGroupChats(false);
     setShowMutualFriends(false);
-  }, [chatInfo]);
+  }, [chatInfo.userId]);
 
   useEffect(() => {
     setImageError(false);

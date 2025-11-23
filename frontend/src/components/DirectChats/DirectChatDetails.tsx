@@ -163,6 +163,7 @@ const DirectChatDetails = () => {
 
       <DirectChatPanel
         chatInfo={{
+          userId: otherUser?._id,
           nickname: otherUser?.nickname,
           avatarColor: otherUser?.avatarColor,
           avatarImageUrl: otherUser?.avatarImageUrl,
