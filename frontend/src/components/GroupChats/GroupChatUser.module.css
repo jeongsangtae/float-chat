@@ -6,6 +6,12 @@
   flex: 1;
 }
 
+.group-chat-user:hover {
+  border-radius: 8px;
+  background-color: #38393f;
+  cursor: pointer;
+}
+
 /* .avatar-img-wrapper,
 .avatar-color {
   position: relative;

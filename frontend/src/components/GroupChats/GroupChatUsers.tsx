@@ -26,6 +26,7 @@ const GroupChatUsers = ({ groupChatUsers }: GroupChatUsersProps) => {
         {onlineUsers.map((onlineUser) => (
           <GroupChatUser
             key={onlineUser._id}
+            _id={onlineUser._id}
             nickname={onlineUser.nickname}
             avatarColor={onlineUser.avatarColor}
             avatarImageUrl={onlineUser.avatarImageUrl}
@@ -44,6 +45,7 @@ const GroupChatUsers = ({ groupChatUsers }: GroupChatUsersProps) => {
         {offlineUsers.map((offlineUser) => (
           <GroupChatUser
             key={offlineUser._id}
+            _id={offlineUser._id}
             nickname={offlineUser.nickname}
             avatarColor={offlineUser.avatarColor}
             avatarImageUrl={offlineUser.avatarImageUrl}

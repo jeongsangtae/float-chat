@@ -1,36 +1,56 @@
+import { useState } from "react";
+
 import { GroupChatUserData } from "../../types";
 import Avatar from "../Users/Avatar";
+import UserProfile from "../Users/UserProfile";
 
 import classes from "./GroupChatUser.module.css";
 
 const GroupChatUser = ({
+  _id,
   nickname,
   avatarColor,
   avatarImageUrl,
   onlineChecked,
-}: Pick<
-  GroupChatUserData,
-  "nickname" | "avatarColor" | "avatarImageUrl" | "onlineChecked"
->) => {
-  return (
-    <div className={classes["group-chat-user"]}>
-      <Avatar
-        nickname={nickname}
-        avatarImageUrl={avatarImageUrl}
-        avatarColor={avatarColor}
-        onlineChecked={onlineChecked}
-        showOnlineDot={true}
-        extraClass={onlineChecked ? "" : "offline"}
-      />
+}: Omit<GroupChatUserData, "email" | "username" | "date">) => {
+  const [toggle, setToggle] = useState<boolean>(false);
 
-      <div
-        className={`${classes["group-chat-user-nickname"]} ${
-          onlineChecked ? "" : classes.offline
-        }`}
-      >
-        {nickname}
+  const userProfileHandler = () => {
+    setToggle(!toggle);
+  };
+
+  return (
+    <>
+      <div className={classes["group-chat-user"]} onClick={userProfileHandler}>
+        <Avatar
+          nickname={nickname}
+          avatarImageUrl={avatarImageUrl}
+          avatarColor={avatarColor}
+          onlineChecked={onlineChecked}
+          showOnlineDot={true}
+          extraClass={onlineChecked ? "" : "offline"}
+        />
+
+        <div
+          className={`${classes["group-chat-user-nickname"]} ${
+            onlineChecked ? "" : classes.offline
+          }`}
+        >
+          {nickname}
+        </div>
       </div>
-    </div>
+      {toggle && (
+        <>
+          <UserProfile
+            userId={_id}
+            nickname={nickname}
+            avatarImageUrl={avatarImageUrl}
+            avatarColor={avatarColor}
+            onlineChecked={onlineChecked}
+          />
+        </>
+      )}
+    </>
   );
 };
 
