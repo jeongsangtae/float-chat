@@ -1,6 +1,7 @@
 import useAuthStore from "../../store/authStore";
 import useFriendStore from "../../store/friendStore";
 import useGroupChatStore from "../../store/groupChatStore";
+import Avatar from "./Avatar";
 import classes from "./UserProfile.module.css";
 
 const UserProfile = ({
@@ -31,14 +32,25 @@ const UserProfile = ({
     <div className={classes["user-profile-wrapper"]}>
       {userInfo?._id === userId ? (
         <>
+          <Avatar
+            nickname={nickname}
+            avatarImageUrl={avatarImageUrl}
+            avatarColor={avatarColor}
+            onlineChecked={onlineChecked}
+            showOnlineDot={true}
+          />
           <div>프로필 편집</div>
         </>
       ) : (
         <>
           <div>{nickname}</div>
-          {/* <img src={avatarImageUrl} /> */}
-          <div>{avatarColor}</div>
-          <div>{onlineChecked}</div>
+          <Avatar
+            nickname={nickname}
+            avatarImageUrl={avatarImageUrl}
+            avatarColor={avatarColor}
+            onlineChecked={onlineChecked}
+            showOnlineDot={true}
+          />
           <div>{mutualGroupChats.length}</div>
         </>
       )}
