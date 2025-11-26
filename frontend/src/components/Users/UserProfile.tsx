@@ -10,6 +10,7 @@ const UserProfile = ({
   avatarImageUrl,
   avatarColor,
   onlineChecked,
+  style,
 }) => {
   // 그룹 채팅방 내의 사용자를 클릭하면 보여지는 내용
 
@@ -29,7 +30,7 @@ const UserProfile = ({
   });
 
   return (
-    <div className={classes["user-profile-wrapper"]}>
+    <div className={classes["user-profile-wrapper"]} style={style}>
       {userInfo?._id === userId ? (
         <>
           <Avatar

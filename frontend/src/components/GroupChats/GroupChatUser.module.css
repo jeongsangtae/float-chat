@@ -27,10 +27,10 @@
   /* color: #b3b3b3; */
 }
 
-.user-profile-tooltip::before {
+/* .user-profile-tooltip::before {
   content: "";
   position: absolute;
-  right: 100%; /* 툴팁의 왼쪽 바깥 */
+  right: 100%;
   top: 50%;
   transform: translateY(-50%);
   width: 0;
@@ -42,9 +42,9 @@
 
 .user-profile-tooltip {
   position: absolute;
-  left: calc(100% + 0.5rem); /* 버튼의 오른쪽 바깥으로 0.5rem 떨어져 위치 */
+  left: calc(100% + 0.5rem);
   top: 50%;
-  transform: translateY(-50%); /* 수직 가운데 정렬 */
+  transform: translateY(-50%);
   background-color: #1abc9c;
   color: #fff;
   padding: 0.65rem 0.5rem;
@@ -56,7 +56,7 @@
   visibility: visible;
   opacity: 1;
   transition: opacity 0.2s ease-in-out;
-}
+} */
 
 /* .user-profile-tooltip {
   position: absolute;

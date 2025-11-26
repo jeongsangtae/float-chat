@@ -1,4 +1,6 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
+
+import { createPortal } from "react-dom";
 
 import { GroupChatUserData } from "../../types";
 import Avatar from "../Users/Avatar";
@@ -14,13 +16,29 @@ const GroupChatUser = ({
   onlineChecked,
 }: Omit<GroupChatUserData, "email" | "username" | "date">) => {
   const [toggle, setToggle] = useState<boolean>(false);
+  const [coords, setCoords] = useState({ top: 0, left: 0 });
+
+  const userRef = useRef(null);
 
   const userProfileHandler = () => {
+    if (!userRef.current) return;
+
+    const rect = userRef.current.getBoundingClientRect();
+
+    setCoords({
+      top: rect.top + rect.height / 2, // 가운데 정렬
+      left: rect.right + 10, // 오른쪽으로 12px 띄움
+    });
+
     setToggle(!toggle);
   };
 
   return (
-    <div className={classes["group-chat-user"]} onClick={userProfileHandler}>
+    <div
+      className={classes["group-chat-user"]}
+      onClick={userProfileHandler}
+      ref={userRef}
+    >
       <Avatar
         nickname={nickname}
         avatarImageUrl={avatarImageUrl}
@@ -37,17 +55,24 @@ const GroupChatUser = ({
       >
         {nickname}
       </div>
-      {toggle && (
-        <div className={classes["user-profile-tooltip"]}>
+      {toggle &&
+        createPortal(
+          // <div className={classes["user-profile-tooltip"]}>
           <UserProfile
             userId={_id}
             nickname={nickname}
             avatarImageUrl={avatarImageUrl}
             avatarColor={avatarColor}
             onlineChecked={onlineChecked}
-          />
-        </div>
-      )}
+            style={{
+              position: "fixed",
+              top: coords.top,
+              left: coords.left,
+            }}
+          />,
+          document.getElementById("user-profile-tooltip-portal")
+          // </div>
+        )}
     </div>
   );
 };
