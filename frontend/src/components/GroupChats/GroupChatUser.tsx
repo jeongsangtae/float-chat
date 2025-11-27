@@ -2,7 +2,7 @@ import { useState, useRef } from "react";
 
 import { createPortal } from "react-dom";
 
-import { GroupChatUserData } from "../../types";
+import { GroupChatUserProps } from "../../types";
 import Avatar from "../Users/Avatar";
 import UserProfile from "../Users/UserProfile";
 
@@ -14,11 +14,15 @@ const GroupChatUser = ({
   avatarColor,
   avatarImageUrl,
   onlineChecked,
-}: Omit<GroupChatUserData, "email" | "username" | "date">) => {
-  const [toggle, setToggle] = useState<boolean>(false);
+  activeUser,
+  onOpenUserProfile,
+}: GroupChatUserProps) => {
+  // const [toggle, setToggle] = useState<boolean>(false);
   const [coords, setCoords] = useState({ top: 0, left: 0 });
 
   const userRef = useRef(null);
+
+  const active = activeUser === _id;
 
   const userProfileHandler = () => {
     if (!userRef.current) return;
@@ -30,7 +34,8 @@ const GroupChatUser = ({
       left: rect.right + 10, // 오른쪽으로 12px 띄움
     });
 
-    setToggle(!toggle);
+    // setToggle(!toggle);
+    onOpenUserProfile(_id);
   };
 
   return (
@@ -55,9 +60,8 @@ const GroupChatUser = ({
       >
         {nickname}
       </div>
-      {toggle &&
+      {active &&
         createPortal(
-          // <div className={classes["user-profile-tooltip"]}>
           <UserProfile
             userId={_id}
             nickname={nickname}
@@ -71,7 +75,6 @@ const GroupChatUser = ({
             }}
           />,
           document.getElementById("user-profile-tooltip-portal")
-          // </div>
         )}
     </div>
   );

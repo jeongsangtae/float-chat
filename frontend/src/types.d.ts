@@ -98,6 +98,16 @@ export interface GroupChatUsersProps {
   groupChatUsers: GroupChatUserData[];
 }
 
+export interface GroupChatUserProps {
+  _id: string;
+  nickname: string;
+  avatarColor: string;
+  avatarImageUrl: string;
+  onlineChecked: boolean;
+  activeUser: string | null;
+  onOpenUserProfile: (userId: string) => void;
+}
+
 export interface GroupChatInvites {
   _id: string;
   roomId: string;

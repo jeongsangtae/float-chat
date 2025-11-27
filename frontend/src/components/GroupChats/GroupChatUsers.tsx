@@ -1,3 +1,5 @@
+import { useState } from "react";
+
 import GroupChatUser from "./GroupChatUser";
 
 import { GroupChatUsersProps } from "../../types";
@@ -7,12 +9,18 @@ import classes from "./GroupChatUsers.module.css";
 const GroupChatUsers = ({ groupChatUsers }: GroupChatUsersProps) => {
   // console.log(groupChatUsers);
 
+  const [activeUser, setActiveUser] = useState<string | null>(null);
+
   const onlineUsers = groupChatUsers.filter(
     (groupChatUser) => groupChatUser.onlineChecked
   );
   const offlineUsers = groupChatUsers.filter(
     (groupChatUser) => !groupChatUser.onlineChecked
   );
+
+  const openUserProfile = (userId: string) => {
+    setActiveUser((prev) => (prev === userId ? null : userId));
+  };
 
   return (
     <>
@@ -31,6 +39,8 @@ const GroupChatUsers = ({ groupChatUsers }: GroupChatUsersProps) => {
             avatarColor={onlineUser.avatarColor}
             avatarImageUrl={onlineUser.avatarImageUrl}
             onlineChecked={onlineUser.onlineChecked}
+            activeUser={activeUser}
+            onOpenUserProfile={openUserProfile}
           />
         ))}
       </div>
@@ -50,6 +60,8 @@ const GroupChatUsers = ({ groupChatUsers }: GroupChatUsersProps) => {
             avatarColor={offlineUser.avatarColor}
             avatarImageUrl={offlineUser.avatarImageUrl}
             onlineChecked={offlineUser.onlineChecked}
+            activeUser={activeUser}
+            onOpenUserProfile={openUserProfile}
           />
         ))}
       </div>
