@@ -17,10 +17,9 @@ const GroupChatUser = ({
   activeUser,
   onOpenUserProfile,
 }: GroupChatUserProps) => {
-  // const [toggle, setToggle] = useState<boolean>(false);
   const [coords, setCoords] = useState({ top: 0, left: 0 });
 
-  const userRef = useRef(null);
+  const userRef = useRef<HTMLDivElement | null>(null);
 
   const active = activeUser === _id;
 
@@ -30,11 +29,10 @@ const GroupChatUser = ({
     const rect = userRef.current.getBoundingClientRect();
 
     setCoords({
-      top: rect.top + rect.height / 2, // 가운데 정렬
-      left: rect.right + 10, // 오른쪽으로 12px 띄움
+      top: rect.top,
+      left: rect.right + 10,
     });
 
-    // setToggle(!toggle);
     onOpenUserProfile(_id);
   };
 
@@ -74,7 +72,7 @@ const GroupChatUser = ({
               left: coords.left,
             }}
           />,
-          document.getElementById("user-profile-tooltip-portal")
+          document.getElementById("user-profile-tooltip-portal")!
         )}
     </div>
   );

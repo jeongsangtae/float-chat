@@ -108,6 +108,21 @@ export interface GroupChatUserProps {
   onOpenUserProfile: (userId: string) => void;
 }
 
+export interface TooltipCoords {
+  position: "fixed";
+  top: number;
+  left: number;
+}
+
+export interface UserProfileProps {
+  userId: string;
+  nickname: string;
+  avatarColor: string;
+  avatarImageUrl: string;
+  onlineChecked: boolean;
+  style: TooltipCoords;
+}
+
 export interface GroupChatInvites {
   _id: string;
   roomId: string;

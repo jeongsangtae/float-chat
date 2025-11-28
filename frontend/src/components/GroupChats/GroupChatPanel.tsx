@@ -1,5 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 
+import { createPortal } from "react-dom";
+
 import GroupChatAnnouncementForm from "./GroupChatAnnouncementForm";
 import GroupChatAnnouncementDeleteConfirm from "./GroupChatAnnouncementDeleteConfirm";
 
@@ -8,9 +10,13 @@ import { GroupChatUserData, GroupChatPanelProps } from "../../types";
 // import { FiEdit } from "react-icons/fi";
 import { IoIosArrowUp, IoIosArrowDown } from "react-icons/io";
 import { Crown, Trash2, SquarePen } from "lucide-react";
-import classes from "./GroupChatPanel.module.css";
+
 import useModalStore from "../../store/modalStore";
+
 import Avatar from "../Users/Avatar";
+import UserProfile from "../Users/UserProfile";
+
+import classes from "./GroupChatPanel.module.css";
 
 const GroupChatPanel = ({
   groupChatSince,
@@ -29,8 +35,13 @@ const GroupChatPanel = ({
   const [announcementOverflow, setAnnouncementOverflow] = useState(false);
   const [showAnnouncementContent, setShowAnnouncementContent] = useState(false);
   const [imageError, setImageError] = useState(false);
+  const [activeUser, setActiveUser] = useState<string | null>(null);
+  const [coords, setCoords] = useState({ top: 0, left: 0 });
 
   const announcementRef = useRef<HTMLDivElement | null>(null);
+  const userRef = useRef<HTMLDivElement | null>(null);
+
+  // const active = activeUser === _id;
 
   // 온라인과 오프라인 분리
   const onlineUsers = groupChatUsers.filter(
@@ -40,6 +51,26 @@ const GroupChatPanel = ({
   const offlineUsers = groupChatUsers.filter(
     (groupChatUser) => !groupChatUser.onlineChecked
   );
+
+  const openUserProfile = (userId: string) => {
+    setActiveUser((prev) => (prev === userId ? null : userId));
+  };
+
+  const userProfileHandler = () => {
+    if (!userRef.current) return;
+
+    const rect = userRef.current.getBoundingClientRect();
+
+    setCoords({
+      top: rect.top,
+      left: rect.left + 10,
+    });
+
+    console.log("클릭 확인");
+    console.log(activeUser);
+
+    openUserProfile(activeUser);
+  };
 
   // 사용자 배열에서 호스트를 최상단으로 정렬하는 내용
   const prioritizeHost = (users: GroupChatUserData[]) => {
@@ -195,6 +226,8 @@ const GroupChatPanel = ({
             <div
               key={`groupChatUser-${displayedUser._id}`}
               className={classes["group-chat-user"]}
+              onClick={userProfileHandler}
+              ref={userRef}
             >
               <Avatar
                 nickname={displayedUser.nickname}
@@ -217,6 +250,23 @@ const GroupChatPanel = ({
                   <Crown className={classes["group-chat-host-user-icon"]} />
                 )}
               </div>
+
+              {activeUser === displayedUser._id &&
+                createPortal(
+                  <UserProfile
+                    userId={displayedUser._id}
+                    nickname={displayedUser.nickname}
+                    avatarImageUrl={displayedUser.avatarImageUrl}
+                    avatarColor={displayedUser.avatarColor}
+                    onlineChecked={displayedUser.onlineChecked}
+                    style={{
+                      position: "fixed",
+                      top: coords.top,
+                      left: coords.left,
+                    }}
+                  />,
+                  document.getElementById("user-profile-tooltip-portal")!
+                )}
             </div>
           ))}
 
