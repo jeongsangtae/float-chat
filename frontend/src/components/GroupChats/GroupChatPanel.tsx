@@ -28,6 +28,7 @@ const GroupChatPanel = ({
   hostAvatarImageUrl,
   announcement,
   groupChatUsers,
+  onOpenUserProfile,
 }: GroupChatPanelProps) => {
   const { activeModal, toggleModal } = useModalStore();
 
@@ -35,8 +36,8 @@ const GroupChatPanel = ({
   const [announcementOverflow, setAnnouncementOverflow] = useState(false);
   const [showAnnouncementContent, setShowAnnouncementContent] = useState(false);
   const [imageError, setImageError] = useState(false);
-  const [activeUser, setActiveUser] = useState<string | null>(null);
-  const [coords, setCoords] = useState({ top: 0, left: 0 });
+  // const [activeUser, setActiveUser] = useState<string | null>(null);
+  // const [coords, setCoords] = useState({ top: 0, left: 0 });
 
   const announcementRef = useRef<HTMLDivElement | null>(null);
   const userRef = useRef<HTMLDivElement | null>(null);
@@ -52,24 +53,38 @@ const GroupChatPanel = ({
     (groupChatUser) => !groupChatUser.onlineChecked
   );
 
-  const openUserProfile = (userId: string) => {
-    setActiveUser((prev) => (prev === userId ? null : userId));
-  };
+  // const openUserProfile = (userId: string) => {
+  //   setActiveUser((prev) => (prev === userId ? null : userId));
+  // };
 
-  const userProfileHandler = () => {
-    if (!userRef.current) return;
+  // const userProfileHandler = () => {
+  //   if (!userRef.current) return;
 
-    const rect = userRef.current.getBoundingClientRect();
+  //   const rect = userRef.current.getBoundingClientRect();
 
-    setCoords({
+  //   setCoords({
+  //     top: rect.top,
+  //     left: rect.left + 10,
+  //   });
+
+  //   console.log("클릭 확인");
+  //   console.log(activeUser);
+
+  //   openUserProfile(activeUser);
+  // };
+
+  const clickUserProfileHandler = (userId: string, event: React.MouseEvent) => {
+    // if (!userRef.current) return;
+
+    const rect = event.currentTarget.getBoundingClientRect();
+    // const rect = userRef.current.getBoundingClientRect();
+
+    onOpenUserProfile(userId, {
       top: rect.top,
-      left: rect.left + 10,
+      left: rect.left,
+      // transform: "translateX(calc(-100% - 10px))",
+      transform: "translateX(-115%)",
     });
-
-    console.log("클릭 확인");
-    console.log(activeUser);
-
-    openUserProfile(activeUser);
   };
 
   // 사용자 배열에서 호스트를 최상단으로 정렬하는 내용
@@ -226,8 +241,10 @@ const GroupChatPanel = ({
             <div
               key={`groupChatUser-${displayedUser._id}`}
               className={classes["group-chat-user"]}
-              onClick={userProfileHandler}
-              ref={userRef}
+              onClick={(event) =>
+                clickUserProfileHandler(displayedUser._id, event)
+              }
+              // ref={userRef}
             >
               <Avatar
                 nickname={displayedUser.nickname}
@@ -251,7 +268,7 @@ const GroupChatPanel = ({
                 )}
               </div>
 
-              {activeUser === displayedUser._id &&
+              {/* {activeUser === displayedUser._id &&
                 createPortal(
                   <UserProfile
                     userId={displayedUser._id}
@@ -266,7 +283,7 @@ const GroupChatPanel = ({
                     }}
                   />,
                   document.getElementById("user-profile-tooltip-portal")!
-                )}
+                )} */}
             </div>
           ))}
 

@@ -6,10 +6,13 @@ import { GroupChatUsersProps } from "../../types";
 
 import classes from "./GroupChatUsers.module.css";
 
-const GroupChatUsers = ({ groupChatUsers }: GroupChatUsersProps) => {
+const GroupChatUsers = ({
+  groupChatUsers,
+  onOpenUserProfile,
+}: GroupChatUsersProps) => {
   // console.log(groupChatUsers);
 
-  const [activeUser, setActiveUser] = useState<string | null>(null);
+  // const [activeUser, setActiveUser] = useState<string | null>(null);
 
   const onlineUsers = groupChatUsers.filter(
     (groupChatUser) => groupChatUser.onlineChecked
@@ -18,9 +21,9 @@ const GroupChatUsers = ({ groupChatUsers }: GroupChatUsersProps) => {
     (groupChatUser) => !groupChatUser.onlineChecked
   );
 
-  const openUserProfile = (userId: string) => {
-    setActiveUser((prev) => (prev === userId ? null : userId));
-  };
+  // const openUserProfile = (userId: string, coors: {top: number; left: number}) => {
+  //   setActiveUser((prev) => (prev === userId ? null : userId));
+  // };
 
   return (
     <>
@@ -39,8 +42,8 @@ const GroupChatUsers = ({ groupChatUsers }: GroupChatUsersProps) => {
             avatarColor={onlineUser.avatarColor}
             avatarImageUrl={onlineUser.avatarImageUrl}
             onlineChecked={onlineUser.onlineChecked}
-            activeUser={activeUser}
-            onOpenUserProfile={openUserProfile}
+            // activeUser={activeUser}
+            onOpenUserProfile={onOpenUserProfile}
           />
         ))}
       </div>
@@ -60,8 +63,8 @@ const GroupChatUsers = ({ groupChatUsers }: GroupChatUsersProps) => {
             avatarColor={offlineUser.avatarColor}
             avatarImageUrl={offlineUser.avatarImageUrl}
             onlineChecked={offlineUser.onlineChecked}
-            activeUser={activeUser}
-            onOpenUserProfile={openUserProfile}
+            // activeUser={activeUser}
+            onOpenUserProfile={onOpenUserProfile}
           />
         ))}
       </div>

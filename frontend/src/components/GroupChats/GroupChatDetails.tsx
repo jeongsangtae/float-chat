@@ -1,5 +1,7 @@
 import { useState, useEffect, useMemo } from "react";
 import { useParams } from "react-router-dom";
+import { createPortal } from "react-dom";
+
 import { IoIosSearch } from "react-icons/io";
 import { IoClose, IoPersonAddSharp } from "react-icons/io5";
 
@@ -11,6 +13,7 @@ import useLayoutStore from "../../store/layoutStore";
 import Modal from "../UI/Modal";
 import Chats from "../Chats/Chats";
 import ChatInput from "../Chats/ChatInput";
+import UserProfile from "../Users/UserProfile";
 import GroupChatInvite from "./GroupChatInvite";
 import GroupChatUsers from "./GroupChatUsers";
 import GroupChatPanel from "./GroupChatPanel";
@@ -28,6 +31,20 @@ const GroupChatDetails = () => {
 
   const [toggle, setToggle] = useState<boolean>(false);
   const [searchTerm, setSearchTerm] = useState<string>("");
+  const [activeUser, setActiveUser] = useState<string | null>(null);
+  const [coords, setCoords] = useState({ top: 0, left: 0, transform: "" });
+
+  const activeUserProfile = groupChatUsers.find(
+    (groupChatUser) => groupChatUser._id === activeUser
+  );
+
+  const openUserProfileHandler = (
+    userId: string,
+    coords: { top: number; left: number; transform?: string }
+  ) => {
+    setActiveUser(userId);
+    setCoords(coords);
+  };
 
   // 이름 변경 필요
   const toggleHandler = (): void => {
@@ -92,7 +109,10 @@ const GroupChatDetails = () => {
 
         <div className={classes.underline}></div>
 
-        <GroupChatUsers groupChatUsers={groupChatUsers} />
+        <GroupChatUsers
+          groupChatUsers={groupChatUsers}
+          onOpenUserProfile={openUserProfileHandler}
+        />
       </div>
 
       {toggle && (
@@ -160,7 +180,26 @@ const GroupChatDetails = () => {
         hostAvatarImageUrl={groupChat?.hostAvatarImageUrl ?? ""}
         announcement={groupChat?.announcement ?? ""}
         groupChatUsers={groupChatUsers}
+        onOpenUserProfile={openUserProfileHandler}
       />
+
+      {activeUserProfile &&
+        createPortal(
+          <UserProfile
+            userId={activeUserProfile._id}
+            nickname={activeUserProfile.nickname}
+            avatarImageUrl={activeUserProfile.avatarImageUrl}
+            avatarColor={activeUserProfile.avatarColor}
+            onlineChecked={activeUserProfile.onlineChecked}
+            style={{
+              position: "fixed",
+              top: coords.top,
+              left: coords.left,
+              transform: coords.transform,
+            }}
+          />,
+          document.getElementById("user-profile-tooltip-portal")!
+        )}
     </div>
   );
 };

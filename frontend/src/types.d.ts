@@ -96,6 +96,10 @@ export interface GroupChatUserData {
 
 export interface GroupChatUsersProps {
   groupChatUsers: GroupChatUserData[];
+  onOpenUserProfile: (
+    userId: string,
+    { top: number, left: number, transform: string }
+  ) => void;
 }
 
 export interface GroupChatUserProps {
@@ -105,13 +109,17 @@ export interface GroupChatUserProps {
   avatarImageUrl: string;
   onlineChecked: boolean;
   activeUser: string | null;
-  onOpenUserProfile: (userId: string) => void;
+  onOpenUserProfile: (
+    userId: string,
+    { top: number, left: number, transform: string }
+  ) => void;
 }
 
 export interface TooltipCoords {
   position: "fixed";
   top: number;
   left: number;
+  transform?: string;
 }
 
 export interface UserProfileProps {

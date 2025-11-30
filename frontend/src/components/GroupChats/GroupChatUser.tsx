@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import React, { useState, useRef } from "react";
 
 import { createPortal } from "react-dom";
 
@@ -14,33 +14,46 @@ const GroupChatUser = ({
   avatarColor,
   avatarImageUrl,
   onlineChecked,
-  activeUser,
   onOpenUserProfile,
 }: GroupChatUserProps) => {
-  const [coords, setCoords] = useState({ top: 0, left: 0 });
+  // const [coords, setCoords] = useState({ top: 0, left: 0 });
 
-  const userRef = useRef<HTMLDivElement | null>(null);
+  // const userRef = useRef<HTMLDivElement | null>(null);
 
-  const active = activeUser === _id;
+  // const active = activeUser === _id;
 
-  const userProfileHandler = () => {
-    if (!userRef.current) return;
+  const clickUserProfileHandler = (event: React.MouseEvent) => {
+    // if (!userRef.current) return;
 
-    const rect = userRef.current.getBoundingClientRect();
+    const rect = event.currentTarget.getBoundingClientRect();
 
-    setCoords({
+    // const rect = userRef.current.getBoundingClientRect();
+
+    onOpenUserProfile(_id, {
       top: rect.top,
       left: rect.right + 10,
+      // transform: "translateX(calc(-100% - 10px))",
     });
-
-    onOpenUserProfile(_id);
   };
+
+  // const userProfileHandler = () => {
+  //   if (!userRef.current) return;
+
+  //   const rect = userRef.current.getBoundingClientRect();
+
+  //   setCoords({
+  //     top: rect.top,
+  //     left: rect.right + 10,
+  //   });
+
+  //   onOpenUserProfile(_id);
+  // };
 
   return (
     <div
       className={classes["group-chat-user"]}
-      onClick={userProfileHandler}
-      ref={userRef}
+      onClick={clickUserProfileHandler}
+      // ref={userRef}
     >
       <Avatar
         nickname={nickname}
@@ -58,7 +71,7 @@ const GroupChatUser = ({
       >
         {nickname}
       </div>
-      {active &&
+      {/* {active &&
         createPortal(
           <UserProfile
             userId={_id}
@@ -73,7 +86,7 @@ const GroupChatUser = ({
             }}
           />,
           document.getElementById("user-profile-tooltip-portal")!
-        )}
+        )} */}
     </div>
   );
 };
