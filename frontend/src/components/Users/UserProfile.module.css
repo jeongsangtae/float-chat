@@ -29,7 +29,7 @@
   transition: opacity 0.2s ease-in-out;
 } */
 
-.user-profile-wrapper::before {
+/* .user-profile-wrapper::before {
   content: "";
   position: absolute;
   right: 100%;
@@ -40,7 +40,7 @@
   border-style: solid;
   border-width: 0.25rem 0.2rem 0.25rem 0;
   border-color: transparent #1abc9c transparent transparent;
-}
+} */
 
 .user-profile-wrapper {
   background: #1abc9c;

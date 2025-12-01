@@ -5,6 +5,8 @@ import { createPortal } from "react-dom";
 import { IoIosSearch } from "react-icons/io";
 import { IoClose, IoPersonAddSharp } from "react-icons/io5";
 
+import { Coords } from "../../types";
+
 import useAuthStore from "../../store/authStore";
 import useGroupChatStore from "../../store/groupChatStore";
 import useFriendStore from "../../store/friendStore";
@@ -32,7 +34,8 @@ const GroupChatDetails = () => {
   const [toggle, setToggle] = useState<boolean>(false);
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [activeUser, setActiveUser] = useState<string | null>(null);
-  const [coords, setCoords] = useState({ top: 0, left: 0, transform: "" });
+  const [coords, setCoords] = useState<Coords | null>(null);
+  const [origin, setOrigin] = useState<"users" | "panel" | null>(null);
 
   const activeUserProfile = groupChatUsers.find(
     (groupChatUser) => groupChatUser._id === activeUser
@@ -40,10 +43,18 @@ const GroupChatDetails = () => {
 
   const openUserProfileHandler = (
     userId: string,
-    coords: { top: number; left: number; transform?: string }
+    coords: Coords,
+    source: "users" | "panel"
   ) => {
+    if (activeUser === userId && origin === source) {
+      setActiveUser(null);
+      setCoords(null);
+      return;
+    }
+
     setActiveUser(userId);
     setCoords(coords);
+    setOrigin(source);
   };
 
   // 이름 변경 필요
@@ -184,6 +195,7 @@ const GroupChatDetails = () => {
       />
 
       {activeUserProfile &&
+        coords &&
         createPortal(
           <UserProfile
             userId={activeUserProfile._id}

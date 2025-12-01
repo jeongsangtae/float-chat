@@ -94,11 +94,25 @@ export interface GroupChatUserData {
   onlineChecked: boolean;
 }
 
+export interface Coords {
+  top: number;
+  left: number;
+  transform?: string;
+}
+
+export interface TooltipCoords {
+  position?: "fixed";
+  top: number;
+  left: number;
+  transform?: string;
+}
+
 export interface GroupChatUsersProps {
   groupChatUsers: GroupChatUserData[];
   onOpenUserProfile: (
     userId: string,
-    { top: number, left: number, transform: string }
+    coords: Coords,
+    source: "users" | "panel"
   ) => void;
 }
 
@@ -108,18 +122,11 @@ export interface GroupChatUserProps {
   avatarColor: string;
   avatarImageUrl: string;
   onlineChecked: boolean;
-  activeUser: string | null;
   onOpenUserProfile: (
     userId: string,
-    { top: number, left: number, transform: string }
+    coords: Coords,
+    source: "users" | "panel"
   ) => void;
-}
-
-export interface TooltipCoords {
-  position: "fixed";
-  top: number;
-  left: number;
-  transform?: string;
 }
 
 export interface UserProfileProps {
@@ -187,6 +194,11 @@ export interface GroupChatPanelProps {
   hostAvatarImageUrl: string;
   announcement?: string;
   groupChatUsers: GroupChatUserData[];
+  onOpenUserProfile: (
+    userId: string,
+    { top: number, left: number, transform: string },
+    source: "users" | "panel"
+  ) => void;
 }
 
 export interface RoomId {

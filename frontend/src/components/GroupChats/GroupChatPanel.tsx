@@ -1,7 +1,5 @@
 import { useState, useEffect, useRef } from "react";
 
-import { createPortal } from "react-dom";
-
 import GroupChatAnnouncementForm from "./GroupChatAnnouncementForm";
 import GroupChatAnnouncementDeleteConfirm from "./GroupChatAnnouncementDeleteConfirm";
 
@@ -14,7 +12,6 @@ import { Crown, Trash2, SquarePen } from "lucide-react";
 import useModalStore from "../../store/modalStore";
 
 import Avatar from "../Users/Avatar";
-import UserProfile from "../Users/UserProfile";
 
 import classes from "./GroupChatPanel.module.css";
 
@@ -36,13 +33,8 @@ const GroupChatPanel = ({
   const [announcementOverflow, setAnnouncementOverflow] = useState(false);
   const [showAnnouncementContent, setShowAnnouncementContent] = useState(false);
   const [imageError, setImageError] = useState(false);
-  // const [activeUser, setActiveUser] = useState<string | null>(null);
-  // const [coords, setCoords] = useState({ top: 0, left: 0 });
 
   const announcementRef = useRef<HTMLDivElement | null>(null);
-  const userRef = useRef<HTMLDivElement | null>(null);
-
-  // const active = activeUser === _id;
 
   // 온라인과 오프라인 분리
   const onlineUsers = groupChatUsers.filter(
@@ -53,38 +45,22 @@ const GroupChatPanel = ({
     (groupChatUser) => !groupChatUser.onlineChecked
   );
 
-  // const openUserProfile = (userId: string) => {
-  //   setActiveUser((prev) => (prev === userId ? null : userId));
-  // };
-
-  // const userProfileHandler = () => {
-  //   if (!userRef.current) return;
-
-  //   const rect = userRef.current.getBoundingClientRect();
-
-  //   setCoords({
-  //     top: rect.top,
-  //     left: rect.left + 10,
-  //   });
-
-  //   console.log("클릭 확인");
-  //   console.log(activeUser);
-
-  //   openUserProfile(activeUser);
-  // };
-
-  const clickUserProfileHandler = (userId: string, event: React.MouseEvent) => {
-    // if (!userRef.current) return;
-
+  const clickUserProfileHandler = (
+    userId: string,
+    event: React.MouseEvent,
+    source: "users" | "panel"
+  ) => {
     const rect = event.currentTarget.getBoundingClientRect();
-    // const rect = userRef.current.getBoundingClientRect();
 
-    onOpenUserProfile(userId, {
-      top: rect.top,
-      left: rect.left,
-      // transform: "translateX(calc(-100% - 10px))",
-      transform: "translateX(-115%)",
-    });
+    onOpenUserProfile(
+      userId,
+      {
+        top: rect.top,
+        left: rect.left,
+        transform: "translateX(-115%)",
+      },
+      source
+    );
   };
 
   // 사용자 배열에서 호스트를 최상단으로 정렬하는 내용
@@ -242,9 +218,8 @@ const GroupChatPanel = ({
               key={`groupChatUser-${displayedUser._id}`}
               className={classes["group-chat-user"]}
               onClick={(event) =>
-                clickUserProfileHandler(displayedUser._id, event)
+                clickUserProfileHandler(displayedUser._id, event, "panel")
               }
-              // ref={userRef}
             >
               <Avatar
                 nickname={displayedUser.nickname}
@@ -267,23 +242,6 @@ const GroupChatPanel = ({
                   <Crown className={classes["group-chat-host-user-icon"]} />
                 )}
               </div>
-
-              {/* {activeUser === displayedUser._id &&
-                createPortal(
-                  <UserProfile
-                    userId={displayedUser._id}
-                    nickname={displayedUser.nickname}
-                    avatarImageUrl={displayedUser.avatarImageUrl}
-                    avatarColor={displayedUser.avatarColor}
-                    onlineChecked={displayedUser.onlineChecked}
-                    style={{
-                      position: "fixed",
-                      top: coords.top,
-                      left: coords.left,
-                    }}
-                  />,
-                  document.getElementById("user-profile-tooltip-portal")!
-                )} */}
             </div>
           ))}
 
