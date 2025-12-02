@@ -52,6 +52,8 @@ const GroupChatPanel = ({
   ) => {
     const rect = event.currentTarget.getBoundingClientRect();
 
+    event.stopPropagation();
+
     onOpenUserProfile(
       userId,
       {

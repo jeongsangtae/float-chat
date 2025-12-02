@@ -14,6 +14,8 @@ const GroupChatUser = ({
   const clickUserProfileHandler = (event: React.MouseEvent) => {
     const rect = event.currentTarget.getBoundingClientRect();
 
+    event.stopPropagation();
+
     onOpenUserProfile(
       _id,
       {

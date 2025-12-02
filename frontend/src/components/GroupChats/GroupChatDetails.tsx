@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import { useParams } from "react-router-dom";
 import { createPortal } from "react-dom";
 
@@ -36,6 +36,8 @@ const GroupChatDetails = () => {
   const [activeUser, setActiveUser] = useState<string | null>(null);
   const [coords, setCoords] = useState<Coords | null>(null);
   const [origin, setOrigin] = useState<"users" | "panel" | null>(null);
+
+  // const userProfileTooltip = useRef(null);
 
   const activeUserProfile = groupChatUsers.find(
     (groupChatUser) => groupChatUser._id === activeUser
@@ -102,8 +104,45 @@ const GroupChatDetails = () => {
       return;
     }
 
+    setActiveUser(null);
+    setCoords(null);
+    setOrigin(null);
+
     getGroupChatUsers(roomId);
   }, [roomId]);
+
+  useEffect(() => {
+    const outsideClickHandler = (event: MouseEvent) => {
+      const userProfileEl = document.getElementById(
+        "user-profile-tooltip-portal"
+      );
+
+      if (!userProfileEl) return;
+
+      // if (
+      //   userProfileTooltip.current &&
+      //   !userProfileTooltip.current.contains(event.target as Node)
+      // ) {
+      //   setActiveUser(null);
+      //   setCoords(null);
+      //   setOrigin(null);
+      // }
+
+      // 사용자 프로필 내부 클릭이면 막기
+      if (userProfileEl.contains(event.target as Node)) return;
+
+      // 사용자 프로필 외부 클릭이면 닫기
+      setActiveUser(null);
+      setCoords(null);
+      setOrigin(null);
+    };
+
+    document.addEventListener("mousedown", outsideClickHandler);
+
+    return () => {
+      document.removeEventListener("mousedown", outsideClickHandler);
+    };
+  }, [activeUser]);
 
   return (
     <div className={classes["group-chat-details"]}>
@@ -198,6 +237,7 @@ const GroupChatDetails = () => {
         coords &&
         createPortal(
           <UserProfile
+            // ref={userProfileTooltip}
             userId={activeUserProfile._id}
             nickname={activeUserProfile.nickname}
             avatarImageUrl={activeUserProfile.avatarImageUrl}
