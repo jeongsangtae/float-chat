@@ -14,7 +14,7 @@ const GroupChatUser = ({
   const clickUserProfileHandler = (event: React.MouseEvent) => {
     const rect = event.currentTarget.getBoundingClientRect();
 
-    event.stopPropagation();
+    // event.stopPropagation();
 
     onOpenUserProfile(
       _id,
@@ -29,7 +29,7 @@ const GroupChatUser = ({
 
   return (
     <div
-      className={classes["group-chat-user"]}
+      className={`${classes["group-chat-user"]} user-profile-trigger`}
       onClick={clickUserProfileHandler}
     >
       <Avatar

@@ -119,6 +119,8 @@ const GroupChatDetails = () => {
 
       if (!userProfileEl) return;
 
+      const target = event.target as HTMLElement;
+
       // if (
       //   userProfileTooltip.current &&
       //   !userProfileTooltip.current.contains(event.target as Node)
@@ -128,8 +130,14 @@ const GroupChatDetails = () => {
       //   setOrigin(null);
       // }
 
+      // 포털 내부 무시
+      if (userProfileEl.contains(target)) return;
+
       // 사용자 프로필 내부 클릭이면 막기
-      if (userProfileEl.contains(event.target as Node)) return;
+      // if (userProfileEl.contains(event.target as Node)) return;
+
+      // 사용자 버튼 내부 무시
+      if (target.closest(".user-profile-trigger")) return;
 
       // 사용자 프로필 외부 클릭이면 닫기
       setActiveUser(null);

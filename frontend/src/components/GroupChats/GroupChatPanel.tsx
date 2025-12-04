@@ -52,7 +52,7 @@ const GroupChatPanel = ({
   ) => {
     const rect = event.currentTarget.getBoundingClientRect();
 
-    event.stopPropagation();
+    // event.stopPropagation();
 
     onOpenUserProfile(
       userId,
@@ -218,7 +218,7 @@ const GroupChatPanel = ({
           {displayedUsers.map((displayedUser) => (
             <div
               key={`groupChatUser-${displayedUser._id}`}
-              className={classes["group-chat-user"]}
+              className={`${classes["group-chat-user"]} user-profile-trigger`}
               onClick={(event) =>
                 clickUserProfileHandler(displayedUser._id, event, "panel")
               }
