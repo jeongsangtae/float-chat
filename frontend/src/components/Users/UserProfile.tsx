@@ -35,30 +35,47 @@ const UserProfile = ({
 
   return (
     <div className={classes["user-profile-wrapper"]} style={style}>
-      {userInfo?._id === userId ? (
-        <>
-          <Avatar
-            nickname={nickname}
-            avatarImageUrl={avatarImageUrl}
-            avatarColor={avatarColor}
-            onlineChecked={onlineChecked}
-            showOnlineDot={true}
-          />
-          <div>프로필 편집</div>
-        </>
+      {avatarImageUrl ? (
+        <img
+          className={classes["user-profile-header-img"]}
+          src={avatarImageUrl}
+        />
       ) : (
-        <>
-          <div>{nickname}</div>
-          <Avatar
-            nickname={nickname}
-            avatarImageUrl={avatarImageUrl}
-            avatarColor={avatarColor}
-            onlineChecked={onlineChecked}
-            showOnlineDot={true}
-          />
-          <div>{mutualGroupChats.length}</div>
-        </>
+        <div
+          className={classes["user-profile-header-color"]}
+          style={{ backgroundColor: avatarColor || "#ccc" }}
+        ></div>
       )}
+
+      <div className={classes["user-profile-info"]}>
+        {userInfo?._id === userId ? (
+          <div>
+            <Avatar
+              nickname={nickname}
+              avatarImageUrl={avatarImageUrl}
+              avatarColor={avatarColor}
+              onlineChecked={onlineChecked}
+              showOnlineDot={true}
+              extraClass="user-profile-info-avatar"
+            />
+            <div>{nickname}</div>
+            <div>프로필 편집</div>
+          </div>
+        ) : (
+          <div>
+            <Avatar
+              nickname={nickname}
+              avatarImageUrl={avatarImageUrl}
+              avatarColor={avatarColor}
+              onlineChecked={onlineChecked}
+              showOnlineDot={true}
+              extraClass="user-profile-info-avatar"
+            />
+            <div>{nickname}</div>
+            <div>{mutualGroupChats.length}</div>
+          </div>
+        )}
+      </div>
     </div>
   );
 };

@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useMemo } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useParams } from "react-router-dom";
 import { createPortal } from "react-dom";
 
@@ -36,8 +36,6 @@ const GroupChatDetails = () => {
   const [activeUser, setActiveUser] = useState<string | null>(null);
   const [coords, setCoords] = useState<Coords | null>(null);
   const [origin, setOrigin] = useState<"users" | "panel" | null>(null);
-
-  // const userProfileTooltip = useRef(null);
 
   const activeUserProfile = groupChatUsers.find(
     (groupChatUser) => groupChatUser._id === activeUser
@@ -121,20 +119,8 @@ const GroupChatDetails = () => {
 
       const target = event.target as HTMLElement;
 
-      // if (
-      //   userProfileTooltip.current &&
-      //   !userProfileTooltip.current.contains(event.target as Node)
-      // ) {
-      //   setActiveUser(null);
-      //   setCoords(null);
-      //   setOrigin(null);
-      // }
-
       // 포털 내부 무시
       if (userProfileEl.contains(target)) return;
-
-      // 사용자 프로필 내부 클릭이면 막기
-      // if (userProfileEl.contains(event.target as Node)) return;
 
       // 사용자 버튼 내부 무시
       if (target.closest(".user-profile-trigger")) return;
@@ -245,7 +231,6 @@ const GroupChatDetails = () => {
         coords &&
         createPortal(
           <UserProfile
-            // ref={userProfileTooltip}
             userId={activeUserProfile._id}
             nickname={activeUserProfile.nickname}
             avatarImageUrl={activeUserProfile.avatarImageUrl}
