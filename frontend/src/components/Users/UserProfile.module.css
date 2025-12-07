@@ -63,7 +63,7 @@
 
 .user-profile-header-img,
 .user-profile-header-color {
-  height: 5rem;
+  height: 4rem;
   width: 100%;
   flex-shrink: 0;
 
@@ -76,14 +76,55 @@
 }
 
 .user-profile-info {
-  display: flex;
-  /* flex-direction: column; */
   position: relative;
+  display: flex;
+  flex-direction: column;
   height: 100%;
   background-color: #43454d;
   padding: 1rem;
   overflow-y: visible;
+  /* border: 1px solid #444; */
   /* border-bottom-right-radius: 8px; */
   /* border-bottom-left-radius: 8px; */
-  border: 1px solid #444;
+}
+
+.user-profile-info-avatar-img-wrapper,
+.user-profile-info-avatar-color {
+  position: absolute;
+  top: -1rem;
+}
+
+.user-profile-info-avatar-img,
+.user-profile-info-avatar-color {
+  width: 2rem;
+  height: 2rem;
+  /* font-size: 2.5rem; */
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  color: white;
+  box-shadow: 0 0 0 3px #2f3136;
+  z-index: 1;
+}
+
+.user-profile-info-avatar-img {
+  object-fit: cover;
+}
+
+.user-profile-info-online-dot,
+.user-profile-info-offline-dot {
+  position: absolute;
+  width: 0.8rem;
+  height: 0.8rem;
+  bottom: -1px;
+  right: -1px;
+  border-radius: 50%;
+  background-color: #02ac02;
+  border: 2px solid #1e1e1e;
+}
+
+.user-profile-info-offline-dot {
+  background-color: gray;
 }

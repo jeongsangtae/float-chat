@@ -49,27 +49,49 @@ const UserProfile = ({
 
       <div className={classes["user-profile-info"]}>
         {userInfo?._id === userId ? (
-          <div>
-            <Avatar
+          <div className={classes["user-profile-info-avatar-img-wrapper"]}>
+            {/* <Avatar
               nickname={nickname}
               avatarImageUrl={avatarImageUrl}
               avatarColor={avatarColor}
               onlineChecked={onlineChecked}
               showOnlineDot={true}
               extraClass="user-profile-info-avatar"
+            /> */}
+            <img
+              className={classes["user-profile-info-avatar-img"]}
+              src={avatarImageUrl}
+            />
+            <div
+              className={
+                onlineChecked
+                  ? classes["user-profile-info-online-dot"]
+                  : classes["user-profile-info-offline-dot"]
+              }
             />
             <div>{nickname}</div>
             <div>프로필 편집</div>
           </div>
         ) : (
-          <div>
-            <Avatar
+          <div
+            className={classes["user-profile-info-avatar-color"]}
+            style={{ backgroundColor: avatarColor || "#ccc" }}
+          >
+            {/* <Avatar
               nickname={nickname}
               avatarImageUrl={avatarImageUrl}
               avatarColor={avatarColor}
               onlineChecked={onlineChecked}
               showOnlineDot={true}
               extraClass="user-profile-info-avatar"
+            /> */}
+            {nickname.charAt(0)}
+            <div
+              className={
+                onlineChecked
+                  ? classes["user-profile-info-online-dot"]
+                  : classes["user-profile-info-offline-dot"]
+              }
             />
             <div>{nickname}</div>
             <div>{mutualGroupChats.length}</div>
