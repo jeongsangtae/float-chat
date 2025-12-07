@@ -3,6 +3,8 @@ import useFriendStore from "../../store/friendStore";
 import useGroupChatStore from "../../store/groupChatStore";
 
 import { UserProfileProps } from "../../types";
+import ChatInput from "../Chats/ChatInput";
+import UserProfileChatInput from "../Chats/UserProfileChatInput";
 
 import Avatar from "./Avatar";
 
@@ -49,8 +51,9 @@ const UserProfile = ({
 
       <div className={classes["user-profile-info"]}>
         {userInfo?._id === userId ? (
-          <div className={classes["user-profile-info-avatar-img-wrapper"]}>
-            {/* <Avatar
+          <>
+            <div className={classes["user-profile-info-avatar-img-wrapper"]}>
+              {/* <Avatar
               nickname={nickname}
               avatarImageUrl={avatarImageUrl}
               avatarColor={avatarColor}
@@ -58,26 +61,30 @@ const UserProfile = ({
               showOnlineDot={true}
               extraClass="user-profile-info-avatar"
             /> */}
-            <img
-              className={classes["user-profile-info-avatar-img"]}
-              src={avatarImageUrl}
-            />
-            <div
-              className={
-                onlineChecked
-                  ? classes["user-profile-info-online-dot"]
-                  : classes["user-profile-info-offline-dot"]
-              }
-            />
-            <div>{nickname}</div>
-            <div>프로필 편집</div>
-          </div>
+              <img
+                className={classes["user-profile-info-avatar-img"]}
+                src={avatarImageUrl}
+              />
+              <div
+                className={
+                  onlineChecked
+                    ? classes["user-profile-info-online-dot"]
+                    : classes["user-profile-info-offline-dot"]
+                }
+              />
+            </div>
+            <div className={classes["user-profile-info-content"]}>
+              <div>{nickname}</div>
+              <button>프로필 편집</button>
+            </div>
+          </>
         ) : (
-          <div
-            className={classes["user-profile-info-avatar-color"]}
-            style={{ backgroundColor: avatarColor || "#ccc" }}
-          >
-            {/* <Avatar
+          <>
+            <div
+              className={classes["user-profile-info-avatar-color"]}
+              style={{ backgroundColor: avatarColor || "#ccc" }}
+            >
+              {/* <Avatar
               nickname={nickname}
               avatarImageUrl={avatarImageUrl}
               avatarColor={avatarColor}
@@ -85,17 +92,24 @@ const UserProfile = ({
               showOnlineDot={true}
               extraClass="user-profile-info-avatar"
             /> */}
-            {nickname.charAt(0)}
-            <div
-              className={
-                onlineChecked
-                  ? classes["user-profile-info-online-dot"]
-                  : classes["user-profile-info-offline-dot"]
-              }
-            />
-            <div>{nickname}</div>
-            <div>{mutualGroupChats.length}</div>
-          </div>
+              {nickname.charAt(0)}
+              <div
+                className={
+                  onlineChecked
+                    ? classes["user-profile-info-online-dot"]
+                    : classes["user-profile-info-offline-dot"]
+                }
+              />
+            </div>
+            <div className={classes["user-profile-info-content"]}>
+              <div>{nickname}</div>
+              <span>같이 아는 친구</span>
+              <span> · </span>
+              <span>같이 있는 그룹 채팅방{mutualGroupChats.length}</span>
+              {/* <ChatInput /> */}
+              <UserProfileChatInput userId={userId} />
+            </div>
+          </>
         )}
       </div>
     </div>

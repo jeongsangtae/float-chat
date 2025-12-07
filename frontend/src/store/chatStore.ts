@@ -151,6 +151,39 @@ const useChatStore = create<ChatStore>((set) => ({
     }
   },
 
+  userProfileDirectSendMessage: async (
+    userId: string,
+    message: string,
+    userInfo: UserInfo
+  ) => {
+    const newMessage = {
+      userId,
+      message,
+      email: userInfo.email,
+      nickname: userInfo.nickname,
+      avatarColor: userInfo.avatarColor,
+      avatarImageUrl: userInfo.avatarImageUrl,
+    };
+
+    try {
+      const response = await fetch(`${apiURL}/directChat/${userId}`, {
+        method: "POST",
+        body: JSON.stringify(newMessage),
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+      });
+
+      if (!response.ok) {
+        throw new Error("다이렉트 메시지 전송 실패");
+      }
+    } catch (error) {
+      console.error("에러 내용:", error);
+      alert(
+        "다이렉트 메시지를 전송하는 데 문제가 발생했습니다. 새로고침 후 다시 시도해 주세요."
+      );
+    }
+  },
+
   saveLastReadMessageId: async (roomId, lastVisibleMessageId) => {
     console.log(roomId, lastVisibleMessageId);
     try {
