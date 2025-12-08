@@ -258,6 +258,7 @@ const useAuthStore = create<AuthStore>((set, get) => ({
     trimmedNickname,
     avatarColor,
     avatarImageUrl,
+    avatarMode,
     modalData,
   }) => {
     try {
@@ -266,6 +267,30 @@ const useAuthStore = create<AuthStore>((set, get) => ({
         ...(avatarImageUrl ? { avatarImageUrl } : { avatarColor }),
         modalData,
       };
+
+      console.log(avatarColor);
+
+      // if (avatarMode && avatarImageUrl) {
+      //   requestBody.avatarImageUrl = avatarImageUrl;
+      // } else if (!avatarMode && avatarColor) {
+      //   requestBody.avatarColor = avatarColor
+      // } else if (!avatarMode && !avatarColor) {
+      //   requestBody.avatarImageUrl = modalData.avatarImageUrl;
+      // }
+
+      if (avatarMode && avatarImageUrl) {
+        console.log("if문 실행");
+        // 이미지 모드 + 이미지 있음 → 이미지 업데이트
+        requestBody.avatarImageUrl = avatarImageUrl;
+      } else if (!avatarMode && avatarColor !== "#ccc") {
+        console.log("else if문 1 실행");
+        // 색 모드 + 실제 색 선택됨 → 색 업데이트
+        requestBody.avatarColor = avatarColor;
+      } else if (!avatarMode && avatarColor === "#ccc") {
+        console.log("else if문 2 실행");
+        // 색 모드인데 색이 없고 (#ccc) → 이미지 유지
+        requestBody.avatarImageUrl = modalData.avatarImageUrl;
+      }
 
       const response = await fetch(`${apiURL}/editUserProfileForm`, {
         method: modalData.method,

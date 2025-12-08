@@ -61,6 +61,11 @@
   overflow: hidden;
 }
 
+.user-profile-info-avatar-wrapper {
+  position: absolute;
+  top: -1.5rem;
+}
+
 .user-profile-header-img,
 .user-profile-header-color {
   height: 6rem;
@@ -80,12 +85,6 @@
   background-color: #43454d;
   padding: 1rem;
   overflow-y: visible;
-}
-
-.user-profile-info-avatar-img-wrapper,
-.user-profile-info-avatar-color {
-  position: absolute;
-  top: -1.5rem;
 }
 
 .user-profile-info-avatar-img,

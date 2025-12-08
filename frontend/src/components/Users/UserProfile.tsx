@@ -1,12 +1,12 @@
 import useAuthStore from "../../store/authStore";
 import useFriendStore from "../../store/friendStore";
 import useGroupChatStore from "../../store/groupChatStore";
+import useModalStore from "../../store/modalStore";
+
+import UserProfileChatInput from "../Chats/UserProfileChatInput";
+import EditUserProfileForm from "./EditUserProfileForm";
 
 import { UserProfileProps } from "../../types";
-import ChatInput from "../Chats/ChatInput";
-import UserProfileChatInput from "../Chats/UserProfileChatInput";
-
-import Avatar from "./Avatar";
 
 import classes from "./UserProfile.module.css";
 
@@ -26,6 +26,7 @@ const UserProfile = ({
   const { friends, loadFriends, otherUserFriends, loadOtherUserFriends } =
     useFriendStore();
   const { groupChats } = useGroupChatStore();
+  const { activeModal, toggleModal } = useModalStore();
 
   const mutualGroupChats = groupChats.filter((groupChat) => {
     if (!userInfo || !userId) return false;
@@ -34,6 +35,15 @@ const UserProfile = ({
 
     return users.includes(userInfo._id) && users.includes(userId);
   });
+
+  const userProfileEditHandler = (): void => {
+    toggleModal("editUserProfileForm", "PATCH", {
+      _id: userInfo?._id,
+      nickname: userInfo?.nickname,
+      avatarColor: userInfo?.avatarColor,
+      avatarImageUrl: userInfo?.avatarImageUrl,
+    });
+  };
 
   return (
     <div className={classes["user-profile-wrapper"]} style={style}>
@@ -52,19 +62,20 @@ const UserProfile = ({
       <div className={classes["user-profile-info"]}>
         {userInfo?._id === userId ? (
           <>
-            <div className={classes["user-profile-info-avatar-img-wrapper"]}>
-              {/* <Avatar
-              nickname={nickname}
-              avatarImageUrl={avatarImageUrl}
-              avatarColor={avatarColor}
-              onlineChecked={onlineChecked}
-              showOnlineDot={true}
-              extraClass="user-profile-info-avatar"
-            /> */}
-              <img
-                className={classes["user-profile-info-avatar-img"]}
-                src={avatarImageUrl}
-              />
+            <div className={classes["user-profile-info-avatar-wrapper"]}>
+              {avatarImageUrl ? (
+                <img
+                  className={classes["user-profile-info-avatar-img"]}
+                  src={avatarImageUrl}
+                />
+              ) : (
+                <div
+                  className={classes["user-profile-info-avatar-color"]}
+                  style={{ backgroundColor: avatarColor || "#ccc" }}
+                >
+                  {nickname.charAt(0)}
+                </div>
+              )}
               <div
                 className={
                   onlineChecked
@@ -75,24 +86,25 @@ const UserProfile = ({
             </div>
             <div className={classes["user-profile-info-content"]}>
               <div>{nickname}</div>
-              <button>프로필 편집</button>
+              <button onClick={userProfileEditHandler}>프로필 편집</button>
             </div>
           </>
         ) : (
           <>
-            <div
-              className={classes["user-profile-info-avatar-color"]}
-              style={{ backgroundColor: avatarColor || "#ccc" }}
-            >
-              {/* <Avatar
-              nickname={nickname}
-              avatarImageUrl={avatarImageUrl}
-              avatarColor={avatarColor}
-              onlineChecked={onlineChecked}
-              showOnlineDot={true}
-              extraClass="user-profile-info-avatar"
-            /> */}
-              {nickname.charAt(0)}
+            <div className={classes["user-profile-info-avatar-wrapper"]}>
+              {avatarImageUrl ? (
+                <img
+                  className={classes["user-profile-info-avatar-img"]}
+                  src={avatarImageUrl}
+                />
+              ) : (
+                <div
+                  className={classes["user-profile-info-avatar-color"]}
+                  style={{ backgroundColor: avatarColor || "#ccc" }}
+                >
+                  {nickname.charAt(0)}
+                </div>
+              )}
               <div
                 className={
                   onlineChecked
@@ -106,12 +118,16 @@ const UserProfile = ({
               <span>같이 아는 친구</span>
               <span> · </span>
               <span>같이 있는 그룹 채팅방{mutualGroupChats.length}</span>
-              {/* <ChatInput /> */}
               <UserProfileChatInput userId={userId} />
             </div>
           </>
         )}
       </div>
+      {activeModal === "editUserProfileForm" && (
+        <EditUserProfileForm
+          onToggle={() => toggleModal("editUserProfileForm")}
+        />
+      )}
     </div>
   );
 };

@@ -91,12 +91,15 @@ const EditUserProfileForm = ({ onToggle }: ModalProps) => {
       return;
     }
 
+    console.log(modalData);
+
     try {
       if (avatarMode) {
         // 객체 기반 방식
         await editUserProfileForm({
           trimmedNickname,
           avatarImageUrl,
+          avatarMode,
           modalData,
         });
 
@@ -109,7 +112,13 @@ const EditUserProfileForm = ({ onToggle }: ModalProps) => {
         // );
       } else {
         // 객체 기반 방식
-        await editUserProfileForm({ trimmedNickname, avatarColor, modalData });
+        await editUserProfileForm({
+          trimmedNickname,
+          avatarColor,
+          avatarMode,
+          // avatarImageUrl: modalData.avatarImageUrl,
+          modalData,
+        });
 
         // 위치 기반 방식
         // await editUserProfileForm(trimmedNickname, avatarColor, "", modalData);
