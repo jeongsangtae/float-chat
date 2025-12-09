@@ -19,6 +19,11 @@ interface ChatStore {
     message: string,
     userInfo: UserInfo
   ) => Promise<void>;
+  userProfileDirectSendMessage: (
+    userId: string,
+    message: string,
+    userInfo: UserInfo
+  ) => Promise<void>;
   saveLastReadMessageId: (
     roomId: string,
     lastVisibleMessageId: string

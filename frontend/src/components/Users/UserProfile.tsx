@@ -118,7 +118,12 @@ const UserProfile = ({
               <span>같이 아는 친구</span>
               <span> · </span>
               <span>같이 있는 그룹 채팅방{mutualGroupChats.length}</span>
-              <UserProfileChatInput userId={userId} />
+              <UserProfileChatInput
+                userId={userId}
+                nickname={nickname}
+                avatarColor={avatarColor}
+                avatarImageUrl={avatarImageUrl}
+              />
             </div>
           </>
         )}

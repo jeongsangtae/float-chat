@@ -91,8 +91,6 @@ const EditUserProfileForm = ({ onToggle }: ModalProps) => {
       return;
     }
 
-    console.log(modalData);
-
     try {
       if (avatarMode) {
         // 객체 기반 방식
@@ -116,7 +114,6 @@ const EditUserProfileForm = ({ onToggle }: ModalProps) => {
           trimmedNickname,
           avatarColor,
           avatarMode,
-          // avatarImageUrl: modalData.avatarImageUrl,
           modalData,
         });
 

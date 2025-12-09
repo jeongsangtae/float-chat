@@ -1,8 +1,15 @@
 import { useState } from "react";
 import useAuthStore from "../../store/authStore";
+import useChatStore from "../../store/chatStore";
 
-const UserProfileChatInput = ({ userId }) => {
+const UserProfileChatInput = ({
+  userId,
+  nickname,
+  avatarColor,
+  avatarImageUrl,
+}) => {
   const { userInfo } = useAuthStore();
+  const { userProfileDirectSendMessage } = useChatStore();
   const [message, setMessage] = useState<string>("");
 
   const inputChangeHandler = (
@@ -12,7 +19,16 @@ const UserProfileChatInput = ({ userId }) => {
   };
 
   const sendMessageHandler = () => {
-    // sendMessage(userId, message.trim(), userInfo)
+    if (!userId || !userInfo) return;
+
+    const otherUser = {
+      userId,
+      nickname,
+      avatarColor,
+      avatarImageUrl,
+    };
+
+    userProfileDirectSendMessage(userId, message.trim(), userInfo);
   };
 
   const keyPressHandler = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
