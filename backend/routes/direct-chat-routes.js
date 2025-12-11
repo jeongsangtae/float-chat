@@ -118,7 +118,7 @@ router.post("/directChatForm", async (req, res) => {
           _id: friendData.id,
           nickname: friendData.nickname,
           avatarColor: friendData.avatarColor,
-          avatarImageUrl: othersData.avatarImageUrl,
+          avatarImageUrl: friendData.avatarImageUrl,
           isVisible: false,
         }, // 친구
       ],

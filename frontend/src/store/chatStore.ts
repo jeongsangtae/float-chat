@@ -20,7 +20,7 @@ interface ChatStore {
     userInfo: UserInfo
   ) => Promise<void>;
   userProfileDirectSendMessage: (
-    userId: string,
+    targetUser: TargetUser,
     message: string,
     userInfo: UserInfo
   ) => Promise<void>;
@@ -28,6 +28,13 @@ interface ChatStore {
     roomId: string,
     lastVisibleMessageId: string
   ) => Promise<void>;
+}
+
+interface TargetUser {
+  userId: string;
+  nickname: string;
+  avatarColor: string;
+  avatarImageUrl: string;
 }
 
 const useChatStore = create<ChatStore>((set) => ({
@@ -157,30 +164,38 @@ const useChatStore = create<ChatStore>((set) => ({
   },
 
   userProfileDirectSendMessage: async (
-    userId: string,
+    targetUser: TargetUser,
     message: string,
     userInfo: UserInfo
   ) => {
     const newMessage = {
-      userId,
+      targetUserId: targetUser.userId,
+      targetUserNickname: targetUser.nickname,
+      targetUserAvatarColor: targetUser.avatarColor,
+      targetUserAvatarImageUrl: targetUser.avatarImageUrl,
       message,
-      email: userInfo.email,
-      nickname: userInfo.nickname,
-      avatarColor: userInfo.avatarColor,
-      avatarImageUrl: userInfo.avatarImageUrl,
+      senderEmail: userInfo.email,
+      senderNickname: userInfo.nickname,
+      senderAvatarColor: userInfo.avatarColor,
+      senderAvatarImageUrl: userInfo.avatarImageUrl,
     };
 
     try {
-      const response = await fetch(`${apiURL}/directChat/${userId}`, {
-        method: "POST",
-        body: JSON.stringify(newMessage),
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
-      });
+      const response = await fetch(
+        `${apiURL}/directChat/${targetUser.userId}`,
+        {
+          method: "POST",
+          body: JSON.stringify(newMessage),
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+        }
+      );
 
       if (!response.ok) {
         throw new Error("다이렉트 메시지 전송 실패");
       }
+
+      console.log("다이렉트 메시지 전송 성공");
     } catch (error) {
       console.error("에러 내용:", error);
       alert(

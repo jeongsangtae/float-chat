@@ -199,7 +199,11 @@ router.post("/chat/:roomId", async (req, res) => {
   }
 });
 
-router.post("/directChat/:userId", async (req, res) => {
+// 사용자 프로필 다이렉트 메시지 추가 라우터
+router.post("/directChat/:targetUserId", async (req, res) => {
+  console.log("BODY:", req.body);
+  console.log("PARAMS:", req.params);
+
   try {
     const othersData = await accessToken(req, res);
 
@@ -208,8 +212,17 @@ router.post("/directChat/:userId", async (req, res) => {
     }
 
     // 클라이언트에서 보낸 데이터 추출
-    const { userId, message, email, nickname, avatarColor, avatarImageUrl } =
-      req.body;
+    const {
+      targetUserId,
+      targetUserNickname,
+      targetUserAvatarColor,
+      targetUserAvatarImageUrl,
+      message,
+      senderEmail,
+      senderNickname,
+      senderAvatarColor,
+      senderAvatarImageUrl,
+    } = req.body;
 
     let date = new Date();
     let kstDate = new Date(date.getTime() + 9 * 60 * 60 * 1000);
@@ -227,32 +240,35 @@ router.post("/directChat/:userId", async (req, res) => {
       .toString()
       .padStart(2, "0")}:${kstDate.getSeconds().toString().padStart(2, "0")}`;
 
-    const existingChat = await db.collection("directChats").findOne({
-      "participants._id": {
-        $all: [othersData._id.toString(), userId],
-      },
-    });
+    const existingChat = await db
+      .getDb()
+      .collection("directChats")
+      .findOne({
+        "participants._id": {
+          $all: [othersData._id.toString(), targetUserId],
+        },
+      });
 
     // 다이렉트 채팅방이 이미 존재할 경우, isVisible을 true로 업데이트
     if (existingChat) {
-      await db
-        .getDb()
-        .collection("directChats")
-        .updateOne(
-          {
-            _id: existingChat._id,
-            "participants._id": othersData._id.toString(),
-          },
-          { $set: { "participants.$.isVisible": true } }
-        );
+      // await db
+      //   .getDb()
+      //   .collection("directChats")
+      //   .updateOne(
+      //     {
+      //       _id: existingChat._id,
+      //       "participants._id": othersData._id.toString(),
+      //     },
+      //     { $set: { "participants.$.isVisible": true } }
+      //   );
 
       const newMessage = {
-        roomId: new ObjectId(existingChat._id.toString()),
-        email,
-        nickname,
+        roomId: existingChat._id,
+        email: senderEmail,
+        nickname: senderNickname,
         message,
-        avatarColor,
-        avatarImageUrl,
+        avatarColor: senderAvatarColor,
+        avatarImageUrl: senderAvatarImageUrl,
         date: formatKSTDate, // 날짜 및 시간을 포맷팅하여 문자열로 저장
       };
 
@@ -271,42 +287,22 @@ router.post("/directChat/:userId", async (req, res) => {
 
       await db.getDb().collection("chatMessages").insertOne(newMessage);
 
-      // const updatedExistingChat = await db
-      //   .getDb()
-      //   .collection("directChats")
-      //   .findOne({
-      //     "participants._id": {
-      //       $all: [othersData._id.toString(), friendData.id],
-      //     },
-      //   });
+      const updatedExistingChat = await db
+        .getDb()
+        .collection("directChats")
+        .findOne({
+          "participants._id": {
+            $all: [othersData._id.toString(), targetUserId],
+          },
+        });
 
       // return res.status(200).json({
       //   directChat: updatedExistingChat,
       //   roomId: updatedExistingChat._id,
       // });
+      return res.status(200).json({ newMessage });
     }
 
-    // 새 메시지 객체 생성
-    // const newMessage = {
-    //   roomId: new ObjectId(roomId), // MongoDB ObjectId로 변환된 roomId
-    //   email,
-    //   nickname,
-    //   message,
-    //   avatarColor,
-    //   avatarImageUrl,
-    //   date: `${kstDate.getFullYear()}.${(kstDate.getMonth() + 1)
-    //     .toString()
-    //     .padStart(2, "0")}.${kstDate
-    //     .getDate()
-    //     .toString()
-    //     .padStart(2, "0")} ${kstDate
-    //     .getHours()
-    //     .toString()
-    //     .padStart(2, "0")}:${kstDate
-    //     .getMinutes()
-    //     .toString()
-    //     .padStart(2, "0")}:${kstDate.getSeconds().toString().padStart(2, "0")}`, // 날짜 및 시간을 포맷팅하여 문자열로 저장
-    // };
     const newDirectChat = {
       participants: [
         {
@@ -317,16 +313,26 @@ router.post("/directChat/:userId", async (req, res) => {
           isVisible: true,
         }, // 현재 사용자
         {
-          _id: userId,
-          // nickname: ,
-          // avatarColor: ,
-          // avatarImageUrl: ,
-          isVisible: false,
-        },
+          _id: targetUserId,
+          nickname: targetUserNickname,
+          avatarColor: targetUserAvatarColor,
+          avatarImageUrl: targetUserAvatarImageUrl,
+          isVisible: true,
+        }, // 다른 사용자
       ],
       date: formatKSTDate, // 날짜 및 시간을 포맷팅하여 문자열로 저장
       lastMessageDate: formatKSTDate,
     };
+
+    const result = await db
+      .getDb()
+      .collection("directChats")
+      .insertOne(newDirectChat);
+
+    const roomId = result.insertedId;
+
+    // res.status(200).json({ directChat: newDirectChat, roomId });
+    res.status(200).json({ success: true });
   } catch (error) {
     errorHandler(res, error, "채팅 메시지 저장 중 오류 발생");
   }

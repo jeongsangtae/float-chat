@@ -21,14 +21,14 @@ const UserProfileChatInput = ({
   const sendMessageHandler = () => {
     if (!userId || !userInfo) return;
 
-    const otherUser = {
+    const targetUser = {
       userId,
       nickname,
       avatarColor,
       avatarImageUrl,
     };
 
-    userProfileDirectSendMessage(userId, message.trim(), userInfo);
+    userProfileDirectSendMessage(targetUser, message.trim(), userInfo);
   };
 
   const keyPressHandler = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
