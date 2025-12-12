@@ -296,6 +296,23 @@ router.post("/directChat/:targetUserId", async (req, res) => {
           },
         });
 
+      const io = req.app.get("io");
+      const onlineUsers = req.app.get("onlineUsers");
+      const socketId = onlineUsers.get(targetUserId);
+
+      const targetParticipant = existingChat.participants.find(
+        (participant) => participant._id === targetUserId
+      );
+
+      if (socketId && targetParticipant.isVisible === false) {
+        io.to(socketId).emit("invisibleDirectChat", updatedExistingChat);
+      }
+
+      // 이미 보이는 다이렉트 채팅방 업데이트
+      if (socketId) {
+        io.to(socketId).emit("updatedDirectChat", updatedExistingChat);
+      }
+
       // return res.status(200).json({
       //   directChat: updatedExistingChat,
       //   roomId: updatedExistingChat._id,
@@ -331,8 +348,33 @@ router.post("/directChat/:targetUserId", async (req, res) => {
 
     const roomId = result.insertedId;
 
+    const newMessage = {
+      roomId,
+      email: senderEmail,
+      nickname: senderNickname,
+      message,
+      avatarColor: senderAvatarColor,
+      avatarImageUrl: senderAvatarImageUrl,
+      date: formatKSTDate, // 날짜 및 시간을 포맷팅하여 문자열로 저장
+    };
+
+    await db.getDb().collection("chatMessages").insertOne(newMessage);
+
+    const io = req.app.get("io");
+    const onlineUsers = req.app.get("onlineUsers");
+    const socketId = onlineUsers.get(targetUserId);
+
+    const createdDirectChat = await db
+      .getDb()
+      .collection("directChats")
+      .findOne({ _id: roomId });
+
+    if (socketId) {
+      io.to(socketId).emit("invisibleDirectChat", createdDirectChat);
+    }
+
     // res.status(200).json({ directChat: newDirectChat, roomId });
-    res.status(200).json({ success: true });
+    res.status(200).json({ newMessage });
   } catch (error) {
     errorHandler(res, error, "채팅 메시지 저장 중 오류 발생");
   }
