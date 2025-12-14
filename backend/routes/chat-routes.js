@@ -313,6 +313,38 @@ router.post("/directChat/:targetUserId", async (req, res) => {
         io.to(socketId).emit("updatedDirectChat", updatedExistingChat);
       }
 
+      const roomIdStr = existingChat._id.toString();
+      const chatRoomId = `room-${roomIdStr}`;
+      io.to(chatRoomId).emit("newMessage", newMessage);
+
+      const roomUsers = req.app.get("roomUsers");
+      const roomSockets = roomUsers?.get(chatRoomId) ?? [];
+      // const roomSockets = roomUsers.get(chatRoomId);
+
+      const chatRoom = {
+        _id: existingChat._id,
+        title: "",
+        users: existingChat.participants.map((participant) => participant._id),
+      };
+
+      chatRoom.users.forEach((userId) => {
+        if (userId === othersData._id.toString()) return;
+
+        const socketId = onlineUsers.get(userId);
+
+        // 채팅방에 참여하지 않은 상대방에게 알림을 전달
+        if (socketId && !roomSockets.includes(socketId)) {
+          io.to(socketId).emit("messageNotification", {
+            id: new ObjectId().toString(),
+            roomTitle: chatRoom.title,
+            senderNickname: othersData.nickname,
+            avatarColor: othersData.avatarColor,
+            avatarImageUrl: othersData.avatarImageUrl,
+            message,
+          });
+        }
+      });
+
       // return res.status(200).json({
       //   directChat: updatedExistingChat,
       //   roomId: updatedExistingChat._id,
@@ -372,6 +404,39 @@ router.post("/directChat/:targetUserId", async (req, res) => {
     if (socketId) {
       io.to(socketId).emit("invisibleDirectChat", createdDirectChat);
     }
+
+    const roomIdStr = roomId.toString();
+    const chatRoomId = `room-${roomIdStr}`;
+    // io.to(chatRoomId).emit("newMessage", newMessage);
+
+    const roomUsers = req.app.get("roomUsers");
+    const roomSockets = roomUsers?.get(chatRoomId) ?? [];
+
+    const chatRoom = {
+      _id: roomId,
+      title: "",
+      users: createdDirectChat.participants.map(
+        (participant) => participant._id
+      ),
+    };
+
+    chatRoom.users.forEach((userId) => {
+      if (userId === othersData._id.toString()) return;
+
+      const socketId = onlineUsers.get(userId);
+
+      // 채팅방에 참여하지 않은 상대방에게 알림을 전달
+      if (socketId && !roomSockets.includes(socketId)) {
+        io.to(socketId).emit("messageNotification", {
+          id: new ObjectId().toString(),
+          roomTitle: chatRoom.title,
+          senderNickname: othersData.nickname,
+          avatarColor: othersData.avatarColor,
+          avatarImageUrl: othersData.avatarImageUrl,
+          message,
+        });
+      }
+    });
 
     // res.status(200).json({ directChat: newDirectChat, roomId });
     res.status(200).json({ newMessage });
