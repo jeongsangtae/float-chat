@@ -1,3 +1,5 @@
+import { useEffect, useMemo } from "react";
+
 import useAuthStore from "../../store/authStore";
 import useFriendStore from "../../store/friendStore";
 import useGroupChatStore from "../../store/groupChatStore";
@@ -27,6 +29,45 @@ const UserProfile = ({
     useFriendStore();
   const { groupChats } = useGroupChatStore();
   const { activeModal, toggleModal } = useModalStore();
+
+  useEffect(() => {
+    loadFriends();
+  }, []);
+
+  useEffect(() => {
+    if (userId) {
+      loadOtherUserFriends(userId);
+    }
+  }, [userId]);
+
+  const mutualFriends = useMemo(() => {
+    return friends.filter((friend) => {
+      const userFriendId =
+        friend.requester.id === userInfo?._id
+          ? friend.receiver.id
+          : friend.requester.id;
+
+      if (userFriendId === userId) return false;
+
+      return otherUserFriends.some((otherUserFriend) => {
+        const otherUserFriendId =
+          otherUserFriend.requester.id === userId
+            ? otherUserFriend.receiver.id
+            : otherUserFriend.requester.id;
+
+        return (
+          otherUserFriendId === userFriendId &&
+          otherUserFriendId !== userInfo?._id
+        );
+      });
+    });
+  }, [friends, otherUserFriends, userInfo?._id, userId]);
+
+  console.log(friends);
+
+  console.log(otherUserFriends);
+
+  console.log(mutualFriends);
 
   const mutualGroupChats = groupChats.filter((groupChat) => {
     if (!userInfo || !userId) return false;
@@ -115,7 +156,7 @@ const UserProfile = ({
             </div>
             <div className={classes["user-profile-info-content"]}>
               <div>{nickname}</div>
-              <span>같이 아는 친구</span>
+              <span>같이 아는 친구 {mutualFriends.length}</span>
               <span> · </span>
               <span>같이 있는 그룹 채팅방{mutualGroupChats.length}</span>
               <UserProfileChatInput

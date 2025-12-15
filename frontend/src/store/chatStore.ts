@@ -33,8 +33,8 @@ interface ChatStore {
 interface TargetUser {
   userId: string;
   nickname: string;
-  avatarColor: string;
-  avatarImageUrl: string;
+  avatarColor?: string;
+  avatarImageUrl?: string;
 }
 
 const useChatStore = create<ChatStore>((set) => ({
