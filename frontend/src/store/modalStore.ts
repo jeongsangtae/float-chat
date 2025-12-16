@@ -2,9 +2,10 @@ import { create } from "zustand";
 
 interface ModalStore {
   activeModal:
+    | "editUserProfileForm"
+    | "userProfileDetails"
     | "groupChatForm"
     | "groupChatConfirm"
-    | "editUserProfileForm"
     | "groupChatAnnouncementForm"
     | "groupChatAnnouncementDelete"
     | null;
@@ -14,9 +15,10 @@ interface ModalStore {
   };
   toggleModal: (
     type:
+      | "editUserProfileForm"
+      | "userProfileDetails"
       | "groupChatForm"
       | "groupChatConfirm"
-      | "editUserProfileForm"
       | "groupChatAnnouncementForm"
       | "groupChatAnnouncementDelete",
     method?: "POST" | "PATCH" | "DELETE",

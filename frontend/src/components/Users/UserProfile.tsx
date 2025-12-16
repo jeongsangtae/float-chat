@@ -7,6 +7,7 @@ import useModalStore from "../../store/modalStore";
 
 import UserProfileChatInput from "../Chats/UserProfileChatInput";
 import EditUserProfileForm from "./EditUserProfileForm";
+import UserProfileDetails from "./UserProfileDetails";
 
 import { UserProfileProps } from "../../types";
 
@@ -63,12 +64,6 @@ const UserProfile = ({
     });
   }, [friends, otherUserFriends, userInfo?._id, userId]);
 
-  console.log(friends);
-
-  console.log(otherUserFriends);
-
-  console.log(mutualFriends);
-
   const mutualGroupChats = groupChats.filter((groupChat) => {
     if (!userInfo || !userId) return false;
 
@@ -77,12 +72,33 @@ const UserProfile = ({
     return users.includes(userInfo._id) && users.includes(userId);
   });
 
+  console.log(friends);
+
+  console.log(otherUserFriends);
+
+  console.log(mutualFriends);
+
+  console.log(mutualGroupChats);
+
   const userProfileEditHandler = (): void => {
     toggleModal("editUserProfileForm", "PATCH", {
       _id: userInfo?._id,
       nickname: userInfo?.nickname,
       avatarColor: userInfo?.avatarColor,
       avatarImageUrl: userInfo?.avatarImageUrl,
+    });
+  };
+
+  const userProfileDetailsHandler = (view: "friends" | "groups"): void => {
+    toggleModal("userProfileDetails", undefined, {
+      userId,
+      nickname,
+      avatarImageUrl,
+      avatarColor,
+      onlineChecked,
+      mutualFriends,
+      mutualGroupChats,
+      initialView: view,
     });
   };
 
@@ -155,10 +171,16 @@ const UserProfile = ({
               />
             </div>
             <div className={classes["user-profile-info-content"]}>
-              <div>{nickname}</div>
-              <span>같이 아는 친구 {mutualFriends.length}</span>
+              <div onClick={() => userProfileDetailsHandler("friends")}>
+                {nickname}
+              </div>
+              <span onClick={() => userProfileDetailsHandler("friends")}>
+                같이 아는 친구 {mutualFriends.length}
+              </span>
               <span> · </span>
-              <span>같이 있는 그룹 채팅방{mutualGroupChats.length}</span>
+              <span onClick={() => userProfileDetailsHandler("groups")}>
+                같이 있는 그룹 채팅방{mutualGroupChats.length}
+              </span>
               <UserProfileChatInput
                 userId={userId}
                 nickname={nickname}
@@ -172,6 +194,12 @@ const UserProfile = ({
       {activeModal === "editUserProfileForm" && (
         <EditUserProfileForm
           onToggle={() => toggleModal("editUserProfileForm")}
+        />
+      )}
+
+      {activeModal === "userProfileDetails" && (
+        <UserProfileDetails
+          onToggle={() => toggleModal("userProfileDetails")}
         />
       )}
     </div>
