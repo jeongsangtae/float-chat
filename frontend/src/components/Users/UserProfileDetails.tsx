@@ -13,8 +13,8 @@ const UserProfileDetails = ({ onToggle }: ModalProps) => {
     modalData.initialView ?? "friends"
   );
 
-  console.log(modalData.mutualFriends);
-  console.log(modalData.mutualGroupChats);
+  console.log(modalData.mutualFriendUsers);
+  // console.log(modalData.mutualGroupChats);
 
   return (
     <Modal onToggle={onToggle}>

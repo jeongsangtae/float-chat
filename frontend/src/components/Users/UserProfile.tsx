@@ -12,6 +12,7 @@ import UserProfileDetails from "./UserProfileDetails";
 import { UserProfileProps } from "../../types";
 
 import classes from "./UserProfile.module.css";
+import useDirectChatStore from "../../store/directChatStore";
 
 const UserProfile = ({
   userId,
@@ -26,19 +27,29 @@ const UserProfile = ({
   // 아바타 (온라인 유무 포함), 친구 관계 여부, 닉네임, 같이 아는 친구 수, 같이 참여한 채팅방 수, 다이렉트 채팅 메시지를 보내는 입력창으로 구성될 예정
 
   const { userInfo } = useAuthStore();
-  const { friends, loadFriends, otherUserFriends, loadOtherUserFriends } =
-    useFriendStore();
+  const {
+    friends,
+    loadFriends,
+    otherUserFriends,
+    loadOtherUserFriends,
+    onlineFriends,
+  } = useFriendStore();
+  const { directChats, getDirectChat } = useDirectChatStore();
   const { groupChats } = useGroupChatStore();
   const { activeModal, toggleModal } = useModalStore();
 
-  useEffect(() => {
-    loadFriends();
-  }, []);
+  // useEffect(() => {
+  //   loadFriends();
+  // }, []);
 
   useEffect(() => {
+    loadFriends();
+
     if (userId) {
       loadOtherUserFriends(userId);
     }
+
+    getDirectChat();
   }, [userId]);
 
   const mutualFriends = useMemo(() => {
@@ -64,6 +75,43 @@ const UserProfile = ({
     });
   }, [friends, otherUserFriends, userInfo?._id, userId]);
 
+  const mutualFriendUsers = useMemo(() => {
+    return mutualFriends.map((mutualFriend) => {
+      // mutualFriend에서 "나"가 아닌 함께 아는 친구 정보 추출
+      const mutualFriendInfo =
+        mutualFriend.requester.id === userInfo?._id
+          ? mutualFriend.receiver
+          : mutualFriend.requester;
+
+      const mutualFriendOnlineChecked = onlineFriends.some((onlineFriend) => {
+        const targetId =
+          onlineFriend.requester.id === userInfo?._id
+            ? onlineFriend.receiver.id
+            : onlineFriend.requester.id;
+        return targetId === mutualFriendInfo.id;
+      });
+
+      // "나"와 함께 아는 친구 사이의 1:1 다이렉트 채팅방 찾기
+      const directChat = directChats.find((directChat) => {
+        const hasUserInfo = directChat.participants.some((participant) => {
+          return participant._id === userInfo?._id;
+        });
+
+        const hasFriend = directChat.participants.some((participant) => {
+          return participant._id === mutualFriendInfo.id;
+        });
+
+        return hasUserInfo && hasFriend;
+      });
+
+      return {
+        ...mutualFriendInfo,
+        roomId: directChat?._id ?? "",
+        onlineChecked: mutualFriendOnlineChecked,
+      };
+    });
+  }, [mutualFriends, directChats, onlineFriends, userInfo?._id]);
+
   const mutualGroupChats = groupChats.filter((groupChat) => {
     if (!userInfo || !userId) return false;
 
@@ -72,13 +120,15 @@ const UserProfile = ({
     return users.includes(userInfo._id) && users.includes(userId);
   });
 
-  console.log(friends);
+  // console.log(friends);
 
-  console.log(otherUserFriends);
+  // console.log(otherUserFriends);
 
-  console.log(mutualFriends);
+  // console.log(mutualFriends);
 
-  console.log(mutualGroupChats);
+  console.log(mutualFriendUsers);
+
+  // console.log(mutualGroupChats);
 
   const userProfileEditHandler = (): void => {
     toggleModal("editUserProfileForm", "PATCH", {
@@ -96,7 +146,8 @@ const UserProfile = ({
       avatarImageUrl,
       avatarColor,
       onlineChecked,
-      mutualFriends,
+      // mutualFriends,
+      mutualFriendUsers,
       mutualGroupChats,
       initialView: view,
     });
