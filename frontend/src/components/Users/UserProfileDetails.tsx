@@ -1,5 +1,7 @@
 import { useState } from "react";
 
+import { useNavigate, useLocation } from "react-router-dom";
+
 import useModalStore from "../../store/modalStore";
 
 import { ModalProps } from "../../types";
@@ -7,6 +9,9 @@ import Friend from "../Friends/Friend";
 import Modal from "../UI/Modal";
 
 const UserProfileDetails = ({ onToggle }: ModalProps) => {
+  const navigate = useNavigate();
+  const location = useLocation();
+
   const { modalData } = useModalStore();
 
   const [activeView, setActiveView] = useState<"friends" | "groups">(
@@ -15,6 +20,20 @@ const UserProfileDetails = ({ onToggle }: ModalProps) => {
 
   console.log(modalData.mutualFriendUsers);
   // console.log(modalData.mutualGroupChats);
+
+  const chatHandler = (path: string) => {
+    const targetPath =
+      activeView === "friends" ? `/me/${path}` : `/group-chat/${path}`;
+
+    // 이미 같은 경로면 이동하지 않고 모달창 닫기
+    if (location.pathname === targetPath) {
+      onToggle();
+      return;
+    }
+
+    navigate(targetPath);
+    onToggle();
+  };
 
   return (
     <Modal onToggle={onToggle}>
@@ -34,12 +53,14 @@ const UserProfileDetails = ({ onToggle }: ModalProps) => {
       </div>
       {activeView === "friends" && (
         <div>
-          <div>테스트 내용</div>
-          {modalData.mutualFriends?.map((mutualFriend) => (
-            <div key={mutualFriend._id}>
-              <div>내용</div>
-              {/* <div>{mutualFriend.nickname}</div>
-              <div>{mutualFriend.avatarImageUrl}</div> */}
+          {modalData.mutualFriendUsers?.map((mutualFriendUser) => (
+            <div
+              key={mutualFriendUser.id}
+              onClick={() => chatHandler(mutualFriendUser.roomId)}
+            >
+              <div>{mutualFriendUser.nickname}</div>
+              {/* <div>{mutualFriendUser.onlineChecked}</div> */}
+              {/* <div>{mutualFriendUser.avatarImageUrl}</div> */}
             </div>
           ))}
         </div>
@@ -47,9 +68,11 @@ const UserProfileDetails = ({ onToggle }: ModalProps) => {
 
       {activeView === "groups" && (
         <div>
-          <div>테스트 내용2</div>
           {modalData.mutualGroupChats?.map((mutualGroupChat) => (
-            <div key={mutualGroupChat._id}>
+            <div
+              key={mutualGroupChat._id}
+              onClick={() => chatHandler(mutualGroupChat._id)}
+            >
               <div>{mutualGroupChat.title}</div>
             </div>
           ))}
