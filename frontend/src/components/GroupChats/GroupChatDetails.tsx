@@ -7,10 +7,14 @@ import { IoClose, IoPersonAddSharp } from "react-icons/io5";
 
 import { Coords } from "../../types";
 
+import EditUserProfileForm from "../Users/EditUserProfileForm";
+import UserProfileDetails from "../Users/UserProfileDetails";
+
 import useAuthStore from "../../store/authStore";
 import useGroupChatStore from "../../store/groupChatStore";
 import useFriendStore from "../../store/friendStore";
 import useLayoutStore from "../../store/layoutStore";
+import useModalStore from "../../store/modalStore";
 
 import Modal from "../UI/Modal";
 import Chats from "../Chats/Chats";
@@ -30,6 +34,7 @@ const GroupChatDetails = () => {
     useGroupChatStore();
   const { friends, loadFriends } = useFriendStore();
   const { setView, setGroupChatTitle } = useLayoutStore();
+  const { activeModal, toggleModal } = useModalStore();
 
   const [toggle, setToggle] = useState<boolean>(false);
   const [searchTerm, setSearchTerm] = useState<string>("");
@@ -138,6 +143,16 @@ const GroupChatDetails = () => {
     };
   }, [activeUser]);
 
+  const openUserProfileDetailsHandler = (payload) => {
+    setCoords(null);
+    // setActiveUser(null)
+
+    toggleModal("userProfileDetails", undefined, {
+      ...payload,
+      initialView: payload.view,
+    });
+  };
+
   return (
     <div className={classes["group-chat-details"]}>
       <div className={classes["group-chat-sidebar"]}>
@@ -236,6 +251,7 @@ const GroupChatDetails = () => {
             avatarImageUrl={activeUserProfile.avatarImageUrl}
             avatarColor={activeUserProfile.avatarColor}
             onlineChecked={activeUserProfile.onlineChecked}
+            onOpenUserProfileDetails={openUserProfileDetailsHandler}
             style={{
               position: "fixed",
               top: coords.top,
@@ -245,6 +261,18 @@ const GroupChatDetails = () => {
           />,
           document.getElementById("user-profile-tooltip-portal")!
         )}
+
+      {activeModal === "editUserProfileForm" && (
+        <EditUserProfileForm
+          onToggle={() => toggleModal("editUserProfileForm")}
+        />
+      )}
+
+      {activeModal === "userProfileDetails" && (
+        <UserProfileDetails
+          onToggle={() => toggleModal("userProfileDetails")}
+        />
+      )}
     </div>
   );
 };

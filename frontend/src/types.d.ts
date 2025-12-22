@@ -135,6 +135,7 @@ export interface UserProfileProps {
   avatarColor: string;
   avatarImageUrl: string;
   onlineChecked: boolean;
+  onOpenUserProfileDetails: () => void;
   style: TooltipCoords;
 }
 

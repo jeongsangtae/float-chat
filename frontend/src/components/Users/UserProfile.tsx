@@ -20,6 +20,7 @@ const UserProfile = ({
   avatarImageUrl,
   avatarColor,
   onlineChecked,
+  onOpenUserProfileDetails,
   style,
 }: UserProfileProps) => {
   // 그룹 채팅방 내의 사용자를 클릭하면 보여지는 내용
@@ -140,17 +141,27 @@ const UserProfile = ({
   };
 
   const userProfileDetailsHandler = (view: "friends" | "groups"): void => {
-    toggleModal("userProfileDetails", undefined, {
+    onOpenUserProfileDetails({
+      view,
       userId,
       nickname,
       avatarImageUrl,
       avatarColor,
       onlineChecked,
-      // mutualFriends,
       mutualFriendUsers,
       mutualGroupChats,
-      initialView: view,
     });
+    // toggleModal("userProfileDetails", undefined, {
+    //   userId,
+    //   nickname,
+    //   avatarImageUrl,
+    //   avatarColor,
+    //   onlineChecked,
+    //   // mutualFriends,
+    //   mutualFriendUsers,
+    //   mutualGroupChats,
+    //   initialView: view,
+    // });
   };
 
   return (
@@ -242,7 +253,7 @@ const UserProfile = ({
           </>
         )}
       </div>
-      {activeModal === "editUserProfileForm" && (
+      {/* {activeModal === "editUserProfileForm" && (
         <EditUserProfileForm
           onToggle={() => toggleModal("editUserProfileForm")}
         />
@@ -252,7 +263,7 @@ const UserProfile = ({
         <UserProfileDetails
           onToggle={() => toggleModal("userProfileDetails")}
         />
-      )}
+      )} */}
     </div>
   );
 };
