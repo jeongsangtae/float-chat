@@ -19,7 +19,7 @@ const UserProfileDetails = ({ onToggle }: ModalProps) => {
   );
 
   console.log(modalData.mutualFriendUsers);
-  // console.log(modalData.mutualGroupChats);
+  console.log(modalData.mutualGroupChats);
 
   const chatHandler = (path: string) => {
     const targetPath =

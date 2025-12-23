@@ -3,11 +3,11 @@ import { useEffect, useMemo } from "react";
 import useAuthStore from "../../store/authStore";
 import useFriendStore from "../../store/friendStore";
 import useGroupChatStore from "../../store/groupChatStore";
-import useModalStore from "../../store/modalStore";
+// import useModalStore from "../../store/modalStore";
 
 import UserProfileChatInput from "../Chats/UserProfileChatInput";
-import EditUserProfileForm from "./EditUserProfileForm";
-import UserProfileDetails from "./UserProfileDetails";
+// import EditUserProfileForm from "./EditUserProfileForm";
+// import UserProfileDetails from "./UserProfileDetails";
 
 import { UserProfileProps } from "../../types";
 
@@ -20,6 +20,7 @@ const UserProfile = ({
   avatarImageUrl,
   avatarColor,
   onlineChecked,
+  onOpenUserProfileEditForm,
   onOpenUserProfileDetails,
   style,
 }: UserProfileProps) => {
@@ -37,7 +38,7 @@ const UserProfile = ({
   } = useFriendStore();
   const { directChats, getDirectChat } = useDirectChatStore();
   const { groupChats } = useGroupChatStore();
-  const { activeModal, toggleModal } = useModalStore();
+  // const { activeModal, toggleModal } = useModalStore();
 
   // useEffect(() => {
   //   loadFriends();
@@ -132,17 +133,25 @@ const UserProfile = ({
   // console.log(mutualGroupChats);
 
   const userProfileEditHandler = (): void => {
-    toggleModal("editUserProfileForm", "PATCH", {
+    if (!userInfo?._id || !userInfo.nickname) return;
+
+    onOpenUserProfileEditForm({
       _id: userInfo?._id,
       nickname: userInfo?.nickname,
       avatarColor: userInfo?.avatarColor,
       avatarImageUrl: userInfo?.avatarImageUrl,
     });
+    // toggleModal("editUserProfileForm", "PATCH", {
+    //   _id: userInfo?._id,
+    //   nickname: userInfo?.nickname,
+    //   avatarColor: userInfo?.avatarColor,
+    //   avatarImageUrl: userInfo?.avatarImageUrl,
+    // });
   };
 
   const userProfileDetailsHandler = (view: "friends" | "groups"): void => {
     onOpenUserProfileDetails({
-      view,
+      // view,
       userId,
       nickname,
       avatarImageUrl,
@@ -150,6 +159,7 @@ const UserProfile = ({
       onlineChecked,
       mutualFriendUsers,
       mutualGroupChats,
+      initialView: view,
     });
     // toggleModal("userProfileDetails", undefined, {
     //   userId,

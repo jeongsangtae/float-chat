@@ -47,8 +47,8 @@ export interface MutualFriendUser {
   id: string;
   email?: string;
   nickname: string;
-  avatarColor: string;
-  avatarImageUrl: string;
+  avatarColor?: string;
+  avatarImageUrl?: string;
   roomId: string;
   onlineChecked: boolean;
 }
@@ -129,13 +129,32 @@ export interface GroupChatUserProps {
   ) => void;
 }
 
+export interface UserProfileEditFormPayload {
+  _id: string;
+  nickname: string;
+  avatarColor?: string;
+  avatarImageUrl?: string;
+}
+
+export interface UserProfileDetailsPayload {
+  userId: string;
+  nickname: string;
+  avatarColor?: string;
+  avatarImageUrl?: string;
+  onlineChecked: boolean;
+  mutualFriendUsers: MutualFriendUser[];
+  mutualGroupChats: GroupChatData[];
+  initialView: "friends" | "groups";
+}
+
 export interface UserProfileProps {
   userId: string;
   nickname: string;
   avatarColor: string;
   avatarImageUrl: string;
   onlineChecked: boolean;
-  onOpenUserProfileDetails: () => void;
+  onOpenUserProfileEditForm: (payload: UserProfileEditFormPayload) => void;
+  onOpenUserProfileDetails: (payload: UserProfileDetailsPayload) => void;
   style: TooltipCoords;
 }
 

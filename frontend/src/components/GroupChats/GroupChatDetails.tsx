@@ -24,6 +24,11 @@ import GroupChatInvite from "./GroupChatInvite";
 import GroupChatUsers from "./GroupChatUsers";
 import GroupChatPanel from "./GroupChatPanel";
 
+import {
+  UserProfileEditFormPayload,
+  UserProfileDetailsPayload,
+} from "../../types";
+
 import classes from "./GroupChatDetails.module.css";
 
 const GroupChatDetails = () => {
@@ -143,14 +148,21 @@ const GroupChatDetails = () => {
     };
   }, [activeUser]);
 
-  const openUserProfileDetailsHandler = (payload) => {
+  const openUserProfileEditFormHandler = (
+    payload: UserProfileEditFormPayload
+  ) => {
+    setCoords(null);
+
+    toggleModal("editUserProfileForm", "PATCH", payload);
+  };
+
+  const openUserProfileDetailsHandler = (
+    payload: UserProfileDetailsPayload
+  ) => {
     setCoords(null);
     // setActiveUser(null)
 
-    toggleModal("userProfileDetails", undefined, {
-      ...payload,
-      initialView: payload.view,
-    });
+    toggleModal("userProfileDetails", undefined, payload);
   };
 
   return (
@@ -251,6 +263,7 @@ const GroupChatDetails = () => {
             avatarImageUrl={activeUserProfile.avatarImageUrl}
             avatarColor={activeUserProfile.avatarColor}
             onlineChecked={activeUserProfile.onlineChecked}
+            onOpenUserProfileEditForm={openUserProfileEditFormHandler}
             onOpenUserProfileDetails={openUserProfileDetailsHandler}
             style={{
               position: "fixed",
