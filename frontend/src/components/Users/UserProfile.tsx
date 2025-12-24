@@ -3,11 +3,8 @@ import { useEffect, useMemo } from "react";
 import useAuthStore from "../../store/authStore";
 import useFriendStore from "../../store/friendStore";
 import useGroupChatStore from "../../store/groupChatStore";
-// import useModalStore from "../../store/modalStore";
 
 import UserProfileChatInput from "../Chats/UserProfileChatInput";
-// import EditUserProfileForm from "./EditUserProfileForm";
-// import UserProfileDetails from "./UserProfileDetails";
 
 import { UserProfileProps } from "../../types";
 
@@ -38,11 +35,6 @@ const UserProfile = ({
   } = useFriendStore();
   const { directChats, getDirectChat } = useDirectChatStore();
   const { groupChats } = useGroupChatStore();
-  // const { activeModal, toggleModal } = useModalStore();
-
-  // useEffect(() => {
-  //   loadFriends();
-  // }, []);
 
   useEffect(() => {
     loadFriends();
@@ -128,7 +120,7 @@ const UserProfile = ({
 
   // console.log(mutualFriends);
 
-  console.log(mutualFriendUsers);
+  // console.log(mutualFriendUsers);
 
   // console.log(mutualGroupChats);
 
@@ -141,17 +133,10 @@ const UserProfile = ({
       avatarColor: userInfo?.avatarColor,
       avatarImageUrl: userInfo?.avatarImageUrl,
     });
-    // toggleModal("editUserProfileForm", "PATCH", {
-    //   _id: userInfo?._id,
-    //   nickname: userInfo?.nickname,
-    //   avatarColor: userInfo?.avatarColor,
-    //   avatarImageUrl: userInfo?.avatarImageUrl,
-    // });
   };
 
   const userProfileDetailsHandler = (view: "friends" | "groups"): void => {
     onOpenUserProfileDetails({
-      // view,
       userId,
       nickname,
       avatarImageUrl,
@@ -161,17 +146,6 @@ const UserProfile = ({
       mutualGroupChats,
       initialView: view,
     });
-    // toggleModal("userProfileDetails", undefined, {
-    //   userId,
-    //   nickname,
-    //   avatarImageUrl,
-    //   avatarColor,
-    //   onlineChecked,
-    //   // mutualFriends,
-    //   mutualFriendUsers,
-    //   mutualGroupChats,
-    //   initialView: view,
-    // });
   };
 
   return (
@@ -263,17 +237,6 @@ const UserProfile = ({
           </>
         )}
       </div>
-      {/* {activeModal === "editUserProfileForm" && (
-        <EditUserProfileForm
-          onToggle={() => toggleModal("editUserProfileForm")}
-        />
-      )}
-
-      {activeModal === "userProfileDetails" && (
-        <UserProfileDetails
-          onToggle={() => toggleModal("userProfileDetails")}
-        />
-      )} */}
     </div>
   );
 };

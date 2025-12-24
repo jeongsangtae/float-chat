@@ -4,8 +4,8 @@ import { useNavigate, useLocation } from "react-router-dom";
 
 import useModalStore from "../../store/modalStore";
 
-import { ModalProps } from "../../types";
-import Friend from "../Friends/Friend";
+import { ModalProps, MutualFriendUser, GroupChatData } from "../../types";
+// import Friend from "../Friends/Friend";
 import Modal from "../UI/Modal";
 
 const UserProfileDetails = ({ onToggle }: ModalProps) => {
@@ -18,8 +18,8 @@ const UserProfileDetails = ({ onToggle }: ModalProps) => {
     modalData.initialView ?? "friends"
   );
 
-  console.log(modalData.mutualFriendUsers);
-  console.log(modalData.mutualGroupChats);
+  // console.log(modalData.mutualFriendUsers);
+  // console.log(modalData.mutualGroupChats);
 
   const chatHandler = (path: string) => {
     const targetPath =
@@ -34,6 +34,10 @@ const UserProfileDetails = ({ onToggle }: ModalProps) => {
     navigate(targetPath);
     onToggle();
   };
+
+  const mutualFriendUsers: MutualFriendUser[] =
+    modalData.mutualFriendUsers ?? [];
+  const mutualGroupChats: GroupChatData[] = modalData.mutualGroupChats ?? [];
 
   return (
     <Modal onToggle={onToggle}>
@@ -53,7 +57,7 @@ const UserProfileDetails = ({ onToggle }: ModalProps) => {
       </div>
       {activeView === "friends" && (
         <div>
-          {modalData.mutualFriendUsers?.map((mutualFriendUser) => (
+          {mutualFriendUsers.map((mutualFriendUser) => (
             <div
               key={mutualFriendUser.id}
               onClick={() => chatHandler(mutualFriendUser.roomId)}
@@ -68,7 +72,7 @@ const UserProfileDetails = ({ onToggle }: ModalProps) => {
 
       {activeView === "groups" && (
         <div>
-          {modalData.mutualGroupChats?.map((mutualGroupChat) => (
+          {mutualGroupChats.map((mutualGroupChat) => (
             <div
               key={mutualGroupChat._id}
               onClick={() => chatHandler(mutualGroupChat._id)}
