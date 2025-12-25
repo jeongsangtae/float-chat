@@ -1,11 +1,14 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { DirectChatPanelProps } from "../../types";
 
 import { IoIosArrowForward, IoIosArrowDown } from "react-icons/io";
 
-import classes from "./DirectChatPanel.module.css";
+import useDirectChatStore from "../../store/directChatStore";
+
 import Avatar from "../Users/Avatar";
+
+import classes from "./DirectChatPanel.module.css";
 
 const DirectChatPanel = ({
   chatInfo,
@@ -14,6 +17,10 @@ const DirectChatPanel = ({
   mutualGroupChats,
   mutualFriendUsers,
 }: DirectChatPanelProps) => {
+  const navigate = useNavigate();
+
+  const { directChatForm } = useDirectChatStore();
+
   const [showMutualGroupChats, setShowMutualGroupChats] = useState(false);
   const [showMutualFriends, setShowMutualFriends] = useState(false);
   const [imageError, setImageError] = useState(false);
@@ -33,6 +40,29 @@ const DirectChatPanel = ({
 
   const toggleMutualFriendsHandler = () => {
     setShowMutualFriends(!showMutualFriends);
+  };
+
+  // console.log(mutualFriendUsers);
+
+  const openDirectChatHandler = async (
+    id,
+    nickname,
+    avatarColor,
+    avatarImageUrl
+  ): Promise<void> => {
+    if (!id) {
+      console.error("id가 정의되지 않았습니다.");
+      return;
+    }
+
+    const roomId = await directChatForm(
+      id,
+      nickname,
+      avatarColor,
+      avatarImageUrl
+    );
+
+    navigate(`/me/${roomId}`);
   };
 
   return (
@@ -176,11 +206,39 @@ const DirectChatPanel = ({
             {showMutualFriends && (
               <>
                 {mutualFriendUsers.map((mutualFriendUser) => (
-                  <Link
+                  // <Link
+                  //   key={`mutualFriend-${
+                  //     mutualFriendUser.id || mutualFriendUser.roomId
+                  //   }`}
+                  //   to={`/me/${mutualFriendUser.roomId}`}
+                  //   className={classes["mutual-friend-user"]}
+                  // >
+                  //   <Avatar
+                  //     nickname={mutualFriendUser.nickname}
+                  //     avatarImageUrl={mutualFriendUser.avatarImageUrl}
+                  //     avatarColor={mutualFriendUser.avatarColor}
+                  //     onlineChecked={mutualFriendUser.onlineChecked}
+                  //     showOnlineDot={true}
+                  //     extraClass="mutual-friend-user-avatar"
+                  //     dotClass="mutual-friend-user-online-check-dot"
+                  //   />
+
+                  //   <div className={classes["mutual-friend-user-nickname"]}>
+                  //     {mutualFriendUser.nickname}
+                  //   </div>
+                  // </Link>
+                  <div
                     key={`mutualFriend-${
                       mutualFriendUser.id || mutualFriendUser.roomId
                     }`}
-                    to={`/me/${mutualFriendUser.roomId}`}
+                    onClick={() =>
+                      openDirectChatHandler(
+                        mutualFriendUser.id,
+                        mutualFriendUser.nickname,
+                        mutualFriendUser.avatarColor,
+                        mutualFriendUser.avatarImageUrl
+                      )
+                    }
                     className={classes["mutual-friend-user"]}
                   >
                     <Avatar
@@ -196,7 +254,7 @@ const DirectChatPanel = ({
                     <div className={classes["mutual-friend-user-nickname"]}>
                       {mutualFriendUser.nickname}
                     </div>
-                  </Link>
+                  </div>
                 ))}
               </>
             )}

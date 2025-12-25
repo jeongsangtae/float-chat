@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 
 import useModalStore from "../../store/modalStore";
+import useDirectChatStore from "../../store/directChatStore";
 
 import { ModalProps, MutualFriendUser, GroupChatData } from "../../types";
 // import Friend from "../Friends/Friend";
@@ -13,26 +14,48 @@ const UserProfileDetails = ({ onToggle }: ModalProps) => {
   const location = useLocation();
 
   const { modalData } = useModalStore();
+  const { directChatForm } = useDirectChatStore();
 
   const [activeView, setActiveView] = useState<"friends" | "groups">(
     modalData.initialView ?? "friends"
   );
 
-  // console.log(modalData.mutualFriendUsers);
+  console.log(modalData.mutualFriendUsers);
   // console.log(modalData.mutualGroupChats);
 
-  const chatHandler = (path: string) => {
-    const targetPath =
-      activeView === "friends" ? `/me/${path}` : `/group-chat/${path}`;
+  const openChatHandler = async (payload): Promise<void> => {
+    console.log(payload);
 
-    // 이미 같은 경로면 이동하지 않고 모달창 닫기
-    if (location.pathname === targetPath) {
-      onToggle();
-      return;
+    if (activeView === "friends") {
+      const { id, nickname, avatarColor, avatarImageUrl } = payload;
+
+      console.log(id, nickname, avatarColor, avatarImageUrl);
+
+      const roomId = await directChatForm(
+        id,
+        nickname,
+        avatarColor,
+        avatarImageUrl
+      );
+
+      navigate(`/me/${roomId}`);
+    } else {
+      navigate(`/group-chat/${payload.roomId}`);
     }
 
-    navigate(targetPath);
     onToggle();
+
+    // const targetPath =
+    //   activeView === "friends" ? `/me/${path}` : `/group-chat/${path}`;
+
+    // // 이미 같은 경로면 이동하지 않고 모달창 닫기
+    // if (location.pathname === targetPath) {
+    //   onToggle();
+    //   return;
+    // }
+
+    // navigate(targetPath);
+    // onToggle();
   };
 
   const mutualFriendUsers: MutualFriendUser[] =
@@ -60,7 +83,14 @@ const UserProfileDetails = ({ onToggle }: ModalProps) => {
           {mutualFriendUsers.map((mutualFriendUser) => (
             <div
               key={mutualFriendUser.id}
-              onClick={() => chatHandler(mutualFriendUser.roomId)}
+              onClick={() =>
+                openChatHandler(
+                  mutualFriendUser.id,
+                  mutualFriendUser.nickname,
+                  mutualFriendUser.avatarColor,
+                  mutualFriendUser.avatarImageUrl
+                )
+              }
             >
               <div>{mutualFriendUser.nickname}</div>
               {/* <div>{mutualFriendUser.onlineChecked}</div> */}
@@ -75,7 +105,7 @@ const UserProfileDetails = ({ onToggle }: ModalProps) => {
           {mutualGroupChats.map((mutualGroupChat) => (
             <div
               key={mutualGroupChat._id}
-              onClick={() => chatHandler(mutualGroupChat._id)}
+              onClick={() => openChatHandler(mutualGroupChat._id)}
             >
               <div>{mutualGroupChat.title}</div>
             </div>
