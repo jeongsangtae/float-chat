@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import { Link, Navigate, useNavigate } from "react-router-dom";
-import { DirectChatPanelProps } from "../../types";
+import { Link, useNavigate } from "react-router-dom";
+import { DirectChatPanelProps, DirectChatPayload } from "../../types";
 
 import { IoIosArrowForward, IoIosArrowDown } from "react-icons/io";
 
@@ -45,15 +45,9 @@ const DirectChatPanel = ({
   // console.log(mutualFriendUsers);
 
   const openDirectChatHandler = async (
-    id,
-    nickname,
-    avatarColor,
-    avatarImageUrl
+    payload: DirectChatPayload
   ): Promise<void> => {
-    if (!id) {
-      console.error("id가 정의되지 않았습니다.");
-      return;
-    }
+    const { id, nickname, avatarColor, avatarImageUrl } = payload;
 
     const roomId = await directChatForm(
       id,
@@ -232,12 +226,12 @@ const DirectChatPanel = ({
                       mutualFriendUser.id || mutualFriendUser.roomId
                     }`}
                     onClick={() =>
-                      openDirectChatHandler(
-                        mutualFriendUser.id,
-                        mutualFriendUser.nickname,
-                        mutualFriendUser.avatarColor,
-                        mutualFriendUser.avatarImageUrl
-                      )
+                      openDirectChatHandler({
+                        id: mutualFriendUser.id,
+                        nickname: mutualFriendUser.nickname,
+                        avatarColor: mutualFriendUser.avatarColor,
+                        avatarImageUrl: mutualFriendUser.avatarImageUrl,
+                      })
                     }
                     className={classes["mutual-friend-user"]}
                   >

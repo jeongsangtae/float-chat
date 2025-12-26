@@ -3,8 +3,8 @@ import classes from "./Avatar.module.css";
 
 interface AvatarProps {
   nickname: string;
-  avatarImageUrl?: string;
-  avatarColor?: string;
+  avatarImageUrl: string | null;
+  avatarColor: string | null;
   onlineChecked?: boolean;
   showOnlineDot?: boolean;
   extraClass?: string;

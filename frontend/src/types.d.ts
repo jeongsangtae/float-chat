@@ -24,6 +24,8 @@ export interface Participants {
   nickname: string;
   avatarColor: string;
   avatarImageUrl: string;
+  // avatarColor: string | null;
+  // avatarImageUrl: string | null;
   isVisible: boolean;
 }
 
@@ -47,8 +49,8 @@ export interface MutualFriendUser {
   id: string;
   email?: string;
   nickname: string;
-  avatarColor?: string;
-  avatarImageUrl?: string;
+  avatarColor: string | null;
+  avatarImageUrl: string | null;
   roomId: string;
   onlineChecked: boolean;
 }
@@ -158,6 +160,13 @@ export interface UserProfileProps {
   style: TooltipCoords;
 }
 
+export interface DirectChatPayload {
+  id: string;
+  nickname: string;
+  avatarColor: string | null;
+  avatarImageUrl: string | null;
+}
+
 export interface GroupChatInvites {
   _id: string;
   roomId: string;
@@ -228,8 +237,8 @@ export interface RoomId {
 export interface ChatInfo {
   userId?: string;
   nickname?: string;
-  avatarColor?: string;
-  avatarImageUrl?: string;
+  avatarColor: string | null;
+  avatarImageUrl: string | null;
   title?: string;
 }
 
