@@ -123,8 +123,8 @@ const SideBar = ({ onLeaveChatRoom }: SideBarProps) => {
           <div className={classes["user-info-left"]}>
             <Avatar
               nickname={userInfo?.nickname ?? ""}
-              avatarImageUrl={userInfo?.avatarImageUrl}
-              avatarColor={userInfo?.avatarColor}
+              avatarImageUrl={userInfo?.avatarImageUrl ?? null}
+              avatarColor={userInfo?.avatarColor ?? null}
               onlineChecked={isLoggedIn}
               showOnlineDot={true}
             />

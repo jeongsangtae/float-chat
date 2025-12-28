@@ -10,7 +10,7 @@ import classes from "./Chats.module.css";
 import useAuthStore from "../../store/authStore";
 import Avatar from "../Users/Avatar";
 
-const Chats = ({ roomId, type, chatInfo }: ChatsProps) => {
+const Chats = ({ roomId, chatInfo }: ChatsProps) => {
   const { userInfo } = useAuthStore();
   const { chatData, messages, lastReadMessage, saveLastReadMessageId } =
     useChatStore();
@@ -247,7 +247,7 @@ const Chats = ({ roomId, type, chatInfo }: ChatsProps) => {
         onScroll={handleScroll}
       >
         {/* 다이렉트 채팅 시작 안내 */}
-        {type === "direct" && (
+        {chatInfo.type === "direct" && (
           <div className={classes["direct-chat-starting"]}>
             <Avatar
               nickname={chatInfo.nickname ?? ""}
@@ -264,7 +264,7 @@ const Chats = ({ roomId, type, chatInfo }: ChatsProps) => {
         )}
 
         {/* 그룹 채팅 시작 안내 */}
-        {type === "group" && (
+        {chatInfo.type === "group" && (
           <div className={classes["group-chat-starting"]}>
             <h1 className={classes.title}>
               {chatInfo.title}에 오신 것을 환영합니다

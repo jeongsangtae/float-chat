@@ -5,8 +5,8 @@ import useChatStore from "../../store/chatStore";
 interface UserProfileChatInputProps {
   userId: string;
   nickname: string;
-  avatarColor?: string;
-  avatarImageUrl?: string;
+  avatarColor: string | null;
+  avatarImageUrl: string | null;
 }
 
 const UserProfileChatInput = ({

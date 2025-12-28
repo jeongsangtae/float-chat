@@ -233,8 +233,8 @@ const GroupChatDetails = () => {
       <div className={classes["group-chat-area"]}>
         <Chats
           roomId={roomId}
-          type="group"
           chatInfo={{
+            type: "group",
             title: groupChat?.title,
           }}
         />

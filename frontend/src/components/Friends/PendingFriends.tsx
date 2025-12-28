@@ -6,8 +6,8 @@ import classes from "./PendingFriends.module.css";
 interface PendingFriendsProps {
   friendRequestId: string;
   nickname: string;
-  avatarColor: string;
-  avatarImageUrl: string;
+  avatarColor: string | null;
+  avatarImageUrl: string | null;
   sendRequest: boolean;
 }
 

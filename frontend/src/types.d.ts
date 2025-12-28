@@ -14,18 +14,16 @@ export interface UserInfo {
   email: string;
   username: string;
   nickname: string;
-  avatarColor: string;
-  avatarImageUrl: string;
+  avatarColor: string | null;
+  avatarImageUrl: string | null;
   tokenExp: number;
 }
 
 export interface Participants {
   _id: string;
   nickname: string;
-  avatarColor: string;
-  avatarImageUrl: string;
-  // avatarColor: string | null;
-  // avatarImageUrl: string | null;
+  avatarColor: string | null;
+  avatarImageUrl: string | null;
   isVisible: boolean;
 }
 
@@ -40,8 +38,8 @@ export interface DirectChatProps {
   _id: string;
   otherUserId: string;
   otherUserNickname: string;
-  otherUserAvatarColor: string;
-  otherUserAvatarImageUrl: string;
+  otherUserAvatarColor: string | null;
+  otherUserAvatarImageUrl: string | null;
   onlineChecked: boolean;
 }
 
@@ -56,7 +54,7 @@ export interface MutualFriendUser {
 }
 
 export interface DirectChatPanelProps {
-  chatInfo: ChatInfo;
+  chatInfo: DirectChatInfo;
   onlineChecked: boolean;
   friendSince: string;
   mutualGroupChats: GroupChatData[];
@@ -77,8 +75,8 @@ export interface GroupChatData {
   hostEmail: string;
   hostUsername: string;
   hostNickname: string;
-  hostAvatarColor: string;
-  hostAvatarImageUrl: string;
+  hostAvatarColor: string | null;
+  hostAvatarImageUrl: string | null;
   announcement?: string;
   title: string;
   date?: string;
@@ -90,8 +88,8 @@ export interface GroupChatUserData {
   email: string;
   username: string;
   nickname: string;
-  avatarColor: string;
-  avatarImageUrl: string;
+  avatarColor: string | null;
+  avatarImageUrl: string | null;
   date: string;
   onlineChecked: boolean;
 }
@@ -121,8 +119,8 @@ export interface GroupChatUsersProps {
 export interface GroupChatUserProps {
   _id: string;
   nickname: string;
-  avatarColor: string;
-  avatarImageUrl: string;
+  avatarColor: string | null;
+  avatarImageUrl: string | null;
   onlineChecked: boolean;
   onOpenUserProfile: (
     userId: string,
@@ -134,15 +132,15 @@ export interface GroupChatUserProps {
 export interface UserProfileEditFormPayload {
   _id: string;
   nickname: string;
-  avatarColor?: string;
-  avatarImageUrl?: string;
+  avatarColor: string | null;
+  avatarImageUrl: string | null;
 }
 
 export interface UserProfileDetailsPayload {
   userId: string;
   nickname: string;
-  avatarColor?: string;
-  avatarImageUrl?: string;
+  avatarColor: string | null;
+  avatarImageUrl: string | null;
   onlineChecked: boolean;
   mutualFriendUsers: MutualFriendUser[];
   mutualGroupChats: GroupChatData[];
@@ -152,8 +150,8 @@ export interface UserProfileDetailsPayload {
 export interface UserProfileProps {
   userId: string;
   nickname: string;
-  avatarColor: string;
-  avatarImageUrl: string;
+  avatarColor: string | null;
+  avatarImageUrl: string | null;
   onlineChecked: boolean;
   onOpenUserProfileEditForm: (payload: UserProfileEditFormPayload) => void;
   onOpenUserProfileDetails: (payload: UserProfileDetailsPayload) => void;
@@ -179,8 +177,8 @@ export interface GroupChatInvites {
   kstDate: string;
   status: string;
   participantCount: number;
-  avatarColor: string;
-  avatarImageUrl: string;
+  avatarColor: string | null;
+  avatarImageUrl: string | null;
 }
 
 export interface GroupChatProps {
@@ -195,8 +193,8 @@ export interface GroupChatInviteProps {
   roomId: string;
   friendId: string;
   nickname: string;
-  avatarColor: string;
-  avatarImageUrl: string;
+  avatarColor: string | null;
+  avatarImageUrl: string | null;
   onToggle: () => void;
 }
 
@@ -209,8 +207,8 @@ export interface GroupChatInviteListProps {
   status: string;
   kstDate: string;
   participantCount: number;
-  avatarColor: string;
-  avatarImageUrl: string;
+  avatarColor: string | null;
+  avatarImageUrl: string | null;
 }
 
 export interface GroupChatPanelProps {
@@ -219,8 +217,8 @@ export interface GroupChatPanelProps {
   userId: string;
   hostId: string;
   hostNickname: string;
-  hostAvatarColor: string;
-  hostAvatarImageUrl: string;
+  hostAvatarColor: string | null;
+  hostAvatarImageUrl: string | null;
   announcement?: string;
   groupChatUsers: GroupChatUserData[];
   onOpenUserProfile: (
@@ -234,17 +232,31 @@ export interface RoomId {
   roomId?: string;
 }
 
-export interface ChatInfo {
+// export interface ChatInfo {
+//   userId?: string;
+//   nickname?: string;
+//   avatarColor: string | null;
+//   avatarImageUrl: string | null;
+//   title?: string;
+// }
+
+export interface DirectChatInfo {
+  type: "direct";
   userId?: string;
   nickname?: string;
   avatarColor: string | null;
   avatarImageUrl: string | null;
+}
+
+export interface GroupChatInfo {
+  type: "group";
   title?: string;
 }
 
+export type ChatInfo = DirectChatInfo | GroupChatInfo;
+
 export interface ChatsProps {
   roomId?: string;
-  type: "direct" | "group";
   chatInfo: ChatInfo;
 }
 
@@ -254,8 +266,8 @@ export interface ChatMessage {
   email: string;
   nickname: string;
   message: string;
-  avatarColor: string;
-  avatarImageUrl: string;
+  avatarColor: string | null;
+  avatarImageUrl: string | null;
   date: string;
 }
 
@@ -270,8 +282,8 @@ export interface FriendUser {
   userId: string;
   email?: string;
   nickname: string;
-  avatarColor: string;
-  avatarImageUrl: string;
+  avatarColor: string | null;
+  avatarImageUrl: string | null;
   onlineChecked: boolean;
 }
 
@@ -288,13 +300,13 @@ export interface FriendRequest {
   requester: string;
   requesterEmail: string;
   requesterNickname: string;
-  requesterAvatarColor: string;
-  requesterAvatarImageUrl: string;
+  requesterAvatarColor: string | null;
+  requesterAvatarImageUrl: string | null;
   receiver: string;
   receiverEmail: string;
   receiverNickname: string;
-  receiverAvatarColor: string;
-  receiverAvatarImageUrl: string;
+  receiverAvatarColor: string | null;
+  receiverAvatarImageUrl: string | null;
   date: string;
   status: string;
 }
@@ -311,7 +323,7 @@ export interface Notification {
   id: string;
   roomTitle?: string;
   senderNickname: string;
-  avatarColor: string;
-  avatarImageUrl: string;
+  avatarColor: string | null;
+  avatarImageUrl: string | null;
   message: string;
 }

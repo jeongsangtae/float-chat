@@ -151,11 +151,11 @@ const DirectChatDetails = () => {
       <div className={classes["direct-chat-area"]}>
         <Chats
           roomId={roomId}
-          type="direct"
           chatInfo={{
+            type: "direct",
             nickname: otherUser?.nickname,
-            avatarColor: otherUser?.avatarColor,
-            avatarImageUrl: otherUser?.avatarImageUrl,
+            avatarColor: otherUser?.avatarColor ?? null,
+            avatarImageUrl: otherUser?.avatarImageUrl ?? null,
           }}
         />
         <ChatInput roomId={roomId} />
@@ -163,10 +163,11 @@ const DirectChatDetails = () => {
 
       <DirectChatPanel
         chatInfo={{
+          type: "direct",
           userId: otherUser?._id,
           nickname: otherUser?.nickname,
-          avatarColor: otherUser?.avatarColor,
-          avatarImageUrl: otherUser?.avatarImageUrl,
+          avatarColor: otherUser?.avatarColor ?? null,
+          avatarImageUrl: otherUser?.avatarImageUrl ?? null,
         }}
         onlineChecked={onlineChecked}
         friendSince={friendSince ?? ""}

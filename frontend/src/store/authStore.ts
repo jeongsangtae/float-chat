@@ -28,8 +28,8 @@ interface AuthStore {
     modalData,
   }: {
     trimmedNickname: string;
-    avatarColor?: string;
-    avatarImageUrl?: string;
+    avatarColor: string | null;
+    avatarImageUrl: string | null;
     avatarMode: boolean;
     modalData: ModalData;
   }) => Promise<void>;
@@ -39,14 +39,14 @@ interface ModalData {
   method: "POST" | "PATCH" | "DELETE";
   _id?: string;
   nickname?: string;
-  avatarColor?: string;
-  avatarImageUrl?: string;
+  avatarColor: string | null;
+  avatarImageUrl: string | null;
 }
 
 interface RequestBody {
   nickname: string;
-  avatarColor?: string | null;
-  avatarImageUrl?: string | null;
+  avatarColor: string | null;
+  avatarImageUrl: string | null;
   modalData: ModalData;
 }
 
