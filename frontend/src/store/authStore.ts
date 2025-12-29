@@ -20,34 +20,34 @@ interface AuthStore {
   verifyUser: () => Promise<void>;
   refreshToken: () => Promise<void>;
   refreshTokenExp: () => Promise<void>;
-  editUserProfileForm: ({
-    trimmedNickname,
-    avatarColor,
-    avatarImageUrl,
-    avatarMode,
-    modalData,
-  }: {
-    trimmedNickname: string;
-    avatarColor: string | null;
-    avatarImageUrl: string | null;
-    avatarMode: boolean;
-    modalData: ModalData;
-  }) => Promise<void>;
+  editUserProfileForm: (payload: EditUserProfilePayload) => Promise<void>;
 }
 
-interface ModalData {
+type EditUserProfilePayload =
+  | {
+      avatarMode: true;
+      trimmedNickname: string;
+      avatarImageUrl: string;
+      modalContext: ModalContext;
+    }
+  | {
+      avatarMode: false;
+      trimmedNickname: string;
+      avatarColor: string;
+      modalContext: ModalContext;
+    };
+
+interface ModalContext {
+  _id: string;
   method: "POST" | "PATCH" | "DELETE";
-  _id?: string;
-  nickname?: string;
-  avatarColor: string | null;
   avatarImageUrl: string | null;
 }
 
 interface RequestBody {
+  _id: string;
   nickname: string;
   avatarColor: string | null;
   avatarImageUrl: string | null;
-  modalData: ModalData;
 }
 
 const useAuthStore = create<AuthStore>((set, get) => ({
@@ -265,35 +265,36 @@ const useAuthStore = create<AuthStore>((set, get) => ({
     }
   },
 
-  editUserProfileForm: async ({
-    trimmedNickname,
-    avatarColor,
-    avatarImageUrl,
-    avatarMode,
-    modalData,
-  }) => {
+  editUserProfileForm: async (payload) => {
     try {
+      const { trimmedNickname, avatarMode, modalContext } = payload;
+
       const requestBody: RequestBody = {
+        _id: modalContext._id,
         nickname: trimmedNickname,
-        modalData,
+        avatarColor: null,
+        avatarImageUrl: null,
       };
 
-      if (avatarMode && avatarImageUrl) {
+      if (avatarMode && payload.avatarImageUrl) {
         // console.log("if문 실행");
         // 이미지 모드 + 이미지 있음 → 이미지 업데이트
-        requestBody.avatarImageUrl = avatarImageUrl;
-      } else if (!avatarMode && avatarColor !== "#ccc") {
+        requestBody.avatarImageUrl = payload.avatarImageUrl;
+        // requestBody.avatarColor = null;
+      } else if (!avatarMode && payload.avatarColor !== "#ccc") {
         // console.log("else if문 1 실행");
         // 색 모드 + 실제 색 선택됨 → 색 업데이트
-        requestBody.avatarColor = avatarColor;
-      } else if (!avatarMode && avatarColor === "#ccc") {
+        requestBody.avatarColor = payload.avatarColor;
+        // requestBody.avatarImageUrl = null;
+      } else if (!avatarMode && payload.avatarColor === "#ccc") {
         // console.log("else if문 2 실행");
         // 색 모드인데 색이 없고 (#ccc) → 이미지 유지
-        requestBody.avatarImageUrl = modalData.avatarImageUrl;
+        requestBody.avatarImageUrl = modalContext.avatarImageUrl;
+        // requestBody.avatarColor = null;
       }
 
       const response = await fetch(`${apiURL}/editUserProfileForm`, {
-        method: modalData.method,
+        method: modalContext.method,
         body: JSON.stringify(requestBody),
         headers: { "Content-Type": "application/json" },
         credentials: "include",

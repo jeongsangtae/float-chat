@@ -260,7 +260,7 @@ router.patch("/editUserProfileForm", async (req, res) => {
     }
 
     const requestBody = req.body;
-    const currentUserId = requestBody.modalData._id;
+    const currentUserId = requestBody._id;
 
     const userId = new ObjectId(currentUserId);
     const newNickname = requestBody.nickname;
