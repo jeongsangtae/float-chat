@@ -280,17 +280,14 @@ const useAuthStore = create<AuthStore>((set, get) => ({
         // console.log("if문 실행");
         // 이미지 모드 + 이미지 있음 → 이미지 업데이트
         requestBody.avatarImageUrl = payload.avatarImageUrl;
-        // requestBody.avatarColor = null;
       } else if (!avatarMode && payload.avatarColor !== "#ccc") {
         // console.log("else if문 1 실행");
         // 색 모드 + 실제 색 선택됨 → 색 업데이트
         requestBody.avatarColor = payload.avatarColor;
-        // requestBody.avatarImageUrl = null;
       } else if (!avatarMode && payload.avatarColor === "#ccc") {
         // console.log("else if문 2 실행");
         // 색 모드인데 색이 없고 (#ccc) → 이미지 유지
         requestBody.avatarImageUrl = modalContext.avatarImageUrl;
-        // requestBody.avatarColor = null;
       }
 
       const response = await fetch(`${apiURL}/editUserProfileForm`, {

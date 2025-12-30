@@ -103,10 +103,6 @@ const EditUserProfileForm = ({ onToggle }: ModalProps) => {
             method: modalData.method,
             avatarImageUrl: modalData.avatarImageUrl,
           },
-          // modalData,
-          // modalData._id,
-          // modalData.method,
-          // modalData.avatarImageUrl,
         });
 
         // 위치 기반 방식
@@ -127,10 +123,6 @@ const EditUserProfileForm = ({ onToggle }: ModalProps) => {
             method: modalData.method,
             avatarImageUrl: modalData.avatarImageUrl,
           },
-          // modalData,
-          // modalData._id,
-          // modalData.method,
-          // modalData.avatarImageUrl,
         });
 
         // 위치 기반 방식

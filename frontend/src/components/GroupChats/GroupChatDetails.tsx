@@ -160,7 +160,6 @@ const GroupChatDetails = () => {
     payload: UserProfileDetailsPayload
   ) => {
     setCoords(null);
-    // setActiveUser(null)
 
     toggleModal("userProfileDetails", undefined, payload);
   };

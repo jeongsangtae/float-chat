@@ -4,7 +4,8 @@ import { FriendUser } from "../../types";
 
 import useFriendStore from "../../store/friendStore";
 import useGroupChatStore from "../../store/groupChatStore";
-import useDirectChatStore from "../../store/directChatStore";
+// import useDirectChatStore from "../../store/directChatStore";
+import { getDirectChatRoomId } from "../../utils/getDirectChatRoomId";
 
 import classes from "./Friend.module.css";
 import Avatar from "../Users/Avatar";
@@ -21,7 +22,7 @@ const Friend = ({
 
   const { deleteFriend } = useFriendStore();
   const { getGroupChatInvites } = useGroupChatStore();
-  const { directChatForm } = useDirectChatStore();
+  // const { directChatForm } = useDirectChatStore();
 
   const deleteFriendHandler = async (): Promise<void> => {
     if (!userId) {
@@ -39,12 +40,23 @@ const Friend = ({
       return;
     }
 
-    const roomId = await directChatForm(
+    const payload = {
       id,
       nickname,
       avatarColor,
-      avatarImageUrl
-    );
+      avatarImageUrl,
+    };
+
+    const roomId = await getDirectChatRoomId(payload);
+
+    console.log(roomId);
+
+    // const roomId = await directChatForm(
+    //   id,
+    //   nickname,
+    //   avatarColor,
+    //   avatarImageUrl
+    // );
 
     navigate(`/me/${roomId}`);
   };

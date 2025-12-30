@@ -4,7 +4,8 @@ import { DirectChatPanelProps, DirectChatPayload } from "../../types";
 
 import { IoIosArrowForward, IoIosArrowDown } from "react-icons/io";
 
-import useDirectChatStore from "../../store/directChatStore";
+// import useDirectChatStore from "../../store/directChatStore";
+import { getDirectChatRoomId } from "../../utils/getDirectChatRoomId";
 
 import Avatar from "../Users/Avatar";
 
@@ -19,7 +20,7 @@ const DirectChatPanel = ({
 }: DirectChatPanelProps) => {
   const navigate = useNavigate();
 
-  const { directChatForm } = useDirectChatStore();
+  // const { directChatForm } = useDirectChatStore();
 
   const [showMutualGroupChats, setShowMutualGroupChats] = useState(false);
   const [showMutualFriends, setShowMutualFriends] = useState(false);
@@ -47,14 +48,16 @@ const DirectChatPanel = ({
   const openDirectChatHandler = async (
     payload: DirectChatPayload
   ): Promise<void> => {
-    const { id, nickname, avatarColor, avatarImageUrl } = payload;
+    // const { id, nickname, avatarColor, avatarImageUrl } = payload;
 
-    const roomId = await directChatForm(
-      id,
-      nickname,
-      avatarColor,
-      avatarImageUrl
-    );
+    const roomId = await getDirectChatRoomId(payload);
+
+    // const roomId = await directChatForm(
+    //   id,
+    //   nickname,
+    //   avatarColor,
+    //   avatarImageUrl
+    // );
 
     navigate(`/me/${roomId}`);
   };
