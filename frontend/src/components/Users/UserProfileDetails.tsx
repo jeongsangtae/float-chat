@@ -40,18 +40,7 @@ const UserProfileDetails = ({ onToggle }: ModalProps) => {
     if (activeView === "friends") {
       if (!("id" in payload)) return;
 
-      // const { id, nickname, avatarColor, avatarImageUrl } = payload;
-
-      // console.log(id, nickname, avatarColor, avatarImageUrl);
-
       const roomId = await getDirectChatRoomId(payload);
-
-      // const roomId = await directChatForm(
-      //   id,
-      //   nickname,
-      //   avatarColor,
-      //   avatarImageUrl
-      // );
 
       targetPath = `/me/${roomId}`;
     } else {

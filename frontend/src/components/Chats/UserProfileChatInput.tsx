@@ -2,6 +2,10 @@ import { useState } from "react";
 import useAuthStore from "../../store/authStore";
 import useChatStore from "../../store/chatStore";
 
+import { IoMdSend } from "react-icons/io";
+
+import classes from "./UserProfileChatInput.module.css";
+
 interface UserProfileChatInputProps {
   userId: string;
   nickname: string;
@@ -18,6 +22,8 @@ const UserProfileChatInput = ({
   const { userInfo } = useAuthStore();
   const { userProfileDirectSendMessage } = useChatStore();
   const [message, setMessage] = useState<string>("");
+
+  const isMessageValid = message.trim().length > 0;
 
   const inputChangeHandler = (
     event: React.ChangeEvent<HTMLTextAreaElement>
@@ -48,15 +54,20 @@ const UserProfileChatInput = ({
   };
 
   return (
-    <div>
-      <div>
+    <div className={classes["user-profile-chat-input-container"]}>
+      <div className={classes["user-profile-chat-input-wrapper"]}>
         <textarea
           onChange={inputChangeHandler}
           onKeyDown={keyPressHandler}
           value={message}
           placeholder=""
         />
-        <button onClick={sendMessageHandler}></button>
+        <IoMdSend
+          className={`${classes["user-profile-chat-input-send-button"]} ${
+            !isMessageValid ? classes.disable : ""
+          }`}
+          onClick={sendMessageHandler}
+        />
       </div>
     </div>
   );

@@ -50,7 +50,7 @@
 .group-chat-host-info-avatar {
   position: absolute;
   top: -2.25rem;
-  box-shadow: 0 0 0 5px #2f3136;
+  box-shadow: 0 0 0 6px #2f3136;
   z-index: 1;
 }
 

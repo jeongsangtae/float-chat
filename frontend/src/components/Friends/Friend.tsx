@@ -49,15 +49,6 @@ const Friend = ({
 
     const roomId = await getDirectChatRoomId(payload);
 
-    console.log(roomId);
-
-    // const roomId = await directChatForm(
-    //   id,
-    //   nickname,
-    //   avatarColor,
-    //   avatarImageUrl
-    // );
-
     navigate(`/me/${roomId}`);
   };
 

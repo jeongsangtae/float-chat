@@ -46,8 +46,8 @@
   display: flex;
   flex-direction: column;
 
-  width: 15rem;
-  height: 15rem;
+  width: 16rem;
+  height: 17.5rem;
 
   background: #1abc9c;
   color: #fff;
@@ -63,7 +63,7 @@
 
 .user-profile-info-avatar-wrapper {
   position: absolute;
-  top: -1.5rem;
+  top: -2rem;
 }
 
 .user-profile-header-img,
@@ -89,16 +89,16 @@
 
 .user-profile-info-avatar-img,
 .user-profile-info-avatar-color {
-  width: 3rem;
-  height: 3rem;
-  font-size: 1.75rem;
+  width: 3.5rem;
+  height: 3.5rem;
+  font-size: 2rem;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: bold;
   color: white;
-  box-shadow: 0 0 0 4px #43454d;
+  box-shadow: 0 0 0 5px #43454d;
   z-index: 1;
 }
 
@@ -124,4 +124,55 @@
 
 .user-profile-info-content {
   margin-top: 1rem;
+  font-size: 0.8rem;
+}
+
+.user-profile-nickname {
+  font-weight: bold;
+  font-size: 1.5rem;
+}
+
+.user-profile-nickname:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.user-profile-mutual-wrapper {
+  margin: 0.5rem 0;
+}
+
+.user-profile-mutual-friends {
+  color: #b3b3b3;
+  cursor: pointer;
+}
+
+.user-profile-mutual-friends:hover {
+  text-decoration: underline;
+}
+
+.user-profile-mutual-separator {
+  color: #b3b3b3;
+}
+
+.user-profile-mutual-group-chats {
+  color: #b3b3b3;
+}
+
+.user-profile-mutual-group-chats::before {
+  content: "";
+  display: inline-block;
+  width: 4px;
+  height: 4px;
+  background-color: currentColor;
+  border-radius: 50%;
+  margin: 0 8px;
+  transform: translateY(-2px);
+}
+
+.user-profile-mutual-group-chats-text {
+  cursor: pointer;
+}
+
+.user-profile-mutual-group-chats-text:hover {
+  text-decoration: underline;
 }

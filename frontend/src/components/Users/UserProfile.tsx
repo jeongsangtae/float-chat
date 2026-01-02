@@ -217,16 +217,32 @@ const UserProfile = ({
               />
             </div>
             <div className={classes["user-profile-info-content"]}>
-              <div onClick={() => userProfileDetailsHandler("friends")}>
+              <div
+                className={classes["user-profile-nickname"]}
+                onClick={() => userProfileDetailsHandler("friends")}
+              >
                 {nickname}
               </div>
-              <span onClick={() => userProfileDetailsHandler("friends")}>
-                같이 아는 친구 {mutualFriends.length}
-              </span>
-              <span> · </span>
-              <span onClick={() => userProfileDetailsHandler("groups")}>
-                같이 있는 그룹 채팅방{mutualGroupChats.length}
-              </span>
+              <div className={classes["user-profile-mutual-wrapper"]}>
+                <span
+                  className={classes["user-profile-mutual-friends"]}
+                  onClick={() => userProfileDetailsHandler("friends")}
+                >
+                  같이 아는 친구 {mutualFriends.length}명
+                </span>
+                {/* <span className={classes["user-profile-mutual-separator"]}>
+                  {" "}
+                  ·{" "}
+                </span> */}
+                <span className={classes["user-profile-mutual-group-chats"]}>
+                  <span
+                    className={classes["user-profile-mutual-group-chats-text"]}
+                    onClick={() => userProfileDetailsHandler("groups")}
+                  >
+                    같이 있는 채팅방 {mutualGroupChats.length}개
+                  </span>
+                </span>
+              </div>
               <UserProfileChatInput
                 userId={userId}
                 nickname={nickname}

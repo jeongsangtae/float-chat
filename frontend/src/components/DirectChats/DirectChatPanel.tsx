@@ -48,16 +48,7 @@ const DirectChatPanel = ({
   const openDirectChatHandler = async (
     payload: DirectChatPayload
   ): Promise<void> => {
-    // const { id, nickname, avatarColor, avatarImageUrl } = payload;
-
     const roomId = await getDirectChatRoomId(payload);
-
-    // const roomId = await directChatForm(
-    //   id,
-    //   nickname,
-    //   avatarColor,
-    //   avatarImageUrl
-    // );
 
     navigate(`/me/${roomId}`);
   };
