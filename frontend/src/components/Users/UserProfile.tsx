@@ -149,7 +149,12 @@ const UserProfile = ({
   };
 
   return (
-    <div className={classes["user-profile-wrapper"]} style={style}>
+    <div
+      className={`${classes["user-profile-wrapper"]} ${
+        userInfo?._id === userId ? classes["user-profile-self"] : ""
+      }`}
+      style={style}
+    >
       {avatarImageUrl ? (
         <img
           className={classes["user-profile-header-img"]}
@@ -188,8 +193,17 @@ const UserProfile = ({
               />
             </div>
             <div className={classes["user-profile-info-content"]}>
-              <div>{nickname}</div>
-              <button onClick={userProfileEditHandler}>프로필 편집</button>
+              <div className={classes["user-profile-nickname"]}>
+                <div>{nickname}</div>
+              </div>
+              <div className={classes["user-profile-edit-wrapper"]}>
+                <button
+                  className={classes["user-profile-edit-button"]}
+                  onClick={userProfileEditHandler}
+                >
+                  프로필 편집
+                </button>
+              </div>
             </div>
           </>
         ) : (

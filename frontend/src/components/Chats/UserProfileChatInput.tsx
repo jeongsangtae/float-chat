@@ -60,7 +60,7 @@ const UserProfileChatInput = ({
           onChange={inputChangeHandler}
           onKeyDown={keyPressHandler}
           value={message}
-          placeholder=""
+          placeholder={`${nickname}님에게 메시지 보내기`}
         />
         <IoMdSend
           className={`${classes["user-profile-chat-input-send-button"]} ${

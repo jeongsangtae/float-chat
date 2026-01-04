@@ -46,8 +46,8 @@
   display: flex;
   flex-direction: column;
 
-  width: 16rem;
-  height: 17.5rem;
+  width: 18rem;
+  height: 16.5rem;
 
   background: #1abc9c;
   color: #fff;
@@ -59,6 +59,10 @@
   white-space: nowrap;
 
   overflow: hidden;
+}
+
+.user-profile-self {
+  height: 13.5rem;
 }
 
 .user-profile-info-avatar-wrapper {
@@ -123,7 +127,7 @@
 }
 
 .user-profile-info-content {
-  margin-top: 1rem;
+  margin-top: 1.25rem;
   font-size: 0.8rem;
 }
 
@@ -135,6 +139,27 @@
 .user-profile-nickname:hover {
   cursor: pointer;
   text-decoration: underline;
+}
+
+.user-profile-edit-wrapper {
+  text-align: center;
+  margin: 0.75rem 0;
+}
+
+.user-profile-edit-button {
+  color: white;
+  background-color: #4caf50;
+  /* background-color: #1565c0; */
+  font-weight: bold;
+  border: none;
+  padding: 0.4rem 6rem;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.user-profile-edit-button:hover {
+  background-color: #339436;
 }
 
 .user-profile-mutual-wrapper {
