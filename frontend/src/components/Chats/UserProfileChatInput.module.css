@@ -1,12 +1,13 @@
 .user-profile-chat-input-container {
   margin-top: auto;
-  margin-bottom: 2rem;
+  /* margin-bottom: 2rem; */
   width: 100%;
 }
 
 .user-profile-chat-input-wrapper {
   position: relative;
   display: flex;
+  /* align-items: flex-start; */
   align-items: center;
 }
 
@@ -30,7 +31,10 @@
   overflow-y: hidden;
   /* overflow-y: auto; */
   /* height: 62px; */
-  height: 3rem;
+  /* height: 3rem; */
+  min-height: 3rem;
+  /* max-height: calc(100vh - 12rem); */
+  overflow-y: auto;
 }
 
 .user-profile-chat-input-wrapper textarea::placeholder {
@@ -55,6 +59,10 @@
   border-radius: 0.3rem;
   cursor: pointer;
 }
+
+/* .user-profile-chat-input-wrapper button {
+  align-self: flex-start;
+} */
 
 .user-profile-chat-input-send-button:hover {
   color: white;

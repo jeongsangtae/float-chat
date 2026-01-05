@@ -47,7 +47,9 @@
   flex-direction: column;
 
   width: 18rem;
-  height: 16.5rem;
+  min-height: 16.5rem;
+  /* height: 16.5rem; */
+  height: auto;
 
   background: #1abc9c;
   color: #fff;
