@@ -36,7 +36,7 @@ const UserProfileChatInput = ({
     if (!textarea) return;
 
     // 높이 초기화
-    textarea.style.height = "auto";
+    textarea.style.height = "48px";
 
     // 화면 기준 최대 높이 계산
     const viewportHeight = window.innerHeight; // 브라우저 실제 표시 영역 높이
@@ -51,18 +51,6 @@ const UserProfileChatInput = ({
     textarea.style.height = `${newHeight}px`;
     textarea.style.overflowY =
       textarea.scrollHeight > maxHeight ? "auto" : "hidden";
-    // if (textarea) {
-    //   textarea.style.height = "auto";
-    //   const newHeight = textarea.scrollHeight;
-
-    //   if (newHeight <= 360) {
-    //     textarea.style.overflowY = "hidden";
-    //     textarea.style.height = `${newHeight}px`;
-    //   } else {
-    //     textarea.style.overflowY = "auto";
-    //     textarea.style.height = "360px";
-    //   }
-    // }
 
     setMessage(event.target.value);
   };
@@ -98,6 +86,7 @@ const UserProfileChatInput = ({
           value={message}
           placeholder={`${nickname}님에게 메시지 보내기`}
           ref={textareaRef}
+          rows={1}
         />
         <IoMdSend
           className={`${classes["user-profile-chat-input-send-button"]} ${

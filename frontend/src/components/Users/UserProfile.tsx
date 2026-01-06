@@ -114,16 +114,6 @@ const UserProfile = ({
     return users.includes(userInfo._id) && users.includes(userId);
   });
 
-  // console.log(friends);
-
-  // console.log(otherUserFriends);
-
-  // console.log(mutualFriends);
-
-  // console.log(mutualFriendUsers);
-
-  // console.log(mutualGroupChats);
-
   const userProfileEditHandler = (): void => {
     if (!userInfo?._id || !userInfo.nickname) return;
 
@@ -244,10 +234,6 @@ const UserProfile = ({
                 >
                   같이 아는 친구 {mutualFriends.length}명
                 </span>
-                {/* <span className={classes["user-profile-mutual-separator"]}>
-                  {" "}
-                  ·{" "}
-                </span> */}
                 <span className={classes["user-profile-mutual-group-chats"]}>
                   <span
                     className={classes["user-profile-mutual-group-chats-text"]}
