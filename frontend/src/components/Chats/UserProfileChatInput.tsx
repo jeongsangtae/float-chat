@@ -52,6 +52,22 @@ const UserProfileChatInput = ({
     textarea.style.overflowY =
       textarea.scrollHeight > maxHeight ? "auto" : "hidden";
 
+    // const hasScrollbar = textarea.scrollHeight > textarea.clientHeight;
+
+    // if (hasScrollbar) {
+    //   textarea.scrollTop = textarea.scrollHeight;
+    // }
+
+    const isNearBottom =
+      textarea.scrollHeight - textarea.scrollTop - textarea.clientHeight < 48;
+
+    if (isNearBottom) {
+      textarea.scrollTop = textarea.scrollHeight;
+    }
+
+    // 테스트용 (의도적으로 문제 발생)
+    // textarea.scrollTop = textarea.scrollHeight;
+
     setMessage(event.target.value);
   };
 
@@ -68,6 +84,13 @@ const UserProfileChatInput = ({
     userProfileDirectSendMessage(targetUser, message.trim(), userInfo);
 
     setMessage("");
+
+    const textarea = textareaRef.current;
+
+    if (!textarea) return;
+
+    textarea.style.height = "48px";
+    textarea.style.overflow = "hidden";
   };
 
   const keyPressHandler = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
