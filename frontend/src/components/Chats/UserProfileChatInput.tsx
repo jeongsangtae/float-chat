@@ -35,15 +35,31 @@ const UserProfileChatInput = ({
 
     if (!textarea) return;
 
+    // const profileElement = textarea.closest(".user-profile-container");
+
+    // if (!profileElement) return;
+
     // 높이 초기화
     textarea.style.height = "48px";
+    // textarea.style.height = "auto";
 
     // 화면 기준 최대 높이 계산
     const viewportHeight = window.innerHeight; // 브라우저 실제 표시 영역 높이
     const textareaTop = textarea.getBoundingClientRect().top; // viewport 기준 textarea Y 위치
 
+    // const textareaRect = textarea.getBoundingClientRect();
+    // const profileRect = profileElement.getBoundingClientRect();
+
     const bottomPadding = 36; // 하단 여유 공간
     const maxHeight = viewportHeight - textareaTop - bottomPadding; // 늘릴 수 있는 최대 높이 계산
+
+    // textarea가 늘어날 수 있는 실제 최대 높이
+    // const maxHeight =
+    // viewportHeight - textareaRect.top - 16;
+    // const maxHeight = Math.min(
+    //   viewportHeight - textareaRect.top - 100,
+    //   profileRect.bottom - textareaRect.top - 50
+    // );
 
     // 실제 적용할 높이 (내용 높이와 허용 최대 높이 중 더 작은 값 사용)
     const newHeight = Math.min(textarea.scrollHeight, maxHeight);
@@ -52,21 +68,12 @@ const UserProfileChatInput = ({
     textarea.style.overflowY =
       textarea.scrollHeight > maxHeight ? "auto" : "hidden";
 
-    // const hasScrollbar = textarea.scrollHeight > textarea.clientHeight;
+    // const isNearBottom =
+    //   textarea.scrollHeight - textarea.scrollTop - textarea.clientHeight < 24;
 
-    // if (hasScrollbar) {
+    // if (isNearBottom) {
     //   textarea.scrollTop = textarea.scrollHeight;
     // }
-
-    const isNearBottom =
-      textarea.scrollHeight - textarea.scrollTop - textarea.clientHeight < 48;
-
-    if (isNearBottom) {
-      textarea.scrollTop = textarea.scrollHeight;
-    }
-
-    // 테스트용 (의도적으로 문제 발생)
-    // textarea.scrollTop = textarea.scrollHeight;
 
     setMessage(event.target.value);
   };

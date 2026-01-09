@@ -19,6 +19,7 @@ const UserProfile = ({
   onlineChecked,
   onOpenUserProfileEditForm,
   onOpenUserProfileDetails,
+  origin,
   style,
 }: UserProfileProps) => {
   // 그룹 채팅방 내의 사용자를 클릭하면 보여지는 내용
@@ -140,7 +141,7 @@ const UserProfile = ({
 
   return (
     <div
-      className={`${classes["user-profile-wrapper"]} ${
+      className={`${classes["user-profile-wrapper"]} user-profile-container ${
         userInfo?._id === userId ? classes["user-profile-self"] : ""
       }`}
       style={style}
@@ -244,6 +245,7 @@ const UserProfile = ({
                 </span>
               </div>
               <UserProfileChatInput
+                key={`${userId}-${origin}`}
                 userId={userId}
                 nickname={nickname}
                 avatarColor={avatarColor}

@@ -264,6 +264,7 @@ const GroupChatDetails = () => {
             onlineChecked={activeUserProfile.onlineChecked}
             onOpenUserProfileEditForm={openUserProfileEditFormHandler}
             onOpenUserProfileDetails={openUserProfileDetailsHandler}
+            origin={origin}
             style={{
               position: "fixed",
               top: coords.top,

@@ -5,6 +5,8 @@
 
 .user-profile-chat-input-wrapper {
   position: relative;
+  /* display: flex;
+  align-items: center; */
 }
 
 .user-profile-chat-input-wrapper textarea {
