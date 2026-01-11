@@ -156,6 +156,7 @@ export interface UserProfileProps {
   onOpenUserProfileEditForm: (payload: UserProfileEditFormPayload) => void;
   onOpenUserProfileDetails: (payload: UserProfileDetailsPayload) => void;
   style: TooltipCoords;
+  origin: "users" | "panel" | null;
 }
 
 export interface DirectChatPayload {

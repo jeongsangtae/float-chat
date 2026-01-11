@@ -32,6 +32,8 @@ const UserProfileDetails = ({ onToggle }: ModalProps) => {
     modalData.initialView ?? "friends"
   );
 
+  console.log(modalData);
+
   const openChatHandler = async (payload: OpenChatPayload): Promise<void> => {
     console.log(payload);
 
@@ -58,12 +60,64 @@ const UserProfileDetails = ({ onToggle }: ModalProps) => {
     onToggle();
   };
 
+  const openDirectChatHandler = async (
+    payload: DirectChatPayload
+  ): Promise<void> => {
+    console.log(payload);
+
+    const roomId = await getDirectChatRoomId(payload);
+
+    navigate(`/me/${roomId}`);
+
+    onToggle();
+  };
+
   const mutualFriendUsers: MutualFriendUser[] =
     modalData.mutualFriendUsers ?? [];
   const mutualGroupChats: GroupChatData[] = modalData.mutualGroupChats ?? [];
 
   return (
     <Modal onToggle={onToggle}>
+      <div>
+        <div>
+          {modalData.avatarImageUrl ? (
+            <img src={modalData.avatarImageUrl} />
+          ) : (
+            <div
+              style={{ backgroundColor: modalData.avatarColor || "#ccc" }}
+            ></div>
+          )}
+
+          <div>
+            {modalData.avatarImageUrl ? (
+              <img src={modalData.avatarImageUrl} />
+            ) : (
+              <div style={{ backgroundColor: modalData.avatarColor || "#ccc" }}>
+                {modalData.nickname.charAt(0)}
+              </div>
+            )}
+            <div
+              className={
+                modalData.onlineChecked
+                // ? classes["user-profile-info-online-dot"]
+                // : classes["user-profile-info-offline-dot"]
+              }
+            />
+          </div>
+          <button
+            onClick={() =>
+              openDirectChatHandler({
+                id: modalData.userId,
+                nickname: modalData.nickname,
+                avatarColor: modalData.avatarColor,
+                avatarImageUrl: modalData.avatarImageUrl,
+              })
+            }
+          >
+            메시지
+          </button>
+        </div>
+      </div>
       <div>
         <button
           onClick={() => setActiveView("friends")}
