@@ -5,6 +5,8 @@ import { useNavigate, useLocation } from "react-router-dom";
 import useModalStore from "../../store/modalStore";
 // import useDirectChatStore from "../../store/directChatStore";
 
+import classes from "./UserProfileDetails.module.css";
+
 import {
   ModalProps,
   MutualFriendUser,
@@ -78,94 +80,115 @@ const UserProfileDetails = ({ onToggle }: ModalProps) => {
 
   return (
     <Modal onToggle={onToggle}>
-      <div>
-        <div>
-          {modalData.avatarImageUrl ? (
-            <img src={modalData.avatarImageUrl} />
-          ) : (
-            <div
-              style={{ backgroundColor: modalData.avatarColor || "#ccc" }}
-            ></div>
-          )}
-
+      <div className={classes["user-profile-details-wrapper"]}>
+        <div className={classes["user-profile-details-info-wrapper"]}>
           <div>
             {modalData.avatarImageUrl ? (
-              <img src={modalData.avatarImageUrl} />
+              <img
+                className={classes["user-profile-details-info-header-img"]}
+                src={modalData.avatarImageUrl}
+              />
             ) : (
-              <div style={{ backgroundColor: modalData.avatarColor || "#ccc" }}>
-                {modalData.nickname.charAt(0)}
-              </div>
+              <div
+                className={classes["user-profile-details-info-header-color"]}
+                style={{ backgroundColor: modalData.avatarColor || "#ccc" }}
+              ></div>
             )}
+
             <div
-              className={
-                modalData.onlineChecked
-                // ? classes["user-profile-info-online-dot"]
-                // : classes["user-profile-info-offline-dot"]
-              }
-            />
+              className={classes["user-profile-details-info-avatar-wrapper"]}
+            >
+              {modalData.avatarImageUrl ? (
+                <img
+                  className={classes["user-profile-details-info-avatar-img"]}
+                  src={modalData.avatarImageUrl}
+                />
+              ) : (
+                <div
+                  className={classes["user-profile-details-info-avatar-color"]}
+                  style={{ backgroundColor: modalData.avatarColor || "#ccc" }}
+                >
+                  {modalData.nickname.charAt(0)}
+                </div>
+              )}
+              <div
+                className={
+                  modalData.onlineChecked
+                    ? classes["user-profile-details-info-online-dot"]
+                    : classes["user-profile-details-info-offline-dot"]
+                }
+              />
+            </div>
           </div>
-          <button
-            onClick={() =>
-              openDirectChatHandler({
-                id: modalData.userId,
-                nickname: modalData.nickname,
-                avatarColor: modalData.avatarColor,
-                avatarImageUrl: modalData.avatarImageUrl,
-              })
-            }
-          >
-            메시지
-          </button>
-        </div>
-      </div>
-      <div>
-        <button
-          onClick={() => setActiveView("friends")}
-          disabled={activeView === "friends"}
-        >
-          같이 아는 친구
-        </button>
-        <button
-          onClick={() => setActiveView("groups")}
-          disabled={activeView === "groups"}
-        >
-          같이 있는 그룹 채팅방
-        </button>
-      </div>
-      {activeView === "friends" && (
-        <div>
-          {mutualFriendUsers.map((mutualFriendUser) => (
-            <div
-              key={mutualFriendUser.id}
+          <div className={classes["user-profile-details-info-content"]}>
+            <div>{modalData.nickname}</div>
+            <button
               onClick={() =>
-                openChatHandler({
-                  id: mutualFriendUser.id,
-                  nickname: mutualFriendUser.nickname,
-                  avatarColor: mutualFriendUser.avatarColor,
-                  avatarImageUrl: mutualFriendUser.avatarImageUrl,
+                openDirectChatHandler({
+                  id: modalData.userId,
+                  nickname: modalData.nickname,
+                  avatarColor: modalData.avatarColor,
+                  avatarImageUrl: modalData.avatarImageUrl,
                 })
               }
             >
-              <div>{mutualFriendUser.nickname}</div>
-              {/* <div>{mutualFriendUser.onlineChecked}</div> */}
-              {/* <div>{mutualFriendUser.avatarImageUrl}</div> */}
-            </div>
-          ))}
+              메시지
+            </button>
+          </div>
         </div>
-      )}
-
-      {activeView === "groups" && (
-        <div>
-          {mutualGroupChats.map((mutualGroupChat) => (
-            <div
-              key={mutualGroupChat._id}
-              onClick={() => openChatHandler({ roomId: mutualGroupChat._id })}
+        <div className={classes["user-profile-details-mutual-wrapper"]}>
+          <div>
+            <button
+              onClick={() => setActiveView("friends")}
+              disabled={activeView === "friends"}
             >
-              <div>{mutualGroupChat.title}</div>
+              같이 아는 친구
+            </button>
+            <button
+              onClick={() => setActiveView("groups")}
+              disabled={activeView === "groups"}
+            >
+              같이 있는 그룹 채팅방
+            </button>
+          </div>
+          {activeView === "friends" && (
+            <div>
+              {mutualFriendUsers.map((mutualFriendUser) => (
+                <div
+                  key={mutualFriendUser.id}
+                  onClick={() =>
+                    openChatHandler({
+                      id: mutualFriendUser.id,
+                      nickname: mutualFriendUser.nickname,
+                      avatarColor: mutualFriendUser.avatarColor,
+                      avatarImageUrl: mutualFriendUser.avatarImageUrl,
+                    })
+                  }
+                >
+                  <div>{mutualFriendUser.nickname}</div>
+                  {/* <div>{mutualFriendUser.onlineChecked}</div> */}
+                  {/* <div>{mutualFriendUser.avatarImageUrl}</div> */}
+                </div>
+              ))}
             </div>
-          ))}
+          )}
+
+          {activeView === "groups" && (
+            <div>
+              {mutualGroupChats.map((mutualGroupChat) => (
+                <div
+                  key={mutualGroupChat._id}
+                  onClick={() =>
+                    openChatHandler({ roomId: mutualGroupChat._id })
+                  }
+                >
+                  <div>{mutualGroupChat.title}</div>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
-      )}
+      </div>
     </Modal>
   );
 };
