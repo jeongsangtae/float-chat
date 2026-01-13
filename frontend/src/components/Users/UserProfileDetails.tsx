@@ -122,33 +122,43 @@ const UserProfileDetails = ({ onToggle }: ModalProps) => {
           </div>
           <div className={classes["user-profile-details-info-content"]}>
             <div>{modalData.nickname}</div>
-            <button
-              onClick={() =>
-                openDirectChatHandler({
-                  id: modalData.userId,
-                  nickname: modalData.nickname,
-                  avatarColor: modalData.avatarColor,
-                  avatarImageUrl: modalData.avatarImageUrl,
-                })
-              }
-            >
-              메시지
-            </button>
+            <div>친구가 된 날짜 출력하는 공간</div>
+            <div>
+              <button
+                onClick={() =>
+                  openDirectChatHandler({
+                    id: modalData.userId,
+                    nickname: modalData.nickname,
+                    avatarColor: modalData.avatarColor,
+                    avatarImageUrl: modalData.avatarImageUrl,
+                  })
+                }
+              >
+                메시지
+              </button>
+              <div>친구 아이콘</div>
+            </div>
           </div>
         </div>
         <div className={classes["user-profile-details-mutual-wrapper"]}>
-          <div>
+          <div className={classes["user-profile-details-mutual-tabs"]}>
             <button
+              className={`${classes["user-profile-details-mutual-tab"]} ${
+                activeView === "friends" ? classes.active : ""
+              }`}
               onClick={() => setActiveView("friends")}
-              disabled={activeView === "friends"}
+              // disabled={activeView === "friends"}
             >
-              같이 아는 친구
+              같이 아는 친구 {mutualFriendUsers.length}명
             </button>
             <button
+              className={`${classes["user-profile-details-mutual-tab"]} ${
+                activeView === "groups" ? classes.active : ""
+              }`}
               onClick={() => setActiveView("groups")}
-              disabled={activeView === "groups"}
+              // disabled={activeView === "groups"}
             >
-              같이 있는 그룹 채팅방
+              같이 있는 그룹 채팅방 {mutualGroupChats.length}개
             </button>
           </div>
           {activeView === "friends" && (

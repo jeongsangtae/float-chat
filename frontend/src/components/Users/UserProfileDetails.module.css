@@ -12,6 +12,7 @@
   z-index: 9999;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
   white-space: nowrap;
+  background-color: #2a2a2c;
 
   /* overflow: hidden; */
 }
@@ -19,8 +20,12 @@
 .user-profile-details-info-wrapper {
   width: 18rem;
   height: auto;
-  /* background-color: #43454d; */
-  background-color: #2a2a2c;
+  margin-top: 1.5rem;
+  margin-left: 1rem;
+  background-color: #43454d;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  /* background-color: #2a2a2c; */
 }
 
 .user-profile-details-info-header-img,
@@ -28,42 +33,51 @@
   height: 6rem;
   width: 100%;
   flex-shrink: 0;
+  border-top-left-radius: 10px;
   border-top-right-radius: 10px;
   /* border-radius: 10px; */
 }
 
+.user-profile-details-info-header-img {
+  object-fit: cover;
+}
+
 .user-profile-details-info-avatar-wrapper {
   position: absolute;
-  top: 4rem;
-  left: 1rem;
+  top: 5.5rem;
+  left: 2rem;
 }
 
 .user-profile-details-info-avatar-img,
 .user-profile-details-info-avatar-color {
-  width: 3.5rem;
-  height: 3.5rem;
-  font-size: 2rem;
+  width: 4.5rem;
+  height: 4.5rem;
+  font-size: 2.5rem;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   font-weight: bold;
   color: white;
-  /* box-shadow: 0 0 0 5px #43454d; */
-  box-shadow: 0 0 0 5px #2a2a2c;
+  box-shadow: 0 0 0 5px #43454d;
+  /* box-shadow: 0 0 0 5px #2a2a2c; */
   z-index: 1;
+}
+
+.user-profile-details-info-avatar-img {
+  object-fit: cover;
 }
 
 .user-profile-details-info-online-dot,
 .user-profile-details-info-offline-dot {
   position: absolute;
-  width: 1rem;
-  height: 1rem;
+  width: 1.5rem;
+  height: 1.5rem;
   bottom: -1px;
   right: -1px;
   border-radius: 50%;
   background-color: #02ac02;
-  border: 3px solid #1e1e1e;
+  border: 5px solid #1e1e1e;
 }
 
 .user-profile-details-info-offline-dot {
@@ -71,11 +85,45 @@
 }
 
 .user-profile-details-info-content {
-  margin-top: 1.5rem;
+  margin-top: 3rem;
+  margin-left: 1rem;
 }
 
 .user-profile-details-mutual-wrapper {
   width: 27rem;
   height: auto;
-  background-color: transparent;
+  margin-left: 1rem;
+  margin-top: 2.5rem;
+  /* background-color: #43454d; */
+  /* background-color: #2a2a2c; */
+}
+
+.user-profile-details-mutual-tabs {
+}
+
+.user-profile-details-mutual-tab {
+  background: transparent;
+  color: #aaa;
+  border: none;
+  /* font-weight: bold; */
+  cursor: pointer;
+}
+
+.user-profile-details-mutual-tab:hover {
+  color: #fff;
+  font-weight: bold;
+}
+
+.active {
+  color: #fff;
+  font-weight: bold;
+  cursor: default;
+}
+
+.active::after {
+  content: "";
+  display: block;
+  height: 2px;
+  margin-top: 4px;
+  background-color: #1abc9c;
 }
