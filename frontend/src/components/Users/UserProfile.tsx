@@ -47,6 +47,11 @@ const UserProfile = ({
     getDirectChat();
   }, [userId]);
 
+  const friendSince = useMemo(() => {
+    // 친구일 경우 친구된 날짜 데이터 반환
+    // 친구가 아니라면 반환하는 내용 없음
+  }, []);
+
   const mutualFriends = useMemo(() => {
     return friends.filter((friend) => {
       const userFriendId =

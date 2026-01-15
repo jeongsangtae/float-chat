@@ -149,8 +149,10 @@ const UserProfileDetails = ({ onToggle }: ModalProps) => {
               onClick={() => setActiveView("friends")}
               // disabled={activeView === "friends"}
             >
-              같이 아는 친구 {mutualFriendUsers.length}명
+              {/* <span className={classes.label}> */}
+              같이 아는 친구 {mutualFriendUsers.length}명{/* </span> */}
             </button>
+
             <button
               className={`${classes["user-profile-details-mutual-tab"]} ${
                 activeView === "groups" ? classes.active : ""
@@ -158,8 +160,15 @@ const UserProfileDetails = ({ onToggle }: ModalProps) => {
               onClick={() => setActiveView("groups")}
               // disabled={activeView === "groups"}
             >
-              같이 있는 그룹 채팅방 {mutualGroupChats.length}개
+              {/* <span className={classes.label}> */}
+              같이 있는 그룹 채팅방 {mutualGroupChats.length}개{/* </span> */}
             </button>
+
+            {/* <div
+              className={`${classes.indicator} ${
+                activeView === "groups" ? classes.right : classes.left
+              }`}
+            /> */}
           </div>
           {activeView === "friends" && (
             <div>
