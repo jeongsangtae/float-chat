@@ -47,10 +47,26 @@ const UserProfile = ({
     getDirectChat();
   }, [userId]);
 
+  console.log(userId, nickname);
+
   const friendSince = useMemo(() => {
-    // 친구일 경우 친구된 날짜 데이터 반환
-    // 친구가 아니라면 반환하는 내용 없음
-  }, []);
+    const friendSinceDateStr = friends.find((friend) => {
+      return (
+        (friend.requester.id === userInfo?._id &&
+          friend.receiver.id === userId) ||
+        (friend.requester.id === userId && friend.receiver.id === userInfo?._id)
+      );
+    })?.date;
+
+    if (!friendSinceDateStr) return null;
+
+    const [friendSinceDate] = friendSinceDateStr.split(" ");
+    const [year, month, day] = friendSinceDate.split(".");
+
+    return `${year}년 ${Number(month)}월 ${Number(day)}일`;
+  }, [friends, userInfo?._id, userId]);
+
+  console.log(friendSince);
 
   const mutualFriends = useMemo(() => {
     return friends.filter((friend) => {
@@ -138,6 +154,7 @@ const UserProfile = ({
       avatarImageUrl,
       avatarColor,
       onlineChecked,
+      friendSince,
       mutualFriendUsers,
       mutualGroupChats,
       initialView: view,

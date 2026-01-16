@@ -3,19 +3,19 @@ import { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 
 import useModalStore from "../../store/modalStore";
-// import useDirectChatStore from "../../store/directChatStore";
 
-import classes from "./UserProfileDetails.module.css";
-
+import Avatar from "./Avatar";
 import {
   ModalProps,
   MutualFriendUser,
   GroupChatData,
   DirectChatPayload,
 } from "../../types";
-// import Friend from "../Friends/Friend";
 import Modal from "../UI/Modal";
+
 import { getDirectChatRoomId } from "../../utils/getDirectChatRoomId";
+
+import classes from "./UserProfileDetails.module.css";
 
 interface GroupChatPayload {
   roomId: string;
@@ -122,22 +122,49 @@ const UserProfileDetails = ({ onToggle }: ModalProps) => {
           </div>
           <div className={classes["user-profile-details-info-content"]}>
             <div>{modalData.nickname}</div>
-            <div>친구가 된 날짜 출력하는 공간</div>
-            <div>
-              <button
-                onClick={() =>
-                  openDirectChatHandler({
-                    id: modalData.userId,
-                    nickname: modalData.nickname,
-                    avatarColor: modalData.avatarColor,
-                    avatarImageUrl: modalData.avatarImageUrl,
-                  })
-                }
-              >
-                메시지
-              </button>
-              <div>친구 아이콘</div>
-            </div>
+            {modalData.friendSince ? (
+              <div>
+                <div>
+                  <span>📅</span>친구 시작일:
+                </div>
+                <div>{modalData.friendSince}</div>
+              </div>
+            ) : (
+              <div>친구가 아닌 사용자</div>
+            )}
+            {modalData.friendSince ? (
+              <div>
+                <button
+                  onClick={() =>
+                    openDirectChatHandler({
+                      id: modalData.userId,
+                      nickname: modalData.nickname,
+                      avatarColor: modalData.avatarColor,
+                      avatarImageUrl: modalData.avatarImageUrl,
+                    })
+                  }
+                >
+                  메시지
+                </button>
+                <div>친구 아이콘</div>
+              </div>
+            ) : (
+              <div>
+                <div>친구 아이콘</div>
+                <button
+                  onClick={() =>
+                    openDirectChatHandler({
+                      id: modalData.userId,
+                      nickname: modalData.nickname,
+                      avatarColor: modalData.avatarColor,
+                      avatarImageUrl: modalData.avatarImageUrl,
+                    })
+                  }
+                >
+                  메시지
+                </button>
+              </div>
+            )}
           </div>
         </div>
         <div className={classes["user-profile-details-mutual-wrapper"]}>
@@ -147,10 +174,8 @@ const UserProfileDetails = ({ onToggle }: ModalProps) => {
                 activeView === "friends" ? classes.active : ""
               }`}
               onClick={() => setActiveView("friends")}
-              // disabled={activeView === "friends"}
             >
-              {/* <span className={classes.label}> */}
-              같이 아는 친구 {mutualFriendUsers.length}명{/* </span> */}
+              같이 아는 친구 {mutualFriendUsers.length}명
             </button>
 
             <button
@@ -158,17 +183,9 @@ const UserProfileDetails = ({ onToggle }: ModalProps) => {
                 activeView === "groups" ? classes.active : ""
               }`}
               onClick={() => setActiveView("groups")}
-              // disabled={activeView === "groups"}
             >
-              {/* <span className={classes.label}> */}
-              같이 있는 그룹 채팅방 {mutualGroupChats.length}개{/* </span> */}
+              같이 있는 그룹 채팅방 {mutualGroupChats.length}개
             </button>
-
-            {/* <div
-              className={`${classes.indicator} ${
-                activeView === "groups" ? classes.right : classes.left
-              }`}
-            /> */}
           </div>
           {activeView === "friends" && (
             <div>
@@ -184,9 +201,32 @@ const UserProfileDetails = ({ onToggle }: ModalProps) => {
                     })
                   }
                 >
+                  <Avatar
+                    nickname={mutualFriendUser.nickname}
+                    avatarImageUrl={mutualFriendUser.avatarImageUrl}
+                    avatarColor={mutualFriendUser.avatarColor}
+                    onlineChecked={mutualFriendUser.onlineChecked}
+                    showOnlineDot={true}
+                  />
+                  {/* {mutualFriendUser.avatarImageUrl ? (
+                    <img src={mutualFriendUser.avatarImageUrl} />
+                  ) : (
+                    <div
+                      style={{
+                        backgroundColor: mutualFriendUser.avatarColor || "#ccc",
+                      }}
+                    >
+                      {mutualFriendUser.nickname.charAt(0)}
+                    </div>
+                  )}
+                  <div
+                    className={
+                      mutualFriendUser.onlineChecked
+                        ? classes["user-profile-info-online-dot"]
+                        : classes["user-profile-info-offline-dot"]
+                    }
+                  /> */}
                   <div>{mutualFriendUser.nickname}</div>
-                  {/* <div>{mutualFriendUser.onlineChecked}</div> */}
-                  {/* <div>{mutualFriendUser.avatarImageUrl}</div> */}
                 </div>
               ))}
             </div>
@@ -201,6 +241,7 @@ const UserProfileDetails = ({ onToggle }: ModalProps) => {
                     openChatHandler({ roomId: mutualGroupChat._id })
                   }
                 >
+                  <div></div>
                   <div>{mutualGroupChat.title}</div>
                 </div>
               ))}

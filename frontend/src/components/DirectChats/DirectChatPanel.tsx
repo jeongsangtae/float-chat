@@ -194,27 +194,6 @@ const DirectChatPanel = ({
             {showMutualFriends && (
               <>
                 {mutualFriendUsers.map((mutualFriendUser) => (
-                  // <Link
-                  //   key={`mutualFriend-${
-                  //     mutualFriendUser.id || mutualFriendUser.roomId
-                  //   }`}
-                  //   to={`/me/${mutualFriendUser.roomId}`}
-                  //   className={classes["mutual-friend-user"]}
-                  // >
-                  //   <Avatar
-                  //     nickname={mutualFriendUser.nickname}
-                  //     avatarImageUrl={mutualFriendUser.avatarImageUrl}
-                  //     avatarColor={mutualFriendUser.avatarColor}
-                  //     onlineChecked={mutualFriendUser.onlineChecked}
-                  //     showOnlineDot={true}
-                  //     extraClass="mutual-friend-user-avatar"
-                  //     dotClass="mutual-friend-user-online-check-dot"
-                  //   />
-
-                  //   <div className={classes["mutual-friend-user-nickname"]}>
-                  //     {mutualFriendUser.nickname}
-                  //   </div>
-                  // </Link>
                   <div
                     key={`mutualFriend-${
                       mutualFriendUser.id || mutualFriendUser.roomId

@@ -142,6 +142,7 @@ export interface UserProfileDetailsPayload {
   avatarColor: string | null;
   avatarImageUrl: string | null;
   onlineChecked: boolean;
+  friendSince: string | null;
   mutualFriendUsers: MutualFriendUser[];
   mutualGroupChats: GroupChatData[];
   initialView: "friends" | "groups";
