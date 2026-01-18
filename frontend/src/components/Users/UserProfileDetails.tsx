@@ -2,7 +2,9 @@ import { useState } from "react";
 
 import { useNavigate, useLocation } from "react-router-dom";
 
+import useAuthStore from "../../store/authStore";
 import useModalStore from "../../store/modalStore";
+import useFriendStore from "../../store/friendStore";
 
 import Avatar from "./Avatar";
 import {
@@ -27,7 +29,9 @@ const UserProfileDetails = ({ onToggle }: ModalProps) => {
   const navigate = useNavigate();
   const location = useLocation();
 
+  const { userInfo } = useAuthStore();
   const { modalData } = useModalStore();
+  const { sendFriendRequest } = useFriendStore();
   // const { directChatForm } = useDirectChatStore();
 
   const [activeView, setActiveView] = useState<"friends" | "groups">(
@@ -72,6 +76,23 @@ const UserProfileDetails = ({ onToggle }: ModalProps) => {
     navigate(`/me/${roomId}`);
 
     onToggle();
+  };
+
+  const addFriendHandler = async (): Promise<void> => {
+    // const userInfo = {
+    //   _id: modalData.userId,
+    //   email: modalData.email,
+    //   username: modalData.username,
+    //   nickname: modalData.nickname,
+    //   avatarColor: modalData.avatarColor,
+    //   avatarImageUrl: modalData.avatarImageUrl,
+    // };
+    if (!userInfo) {
+      alert("로그인이 필요합니다. 로그인 후 다시 시도해 주세요.");
+      return;
+    }
+
+    await sendFriendRequest(userInfo, modalData.email);
   };
 
   const mutualFriendUsers: MutualFriendUser[] =
@@ -150,7 +171,7 @@ const UserProfileDetails = ({ onToggle }: ModalProps) => {
               </div>
             ) : (
               <div>
-                <div>친구 아이콘</div>
+                <button onClick={addFriendHandler}>친구 추가 아이콘</button>
                 <button
                   onClick={() =>
                     openDirectChatHandler({
@@ -191,6 +212,7 @@ const UserProfileDetails = ({ onToggle }: ModalProps) => {
             <div>
               {mutualFriendUsers.map((mutualFriendUser) => (
                 <div
+                  className={classes["user-profile-details-mutual-friend"]}
                   key={mutualFriendUser.id}
                   onClick={() =>
                     openChatHandler({
@@ -226,7 +248,13 @@ const UserProfileDetails = ({ onToggle }: ModalProps) => {
                         : classes["user-profile-info-offline-dot"]
                     }
                   /> */}
-                  <div>{mutualFriendUser.nickname}</div>
+                  <div
+                    className={
+                      classes["user-profile-details-mutual-friend-nickname"]
+                    }
+                  >
+                    {mutualFriendUser.nickname}
+                  </div>
                 </div>
               ))}
             </div>

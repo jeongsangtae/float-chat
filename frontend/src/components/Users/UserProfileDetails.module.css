@@ -148,3 +148,27 @@
   font-weight: bold;
   cursor: default;
 }
+
+.user-profile-details-mutual-friend {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.5rem 0.5rem 0.25rem;
+  flex: 1;
+}
+
+.user-profile-details-mutual-friend:hover {
+  border-radius: 8px;
+  background-color: #38393f;
+  cursor: pointer;
+}
+
+.user-profile-details-mutual-friend-nickname {
+  color: white;
+  margin-left: 0.25rem;
+  width: 8rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
