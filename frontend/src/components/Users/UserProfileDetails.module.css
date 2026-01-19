@@ -154,11 +154,12 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.5rem 0.5rem 0.5rem 0.25rem;
+  padding: 0.5rem 0.25rem;
   flex: 1;
 }
 
-.user-profile-details-mutual-friend:hover {
+.user-profile-details-mutual-friend:hover,
+.user-profile-details-mutual-group-chat:hover {
   border-radius: 8px;
   background-color: #38393f;
   cursor: pointer;
@@ -166,9 +167,48 @@
 
 .user-profile-details-mutual-friend-nickname {
   color: white;
-  margin-left: 0.25rem;
   width: 8rem;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.user-profile-details-mutual-group-chat {
+  display: flex;
+  text-decoration: none;
+  padding: 0.5rem 0.25rem;
+  align-items: center;
+}
+
+.user-profile-details-mutual-group-chat-icon {
+  flex-shrink: 0; /* flex에서 크기 줄어드는 거 방지 */
+  width: 2.75rem;
+  min-width: 2.75rem; /* 안전 장치 */
+  height: 2.75rem;
+  border-radius: 16px;
+  background-color: #00b8db;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  color: white;
+  white-space: nowrap; /* 텍스트 자동 줄바꿈 방지 */
+  overflow: hidden; /* 글자가 요소 범위를 넘어가지 않도록 방지 */
+}
+
+.title-small {
+  font-size: 0.65rem;
+}
+
+.user-profile-details-mutual-group-chat-title {
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis; /* 텍스트가 넘칠 경우 ... 으로 생략해 출력 */
+  min-width: 0;
+  color: white;
+  font-weight: bold;
+  font-size: 1.1rem;
+  margin-left: 0.5rem;
 }

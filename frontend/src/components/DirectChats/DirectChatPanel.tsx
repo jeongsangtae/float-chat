@@ -215,7 +215,7 @@ const DirectChatPanel = ({
                       onlineChecked={mutualFriendUser.onlineChecked}
                       showOnlineDot={true}
                       extraClass="mutual-friend-user-avatar"
-                      dotClass="mutual-friend-user-online-check-dot"
+                      dotClass="mutual-friend-user-online-dot"
                     />
 
                     <div className={classes["mutual-friend-user-nickname"]}>

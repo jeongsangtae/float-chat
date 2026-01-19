@@ -13,8 +13,6 @@ import useDirectChatStore from "../../store/directChatStore";
 
 const UserProfile = ({
   userId,
-  email,
-  username,
   nickname,
   avatarImageUrl,
   avatarColor,
@@ -152,8 +150,6 @@ const UserProfile = ({
   const userProfileDetailsHandler = (view: "friends" | "groups"): void => {
     onOpenUserProfileDetails({
       userId,
-      email,
-      username,
       nickname,
       avatarImageUrl,
       avatarColor,

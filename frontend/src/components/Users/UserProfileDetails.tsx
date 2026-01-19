@@ -212,8 +212,8 @@ const UserProfileDetails = ({ onToggle }: ModalProps) => {
             <div>
               {mutualFriendUsers.map((mutualFriendUser) => (
                 <div
-                  className={classes["user-profile-details-mutual-friend"]}
                   key={mutualFriendUser.id}
+                  className={classes["user-profile-details-mutual-friend"]}
                   onClick={() =>
                     openChatHandler({
                       id: mutualFriendUser.id,
@@ -229,6 +229,8 @@ const UserProfileDetails = ({ onToggle }: ModalProps) => {
                     avatarColor={mutualFriendUser.avatarColor}
                     onlineChecked={mutualFriendUser.onlineChecked}
                     showOnlineDot={true}
+                    extraClass="user-profile-mutual-friend-avatar"
+                    dotClass="user-profile-mutual-friend-online-dot"
                   />
                   {/* {mutualFriendUser.avatarImageUrl ? (
                     <img src={mutualFriendUser.avatarImageUrl} />
@@ -265,12 +267,29 @@ const UserProfileDetails = ({ onToggle }: ModalProps) => {
               {mutualGroupChats.map((mutualGroupChat) => (
                 <div
                   key={mutualGroupChat._id}
+                  className={classes["user-profile-details-mutual-group-chat"]}
                   onClick={() =>
                     openChatHandler({ roomId: mutualGroupChat._id })
                   }
                 >
-                  <div></div>
-                  <div>{mutualGroupChat.title}</div>
+                  <div
+                    className={`${
+                      classes["user-profile-details-mutual-group-chat-icon"]
+                    } ${
+                      mutualGroupChat.title.length > 12
+                        ? classes["title-small"]
+                        : ""
+                    }`}
+                  >
+                    {mutualGroupChat.title}
+                  </div>
+                  <div
+                    className={
+                      classes["user-profile-details-mutual-group-chat-title"]
+                    }
+                  >
+                    {mutualGroupChat.title}
+                  </div>
                 </div>
               ))}
             </div>
