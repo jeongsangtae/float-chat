@@ -47,8 +47,6 @@ const UserProfile = ({
     getDirectChat();
   }, [userId]);
 
-  console.log(userId, nickname);
-
   const friendSince = useMemo(() => {
     const friendSinceDateStr = friends.find((friend) => {
       return (
@@ -65,8 +63,6 @@ const UserProfile = ({
 
     return `${year}년 ${Number(month)}월 ${Number(day)}일`;
   }, [friends, userInfo?._id, userId]);
-
-  console.log(friendSince);
 
   const mutualFriends = useMemo(() => {
     return friends.filter((friend) => {

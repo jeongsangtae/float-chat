@@ -2,6 +2,10 @@ import { useState } from "react";
 
 import { useNavigate, useLocation } from "react-router-dom";
 
+import { MdPersonAddAlt1 } from "react-icons/md";
+import { BsPersonCheckFill } from "react-icons/bs";
+import { UserRoundCheck, UserRoundPlus, MessageCircleMore } from "lucide-react";
+
 import useAuthStore from "../../store/authStore";
 import useModalStore from "../../store/modalStore";
 import useFriendStore from "../../store/friendStore";
@@ -144,18 +148,26 @@ const UserProfileDetails = ({ onToggle }: ModalProps) => {
           <div className={classes["user-profile-details-info-content"]}>
             <div>{modalData.nickname}</div>
             {modalData.friendSince ? (
-              <div>
-                <div>
-                  <span>📅</span>친구 시작일:
+              <div className={classes["friend-since-wrapper"]}>
+                <div className={classes["friend-since-label"]}>
+                  <span className={classes["friend-since-label-emoji"]}>
+                    📅
+                  </span>
+                  친구 시작일:
                 </div>
-                <div>{modalData.friendSince}</div>
+                <div className={classes["friend-since"]}>
+                  {modalData.friendSince}
+                </div>
               </div>
             ) : (
-              <div>친구가 아닌 사용자</div>
+              <div className={classes["not-friend"]}>친구가 아닌 사용자</div>
             )}
             {modalData.friendSince ? (
-              <div>
+              <div className={classes["user-profile-details-actions"]}>
                 <button
+                  className={`${classes["direct-chat-button"]} ${
+                    modalData.friendSince ? classes.friend : ""
+                  }`}
                   onClick={() =>
                     openDirectChatHandler({
                       id: modalData.userId,
@@ -165,14 +177,30 @@ const UserProfileDetails = ({ onToggle }: ModalProps) => {
                     })
                   }
                 >
-                  메시지
+                  <MessageCircleMore className={classes["direct-chat-icon"]} />
+                  <span className={classes["direct-chat-text"]}>메시지</span>
                 </button>
-                <div>친구 아이콘</div>
+                <UserRoundCheck className={classes["friend-check-button"]} />
+
+                {/* <UserRoundPlus /> */}
+                {/* <BsPersonCheckFill />
+                <MdPersonAddAlt1 /> */}
               </div>
             ) : (
-              <div>
-                <button onClick={addFriendHandler}>친구 추가 아이콘</button>
+              <div className={classes["user-profile-details-actions"]}>
+                <div>
+                  <UserRoundPlus
+                    className={classes["add-friend-button"]}
+                    onClick={addFriendHandler}
+                  />{" "}
+                  친구 추가하기
+                </div>
+                {/* <MdPersonAddAlt1 /> */}
+                {/* <button onClick={addFriendHandler}>친구 추가 아이콘</button> */}
                 <button
+                  className={`${classes["direct-chat-button"]} ${
+                    modalData.friendSince ? classes.friend : ""
+                  }`}
                   onClick={() =>
                     openDirectChatHandler({
                       id: modalData.userId,
@@ -182,7 +210,7 @@ const UserProfileDetails = ({ onToggle }: ModalProps) => {
                     })
                   }
                 >
-                  메시지
+                  <MessageCircleMore className={classes["direct-chat-icon"]} />
                 </button>
               </div>
             )}

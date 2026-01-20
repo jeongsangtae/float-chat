@@ -51,8 +51,6 @@ const GroupChatDetails = () => {
     (groupChatUser) => groupChatUser._id === activeUser
   );
 
-  console.log(activeUserProfile);
-
   const openUserProfileHandler = (
     userId: string,
     coords: Coords,

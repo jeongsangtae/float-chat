@@ -85,9 +85,116 @@
 }
 
 .user-profile-details-info-content {
-  margin-top: 3rem;
-  margin-left: 1rem;
+  margin: 3rem 1rem 0 1rem;
 }
+
+.friend-since-wrapper {
+  margin: 0.5rem 0;
+  /* padding: 0.5rem; */
+  /* background-color: #414147; */
+  /* border-radius: 8px; */
+}
+
+.friend-since-label {
+  font-size: 0.85rem;
+  font-weight: bold;
+}
+
+.friend-since-label-emoji {
+  font-size: 0.95rem;
+  margin-right: 0.25rem;
+}
+
+.friend-since {
+  margin-top: 0.15rem;
+  font-size: 0.875rem;
+}
+
+.not-friend {
+  padding: 0.5rem;
+  margin: 0.75rem 0;
+  background-color: #414147;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 0.9rem;
+  color: white;
+  text-align: center;
+}
+
+.user-profile-details-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.direct-chat-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.5rem;
+  border-radius: 6px;
+  border: none;
+  background-color: #2f2f33;
+  /* color: #ddd; */
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.direct-chat-button:hover {
+  background-color: #3a3a40;
+}
+
+.friend {
+  padding: 0.4rem 0.75rem;
+  background-color: #2373cf;
+  font-weight: bold;
+}
+
+.friend:hover {
+  background-color: #1c61af;
+}
+
+.direct-chat-icon {
+  width: 1.2rem;
+  height: 1.2rem;
+}
+
+.direct-chat-text {
+  position: relative;
+  font-size: 0.95rem;
+  bottom: 1px;
+  /* line-height: 1; */
+}
+
+/* .friend-check-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 6px;
+  background-color: #2a2a2c;
+  color: #8fefdc;
+  cursor: default;
+}
+
+.add-friend-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.4rem 0.75rem;
+  border-radius: 6px;
+  background-color: #1abc9c;
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.add-friend-button:hover {
+  background-color: #17a88b;
+} */
 
 .user-profile-details-mutual-wrapper {
   width: 27rem;
