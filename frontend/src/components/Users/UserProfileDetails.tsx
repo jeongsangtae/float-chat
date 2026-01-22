@@ -180,7 +180,18 @@ const UserProfileDetails = ({ onToggle }: ModalProps) => {
                   <MessageCircleMore className={classes["direct-chat-icon"]} />
                   <span className={classes["direct-chat-text"]}>메시지</span>
                 </button>
-                <UserRoundCheck className={classes["friend-check-button"]} />
+                <div
+                  className={`${classes["friend-action-button"]} ${
+                    modalData.friendSince ? "" : classes.add
+                  }`}
+                >
+                  <span className={classes.tooltip}>
+                    <UserRoundCheck
+                      className={classes["friend-check-icon"]}
+                      data-tooltip="친구"
+                    />
+                  </span>
+                </div>
 
                 {/* <UserRoundPlus /> */}
                 {/* <BsPersonCheckFill />
@@ -188,12 +199,18 @@ const UserProfileDetails = ({ onToggle }: ModalProps) => {
               </div>
             ) : (
               <div className={classes["user-profile-details-actions"]}>
-                <div>
+                <div
+                  className={`${classes["friend-action-button"]} ${
+                    modalData.friendSince ? "" : classes.add
+                  }`}
+                >
                   <UserRoundPlus
-                    className={classes["add-friend-button"]}
+                    className={classes["friend-add-icon"]}
                     onClick={addFriendHandler}
                   />{" "}
-                  친구 추가하기
+                  <span className={classes["friend-add-text"]}>
+                    친구 추가하기
+                  </span>
                 </div>
                 {/* <MdPersonAddAlt1 /> */}
                 {/* <button onClick={addFriendHandler}>친구 추가 아이콘</button> */}
@@ -210,7 +227,12 @@ const UserProfileDetails = ({ onToggle }: ModalProps) => {
                     })
                   }
                 >
-                  <MessageCircleMore className={classes["direct-chat-icon"]} />
+                  <span className={classes.tooltip}>
+                    <MessageCircleMore
+                      className={classes["direct-chat-icon"]}
+                      data-tooltip="메시지"
+                    />
+                  </span>
                 </button>
               </div>
             )}
