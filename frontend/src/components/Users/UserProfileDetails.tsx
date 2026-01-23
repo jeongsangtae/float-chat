@@ -183,14 +183,12 @@ const UserProfileDetails = ({ onToggle }: ModalProps) => {
                 <div
                   className={`${classes["friend-action-button"]} ${
                     modalData.friendSince ? "" : classes.add
-                  }`}
+                  } ${classes.tooltip}`}
+                  data-tooltip="친구"
                 >
-                  <span className={classes.tooltip}>
-                    <UserRoundCheck
-                      className={classes["friend-check-icon"]}
-                      data-tooltip="친구"
-                    />
-                  </span>
+                  {/* <span className={classes.tooltip} data-tooltip="친구"> */}
+                  <UserRoundCheck className={classes["friend-check-icon"]} />
+                  {/* </span> */}
                 </div>
 
                 {/* <UserRoundPlus /> */}
@@ -217,7 +215,8 @@ const UserProfileDetails = ({ onToggle }: ModalProps) => {
                 <button
                   className={`${classes["direct-chat-button"]} ${
                     modalData.friendSince ? classes.friend : ""
-                  }`}
+                  } ${classes.tooltip}`}
+                  data-tooltip="메시지"
                   onClick={() =>
                     openDirectChatHandler({
                       id: modalData.userId,
@@ -227,12 +226,9 @@ const UserProfileDetails = ({ onToggle }: ModalProps) => {
                     })
                   }
                 >
-                  <span className={classes.tooltip}>
-                    <MessageCircleMore
-                      className={classes["direct-chat-icon"]}
-                      data-tooltip="메시지"
-                    />
-                  </span>
+                  {/* <span className={classes.tooltip} data-tooltip="메시지"> */}
+                  <MessageCircleMore className={classes["direct-chat-icon"]} />
+                  {/* </span> */}
                 </button>
               </div>
             )}

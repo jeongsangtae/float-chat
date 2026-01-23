@@ -220,20 +220,21 @@
 .tooltip::after {
   content: attr(data-tooltip);
   position: absolute;
-  bottom: calc(100% + 6px);
+  bottom: calc(100% + 8px);
   left: 50%;
   transform: translateX(-50%);
-  background: #333;
+  background: #2a2a2c;
   color: #fff;
-  font-size: 0.75rem;
-  padding: 4px 6px;
+  font-size: 0.9rem;
+  font-weight: bold;
+  line-height: 1;
+  padding: 0.7rem 0.65rem 0.5rem 0.65rem;
   border-radius: 4px;
+  /* border: 1px solid #aaa; */
   white-space: nowrap;
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.15s ease;
-
-  /* z-index: 1000; */
 }
 
 .tooltip::before {
@@ -242,19 +243,54 @@
   bottom: 100%;
   left: 50%;
   transform: translateX(-50%);
-  border-width: 5px;
+  border-width: 4px;
   border-style: solid;
-  border-color: #333 transparent transparent transparent;
+  border-color: #2a2a2c transparent transparent transparent;
   opacity: 0;
   transition: opacity 0.15s ease;
-
-  /* z-index: 1000; */
 }
 
 .tooltip:hover::after,
 .tooltip:hover::before {
   opacity: 1;
 }
+
+/* .tooltip::before {
+  content: "";
+  position: absolute;
+  right: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 0.25rem 0.2rem 0.25rem 0;
+  border-color: transparent #1abc9c transparent transparent;
+}
+
+.tooltip {
+  position: absolute;
+  left: calc(100% + 0.5rem);
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: #1abc9c;
+  color: #fff;
+  padding: 0.65rem 0.5rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  white-space: nowrap;
+  z-index: 100;
+  pointer-events: none;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
+}
+
+.friend-action-button:hover .tooltip,
+.direct-chat-button:hover .tooltip {
+  visibility: visible;
+  opacity: 1;
+} */
 
 .user-profile-details-mutual-wrapper {
   width: 27rem;
