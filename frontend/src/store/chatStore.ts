@@ -23,7 +23,7 @@ interface ChatStore {
     targetUser: TargetUser,
     message: string,
     userInfo: UserInfo
-  ) => Promise<void>;
+  ) => Promise<string>;
   saveLastReadMessageId: (
     roomId: string,
     lastVisibleMessageId: string
@@ -195,7 +195,13 @@ const useChatStore = create<ChatStore>((set) => ({
         throw new Error("다이렉트 메시지 전송 실패");
       }
 
+      const resData = await response.json();
+
+      console.log(resData);
+      console.log(resData.newMessage.roomId);
       console.log("다이렉트 메시지 전송 성공");
+
+      return resData.newMessage.roomId;
     } catch (error) {
       console.error("에러 내용:", error);
       alert(

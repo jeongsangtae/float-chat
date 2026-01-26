@@ -20,8 +20,6 @@ const DirectChatPanel = ({
 }: DirectChatPanelProps) => {
   const navigate = useNavigate();
 
-  // const { directChatForm } = useDirectChatStore();
-
   const [showMutualGroupChats, setShowMutualGroupChats] = useState(false);
   const [showMutualFriends, setShowMutualFriends] = useState(false);
   const [imageError, setImageError] = useState(false);

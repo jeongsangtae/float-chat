@@ -1,4 +1,5 @@
 import { useState, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import useAuthStore from "../../store/authStore";
 import useChatStore from "../../store/chatStore";
 
@@ -19,6 +20,8 @@ const UserProfileChatInput = ({
   avatarColor,
   avatarImageUrl,
 }: UserProfileChatInputProps) => {
+  const navigate = useNavigate();
+
   const { userInfo } = useAuthStore();
   const { userProfileDirectSendMessage } = useChatStore();
 
@@ -55,7 +58,7 @@ const UserProfileChatInput = ({
     setMessage(event.target.value);
   };
 
-  const sendMessageHandler = () => {
+  const sendMessageHandler = async (): Promise<void> => {
     if (!userId || !userInfo) return;
 
     const targetUser = {
@@ -65,7 +68,13 @@ const UserProfileChatInput = ({
       avatarImageUrl,
     };
 
-    userProfileDirectSendMessage(targetUser, message.trim(), userInfo);
+    // userProfileDirectSendMessage(targetUser, message.trim(), userInfo);
+
+    const roomId = await userProfileDirectSendMessage(
+      targetUser,
+      message.trim(),
+      userInfo
+    );
 
     setMessage("");
 
@@ -75,6 +84,8 @@ const UserProfileChatInput = ({
 
     textarea.style.height = "48px";
     textarea.style.overflow = "hidden";
+
+    navigate(`/me/${roomId}`);
   };
 
   const keyPressHandler = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
