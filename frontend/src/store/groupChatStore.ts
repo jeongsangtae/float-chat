@@ -22,6 +22,9 @@ interface GroupChatStore {
   groupChatUsers: GroupChatUserData[];
   groupChatInvites: GroupChatInvites[];
   getGroupChats: () => Promise<void>;
+  reorderGroupChats: (
+    updater: (prev: GroupChatData[]) => GroupChatData[]
+  ) => void;
   getGroupChatUsers: (roomId: string) => Promise<void>;
   groupChatForm: (
     trimmedTitle: string,
@@ -171,6 +174,11 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
       set({ loading: false });
     }
   },
+
+  reorderGroupChats: (updater: (prev: GroupChatData[]) => GroupChatData[]) =>
+    set((prev) => ({
+      groupChats: updater(prev.groupChats),
+    })),
 
   getGroupChatUsers: async (roomId) => {
     try {
