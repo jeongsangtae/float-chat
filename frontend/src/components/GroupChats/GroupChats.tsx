@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 
 import { DndContext } from "@dnd-kit/core";
 import { SortableContext, arrayMove } from "@dnd-kit/sortable";
@@ -12,6 +12,7 @@ import LoadingIndicator from "../UI/LoadingIndicator";
 import SortableGroupChat from "./SortableGroupChat";
 
 const GroupChats = () => {
+  const draggingRef = useRef(false);
   const { loading, groupChats, getGroupChats, reorderGroupChats } =
     useGroupChatStore();
 
@@ -31,7 +32,7 @@ const GroupChats = () => {
     return <LoadingIndicator />;
   }
 
-  const handleDragEnd = (event) => {
+  const dragEndHandler = (event) => {
     const { active, over } = event;
 
     if (!over || active.id === over.id) return;
@@ -42,11 +43,20 @@ const GroupChats = () => {
 
       return arrayMove(prev, oldIndex, newIndex);
     });
+
+    setTimeout(() => {
+      draggingRef.current = false;
+    }, 0);
   };
 
   return (
     <>
-      <DndContext onDragEnd={handleDragEnd}>
+      <DndContext
+        onDragStart={() => {
+          draggingRef.current = true;
+        }}
+        onDragEnd={dragEndHandler}
+      >
         <SortableContext items={groupChats.map((groupChat) => groupChat._id)}>
           {groupChats.map((groupChat) => (
             // <GroupChat
@@ -64,6 +74,7 @@ const GroupChats = () => {
               title={groupChat.title}
               contextMenu={contextMenu}
               setContextMenu={setContextMenu}
+              draggingRef={draggingRef}
             />
           ))}
         </SortableContext>

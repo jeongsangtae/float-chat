@@ -14,6 +14,7 @@ const GroupChat = ({
   title,
   contextMenu,
   setContextMenu,
+  draggingRef,
 }: GroupChatProps) => {
   const { userInfo } = useAuthStore();
   const { toggleModal } = useModalStore();
@@ -110,6 +111,8 @@ const GroupChat = ({
     };
   }, [contextMenu.visible]); // visible 상태가 바뀔 때마다 리렌더링
 
+  console.log(draggingRef.current);
+
   return (
     <>
       <div
@@ -118,6 +121,13 @@ const GroupChat = ({
       >
         <Link
           to={`/group-chat/${_id.toString()}`}
+          style={{ pointerEvents: draggingRef.current ? "none" : "auto" }}
+          // onClick={(e) => {
+          //   if (draggingRef.current) {
+          //     e.preventDefault();
+          //     e.stopPropagation();
+          //   }
+          // }}
           className={`${classes.title} ${
             title.length > 12 ? classes["title-small"] : ""
           }`}
