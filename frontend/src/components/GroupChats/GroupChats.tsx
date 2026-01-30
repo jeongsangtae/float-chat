@@ -1,7 +1,17 @@
 import { useEffect, useState, useRef } from "react";
 
-import { DndContext } from "@dnd-kit/core";
-import { SortableContext, arrayMove } from "@dnd-kit/sortable";
+import {
+  DndContext,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  closestCenter,
+} from "@dnd-kit/core";
+import {
+  SortableContext,
+  arrayMove,
+  verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
 
 import useGroupChatStore from "../../store/groupChatStore";
 // import GroupChat from "./GroupChat";
@@ -27,6 +37,14 @@ const GroupChats = () => {
     getGroupChats();
   }, []);
 
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 8,
+      },
+    })
+  );
+
   // 로딩 중일 때
   if (loading) {
     return <LoadingIndicator />;
@@ -44,9 +62,9 @@ const GroupChats = () => {
       return arrayMove(prev, oldIndex, newIndex);
     });
 
-    setTimeout(() => {
-      draggingRef.current = false;
-    }, 0);
+    // setTimeout(() => {
+    //   draggingRef.current = false;
+    // }, 0);
   };
 
   return (
@@ -55,9 +73,22 @@ const GroupChats = () => {
         onDragStart={() => {
           draggingRef.current = true;
         }}
-        onDragEnd={dragEndHandler}
+        sensors={sensors}
+        collisionDetection={closestCenter}
+        // onDragEnd={dragEndHandler}
+        onDragEnd={(event) => {
+          dragEndHandler(event);
+
+          // click 이벤트보다 "뒤"에서 false로
+          requestAnimationFrame(() => {
+            draggingRef.current = false;
+          });
+        }}
       >
-        <SortableContext items={groupChats.map((groupChat) => groupChat._id)}>
+        <SortableContext
+          items={groupChats.map((groupChat) => groupChat._id)}
+          strategy={verticalListSortingStrategy}
+        >
           {groupChats.map((groupChat) => (
             // <GroupChat
             // key={groupChat._id}

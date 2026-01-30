@@ -14,6 +14,7 @@ const GroupChat = ({
   title,
   contextMenu,
   setContextMenu,
+  isDragging,
   draggingRef,
 }: GroupChatProps) => {
   const { userInfo } = useAuthStore();
@@ -111,7 +112,8 @@ const GroupChat = ({
     };
   }, [contextMenu.visible]); // visible 상태가 바뀔 때마다 리렌더링
 
-  console.log(draggingRef.current);
+  // console.log(draggingRef.current);
+  console.log(isDragging);
 
   return (
     <>
@@ -119,22 +121,39 @@ const GroupChat = ({
         className={`${classes["group-chat"]} ${active ? classes.active : ""}`}
         onContextMenu={contextMenuOpenHandler}
       >
-        <Link
-          to={`/group-chat/${_id.toString()}`}
-          style={{ pointerEvents: draggingRef.current ? "none" : "auto" }}
-          // onClick={(e) => {
-          //   if (draggingRef.current) {
-          //     e.preventDefault();
-          //     e.stopPropagation();
-          //   }
-          // }}
-          className={`${classes.title} ${
-            title.length > 12 ? classes["title-small"] : ""
-          }`}
-          // title={title}
-        >
-          {title}
-        </Link>
+        {isDragging ? (
+          <span
+            className={`${classes.title} ${
+              title.length > 12 ? classes["title-small"] : ""
+            }`}
+          >
+            {title}
+          </span>
+        ) : (
+          <Link
+            to={`/group-chat/${_id.toString()}`}
+            // style={{ pointerEvents: draggingRef.current ? "none" : "auto" }}
+            // onMouseDown={(e) => {
+            //   if (isDragging) {
+            //     e.preventDefault();
+            //     e.stopPropagation();
+            //   }
+            // }}
+            // onClick={(e) => {
+            //   if (isDragging) {
+            //     e.preventDefault();
+            //     e.stopPropagation();
+            //   }
+            // }}
+            className={`${classes.title} ${
+              title.length > 12 ? classes["title-small"] : ""
+            }`}
+            // title={title}
+          >
+            {title}
+          </Link>
+        )}
+
         <span className={classes.indicator} />
         {title && <span className={classes["tooltip-text"]}>{title}</span>}
       </div>

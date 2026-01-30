@@ -13,8 +13,14 @@ const SortableGroupChat = ({
   setContextMenu,
   draggingRef,
 }: GroupChatProps) => {
-  const { attributes, listeners, setNodeRef, transform, transition } =
-    useSortable({ id: _id });
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ id: _id });
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -22,10 +28,18 @@ const SortableGroupChat = ({
   };
 
   return (
+    // <div
+    //   ref={setNodeRef}
+    //   style={style}
+    //   {...attributes}
+    //   className={classes.item}
+    // >
     <div ref={setNodeRef} style={style} {...attributes} {...listeners}>
       {/* <div className={classes.dragHandle} {...listeners}>
         ⠿
       </div> */}
+      {/* <div className={classes.dragHandle} {...listeners}></div> */}
+      {/* <div {...listeners} className={classes.dragHandle} aria-label="drag" /> */}
       <GroupChat
         key={_id}
         _id={_id}
@@ -33,6 +47,7 @@ const SortableGroupChat = ({
         title={title}
         contextMenu={contextMenu}
         setContextMenu={setContextMenu}
+        isDragging={isDragging}
         draggingRef={draggingRef}
       />
     </div>

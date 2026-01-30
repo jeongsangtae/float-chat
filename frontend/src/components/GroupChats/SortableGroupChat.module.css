@@ -1,7 +1,36 @@
-.dragHandle {
+/* .dragHandle {
   cursor: grab;
 }
 
 .dragHandle:active {
   cursor: grabbing;
+} */
+
+/* .dragHandle {
+  position: absolute;
+  inset: 0;
+  cursor: grab;
+} */
+
+.item {
+  position: relative;
 }
+
+.dragHandle {
+  position: absolute;
+  left: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 16px;
+  height: 16px;
+  cursor: grab;
+  z-index: 2;
+}
+
+/* .dragHandle {
+  position: absolute;
+  inset: 0;
+  cursor: grab;
+  background: transparent;
+  z-index: 1;
+} */
