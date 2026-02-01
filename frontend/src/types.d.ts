@@ -189,6 +189,7 @@ export interface GroupChatProps {
   title: string;
   contextMenu: ContextMenu;
   setContextMenu: React.Dispatch<React.SetStateAction<ContextMenu>>;
+  isDragging?: boolean;
 }
 
 export interface GroupChatInviteProps {

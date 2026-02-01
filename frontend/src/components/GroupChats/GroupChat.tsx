@@ -15,7 +15,6 @@ const GroupChat = ({
   contextMenu,
   setContextMenu,
   isDragging,
-  draggingRef,
 }: GroupChatProps) => {
   const { userInfo } = useAuthStore();
   const { toggleModal } = useModalStore();
@@ -112,13 +111,14 @@ const GroupChat = ({
     };
   }, [contextMenu.visible]); // visible 상태가 바뀔 때마다 리렌더링
 
-  // console.log(draggingRef.current);
-  console.log(isDragging);
+  // console.log(isDragging);
 
   return (
     <>
       <div
-        className={`${classes["group-chat"]} ${active ? classes.active : ""}`}
+        className={`${classes["group-chat"]} ${active ? classes.active : ""} ${
+          isDragging ? classes.dragging : ""
+        }`}
         onContextMenu={contextMenuOpenHandler}
       >
         {isDragging ? (
@@ -132,19 +132,6 @@ const GroupChat = ({
         ) : (
           <Link
             to={`/group-chat/${_id.toString()}`}
-            // style={{ pointerEvents: draggingRef.current ? "none" : "auto" }}
-            // onMouseDown={(e) => {
-            //   if (isDragging) {
-            //     e.preventDefault();
-            //     e.stopPropagation();
-            //   }
-            // }}
-            // onClick={(e) => {
-            //   if (isDragging) {
-            //     e.preventDefault();
-            //     e.stopPropagation();
-            //   }
-            // }}
             className={`${classes.title} ${
               title.length > 12 ? classes["title-small"] : ""
             }`}

@@ -1,12 +1,12 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 
 import {
   DndContext,
   PointerSensor,
   useSensor,
   useSensors,
-  closestCenter,
 } from "@dnd-kit/core";
+
 import {
   SortableContext,
   arrayMove,
@@ -16,13 +16,13 @@ import {
 import useGroupChatStore from "../../store/groupChatStore";
 // import GroupChat from "./GroupChat";
 
+import type { DragEndEvent } from "@dnd-kit/core";
 import { ContextMenu } from "../../types";
 
 import LoadingIndicator from "../UI/LoadingIndicator";
 import SortableGroupChat from "./SortableGroupChat";
 
 const GroupChats = () => {
-  const draggingRef = useRef(false);
   const { loading, groupChats, getGroupChats, reorderGroupChats } =
     useGroupChatStore();
 
@@ -50,7 +50,7 @@ const GroupChats = () => {
     return <LoadingIndicator />;
   }
 
-  const dragEndHandler = (event) => {
+  const dragEndHandler = (event: DragEndEvent) => {
     const { active, over } = event;
 
     if (!over || active.id === over.id) return;
@@ -61,43 +61,16 @@ const GroupChats = () => {
 
       return arrayMove(prev, oldIndex, newIndex);
     });
-
-    // setTimeout(() => {
-    //   draggingRef.current = false;
-    // }, 0);
   };
 
   return (
     <>
-      <DndContext
-        onDragStart={() => {
-          draggingRef.current = true;
-        }}
-        sensors={sensors}
-        collisionDetection={closestCenter}
-        // onDragEnd={dragEndHandler}
-        onDragEnd={(event) => {
-          dragEndHandler(event);
-
-          // click 이벤트보다 "뒤"에서 false로
-          requestAnimationFrame(() => {
-            draggingRef.current = false;
-          });
-        }}
-      >
+      <DndContext sensors={sensors} onDragEnd={dragEndHandler}>
         <SortableContext
           items={groupChats.map((groupChat) => groupChat._id)}
           strategy={verticalListSortingStrategy}
         >
           {groupChats.map((groupChat) => (
-            // <GroupChat
-            // key={groupChat._id}
-            // _id={groupChat._id}
-            // hostId={groupChat.hostId}
-            // title={groupChat.title}
-            // contextMenu={contextMenu}
-            // setContextMenu={setContextMenu}
-            // />
             <SortableGroupChat
               key={groupChat._id}
               _id={groupChat._id}
@@ -105,7 +78,6 @@ const GroupChats = () => {
               title={groupChat.title}
               contextMenu={contextMenu}
               setContextMenu={setContextMenu}
-              draggingRef={draggingRef}
             />
           ))}
         </SortableContext>

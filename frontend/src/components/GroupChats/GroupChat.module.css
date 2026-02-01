@@ -17,6 +17,10 @@
   background-color: #00b8db;
 }
 
+.dragging {
+  cursor: grab;
+}
+
 .title {
   display: inline-block;
   color: white;

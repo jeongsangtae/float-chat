@@ -3,7 +3,6 @@ import { CSS } from "@dnd-kit/utilities";
 
 import GroupChat from "./GroupChat";
 import { GroupChatProps } from "../../types";
-import classes from "./SortableGroupChat.module.css";
 
 const SortableGroupChat = ({
   _id,
@@ -11,7 +10,6 @@ const SortableGroupChat = ({
   title,
   contextMenu,
   setContextMenu,
-  draggingRef,
 }: GroupChatProps) => {
   const {
     attributes,
@@ -28,18 +26,7 @@ const SortableGroupChat = ({
   };
 
   return (
-    // <div
-    //   ref={setNodeRef}
-    //   style={style}
-    //   {...attributes}
-    //   className={classes.item}
-    // >
     <div ref={setNodeRef} style={style} {...attributes} {...listeners}>
-      {/* <div className={classes.dragHandle} {...listeners}>
-        ⠿
-      </div> */}
-      {/* <div className={classes.dragHandle} {...listeners}></div> */}
-      {/* <div {...listeners} className={classes.dragHandle} aria-label="drag" /> */}
       <GroupChat
         key={_id}
         _id={_id}
@@ -48,7 +35,6 @@ const SortableGroupChat = ({
         contextMenu={contextMenu}
         setContextMenu={setContextMenu}
         isDragging={isDragging}
-        draggingRef={draggingRef}
       />
     </div>
   );
