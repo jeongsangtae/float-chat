@@ -33,6 +33,9 @@ const GroupChats = () => {
     id: null,
   });
 
+  const [activeIndex, setActiveIndex] = useState<number | null>(null);
+  const [overIndex, setOverIndex] = useState<number | null>(null);
+
   useEffect(() => {
     getGroupChats();
   }, []);
@@ -50,6 +53,16 @@ const GroupChats = () => {
     return <LoadingIndicator />;
   }
 
+  const dragStartHandler = (event) => {
+    setActiveIndex(groupChats.findIndex((c) => c._id === event.active.id));
+  };
+
+  const dragOverHandler = (event) => {
+    if (!event.over) return;
+
+    setOverIndex(groupChats.findIndex((c) => c._id === event.over!.id));
+  };
+
   const dragEndHandler = (event: DragEndEvent) => {
     const { active, over } = event;
 
@@ -65,7 +78,12 @@ const GroupChats = () => {
 
   return (
     <>
-      <DndContext sensors={sensors} onDragEnd={dragEndHandler}>
+      <DndContext
+        sensors={sensors}
+        onDragStart={dragStartHandler}
+        onDragOver={dragOverHandler}
+        onDragEnd={dragEndHandler}
+      >
         <SortableContext
           items={groupChats.map((groupChat) => groupChat._id)}
           strategy={verticalListSortingStrategy}
@@ -78,6 +96,8 @@ const GroupChats = () => {
               title={groupChat.title}
               contextMenu={contextMenu}
               setContextMenu={setContextMenu}
+              activeIndex={activeIndex}
+              overIndex={overIndex}
             />
           ))}
         </SortableContext>

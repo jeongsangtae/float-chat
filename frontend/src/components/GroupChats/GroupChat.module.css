@@ -19,6 +19,7 @@
 
 .dragging {
   cursor: grab;
+  opacity: 0.5;
 }
 
 .title {

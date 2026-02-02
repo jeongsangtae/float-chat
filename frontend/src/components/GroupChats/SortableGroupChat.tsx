@@ -4,12 +4,16 @@ import { CSS } from "@dnd-kit/utilities";
 import GroupChat from "./GroupChat";
 import { GroupChatProps } from "../../types";
 
+import classes from "./SortableGroupChat.module.css";
+
 const SortableGroupChat = ({
   _id,
   hostId,
   title,
   contextMenu,
   setContextMenu,
+  activeIndex,
+  overIndex,
 }: GroupChatProps) => {
   const {
     attributes,
@@ -18,7 +22,20 @@ const SortableGroupChat = ({
     transform,
     transition,
     isDragging,
+    isOver,
   } = useSortable({ id: _id });
+
+  const showTopLine =
+    isOver &&
+    activeIndex !== null &&
+    overIndex !== null &&
+    activeIndex > overIndex;
+
+  const showBottomLine =
+    isOver &&
+    activeIndex !== null &&
+    overIndex !== null &&
+    activeIndex < overIndex;
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -26,7 +43,20 @@ const SortableGroupChat = ({
   };
 
   return (
-    <div ref={setNodeRef} style={style} {...attributes} {...listeners}>
+    <div
+      ref={setNodeRef}
+      style={style}
+      className={classes.item}
+      {...attributes}
+      {...listeners}
+    >
+      {/* <div className={classes.dropZone}>
+        {showTopLine && <div className={classes.dropLine} />}
+      </div> */}
+
+      {showTopLine && <div className={classes["insert-line-top"]} />}
+      {showBottomLine && <div className={classes["insert-line-bottom"]} />}
+
       <GroupChat
         key={_id}
         _id={_id}
@@ -36,6 +66,10 @@ const SortableGroupChat = ({
         setContextMenu={setContextMenu}
         isDragging={isDragging}
       />
+
+      {/* <div className={classes.dropZone}>
+        {showBottomLine && <div className={classes.dropLine} />}
+      </div> */}
     </div>
   );
 };
