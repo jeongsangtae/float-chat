@@ -2,21 +2,6 @@
   position: relative;
 }
 
-/* .dropZone {
-  position: relative;
-}
-
-.dropLine {
-  position: absolute;
-  left: 1px;
-  right: 1px;
-  top: 50%;
-  transform: translateY(-50%);
-  height: 4px;
-  background-color: #3ba55d;
-  border-radius: 2px;
-} */
-
 /* 위에 삽입될 위치 */
 .insert-line-top {
   position: absolute;
@@ -40,21 +25,3 @@
   border-radius: 2px;
   pointer-events: none;
 }
-
-/* .dropLineTop,
-.dropLineBottom {
-  position: absolute;
-  left: 1px;
-  right: 1px;
-  height: 5px;
-  background-color: #3ba55d;
-  border-radius: 2px;
-}
-
-.dropLineTop {
-  top: 1;
-}
-
-.dropLineBottom {
-  bottom: 1;
-} */

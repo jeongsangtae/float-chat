@@ -1,7 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 
 import {
   DndContext,
+  DragOverlay,
   PointerSensor,
   useSensor,
   useSensors,
@@ -16,7 +17,11 @@ import {
 import useGroupChatStore from "../../store/groupChatStore";
 // import GroupChat from "./GroupChat";
 
-import type { DragEndEvent } from "@dnd-kit/core";
+import type {
+  DragStartEvent,
+  DragOverEvent,
+  DragEndEvent,
+} from "@dnd-kit/core";
 import { ContextMenu } from "../../types";
 
 import LoadingIndicator from "../UI/LoadingIndicator";
@@ -35,6 +40,9 @@ const GroupChats = () => {
 
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const [overIndex, setOverIndex] = useState<number | null>(null);
+  // const [activeGroupChatId, setActiveGroupChatId] = useState<string | null>(
+  //   null
+  // );
 
   useEffect(() => {
     getGroupChats();
@@ -53,11 +61,11 @@ const GroupChats = () => {
     return <LoadingIndicator />;
   }
 
-  const dragStartHandler = (event) => {
+  const dragStartHandler = (event: DragStartEvent) => {
     setActiveIndex(groupChats.findIndex((c) => c._id === event.active.id));
   };
 
-  const dragOverHandler = (event) => {
+  const dragOverHandler = (event: DragOverEvent) => {
     if (!event.over) return;
 
     setOverIndex(groupChats.findIndex((c) => c._id === event.over!.id));
@@ -75,6 +83,10 @@ const GroupChats = () => {
       return arrayMove(prev, oldIndex, newIndex);
     });
   };
+
+  // const activeGroupChat = useMemo(() => {
+  //   return groupChats.find((c) => c._id === activeGroupChatId);
+  // }, [activeGroupChatId, groupChats]);
 
   return (
     <>
@@ -101,6 +113,9 @@ const GroupChats = () => {
             />
           ))}
         </SortableContext>
+        {/* <DragOverlay>
+          {activeGroupChat ? (<></>) : null}
+        </DragOverlay> */}
       </DndContext>
     </>
   );

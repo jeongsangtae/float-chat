@@ -183,13 +183,23 @@ export interface GroupChatInvites {
   avatarImageUrl: string | null;
 }
 
+export interface SortableGroupChatProps {
+  _id: string;
+  hostId: string;
+  title: string;
+  contextMenu: ContextMenu;
+  setContextMenu: React.Dispatch<React.SetStateAction<ContextMenu>>;
+  activeIndex: number | null;
+  overIndex: number | null;
+}
+
 export interface GroupChatProps {
   _id: string;
   hostId: string;
   title: string;
   contextMenu: ContextMenu;
   setContextMenu: React.Dispatch<React.SetStateAction<ContextMenu>>;
-  isDragging?: boolean;
+  isDragging: boolean;
 }
 
 export interface GroupChatInviteProps {

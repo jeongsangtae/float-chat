@@ -2,7 +2,7 @@ import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 
 import GroupChat from "./GroupChat";
-import { GroupChatProps } from "../../types";
+import { SortableGroupChatProps } from "../../types";
 
 import classes from "./SortableGroupChat.module.css";
 
@@ -14,7 +14,7 @@ const SortableGroupChat = ({
   setContextMenu,
   activeIndex,
   overIndex,
-}: GroupChatProps) => {
+}: SortableGroupChatProps) => {
   const {
     attributes,
     listeners,
@@ -25,21 +25,27 @@ const SortableGroupChat = ({
     isOver,
   } = useSortable({ id: _id });
 
+  // 드래그 방향에 따라 위/아래 위치 표시선 결정
+  // 채팅방 드래그해 위로 올릴 때 겹친 채팅방이 아래로 내려가며 위에 선이 보여짐
   const showTopLine =
     isOver &&
     activeIndex !== null &&
     overIndex !== null &&
     activeIndex > overIndex;
 
+  // 채팅방 드래그해 아래로 내릴 때 겹친 채팅방이 위로 올라가며 아래에 선이 보여짐
   const showBottomLine =
     isOver &&
     activeIndex !== null &&
     overIndex !== null &&
     activeIndex < overIndex;
 
-  const style = {
+  const style: React.CSSProperties = {
     transform: CSS.Transform.toString(transform),
     transition,
+    zIndex: isDragging ? 1000 : undefined,
+    position: isDragging ? "relative" : undefined,
+    // opacity: isDragging ? 0.5 : 1,
   };
 
   return (
@@ -50,10 +56,6 @@ const SortableGroupChat = ({
       {...attributes}
       {...listeners}
     >
-      {/* <div className={classes.dropZone}>
-        {showTopLine && <div className={classes.dropLine} />}
-      </div> */}
-
       {showTopLine && <div className={classes["insert-line-top"]} />}
       {showBottomLine && <div className={classes["insert-line-bottom"]} />}
 
@@ -66,10 +68,6 @@ const SortableGroupChat = ({
         setContextMenu={setContextMenu}
         isDragging={isDragging}
       />
-
-      {/* <div className={classes.dropZone}>
-        {showBottomLine && <div className={classes.dropLine} />}
-      </div> */}
     </div>
   );
 };
