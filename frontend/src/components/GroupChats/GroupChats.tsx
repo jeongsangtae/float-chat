@@ -1,8 +1,8 @@
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState } from "react";
 
 import {
   DndContext,
-  DragOverlay,
+  // DragOverlay,
   PointerSensor,
   useSensor,
   useSensors,
@@ -27,6 +27,8 @@ import { ContextMenu } from "../../types";
 import LoadingIndicator from "../UI/LoadingIndicator";
 import SortableGroupChat from "./SortableGroupChat";
 
+// import classes from "./GroupChats.module.css";
+
 const GroupChats = () => {
   const { loading, groupChats, getGroupChats, reorderGroupChats } =
     useGroupChatStore();
@@ -40,9 +42,9 @@ const GroupChats = () => {
 
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const [overIndex, setOverIndex] = useState<number | null>(null);
-  // const [activeGroupChatId, setActiveGroupChatId] = useState<string | null>(
-  //   null
-  // );
+  const [activeGroupChatId, setActiveGroupChatId] = useState<string | null>(
+    null
+  );
 
   useEffect(() => {
     getGroupChats();
@@ -56,13 +58,25 @@ const GroupChats = () => {
     })
   );
 
+  // const activeGroupChat = useMemo(() => {
+  //   return groupChats.find((c) => c._id === activeGroupChatId);
+  // }, [activeGroupChatId, groupChats]);
+
   // 로딩 중일 때
   if (loading) {
     return <LoadingIndicator />;
   }
 
   const dragStartHandler = (event: DragStartEvent) => {
-    setActiveIndex(groupChats.findIndex((c) => c._id === event.active.id));
+    const id = event.active.id as string;
+
+    if (typeof id !== "string") return;
+
+    // console.log(id);
+    // console.log(groupChats.findIndex((c) => c._id === id));
+
+    setActiveGroupChatId(id);
+    setActiveIndex(groupChats.findIndex((c) => c._id === id));
   };
 
   const dragOverHandler = (event: DragOverEvent) => {
@@ -82,11 +96,9 @@ const GroupChats = () => {
 
       return arrayMove(prev, oldIndex, newIndex);
     });
-  };
 
-  // const activeGroupChat = useMemo(() => {
-  //   return groupChats.find((c) => c._id === activeGroupChatId);
-  // }, [activeGroupChatId, groupChats]);
+    setActiveGroupChatId(null);
+  };
 
   return (
     <>
@@ -110,11 +122,16 @@ const GroupChats = () => {
               setContextMenu={setContextMenu}
               activeIndex={activeIndex}
               overIndex={overIndex}
+              isActive={activeGroupChatId === groupChat._id}
             />
           ))}
         </SortableContext>
         {/* <DragOverlay>
-          {activeGroupChat ? (<></>) : null}
+          {activeGroupChat ? (
+            <div className={classes["drag-overlay-ghost"]}>
+              {activeGroupChat.title}
+            </div>
+          ) : null}
         </DragOverlay> */}
       </DndContext>
     </>

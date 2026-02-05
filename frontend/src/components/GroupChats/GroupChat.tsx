@@ -115,6 +115,9 @@ const GroupChat = ({
 
   return (
     <>
+      {/* {isDragging ? (
+        <div className={classes["group-chat-placeholder"]} />
+      ) : ( */}
       <div
         className={`${classes["group-chat"]} ${active ? classes.active : ""} ${
           isDragging ? classes.dragging : ""
@@ -144,6 +147,8 @@ const GroupChat = ({
         <span className={classes.indicator} />
         {title && <span className={classes["tooltip-text"]}>{title}</span>}
       </div>
+      {/* )} */}
+
       {contextMenu.visible && contextMenu.id === _id && (
         <ul
           className={classes["context-menu"]}

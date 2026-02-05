@@ -14,6 +14,7 @@ const SortableGroupChat = ({
   setContextMenu,
   activeIndex,
   overIndex,
+  isActive,
 }: SortableGroupChatProps) => {
   const {
     attributes,
@@ -23,7 +24,7 @@ const SortableGroupChat = ({
     transition,
     isDragging,
     isOver,
-  } = useSortable({ id: _id });
+  } = useSortable({ id: _id, animateLayoutChanges: () => false });
 
   // 드래그 방향에 따라 위/아래 위치 표시선 결정
   // 채팅방 드래그해 위로 올릴 때 겹친 채팅방이 아래로 내려가며 위에 선이 보여짐
@@ -41,11 +42,11 @@ const SortableGroupChat = ({
     activeIndex < overIndex;
 
   const style: React.CSSProperties = {
-    transform: CSS.Transform.toString(transform),
+    transform: isDragging ? CSS.Transform.toString(transform) : "none",
+    // transform: CSS.Transform.toString(transform),
     transition,
     zIndex: isDragging ? 1000 : undefined,
     position: isDragging ? "relative" : undefined,
-    // opacity: isDragging ? 0.5 : 1,
   };
 
   return (
@@ -58,6 +59,19 @@ const SortableGroupChat = ({
     >
       {showTopLine && <div className={classes["insert-line-top"]} />}
       {showBottomLine && <div className={classes["insert-line-bottom"]} />}
+
+      {/* {isActive && <div className={classes["group-chat-placeholder"]} />}
+
+      {!isActive && (
+        <GroupChat
+          _id={_id}
+          hostId={hostId}
+          title={title}
+          contextMenu={contextMenu}
+          setContextMenu={setContextMenu}
+          isDragging={isDragging}
+        />
+      )} */}
 
       <GroupChat
         key={_id}
