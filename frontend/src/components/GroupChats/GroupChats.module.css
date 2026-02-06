@@ -3,9 +3,10 @@
   height: 3rem;
   background-color: rgba(30, 30, 30, 0.9);
   color: #fff;
-  border-radius: 8px;
+  border-radius: 16px;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
   font-weight: 500;
   pointer-events: none;
-  opacity: 0.95;
+  cursor: grab;
+  opacity: 0.5;
 }

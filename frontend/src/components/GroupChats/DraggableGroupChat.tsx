@@ -1,12 +1,10 @@
-import { useSortable } from "@dnd-kit/sortable";
-import { CSS } from "@dnd-kit/utilities";
+import { useDraggable, useDroppable } from "@dnd-kit/core";
 
 import GroupChat from "./GroupChat";
-import { SortableGroupChatProps } from "../../types";
 
-import classes from "./SortableGroupChat.module.css";
+import classes from "./DraggableGroupChat.module.css";
 
-const SortableGroupChat = ({
+const DraggableGroupChat = ({
   _id,
   hostId,
   title,
@@ -14,17 +12,20 @@ const SortableGroupChat = ({
   setContextMenu,
   activeIndex,
   overIndex,
-  isActive,
-}: SortableGroupChatProps) => {
-  const {
-    attributes,
-    listeners,
-    setNodeRef,
-    transform,
-    transition,
-    isDragging,
-    isOver,
-  } = useSortable({ id: _id });
+  isSource,
+}) => {
+  const { attributes, listeners, setNodeRef, isDragging } = useDraggable({
+    id: _id,
+  });
+
+  const { setNodeRef: setDroppableRef, isOver } = useDroppable({
+    id: _id,
+  });
+
+  const setRef = (node: HTMLElement | null) => {
+    setNodeRef(node); // draggable
+    setDroppableRef(node); // droppable
+  };
 
   // 드래그 방향에 따라 위/아래 위치 표시선 결정
   // 채팅방 드래그해 위로 올릴 때 겹친 채팅방이 아래로 내려가며 위에 선이 보여짐
@@ -41,18 +42,13 @@ const SortableGroupChat = ({
     overIndex !== null &&
     activeIndex < overIndex;
 
-  const style: React.CSSProperties = {
-    transform: isDragging ? CSS.Transform.toString(transform) : "none",
-    // transform: CSS.Transform.toString(transform),
-    transition,
-    zIndex: isDragging ? 1000 : undefined,
-    position: isDragging ? "relative" : undefined,
-    // opacity: isDragging ? 0.5 : 1,
+  const style = {
+    opacity: isDragging ? 0.4 : 1,
   };
 
   return (
     <div
-      ref={setNodeRef}
+      ref={setRef}
       style={style}
       className={classes.item}
       {...attributes}
@@ -61,9 +57,9 @@ const SortableGroupChat = ({
       {showTopLine && <div className={classes["insert-line-top"]} />}
       {showBottomLine && <div className={classes["insert-line-bottom"]} />}
 
-      {/* {isActive && <div className={classes["group-chat-placeholder"]} />}
-
-      {!isActive && (
+      {/* {isSource  ? (
+        <div className={classes["group-chat-placeholder"]} />
+      ) : (
         <GroupChat
           _id={_id}
           hostId={hostId}
@@ -74,17 +70,20 @@ const SortableGroupChat = ({
         />
       )} */}
 
-      <GroupChat
-        key={_id}
-        _id={_id}
-        hostId={hostId}
-        title={title}
-        contextMenu={contextMenu}
-        setContextMenu={setContextMenu}
-        isDragging={isDragging}
-      />
+      {isSource && !isDragging ? (
+        <div className={classes["group-chat-placeholder"]} />
+      ) : (
+        <GroupChat
+          _id={_id}
+          hostId={hostId}
+          title={title}
+          contextMenu={contextMenu}
+          setContextMenu={setContextMenu}
+          isDragging={isDragging}
+        />
+      )}
     </div>
   );
 };
 
-export default SortableGroupChat;
+export default DraggableGroupChat;

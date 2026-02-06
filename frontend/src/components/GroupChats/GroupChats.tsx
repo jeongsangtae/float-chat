@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 
 import {
   DndContext,
-  // DragOverlay,
+  DragOverlay,
   PointerSensor,
   useSensor,
   useSensors,
@@ -15,7 +15,7 @@ import {
 } from "@dnd-kit/sortable";
 
 import useGroupChatStore from "../../store/groupChatStore";
-// import GroupChat from "./GroupChat";
+import GroupChat from "./GroupChat";
 
 import type {
   DragStartEvent,
@@ -25,9 +25,10 @@ import type {
 import { ContextMenu } from "../../types";
 
 import LoadingIndicator from "../UI/LoadingIndicator";
+import DraggableGroupChat from "./DraggableGroupChat";
 import SortableGroupChat from "./SortableGroupChat";
 
-// import classes from "./GroupChats.module.css";
+import classes from "./GroupChats.module.css";
 
 const GroupChats = () => {
   const { loading, groupChats, getGroupChats, reorderGroupChats } =
@@ -58,9 +59,9 @@ const GroupChats = () => {
     })
   );
 
-  // const activeGroupChat = useMemo(() => {
-  //   return groupChats.find((c) => c._id === activeGroupChatId);
-  // }, [activeGroupChatId, groupChats]);
+  const activeGroupChat = useMemo(() => {
+    return groupChats.find((c) => c._id === activeGroupChatId);
+  }, [activeGroupChatId, groupChats]);
 
   // 로딩 중일 때
   if (loading) {
@@ -70,7 +71,7 @@ const GroupChats = () => {
   const dragStartHandler = (event: DragStartEvent) => {
     const id = event.active.id as string;
 
-    if (typeof id !== "string") return;
+    // if (typeof id !== "string") return;
 
     // console.log(id);
     // console.log(groupChats.findIndex((c) => c._id === id));
@@ -88,6 +89,7 @@ const GroupChats = () => {
   const dragEndHandler = (event: DragEndEvent) => {
     const { active, over } = event;
 
+    setActiveGroupChatId(null);
     if (!over || active.id === over.id) return;
 
     reorderGroupChats((prev) => {
@@ -96,8 +98,6 @@ const GroupChats = () => {
 
       return arrayMove(prev, oldIndex, newIndex);
     });
-
-    setActiveGroupChatId(null);
   };
 
   return (
@@ -108,7 +108,20 @@ const GroupChats = () => {
         onDragOver={dragOverHandler}
         onDragEnd={dragEndHandler}
       >
-        <SortableContext
+        {groupChats.map((groupChat) => (
+          <DraggableGroupChat
+            key={groupChat._id}
+            _id={groupChat._id}
+            hostId={groupChat.hostId}
+            title={groupChat.title}
+            contextMenu={contextMenu}
+            setContextMenu={setContextMenu}
+            activeIndex={activeIndex}
+            overIndex={overIndex}
+            isSource={activeGroupChatId === groupChat._id}
+          />
+        ))}
+        {/* <SortableContext
           items={groupChats.map((groupChat) => groupChat._id)}
           strategy={verticalListSortingStrategy}
         >
@@ -125,14 +138,20 @@ const GroupChats = () => {
               isActive={activeGroupChatId === groupChat._id}
             />
           ))}
-        </SortableContext>
-        {/* <DragOverlay>
+        </SortableContext> */}
+        <DragOverlay>
           {activeGroupChat ? (
-            <div className={classes["drag-overlay-ghost"]}>
-              {activeGroupChat.title}
+            <div className={classes["group-chat-placeholder"]}>
+              <GroupChat
+                _id={activeGroupChat._id}
+                hostId={activeGroupChat.hostId}
+                title={activeGroupChat.title}
+                contextMenu={contextMenu}
+                setContextMenu={setContextMenu}
+              />
             </div>
           ) : null}
-        </DragOverlay> */}
+        </DragOverlay>
       </DndContext>
     </>
   );

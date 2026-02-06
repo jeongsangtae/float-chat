@@ -130,7 +130,7 @@ const GroupChat = ({
               title.length > 12 ? classes["title-small"] : ""
             }`}
           >
-            {title}
+            {/* {title} */}
           </span>
         ) : (
           <Link
@@ -145,7 +145,11 @@ const GroupChat = ({
         )}
 
         <span className={classes.indicator} />
-        {title && <span className={classes["tooltip-text"]}>{title}</span>}
+        {title && (
+          <span className={`${isDragging ? "" : classes["tooltip-text"]}`}>
+            {title}
+          </span>
+        )}
       </div>
       {/* )} */}
 
