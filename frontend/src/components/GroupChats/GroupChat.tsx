@@ -14,7 +14,6 @@ const GroupChat = ({
   title,
   contextMenu,
   setContextMenu,
-  isDragging,
 }: GroupChatProps) => {
   const { userInfo } = useAuthStore();
   const { toggleModal } = useModalStore();
@@ -115,22 +114,17 @@ const GroupChat = ({
 
   return (
     <>
-      {/* {isDragging ? (
-        <div className={classes["group-chat-placeholder"]} />
-      ) : ( */}
       <div
-        className={`${classes["group-chat"]} ${active ? classes.active : ""} ${
-          isDragging ? classes.dragging : ""
-        }`}
+        className={`${classes["group-chat"]} ${active ? classes.active : ""}`}
         onContextMenu={contextMenuOpenHandler}
       >
-        {isDragging ? (
+        {/* {isDragging ? (
           <span
             className={`${classes.title} ${
               title.length > 12 ? classes["title-small"] : ""
             }`}
           >
-            {/* {title} */}
+            {title}
           </span>
         ) : (
           <Link
@@ -142,16 +136,21 @@ const GroupChat = ({
           >
             {title}
           </Link>
-        )}
+        )} */}
+
+        <Link
+          to={`/group-chat/${_id.toString()}`}
+          className={`${classes.title} ${
+            title.length > 12 ? classes["title-small"] : ""
+          }`}
+          // title={title}
+        >
+          {title}
+        </Link>
 
         <span className={classes.indicator} />
-        {title && (
-          <span className={`${isDragging ? "" : classes["tooltip-text"]}`}>
-            {title}
-          </span>
-        )}
+        {title && <span className={classes["tooltip-text"]}>{title}</span>}
       </div>
-      {/* )} */}
 
       {contextMenu.visible && contextMenu.id === _id && (
         <ul

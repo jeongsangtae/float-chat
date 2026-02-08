@@ -14,7 +14,6 @@ const SortableGroupChat = ({
   setContextMenu,
   activeIndex,
   overIndex,
-  isActive,
 }: SortableGroupChatProps) => {
   const {
     attributes,
@@ -81,7 +80,7 @@ const SortableGroupChat = ({
         title={title}
         contextMenu={contextMenu}
         setContextMenu={setContextMenu}
-        isDragging={isDragging}
+        // isDragging={isDragging}
       />
     </div>
   );

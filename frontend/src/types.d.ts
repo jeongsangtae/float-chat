@@ -193,13 +193,23 @@ export interface SortableGroupChatProps {
   overIndex: number | null;
 }
 
+export interface DraggableGroupChatProps {
+  _id: string;
+  hostId: string;
+  title: string;
+  contextMenu: ContextMenu;
+  setContextMenu: React.Dispatch<React.SetStateAction<ContextMenu>>;
+  activeIndex: number | null;
+  overIndex: number | null;
+  isSource: boolean;
+}
+
 export interface GroupChatProps {
   _id: string;
   hostId: string;
   title: string;
   contextMenu: ContextMenu;
   setContextMenu: React.Dispatch<React.SetStateAction<ContextMenu>>;
-  isDragging?: boolean;
 }
 
 export interface GroupChatInviteProps {

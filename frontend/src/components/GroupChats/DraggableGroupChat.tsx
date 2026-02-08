@@ -2,6 +2,7 @@ import { useDraggable, useDroppable } from "@dnd-kit/core";
 
 import GroupChat from "./GroupChat";
 
+import { DraggableGroupChatProps } from "../../types";
 import classes from "./DraggableGroupChat.module.css";
 
 const DraggableGroupChat = ({
@@ -13,7 +14,7 @@ const DraggableGroupChat = ({
   activeIndex,
   overIndex,
   isSource,
-}) => {
+}: DraggableGroupChatProps) => {
   const { attributes, listeners, setNodeRef, isDragging } = useDraggable({
     id: _id,
   });
@@ -57,7 +58,7 @@ const DraggableGroupChat = ({
       {showTopLine && <div className={classes["insert-line-top"]} />}
       {showBottomLine && <div className={classes["insert-line-bottom"]} />}
 
-      {/* {isSource  ? (
+      {isSource ? (
         <div className={classes["group-chat-placeholder"]} />
       ) : (
         <GroupChat
@@ -66,20 +67,6 @@ const DraggableGroupChat = ({
           title={title}
           contextMenu={contextMenu}
           setContextMenu={setContextMenu}
-          isDragging={isDragging}
-        />
-      )} */}
-
-      {isSource && !isDragging ? (
-        <div className={classes["group-chat-placeholder"]} />
-      ) : (
-        <GroupChat
-          _id={_id}
-          hostId={hostId}
-          title={title}
-          contextMenu={contextMenu}
-          setContextMenu={setContextMenu}
-          isDragging={isDragging}
         />
       )}
     </div>

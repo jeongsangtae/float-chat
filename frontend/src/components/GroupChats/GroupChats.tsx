@@ -9,13 +9,13 @@ import {
 } from "@dnd-kit/core";
 
 import {
-  SortableContext,
   arrayMove,
-  verticalListSortingStrategy,
+  // SortableContext,
+  // verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 
 import useGroupChatStore from "../../store/groupChatStore";
-import GroupChat from "./GroupChat";
+// import GroupChat from "./GroupChat";
 
 import type {
   DragStartEvent,
@@ -26,7 +26,7 @@ import { ContextMenu } from "../../types";
 
 import LoadingIndicator from "../UI/LoadingIndicator";
 import DraggableGroupChat from "./DraggableGroupChat";
-import SortableGroupChat from "./SortableGroupChat";
+// import SortableGroupChat from "./SortableGroupChat";
 
 import classes from "./GroupChats.module.css";
 
@@ -69,12 +69,11 @@ const GroupChats = () => {
   }
 
   const dragStartHandler = (event: DragStartEvent) => {
+    // 타입 단언
     const id = event.active.id as string;
 
+    // 타입 가드
     // if (typeof id !== "string") return;
-
-    // console.log(id);
-    // console.log(groupChats.findIndex((c) => c._id === id));
 
     setActiveGroupChatId(id);
     setActiveIndex(groupChats.findIndex((c) => c._id === id));
@@ -90,6 +89,7 @@ const GroupChats = () => {
     const { active, over } = event;
 
     setActiveGroupChatId(null);
+
     if (!over || active.id === over.id) return;
 
     reorderGroupChats((prev) => {
@@ -121,6 +121,8 @@ const GroupChats = () => {
             isSource={activeGroupChatId === groupChat._id}
           />
         ))}
+        {/* Sortable 방식 UX로 되돌릴 가능성 대비해서 유지
+         (드래그 중 실시간 재정렬 방식) */}
         {/* <SortableContext
           items={groupChats.map((groupChat) => groupChat._id)}
           strategy={verticalListSortingStrategy}
@@ -140,17 +142,19 @@ const GroupChats = () => {
           ))}
         </SortableContext> */}
         <DragOverlay>
-          {activeGroupChat ? (
-            <div className={classes["group-chat-placeholder"]}>
-              <GroupChat
-                _id={activeGroupChat._id}
-                hostId={activeGroupChat.hostId}
-                title={activeGroupChat.title}
-                contextMenu={contextMenu}
-                setContextMenu={setContextMenu}
-              />
+          {activeGroupChat && (
+            <div className={` ${classes["group-chat-overlay"]} `}>
+              <span
+                className={`${classes["group-chat-overlay-title"]} ${
+                  activeGroupChat.title.length > 12
+                    ? classes["title-small"]
+                    : ""
+                }`}
+              >
+                {activeGroupChat.title}
+              </span>
             </div>
-          ) : null}
+          )}
         </DragOverlay>
       </DndContext>
     </>
