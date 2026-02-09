@@ -14,6 +14,7 @@ import {
   // verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 
+import useAuthStore from "../../store/authStore";
 import useGroupChatStore from "../../store/groupChatStore";
 // import GroupChat from "./GroupChat";
 
@@ -31,8 +32,14 @@ import DraggableGroupChat from "./DraggableGroupChat";
 import classes from "./GroupChats.module.css";
 
 const GroupChats = () => {
-  const { loading, groupChats, getGroupChats, reorderGroupChats } =
-    useGroupChatStore();
+  const { userInfo } = useAuthStore();
+  const {
+    loading,
+    groupChats,
+    getGroupChats,
+    reorderGroupChats,
+    saveGroupChatOrder,
+  } = useGroupChatStore();
 
   const [contextMenu, setContextMenu] = useState<ContextMenu>({
     visible: false,
@@ -62,6 +69,12 @@ const GroupChats = () => {
   const activeGroupChat = useMemo(() => {
     return groupChats.find((c) => c._id === activeGroupChatId);
   }, [activeGroupChatId, groupChats]);
+
+  console.log(userInfo);
+
+  // const sortedGroupChats = useMemo(() => {
+  //   if (!userInfo?.groupChatOrder.length) return groupChats;
+  // }, [userInfo?.groupChatOrder, groupChats]);
 
   // 로딩 중일 때
   if (loading) {
@@ -96,7 +109,11 @@ const GroupChats = () => {
       const oldIndex = prev.findIndex((c) => c._id === active.id);
       const newIndex = prev.findIndex((c) => c._id === over.id);
 
-      return arrayMove(prev, oldIndex, newIndex);
+      const sortableGroupChats = arrayMove(prev, oldIndex, newIndex);
+
+      saveGroupChatOrder(sortableGroupChats.map((groupChat) => groupChat._id));
+
+      return sortableGroupChats;
     });
   };
 

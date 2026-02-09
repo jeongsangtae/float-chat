@@ -568,6 +568,38 @@ router.patch("/editUserProfileForm", async (req, res) => {
   }
 });
 
+router.patch("/user/group-chat-order", async (req, res) => {
+  try {
+    const othersData = await accessToken(req, res);
+
+    if (!othersData) {
+      return res.status(401).json({ message: "jwt error" });
+    }
+
+    const { groupChatOrder } = req.body;
+
+    const user = await db
+      .getDb()
+      .collection("users")
+      .findOne({ _id: othersData._id });
+
+    if (!user) {
+      return res
+        .status(404)
+        .json({ message: "사용자 정보를 찾을 수 없습니다." });
+    }
+
+    await db
+      .getDb()
+      .collection("users")
+      .updateOne({ _id: othersData._id }, { $set: { groupChatOrder } });
+
+    res.status(200).json({ message: "그룹 채팅방 목록 업데이트" });
+  } catch (error) {
+    errorHandler(res, error, "그룹 채팅방 목록 저장 중 오류 발생");
+  }
+});
+
 // 로그아웃 처리, 쿠키에서 토큰 제거
 router.post("/logout", async (req, res) => {
   const isProduction = process.env.NODE_ENV === "production";

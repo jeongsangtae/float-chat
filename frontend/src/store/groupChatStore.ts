@@ -180,6 +180,31 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
       groupChats: updater(prev.groupChats),
     })),
 
+  saveGroupChatOrder: async (groupChatIds: string[]) => {
+    console.log(groupChatIds);
+    try {
+      const response = await fetch(`${apiURL}/user/group-chat-order`, {
+        method: "PATCH",
+        body: JSON.stringify({ groupChatOrder: groupChatIds }),
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+      });
+
+      if (!response.ok) {
+        throw new Error("그룹 채팅방 목록 저장 실패");
+      }
+
+      const resData = await response.json();
+
+      console.log(resData);
+    } catch (error) {
+      console.error("에러 내용:", error);
+      alert(
+        "그룹 채팅방 목록을 저장하는 중에 문제가 발생했습니다. 새로고침 후 다시 시도해 주세요."
+      );
+    }
+  },
+
   getGroupChatUsers: async (roomId) => {
     try {
       const response = await fetch(`${apiURL}/groupChat/${roomId}/users`, {
