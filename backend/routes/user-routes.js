@@ -568,6 +568,7 @@ router.patch("/editUserProfileForm", async (req, res) => {
   }
 });
 
+// 재정렬된 그룹 채팅방 목록 업데이트 라우터
 router.patch("/user/group-chat-order", async (req, res) => {
   try {
     const othersData = await accessToken(req, res);

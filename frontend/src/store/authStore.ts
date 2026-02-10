@@ -319,6 +319,19 @@ const useAuthStore = create<AuthStore>((set, get) => ({
       );
     }
   },
+
+  updateUserGroupChatOrder: (order) => {
+    set((prev) => {
+      if (!prev.userInfo) return prev;
+
+      return {
+        userInfo: {
+          ...prev.userInfo,
+          groupChatOrder: order,
+        },
+      };
+    });
+  },
 }));
 
 // 전역 초기화 (클라이언트 환경에서만 실행되도록 보호)

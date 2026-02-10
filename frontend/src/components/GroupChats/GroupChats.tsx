@@ -32,7 +32,7 @@ import DraggableGroupChat from "./DraggableGroupChat";
 import classes from "./GroupChats.module.css";
 
 const GroupChats = () => {
-  const { userInfo } = useAuthStore();
+  const { userInfo, updateUserGroupChatOrder } = useAuthStore();
   const {
     loading,
     groupChats,
@@ -72,9 +72,27 @@ const GroupChats = () => {
 
   console.log(userInfo);
 
-  // const sortedGroupChats = useMemo(() => {
-  //   if (!userInfo?.groupChatOrder.length) return groupChats;
-  // }, [userInfo?.groupChatOrder, groupChats]);
+  const sortedGroupChats = useMemo(() => {
+    // 드래그 중이면 store 상태 그대로
+    // if (activeGroupChatId) return groupChats;
+
+    if (!userInfo?.groupChatOrder.length) return groupChats;
+
+    const orderMap = new Map(
+      userInfo.groupChatOrder.map((id, index) => [id, index])
+    );
+
+    return [...groupChats].sort((a, b) => {
+      const aIndex = orderMap.get(a._id);
+      const bIndex = orderMap.get(b._id);
+
+      // order에 없는 채팅방은 뒤로
+      if (aIndex === undefined) return 1;
+      if (bIndex === undefined) return -1;
+
+      return aIndex - bIndex;
+    });
+  }, [userInfo?.groupChatOrder, groupChats]);
 
   // 로딩 중일 때
   if (loading) {
@@ -89,13 +107,13 @@ const GroupChats = () => {
     // if (typeof id !== "string") return;
 
     setActiveGroupChatId(id);
-    setActiveIndex(groupChats.findIndex((c) => c._id === id));
+    setActiveIndex(sortedGroupChats.findIndex((c) => c._id === id));
   };
 
   const dragOverHandler = (event: DragOverEvent) => {
     if (!event.over) return;
 
-    setOverIndex(groupChats.findIndex((c) => c._id === event.over!.id));
+    setOverIndex(sortedGroupChats.findIndex((c) => c._id === event.over!.id));
   };
 
   const dragEndHandler = (event: DragEndEvent) => {
@@ -105,16 +123,26 @@ const GroupChats = () => {
 
     if (!over || active.id === over.id) return;
 
-    reorderGroupChats((prev) => {
-      const oldIndex = prev.findIndex((c) => c._id === active.id);
-      const newIndex = prev.findIndex((c) => c._id === over.id);
+    const oldIndex = sortedGroupChats.findIndex((c) => c._id === active.id);
+    const newIndex = sortedGroupChats.findIndex((c) => c._id === over.id);
 
-      const sortableGroupChats = arrayMove(prev, oldIndex, newIndex);
+    const newOrderChats = arrayMove(sortedGroupChats, oldIndex, newIndex);
 
-      saveGroupChatOrder(sortableGroupChats.map((groupChat) => groupChat._id));
+    const newOrderIds = newOrderChats.map((c) => c._id);
 
-      return sortableGroupChats;
-    });
+    updateUserGroupChatOrder(newOrderIds);
+    saveGroupChatOrder(newOrderIds);
+
+    // reorderGroupChats((prev) => {
+    //   const oldIndex = prev.findIndex((c) => c._id === active.id);
+    //   const newIndex = prev.findIndex((c) => c._id === over.id);
+
+    //   const sortableGroupChats = arrayMove(prev, oldIndex, newIndex);
+
+    //   saveGroupChatOrder(sortableGroupChats.map((groupChat) => groupChat._id));
+
+    //   return sortableGroupChats;
+    // });
   };
 
   return (
@@ -125,7 +153,21 @@ const GroupChats = () => {
         onDragOver={dragOverHandler}
         onDragEnd={dragEndHandler}
       >
-        {groupChats.map((groupChat) => (
+        {/* {groupChats.map((groupChat) => (
+          <DraggableGroupChat
+            key={groupChat._id}
+            _id={groupChat._id}
+            hostId={groupChat.hostId}
+            title={groupChat.title}
+            contextMenu={contextMenu}
+            setContextMenu={setContextMenu}
+            activeIndex={activeIndex}
+            overIndex={overIndex}
+            isSource={activeGroupChatId === groupChat._id}
+          />
+        ))} */}
+
+        {sortedGroupChats.map((groupChat) => (
           <DraggableGroupChat
             key={groupChat._id}
             _id={groupChat._id}
