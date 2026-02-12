@@ -5,7 +5,6 @@ import { Socket } from "socket.io-client";
 import useSocketStore from "./socketStore";
 
 import {
-  UserInfo,
   GroupChatData,
   GroupChatUserData,
   GroupChatInvites,
@@ -22,9 +21,10 @@ interface GroupChatStore {
   groupChatUsers: GroupChatUserData[];
   groupChatInvites: GroupChatInvites[];
   getGroupChats: () => Promise<void>;
-  reorderGroupChats: (
-    updater: (prev: GroupChatData[]) => GroupChatData[]
-  ) => void;
+  // reorderGroupChats: (
+  //   updater: (prev: GroupChatData[]) => GroupChatData[]
+  // ) => void;
+  saveGroupChatOrder: (groupChatIds: string[]) => Promise<void>;
   getGroupChatUsers: (roomId: string) => Promise<void>;
   groupChatForm: (
     trimmedTitle: string,
@@ -175,13 +175,12 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
     }
   },
 
-  reorderGroupChats: (updater: (prev: GroupChatData[]) => GroupChatData[]) =>
-    set((prev) => ({
-      groupChats: updater(prev.groupChats),
-    })),
+  // reorderGroupChats: (updater: (prev: GroupChatData[]) => GroupChatData[]) =>
+  //   set((prev) => ({
+  //     groupChats: updater(prev.groupChats),
+  //   })),
 
-  saveGroupChatOrder: async (groupChatIds: string[]) => {
-    console.log(groupChatIds);
+  saveGroupChatOrder: async (groupChatIds) => {
     try {
       const response = await fetch(`${apiURL}/user/group-chat-order`, {
         method: "PATCH",
@@ -306,14 +305,14 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
       socket.on("groupChatLeave", (leavingUserId) => {
         set((prev) => ({
           groupChatUsers: prev.groupChatUsers.filter(
-            (groupChatUser: Omit<UserInfo, "tokenExp">) =>
-              groupChatUser._id !== leavingUserId
+            (groupChatUser) => groupChatUser._id !== leavingUserId
           ),
         }));
       });
 
       const resData: { groupChatUsers: GroupChatUserData[] } =
         await response.json();
+      console.log(resData);
 
       set({ groupChatUsers: resData.groupChatUsers });
     } catch (error) {

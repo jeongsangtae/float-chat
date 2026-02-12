@@ -16,6 +16,7 @@ export interface UserInfo {
   nickname: string;
   avatarColor: string | null;
   avatarImageUrl: string | null;
+  groupChatOrder: string[];
   tokenExp: number;
 }
 
@@ -90,6 +91,7 @@ export interface GroupChatUserData {
   nickname: string;
   avatarColor: string | null;
   avatarImageUrl: string | null;
+  groupChatOrder: string[];
   date: string;
   onlineChecked: boolean;
 }

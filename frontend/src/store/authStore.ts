@@ -21,6 +21,7 @@ interface AuthStore {
   refreshToken: () => Promise<void>;
   refreshTokenExp: () => Promise<void>;
   editUserProfileForm: (payload: EditUserProfilePayload) => Promise<void>;
+  updateUserGroupChatOrder: (order: string[]) => void;
 }
 
 type EditUserProfilePayload =
@@ -321,6 +322,7 @@ const useAuthStore = create<AuthStore>((set, get) => ({
   },
 
   updateUserGroupChatOrder: (order) => {
+    console.log(order);
     set((prev) => {
       if (!prev.userInfo) return prev;
 

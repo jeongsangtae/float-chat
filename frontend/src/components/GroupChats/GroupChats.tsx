@@ -37,7 +37,7 @@ const GroupChats = () => {
     loading,
     groupChats,
     getGroupChats,
-    reorderGroupChats,
+    // reorderGroupChats,
     saveGroupChatOrder,
   } = useGroupChatStore();
 
