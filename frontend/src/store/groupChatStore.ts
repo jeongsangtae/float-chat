@@ -21,9 +21,6 @@ interface GroupChatStore {
   groupChatUsers: GroupChatUserData[];
   groupChatInvites: GroupChatInvites[];
   getGroupChats: () => Promise<void>;
-  // reorderGroupChats: (
-  //   updater: (prev: GroupChatData[]) => GroupChatData[]
-  // ) => void;
   saveGroupChatOrder: (groupChatIds: string[]) => Promise<void>;
   getGroupChatUsers: (roomId: string) => Promise<void>;
   groupChatForm: (
@@ -175,11 +172,6 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
     }
   },
 
-  // reorderGroupChats: (updater: (prev: GroupChatData[]) => GroupChatData[]) =>
-  //   set((prev) => ({
-  //     groupChats: updater(prev.groupChats),
-  //   })),
-
   saveGroupChatOrder: async (groupChatIds) => {
     try {
       const response = await fetch(`${apiURL}/user/group-chat-order`, {
@@ -312,7 +304,6 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
 
       const resData: { groupChatUsers: GroupChatUserData[] } =
         await response.json();
-      console.log(resData);
 
       set({ groupChatUsers: resData.groupChatUsers });
     } catch (error) {

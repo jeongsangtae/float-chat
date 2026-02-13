@@ -33,13 +33,8 @@ import classes from "./GroupChats.module.css";
 
 const GroupChats = () => {
   const { userInfo, updateUserGroupChatOrder } = useAuthStore();
-  const {
-    loading,
-    groupChats,
-    getGroupChats,
-    // reorderGroupChats,
-    saveGroupChatOrder,
-  } = useGroupChatStore();
+  const { loading, groupChats, getGroupChats, saveGroupChatOrder } =
+    useGroupChatStore();
 
   const [contextMenu, setContextMenu] = useState<ContextMenu>({
     visible: false,
@@ -70,12 +65,7 @@ const GroupChats = () => {
     return groupChats.find((c) => c._id === activeGroupChatId);
   }, [activeGroupChatId, groupChats]);
 
-  console.log(userInfo);
-
   const sortedGroupChats = useMemo(() => {
-    // 드래그 중이면 store 상태 그대로
-    // if (activeGroupChatId) return groupChats;
-
     if (!userInfo?.groupChatOrder.length) return groupChats;
 
     const orderMap = new Map(
@@ -132,17 +122,6 @@ const GroupChats = () => {
 
     updateUserGroupChatOrder(newOrderIds);
     saveGroupChatOrder(newOrderIds);
-
-    // reorderGroupChats((prev) => {
-    //   const oldIndex = prev.findIndex((c) => c._id === active.id);
-    //   const newIndex = prev.findIndex((c) => c._id === over.id);
-
-    //   const sortableGroupChats = arrayMove(prev, oldIndex, newIndex);
-
-    //   saveGroupChatOrder(sortableGroupChats.map((groupChat) => groupChat._id));
-
-    //   return sortableGroupChats;
-    // });
   };
 
   return (
@@ -153,20 +132,6 @@ const GroupChats = () => {
         onDragOver={dragOverHandler}
         onDragEnd={dragEndHandler}
       >
-        {/* {groupChats.map((groupChat) => (
-          <DraggableGroupChat
-            key={groupChat._id}
-            _id={groupChat._id}
-            hostId={groupChat.hostId}
-            title={groupChat.title}
-            contextMenu={contextMenu}
-            setContextMenu={setContextMenu}
-            activeIndex={activeIndex}
-            overIndex={overIndex}
-            isSource={activeGroupChatId === groupChat._id}
-          />
-        ))} */}
-
         {sortedGroupChats.map((groupChat) => (
           <DraggableGroupChat
             key={groupChat._id}
@@ -186,7 +151,7 @@ const GroupChats = () => {
           items={groupChats.map((groupChat) => groupChat._id)}
           strategy={verticalListSortingStrategy}
         >
-          {groupChats.map((groupChat) => (
+          {sortedGroupChats.map((groupChat) => (
             <SortableGroupChat
               key={groupChat._id}
               _id={groupChat._id}

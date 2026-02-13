@@ -114,7 +114,22 @@ router.post("/groupChatForm", async (req, res) => {
       users: [hostId],
     };
 
-    await db.getDb().collection("groupChats").insertOne(newGroupChat);
+    const result = await db
+      .getDb()
+      .collection("groupChats")
+      .insertOne(newGroupChat);
+
+    console.log(result);
+
+    const groupChatId = result.insertedId.toString();
+
+    await db
+      .getDb()
+      .collection("users")
+      .updateOne(
+        { _id: othersData._id },
+        { $push: { groupChatOrder: groupChatId } }
+      );
 
     res.status(200).json({ newGroupChat });
   } catch (error) {
@@ -329,6 +344,12 @@ router.patch("/groupChatAnnouncementDelete", async (req, res) => {
 // 그룹 채팅방 삭제 라우터
 router.delete("/groupChat/:roomId", async (req, res) => {
   try {
+    const othersData = await accessToken(req, res);
+
+    if (!othersData) {
+      return res.status(401).json({ message: "jwt error" });
+    }
+
     let roomId = req.params.roomId;
 
     roomId = new ObjectId(roomId);
@@ -345,11 +366,23 @@ router.delete("/groupChat/:roomId", async (req, res) => {
         .json({ message: "그룹 채팅방을 찾을 수 없습니다." });
     }
 
+    console.log(roomId);
+
     await db.getDb().collection("chatMessages").deleteMany({ roomId });
 
     await db.getDb().collection("groupChatInvites").deleteMany({ roomId });
 
     await db.getDb().collection("lastReadMessages").deleteMany({ roomId });
+
+    await db
+      .getDb()
+      .collection("users")
+      .updateMany(
+        {
+          _id: { $in: groupChat.users.map((id) => new ObjectId(id)) },
+        },
+        { $pull: { groupChatOrder: roomId.toString() } }
+      );
 
     await db.getDb().collection("groupChats").deleteOne({ _id: roomId });
 

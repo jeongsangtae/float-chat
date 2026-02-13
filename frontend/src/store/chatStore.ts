@@ -197,8 +197,6 @@ const useChatStore = create<ChatStore>((set) => ({
 
       const resData = await response.json();
 
-      console.log(resData);
-      console.log(resData.newMessage.roomId);
       console.log("다이렉트 메시지 전송 성공");
 
       return resData.newMessage.roomId;
