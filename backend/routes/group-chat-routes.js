@@ -119,8 +119,6 @@ router.post("/groupChatForm", async (req, res) => {
       .collection("groupChats")
       .insertOne(newGroupChat);
 
-    console.log(result);
-
     const groupChatId = result.insertedId.toString();
 
     await db
@@ -366,8 +364,6 @@ router.delete("/groupChat/:roomId", async (req, res) => {
         .json({ message: "그룹 채팅방을 찾을 수 없습니다." });
     }
 
-    console.log(roomId);
-
     await db.getDb().collection("chatMessages").deleteMany({ roomId });
 
     await db.getDb().collection("groupChatInvites").deleteMany({ roomId });
@@ -446,6 +442,14 @@ router.delete("/leaveGroupChat/:roomId", async (req, res) => {
         roomId,
         $or: [{ receiver: othersData._id }, { requester: othersData._id }],
       });
+
+    await db
+      .getDb()
+      .collection("users")
+      .updateOne(
+        { _id: othersData._id },
+        { $pull: { groupChatOrder: roomId.toString() } }
+      );
 
     // Socket.io 및 onlineUsers Map 가져오기
     const io = req.app.get("io"); // Express 앱에서 Socket.io 인스턴스를 가져옴
@@ -620,6 +624,14 @@ router.post("/acceptGroupChat", async (req, res) => {
       .updateOne(
         { _id: new ObjectId(groupChatId) },
         { $addToSet: { users: othersData._id.toString() } }
+      );
+
+    await db
+      .getDb()
+      .collection("users")
+      .updateOne(
+        { _id: othersData._id },
+        { $addToSet: { groupChatOrder: groupChatId } }
       );
 
     await db

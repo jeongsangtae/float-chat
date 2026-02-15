@@ -66,11 +66,11 @@ const GroupChats = () => {
   }, [activeGroupChatId, groupChats]);
 
   const sortedGroupChats = useMemo(() => {
-    if (!userInfo?.groupChatOrder.length) return groupChats;
+    const order = userInfo?.groupChatOrder ?? [];
 
-    const orderMap = new Map(
-      userInfo.groupChatOrder.map((id, index) => [id, index])
-    );
+    if (!order.length) return groupChats;
+
+    const orderMap = new Map(order.map((id, index) => [id, index]));
 
     return [...groupChats].sort((a, b) => {
       const aIndex = orderMap.get(a._id);
