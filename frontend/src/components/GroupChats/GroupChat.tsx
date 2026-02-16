@@ -45,9 +45,15 @@ const GroupChat = ({
     //   return;
     // }
 
-    // 아무것도 안 열려 있는 경우 (열기)
+    // 이미 메뉴가 열려 있으면 닫기만 하고 끝
+    if (contextMenu.visible) {
+      contextMenuCloseHandler();
+      return;
+    }
+
+    // 메뉴가 안 열려 있으면 열기
     setContextMenu({
-      visible: !contextMenu.visible,
+      visible: true,
       x: event.pageX,
       y: event.pageY,
       id: _id,
