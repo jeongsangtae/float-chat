@@ -116,8 +116,6 @@ const GroupChat = ({
     };
   }, [contextMenu.visible]); // visible 상태가 바뀔 때마다 리렌더링
 
-  // console.log(isDragging);
-
   return (
     <>
       <div
@@ -149,7 +147,6 @@ const GroupChat = ({
           className={`${classes.title} ${
             title.length > 12 ? classes["title-small"] : ""
           }`}
-          // title={title}
         >
           {title}
         </Link>
@@ -167,16 +164,16 @@ const GroupChat = ({
           {hostId === userInfo?._id ? (
             <>
               <button type="button" onClick={groupChatEditHandler}>
-                수정
+                채팅방 수정
               </button>
               <button type="button" onClick={groupChatDeleteHandler}>
-                삭제
+                채팅방 삭제
               </button>
             </>
           ) : (
             <>
               <button type="button" onClick={groupChatLeaveHandler}>
-                나가기
+                채팅방 나가기
               </button>
             </>
           )}
