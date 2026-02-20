@@ -21,6 +21,13 @@
   overflow: hidden;
 }
 
+.full-opacity-slider {
+  position: fixed;
+  top: 5px;
+  right: 10px;
+  z-index: 9999;
+}
+
 .main-content {
   flex: 1;
   background-color: #36393f;

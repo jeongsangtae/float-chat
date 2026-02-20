@@ -84,6 +84,11 @@ button:focus-visible {
   -webkit-text-size-adjust: 100%;
 }
 
+html {
+  background: black;
+}
+
 body {
   margin: 0;
+  background: transparent;
 }
