@@ -19,9 +19,15 @@ import Avatar from "../Users/Avatar";
 
 interface SideBarProps {
   onLeaveChatRoom: () => void;
+  fullOpacity: number;
+  setFullOpacity: React.Dispatch<React.SetStateAction<number>>;
 }
 
-const SideBar = ({ onLeaveChatRoom }: SideBarProps) => {
+const SideBar = ({
+  onLeaveChatRoom,
+  fullOpacity,
+  setFullOpacity,
+}: SideBarProps) => {
   const { isLoggedIn, userInfo, renewToken, refreshTokenExp, logout } =
     useAuthStore();
   const { activeModal, toggleModal } = useModalStore();
@@ -133,6 +139,15 @@ const SideBar = ({ onLeaveChatRoom }: SideBarProps) => {
               {userInfo?.nickname}
             </p>
           </div>
+          <input
+            type="range"
+            min="0.1"
+            max="1"
+            step="0.01"
+            value={fullOpacity}
+            onChange={(e) => setFullOpacity(Number(e.target.value))}
+            className={classes["full-opacity-slider"]}
+          />
           <div className={classes["user-info-right"]}>
             <button
               className={classes["user-info-edit"]}

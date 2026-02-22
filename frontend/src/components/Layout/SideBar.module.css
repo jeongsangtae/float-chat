@@ -199,11 +199,36 @@
 
 .user-info-nickname {
   font-size: 1rem;
-  margin-left: 0.25rem;
-  width: 9rem;
+  margin: 0 0.25rem;
+  /* width: 9rem; */
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.full-opacity-slider {
+  -webkit-appearance: none;
+  margin: 0 5px 0 10px;
+  width: 5rem;
+  border-radius: 8px;
+}
+
+/* 막대 */
+.full-opacity-slider::-webkit-slider-runnable-track {
+  height: 1px;
+  background: #adadad; /* 막대 색 */
+  border-radius: 8px;
+}
+
+/* 동그라미 */
+.full-opacity-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 10px;
+  height: 10px;
+  background: white;
+  border-radius: 50%;
+  cursor: pointer;
+  margin-top: -4px;
 }
 
 .user-info-right {
@@ -221,7 +246,7 @@
   background: none;
   border: none;
   color: #adadad;
-  padding: 0.5rem;
+  padding: 0.5rem 0.35rem;
   cursor: pointer;
   border-radius: 8px;
   transition: background-color 0.2s ease;
