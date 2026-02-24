@@ -9,7 +9,8 @@
   width: 15rem;
   /* height: 100vh; */
   height: 100%;
-  background-color: #2f3136;
+  /* background-color: #2f3136; */
+  background-color: var(--bg-side);
   display: flex;
   flex-direction: column;
   padding: 0.75rem 0.5rem;

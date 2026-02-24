@@ -87,3 +87,21 @@ button:focus-visible {
 body {
   margin: 0;
 }
+
+.theme-dark {
+  --bg-side: #2f3136;
+  --bg-main: #36393f;
+  --bg-user-info: #292b2f;
+}
+
+.theme-blue {
+  --bg-side: #0f172a;
+  --bg-main: #1e293b;
+  --bg-user-info: #334155;
+}
+
+.theme-purple {
+  --bg-side: #1e1b2e;
+  --bg-main: #2d2640;
+  --bg-user-info: #3c2f5a;
+}

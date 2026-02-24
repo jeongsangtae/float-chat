@@ -3,6 +3,7 @@
   display: flex;
   flex-direction: column;
   background-color: #36393f;
+  background-color: var(--bg-main);
 }
 
 .friend-submenu {

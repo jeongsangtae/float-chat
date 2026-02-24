@@ -58,7 +58,8 @@
   display: flex;
   flex-direction: column;
   height: 100%;
-  background-color: #2f3136;
+  /* background-color: #2f3136; */
+  background-color: var(--bg-side);
   padding: 1rem;
   overflow-y: visible;
 }

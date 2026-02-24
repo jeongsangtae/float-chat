@@ -10,14 +10,36 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #2f3136;
+  /* background-color: #2f3136; */
+  background-color: var(--bg-side);
   font-weight: bold;
+}
+
+.dark,
+.blue {
+  content: "";
+  position: fixed;
+  width: 1.25rem;
+  height: 1.25rem;
+  top: 6px;
+  right: 35px;
+  border: 1px solid rgb(143, 143, 143);
+  border-radius: 50%;
+  background-color: black;
+  z-index: 9999;
+  cursor: pointer;
+}
+
+.blue {
+  right: 10px;
+  background-color: blue;
 }
 
 .layout {
   display: flex;
   flex: 1;
-  background-color: #2f3136;
+  /* background-color: #2f3136; */
+  background-color: var(--bg-side);
   overflow: hidden;
 }
 
@@ -31,6 +53,7 @@
 .main-content {
   flex: 1;
   background-color: #36393f;
+  background-color: var(--bg-main);
   display: flex;
   flex-direction: column;
   overflow-y: hidden;

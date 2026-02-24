@@ -15,6 +15,7 @@ interface LayoutProps {
 const Layout = ({ children, onLeaveChatRoom }: LayoutProps) => {
   const { currentView, groupChatTitle } = useLayoutStore();
 
+  const [theme, setTheme] = useState("dark");
   const [fullOpacity, setFullOpacity] = useState(1);
 
   useEffect(() => {
@@ -33,22 +34,18 @@ const Layout = ({ children, onLeaveChatRoom }: LayoutProps) => {
   }, []);
 
   return (
-    <div className={classes.wrapper} style={{ opacity: fullOpacity }}>
+    <div
+      className={`${classes.wrapper} theme-${theme}`}
+      style={{ opacity: fullOpacity }}
+    >
       <div className={classes.header}>
         {currentView === "friends" && "친구"}
         {currentView === "directChat" && "다이렉트 메시지"}
         {currentView === "groupChat" && groupChatTitle}
       </div>
+      <div className={classes.dark} onClick={() => setTheme("dark")}></div>
+      <div className={classes.blue} onClick={() => setTheme("blue")}></div>
       <div className={classes.layout}>
-        {/* <input
-          type="range"
-          min="0.1"
-          max="1"
-          step="0.01"
-          value={fullOpacity}
-          onChange={(e) => setFullOpacity(Number(e.target.value))}
-          className={classes["full-opacity-slider"]}
-        /> */}
         <SideBar
           onLeaveChatRoom={onLeaveChatRoom}
           fullOpacity={fullOpacity}

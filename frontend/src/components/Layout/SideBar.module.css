@@ -5,7 +5,8 @@
   justify-content: space-between;
   width: 4.5rem;
   height: 100vh;
-  background-color: #2f3136;
+  /* background-color: #2f3136; */
+  background-color: var(--bg-side);
   /* padding: 1rem;
   overflow-y: auto; */
 }
@@ -145,6 +146,7 @@
   width: 18.5rem;
   height: 3.75rem;
   background-color: #292b2f;
+  background-color: var(--bg-user-info);
   border-radius: 12px;
   padding: 0.5rem 0.75rem;
   display: flex;

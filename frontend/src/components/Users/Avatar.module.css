@@ -30,7 +30,8 @@
   height: 2.5rem; */
   position: absolute;
   top: -2rem;
-  box-shadow: 0 0 0 3px #2f3136;
+  /* box-shadow: 0 0 0 3px #2f3136; */
+  box-shadow: 0 0 0 3px var(--bg-side);
   z-index: 1;
 }
 
@@ -50,7 +51,8 @@
 .group-chat-host-info-avatar {
   position: absolute;
   top: -2.25rem;
-  box-shadow: 0 0 0 6px #2f3136;
+  /* box-shadow: 0 0 0 6px #2f3136; */
+  box-shadow: 0 0 0 6px var(--bg-side);
   z-index: 1;
 }
 
