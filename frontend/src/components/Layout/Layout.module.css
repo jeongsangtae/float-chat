@@ -16,29 +16,63 @@
 }
 
 .dark,
-.blue {
+.blue,
+.purple,
+.emerald,
+.rose,
+.sunset,
+.orange {
   content: "";
   position: fixed;
   width: 1.25rem;
   height: 1.25rem;
   top: 6px;
-  right: 35px;
-  border: 1px solid rgb(143, 143, 143);
+  right: 160px;
+  border: 1px solid #8f8f8f;
   border-radius: 50%;
-  background-color: black;
+  background-color: #2f3136;
   z-index: 9999;
   cursor: pointer;
 }
 
 .blue {
+  right: 135px;
+  background-color: #3b82f6;
+}
+
+.purple {
+  right: 110px;
+  background-color: #8b5cf6;
+}
+
+.emerald {
+  right: 85px;
+  background-color: #0f6649;
+}
+
+.rose {
+  right: 60px;
+  background-color: #be185d;
+}
+
+.sunset {
+  right: 35px;
+  background-color: #41281f;
+}
+
+.orange {
   right: 10px;
-  background-color: blue;
+  background-color: #944b1e;
+}
+
+.active {
+  outline: 1px solid white;
+  transform: scale(1.1);
 }
 
 .layout {
   display: flex;
   flex: 1;
-  /* background-color: #2f3136; */
   background-color: var(--bg-side);
   overflow: hidden;
 }

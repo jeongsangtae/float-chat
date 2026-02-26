@@ -98,10 +98,40 @@ body {
   --bg-side: #0f172a;
   --bg-main: #1e293b;
   --bg-user-info: #334155;
+
+  /* --accent: #3b82f6;
+  --accent-hover: #2563eb; */
 }
 
 .theme-purple {
   --bg-side: #1e1b2e;
   --bg-main: #2d2640;
   --bg-user-info: #3c2f5a;
+
+  /* --accent: #8b5cf6;
+  --accent-hover: #7c3aed; */
+}
+
+.theme-emerald {
+  --bg-side: #0f1f1c;
+  --bg-main: #162a26;
+  --bg-user-info: #1d3a34;
+}
+
+.theme-rose {
+  --bg-side: #1a1418;
+  --bg-main: #241a20;
+  --bg-user-info: #2e2028;
+}
+
+.theme-sunset {
+  --bg-side: #1f1410;
+  --bg-main: #2a1b15;
+  --bg-user-info: #33221a;
+}
+
+.theme-orange {
+  --bg-side: #20130a;
+  --bg-main: #2a190d;
+  --bg-user-info: #332012;
 }
