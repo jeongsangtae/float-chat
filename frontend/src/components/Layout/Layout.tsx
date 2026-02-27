@@ -13,9 +13,9 @@ interface LayoutProps {
 }
 
 const Layout = ({ children, onLeaveChatRoom }: LayoutProps) => {
-  const { currentView, groupChatTitle } = useLayoutStore();
+  const { theme, setTheme, currentView, groupChatTitle } = useLayoutStore();
 
-  const [theme, setTheme] = useState("dark");
+  // const [theme, setTheme] = useState("dark");
   const [fullOpacity, setFullOpacity] = useState(1);
 
   useEffect(() => {
