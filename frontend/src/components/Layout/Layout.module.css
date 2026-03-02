@@ -33,6 +33,7 @@
   background-color: #2f3136;
   z-index: 9999;
   cursor: pointer;
+  transition: all 0.2s ease;
 }
 
 .blue {

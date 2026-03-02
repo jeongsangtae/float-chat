@@ -20,13 +20,13 @@
 
 .friend:hover {
   border-radius: 8px;
+  background-color: var(--sub-side-btn-hover);
   color: white;
-  background-color: #38393f;
 }
 
 .active {
   border-radius: 8px;
-  background-color: #414147;
+  background-color: var(--sub-side-btn-active);
   color: white;
 }
 

@@ -15,8 +15,17 @@ interface LayoutProps {
 const Layout = ({ children, onLeaveChatRoom }: LayoutProps) => {
   const { theme, setTheme, currentView, groupChatTitle } = useLayoutStore();
 
-  // const [theme, setTheme] = useState("dark");
   const [fullOpacity, setFullOpacity] = useState(1);
+
+  const themes = [
+    "dark",
+    "blue",
+    "purple",
+    "emerald",
+    "rose",
+    "sunset",
+    "orange",
+  ];
 
   useEffect(() => {
     // 우클릭 감지 함수
@@ -43,42 +52,13 @@ const Layout = ({ children, onLeaveChatRoom }: LayoutProps) => {
         {currentView === "directChat" && "다이렉트 메시지"}
         {currentView === "groupChat" && groupChatTitle}
       </div>
-      <button
-        className={`${classes.dark} ${theme === "dark" ? classes.active : ""}`}
-        onClick={() => setTheme("dark")}
-      ></button>
-      <button
-        className={`${classes.blue} ${theme === "blue" ? classes.active : ""}`}
-        onClick={() => setTheme("blue")}
-      ></button>
-      <button
-        className={`${classes.purple} ${
-          theme === "purple" ? classes.active : ""
-        }`}
-        onClick={() => setTheme("purple")}
-      ></button>
-      <button
-        className={`${classes.emerald} ${
-          theme === "emerald" ? classes.active : ""
-        }`}
-        onClick={() => setTheme("emerald")}
-      ></button>
-      <button
-        className={`${classes.rose} ${theme === "rose" ? classes.active : ""}`}
-        onClick={() => setTheme("rose")}
-      ></button>
-      <button
-        className={`${classes.sunset} ${
-          theme === "sunset" ? classes.active : ""
-        }`}
-        onClick={() => setTheme("sunset")}
-      ></button>
-      <button
-        className={`${classes.orange} ${
-          theme === "orange" ? classes.active : ""
-        }`}
-        onClick={() => setTheme("orange")}
-      ></button>
+      {themes.map((t) => (
+        <button
+          key={t}
+          className={`${classes[t]} ${theme === t ? classes.active : ""}`}
+          onClick={() => setTheme(t)}
+        ></button>
+      ))}
       <div className={classes.layout}>
         <SideBar
           onLeaveChatRoom={onLeaveChatRoom}

@@ -92,6 +92,11 @@ body {
   --bg-side: #2f3136;
   --bg-main: #36393f;
   --bg-user-info: #292b2f;
+
+  --friend-btn: #45484e;
+  --friend-btn-hover: #4f545c;
+  --sub-side-btn-active: #414147;
+  --sub-side-btn-hover: #38393f;
 }
 
 .theme-blue {
@@ -99,8 +104,10 @@ body {
   --bg-main: #1e293b;
   --bg-user-info: #334155;
 
-  /* --accent: #3b82f6;
-  --accent-hover: #2563eb; */
+  --friend-btn: #334a6b;
+  --friend-btn-hover: #3f5f87;
+  --sub-side-btn-active: #2b3f5c;
+  --sub-side-btn-hover: #1f2e42;
 }
 
 .theme-purple {

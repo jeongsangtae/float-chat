@@ -6,7 +6,7 @@
 
 .friend-wrapper:hover {
   border-radius: 8px;
-  background-color: #4f545c;
+  background-color: var(--friend-btn-hover);
 }
 
 .friend-info {
