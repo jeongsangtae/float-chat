@@ -29,7 +29,7 @@
 
 .friend-submenu .active {
   cursor: default;
-  background-color: var(--friend-btn);
+  background-color: var(--friend-btn-active);
   /* background-color: #45484e; */
 }
 
