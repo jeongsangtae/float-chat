@@ -9,7 +9,7 @@
 
 .group-chat-user:hover {
   border-radius: 8px;
-  background-color: #38393f;
+  background-color: var(--sub-side-btn-hover);
   cursor: pointer;
 }
 

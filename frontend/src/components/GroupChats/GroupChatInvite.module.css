@@ -6,7 +6,7 @@
 
 .group-chat-invite-wrapper:hover {
   border-radius: 4px;
-  background-color: #4f545c;
+  background-color: var(--friend-btn-hover);
 }
 
 .group-chat-invite-info {

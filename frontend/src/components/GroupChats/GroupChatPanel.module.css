@@ -71,7 +71,8 @@
 
 .group-chat-announcement-wrapper {
   padding: 0.75rem;
-  background-color: #414147;
+  /* background-color: #414147; */
+  background-color: var(--sub-side-btn-active);
   border-radius: 8px;
   font-size: 0.95rem;
 }
@@ -167,7 +168,8 @@
 
 .group-chat-users-wrapper {
   padding: 0.75rem;
-  background-color: #414147;
+  /* background-color: #414147; */
+  background-color: var(--sub-side-btn-active);
   border-radius: 8px;
   font-size: 0.95rem;
   margin-top: 0.75rem;
@@ -192,7 +194,8 @@
 
 .group-chat-user:hover {
   border-radius: 8px;
-  background-color: #38393f;
+  /* background-color: #38393f; */
+  background-color: var(--sub-side-btn-hover);
   cursor: pointer;
 }
 
@@ -278,7 +281,8 @@
 
 .group-chat-since-wrapper {
   padding: 0.75rem;
-  background-color: #414147;
+  /* background-color: #414147; */
+  background-color: var(--sub-side-btn-active);
   border-radius: 8px;
   margin-top: 0.75rem;
 }

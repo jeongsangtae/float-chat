@@ -73,7 +73,8 @@
 
 .friend-since-wrapper {
   padding: 0.75rem;
-  background-color: #414147;
+  /* background-color: #414147; */
+  background-color: var(--sub-side-btn-active);
   border-radius: 8px;
 }
 
@@ -94,7 +95,8 @@
 
 .not-friend {
   padding: 0.75rem;
-  background-color: #414147;
+  /* background-color: #414147; */
+  background-color: var(--sub-side-btn-active);
   border-radius: 8px;
   font-weight: bold;
   font-size: 0.9rem;
@@ -105,7 +107,8 @@
 .mutual-content-wrapper {
   margin-top: 0.75rem;
   padding: 0.75rem;
-  background-color: #414147;
+  /* background-color: #414147; */
+  background-color: var(--sub-side-btn-active);
   border-radius: 8px;
 }
 
@@ -155,8 +158,10 @@
 .mutual-group-chat:hover,
 .mutual-friend-user:hover {
   border-radius: 8px;
-  background-color: #525258;
+  /* background-color: #525258; */
   /* background-color: #38393f; */
+  background-color: var(--sub-side-btn-hover);
+  cursor: pointer;
 }
 
 .mutual-group-chat-icon {

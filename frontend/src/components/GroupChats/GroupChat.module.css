@@ -3,7 +3,8 @@
   width: 3rem;
   height: 3rem;
   border-radius: 16px;
-  background-color: #1abc9c;
+  /* background-color: #1abc9c; */
+  background-color: var(--group-chat-btn);
   border: none;
   display: flex;
   justify-content: center;
@@ -15,6 +16,7 @@
 
 .group-chat:hover {
   background-color: #00b8db;
+  /* background-color: var(--group-chat-btn-hover); */
 }
 
 .title {
@@ -60,6 +62,7 @@
 
 .active {
   background-color: #00b8db;
+  /* background-color: var(--group-chat-btn-hover); */
 }
 
 .tooltip-text::before {
@@ -73,6 +76,7 @@
   border-style: solid;
   border-width: 0.25rem 0.2rem 0.25rem 0;
   border-color: transparent #1abc9c transparent transparent;
+  border-color: transparent var(--group-chat-btn) transparent transparent;
 }
 
 .tooltip-text {
@@ -80,7 +84,8 @@
   left: calc(100% + 0.5rem); /* 버튼의 오른쪽 바깥으로 0.5rem 떨어져 위치 */
   top: 50%;
   transform: translateY(-50%); /* 수직 가운데 정렬 */
-  background-color: #1abc9c;
+  /* background-color: #1abc9c; */
+  background-color: var(--group-chat-btn);
   color: #fff;
   padding: 0.65rem 0.5rem;
   border-radius: 8px;

@@ -29,7 +29,7 @@
 .group-chat-invite-button:hover {
   border-radius: 8px;
   color: white;
-  background-color: #38393f;
+  background-color: var(--sub-side-btn-hover);
 }
 
 .group-chat-invite-icon {

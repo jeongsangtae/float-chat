@@ -22,6 +22,9 @@ const GroupChatConfirm = ({ onToggle }: ModalProps) => {
       await leaveGroupChat(modalData._id);
       console.log("그룹 채팅방 나가기 성공");
     }
+
+    localStorage.removeItem(`prevMessagesLength-${modalData._id}`);
+
     onToggle();
     navigate("/me");
   };
