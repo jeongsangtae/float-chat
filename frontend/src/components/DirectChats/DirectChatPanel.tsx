@@ -4,7 +4,6 @@ import { DirectChatPanelProps, DirectChatPayload } from "../../types";
 
 import { IoIosArrowForward, IoIosArrowDown } from "react-icons/io";
 
-// import useDirectChatStore from "../../store/directChatStore";
 import { getDirectChatRoomId } from "../../utils/getDirectChatRoomId";
 
 import Avatar from "../Users/Avatar";
@@ -40,8 +39,6 @@ const DirectChatPanel = ({
   const toggleMutualFriendsHandler = () => {
     setShowMutualFriends(!showMutualFriends);
   };
-
-  // console.log(mutualFriendUsers);
 
   const openDirectChatHandler = async (
     payload: DirectChatPayload

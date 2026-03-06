@@ -111,7 +111,6 @@ body {
   --friend-btn-hover: #3f5f87;
 
   --sub-side-btn-active: #2b3f5c;
-  /* --sub-side-btn-hover: #1f2e42; */
   --sub-side-btn-hover: #354f73;
 
   --group-chat-btn: #3f5f87;
@@ -139,12 +138,6 @@ body {
   --bg-main: #162a26;
   --bg-user-info: #1d3a34;
 
-  /* --friend-btn-active: #2f5e55;
-  --friend-btn-hover: #3b756a;
-
-  --sub-side-btn-active: #274d45;
-  --sub-side-btn-hover: #2f5e55; */
-
   --friend-btn-active: #24524a;
   --friend-btn-hover: #2e6a60;
 
@@ -160,12 +153,6 @@ body {
   --bg-main: #241a20;
   --bg-user-info: #2e2028;
 
-  /* --friend-btn-active: #5a3a45;
-  --friend-btn-hover: #704654;
-
-  --sub-side-btn-active: #4a2f39;
-  --sub-side-btn-hover: #5a3a45; */
-
   --friend-btn-active: #4a2c36;
   --friend-btn-hover: #5f3845;
 
@@ -180,12 +167,6 @@ body {
   --bg-main: #2a1b15;
   --bg-user-info: #33221a;
 
-  /* --friend-btn-active: #6b4634;
-  --friend-btn-hover: #855743;
-
-  --sub-side-btn-active: #57382a;
-  --sub-side-btn-hover: #6b4634; */
-
   --friend-btn-active: #5a3a2c;
   --friend-btn-hover: #704636;
 
@@ -199,12 +180,6 @@ body {
   --bg-side: #20130a;
   --bg-main: #2a190d;
   --bg-user-info: #332012;
-
-  /* --friend-btn-active: #7a4a1d;
-  --friend-btn-hover: #965d23;
-
-  --sub-side-btn-active: #633c18;
-  --sub-side-btn-hover: #7a4a1d; */
 
   --friend-btn-active: #6a3f1c;
   --friend-btn-hover: #875026;

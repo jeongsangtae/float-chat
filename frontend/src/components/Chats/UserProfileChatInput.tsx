@@ -68,8 +68,6 @@ const UserProfileChatInput = ({
       avatarImageUrl,
     };
 
-    // userProfileDirectSendMessage(targetUser, message.trim(), userInfo);
-
     const roomId = await userProfileDirectSendMessage(
       targetUser,
       message.trim(),

@@ -4,7 +4,7 @@ import { FriendUser } from "../../types";
 
 import useFriendStore from "../../store/friendStore";
 import useGroupChatStore from "../../store/groupChatStore";
-// import useDirectChatStore from "../../store/directChatStore";
+
 import { getDirectChatRoomId } from "../../utils/getDirectChatRoomId";
 
 import classes from "./Friend.module.css";
@@ -22,7 +22,6 @@ const Friend = ({
 
   const { deleteFriend } = useFriendStore();
   const { getGroupChatInvites } = useGroupChatStore();
-  // const { directChatForm } = useDirectChatStore();
 
   const deleteFriendHandler = async (): Promise<void> => {
     if (!userId) {

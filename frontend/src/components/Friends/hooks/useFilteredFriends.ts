@@ -34,22 +34,6 @@ const useFilteredFriends = (
       .map((onlineFriend) => ({ ...onlineFriend, onlineChecked: true }));
   }, [onlineFriends, userId, searchTerm]);
 
-  // const filteredFriends = useMemo(() => {
-  //   return friends
-  //     .map((friend) =>
-  //       friend.requester.id === userId ? friend.receiver : friend.requester
-  //     )
-  //     .filter(
-  //       (friend) =>
-  //         friend.nickname.toLowerCase().includes(searchTerm.toLowerCase()) ||
-  //         friend.email?.toLowerCase().includes(searchTerm.toLowerCase())
-  //     )
-  //     .map((friend) => ({
-  //       ...friend,
-  //       onlineChecked: onlineFriendIds.includes(friend.id),
-  //     }));
-  // }, [friends, userId, onlineFriendIds, searchTerm]);
-
   const filteredFriends = useMemo(() => {
     const friendsList = friends
       .map((friend) =>

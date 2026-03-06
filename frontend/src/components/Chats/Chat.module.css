@@ -14,19 +14,6 @@
   margin-bottom: 0.25rem;
 }
 
-/* .avatar {
-  position: relative;
-  width: 2.5rem;
-  height: 2.5rem;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;
-  font-size: 1.2rem;
-  color: white;
-} */
-
 .chat-content {
   flex: 1;
   display: flex;

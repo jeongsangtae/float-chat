@@ -7,12 +7,5 @@
   display: flex;
   flex: 1;
   flex-direction: column;
-  /* padding: 0.5rem 1rem 1rem 0.75rem; */
   padding: 0 1rem 1rem 0.75rem;
 }
-
-/* .chats-container {
-  flex: 1;
-  overflow-y: auto;
-  padding-bottom: 1rem;
-} */

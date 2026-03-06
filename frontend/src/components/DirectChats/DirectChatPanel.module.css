@@ -18,7 +18,6 @@
   display: flex;
   flex-direction: column;
   height: 100%;
-  /* background-color: #2f3136; */
   background-color: var(--bg-side);
   padding: 1rem;
   overflow-y: visible;
@@ -41,7 +40,6 @@
   justify-content: center;
   font-weight: bold;
   color: white;
-  /* box-shadow: 0 0 0 6px #2f3136; */
   box-shadow: 0 0 0 6px var(--bg-side);
   z-index: 1;
 }
@@ -73,7 +71,6 @@
 
 .friend-since-wrapper {
   padding: 0.75rem;
-  /* background-color: #414147; */
   background-color: var(--sub-side-btn-active);
   border-radius: 8px;
 }
@@ -95,7 +92,6 @@
 
 .not-friend {
   padding: 0.75rem;
-  /* background-color: #414147; */
   background-color: var(--sub-side-btn-active);
   border-radius: 8px;
   font-weight: bold;
@@ -107,7 +103,6 @@
 .mutual-content-wrapper {
   margin-top: 0.75rem;
   padding: 0.75rem;
-  /* background-color: #414147; */
   background-color: var(--sub-side-btn-active);
   border-radius: 8px;
 }
@@ -158,8 +153,6 @@
 .mutual-group-chat:hover,
 .mutual-friend-user:hover {
   border-radius: 8px;
-  /* background-color: #525258; */
-  /* background-color: #38393f; */
   background-color: var(--sub-side-btn-hover);
   cursor: pointer;
 }
@@ -206,42 +199,3 @@
   background-color: rgba(128, 128, 128, 0.2);
   margin: 0.75rem 0;
 }
-
-/* .mutual-friend-user-avatar-img-wrapper,
-.mutual-friend-user-avatar-color {
-  position: relative;
-}
-
-.mutual-friend-user-avatar-img,
-.mutual-friend-user-avatar-color {
-  width: 2.75rem;
-  height: 2.75rem;
-  font-size: 1.25rem;
-  border-radius: 50%;
-  background-color: #ccc;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;
-  color: white;
-}
-
-.mutual-friend-user-avatar-img {
-  object-fit: cover;
-}
-
-.mutual-friend-user-online-dot,
-.mutual-friend-user-offline-dot {
-  position: absolute;
-  width: 1.25rem;
-  height: 1.25rem;
-  bottom: -1px;
-  right: -1px;
-  border-radius: 50%;
-  background-color: #02ac02;
-  border: 4px solid #1e1e1e;
-}
-
-.mutual-friend-user-offline-dot {
-  background-color: gray;
-} */

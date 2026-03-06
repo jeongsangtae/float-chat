@@ -5,8 +5,6 @@
 
 .user-profile-chat-input-wrapper {
   position: relative;
-  /* display: flex;
-  align-items: center; */
 }
 
 .user-profile-chat-input-wrapper textarea {
@@ -45,7 +43,6 @@
 
 /* 스크롤바의 배경 트랙 설정 */
 .user-profile-chat-input-wrapper textarea::-webkit-scrollbar-track {
-  /* background-color: #ebebeb; */
   border-radius: 0.5rem;
   margin-top: 0.3rem;
   margin-bottom: 0.3rem;
