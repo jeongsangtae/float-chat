@@ -3,7 +3,6 @@
   width: 3rem;
   height: 3rem;
   border-radius: 16px;
-  /* background-color: #1abc9c; */
   background-color: var(--group-chat-btn);
   border: none;
   display: flex;
@@ -15,8 +14,7 @@
 }
 
 .group-chat:hover {
-  background-color: #00b8db;
-  /* background-color: var(--group-chat-btn-hover); */
+  background-color: var(--group-chat-btn-hover);
 }
 
 .title {
@@ -61,8 +59,7 @@
 }
 
 .active {
-  background-color: #00b8db;
-  /* background-color: var(--group-chat-btn-hover); */
+  background-color: var(--group-chat-btn-hover);
 }
 
 .tooltip-text::before {

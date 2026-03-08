@@ -5,7 +5,6 @@
   justify-content: space-between;
   width: 4.5rem;
   height: 100vh;
-  /* background-color: #2f3136; */
   background-color: var(--bg-side);
   /* padding: 1rem;
   overflow-y: auto; */
@@ -36,7 +35,7 @@
 }
 
 .home-button:hover {
-  background-color: #00b8db;
+  background-color: var(--group-chat-btn-hover);
 }
 
 .indicator {
@@ -66,7 +65,7 @@
 }
 
 .active {
-  background-color: #00b8db;
+  background-color: var(--group-chat-btn-hover);
 }
 
 .chat-icon {
@@ -163,43 +162,6 @@
   align-items: center;
   gap: 0.5rem;
 }
-
-/* .avatar-img-wrapper,
-.avatar-color {
-  position: relative;
-}
-
-.avatar-img,
-.avatar-color {
-  width: 2rem;
-  height: 2rem;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;
-  color: white;
-}
-
-.avatar-img {
-  object-fit: cover;
-}
-
-.online-dot,
-.offline-dot {
-  position: absolute;
-  width: 0.8rem;
-  height: 0.8rem;
-  bottom: -1px;
-  right: -1px;
-  border-radius: 50%;
-  background-color: #02ac02;
-  border: 2px solid #1e1e1e;
-}
-
-.offline-dot {
-  background-color: gray;
-} */
 
 .user-info-nickname {
   font-size: 1rem;
