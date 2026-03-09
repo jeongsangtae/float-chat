@@ -102,6 +102,9 @@ body {
   --group-chat-btn: #1abc9c;
   --group-chat-btn-hover: #00b8db;
 
+  --profile-bg: #43454d;
+  --profile-detail-bg: #2a2a2c;
+
   --chat-input: #292b2f;
 }
 
@@ -118,6 +121,9 @@ body {
 
   --group-chat-btn: #3f5f87;
   --group-chat-btn-hover: #6ba6fd;
+
+  --profile-bg: #3f4758;
+  --profile-detail-bg: #232a38;
 
   --chat-input: #334155;
 }
@@ -136,6 +142,9 @@ body {
   --group-chat-btn: #5b4d8c;
   --group-chat-btn-hover: #a58dfc;
 
+  --profile-bg: #413957;
+  --profile-detail-bg: #2c2838;
+
   --chat-input: #3c2f5a;
 }
 
@@ -152,6 +161,9 @@ body {
 
   --group-chat-btn: #2e6a60;
   --group-chat-btn-hover: #5ec5b4;
+
+  --profile-bg: #3f4f4a;
+  --profile-detail-bg: #232f2c;
 
   --chat-input: #1d3a34;
 }
@@ -170,6 +182,9 @@ body {
   --group-chat-btn: #5f3845;
   --group-chat-btn-hover: #c0718b;
 
+  --profile-bg: #493941;
+  --profile-detail-bg: #2c2528;
+
   --chat-input: #2e2028;
 }
 
@@ -187,6 +202,9 @@ body {
   --group-chat-btn: #704636;
   --group-chat-btn-hover: #d18263;
 
+  --profile-bg: #463328;
+  --profile-detail-bg: #2e2621;
+
   --chat-input: #33221a;
 }
 
@@ -203,6 +221,9 @@ body {
 
   --group-chat-btn: #875026;
   --group-chat-btn-hover: #e48b48;
+
+  --profile-bg: #4e3b28;
+  --profile-detail-bg: #2e271f;
 
   --chat-input: #332012;
 }

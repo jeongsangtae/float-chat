@@ -42,7 +42,8 @@
   display: flex;
   flex-direction: column;
   height: 100%;
-  background-color: #43454d;
+  background-color: var(--profile-bg);
+  /* background-color: #43454d; */
   padding: 1rem;
   overflow-y: visible;
 }
@@ -58,7 +59,7 @@
   justify-content: center;
   font-weight: bold;
   color: white;
-  box-shadow: 0 0 0 5px #43454d;
+  box-shadow: 0 0 0 5px var(--profile-bg);
   z-index: 1;
 }
 

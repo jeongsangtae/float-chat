@@ -10,7 +10,8 @@
   z-index: 9999;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
   white-space: nowrap;
-  background-color: #2a2a2c;
+  /* background-color: #2a2a2c; */
+  background-color: var(--profile-detail-bg);
 }
 
 .user-profile-details-info-wrapper {
@@ -18,7 +19,8 @@
   height: auto;
   margin-top: 1.5rem;
   margin-left: 1rem;
-  background-color: #43454d;
+  /* background-color: #43454d; */
+  background-color: var(--profile-bg);
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
 }
@@ -126,6 +128,7 @@
   border-radius: 6px;
   border: none;
   background-color: #2a2a2c;
+  background-color: var(--profile-detail-bg);
   color: #fff;
   cursor: pointer;
   transition: background-color 0.15s ease;
@@ -133,6 +136,7 @@
 
 .direct-chat-button:hover {
   background-color: #343438;
+  /* background-color: var(--sub-side-btn-hover); */
 }
 
 .friend {
@@ -164,6 +168,7 @@
   padding: 0.5rem;
   border-radius: 6px;
   background-color: #2a2a2c;
+  background-color: var(--profile-detail-bg);
   color: #fff;
   cursor: pointer;
   transition: background-color 0.15s ease;
@@ -171,6 +176,7 @@
 
 .friend-action-button:hover {
   background-color: #343438;
+  /* background-color: var(--sub-side-btn-hover); */
 }
 
 .friend-check-icon,
@@ -207,7 +213,8 @@
   bottom: calc(100% + 8px);
   left: 50%;
   transform: translateX(-50%);
-  background: #2a2a2c;
+  /* background: #2a2a2c; */
+  background: var(--profile-detail-bg);
   color: #fff;
   font-size: 0.9rem;
   font-weight: bold;
@@ -305,7 +312,7 @@
 .user-profile-details-mutual-friend:hover,
 .user-profile-details-mutual-group-chat:hover {
   border-radius: 8px;
-  background-color: #38393f;
+  background-color: var(--sub-side-btn-hover);
   cursor: pointer;
 }
 

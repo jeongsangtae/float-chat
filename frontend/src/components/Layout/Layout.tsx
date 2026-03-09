@@ -42,9 +42,24 @@ const Layout = ({ children, onLeaveChatRoom }: LayoutProps) => {
     };
   }, []);
 
+  useEffect(() => {
+    document.body.classList.remove(
+      "theme-dark",
+      "theme-blue",
+      "theme-purple",
+      "theme-emerald",
+      "theme-rose",
+      "theme-sunset",
+      "theme-orange"
+    );
+
+    document.body.classList.add(`theme-${theme}`);
+  }, [theme]);
+
   return (
     <div
-      className={`${classes.wrapper} theme-${theme}`}
+      // className={`${classes.wrapper} theme-${theme}`}
+      className={classes.wrapper}
       style={{ opacity: fullOpacity }}
     >
       <div className={classes.header}>
