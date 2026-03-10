@@ -82,6 +82,12 @@ button:focus-visible {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
+
+  --action-btn-blue-bg: #2373cf;
+  --action-btn-blue-bg-hover: #1c61af;
+
+  --action-btn-black-bg: #2a2a2c;
+  --action-btn-black-bg-hover: #343438;
 }
 
 body {

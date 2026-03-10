@@ -43,7 +43,6 @@
   flex-direction: column;
   height: 100%;
   background-color: var(--profile-bg);
-  /* background-color: #43454d; */
   padding: 1rem;
   overflow-y: visible;
 }
