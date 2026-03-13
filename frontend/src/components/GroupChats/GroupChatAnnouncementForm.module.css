@@ -66,11 +66,6 @@
   background-color: #333333;
 }
 
-/* .group-chat-announcement-count-wrapper {
-  margin-left: 0.45rem;
-  opacity: 1;
-} */
-
 .group-chat-announcement-count-wrapper {
   display: flex;
   align-items: center;

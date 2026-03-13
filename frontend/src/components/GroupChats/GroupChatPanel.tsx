@@ -5,7 +5,6 @@ import GroupChatAnnouncementDeleteConfirm from "./GroupChatAnnouncementDeleteCon
 
 import { GroupChatUserData, GroupChatPanelProps } from "../../types";
 
-// import { FiEdit } from "react-icons/fi";
 import { IoIosArrowUp, IoIosArrowDown } from "react-icons/io";
 import { Crown, Trash2, SquarePen } from "lucide-react";
 
@@ -166,7 +165,6 @@ const GroupChatPanel = ({
                   className={classes["group-chat-announcement-edit-icon"]}
                   onClick={groupChatAnnouncementEditHandler}
                 />
-                {/* <FiEdit onClick={groupChatAnnouncementEditHandler} /> */}
               </div>
             )}
           </div>

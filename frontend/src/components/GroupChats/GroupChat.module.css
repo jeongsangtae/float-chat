@@ -81,7 +81,6 @@
   left: calc(100% + 0.5rem); /* 버튼의 오른쪽 바깥으로 0.5rem 떨어져 위치 */
   top: 50%;
   transform: translateY(-50%); /* 수직 가운데 정렬 */
-  /* background-color: #1abc9c; */
   background-color: var(--group-chat-btn);
   color: #fff;
   padding: 0.65rem 0.5rem;
@@ -101,7 +100,6 @@
 }
 
 .context-menu {
-  /* position: absolute; */
   position: fixed;
   background-color: #4c4f53;
   border: 1px solid #444;

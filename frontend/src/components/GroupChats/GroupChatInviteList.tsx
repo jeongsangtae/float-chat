@@ -93,7 +93,6 @@ const GroupChatInviteList = ({
           <div className={classes["sender-info"]}>
             <div className={classes.nickname}>{requesterNickname}</div>
             <div className={classes.date}>{resultDate}</div>
-            {/* <div className={classes.date}>어제 {resultDate}</div> */}
           </div>
 
           <div className={classes["invite-info"]}>

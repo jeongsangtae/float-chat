@@ -23,10 +23,8 @@
   width: 95%;
   padding: 0.5rem;
   border: 1px solid rgba(133, 133, 133, 0.5);
-  /* border: 1px solid rgba(128, 128, 128, 0.2); */
   border-radius: 6px;
   background-color: transparent;
-  /* background-color: #363636; */
   color: white;
   font-size: 1.1rem;
 }
@@ -47,7 +45,6 @@
   color: #f44336;
   font-size: 0.85rem;
   text-align: center;
-  /* margin-left: 0.5rem; */
   opacity: 1;
 }
 
@@ -63,7 +60,6 @@
 
 .active {
   background-color: #4caf50;
-  /* background-color: #1565c0; */
   color: white;
   border: none;
   padding: 0.3rem 0.75rem;
@@ -74,7 +70,6 @@
 
 .active:hover {
   background-color: #3d9640;
-  /* background-color: #0d47a1; */
 }
 
 .disable {
