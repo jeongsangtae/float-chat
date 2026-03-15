@@ -1,46 +1,25 @@
-import { useState, useEffect } from "react";
-import { useParams, Navigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 import useAuthStore from "../../store/authStore";
 import useDirectChatStore from "../../store/directChatStore";
 import useGroupChatStore from "../../store/groupChatStore";
 
 import { ChildrenProps } from "../../types";
-import LoadingIndicator from "../UI/LoadingIndicator";
 
 import NoAccess from "./NoAccess";
 
 const Authentication = ({ children }: ChildrenProps) => {
   const { roomId } = useParams();
-  const { isLoggedIn, refreshTokenExp, renewToken } = useAuthStore();
+  const { isLoggedIn } = useAuthStore();
   const { directChats } = useDirectChatStore();
   const { groupChats } = useGroupChatStore();
-
-  // const [authChecked, setAuthChecked] = useState(false);
-
-  // useEffect(() => {
-  //   const authCheckHandler = async () => {
-  //     if (isLoggedIn) {
-  //       await refreshTokenExp();
-  //       await renewToken();
-  //     }
-  //     setAuthChecked(true);
-  //   };
-
-  //   authCheckHandler();
-  // }, [isLoggedIn]);
-
-  // console.log(isLoggedIn);
 
   const checkedRoom =
     !roomId ||
     directChats.some((directChat) => directChat._id === roomId) ||
     groupChats.some((groupChat) => groupChat._id === roomId);
 
-  // if (!authChecked) return <LoadingIndicator />;
-
   if (!isLoggedIn) {
-    // return <Navigate to="/login" replace />;
     return (
       <>
         <NoAccess

@@ -51,7 +51,6 @@
   line-height: 0.5rem;
   color: #f44336;
   font-size: 0.8rem;
-  /* text-align: center; */
   opacity: 1;
 }
 
@@ -79,7 +78,6 @@
   font-size: 0.9rem;
   display: flex;
   align-items: center;
-  /* justify-content: center; */
 }
 
 .login {

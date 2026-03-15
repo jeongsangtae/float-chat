@@ -12,10 +12,6 @@
   margin-bottom: 1rem;
 }
 
-/* .login-password-wrapper {
-  margin-bottom: 1rem;
-} */
-
 .login-email-label,
 .login-password-label {
   margin-bottom: 0.25rem;
@@ -43,7 +39,6 @@
   line-height: 0.5rem;
   color: #f44336;
   font-size: 0.8rem;
-  /* text-align: center; */
   opacity: 1;
 }
 
@@ -71,7 +66,6 @@
   font-size: 0.9rem;
   display: flex;
   align-items: center;
-  /* justify-content: center; */
 }
 
 .signup {

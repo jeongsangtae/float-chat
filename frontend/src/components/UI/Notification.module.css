@@ -24,25 +24,6 @@
   animation: fadeIn 0.3s ease-in-out;
 }
 
-/* .notification-avatar {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.avatar {
-  position: relative;
-  width: 3rem;
-  height: 3rem;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;
-  font-size: 1.2rem;
-  color: white;
-} */
-
 .notification-content {
   font-size: 1rem;
   display: flex;

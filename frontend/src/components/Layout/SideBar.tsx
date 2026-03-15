@@ -64,7 +64,6 @@ const SideBar = ({
     await logout();
     disconnect();
     navigate("/login");
-    // navigate("/me");
   };
 
   const receiverRequests = friendRequests.filter(

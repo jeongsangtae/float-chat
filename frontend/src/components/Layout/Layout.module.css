@@ -10,7 +10,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  /* background-color: #2f3136; */
   background-color: var(--bg-side);
   font-weight: bold;
 }
@@ -87,10 +86,8 @@
 
 .main-content {
   flex: 1;
-  background-color: #36393f;
   background-color: var(--bg-main);
   display: flex;
   flex-direction: column;
   overflow-y: hidden;
-  /* padding: 1rem; */
 }

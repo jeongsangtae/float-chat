@@ -57,11 +57,7 @@ const Layout = ({ children, onLeaveChatRoom }: LayoutProps) => {
   }, [theme]);
 
   return (
-    <div
-      // className={`${classes.wrapper} theme-${theme}`}
-      className={classes.wrapper}
-      style={{ opacity: fullOpacity }}
-    >
+    <div className={classes.wrapper} style={{ opacity: fullOpacity }}>
       <div className={classes.header}>
         {currentView === "friends" && "친구"}
         {currentView === "directChat" && "다이렉트 메시지"}

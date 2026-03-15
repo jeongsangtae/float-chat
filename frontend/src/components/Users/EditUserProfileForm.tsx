@@ -160,7 +160,6 @@ const EditUserProfileForm = ({ onToggle }: ModalProps) => {
             }`}
           />
         </div>
-        {/* {errorMessage && <div className={classes["error-message"]}>{errorMessage}</div>} */}
 
         <div className={classes["error-message"]}>{errorMessage}</div>
 
