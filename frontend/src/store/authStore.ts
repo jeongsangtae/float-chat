@@ -6,8 +6,6 @@ import { UserInfo } from "../types";
 
 const apiURL = import.meta.env.VITE_API_URL;
 
-// const {connect} = useSocketStore()
-
 interface AuthStore {
   isLoggedIn: boolean;
   userInfo: UserInfo | null;
@@ -69,9 +67,6 @@ const useAuthStore = create<AuthStore>((set, get) => ({
         10
       );
 
-      // console.log(refreshTokenExpirationTime > now);
-      // console.log(now >= storedExpirationTime);
-
       if (refreshTokenExpirationTime > now) {
         if (now >= storedExpirationTime) {
           get().refreshToken(); // 토큰 갱신
@@ -81,14 +76,6 @@ const useAuthStore = create<AuthStore>((set, get) => ({
       } else if (now >= refreshTokenExpirationTime) {
         get().logout(); // 리프레시 토큰 만료 시 로그아웃
       }
-
-      // console.log(new Date(now * 1000));
-      // console.log(new Date(storedExpirationTime * 1000));
-      // console.log(new Date(refreshTokenExpirationTime * 1000));
-      // console.log(
-      //   now >= storedExpirationTime && refreshTokenExpirationTime > now,
-      //   now >= refreshTokenExpirationTime
-      // );
     };
 
     // 브라우저 로드 시 토큰 확인
@@ -278,15 +265,12 @@ const useAuthStore = create<AuthStore>((set, get) => ({
       };
 
       if (avatarMode && payload.avatarImageUrl) {
-        // console.log("if문 실행");
         // 이미지 모드 + 이미지 있음 → 이미지 업데이트
         requestBody.avatarImageUrl = payload.avatarImageUrl;
       } else if (!avatarMode && payload.avatarColor !== "#ccc") {
-        // console.log("else if문 1 실행");
         // 색 모드 + 실제 색 선택됨 → 색 업데이트
         requestBody.avatarColor = payload.avatarColor;
       } else if (!avatarMode && payload.avatarColor === "#ccc") {
-        // console.log("else if문 2 실행");
         // 색 모드인데 색이 없고 (#ccc) → 이미지 유지
         requestBody.avatarImageUrl = modalContext.avatarImageUrl;
       }

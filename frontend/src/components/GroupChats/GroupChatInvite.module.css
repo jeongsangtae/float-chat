@@ -24,7 +24,7 @@
 
 .group-chat-invite-nickname {
   font-size: 1rem;
-  color: #b3b3b3;
+  color: var(--text-color-gray);
   margin-left: 0.25rem;
 }
 

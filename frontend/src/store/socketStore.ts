@@ -42,7 +42,6 @@ const useSocketStore = create<SocketStore>((set, get) => ({
         const lastRoom = localStorage.getItem("currentRoom");
         if (lastRoom) {
           get().joinChatRoom(lastRoom);
-          // useChatStore.getState().newMessage(); // 메시지 수신 이벤트 등록 추가
         }
       });
 
@@ -79,8 +78,6 @@ const useSocketStore = create<SocketStore>((set, get) => ({
       newSocket.on("messageNotification", (newMessage) => {
         console.log("새로운 메시지 알림 수신:", newMessage);
 
-        // 현재 열려 있는 채팅방에서 온 메시지는 알림을 추가하지 않는 조건문
-        // if(get().currentRoom !== newMessage.roomId) {}
         set((state) => ({
           notification: [
             ...state.notification,

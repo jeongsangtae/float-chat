@@ -102,7 +102,7 @@
 .context-menu {
   position: fixed;
   background-color: #4c4f53;
-  border: 1px solid #444;
+  border: 1px solid var(--border-color-dark-gray);
   z-index: 1000;
   padding: 0.5rem;
   list-style: none;

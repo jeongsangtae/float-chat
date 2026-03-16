@@ -43,10 +43,7 @@ const useChatStore = create<ChatStore>((set) => ({
   lastReadMessage: null,
   newMessage: () => {
     const socket = useSocketStore.getState().socket;
-    // console.log("소켓 있음? :", socket);
     if (!socket) return; // 소켓이 없으면 실행 안 함
-
-    // socket.emit("joinRoom", { roomId });
 
     console.log("newMessage 이벤트 연결");
 
@@ -73,7 +70,6 @@ const useChatStore = create<ChatStore>((set) => ({
       set((prevMsg) => ({
         messages: [...prevMsg.messages, newMessage],
       }));
-      // setMessages((prevMsg) => [...prevMsg, newMessage]);
       console.log("사용자 input 메시지: ", newMessage.message);
     });
 

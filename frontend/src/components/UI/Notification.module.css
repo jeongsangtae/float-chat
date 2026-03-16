@@ -48,7 +48,7 @@
 }
 
 .notification-message {
-  color: #b3b3b3;
+  color: var(--text-color-gray);
   font-size: 1rem;
   line-height: 1.1;
   margin-top: 0.25rem;

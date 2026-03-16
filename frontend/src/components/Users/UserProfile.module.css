@@ -122,7 +122,7 @@
 }
 
 .user-profile-mutual-friends {
-  color: #b3b3b3;
+  color: var(--text-color-gray);
   cursor: pointer;
 }
 
@@ -131,11 +131,11 @@
 }
 
 .user-profile-mutual-separator {
-  color: #b3b3b3;
+  color: var(--text-color-gray);
 }
 
 .user-profile-mutual-group-chats {
-  color: #b3b3b3;
+  color: var(--text-color-gray);
 }
 
 .user-profile-mutual-group-chats::before {

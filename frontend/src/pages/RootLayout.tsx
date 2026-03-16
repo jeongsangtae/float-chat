@@ -8,7 +8,6 @@ const RootLayout = () => {
   const navigate = useNavigate();
   const { leaveChatRoom } = useSocketStore();
 
-  // 함수 이름 변경 필요
   const leaveChatRoomHandler = (): void => {
     leaveChatRoom();
     navigate("/me");

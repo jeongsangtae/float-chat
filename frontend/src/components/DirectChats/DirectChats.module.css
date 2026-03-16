@@ -1,7 +1,7 @@
 .group-chat-invite-section {
   margin-top: 1rem;
   padding: 0.75rem 0.25rem;
-  border-top: 1px solid #444;
+  border-top: 1px solid var(--border-color-dark-gray);
 }
 
 .group-chat-invite-header {

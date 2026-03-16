@@ -1,7 +1,7 @@
 .online-users,
 .offline-users {
   padding: 0.5rem;
-  color: #b3b3b3;
+  color: var(--text-color-gray);
 }
 
 .online-text-wrapper,

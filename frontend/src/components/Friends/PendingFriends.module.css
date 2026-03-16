@@ -50,7 +50,7 @@
 }
 
 .pending-friend-reject-button {
-  background-color: #d9363e;
+  background-color: var(--danger-color-red);
   margin: 0 0.5rem;
 }
 

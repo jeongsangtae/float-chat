@@ -83,6 +83,10 @@ button:focus-visible {
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
 
+  --text-color-gray: #b3b3b3;
+  --border-color-dark-gray: #444;
+  --danger-color-red: #d9363e;
+
   --action-btn-blue-bg: #2373cf;
   --action-btn-blue-bg-hover: #1c61af;
 
