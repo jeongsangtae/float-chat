@@ -112,10 +112,14 @@ body {
   --group-chat-btn: #1abc9c;
   --group-chat-btn-hover: #00b8db;
 
+  --group-invite-bg: #383a40;
+
   --profile-bg: #43454d;
   --profile-detail-bg: #2a2a2c;
 
   --chat-input: #292b2f;
+
+  --notification-bg: #202225;
 }
 
 .theme-blue {
@@ -132,10 +136,17 @@ body {
   --group-chat-btn: #3f5f87;
   --group-chat-btn-hover: #6ba6fd;
 
+  --group-invite-bg: #1a2436;
+
   --profile-bg: #3f4758;
   --profile-detail-bg: #232a38;
 
   --chat-input: #334155;
+
+  /* --notification-bg: #2e476d; */
+  /* --notification-bg: #181f29; */
+
+  --notification-bg: #3f63a1;
 }
 
 .theme-purple {
@@ -152,10 +163,17 @@ body {
   --group-chat-btn: #5b4d8c;
   --group-chat-btn-hover: #a58dfc;
 
+  --group-invite-bg: #2a2340;
+
   --profile-bg: #413957;
   --profile-detail-bg: #2c2838;
 
   --chat-input: #3c2f5a;
+
+  /* --notification-bg: #433770; */
+  /* --notification-bg: #261946; */
+
+  --notification-bg: #4b3fa3;
 }
 
 .theme-emerald {
@@ -172,10 +190,17 @@ body {
   --group-chat-btn: #2e6a60;
   --group-chat-btn-hover: #5ec5b4;
 
+  --group-invite-bg: #18302b;
+
   --profile-bg: #3f4f4a;
   --profile-detail-bg: #232f2c;
 
   --chat-input: #1d3a34;
+
+  /* --notification-bg: #20473f; */
+  /* --notification-bg: #112622; */
+
+  --notification-bg: #266356;
 }
 
 .theme-rose {
@@ -192,10 +217,17 @@ body {
   --group-chat-btn: #5f3845;
   --group-chat-btn-hover: #c0718b;
 
+  --group-invite-bg: #261b21;
+
   --profile-bg: #493941;
   --profile-detail-bg: #2c2528;
 
   --chat-input: #2e2028;
+
+  /* --notification-bg: #3d2b35; */
+  /* --notification-bg: #20161b; */
+
+  --notification-bg: #5a2f3d;
 }
 
 .theme-sunset {
@@ -212,10 +244,17 @@ body {
   --group-chat-btn: #704636;
   --group-chat-btn-hover: #d18263;
 
+  --group-invite-bg: #2e1d16;
+
   --profile-bg: #463328;
   --profile-detail-bg: #2e2621;
 
   --chat-input: #33221a;
+
+  /* --notification-bg: #4b3226; */
+  /* --notification-bg: #24160f; */
+
+  --notification-bg: #6a3b2a;
 }
 
 .theme-orange {
@@ -232,8 +271,15 @@ body {
   --group-chat-btn: #875026;
   --group-chat-btn-hover: #e48b48;
 
+  --group-invite-bg: #2f1e12;
+
   --profile-bg: #4e3b28;
   --profile-detail-bg: #2e271f;
 
   --chat-input: #332012;
+
+  /* --notification-bg: #462c19; */
+  /* --notification-bg: #26170b; */
+
+  --notification-bg: #7a451f;
 }

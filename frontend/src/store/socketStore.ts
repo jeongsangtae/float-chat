@@ -99,7 +99,7 @@ const useSocketStore = create<SocketStore>((set, get) => ({
               (notif) => notif.id !== newMessage.id
             ),
           }));
-        }, 7000);
+        }, 30000);
       });
 
       newSocket.on("groupChatInviteNotification", (groupChatInvite) => {
