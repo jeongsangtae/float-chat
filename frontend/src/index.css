@@ -83,6 +83,22 @@ button:focus-visible {
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
 
+  --font-xs: 0.8rem;
+  --font-sm: 0.85rem;
+  --font-base-sm: 0.9rem;
+  --font-base: 0.95rem;
+
+  --font-md: 1rem;
+  --font-lg: 1.25rem;
+  --font-xl: 1.5rem;
+
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-full: 50%;
+
   --text-color-gray: #b3b3b3;
   --border-color-dark-gray: #444;
   --danger-color-red: #d9363e;
@@ -143,9 +159,6 @@ body {
 
   --chat-input: #334155;
 
-  /* --notification-bg: #2e476d; */
-  /* --notification-bg: #181f29; */
-
   --notification-bg: #3f63a1;
 }
 
@@ -169,9 +182,6 @@ body {
   --profile-detail-bg: #2c2838;
 
   --chat-input: #3c2f5a;
-
-  /* --notification-bg: #433770; */
-  /* --notification-bg: #261946; */
 
   --notification-bg: #4b3fa3;
 }
@@ -197,9 +207,6 @@ body {
 
   --chat-input: #1d3a34;
 
-  /* --notification-bg: #20473f; */
-  /* --notification-bg: #112622; */
-
   --notification-bg: #266356;
 }
 
@@ -223,9 +230,6 @@ body {
   --profile-detail-bg: #2c2528;
 
   --chat-input: #2e2028;
-
-  /* --notification-bg: #3d2b35; */
-  /* --notification-bg: #20161b; */
 
   --notification-bg: #5a2f3d;
 }
@@ -251,9 +255,6 @@ body {
 
   --chat-input: #33221a;
 
-  /* --notification-bg: #4b3226; */
-  /* --notification-bg: #24160f; */
-
   --notification-bg: #6a3b2a;
 }
 
@@ -277,9 +278,6 @@ body {
   --profile-detail-bg: #2e271f;
 
   --chat-input: #332012;
-
-  /* --notification-bg: #462c19; */
-  /* --notification-bg: #26170b; */
 
   --notification-bg: #7a451f;
 }

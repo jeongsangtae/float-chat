@@ -18,8 +18,8 @@
   margin-top: 1.5rem;
   margin-left: 1rem;
   background-color: var(--profile-bg);
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
 }
 
 .user-profile-details-info-header-img,
@@ -27,8 +27,8 @@
   height: 6rem;
   width: 100%;
   flex-shrink: 0;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
 }
 
 .user-profile-details-info-header-img {
