@@ -3,7 +3,7 @@
   flex-direction: row;
   height: 100vh;
   border-radius: 0.5rem;
-  border: 1px solid var(--border-color-dark-gray);
+  border: 1px solid var(--color-border);
 }
 
 .direct-chat-main-content {

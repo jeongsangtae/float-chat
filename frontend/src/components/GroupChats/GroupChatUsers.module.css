@@ -1,12 +1,12 @@
 .online-users,
 .offline-users {
   padding: 0.5rem;
-  color: var(--text-color-gray);
+  color: var(--color-text-secondary);
 }
 
 .online-text-wrapper,
 .offline-text-wrapper {
-  font-size: 0.95rem;
+  font-size: var(--font-base);
 }
 
 .online-text,

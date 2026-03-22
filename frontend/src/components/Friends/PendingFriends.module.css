@@ -5,7 +5,7 @@
 }
 
 .pending-friend-wrapper:hover {
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   background-color: var(--friend-btn-hover);
 }
 
@@ -19,7 +19,7 @@
 }
 
 .pending-friend-nickname {
-  font-size: 1rem;
+  font-size: var(--font-md);
   color: white;
   margin-left: 0.25rem;
 }
@@ -38,9 +38,9 @@
   background-color: #929292;
   color: white;
   border: none;
-  border-radius: 4px;
+  border-radius: var(--radius-xs);
   padding: 0.3rem 0.75rem;
-  font-size: 0.875rem;
+  font-size: var(--font-sm2);
   cursor: pointer;
   transition: background-color 0.2s ease;
 }
@@ -50,7 +50,7 @@
 }
 
 .pending-friend-reject-button {
-  background-color: var(--danger-color-red);
+  background-color: var(--color-danger);
   margin: 0 0.5rem;
 }
 

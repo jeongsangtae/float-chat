@@ -5,7 +5,7 @@
   width: 45rem;
   height: 30rem;
 
-  color: #fff;
+  color: var(--color-text);
   z-index: 9999;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
   white-space: nowrap;
@@ -81,7 +81,7 @@
 }
 
 .user-profile-details-nickname {
-  font-size: 1.5rem;
+  font-size: var(--font-xl);
   font-weight: bold;
 }
 
@@ -92,18 +92,18 @@
 
 .friend-since-label,
 .not-friend-main {
-  font-size: 0.85rem;
+  font-size: var(--font-sm);
   font-weight: bold;
 }
 
 .friend-since-label-emoji,
 .not-friend-emoji {
-  font-size: 0.95rem;
+  font-size: var(--font-base);
   margin-right: 0.25rem;
 }
 
 .friend-since {
-  font-size: 0.875rem;
+  font-size: var(--font-sm2);
 }
 
 .not-friend-sub {
@@ -122,26 +122,26 @@
   align-items: center;
   gap: 0.4rem;
   padding: 0.5rem;
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
   border: none;
-  background-color: var(--action-btn-black-bg);
-  color: #fff;
+  background-color: var(--color-btn-secondary);
+  color: var(--color-text);
   cursor: pointer;
   transition: background-color 0.15s ease;
 }
 
 .direct-chat-button:hover {
-  background-color: var(--action-btn-black-bg-hover);
+  background-color: var(--color-btn-secondary-hover);
 }
 
 .friend {
   padding: 0.4rem 0.75rem;
-  background-color: var(--action-btn-blue-bg);
+  background-color: var(--color-btn-primary);
   font-weight: bold;
 }
 
 .friend:hover {
-  background-color: var(--action-btn-blue-bg-hover);
+  background-color: var(--color-btn-primary-hover);
 }
 
 .direct-chat-icon {
@@ -151,7 +151,7 @@
 
 .direct-chat-text {
   position: relative;
-  font-size: 0.95rem;
+  font-size: var(--font-base);
   bottom: 1px;
 }
 
@@ -161,15 +161,15 @@
   justify-content: center;
   gap: 0.4rem;
   padding: 0.5rem;
-  border-radius: 6px;
-  background-color: var(--action-btn-black-bg);
-  color: #fff;
+  border-radius: var(--radius-sm);
+  background-color: var(--color-btn-secondary);
+  color: var(--color-text);
   cursor: pointer;
   transition: background-color 0.15s ease;
 }
 
 .friend-action-button:hover {
-  background-color: var(--action-btn-black-bg-hover);
+  background-color: var(--color-btn-secondary-hover);
 }
 
 .friend-check-icon,
@@ -182,17 +182,17 @@
 
 .add {
   padding: 0.35rem 0.65rem;
-  background-color: var(--action-btn-blue-bg);
+  background-color: var(--color-btn-primary);
   font-weight: bold;
   cursor: pointer;
 }
 
 .add:hover {
-  background-color: var(--action-btn-blue-bg-hover);
+  background-color: var(--color-btn-primary-hover);
 }
 
 .friend-add-text {
-  font-size: 0.9rem;
+  font-size: var(--font-sm3);
 }
 
 .tooltip {
@@ -206,13 +206,13 @@
   bottom: calc(100% + 8px);
   left: 50%;
   transform: translateX(-50%);
-  background-color: var(--action-btn-black-bg);
-  color: #fff;
-  font-size: 0.9rem;
+  background-color: var(--color-btn-secondary);
+  color: var(--color-text);
+  font-size: var(--font-sm3);
   font-weight: bold;
   line-height: 1;
   padding: 0.7rem 0.65rem 0.5rem 0.65rem;
-  border-radius: 4px;
+  border-radius: var(--radius-xs);
   white-space: nowrap;
   opacity: 0;
   pointer-events: none;
@@ -227,7 +227,7 @@
   transform: translateX(-50%);
   border-width: 4px;
   border-style: solid;
-  border-color: var(--action-btn-black-bg) transparent transparent transparent;
+  border-color: var(--color-btn-secondary) transparent transparent transparent;
   opacity: 0;
   transition: opacity 0.15s ease;
 }
@@ -248,13 +248,13 @@
   gap: 1.25rem;
   padding-bottom: 0.5rem;
   margin-bottom: 1rem;
-  border-bottom: 1px solid var(--border-color-dark-gray);
+  border-bottom: 1px solid var(--color-border);
 }
 
 .user-profile-details-mutual-tab {
   padding: 0;
   margin: 0;
-  font-size: 0.9rem;
+  font-size: var(--font-sm3);
   font-weight: bold;
   background: none;
   border: none;
@@ -265,7 +265,7 @@
 }
 
 .user-profile-details-mutual-tab:hover {
-  color: #fff;
+  color: var(--color-text);
 }
 
 .user-profile-details-mutual-tab::after {
@@ -275,7 +275,7 @@
   bottom: -10px;
   width: 100%;
   height: 3px;
-  background-color: #fff;
+  background-color: var(--color-bg);
   opacity: 0;
 }
 
@@ -285,7 +285,7 @@
 }
 
 .active {
-  color: #fff;
+  color: var(--color-text);
   font-weight: bold;
   cursor: default;
 }
@@ -301,7 +301,7 @@
 
 .user-profile-details-mutual-friend:hover,
 .user-profile-details-mutual-group-chat:hover {
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   background-color: var(--sub-side-btn-hover);
   cursor: pointer;
 }

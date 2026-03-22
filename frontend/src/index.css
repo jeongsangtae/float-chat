@@ -85,7 +85,8 @@ button:focus-visible {
 
   --font-xs: 0.8rem;
   --font-sm: 0.85rem;
-  --font-base-sm: 0.9rem;
+  --font-sm2: 0.875rem;
+  --font-sm3: 0.9rem;
   --font-base: 0.95rem;
 
   --font-md: 1rem;
@@ -99,15 +100,22 @@ button:focus-visible {
   --radius-xl: 16px;
   --radius-full: 50%;
 
-  --text-color-gray: #b3b3b3;
-  --border-color-dark-gray: #444;
-  --danger-color-red: #d9363e;
+  --color-text: #fff;
+  --color-text-secondary: #b3b3b3;
+  --color-bg: #fff;
+  --color-border: #444;
+  --color-danger: #d9363e;
 
   --action-btn-blue-bg: #2373cf;
   --action-btn-blue-bg-hover: #1c61af;
 
   --action-btn-black-bg: #2a2a2c;
   --action-btn-black-bg-hover: #343438;
+
+  --color-btn-primary: #2373cf;
+  --color-btn-primary-hover: #1c61af;
+  --color-btn-secondary: #2a2a2c;
+  --color-btn-secondary-hover: #343438;
 }
 
 body {

@@ -9,7 +9,7 @@
 }
 
 .direct-chat-wrapper:hover {
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   background-color: var(--sub-side-btn-hover);
 }
 
@@ -31,7 +31,7 @@
 }
 
 .active {
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   background-color: var(--sub-side-btn-active);
 }
 
@@ -40,7 +40,7 @@
 }
 
 .direct-chat-nickname {
-  color: var(--text-color-gray);
+  color: var(--color-text-secondary);
   margin-left: 0.25rem;
   width: 8rem;
   white-space: nowrap;
@@ -63,6 +63,6 @@
 }
 
 .direct-chat-close-icon {
-  font-size: 1.25rem;
+  font-size: var(--font-lg);
   color: #bebebe;
 }

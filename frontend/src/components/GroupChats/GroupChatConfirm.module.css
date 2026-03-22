@@ -5,13 +5,13 @@
 }
 
 .title {
-  font-size: 1.5rem;
+  font-size: var(--font-xl);
   margin: 1.75rem 0 1.25rem 0.25rem;
   color: #f44336; /* 삭제는 경고 느낌 */
 }
 
 .message {
-  font-size: 0.95rem;
+  font-size: var(--font-base);
   color: #ddd;
   margin: 0.5rem 0 1.25rem 0.25rem;
   padding: 0.25rem;
@@ -30,8 +30,8 @@
   color: white;
   border: none;
   padding: 0.35rem 0.9rem;
-  border-radius: 6px;
-  font-size: 0.9rem;
+  border-radius: var(--radius-sm);
+  font-size: var(--font-sm3);
   font-weight: bold;
   cursor: pointer;
   transition: background-color 0.2s ease;
@@ -46,8 +46,8 @@
   color: #ddd;
   border: none;
   padding: 0.35rem 0.9rem;
-  border-radius: 6px;
-  font-size: 0.9rem;
+  border-radius: var(--radius-sm);
+  font-size: var(--font-sm3);
   cursor: pointer;
   transition: background-color 0.2s ease;
 }

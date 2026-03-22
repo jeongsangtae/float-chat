@@ -4,7 +4,7 @@
   width: 21.5rem;
   height: 100vh;
   border-radius: 0.5rem;
-  border-left: 1px solid var(--border-color-dark-gray);
+  border-left: 1px solid var(--color-border);
   overflow-y: auto;
   padding-bottom: 2rem;
 }
@@ -71,10 +71,9 @@
 
 .group-chat-announcement-wrapper {
   padding: 0.75rem;
-  /* background-color: #414147; */
   background-color: var(--sub-side-btn-active);
-  border-radius: 8px;
-  font-size: 0.95rem;
+  border-radius: var(--radius-md);
+  font-size: var(--font-base);
 }
 
 .group-chat-announcement-header {
@@ -112,7 +111,7 @@
 .group-chat-announcement-content {
   line-height: 1.5;
   white-space: pre-wrap;
-  font-size: 0.9rem;
+  font-size: var(--font-sm3);
   max-height: 15rem;
   overflow-y: auto;
 }
@@ -168,10 +167,9 @@
 
 .group-chat-users-wrapper {
   padding: 0.75rem;
-  /* background-color: #414147; */
   background-color: var(--sub-side-btn-active);
-  border-radius: 8px;
-  font-size: 0.95rem;
+  border-radius: var(--radius-md);
+  font-size: var(--font-base);
   margin-top: 0.75rem;
 }
 
@@ -185,14 +183,14 @@
 .group-chat-user {
   display: flex;
   align-items: center;
-  font-size: 1rem;
+  font-size: var(--font-md);
   gap: 0.5rem;
   padding: 0.5rem;
   flex: 1;
 }
 
 .group-chat-user:hover {
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   background-color: var(--sub-side-btn-hover);
   cursor: pointer;
 }
@@ -243,22 +241,22 @@
 .group-chat-since-wrapper {
   padding: 0.75rem;
   background-color: var(--sub-side-btn-active);
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   margin-top: 0.75rem;
 }
 
 .group-chat-since-label {
-  font-size: 0.85rem;
+  font-size: var(--font-sm);
   font-weight: bold;
   color: #ffd966;
 }
 
 .group-chat-since-label-emoji {
-  font-size: 0.95rem;
+  font-size: var(--font-base);
   margin-right: 0.25rem;
 }
 
 .group-chat-since {
   margin-top: 0.15rem;
-  font-size: 0.875rem;
+  font-size: var(--font-sm2);
 }

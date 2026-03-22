@@ -56,7 +56,7 @@
 .user-profile-mutual-friend-avatar {
   width: 2.75rem;
   height: 2.75rem;
-  font-size: 1.25rem;
+  font-size: var(--font-lg);
 }
 
 .offline {

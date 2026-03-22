@@ -14,9 +14,9 @@
   gap: 0.5rem;
   background-color: var(--notification-bg);
   padding: 0.75rem 1rem;
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  font-size: 1rem;
+  font-size: var(--font-md);
   width: 20rem;
   /* min-width: 18rem; */
   /* max-width: 20.5rem; */
@@ -25,7 +25,7 @@
 }
 
 .notification-content {
-  font-size: 1rem;
+  font-size: var(--font-md);
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -38,7 +38,7 @@
 .notification-nickname {
   font-weight: 600;
   color: white;
-  font-size: 1rem;
+  font-size: var(--font-md);
   line-height: 1.5;
   word-break: break-word;
   display: -webkit-box;
@@ -48,8 +48,8 @@
 }
 
 .notification-message {
-  color: var(--text-color-gray);
-  font-size: 1rem;
+  color: var(--color-text-secondary);
+  font-size: var(--font-md);
   line-height: 1.1;
   margin-top: 0.25rem;
   word-break: break-word;

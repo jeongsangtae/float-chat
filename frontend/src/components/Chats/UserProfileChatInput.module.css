@@ -9,7 +9,7 @@
 
 .user-profile-chat-input-wrapper textarea {
   font: inherit;
-  font-size: 1rem;
+  font-size: var(--font-md);
   padding: 0.75rem 3rem 0.75rem 0.8rem;
   line-height: 1.4;
   width: 100%;
@@ -17,7 +17,7 @@
 
   color: white;
   background-color: var(--chat-input);
-  border: 1px solid var(--border-color-dark-gray);
+  border: 1px solid var(--color-border);
   border-radius: 0.5rem;
   box-sizing: border-box;
 
@@ -26,7 +26,7 @@
 }
 
 .user-profile-chat-input-wrapper textarea::placeholder {
-  font-size: 0.95rem;
+  font-size: var(--font-base);
   color: #9a9a9a;
   line-height: 1.4;
 }
@@ -67,7 +67,7 @@
 
 .user-profile-chat-input-send-button {
   position: absolute;
-  font-size: 1.5rem;
+  font-size: var(--font-xl);
   top: 0.75rem;
   right: 0.75rem;
   color: #b1b1b1;

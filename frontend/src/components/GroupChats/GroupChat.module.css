@@ -24,7 +24,7 @@
   white-space: nowrap; /* 텍스트 자동 줄바꿈 방지 */
   overflow: hidden; /* 글자가 요소 범위를 넘어가지 않도록 방지 */
   /* text-overflow: ellipsis;  */ /* 텍스트가 넘칠 경우 ... 으로 생략해 출력 */
-  font-size: 1rem;
+  font-size: var(--font-md);
   transition: font-size 0.2s ease;
 }
 
@@ -39,7 +39,7 @@
   transform: translateY(-50%);
   width: 0.25rem;
   height: 0.5rem;
-  background-color: #fff;
+  background-color: var(--color-bg);
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
   border-top-right-radius: 0.5rem;
@@ -82,10 +82,10 @@
   top: 50%;
   transform: translateY(-50%); /* 수직 가운데 정렬 */
   background-color: var(--group-chat-btn);
-  color: #fff;
+  color: var(--color-text);
   padding: 0.65rem 0.5rem;
-  border-radius: 8px;
-  font-size: 1rem;
+  border-radius: var(--radius-md);
+  font-size: var(--font-md);
   white-space: nowrap;
   z-index: 100;
   pointer-events: none;
@@ -102,11 +102,11 @@
 .context-menu {
   position: fixed;
   background-color: #4c4f53;
-  border: 1px solid var(--border-color-dark-gray);
+  border: 1px solid var(--color-border);
   z-index: 1000;
   padding: 0.5rem;
   list-style: none;
-  border-radius: 4px;
+  border-radius: var(--radius-xs);
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
 
   /* 그룹 채팅방 메뉴창 고정된 위치로 열기 */
@@ -116,12 +116,12 @@
 
 .context-menu button {
   display: block;
-  font-size: 0.9rem;
+  font-size: var(--font-sm3);
   font-weight: bold;
-  color: #fff;
+  color: var(--color-text);
   background: none;
   border: none;
-  border-radius: 4px;
+  border-radius: var(--radius-xs);
   padding: 0.375rem 0.75rem;
   width: 100%;
   text-align: left;

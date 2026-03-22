@@ -5,7 +5,7 @@
 }
 
 .group-chat-invite-wrapper:hover {
-  border-radius: 4px;
+  border-radius: var(--radius-xs);
   background-color: var(--friend-btn-hover);
 }
 
@@ -23,8 +23,8 @@
 }
 
 .group-chat-invite-nickname {
-  font-size: 1rem;
-  color: var(--text-color-gray);
+  font-size: var(--font-md);
+  color: var(--color-text-secondary);
   margin-left: 0.25rem;
 }
 
@@ -36,9 +36,9 @@
   background-color: #4caf50;
   color: white;
   border: none;
-  border-radius: 4px;
+  border-radius: var(--radius-xs);
   padding: 0.3rem 0.75rem;
-  font-size: 0.875rem;
+  font-size: var(--font-sm2);
   cursor: pointer;
   transition: background-color 0.2s ease;
 }

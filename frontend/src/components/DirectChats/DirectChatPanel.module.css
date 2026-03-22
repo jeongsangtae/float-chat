@@ -3,7 +3,7 @@
   flex-direction: column;
   width: 21.5rem;
   border-radius: 0.5rem;
-  border-left: 1px solid var(--border-color-dark-gray);
+  border-left: 1px solid var(--color-border);
 }
 
 .avatar-header {
@@ -72,30 +72,30 @@
 .friend-since-wrapper {
   padding: 0.75rem;
   background-color: var(--sub-side-btn-active);
-  border-radius: 8px;
+  border-radius: var(--radius-md);
 }
 
 .friend-since-label {
-  font-size: 0.85rem;
+  font-size: var(--font-sm);
   font-weight: bold;
 }
 
 .friend-since-label-emoji {
-  font-size: 0.95rem;
+  font-size: var(--font-base);
   margin-right: 0.25rem;
 }
 
 .friend-since {
   margin-top: 0.15rem;
-  font-size: 0.875rem;
+  font-size: var(--font-sm2);
 }
 
 .not-friend {
   padding: 0.75rem;
   background-color: var(--sub-side-btn-active);
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   font-weight: bold;
-  font-size: 0.9rem;
+  font-size: var(--font-sm3);
   color: white;
   text-align: center;
 }
@@ -104,7 +104,7 @@
   margin-top: 0.75rem;
   padding: 0.75rem;
   background-color: var(--sub-side-btn-active);
-  border-radius: 8px;
+  border-radius: var(--radius-md);
 }
 
 .mutual-content-wrapper > *:not(:last-child) {
@@ -121,7 +121,7 @@
 
 .mutual-group-chat-text-wrapper,
 .mutual-friend-user-text-wrapper {
-  font-size: 0.95rem;
+  font-size: var(--font-base);
 }
 
 .mutual-group-chat-text,
@@ -152,7 +152,7 @@
 
 .mutual-group-chat:hover,
 .mutual-friend-user:hover {
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   background-color: var(--sub-side-btn-hover);
   cursor: pointer;
 }

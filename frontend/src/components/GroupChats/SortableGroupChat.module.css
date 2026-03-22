@@ -30,8 +30,8 @@
   width: 3rem;
   height: 3rem;
   background-color: rgba(30, 30, 30, 0.9);
-  color: #fff;
-  border-radius: 8px;
+  color: var(--color-text);
+  border-radius: var(--radius-md);
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
   font-weight: 500;
   pointer-events: none;
@@ -42,7 +42,7 @@
   width: 3rem;
   height: 3rem;
   background-color: #1abc9c;
-  color: #fff;
+  color: var(--color-text);
   border-radius: 16px;
   border: none;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);

@@ -24,7 +24,7 @@
   width: 400px;
   padding: 2rem;
   background-color: #1e1f22;
-  border-radius: 8px;
+  border-radius: var(--radius-md);
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.6);
   color: white;
   z-index: 1;

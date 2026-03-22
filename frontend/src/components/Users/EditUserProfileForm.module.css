@@ -1,6 +1,6 @@
 .title {
   text-align: center;
-  font-size: 1.25rem;
+  font-size: var(--font-lg);
   margin: 1rem 0 0.25rem 0;
 }
 
@@ -12,7 +12,7 @@
 }
 
 .nickname-edit-title {
-  font-size: 0.95rem;
+  font-size: var(--font-base);
   font-weight: bold;
   margin-left: 0.5rem;
   color: #ddd;
@@ -22,7 +22,7 @@
   margin: 0 0.5rem;
   padding: 0.5rem;
   border: 1px solid rgba(133, 133, 133, 0.5);
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
   background-color: transparent;
   color: white;
   font-size: 1.1rem;
@@ -42,7 +42,7 @@
   height: 0.5rem;
   line-height: 0.25rem;
   color: #f44336;
-  font-size: 0.85rem;
+  font-size: var(--font-sm);
   text-align: center;
   opacity: 1;
 }
@@ -64,7 +64,7 @@
 }
 
 .avatar-edit-title {
-  font-size: 0.95rem;
+  font-size: var(--font-base);
   font-weight: bold;
   margin-left: 0.5rem;
   color: #ddd;
@@ -72,10 +72,10 @@
 
 .avatar-mode-button {
   margin-right: 0.5rem;
-  font-size: 0.85rem;
+  font-size: var(--font-sm);
   border: none;
   color: white;
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
   padding: 0.25rem 0.4rem;
   background-color: #1565c0;
   cursor: pointer;
@@ -136,10 +136,10 @@
   padding: 0.5rem 0.3rem;
   padding-right: 1.85rem;
   border: 1px solid rgba(133, 133, 133, 0.5);
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
   background-color: transparent;
   color: white;
-  font-size: 0.85rem;
+  font-size: var(--font-sm);
 }
 
 .avatar-img-url-input:focus {
@@ -198,8 +198,8 @@
   color: white;
   border: none;
   padding: 0.3rem 0.75rem;
-  border-radius: 6px;
-  font-size: 0.85rem;
+  border-radius: var(--radius-sm);
+  font-size: var(--font-sm);
   cursor: pointer;
 }
 
@@ -213,7 +213,7 @@
   color: #aaa;
   border: none;
   padding: 0.3rem 0.75rem;
-  border-radius: 6px;
-  font-size: 0.85rem;
+  border-radius: var(--radius-sm);
+  font-size: var(--font-sm);
   cursor: default;
 }

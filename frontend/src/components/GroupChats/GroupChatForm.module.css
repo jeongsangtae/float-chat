@@ -1,6 +1,6 @@
 .title {
   text-align: center;
-  font-size: 1.5rem;
+  font-size: var(--font-xl);
   margin: 1.5rem 0 0.75rem 0;
 }
 
@@ -12,7 +12,7 @@
 }
 
 .group-chat-form-title {
-  font-size: 0.95rem;
+  font-size: var(--font-base);
   font-weight: bold;
   margin-left: 0.5rem;
   color: #ddd;
@@ -23,7 +23,7 @@
   width: 95%;
   padding: 0.5rem;
   border: 1px solid rgba(133, 133, 133, 0.5);
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
   background-color: transparent;
   color: white;
   font-size: 1.1rem;
@@ -43,7 +43,7 @@
   height: 1rem;
   line-height: 2rem;
   color: #f44336;
-  font-size: 0.85rem;
+  font-size: var(--font-sm);
   text-align: center;
   opacity: 1;
 }
@@ -63,8 +63,8 @@
   color: white;
   border: none;
   padding: 0.3rem 0.75rem;
-  border-radius: 6px;
-  font-size: 0.85rem;
+  border-radius: var(--radius-sm);
+  font-size: var(--font-sm);
   cursor: pointer;
 }
 
@@ -78,7 +78,7 @@
   color: #aaa;
   border: none;
   padding: 0.3rem 0.75rem;
-  border-radius: 6px;
-  font-size: 0.85rem;
+  border-radius: var(--radius-sm);
+  font-size: var(--font-sm);
   cursor: default;
 }

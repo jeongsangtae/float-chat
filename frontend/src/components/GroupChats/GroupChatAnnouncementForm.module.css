@@ -5,12 +5,12 @@
 
 .title {
   text-align: center;
-  font-size: 1.5rem;
+  font-size: var(--font-xl);
   margin: 1.75rem 0 1.25rem 0.25rem;
 }
 
 .group-chat-announcement-title {
-  font-size: 0.95rem;
+  font-size: var(--font-base);
   font-weight: bold;
   margin-left: 0.5rem;
   color: #ddd;
@@ -24,10 +24,10 @@
   padding: 0.5rem;
   line-height: 1rem;
   border: 1px solid rgba(133, 133, 133, 0.5);
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
   background-color: transparent;
   color: white;
-  font-size: 0.95rem;
+  font-size: var(--font-base);
   resize: none;
 }
 
@@ -79,7 +79,7 @@
   height: 0.35rem;
   background-color: #5c5c5c;
   overflow: hidden;
-  border-radius: 4px;
+  border-radius: var(--radius-xs);
 }
 
 .progress-bar {
@@ -100,7 +100,7 @@
 }
 
 .progress-count {
-  font-size: 0.85rem;
+  font-size: var(--font-sm);
   color: #7fcc97;
 }
 
@@ -118,7 +118,7 @@
   height: 0.75rem;
   line-height: 0.75rem;
   color: #f44336;
-  font-size: 0.85rem;
+  font-size: var(--font-sm);
   opacity: 1;
 }
 
@@ -137,8 +137,8 @@
   color: white;
   border: none;
   padding: 0.25rem 0.75rem 0.35rem 0.75rem;
-  border-radius: 6px;
-  font-size: 0.85rem;
+  border-radius: var(--radius-sm);
+  font-size: var(--font-sm);
   cursor: pointer;
 }
 
@@ -148,7 +148,7 @@
   color: #aaa;
   border: none;
   padding: 0.3rem 0.75rem;
-  border-radius: 6px;
-  font-size: 0.85rem;
+  border-radius: var(--radius-sm);
+  font-size: var(--font-sm);
   cursor: default;
 }
