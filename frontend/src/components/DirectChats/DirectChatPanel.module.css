@@ -38,7 +38,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: bold;
+  font-weight: var(--font-weight-bold);
   color: white;
   box-shadow: 0 0 0 6px var(--bg-side);
   z-index: 1;
@@ -77,7 +77,7 @@
 
 .friend-since-label {
   font-size: var(--font-sm);
-  font-weight: bold;
+  font-weight: var(--font-weight-bold);
 }
 
 .friend-since-label-emoji {
@@ -94,7 +94,7 @@
   padding: 0.75rem;
   background-color: var(--sub-side-btn-active);
   border-radius: var(--radius-md);
-  font-weight: bold;
+  font-weight: var(--font-weight-bold);
   font-size: var(--font-sm3);
   color: white;
   text-align: center;
@@ -126,7 +126,7 @@
 
 .mutual-group-chat-text,
 .mutual-friend-user-text {
-  font-weight: bold;
+  font-weight: var(--font-weight-bold);
 }
 
 .line {
@@ -186,7 +186,7 @@
   text-overflow: ellipsis; /* 텍스트가 넘칠 경우 ... 으로 생략해 출력 */
   min-width: 0;
   color: white;
-  font-weight: bold;
+  font-weight: var(--font-weight-bold);
   margin-left: 0.75rem;
 }
 

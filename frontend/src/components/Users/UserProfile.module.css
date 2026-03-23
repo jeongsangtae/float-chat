@@ -56,7 +56,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: bold;
+  font-weight: var(--font-weight-bold);
   color: white;
   box-shadow: 0 0 0 5px var(--profile-bg);
   z-index: 1;
@@ -88,7 +88,7 @@
 }
 
 .user-profile-nickname {
-  font-weight: bold;
+  font-weight: var(--font-weight-bold);
   font-size: var(--font-xl);
 }
 
@@ -105,7 +105,7 @@
 .user-profile-edit-button {
   color: white;
   background-color: #4caf50;
-  font-weight: bold;
+  font-weight: var(--font-weight-bold);
   border: none;
   padding: 0.4rem 6rem;
   border-radius: var(--radius-sm);

@@ -102,13 +102,13 @@
   height: 1.2rem;
   border-radius: 50%;
   border: 2px solid #1e1e1e;
-  background-color: #f33;
+  background-color: var(--color-badge);
   z-index: 3;
 }
 
 .friend-request-count {
   font-size: 0.75rem;
-  font-weight: bold;
+  font-weight: var(--font-weight-bold);
   color: white;
   line-height: 1;
   text-align: center;

@@ -7,7 +7,7 @@
 .title {
   font-size: var(--font-xl);
   margin: 1.75rem 0 1.25rem 0.25rem;
-  color: #f44336; /* 삭제는 경고 느낌 */
+  color: var(--color-error); /* 삭제는 경고 느낌 */
 }
 
 .message {
@@ -32,7 +32,7 @@
   padding: 0.35rem 0.9rem;
   border-radius: var(--radius-sm);
   font-size: var(--font-sm3);
-  font-weight: bold;
+  font-weight: var(--font-weight-bold);
   cursor: pointer;
   transition: background-color 0.2s ease;
 }

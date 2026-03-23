@@ -13,7 +13,7 @@
 
 .nickname-edit-title {
   font-size: var(--font-base);
-  font-weight: bold;
+  font-weight: var(--font-weight-bold);
   margin-left: 0.5rem;
   color: #ddd;
 }
@@ -35,13 +35,13 @@
 
 .error {
   outline: none;
-  border-color: #f44336;
+  border-color: var(--color-error);
 }
 
 .error-message {
   height: 0.5rem;
   line-height: 0.25rem;
-  color: #f44336;
+  color: var(--color-error);
   font-size: var(--font-sm);
   text-align: center;
   opacity: 1;
@@ -65,7 +65,7 @@
 
 .avatar-edit-title {
   font-size: var(--font-base);
-  font-weight: bold;
+  font-weight: var(--font-weight-bold);
   margin-left: 0.5rem;
   color: #ddd;
 }
@@ -119,7 +119,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: bold;
+  font-weight: var(--font-weight-bold);
   color: white;
 }
 

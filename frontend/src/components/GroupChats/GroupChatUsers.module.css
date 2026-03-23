@@ -11,7 +11,7 @@
 
 .online-text,
 .offline-text {
-  font-weight: bold;
+  font-weight: var(--font-weight-bold);
 }
 
 .line {

@@ -39,7 +39,7 @@
 }
 
 .group-chat-invite-text {
-  font-weight: bold;
+  font-weight: var(--font-weight-bold);
 }
 
 .underline {
@@ -59,7 +59,7 @@
   padding: 1rem;
   padding-bottom: 0.5rem;
   font-size: 1.1rem;
-  font-weight: bold;
+  font-weight: var(--font-weight-bold);
 }
 
 .group-chat-invite-search {

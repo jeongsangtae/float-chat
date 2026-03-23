@@ -117,7 +117,7 @@
 .context-menu button {
   display: block;
   font-size: var(--font-sm3);
-  font-weight: bold;
+  font-weight: var(--font-weight-bold);
   color: var(--color-text);
   background: none;
   border: none;

@@ -50,7 +50,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: bold;
+  font-weight: var(--font-weight-bold);
   color: white;
   box-shadow: 0 0 0 5px #43454d;
   z-index: 1;
@@ -82,7 +82,7 @@
 
 .user-profile-details-nickname {
   font-size: var(--font-xl);
-  font-weight: bold;
+  font-weight: var(--font-weight-bold);
 }
 
 .friend-since-wrapper,
@@ -93,7 +93,7 @@
 .friend-since-label,
 .not-friend-main {
   font-size: var(--font-sm);
-  font-weight: bold;
+  font-weight: var(--font-weight-bold);
 }
 
 .friend-since-label-emoji,
@@ -137,7 +137,7 @@
 .friend {
   padding: 0.4rem 0.75rem;
   background-color: var(--color-btn-primary);
-  font-weight: bold;
+  font-weight: var(--font-weight-bold);
 }
 
 .friend:hover {
@@ -183,7 +183,7 @@
 .add {
   padding: 0.35rem 0.65rem;
   background-color: var(--color-btn-primary);
-  font-weight: bold;
+  font-weight: var(--font-weight-bold);
   cursor: pointer;
 }
 
@@ -209,7 +209,7 @@
   background-color: var(--color-btn-secondary);
   color: var(--color-text);
   font-size: var(--font-sm3);
-  font-weight: bold;
+  font-weight: var(--font-weight-bold);
   line-height: 1;
   padding: 0.7rem 0.65rem 0.5rem 0.65rem;
   border-radius: var(--radius-xs);
@@ -255,7 +255,7 @@
   padding: 0;
   margin: 0;
   font-size: var(--font-sm3);
-  font-weight: bold;
+  font-weight: var(--font-weight-bold);
   background: none;
   border: none;
   color: #aaa;
@@ -286,7 +286,7 @@
 
 .active {
   color: var(--color-text);
-  font-weight: bold;
+  font-weight: var(--font-weight-bold);
   cursor: default;
 }
 
@@ -349,7 +349,7 @@
   text-overflow: ellipsis; /* 텍스트가 넘칠 경우 ... 으로 생략해 출력 */
   min-width: 0;
   color: white;
-  font-weight: bold;
+  font-weight: var(--font-weight-bold);
   font-size: 1.1rem;
   margin-left: 0.5rem;
 }

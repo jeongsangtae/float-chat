@@ -11,7 +11,7 @@
 
 .group-chat-announcement-title {
   font-size: var(--font-base);
-  font-weight: bold;
+  font-weight: var(--font-weight-bold);
   margin-left: 0.5rem;
   color: #ddd;
 }
@@ -93,7 +93,7 @@
 }
 
 .progress-bar-max {
-  /* background-color: #f44336; */
+  /* background-color: var(--color-error); */
   /* background-color: #d32f2f; */
   /* background-color: #b71c1c; */
   background-color: #c62828;
@@ -109,15 +109,15 @@
 }
 
 .progress-count-max {
-  color: #f44336;
-  font-weight: bold;
+  color: var(--color-error);
+  font-weight: var(--font-weight-bold);
 }
 
 .count-warning-message {
   text-align: center;
   height: 0.75rem;
   line-height: 0.75rem;
-  color: #f44336;
+  color: var(--color-error);
   font-size: var(--font-sm);
   opacity: 1;
 }

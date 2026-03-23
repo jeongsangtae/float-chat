@@ -13,7 +13,7 @@
 
 .group-chat-form-title {
   font-size: var(--font-base);
-  font-weight: bold;
+  font-weight: var(--font-weight-bold);
   margin-left: 0.5rem;
   color: #ddd;
 }
@@ -36,13 +36,13 @@
 
 .error {
   outline: none;
-  border-color: #f44336;
+  border-color: var(--color-error);
 }
 
 .error-message {
   height: 1rem;
   line-height: 2rem;
-  color: #f44336;
+  color: var(--color-error);
   font-size: var(--font-sm);
   text-align: center;
   opacity: 1;

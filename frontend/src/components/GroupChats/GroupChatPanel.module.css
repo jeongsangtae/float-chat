@@ -80,7 +80,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  font-weight: bold;
+  font-weight: var(--font-weight-bold);
   margin-bottom: 0.5rem;
   color: #ffd966;
   /* color: #5daeff; */
@@ -176,7 +176,7 @@
 .group-chat-users-header {
   display: flex;
   align-items: center;
-  font-weight: bold;
+  font-weight: var(--font-weight-bold);
   color: #ffd966;
 }
 
@@ -247,7 +247,7 @@
 
 .group-chat-since-label {
   font-size: var(--font-sm);
-  font-weight: bold;
+  font-weight: var(--font-weight-bold);
   color: #ffd966;
 }
 

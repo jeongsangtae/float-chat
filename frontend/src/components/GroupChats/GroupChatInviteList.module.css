@@ -33,7 +33,7 @@
 .nickname {
   flex: 1;
   width: 4.5rem;
-  font-weight: bold;
+  font-weight: var(--font-weight-bold);
   font-size: var(--font-sm3);
   white-space: nowrap;
   overflow: hidden;
@@ -55,7 +55,7 @@
 
 .room-title {
   width: 4.5rem;
-  font-weight: bold;
+  font-weight: var(--font-weight-bold);
   font-size: var(--font-sm3);
   white-space: nowrap;
   overflow: hidden;

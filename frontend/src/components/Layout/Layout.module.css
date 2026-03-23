@@ -11,7 +11,7 @@
   justify-content: center;
   align-items: center;
   background-color: var(--bg-side);
-  font-weight: bold;
+  font-weight: var(--font-weight-bold);
 }
 
 .dark,

@@ -68,7 +68,7 @@
   align-items: center;
   justify-content: center;
   font-size: var(--font-sm);
-  font-weight: bold;
+  font-weight: var(--font-weight-bold);
   color: #9c9c9c;
   margin-top: 1em;
   gap: 0.5rem;

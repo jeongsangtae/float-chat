@@ -37,7 +37,7 @@
 .error-message {
   height: 0.1rem;
   line-height: 0.5rem;
-  color: #f44336;
+  color: var(--color-error);
   font-size: var(--font-xs);
   opacity: 1;
 }
@@ -74,7 +74,7 @@
   font: inherit;
   border: none;
   cursor: pointer;
-  font-weight: bold;
+  font-weight: var(--font-weight-bold);
 }
 
 .signup:hover {

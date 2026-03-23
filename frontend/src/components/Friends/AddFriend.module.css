@@ -49,7 +49,7 @@
 
 .add-friend-send-button {
   font-size: var(--font-sm3);
-  font-weight: bold;
+  font-weight: var(--font-weight-bold);
   margin: 0.5rem;
   padding: 0.5rem 0.7rem;
   border: none;
