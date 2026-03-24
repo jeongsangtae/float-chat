@@ -2,7 +2,7 @@
   position: relative;
   width: 3rem;
   height: 3rem;
-  border-radius: 16px;
+  border-radius: var(--radius-xl);
   background-color: var(--group-chat-btn);
   border: none;
   display: flex;
@@ -42,8 +42,8 @@
   background-color: var(--color-bg);
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
-  border-top-right-radius: 0.5rem;
-  border-bottom-right-radius: 0.5rem;
+  border-top-right-radius: var(--radius-md);
+  border-bottom-right-radius: var(--radius-md);
   opacity: 0;
   transition: all 0.3s ease;
 }

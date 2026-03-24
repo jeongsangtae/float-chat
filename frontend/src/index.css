@@ -102,6 +102,7 @@ button:focus-visible {
   --space-xl: 1.25rem;
   --space-2xl: 1.5rem;
 
+  --radius-2xs: 2px;
   --radius-xs: 4px;
   --radius-sm: 6px;
   --radius-md: 8px;

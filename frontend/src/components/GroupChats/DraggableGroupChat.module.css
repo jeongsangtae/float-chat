@@ -10,7 +10,7 @@
   top: -8px;
   height: 4px;
   background-color: #3ba55d;
-  border-radius: 2px;
+  border-radius: var(--radius-2xs);
   pointer-events: none;
 }
 
@@ -22,7 +22,7 @@
   bottom: -8px;
   height: 4px;
   background-color: #3ba55d;
-  border-radius: 2px;
+  border-radius: var(--radius-2xs);
   pointer-events: none;
 }
 
@@ -31,7 +31,7 @@
   height: 3rem;
   background-color: rgba(122, 112, 112, 0.9);
   color: var(--color-text);
-  border-radius: 16px;
+  border-radius: var(--radius-xl);
   border: 1px dashed rgba(255, 255, 255, 0.8);
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
   font-weight: 500;

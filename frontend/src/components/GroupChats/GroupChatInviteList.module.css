@@ -1,7 +1,7 @@
 .group-chat-invite-item {
   padding: 0.5rem;
   border: 1.5px solid var(--color-border);
-  border-radius: 0.5rem;
+  border-radius: var(--radius-md);
   margin-bottom: 0.5rem;
   background-color: var(--group-invite-bg);
 

@@ -7,7 +7,7 @@
 .avatar-color {
   width: 2rem;
   height: 2rem;
-  border-radius: 50%;
+  border-radius: var(--radius-full);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -70,7 +70,7 @@
   height: 0.8rem;
   bottom: -1px;
   right: -1px;
-  border-radius: 50%;
+  border-radius: var(--radius-full);
   background-color: #02ac02;
   border: 2px solid #1e1e1e;
 }

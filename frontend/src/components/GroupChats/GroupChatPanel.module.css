@@ -3,7 +3,7 @@
   flex-direction: column;
   width: 21.5rem;
   height: 100vh;
-  border-radius: 0.5rem;
+  border-radius: var(--radius-md);
   border-left: 1px solid var(--color-border);
   overflow-y: auto;
   padding-bottom: 2rem;
@@ -17,7 +17,7 @@
 /* 스크롤바의 배경 트랙 설정 */
 .group-chat-panel::-webkit-scrollbar-track {
   /* background-color: #ebebeb; */
-  border-radius: 0.5rem;
+  border-radius: var(--radius-md);
   margin-top: 0.3rem;
   margin-bottom: 0.3rem;
   border-left: 0.3rem solid transparent;
@@ -25,18 +25,18 @@
 
 /* 스크롤바의 움직이는 핸들(슬라이더) 설정 */
 .group-chat-panel::-webkit-scrollbar-thumb {
-  background-color: #888888;
-  border-radius: 0.5rem;
+  background-color: var(--color-scrollbar-thumb);
+  border-radius: var(--radius-md);
 }
 
 /* 스크롤바 핸들 호버했을 때 설정 */
 .group-chat-panel::-webkit-scrollbar-thumb:hover {
-  background-color: #6e6e6e;
+  background-color: var(--color-scrollbar-thumb-hover);
 }
 
 /* 스크롤바 핸들에 액티브 상태일 때 스타일 설정 */
 .group-chat-panel::-webkit-scrollbar-thumb:active {
-  background-color: #333333;
+  background-color: var(--color-scrollbar-thumb-active);
 }
 
 .avatar-header-img,
@@ -61,7 +61,6 @@
   /* background-color: #2f3136; */
   background-color: var(--bg-side);
   padding: 1rem;
-  overflow-y: visible;
 }
 
 .nickname {
@@ -124,7 +123,7 @@
 /* 스크롤바의 배경 트랙 설정 */
 .group-chat-announcement-content::-webkit-scrollbar-track {
   /* background-color: #ebebeb; */
-  border-radius: 0.5rem;
+  border-radius: var(--radius-md);
   margin-top: 0.3rem;
   margin-bottom: 0.3rem;
   border-left: 0.3rem solid transparent;
@@ -132,18 +131,18 @@
 
 /* 스크롤바의 움직이는 핸들(슬라이더) 설정 */
 .group-chat-announcement-content::-webkit-scrollbar-thumb {
-  background-color: #888888;
-  border-radius: 0.5rem;
+  background-color: var(--color-scrollbar-thumb);
+  border-radius: var(--radius-md);
 }
 
 /* 스크롤바 핸들 호버했을 때 설정 */
 .group-chat-announcement-content::-webkit-scrollbar-thumb:hover {
-  background-color: #6e6e6e;
+  background-color: var(--color-scrollbar-thumb-hover);
 }
 
 /* 스크롤바 핸들에 액티브 상태일 때 스타일 설정 */
 .group-chat-announcement-content::-webkit-scrollbar-thumb:active {
-  background-color: #333333;
+  background-color: var(--color-scrollbar-thumb-active);
 }
 
 .announcement-full-content {

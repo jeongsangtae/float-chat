@@ -35,7 +35,7 @@
   margin-left: 0.5rem;
   width: 1rem;
   height: 1rem;
-  border-radius: 50%;
+  border-radius: var(--radius-full);
   background-color: var(--color-badge);
 }
 
@@ -72,7 +72,7 @@
   width: 100%;
   background-color: transparent;
   border: 1px solid transparent;
-  border-radius: 0.5rem;
+  border-radius: var(--radius-md);
   font-size: var(--font-base);
   color: white;
 }

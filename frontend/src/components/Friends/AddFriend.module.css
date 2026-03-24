@@ -30,7 +30,7 @@
   width: 100%;
   background-color: transparent;
   border: 1px solid transparent;
-  border-radius: 0.5rem;
+  border-radius: var(--radius-md);
   font-size: 1.05rem;
   color: white;
 }

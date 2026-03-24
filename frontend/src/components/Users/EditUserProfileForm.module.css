@@ -107,7 +107,7 @@
   width: 7.5rem;
   height: 7.5rem;
   object-fit: cover; /* 이미지가 박스에 맞게 잘리면서 꽉 차게 표시됨 */
-  border-radius: 50%; /* 원형 아바타 형태로 표시 */
+  border-radius: var(--radius-full); /* 원형 아바타 형태로 표시 */
   border: 2px solid #ccc;
 }
 
@@ -115,7 +115,7 @@
   width: 7.5rem;
   height: 7.5rem;
   font-size: 3.75rem;
-  border-radius: 50%;
+  border-radius: var(--radius-full);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -173,7 +173,7 @@
   width: 2rem;
   height: 2rem;
   color: white;
-  border-radius: 50%;
+  border-radius: var(--radius-full);
   border: none;
   cursor: pointer;
   transition: transform 0.15s ease-in-out;
