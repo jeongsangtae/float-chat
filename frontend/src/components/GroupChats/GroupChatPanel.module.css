@@ -5,8 +5,8 @@
   height: 100vh;
   border-radius: var(--radius-md);
   border-left: 1px solid var(--color-border);
+  background-color: var(--bg-side);
   overflow-y: auto;
-  padding-bottom: 2rem;
 }
 
 /* 스크롤바 설정 */
@@ -16,7 +16,6 @@
 
 /* 스크롤바의 배경 트랙 설정 */
 .group-chat-panel::-webkit-scrollbar-track {
-  /* background-color: #ebebeb; */
   border-radius: var(--radius-md);
   margin-top: 0.3rem;
   margin-bottom: 0.3rem;
@@ -57,10 +56,8 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  height: 100%;
-  /* background-color: #2f3136; */
-  background-color: var(--bg-side);
   padding: 1rem;
+  padding-bottom: 3rem;
 }
 
 .nickname {
