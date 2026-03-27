@@ -2,8 +2,8 @@
   position: relative;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.5rem;
+  gap: var(--space-sm);
+  padding: var(--space-sm);
   flex: 1;
 }
 
@@ -15,7 +15,7 @@
 
 .group-chat-user-nickname {
   color: white;
-  margin-left: 0.25rem;
+  margin-left: var(--space-xs);
   width: 8rem;
   white-space: nowrap;
   overflow: hidden;

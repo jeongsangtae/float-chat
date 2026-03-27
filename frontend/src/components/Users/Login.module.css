@@ -1,5 +1,5 @@
 .title {
-  margin: 1rem 0 1.5rem 0;
+  margin: var(--space-lg) 0 var(--space-2xl) 0;
   display: flex;
   justify-content: center;
   font-size: var(--font-xl);
@@ -9,18 +9,18 @@
 .login-password-wrapper {
   display: flex;
   flex-direction: column;
-  margin-bottom: 1rem;
+  margin-bottom: var(--space-lg);
 }
 
 .login-email-label,
 .login-password-label {
-  margin-bottom: 0.25rem;
+  margin-bottom: var(--space-xs);
   font-size: var(--font-xs);
 }
 
 .login-email-input,
 .login-password-input {
-  padding: 0.5rem;
+  padding: var(--space-sm);
   border: 1px solid rgba(133, 133, 133, 0.5);
   border-radius: var(--radius-sm);
   background-color: transparent;
@@ -50,9 +50,9 @@
   background-color: #4caf50;
   width: 100%;
   color: white;
-  margin: 0.5rem 0 1rem 0;
+  margin: var(--space-sm) 0 var(--space-lg) 0;
   border: none;
-  padding: 0.5rem 0.75rem;
+  padding: var(--space-sm) var(--space-md);
   border-radius: var(--radius-sm);
   font-size: var(--font-sm);
   cursor: pointer;

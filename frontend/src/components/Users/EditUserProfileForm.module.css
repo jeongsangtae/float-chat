@@ -1,26 +1,26 @@
 .title {
   text-align: center;
   font-size: var(--font-lg);
-  margin: 1rem 0 0.25rem 0;
+  margin: var(--space-lg) 0 var(--space-xs) 0;
 }
 
 .nickname-edit-wrapper {
-  margin-bottom: 0.75rem;
+  margin-bottom: var(--space-md);
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
+  gap: var(--space-xs);
 }
 
 .nickname-edit-title {
   font-size: var(--font-base);
   font-weight: var(--font-weight-bold);
-  margin-left: 0.5rem;
+  margin-left: var(--space-sm);
   color: #ddd;
 }
 
 .nickname-edit-input {
-  margin: 0 0.5rem;
-  padding: 0.5rem;
+  margin: 0 var(--space-sm);
+  padding: var(--space-sm);
   border: 1px solid rgba(133, 133, 133, 0.5);
   border-radius: var(--radius-sm);
   background-color: transparent;
@@ -54,7 +54,7 @@
 .underline {
   height: 1px;
   background-color: rgba(128, 128, 128, 0.2);
-  margin: 0.25rem 0.5rem 1.25rem 0.5rem;
+  margin: var(--space-xs) var(--space-sm) var(--space-xl) var(--space-sm);
 }
 
 .avatar-header {
@@ -66,17 +66,17 @@
 .avatar-edit-title {
   font-size: var(--font-base);
   font-weight: var(--font-weight-bold);
-  margin-left: 0.5rem;
+  margin-left: var(--space-sm);
   color: #ddd;
 }
 
 .avatar-mode-button {
-  margin-right: 0.5rem;
+  margin-right: var(--space-sm);
   font-size: var(--font-sm);
   border: none;
   color: white;
   border-radius: var(--radius-sm);
-  padding: 0.25rem 0.4rem;
+  padding: var(--space-xs) 0.4rem;
   background-color: #1565c0;
   cursor: pointer;
 }
@@ -88,7 +88,7 @@
 .avatar-mode-button .icon svg {
   width: 1rem;
   height: 1rem;
-  margin-right: 0.25rem;
+  margin-right: var(--space-xs);
   vertical-align: -2.5px;
 
   /* vertical-align: middle;
@@ -100,7 +100,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 0.5rem 0;
+  margin: var(--space-sm) 0;
 }
 
 .avatar-img-preview img {
@@ -132,8 +132,8 @@
 
 .avatar-img-url-input {
   width: 100%;
-  margin: 0 0.5rem;
-  padding: 0.5rem 0.3rem;
+  margin: 0 var(--space-sm);
+  padding: var(--space-sm) 0.3rem;
   padding-right: 1.85rem;
   border: 1px solid rgba(133, 133, 133, 0.5);
   border-radius: var(--radius-sm);
@@ -150,7 +150,7 @@
 .avatar-img-reset-button {
   position: absolute;
   right: 0.5rem;
-  margin-right: 0.5rem;
+  margin-right: var(--space-sm);
   font-size: 1.1rem;
   border: none;
   color: #9e9e9e;
@@ -164,8 +164,8 @@
 .avatar-color-list {
   display: grid;
   grid-template-columns: repeat(5, 1fr); /* 5 X 4로 표시 */
-  gap: 0.5rem;
-  padding: 0.5rem;
+  gap: var(--space-sm);
+  padding: var(--space-sm);
   place-items: center; /* = align-items: center; + justify-items: center; */
 }
 
@@ -190,14 +190,14 @@
 
 .submit-button {
   text-align: end;
-  margin: 0.5rem;
+  margin: var(--space-sm);
 }
 
 .active {
   background-color: #4caf50;
   color: white;
   border: none;
-  padding: 0.3rem 0.75rem;
+  padding: 0.3rem var(--space-md);
   border-radius: var(--radius-sm);
   font-size: var(--font-sm);
   cursor: pointer;
@@ -212,7 +212,7 @@
   background-color: #555;
   color: #aaa;
   border: none;
-  padding: 0.3rem 0.75rem;
+  padding: 0.3rem var(--space-md);
   border-radius: var(--radius-sm);
   font-size: var(--font-sm);
   cursor: default;

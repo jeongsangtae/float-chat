@@ -43,7 +43,7 @@
   flex-direction: column;
   height: 100%;
   background-color: var(--profile-bg);
-  padding: 1rem;
+  padding: var(--space-lg);
   overflow-y: visible;
 }
 
@@ -83,7 +83,7 @@
 }
 
 .user-profile-info-content {
-  margin-top: 1.25rem;
+  margin-top: var(--space-xl);
   font-size: var(--font-xs);
 }
 
@@ -99,7 +99,7 @@
 
 .user-profile-edit-wrapper {
   text-align: center;
-  margin: 0.75rem 0;
+  margin: var(--space-md) 0;
 }
 
 .user-profile-edit-button {
@@ -118,7 +118,7 @@
 }
 
 .user-profile-mutual-wrapper {
-  margin: 0.5rem 0;
+  margin: var(--space-sm) 0;
 }
 
 .user-profile-mutual-friends {
@@ -145,7 +145,7 @@
   height: 4px;
   background-color: currentColor;
   border-radius: var(--radius-full);
-  margin: 0 8px;
+  margin: 0 var(--space-sm);
   transform: translateY(-2px);
 }
 

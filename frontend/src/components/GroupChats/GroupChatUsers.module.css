@@ -1,6 +1,6 @@
 .online-users,
 .offline-users {
-  padding: 0.5rem;
+  padding: var(--space-sm);
   color: var(--color-text-secondary);
 }
 

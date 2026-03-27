@@ -19,7 +19,7 @@
   position: absolute;
   width: 64px;
   height: 64px;
-  margin: 8px;
+  margin: var(--space-sm);
   border: 8px solid #e30d5b;
   border-radius: var(--radius-full);
   animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;

@@ -1,6 +1,6 @@
 .chats-container {
   flex: 1;
-  margin-bottom: 0.5rem;
+  margin-bottom: var(--space-sm);
   position: relative;
   overflow: hidden;
 }
@@ -20,7 +20,7 @@
 /* 스크롤바의 배경 트랙 설정 */
 .messages-container::-webkit-scrollbar-track {
   border-radius: var(--radius-md);
-  margin-top: 0.5rem;
+  margin-top: var(--space-sm);
   border-left: 0.3rem solid transparent;
 }
 
@@ -41,18 +41,18 @@
 }
 
 .direct-chat-starting {
-  margin-top: 0.5rem;
+  margin-top: var(--space-sm);
 }
 
 .nickname {
-  margin: 1rem 0 1.25rem 0;
+  margin: var(--space-lg) 0 var(--space-xl) 0;
 }
 
 .group-chat-starting {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 0.5rem;
+  margin-top: var(--space-sm);
 }
 
 .title {
@@ -70,8 +70,8 @@
   font-size: var(--font-sm);
   font-weight: var(--font-weight-bold);
   color: #9c9c9c;
-  margin-top: 1em;
-  gap: 0.5rem;
+  margin-top: var(--space-lg);
+  gap: var(--space-sm);
 }
 
 .date-line::before,
@@ -102,7 +102,7 @@
   bottom: 0;
   left: 50%;
   transform: translateX(-50%);
-  padding: 0.25rem 0.8rem;
+  padding: var(--space-xs) 0.8rem;
   color: white;
   border: none;
   background-color: #000000;

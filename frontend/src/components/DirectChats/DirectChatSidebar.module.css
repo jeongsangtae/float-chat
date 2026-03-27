@@ -4,7 +4,7 @@
   background-color: var(--bg-side);
   display: flex;
   flex-direction: column;
-  padding: 0.75rem 0.5rem;
+  padding: var(--space-md) var(--space-sm);
   overflow-y: auto;
 }
 
@@ -12,7 +12,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0.75rem;
+  padding: var(--space-md);
   cursor: pointer;
   color: var(--color-text-secondary);
 }
@@ -32,7 +32,7 @@
 .friend-left {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: var(--space-md);
 }
 
 .friend-icon {
@@ -69,12 +69,12 @@
 .underline {
   height: 1px;
   background-color: rgba(128, 128, 128, 0.2);
-  margin: 0.5rem 0;
+  margin: var(--space-sm) 0;
 }
 
 .direct-chat-text {
   color: var(--color-text-secondary);
-  padding: 0.25rem 0.5rem;
+  padding: var(--space-xs) var(--space-sm);
   font-size: var(--font-sm3);
 }
 

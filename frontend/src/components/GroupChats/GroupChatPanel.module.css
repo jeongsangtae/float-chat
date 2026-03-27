@@ -56,17 +56,17 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  padding: 1rem;
+  padding: var(--space-lg);
   padding-bottom: 3rem;
 }
 
 .nickname {
-  margin: 1rem 0 0.5rem 0;
+  margin: var(--space-lg) 0 var(--space-sm) 0;
   margin-top: 2.25rem;
 }
 
 .group-chat-announcement-wrapper {
-  padding: 0.75rem;
+  padding: var(--space-md);
   background-color: var(--sub-side-btn-active);
   border-radius: var(--radius-md);
   font-size: var(--font-base);
@@ -77,7 +77,7 @@
   align-items: center;
   justify-content: space-between;
   font-weight: var(--font-weight-bold);
-  margin-bottom: 0.5rem;
+  margin-bottom: var(--space-sm);
   color: #ffd966;
   /* color: #5daeff; */
   /* color: #57f287; */
@@ -92,7 +92,7 @@
 .group-chat-announcement-delete-icon {
   width: 1.1rem;
   height: 1.1rem;
-  margin-right: 1rem;
+  margin-right: var(--space-lg);
   cursor: pointer;
 }
 
@@ -162,11 +162,11 @@
 }
 
 .group-chat-users-wrapper {
-  padding: 0.75rem;
+  padding: var(--space-md);
   background-color: var(--sub-side-btn-active);
   border-radius: var(--radius-md);
   font-size: var(--font-base);
-  margin-top: 0.75rem;
+  margin-top: var(--space-md);
 }
 
 .group-chat-users-header {
@@ -180,8 +180,8 @@
   display: flex;
   align-items: center;
   font-size: var(--font-md);
-  gap: 0.5rem;
-  padding: 0.5rem;
+  gap: var(--space-sm);
+  padding: var(--space-sm);
   flex: 1;
 }
 
@@ -198,9 +198,9 @@
 .group-chat-user-nickname-wrapper {
   display: flex;
   align-items: center;
-  gap: 0.25rem;
+  gap: var(--space-xs);
   color: white;
-  margin-left: 0.25rem;
+  margin-left: var(--space-xs);
   max-width: 8rem;
 }
 
@@ -235,10 +235,10 @@
 }
 
 .group-chat-since-wrapper {
-  padding: 0.75rem;
+  padding: var(--space-md);
   background-color: var(--sub-side-btn-active);
   border-radius: var(--radius-md);
-  margin-top: 0.75rem;
+  margin-top: var(--space-md);
 }
 
 .group-chat-since-label {
@@ -249,7 +249,7 @@
 
 .group-chat-since-label-emoji {
   font-size: var(--font-base);
-  margin-right: 0.25rem;
+  margin-right: var(--space-xs);
 }
 
 .group-chat-since {

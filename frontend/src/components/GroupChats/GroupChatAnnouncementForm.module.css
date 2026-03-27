@@ -1,27 +1,27 @@
 .group-chat-announcement-form {
-  margin: 0 0.25rem 0.5rem 0;
+  margin: 0 var(--space-xs) var(--space-sm) 0;
   padding: 0;
 }
 
 .title {
   text-align: center;
   font-size: var(--font-xl);
-  margin: 1.75rem 0 1.25rem 0.25rem;
+  margin: var(--space-3xl) 0 var(--space-xl) var(--space-xs);
 }
 
 .group-chat-announcement-title {
   font-size: var(--font-base);
   font-weight: var(--font-weight-bold);
-  margin-left: 0.5rem;
+  margin-left: var(--space-sm);
   color: #ddd;
 }
 
 .group-chat-announcement-textarea {
   font: inherit;
-  margin: 0.25rem 0.5rem;
+  margin: var(--space-xs) var(--space-sm);
   width: 95%;
   min-height: 6rem;
-  padding: 0.5rem;
+  padding: var(--space-sm);
   line-height: 1rem;
   border: 1px solid rgba(133, 133, 133, 0.5);
   border-radius: var(--radius-sm);
@@ -70,8 +70,8 @@
   display: flex;
   align-items: center;
   width: 95%;
-  gap: 0.5rem;
-  margin-left: 0.5rem;
+  gap: var(--space-sm);
+  margin-left: var(--space-sm);
 }
 
 .progress-container {
@@ -128,7 +128,7 @@
 
 .submit-button {
   text-align: end;
-  margin: 0.25rem;
+  margin: var(--space-xs);
   margin-top: 0.4rem;
 }
 
@@ -136,7 +136,7 @@
   background-color: #4caf50;
   color: white;
   border: none;
-  padding: 0.25rem 0.75rem 0.35rem 0.75rem;
+  padding: var(--space-xs) var(--space-md) 0.35rem var(--space-md);
   border-radius: var(--radius-sm);
   font-size: var(--font-sm);
   cursor: pointer;
@@ -147,7 +147,7 @@
   background-color: #555;
   color: #aaa;
   border: none;
-  padding: 0.3rem 0.75rem;
+  padding: 0.3rem var(--space-md);
   border-radius: var(--radius-sm);
   font-size: var(--font-sm);
   cursor: default;

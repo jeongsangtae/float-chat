@@ -1,10 +1,10 @@
 .title {
-  margin: 1rem 0 0.5rem 0;
+  margin: var(--space-lg) 0 var(--space-sm) 0;
 }
 
 .description {
   margin: 0;
-  margin-bottom: 1rem;
+  margin-bottom: var(--space-lg);
 }
 
 .add-friend-search-wrapper {
@@ -12,11 +12,11 @@
   display: flex;
   align-items: center;
   width: 70%;
-  padding: 0.1rem 0.25rem;
+  padding: 0.1rem var(--space-xs);
   border: 1px solid rgba(133, 133, 133, 0.5);
   border-radius: var(--radius-md);
-  margin: 1rem 0;
-  margin-top: 0.5rem;
+  margin: var(--space-lg) 0;
+  margin-top: var(--space-sm);
 }
 
 .add-friend-search-wrapper:focus-within {
@@ -25,8 +25,8 @@
 }
 
 .add-friend-search-input {
-  margin-left: 0.25rem;
-  padding-right: 1.5rem;
+  margin-left: var(--space-xs);
+  padding-right: var(--space-2xl);
   width: 100%;
   background-color: transparent;
   border: 1px solid transparent;
@@ -50,8 +50,8 @@
 .add-friend-send-button {
   font-size: var(--font-sm3);
   font-weight: var(--font-weight-bold);
-  margin: 0.5rem;
-  padding: 0.5rem 0.7rem;
+  margin: var(--space-sm);
+  padding: var(--space-sm) 0.7rem;
   border: none;
   border-radius: var(--radius-md);
   color: white;

@@ -2,7 +2,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0.5rem;
+  padding: var(--space-sm);
   transition: background-color 0.2s;
   cursor: pointer;
   margin-bottom: 0.1rem;
@@ -24,7 +24,7 @@
 .direct-chat {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: var(--space-sm);
   text-decoration: none;
   color: inherit;
   flex: 1;
@@ -41,7 +41,7 @@
 
 .direct-chat-nickname {
   color: var(--color-text-secondary);
-  margin-left: 0.25rem;
+  margin-left: var(--space-xs);
   width: 8rem;
   white-space: nowrap;
   overflow: hidden;
