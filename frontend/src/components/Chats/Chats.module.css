@@ -87,7 +87,8 @@
   top: 0;
   left: 50%;
   transform: translateX(-50%);
-  padding: 0.35rem 13.5rem;
+  /* padding: 0.35rem 13.5rem; */
+  padding: var(--space-xs) 13.5rem;
   color: white;
   border: none;
   background-color: #2977df;
@@ -102,7 +103,7 @@
   bottom: 0;
   left: 50%;
   transform: translateX(-50%);
-  padding: var(--space-xs) 0.8rem;
+  padding: var(--space-xs) var(--space-md);
   color: white;
   border: none;
   background-color: #000000;

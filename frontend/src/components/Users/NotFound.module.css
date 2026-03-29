@@ -18,7 +18,7 @@
 .redirect-button {
   border: none;
   cursor: pointer;
-  padding: var(--space-sm) 2rem;
+  padding: var(--space-sm) var(--space-3xl);
   border-radius: var(--radius-xs);
   color: white;
   background-color: #474747;

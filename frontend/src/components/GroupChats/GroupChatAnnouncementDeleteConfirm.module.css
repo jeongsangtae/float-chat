@@ -25,31 +25,25 @@
   margin: var(--space-xs);
 }
 
-.delete-button {
-  background-color: #c62828;
+.delete-button,
+.cancel-button {
+  background-color: #555;
   color: white;
   border: none;
   padding: 0.35rem 0.9rem;
   border-radius: var(--radius-sm);
   font-size: var(--font-sm3);
-  font-weight: var(--font-weight-bold);
   cursor: pointer;
   transition: background-color 0.2s ease;
+}
+
+.delete-button {
+  background-color: #c62828;
+  font-weight: var(--font-weight-bold);
 }
 
 .delete-button:hover {
   background-color: #b71c1c;
-}
-
-.cancel-button {
-  background-color: #555;
-  color: #ddd;
-  border: none;
-  padding: 0.35rem 0.9rem;
-  border-radius: var(--radius-sm);
-  font-size: var(--font-sm3);
-  cursor: pointer;
-  transition: background-color 0.2s ease;
 }
 
 .cancel-button:hover {

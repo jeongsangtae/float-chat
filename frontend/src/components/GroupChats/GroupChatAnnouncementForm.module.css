@@ -147,7 +147,7 @@
   background-color: #555;
   color: #aaa;
   border: none;
-  padding: 0.3rem var(--space-md);
+  padding: var(--space-xs) var(--space-md) 0.35rem var(--space-md);
   border-radius: var(--radius-sm);
   font-size: var(--font-sm);
   cursor: default;

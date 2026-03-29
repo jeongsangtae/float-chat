@@ -62,7 +62,7 @@
   background-color: #4caf50;
   color: white;
   border: none;
-  padding: 0.3rem var(--space-md);
+  padding: 0.35rem var(--space-md);
   border-radius: var(--radius-sm);
   font-size: var(--font-sm);
   cursor: pointer;
@@ -77,7 +77,7 @@
   background-color: #555;
   color: #aaa;
   border: none;
-  padding: 0.3rem var(--space-md);
+  padding: 0.35rem var(--space-md);
   border-radius: var(--radius-sm);
   font-size: var(--font-sm);
   cursor: default;

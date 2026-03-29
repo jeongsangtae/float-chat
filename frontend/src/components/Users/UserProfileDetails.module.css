@@ -211,7 +211,7 @@
   font-size: var(--font-sm3);
   font-weight: var(--font-weight-bold);
   line-height: 1;
-  padding: 0.7rem 0.65rem var(--sapce-sm) 0.65rem;
+  padding: 0.7rem 0.65rem var(--space-sm) 0.65rem;
   border-radius: var(--radius-xs);
   white-space: nowrap;
   opacity: 0;

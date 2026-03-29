@@ -107,7 +107,7 @@
   background-color: #4caf50;
   font-weight: var(--font-weight-bold);
   border: none;
-  padding: 0.4rem 6rem;
+  padding: var(--space-sm) 6rem;
   border-radius: var(--radius-sm);
   font-size: var(--font-sm);
   cursor: pointer;

@@ -51,7 +51,7 @@
   font-size: var(--font-sm3);
   font-weight: var(--font-weight-bold);
   margin: var(--space-sm);
-  padding: var(--space-sm) 0.7rem;
+  padding: var(--space-sm) var(--space-md);
   border: none;
   border-radius: var(--radius-md);
   color: white;

@@ -23,6 +23,7 @@
 .modal {
   width: 400px;
   padding: 2rem;
+  /* padding: var(--space-3xl); */
   background-color: #1e1f22;
   border-radius: var(--radius-md);
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.6);
