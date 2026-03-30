@@ -27,7 +27,7 @@
 
 .delete-button,
 .cancel-button {
-  background-color: #555;
+  background-color: var(--color-btn-neutral);
   color: white;
   border: none;
   padding: 0.35rem 0.9rem;

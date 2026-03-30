@@ -209,7 +209,7 @@
 
 .disable {
   pointer-events: none;
-  background-color: #555;
+  background-color: var(--color-btn-neutral);
   color: #aaa;
   border: none;
   padding: 0.3rem var(--space-md);

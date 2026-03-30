@@ -44,8 +44,8 @@
 /* 스크롤바의 배경 트랙 설정 */
 .user-profile-chat-input-wrapper textarea::-webkit-scrollbar-track {
   border-radius: var(--radius-md);
-  margin-top: 0.3rem;
-  margin-bottom: 0.3rem;
+  margin-top: var(--space-xs);
+  margin-bottom: var(--space-xs);
   border-left: 0.3rem solid transparent;
 }
 

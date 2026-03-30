@@ -114,7 +114,8 @@ button:focus-visible {
   --color-text: #fff;
   --color-text-secondary: #b3b3b3;
   --color-bg: #fff;
-  --color-border: #444;
+  --color-border: #444444;
+  --color-border-strong: #1e1e1e;
   --color-danger: #d9363e;
   --color-error: #f44336;
   --color-badge: #ff3333;
@@ -123,6 +124,7 @@ button:focus-visible {
   --color-btn-primary-hover: #1c61af;
   --color-btn-secondary: #2a2a2c;
   --color-btn-secondary-hover: #343438;
+  --color-btn-neutral: #555555;
 
   --color-scrollbar-thumb: #888888;
   --color-scrollbar-thumb-hover: #6e6e6e;

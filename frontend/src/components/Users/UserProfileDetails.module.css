@@ -69,7 +69,7 @@
   right: -1px;
   border-radius: var(--radius-full);
   background-color: #02ac02;
-  border: 5px solid #1e1e1e;
+  border: 5px solid var(--color-border-strong);
 }
 
 .user-profile-details-info-offline-dot {
@@ -241,6 +241,38 @@
   width: 27rem;
   height: auto;
   margin: 2rem var(--space-lg) 0 var(--space-lg);
+  overflow-y: auto;
+}
+
+/* 스크롤바 설정 */
+.user-profile-details-mutual-wrapper::-webkit-scrollbar {
+  width: 0.3rem;
+}
+
+/* 스크롤바의 배경 트랙 설정 */
+.user-profile-details-mutual-wrapper::-webkit-scrollbar-track {
+  border-radius: var(--radius-md);
+  margin-top: var(--space-xs);
+  margin-top: 2.75rem;
+  margin-bottom: var(--space-xs);
+  margin-bottom: 0.5rem;
+  border-left: 0.3rem solid transparent;
+}
+
+/* 스크롤바의 움직이는 핸들(슬라이더) 설정 */
+.user-profile-details-mutual-wrapper::-webkit-scrollbar-thumb {
+  background-color: var(--color-scrollbar-thumb);
+  border-radius: var(--radius-md);
+}
+
+/* 스크롤바 핸들 호버했을 때 설정 */
+.user-profile-details-mutual-wrapper::-webkit-scrollbar-thumb:hover {
+  background-color: var(--color-scrollbar-thumb-hover);
+}
+
+/* 스크롤바 핸들에 액티브 상태일 때 스타일 설정 */
+.user-profile-details-mutual-wrapper::-webkit-scrollbar-thumb:active {
+  background-color: var(--color-scrollbar-thumb-active);
 }
 
 .user-profile-details-mutual-tabs {
@@ -296,7 +328,12 @@
   align-items: center;
   gap: var(--space-sm);
   padding: var(--space-sm) var(--space-xs);
+  margin-right: 0.5rem;
   flex: 1;
+}
+
+.user-profile-details-mutual-friend:last-child {
+  margin-bottom: 0.5rem;
 }
 
 .user-profile-details-mutual-friend:hover,
@@ -318,7 +355,12 @@
   display: flex;
   text-decoration: none;
   padding: var(--space-sm) var(--space-xs);
+  margin-right: 0.5rem;
   align-items: center;
+}
+
+.user-profile-details-mutual-group-chat:last-child {
+  margin-bottom: 0.5rem;
 }
 
 .user-profile-details-mutual-group-chat-icon {

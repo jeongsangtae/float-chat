@@ -134,7 +134,7 @@
 .line {
   display: inline-block;
   transform: scaleX(0.8);
-  margin: 0 0.2rem;
+  margin: 0 var(--space-xs);
 }
 
 .underline {

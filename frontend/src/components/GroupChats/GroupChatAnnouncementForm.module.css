@@ -45,8 +45,8 @@
 .group-chat-announcement-textarea::-webkit-scrollbar-track {
   /* background-color: #ebebeb; */
   border-radius: var(--radius-md);
-  margin-top: 0.6rem;
-  margin-bottom: 0.6rem;
+  margin-top: var(--space-sm);
+  margin-bottom: var(--space-sm);
   border-left: 0.3rem solid transparent;
 }
 
@@ -129,7 +129,7 @@
 .submit-button {
   text-align: end;
   margin: var(--space-xs);
-  margin-top: 0.4rem;
+  margin-top: var(--space-sm);
 }
 
 .active {
@@ -144,7 +144,7 @@
 
 .disable {
   pointer-events: none;
-  background-color: #555;
+  background-color: var(--color-btn-neutral);
   color: #aaa;
   border: none;
   padding: var(--space-xs) var(--space-md) 0.35rem var(--space-md);

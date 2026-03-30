@@ -42,8 +42,8 @@
 }
 
 .cancel-button {
-  background-color: #555;
-  color: #ddd;
+  background-color: var(--color-btn-neutral);
+  color: white;
   border: none;
   padding: 0.35rem 0.9rem;
   border-radius: var(--radius-sm);

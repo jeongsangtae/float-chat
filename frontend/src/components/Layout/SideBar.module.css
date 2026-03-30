@@ -101,7 +101,7 @@
   width: 1.2rem;
   height: 1.2rem;
   border-radius: var(--radius-full);
-  border: 2px solid #1e1e1e;
+  border: 2px solid var(--color-border-strong);
   background-color: var(--color-badge);
   z-index: 3;
 }

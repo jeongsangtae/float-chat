@@ -17,8 +17,8 @@
 /* 스크롤바의 배경 트랙 설정 */
 .direct-chat-panel::-webkit-scrollbar-track {
   border-radius: var(--radius-md);
-  margin-top: 0.3rem;
-  margin-bottom: 0.3rem;
+  margin-top: var(--space-xs);
+  margin-bottom: var(--space-xs);
   border-left: 0.3rem solid transparent;
 }
 
@@ -87,7 +87,7 @@
   right: -1px;
   border-radius: var(--radius-full);
   background-color: #02ac02;
-  border: 5px solid #1e1e1e;
+  border: 5px solid var(--color-border-strong);
 }
 
 .direct-chat-other-info-offline-dot {
@@ -162,7 +162,7 @@
 .line {
   display: inline-block;
   transform: scaleX(0.8);
-  margin: 0 0.2rem;
+  margin: 0 var(--space-xs);
 }
 
 .mutual-group-chat-icon-wrapper,
