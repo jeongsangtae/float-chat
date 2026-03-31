@@ -128,11 +128,13 @@ button:focus-visible {
 
   --color-scrollbar-thumb: #888888;
   --color-scrollbar-thumb-hover: #6e6e6e;
-  --color-scrollbar-thumb-active: #333333;
+  /* --color-scrollbar-thumb-active: #333333; */
+  --color-scrollbar-thumb-active: #6e6e6e;
 
   --color-scrollbar-thumb-muted: #1c1c1c;
   --color-scrollbar-thumb-muted-hover: #161616;
-  --color-scrollbar-thumb-muted-active: #333333;
+  /* --color-scrollbar-thumb-muted-active: #333333; */
+  --color-scrollbar-thumb-muted-active: #161616;
 }
 
 body {

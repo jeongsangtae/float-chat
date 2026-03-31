@@ -79,9 +79,32 @@
 
 .full-opacity-slider {
   position: fixed;
-  top: 5px;
-  right: 10px;
+  top: 16px;
+  right: 195px;
   z-index: 9999;
+
+  -webkit-appearance: none;
+  margin: 0 5px 0 10px;
+  width: 5rem;
+  border-radius: var(--radius-md);
+}
+
+/* 막대 */
+.full-opacity-slider::-webkit-slider-runnable-track {
+  height: 1px;
+  background: #adadad;
+  border-radius: var(--radius-md);
+}
+
+/* 동그라미 */
+.full-opacity-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 10px;
+  height: 10px;
+  background: white;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  margin-top: -4px;
 }
 
 .main-content {

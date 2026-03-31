@@ -13,6 +13,7 @@
   justify-content: center;
   font-weight: var(--font-weight-bold);
   color: white;
+  flex-shrink: 0;
 }
 
 .avatar-img {

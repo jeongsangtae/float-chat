@@ -246,16 +246,14 @@
 
 /* 스크롤바 설정 */
 .user-profile-details-mutual-wrapper::-webkit-scrollbar {
-  width: 0.3rem;
+  width: 0.4rem;
 }
 
 /* 스크롤바의 배경 트랙 설정 */
 .user-profile-details-mutual-wrapper::-webkit-scrollbar-track {
   border-radius: var(--radius-md);
-  margin-top: var(--space-xs);
   margin-top: 2.75rem;
-  margin-bottom: var(--space-xs);
-  margin-bottom: 0.5rem;
+  margin-bottom: var(--space-sm);
   border-left: 0.3rem solid transparent;
 }
 
@@ -328,12 +326,12 @@
   align-items: center;
   gap: var(--space-sm);
   padding: var(--space-sm) var(--space-xs);
-  margin-right: 0.5rem;
+  margin-right: var(--space-sm);
   flex: 1;
 }
 
 .user-profile-details-mutual-friend:last-child {
-  margin-bottom: 0.5rem;
+  margin-bottom: var(--space-sm);
 }
 
 .user-profile-details-mutual-friend:hover,
@@ -355,12 +353,12 @@
   display: flex;
   text-decoration: none;
   padding: var(--space-sm) var(--space-xs);
-  margin-right: 0.5rem;
+  margin-right: var(--space-sm);
   align-items: center;
 }
 
 .user-profile-details-mutual-group-chat:last-child {
-  margin-bottom: 0.5rem;
+  margin-bottom: var(--space-sm);
 }
 
 .user-profile-details-mutual-group-chat-icon {

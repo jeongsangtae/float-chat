@@ -138,7 +138,7 @@ const SideBar = ({
               {userInfo?.nickname}
             </p>
           </div>
-          <input
+          {/* <input
             type="range"
             min="0.1"
             max="1"
@@ -146,7 +146,7 @@ const SideBar = ({
             value={fullOpacity}
             onChange={(e) => setFullOpacity(Number(e.target.value))}
             className={classes["full-opacity-slider"]}
-          />
+          /> */}
           <div className={classes["user-info-right"]}>
             <button
               className={classes["user-info-edit"]}
