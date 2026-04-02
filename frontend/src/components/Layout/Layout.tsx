@@ -79,18 +79,8 @@ const Layout = ({ children, onLeaveChatRoom }: LayoutProps) => {
           value={fullOpacity}
           onChange={(e) => setFullOpacity(Number(e.target.value))}
           className={classes["full-opacity-slider"]}
-          // style={{
-          //   position: "fixed",
-          //   top: 5,
-          //   right: -1,
-          //   zIndex: 9999,
-          // }}
         />
-        <SideBar
-          onLeaveChatRoom={onLeaveChatRoom}
-          // fullOpacity={fullOpacity}
-          // setFullOpacity={setFullOpacity}
-        />
+        <SideBar onLeaveChatRoom={onLeaveChatRoom} />
         <div className={classes["main-content"]}>{children}</div>
         <Notification />
       </div>

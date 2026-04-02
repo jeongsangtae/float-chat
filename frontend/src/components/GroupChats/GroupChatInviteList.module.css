@@ -64,7 +64,7 @@
 
 .participant-count {
   font-size: var(--font-sm);
-  color: #999;
+  color: var(--color-text-tertiary);
 }
 
 .group-chat-invite-buttons {

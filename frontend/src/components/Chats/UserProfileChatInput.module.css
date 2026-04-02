@@ -27,7 +27,7 @@
 
 .user-profile-chat-input-wrapper textarea::placeholder {
   font-size: var(--font-base);
-  color: #9a9a9a;
+  color: var(--color-text-quaternary);
   line-height: 1.4;
 }
 
@@ -70,7 +70,7 @@
   font-size: var(--font-xl);
   top: 0.75rem;
   right: 0.75rem;
-  color: #b1b1b1;
+  color: var(--color-text-secondary);
   border: none;
   cursor: pointer;
 }

@@ -68,12 +68,12 @@
   bottom: -1px;
   right: -1px;
   border-radius: var(--radius-full);
-  background-color: #02ac02;
+  background-color: var(--color-online-dot);
   border: 5px solid var(--color-border-strong);
 }
 
 .user-profile-details-info-offline-dot {
-  background-color: gray;
+  background-color: var(--color-offline-dot);
 }
 
 .user-profile-details-info-content {

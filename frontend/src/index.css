@@ -111,11 +111,19 @@ button:focus-visible {
   --radius-xl: 16px;
   --radius-full: 50%;
 
-  --color-text: #fff;
+  /* --color-text-main: #ffffff;
+  --color-text-sub: #b1b1b1;
+  --color-text-muted: #999999;
+  --color-text-disabled: #808080; */
+
+  --color-text: #ffffff;
   --color-text-secondary: #b3b3b3;
-  --color-bg: #fff;
+  --color-text-tertiary: #999999;
+  --color-text-quaternary: #808080;
+  --color-bg: #ffffff;
   --color-border: #444444;
   --color-border-strong: #1e1e1e;
+  --color-send: #b1b1b1;
   --color-danger: #d9363e;
   --color-error: #f44336;
   --color-badge: #ff3333;
@@ -126,14 +134,15 @@ button:focus-visible {
   --color-btn-secondary-hover: #343438;
   --color-btn-neutral: #555555;
 
+  --color-online-dot: #02ac02;
+  --color-offline-dot: #808080;
+
   --color-scrollbar-thumb: #888888;
   --color-scrollbar-thumb-hover: #6e6e6e;
-  /* --color-scrollbar-thumb-active: #333333; */
   --color-scrollbar-thumb-active: #6e6e6e;
 
   --color-scrollbar-thumb-muted: #1c1c1c;
   --color-scrollbar-thumb-muted-hover: #161616;
-  /* --color-scrollbar-thumb-muted-active: #333333; */
   --color-scrollbar-thumb-muted-active: #161616;
 }
 

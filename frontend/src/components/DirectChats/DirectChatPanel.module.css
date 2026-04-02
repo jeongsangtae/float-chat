@@ -86,12 +86,12 @@
   bottom: -1px;
   right: -1px;
   border-radius: var(--radius-full);
-  background-color: #02ac02;
+  background-color: var(--color-online-dot);
   border: 5px solid var(--color-border-strong);
 }
 
 .direct-chat-other-info-offline-dot {
-  background-color: gray;
+  background-color: var(--color-offline-dot);
 }
 
 .nickname {

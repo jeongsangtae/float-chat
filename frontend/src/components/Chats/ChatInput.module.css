@@ -27,6 +27,10 @@
   height: 62px;
 }
 
+.input-wrapper textarea::placeholder {
+  color: var(--color-text-quaternary);
+}
+
 .input-wrapper textarea:focus {
   outline: none;
   border: 1px solid #505050;
@@ -67,7 +71,7 @@
   font-size: var(--font-xl);
   right: 0.75rem;
   bottom: 1.1rem;
-  color: #b1b1b1;
+  color: var(--color-text-secondary);
   border: none;
   cursor: pointer;
 }

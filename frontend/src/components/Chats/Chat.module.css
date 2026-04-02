@@ -33,7 +33,7 @@
 .chat-date {
   margin-left: var(--space-sm);
   font-size: var(--font-xs);
-  color: #808080;
+  color: var(--color-text-quaternary);
 }
 
 .chat-message {
@@ -50,9 +50,9 @@
 .chat-hover-date {
   position: absolute;
   font-size: 0.65rem;
-  color: #808080;
+  color: var(--color-text-quaternary);
   left: 0;
-  opacity: 0;
+  opacity: 1;
 }
 
 .chat-messages:hover .chat-hover-date {

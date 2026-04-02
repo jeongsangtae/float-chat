@@ -167,31 +167,6 @@
   text-overflow: ellipsis;
 }
 
-/* .full-opacity-slider {
-  -webkit-appearance: none;
-  margin: 0 5px 0 10px;
-  width: 5rem;
-  border-radius: var(--radius-md);
-} */
-
-/* 막대 */
-/* .full-opacity-slider::-webkit-slider-runnable-track {
-  height: 1px;
-  background: #adadad;
-  border-radius: var(--radius-md);
-} */
-
-/* 동그라미 */
-/* .full-opacity-slider::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  width: 10px;
-  height: 10px;
-  background: white;
-  border-radius: var(--radius-full);
-  cursor: pointer;
-  margin-top: -4px;
-} */
-
 .user-info-right {
   display: flex;
   align-items: center;
@@ -207,7 +182,6 @@
   background: none;
   border: none;
   color: #adadad;
-  /* padding: var(--space-sm) 0.35rem; */
   padding: var(--space-sm);
   cursor: pointer;
   border-radius: var(--radius-md);
