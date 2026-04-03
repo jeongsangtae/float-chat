@@ -26,7 +26,7 @@
   align-items: center;
   justify-content: space-between;
   gap: var(--space-sm);
-  color: white;
+  color: var(--color-text);
   margin-bottom: var(--space-xs);
 }
 
@@ -50,7 +50,7 @@
   align-items: center;
   justify-content: space-between;
   gap: var(--space-sm);
-  color: white;
+  color: var(--color-text);
 }
 
 .room-title {
@@ -81,16 +81,16 @@
   border: none;
   border-radius: var(--radius-xs);
   cursor: pointer;
-  color: white;
+  color: var(--color-text);
   transition: background-color 0.2s ease;
 }
 
 .group-chat-invite-accept-button {
-  background-color: #4caf50;
+  background-color: var(--color-success);
 }
 
 .group-chat-invite-accept-button:hover {
-  background-color: #3d9640;
+  background-color: var(--color-success-hover);
 }
 
 .group-chat-invite-reject-button {
@@ -114,11 +114,11 @@
   border: none;
   border-radius: var(--radius-xs);
   cursor: pointer;
-  background-color: #4caf50;
-  color: white;
+  background-color: var(--color-success);
+  color: var(--color-text);
   transition: background-color 0.2s ease;
 }
 
 .group-chat-invite-text button:hover {
-  background-color: #3d9640;
+  background-color: var(--color-success-hover);
 }

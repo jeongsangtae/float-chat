@@ -57,7 +57,7 @@
   align-items: center;
   justify-content: center;
   font-weight: var(--font-weight-bold);
-  color: white;
+  color: var(--color-text);
   box-shadow: 0 0 0 5px var(--profile-bg);
   z-index: 1;
 }
@@ -103,8 +103,8 @@
 }
 
 .user-profile-edit-button {
-  color: white;
-  background-color: #4caf50;
+  color: var(--color-text);
+  background-color: var(--color-success);
   font-weight: var(--font-weight-bold);
   border: none;
   padding: var(--space-sm) 6rem;
@@ -114,7 +114,7 @@
 }
 
 .user-profile-edit-button:hover {
-  background-color: #339436;
+  background-color: var(--color-success-hover);
 }
 
 .user-profile-mutual-wrapper {

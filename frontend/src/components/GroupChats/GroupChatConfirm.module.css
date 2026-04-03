@@ -25,25 +25,10 @@
   margin: var(--space-xs);
 }
 
-.confirm-button {
-  background-color: #c62828;
-  color: white;
-  border: none;
-  padding: 0.35rem 0.9rem;
-  border-radius: var(--radius-sm);
-  font-size: var(--font-sm3);
-  font-weight: var(--font-weight-bold);
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-}
-
-.confirm-button:hover {
-  background-color: #b71c1c;
-}
-
+.confirm-button,
 .cancel-button {
   background-color: var(--color-btn-neutral);
-  color: white;
+  color: var(--color-text);
   border: none;
   padding: 0.35rem 0.9rem;
   border-radius: var(--radius-sm);
@@ -54,4 +39,13 @@
 
 .cancel-button:hover {
   background-color: #616161;
+}
+
+.confirm-button {
+  background-color: var(--color-danger-strong);
+  font-weight: var(--font-weight-bold);
+}
+
+.confirm-button:hover {
+  background-color: var(--color-danger-strong-hover);
 }

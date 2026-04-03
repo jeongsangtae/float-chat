@@ -20,13 +20,13 @@
 .friend:hover {
   border-radius: var(--radius-md);
   background-color: var(--sub-side-btn-hover);
-  color: white;
+  color: var(--color-text);
 }
 
 .active {
   border-radius: var(--radius-md);
   background-color: var(--sub-side-btn-active);
-  color: white;
+  color: var(--color-text);
 }
 
 .friend-left {
@@ -61,7 +61,7 @@
   transform: translate(-50%, -50%);
   font-size: var(--font-xs);
   font-weight: var(--font-weight-bold);
-  color: white;
+  color: var(--color-text);
   line-height: 1;
   text-align: center;
 }
@@ -79,6 +79,6 @@
 }
 
 .direct-chat-text:hover {
-  color: white;
+  color: var(--color-text);
   cursor: default;
 }

@@ -20,7 +20,7 @@
 
 .pending-friend-nickname {
   font-size: var(--font-md);
-  color: white;
+  color: var(--color-text);
   margin-left: var(--space-xs);
 }
 
@@ -36,7 +36,7 @@
 .pending-friend-accept-button,
 .pending-friend-reject-button {
   background-color: #929292;
-  color: white;
+  color: var(--color-text);
   border: none;
   border-radius: var(--radius-xs);
   padding: 0.3rem var(--space-md);
@@ -46,7 +46,7 @@
 }
 
 .pending-friend-accept-button {
-  background-color: #4caf50;
+  background-color: var(--color-success);
 }
 
 .pending-friend-reject-button {
@@ -59,7 +59,7 @@
 }
 
 .pending-friend-accept-button:hover {
-  background-color: #3d9640;
+  background-color: var(--color-success-hover);
 }
 
 .pending-friend-reject-button:hover {

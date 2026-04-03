@@ -8,7 +8,7 @@
   font-size: var(--font-md);
   font-weight: var(--font-weight-bold);
   margin-bottom: var(--space-sm);
-  color: white;
+  color: var(--color-text);
 }
 
 .group-chat-invite-list {

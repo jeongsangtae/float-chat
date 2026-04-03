@@ -26,7 +26,7 @@
   border: 1px solid rgba(133, 133, 133, 0.5);
   border-radius: var(--radius-sm);
   background-color: transparent;
-  color: white;
+  color: var(--color-text);
   font-size: var(--font-base);
   resize: none;
 }
@@ -84,7 +84,7 @@
 
 .progress-bar {
   height: 100%;
-  background-color: #4caf50;
+  background-color: var(--color-success);
   transition: width 0.2s ease;
 }
 
@@ -96,7 +96,7 @@
   /* background-color: var(--color-error); */
   /* background-color: #d32f2f; */
   /* background-color: #b71c1c; */
-  background-color: #c62828;
+  background-color: var(--color-danger-strong);
 }
 
 .progress-count {
@@ -133,13 +133,17 @@
 }
 
 .active {
-  background-color: #4caf50;
-  color: white;
+  background-color: var(--color-success);
+  color: var(--color-text);
   border: none;
   padding: var(--space-xs) var(--space-md) 0.35rem var(--space-md);
   border-radius: var(--radius-sm);
   font-size: var(--font-sm);
   cursor: pointer;
+}
+
+.active:hover {
+  background-color: var(--color-success-hover);
 }
 
 .disable {

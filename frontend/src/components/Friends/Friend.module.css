@@ -20,7 +20,7 @@
 
 .friend-nickname {
   font-size: var(--font-md);
-  color: white;
+  color: var(--color-text);
   margin-left: var(--space-xs);
 }
 
@@ -30,7 +30,7 @@
 
 .friend-delete-button {
   background-color: var(--color-danger);
-  color: white;
+  color: var(--color-text);
   border: none;
   border-radius: var(--radius-xs);
   padding: 0.3rem var(--space-md);

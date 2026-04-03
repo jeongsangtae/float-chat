@@ -18,7 +18,7 @@
   width: 100%;
   resize: none;
   overflow: hidden;
-  color: white;
+  color: var(--color-text);
   background-color: var(--chat-input);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
@@ -77,7 +77,7 @@
 }
 
 .send-button:hover {
-  color: white;
+  color: var(--color-icon);
 }
 
 .disable {

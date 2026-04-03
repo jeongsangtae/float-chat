@@ -19,7 +19,7 @@
 }
 
 .group-chat-invite-wrapper:hover .group-chat-invite-nickname {
-  color: white;
+  color: var(--color-text);
 }
 
 .group-chat-invite-nickname {
@@ -33,8 +33,8 @@
 }
 
 .group-chat-invite-button {
-  background-color: #4caf50;
-  color: white;
+  background-color: var(--color-success);
+  color: var(--color-text);
   border: none;
   border-radius: var(--radius-xs);
   padding: 0.3rem var(--space-md);
@@ -44,5 +44,5 @@
 }
 
 .group-chat-invite-button:hover {
-  background-color: #3d9640;
+  background-color: var(--color-success-hover);
 }

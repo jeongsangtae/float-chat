@@ -68,7 +68,7 @@
 .chat-icon {
   top: 2px;
   font-size: 1.75rem;
-  color: white;
+  color: var(--color-icon);
   position: relative;
   z-index: 1;
 }
@@ -109,7 +109,7 @@
 .friend-request-count {
   font-size: 0.75rem;
   font-weight: var(--font-weight-bold);
-  color: white;
+  color: var(--color-text);
   line-height: 1;
   text-align: center;
 }
@@ -119,7 +119,7 @@
   width: 3rem;
   height: 3rem;
   border-radius: var(--radius-xl);
-  color: white;
+  color: var(--color-icon);
   font-size: 1.75rem;
   background-color: var(--group-chat-btn);
   border: none;
@@ -148,7 +148,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  color: white;
+  color: var(--color-text);
   z-index: 10;
 }
 
@@ -190,6 +190,6 @@
 
 .user-info-edit:hover,
 .logout:hover {
-  color: white;
+  color: var(--color-icon);
   background-color: rgba(255, 255, 255, 0.1);
 }

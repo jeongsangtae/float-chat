@@ -13,7 +13,7 @@
 }
 
 .friend-submenu button {
-  color: white;
+  color: var(--color-text);
   background: none;
   border: none;
   cursor: pointer;
@@ -42,7 +42,7 @@
 .friend-request-count {
   font-size: 0.75rem;
   font-weight: var(--font-weight-bold);
-  color: white;
+  color: var(--color-text);
 }
 
 .friend-content {
@@ -74,7 +74,7 @@
   border: 1px solid transparent;
   border-radius: var(--radius-md);
   font-size: var(--font-base);
-  color: white;
+  color: var(--color-text);
 }
 
 .friend-search-input:focus {
@@ -94,7 +94,7 @@
 }
 
 .friend-search-delete-icon:hover {
-  color: white;
+  color: var(--color-icon);
 }
 
 .friend-search-icon {
@@ -117,7 +117,7 @@
 .sent-requests {
   padding: var(--space-xs);
   margin-bottom: var(--space-lg);
-  color: white;
+  color: var(--color-text);
 }
 
 .received-text-wrapper,

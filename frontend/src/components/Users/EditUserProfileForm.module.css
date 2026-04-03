@@ -24,7 +24,7 @@
   border: 1px solid rgba(133, 133, 133, 0.5);
   border-radius: var(--radius-sm);
   background-color: transparent;
-  color: white;
+  color: var(--color-text);
   font-size: 1.1rem;
 }
 
@@ -74,7 +74,7 @@
   margin-right: var(--space-sm);
   font-size: var(--font-sm);
   border: none;
-  color: white;
+  color: var(--color-text);
   border-radius: var(--radius-sm);
   padding: var(--space-xs) var(--space-sm);
   background-color: #1565c0;
@@ -120,7 +120,7 @@
   align-items: center;
   justify-content: center;
   font-weight: var(--font-weight-bold);
-  color: white;
+  color: var(--color-text);
 }
 
 .avatar-img-url-input-wrapper {
@@ -138,7 +138,7 @@
   border: 1px solid rgba(133, 133, 133, 0.5);
   border-radius: var(--radius-sm);
   background-color: transparent;
-  color: white;
+  color: var(--color-text);
   font-size: var(--font-sm);
 }
 
@@ -158,7 +158,7 @@
 }
 
 .avatar-img-reset-button:hover {
-  color: white;
+  color: var(--color-icon);
 }
 
 .avatar-color-list {
@@ -172,7 +172,7 @@
 .avatar-color-button {
   width: 2rem;
   height: 2rem;
-  color: white;
+  color: var(--color-text);
   border-radius: var(--radius-full);
   border: none;
   cursor: pointer;
@@ -194,8 +194,8 @@
 }
 
 .active {
-  background-color: #4caf50;
-  color: white;
+  background-color: var(--color-success);
+  color: var(--color-text);
   border: none;
   padding: 0.3rem var(--space-md);
   border-radius: var(--radius-sm);
@@ -204,7 +204,7 @@
 }
 
 .active:hover {
-  background-color: #3d9640;
+  background-color: var(--color-success-hover);
 }
 
 .disable {

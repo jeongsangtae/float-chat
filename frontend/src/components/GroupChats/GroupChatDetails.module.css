@@ -27,7 +27,7 @@
 
 .group-chat-invite-button:hover {
   border-radius: var(--radius-md);
-  color: white;
+  color: var(--color-text);
   background-color: var(--sub-side-btn-hover);
 }
 
@@ -83,7 +83,7 @@
   border: 1px solid transparent;
   border-radius: var(--radius-md);
   font-size: var(--font-base);
-  color: white;
+  color: var(--color-text);
 }
 
 .group-chat-invite-search-input:focus {
@@ -103,7 +103,7 @@
 }
 
 .group-chat-invite-search-delete-icon:hover {
-  color: white;
+  color: var(--color-icon);
 }
 
 .group-chat-invite-search-icon {

@@ -124,9 +124,16 @@ button:focus-visible {
   --color-border: #444444;
   --color-border-strong: #1e1e1e;
   --color-send: #b1b1b1;
+  --color-success: #4caf50;
+  /* --color-success-hover: #3d9640; */
+  --color-success-hover: #43a047;
   --color-danger: #d9363e;
+  --color-danger-strong: #c62828;
+  --color-danger-strong-hover: #b71c1c;
   --color-error: #f44336;
   --color-badge: #ff3333;
+
+  --color-icon: #ffffff;
 
   --color-btn-primary: #2373cf;
   --color-btn-primary-hover: #1c61af;

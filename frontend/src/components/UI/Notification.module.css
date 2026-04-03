@@ -37,7 +37,7 @@
 
 .notification-nickname {
   font-weight: 600;
-  color: white;
+  color: var(--color-text);
   font-size: var(--font-md);
   line-height: 1.5;
   word-break: break-word;

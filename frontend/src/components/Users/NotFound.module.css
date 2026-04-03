@@ -20,7 +20,7 @@
   cursor: pointer;
   padding: var(--space-sm) var(--space-3xl);
   border-radius: var(--radius-xs);
-  color: white;
+  color: var(--color-text);
   background-color: #474747;
   font-size: var(--font-sm3);
   transition: all 0.3s ease;

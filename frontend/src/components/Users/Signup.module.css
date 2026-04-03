@@ -33,7 +33,7 @@
   border: 1px solid rgba(133, 133, 133, 0.5);
   border-radius: var(--radius-sm);
   background-color: transparent;
-  color: white;
+  color: var(--color-text);
   font-size: 1.1rem;
 }
 
@@ -59,9 +59,9 @@
 }
 
 .signup-button {
-  background-color: #4caf50;
+  background-color: var(--color-success);
   width: 100%;
-  color: white;
+  color: var(--color-text);
   margin: var(--space-sm) 0 var(--space-lg) 0;
   border: none;
   padding: var(--space-sm) var(--space-md);
@@ -71,7 +71,7 @@
 }
 
 .signup-button:hover {
-  background-color: #3d9640;
+  background-color: var(--color-success-hover);
 }
 
 .login-wrapper {
@@ -81,7 +81,7 @@
 }
 
 .login {
-  color: #4caf50;
+  color: var(--color-success);
   background-color: transparent;
   font: inherit;
   border: none;
@@ -90,6 +90,6 @@
 }
 
 .login:hover {
-  color: #3d9640;
+  color: var(--color-success-hover);
   text-decoration: underline;
 }

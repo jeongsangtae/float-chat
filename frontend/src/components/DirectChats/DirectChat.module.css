@@ -18,7 +18,7 @@
 }
 
 .direct-chat-wrapper:hover .direct-chat-nickname {
-  color: white;
+  color: var(--color-text);
 }
 
 .direct-chat {
@@ -36,7 +36,7 @@
 }
 
 .active .direct-chat-nickname {
-  color: white;
+  color: var(--color-text);
 }
 
 .direct-chat-nickname {
@@ -58,7 +58,7 @@
   font-size: 16px;
   cursor: pointer;
   margin-left: auto;
-  opacity: 1;
+  opacity: 0;
   transition: opacity 0.2s;
 }
 

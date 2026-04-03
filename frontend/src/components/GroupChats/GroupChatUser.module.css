@@ -14,7 +14,7 @@
 }
 
 .group-chat-user-nickname {
-  color: white;
+  color: var(--color-text);
   margin-left: var(--space-xs);
   width: 8rem;
   white-space: nowrap;

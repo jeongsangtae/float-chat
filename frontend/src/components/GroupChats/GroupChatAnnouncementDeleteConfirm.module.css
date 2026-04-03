@@ -28,7 +28,7 @@
 .delete-button,
 .cancel-button {
   background-color: var(--color-btn-neutral);
-  color: white;
+  color: var(--color-text);
   border: none;
   padding: 0.35rem 0.9rem;
   border-radius: var(--radius-sm);
@@ -38,12 +38,12 @@
 }
 
 .delete-button {
-  background-color: #c62828;
+  background-color: var(--color-danger-strong);
   font-weight: var(--font-weight-bold);
 }
 
 .delete-button:hover {
-  background-color: #b71c1c;
+  background-color: var(--color-danger-strong-hover);
 }
 
 .cancel-button:hover {

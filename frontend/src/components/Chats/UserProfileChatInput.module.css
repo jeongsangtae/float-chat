@@ -15,7 +15,7 @@
   width: 100%;
   resize: none;
 
-  color: white;
+  color: var(--color-text);
   background-color: var(--chat-input);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
@@ -76,7 +76,7 @@
 }
 
 .user-profile-chat-input-send-button:hover {
-  color: white;
+  color: var(--color-icon);
 }
 
 .disable {

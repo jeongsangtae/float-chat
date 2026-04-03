@@ -32,7 +32,7 @@
   border: 1px solid transparent;
   border-radius: var(--radius-md);
   font-size: 1.05rem;
-  color: white;
+  color: var(--color-text);
 }
 
 .add-friend-search-input:focus {
@@ -54,8 +54,8 @@
   padding: var(--space-sm) var(--space-md);
   border: none;
   border-radius: var(--radius-md);
-  color: white;
-  background-color: #4caf50;
+  color: var(--color-text);
+  background-color: var(--color-success);
   white-space: nowrap;
 }
 
@@ -64,7 +64,7 @@
 }
 
 .active:hover {
-  background-color: #3d9640;
+  background-color: var(--color-success-hover);
 }
 
 .disable {
