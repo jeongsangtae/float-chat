@@ -69,6 +69,7 @@ const GroupChatDetails = () => {
 
   // 이름 변경 필요
   const toggleHandler = (): void => {
+    setSearchTerm("");
     setToggle(!toggle);
     loadFriends();
   };

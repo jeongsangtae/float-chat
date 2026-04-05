@@ -28,6 +28,14 @@ const Friends = () => {
   const [activeTab, setActiveTab] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState<string>("");
 
+  const [searchMap, setSearchMap] = useState({
+    online: "",
+    all: "",
+    pending: "",
+  });
+
+  const currentSearchTerm = searchMap[activeTab] ?? "";
+
   const { setView } = useLayoutStore();
 
   const userId = userInfo?._id ?? "";
@@ -42,8 +50,20 @@ const Friends = () => {
     onlineFriends,
     friendRequests,
     userId,
-    searchTerm
+    // searchTerm
+    currentSearchTerm
   );
+
+  // 친구 추가 내용 다녀왔을 때 친구 관련 검색창 초기화
+  // useEffect(() => {
+  //   if (activeTab === "addFriend") {
+  //     setSearchMap({
+  //       online: "",
+  //       all: "",
+  //       pending: "",
+  //     });
+  //   }
+  // }, [activeTab]);
 
   useEffect(() => {
     // activeTabHandler("all", loadFriends);
@@ -121,13 +141,24 @@ const Friends = () => {
                     type="text"
                     className={classes["friend-search-input"]}
                     placeholder="친구 검색"
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
+                    value={currentSearchTerm}
+                    // onChange={(e) => setSearchTerm(e.target.value)}
+                    onChange={(e) =>
+                      setSearchMap((prev) => ({
+                        ...prev,
+                        [activeTab]: e.target.value,
+                      }))
+                    }
                   />
-                  {searchTerm ? (
+                  {currentSearchTerm ? (
                     <IoClose
                       className={classes["friend-search-delete-icon"]}
-                      onClick={() => setSearchTerm("")}
+                      onClick={() =>
+                        setSearchMap((prev) => ({
+                          ...prev,
+                          [activeTab]: "",
+                        }))
+                      }
                     />
                   ) : (
                     <IoIosSearch className={classes["friend-search-icon"]} />
