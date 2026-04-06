@@ -69,7 +69,7 @@
   justify-content: center;
   font-size: var(--font-sm);
   font-weight: var(--font-weight-bold);
-  color: #9c9c9c;
+  color: var(--color-text-tertiary);
   margin-top: var(--space-lg);
   gap: var(--space-sm);
 }
@@ -79,7 +79,7 @@
   content: "";
   flex: 1;
   height: 1px;
-  border-top: 1px solid rgba(128, 128, 128, 0.2);
+  border-top: 1px solid var(--color-divider);
 }
 
 .new-message-button {

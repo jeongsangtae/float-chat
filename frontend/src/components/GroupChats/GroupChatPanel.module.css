@@ -158,7 +158,7 @@
   border: none;
   font-size: 1.2rem;
   background-color: transparent;
-  color: #bdb8b8;
+  color: var(--color-icon-interactive);
 }
 
 .group-chat-users-wrapper {
@@ -231,7 +231,7 @@
   border: none;
   font-size: 1.2rem;
   background-color: transparent;
-  color: #bdb8b8;
+  color: var(--color-icon-interactive);
 }
 
 .group-chat-since-wrapper {

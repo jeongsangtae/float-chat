@@ -14,6 +14,9 @@ import PendingFriends from "./PendingFriends";
 
 import classes from "./Friends.module.css";
 
+type TabType = "online" | "all" | "pending" | "addFriend";
+// type SearchTabType = "online" | "all" | "pending";
+
 const Friends = () => {
   const { userInfo } = useAuthStore();
   const {
@@ -25,16 +28,28 @@ const Friends = () => {
     loadFriendRequests,
   } = useFriendStore();
 
-  const [activeTab, setActiveTab] = useState<string | null>(null);
-  const [searchTerm, setSearchTerm] = useState<string>("");
+  const [activeTab, setActiveTab] = useState<TabType>("online");
 
-  const [searchMap, setSearchMap] = useState({
+  // const [searchMap, setSearchMap] = useState<Record<SearchTabType, string>>({
+  //   online: "",
+  //   all: "",
+  //   pending: "",
+  // });
+
+  const [searchMap, setSearchMap] = useState<Record<TabType, string>>({
     online: "",
     all: "",
     pending: "",
+    addFriend: "",
   });
 
-  const currentSearchTerm = searchMap[activeTab] ?? "";
+  // const searchTab = (tab: TabType): tab is SearchTabType => {
+  //   return tab !== "addFriend";
+  // };
+
+  // const currentSearchTerm = searchTab(activeTab) ? searchMap[activeTab] : "";
+
+  const currentSearchTerm = searchMap[activeTab];
 
   const { setView } = useLayoutStore();
 
@@ -50,7 +65,6 @@ const Friends = () => {
     onlineFriends,
     friendRequests,
     userId,
-    // searchTerm
     currentSearchTerm
   );
 
@@ -78,11 +92,11 @@ const Friends = () => {
   //   const ids = filteredFriends.map((f) => f.id);
   //   const duplicates = ids.filter((id, i) => ids.indexOf(id) !== i);
   //   if (duplicates.length > 0) {
-  //     console.warn("🔁 중복된 친구 ID:", duplicates);
+  //     console.warn("중복된 친구 ID:", duplicates);
   //   }
   // }, [filteredFriends]);
 
-  const activeTabHandler = (tab: string, action?: () => void): void => {
+  const activeTabHandler = (tab: TabType, action?: () => void): void => {
     if (activeTab !== tab) {
       setActiveTab(tab);
       action?.();
@@ -142,7 +156,15 @@ const Friends = () => {
                     className={classes["friend-search-input"]}
                     placeholder="친구 검색"
                     value={currentSearchTerm}
-                    // onChange={(e) => setSearchTerm(e.target.value)}
+                    // onChange={(e) => {
+                    //   if (!searchTab(activeTab)) return;
+
+                    //   setSearchMap((prev) => ({
+                    //     ...prev,
+                    //     [activeTab]: e.target.value,
+                    //   }));
+                    // }}
+
                     onChange={(e) =>
                       setSearchMap((prev) => ({
                         ...prev,
@@ -153,6 +175,15 @@ const Friends = () => {
                   {currentSearchTerm ? (
                     <IoClose
                       className={classes["friend-search-delete-icon"]}
+                      // onClick={() => {
+                      //   if (!searchTab(activeTab)) return;
+
+                      //   setSearchMap((prev) => ({
+                      //     ...prev,
+                      //     [activeTab]: "",
+                      //   }));
+                      // }}
+
                       onClick={() =>
                         setSearchMap((prev) => ({
                           ...prev,

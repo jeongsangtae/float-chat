@@ -169,7 +169,7 @@
 .mutual-friend-user-icon-wrapper {
   display: flex;
   font-size: 1.4rem;
-  color: #bdb8b8;
+  color: var(--color-icon-interactive);
 }
 
 .mutual-group-chat,
@@ -226,6 +226,6 @@
 
 .underline {
   height: 1px;
-  background-color: rgba(128, 128, 128, 0.2);
+  background-color: var(--color-divider);
   margin: var(--space-md) 0;
 }

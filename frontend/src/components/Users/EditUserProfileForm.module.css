@@ -53,7 +53,7 @@
 
 .underline {
   height: 1px;
-  background-color: rgba(128, 128, 128, 0.2);
+  background-color: var(--color-divider);
   margin: var(--space-xs) var(--space-sm) var(--space-xl) var(--space-sm);
 }
 

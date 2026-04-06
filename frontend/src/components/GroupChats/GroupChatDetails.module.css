@@ -43,7 +43,7 @@
 
 .underline {
   height: 1px;
-  background-color: rgba(128, 128, 128, 0.2);
+  background-color: var(--color-divider);
   margin: var(--space-sm) 0;
 }
 
@@ -98,6 +98,7 @@
   position: absolute;
   right: 0.5rem;
   color: #858585;
+  color: var(--color-icon-quaternary);
   font-size: 1.15rem;
   cursor: pointer;
 }
@@ -110,6 +111,7 @@
   position: absolute;
   right: 0.5rem;
   color: #858585;
+  color: var(--color-icon-quaternary);
   pointer-events: none;
   font-size: var(--font-lg);
 }
