@@ -288,7 +288,7 @@
   font-weight: var(--font-weight-bold);
   background: none;
   border: none;
-  color: #aaa;
+  color: var(--color-text-secondary);
   cursor: pointer;
   position: relative;
   white-space: nowrap;

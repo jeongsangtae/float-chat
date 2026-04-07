@@ -5,7 +5,7 @@
   justify-content: center;
   align-items: center;
   inset: 0;
-  background-color: #252525;
+  background-color: var(--color-bg-error);
   color: var(--color-text);
   z-index: 9999;
 }
@@ -21,11 +21,11 @@
   padding: var(--space-sm) var(--space-3xl);
   border-radius: var(--radius-xs);
   color: var(--color-text);
-  background-color: #474747;
+  background-color: var(--color-btn-redirect);
   font-size: var(--font-sm3);
   transition: all 0.3s ease;
 }
 
 .redirect-button:hover {
-  background-color: #5a5a5a;
+  background-color: var(--color-btn-redirect-hover);
 }

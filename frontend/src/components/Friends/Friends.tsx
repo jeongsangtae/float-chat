@@ -15,7 +15,6 @@ import PendingFriends from "./PendingFriends";
 import classes from "./Friends.module.css";
 
 type TabType = "online" | "all" | "pending" | "addFriend";
-// type SearchTabType = "online" | "all" | "pending";
 
 const Friends = () => {
   const { userInfo } = useAuthStore();
@@ -30,24 +29,12 @@ const Friends = () => {
 
   const [activeTab, setActiveTab] = useState<TabType>("online");
 
-  // const [searchMap, setSearchMap] = useState<Record<SearchTabType, string>>({
-  //   online: "",
-  //   all: "",
-  //   pending: "",
-  // });
-
   const [searchMap, setSearchMap] = useState<Record<TabType, string>>({
     online: "",
     all: "",
     pending: "",
     addFriend: "",
   });
-
-  // const searchTab = (tab: TabType): tab is SearchTabType => {
-  //   return tab !== "addFriend";
-  // };
-
-  // const currentSearchTerm = searchTab(activeTab) ? searchMap[activeTab] : "";
 
   const currentSearchTerm = searchMap[activeTab];
 
@@ -156,15 +143,6 @@ const Friends = () => {
                     className={classes["friend-search-input"]}
                     placeholder="친구 검색"
                     value={currentSearchTerm}
-                    // onChange={(e) => {
-                    //   if (!searchTab(activeTab)) return;
-
-                    //   setSearchMap((prev) => ({
-                    //     ...prev,
-                    //     [activeTab]: e.target.value,
-                    //   }));
-                    // }}
-
                     onChange={(e) =>
                       setSearchMap((prev) => ({
                         ...prev,
@@ -175,15 +153,6 @@ const Friends = () => {
                   {currentSearchTerm ? (
                     <IoClose
                       className={classes["friend-search-delete-icon"]}
-                      // onClick={() => {
-                      //   if (!searchTab(activeTab)) return;
-
-                      //   setSearchMap((prev) => ({
-                      //     ...prev,
-                      //     [activeTab]: "",
-                      //   }));
-                      // }}
-
                       onClick={() =>
                         setSearchMap((prev) => ({
                           ...prev,

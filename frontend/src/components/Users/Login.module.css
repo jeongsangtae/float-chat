@@ -31,7 +31,7 @@
 .login-email-input:focus,
 .login-password-input:focus {
   outline: none;
-  border-color: #199cf3;
+  border-color: var(--color-border-focus);
 }
 
 .error-message {

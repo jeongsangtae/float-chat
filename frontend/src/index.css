@@ -123,13 +123,16 @@ button:focus-visible {
   --color-text-quaternary: #808080;
 
   --color-bg: #ffffff;
+  --color-bg-error: #252525;
   --color-border: #444444;
   --color-border-strong: #1e1e1e;
+  --color-border-focus: #199cf3;
   --color-send: #b1b1b1;
   --color-success: #4caf50;
   /* --color-success-hover: #3d9640; */
   --color-success-hover: #43a047;
   --color-danger: #d9363e;
+  --color-danger-hover: #c43732;
   --color-danger-strong: #c62828;
   --color-danger-strong-hover: #b71c1c;
   --color-error: #f44336;
@@ -151,6 +154,9 @@ button:focus-visible {
   --color-btn-secondary: #2a2a2c;
   --color-btn-secondary-hover: #343438;
   --color-btn-neutral: #555555;
+  --color-btn-neutral-hover: #616161;
+  --color-btn-redirect: #474747;
+  --color-btn-redirect-hover: #555555;
 
   --color-online-dot: #02ac02;
   --color-offline-dot: #808080;

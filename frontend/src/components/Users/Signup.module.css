@@ -43,7 +43,7 @@
 .signup-password-input:focus,
 .signup-confirm-password-input:focus {
   outline: none;
-  border-color: #199cf3;
+  border-color: var(--color-border-focus);
 }
 
 .error-message {

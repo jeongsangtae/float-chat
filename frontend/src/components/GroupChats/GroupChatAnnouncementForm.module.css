@@ -33,7 +33,7 @@
 
 .group-chat-announcement-textarea:focus {
   outline: none;
-  border-color: #199cf3;
+  border-color: var(--color-border-focus);
 }
 
 /* 스크롤바 설정 */
@@ -149,7 +149,7 @@
 .disable {
   pointer-events: none;
   background-color: var(--color-btn-neutral);
-  color: #aaa;
+  color: var(--color-text-tertiary);
   border: none;
   padding: var(--space-xs) var(--space-md) 0.35rem var(--space-md);
   border-radius: var(--radius-sm);

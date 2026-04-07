@@ -64,7 +64,7 @@
 
 .friend-search:focus-within {
   outline: none;
-  border-color: #199cf3;
+  border-color: var(--color-border-focus);
 }
 
 .friend-search-input {

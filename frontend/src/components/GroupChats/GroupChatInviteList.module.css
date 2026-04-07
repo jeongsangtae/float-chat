@@ -42,7 +42,7 @@
 
 .date {
   font-size: 0.75rem;
-  color: #aaaaaa;
+  color: var(--color-text-secondary);
 }
 
 .invite-info {
@@ -98,7 +98,7 @@
 }
 
 .group-chat-invite-reject-button:hover {
-  background-color: #c43732;
+  background-color: var(--color-danger-hover);
 }
 
 .group-chat-invite-text {

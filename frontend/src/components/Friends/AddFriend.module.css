@@ -21,7 +21,7 @@
 
 .add-friend-search-wrapper:focus-within {
   outline: none;
-  border-color: #199cf3;
+  border-color: var(--color-border-focus);
 }
 
 .add-friend-search-input {

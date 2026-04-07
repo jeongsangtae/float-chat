@@ -73,7 +73,7 @@
 
 .group-chat-invite-search:focus-within {
   outline: none;
-  border-color: #199cf3;
+  border-color: var(--color-border-focus);
 }
 
 .group-chat-invite-search-input {
@@ -97,7 +97,6 @@
 .group-chat-invite-search-delete-icon {
   position: absolute;
   right: 0.5rem;
-  color: #858585;
   color: var(--color-icon-quaternary);
   font-size: 1.15rem;
   cursor: pointer;
@@ -110,7 +109,6 @@
 .group-chat-invite-search-icon {
   position: absolute;
   right: 0.5rem;
-  color: #858585;
   color: var(--color-icon-quaternary);
   pointer-events: none;
   font-size: var(--font-lg);
