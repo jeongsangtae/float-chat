@@ -9,7 +9,7 @@
   right: 2px;
   top: -8px;
   height: 4px;
-  background-color: #3ba55d;
+  background-color: var(--color-drag-indicator);
   border-radius: var(--radius-2xs);
   pointer-events: none;
 }
@@ -21,7 +21,7 @@
   right: 2px;
   bottom: -8px;
   height: 4px;
-  background-color: #3ba55d;
+  background-color: var(--color-drag-indicator);
   border-radius: var(--radius-2xs);
   pointer-events: none;
 }
@@ -41,7 +41,7 @@
 /* .group-chat-placeholder {
   width: 3rem;
   height: 3rem;
-  background-color: #1abc9c;
+  background-color: var(--group-chat-btn);
   color: var(--color-text);
   border-radius: var(--radius-xl);
   border: none;

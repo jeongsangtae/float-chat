@@ -15,7 +15,7 @@
   font-size: var(--font-base);
   font-weight: var(--font-weight-bold);
   margin-left: var(--space-sm);
-  color: #ddd;
+  color: var(--color-text-subtle);
 }
 
 .nickname-edit-input {
@@ -67,7 +67,7 @@
   font-size: var(--font-base);
   font-weight: var(--font-weight-bold);
   margin-left: var(--space-sm);
-  color: #ddd;
+  color: var(--color-text-subtle);
 }
 
 .avatar-mode-button {
@@ -77,12 +77,12 @@
   color: var(--color-text);
   border-radius: var(--radius-sm);
   padding: var(--space-xs) var(--space-sm);
-  background-color: #1565c0;
+  background-color: var(--color-btn-primary);
   cursor: pointer;
 }
 
 .avatar-mode-button:hover {
-  background-color: #1257be;
+  background-color: var(--color-btn-primary-hover);
 }
 
 .avatar-mode-button .icon svg {

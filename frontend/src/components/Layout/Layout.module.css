@@ -92,7 +92,7 @@
 /* 막대 */
 .full-opacity-slider::-webkit-slider-runnable-track {
   height: 1px;
-  background: #adadad;
+  background: var(--color-icon-secondary);
   border-radius: var(--radius-md);
 }
 

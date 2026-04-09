@@ -72,7 +72,6 @@
   height: 0;
   border-style: solid;
   border-width: 0.25rem 0.2rem 0.25rem 0;
-  border-color: transparent #1abc9c transparent transparent;
   border-color: transparent var(--group-chat-btn) transparent transparent;
 }
 

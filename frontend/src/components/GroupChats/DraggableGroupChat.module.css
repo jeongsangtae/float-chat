@@ -9,7 +9,7 @@
   right: 2px;
   top: -8px;
   height: 4px;
-  background-color: #3ba55d;
+  background-color: var(--color-drag-indicator);
   border-radius: var(--radius-2xs);
   pointer-events: none;
 }
@@ -21,7 +21,7 @@
   right: 2px;
   bottom: -8px;
   height: 4px;
-  background-color: #3ba55d;
+  background-color: var(--color-drag-indicator);
   border-radius: var(--radius-2xs);
   pointer-events: none;
 }

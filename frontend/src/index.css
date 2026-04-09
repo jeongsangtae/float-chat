@@ -118,6 +118,7 @@ button:focus-visible {
 
   /* text */
   --color-text: #ffffff;
+  --color-text-subtle: #dddddd;
   --color-text-secondary: #b3b3b3;
   --color-text-tertiary: #999999;
   --color-text-quaternary: #808080;
@@ -137,6 +138,7 @@ button:focus-visible {
   --color-danger-strong-hover: #b71c1c;
   --color-error: #f44336;
   --color-badge: #ff3333;
+  --color-accent: #ffd966;
 
   /* icon (text 기반) */
   --color-icon: var(--color-text);
@@ -147,6 +149,7 @@ button:focus-visible {
   /* 버튼/토글/클릭 요소 */
   --color-icon-interactive: #bdb8b8;
 
+  --color-drag-indicator: #3ba55d;
   --color-divider: rgba(128, 128, 128, 0.2);
 
   --color-btn-primary: #2373cf;

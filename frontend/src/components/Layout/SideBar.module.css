@@ -181,7 +181,7 @@
   font-size: var(--font-lg);
   background: none;
   border: none;
-  color: #adadad;
+  color: var(--color-icon-secondary);
   padding: var(--space-sm);
   cursor: pointer;
   border-radius: var(--radius-md);

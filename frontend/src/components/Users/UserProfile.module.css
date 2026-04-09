@@ -6,7 +6,6 @@
   /* min-height: 16.5rem; */
   height: auto;
 
-  background: #1abc9c;
   color: var(--color-text);
   border-radius: var(--radius-md);
   z-index: 9999;
