@@ -127,7 +127,10 @@ button:focus-visible {
   --color-bg-error: #252525;
   --color-border: #444444;
   --color-border-strong: #1e1e1e;
+  --color-border-muted: rgba(133, 133, 133, 0.5);
+  --color-border-transparent: transparent;
   --color-border-focus: #199cf3;
+  --color-border-focus-muted: #505050;
   --color-send: #b1b1b1;
   --color-success: #4caf50;
   /* --color-success-hover: #3d9640; */
@@ -172,6 +175,15 @@ button:focus-visible {
   --color-scrollbar-thumb-muted: #1c1c1c;
   --color-scrollbar-thumb-muted-hover: #161616;
   --color-scrollbar-thumb-muted-active: #161616;
+
+  /* 전역 z-index */
+  --z-base: 0;
+  --z-tooltip: 100;
+  --z-dropdown: 500; /* context menu 포함 */
+  --z-overlay: 900; /* backdrop 포함 */
+  --z-toast: 950;
+  --z-modal: 1000;
+  --z-max: 9999; /* 나중에 필요시 사용 예정 */
 }
 
 body {

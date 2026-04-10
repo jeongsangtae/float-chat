@@ -19,7 +19,7 @@
   border-radius: var(--radius-md);
   margin-top: var(--space-xs);
   margin-bottom: var(--space-xs);
-  border-left: 0.3rem solid transparent;
+  border-left: 0.3rem solid var(--color-border-transparent);
 }
 
 /* 스크롤바의 움직이는 핸들(슬라이더) 설정 */
@@ -123,7 +123,7 @@
   border-radius: var(--radius-md);
   margin-top: var(--space-xs);
   margin-bottom: var(--space-xs);
-  border-left: 0.3rem solid transparent;
+  border-left: 0.3rem solid var(--color-border-transparent);
 }
 
 /* 스크롤바의 움직이는 핸들(슬라이더) 설정 */

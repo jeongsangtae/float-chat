@@ -26,13 +26,6 @@
   font-size: 1.2rem;
 }
 
-.user-profile-info-avatar {
-  position: absolute;
-  top: -2rem;
-  box-shadow: 0 0 0 3px var(--bg-side);
-  z-index: 1;
-}
-
 .chat-avatar {
   width: 2.5rem;
   height: 2.5rem;
@@ -50,7 +43,6 @@
   position: absolute;
   top: -2.25rem;
   box-shadow: 0 0 0 6px var(--bg-side);
-  z-index: 1;
 }
 
 .mutual-friend-user-avatar,

@@ -6,7 +6,7 @@
   height: 100vh;
   background-color: rgba(40, 40, 40, 0.5);
   overflow: hidden;
-  z-index: 100;
+  z-index: var(--z-overlay);
 }
 
 .modal {
@@ -16,7 +16,7 @@
   border-radius: var(--radius-lg);
   padding: 0;
   overflow: hidden;
-  z-index: 101;
+  z-index: var(--z-modal);
   color: var(--color-text);
   background-color: transparent;
   border: 2px solid rgba(255, 255, 255, 0.2);

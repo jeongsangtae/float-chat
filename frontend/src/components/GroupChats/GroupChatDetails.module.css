@@ -66,7 +66,7 @@
   display: flex;
   align-items: center;
   padding: var(--space-sm);
-  border: 1px solid rgba(133, 133, 133, 0.5);
+  border: 1px solid var(--color-border-muted);
   border-radius: var(--radius-md);
   margin: var(--space-sm) var(--space-lg);
 }
@@ -80,7 +80,7 @@
   padding-right: var(--space-2xl);
   width: 100%;
   background-color: transparent;
-  border: 1px solid transparent;
+  border: 1px solid var(--color-border-transparent);
   border-radius: var(--radius-md);
   font-size: var(--font-base);
   color: var(--color-text);
@@ -133,7 +133,7 @@
   border-radius: var(--radius-md);
   margin-top: var(--space-sm);
   margin-bottom: var(--space-sm);
-  border-left: 0.3rem solid transparent;
+  border-left: 0.3rem solid var(--color-border-transparent);
 }
 
 /* 스크롤바의 움직이는 핸들(슬라이더) 설정 */

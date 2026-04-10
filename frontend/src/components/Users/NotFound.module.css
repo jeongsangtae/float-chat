@@ -7,7 +7,6 @@
   inset: 0;
   background-color: var(--color-bg-error);
   color: var(--color-text);
-  z-index: 9999;
 }
 
 .redirect-button-wrapper {
