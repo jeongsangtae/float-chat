@@ -9,8 +9,8 @@
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  transition: background-color 0.3s ease, transform 0.3s ease;
+  box-shadow: var(--shadow-light);
+  transition: var(--transition-bg-transform);
 }
 
 .group-chat:hover {
@@ -45,7 +45,7 @@
   border-top-right-radius: var(--radius-md);
   border-bottom-right-radius: var(--radius-md);
   opacity: 0;
-  transition: all 0.3s ease;
+  transition: var(--transition-all);
 }
 
 .group-chat:hover .indicator {
@@ -106,7 +106,7 @@
   padding: var(--space-sm);
   list-style: none;
   border-radius: var(--radius-xs);
-  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow-light);
 
   /* 그룹 채팅방 메뉴창 고정된 위치로 열기 */
   /* top: 80px;

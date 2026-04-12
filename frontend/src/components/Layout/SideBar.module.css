@@ -27,8 +27,8 @@
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  transition: background-color 0.3s ease, transform 0.3s ease;
+  box-shadow: var(--shadow-light);
+  transition: var(--transition-bg-transform);
 }
 
 .home-button:hover {
@@ -48,7 +48,7 @@
   border-top-right-radius: var(--radius-md);
   border-bottom-right-radius: var(--radius-md);
   opacity: 0;
-  transition: all 0.3s ease;
+  transition: var(--transition-all);
 }
 
 .home-button:hover .indicator {
@@ -124,8 +124,8 @@
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  transition: background-color 0.3s ease, transform 0.3s ease;
+  box-shadow: var(--shadow-light);
+  transition: var(--transition-bg-transform);
 }
 
 .group-chat-form-button:hover {
@@ -181,7 +181,7 @@
   padding: var(--space-sm);
   cursor: pointer;
   border-radius: var(--radius-md);
-  transition: background-color 0.2s ease;
+  transition: var(--transition-bg);
 }
 
 .user-info-edit:hover,

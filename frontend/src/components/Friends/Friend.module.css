@@ -36,7 +36,7 @@
   padding: 0.3rem var(--space-md);
   font-size: var(--font-sm2);
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  transition: var(--transition-bg);
 }
 
 .friend-delete-button:hover {

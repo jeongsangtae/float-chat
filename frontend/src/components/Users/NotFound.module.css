@@ -22,7 +22,7 @@
   color: var(--color-text);
   background-color: var(--color-btn-redirect);
   font-size: var(--font-sm3);
-  transition: all 0.3s ease;
+  transition: var(--transition-all);
 }
 
 .redirect-button:hover {

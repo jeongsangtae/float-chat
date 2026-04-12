@@ -196,8 +196,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  transition: background-color 0.3s ease, transform 0.3s ease;
+  box-shadow: var(--shadow-light);
+  transition: var(--transition-bg-transform);
   color: var(--color-text);
   white-space: nowrap; /* 텍스트 자동 줄바꿈 방지 */
   overflow: hidden; /* 글자가 요소 범위를 넘어가지 않도록 방지 */

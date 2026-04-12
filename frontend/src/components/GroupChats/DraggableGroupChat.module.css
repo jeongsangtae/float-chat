@@ -33,7 +33,7 @@
   color: var(--color-text);
   border-radius: var(--radius-xl);
   border: 1px dashed rgba(255, 255, 255, 0.8);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
+  box-shadow: var(--shadow-medium);
   font-weight: 500;
   pointer-events: none;
   opacity: 0.5;
