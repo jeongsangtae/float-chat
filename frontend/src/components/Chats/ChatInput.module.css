@@ -14,7 +14,7 @@
   font: inherit;
   font-size: var(--font-md);
   padding: 1.2rem 3rem 1.2rem 0.8rem;
-  line-height: 1.5;
+  line-height: var(--line-height-base);
   width: 100%;
   resize: none;
   overflow: hidden;

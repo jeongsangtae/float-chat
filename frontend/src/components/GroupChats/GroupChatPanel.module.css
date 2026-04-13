@@ -105,7 +105,7 @@
 }
 
 .group-chat-announcement-content {
-  line-height: 1.5;
+  line-height: var(--line-height-base);
   white-space: pre-wrap;
   font-size: var(--font-sm3);
   max-height: 15rem;

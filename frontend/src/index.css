@@ -75,7 +75,7 @@ button:focus-visible {
   min-height: 100vh;
   font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
   font-size: 16px;
-  line-height: 24px;
+  line-height: var(--line-height-base);
   font-weight: 400;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -110,6 +110,8 @@ button:focus-visible {
   --radius-lg: 12px;
   --radius-xl: 16px;
   --radius-full: 50%;
+
+  --line-height-base: 1.5;
 
   /* --color-text-main: #ffffff;
   --color-text-sub: #b1b1b1;
