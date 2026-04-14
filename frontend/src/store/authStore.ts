@@ -18,6 +18,7 @@ interface AuthStore {
   verifyUser: () => Promise<void>;
   refreshToken: () => Promise<void>;
   refreshTokenExp: () => Promise<void>;
+  updateTheme: (theme: string) => Promise<void>;
   editUserProfileForm: (payload: EditUserProfilePayload) => Promise<void>;
   updateUserGroupChatOrder: (order: string[]) => void;
 }
@@ -250,6 +251,41 @@ const useAuthStore = create<AuthStore>((set, get) => ({
       localStorage.setItem("refreshTokenExp", resData.tokenExp);
     } catch (error) {
       console.error("사용자 인증 오류", error);
+    }
+  },
+
+  updateTheme: async (theme) => {
+    try {
+      const response = await fetch(`${apiURL}/updateTheme`, {
+        method: "PATCH",
+        body: JSON.stringify({ theme }),
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+      });
+
+      if (!response.ok) {
+        throw new Error(`테마 모드 수정 실패`);
+      }
+
+      // set((prev) => {
+      //   if (!prev.userInfo) return prev;
+
+      //   return {
+      //     userInfo: {
+      //       ...prev.userInfo,
+      //       theme,
+      //     },
+      //   };
+      // });
+
+      set((prev) => ({
+        userInfo: prev.userInfo ? { ...prev.userInfo, theme } : prev.userInfo,
+      }));
+    } catch (error) {
+      console.error("에러 내용:", error);
+      alert(
+        "테마 모드 변경 중 문제가 발생했습니다. 새로고침 후 다시 시도해 주세요."
+      );
     }
   },
 

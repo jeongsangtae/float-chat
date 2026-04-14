@@ -99,6 +99,7 @@ router.post("/signup", async (req, res) => {
       username,
       password: hashPassword,
       avatarColor,
+      theme: "dark",
       date: `${kstDate.getFullYear()}.${(kstDate.getMonth() + 1)
         .toString()
         .padStart(2, "0")}.${kstDate
@@ -247,6 +248,28 @@ router.get("/refreshTokenExp", async (req, res) => {
     res.status(200).json(responseData);
   } catch (error) {
     errorHandler(res, error, "Refresh Token 만료 시간 확인 중 오류 발생");
+  }
+});
+
+router.patch("/updateTheme", async (req, res) => {
+  try {
+    const othersData = await accessToken(req, res);
+
+    if (!othersData) {
+      return res.status(401).json({ message: "jwt error" });
+    }
+
+    const requestBody = req.body;
+    const userId = new ObjectId(othersData._id);
+
+    await db
+      .getDb()
+      .collection("users")
+      .updateOne({ _id: userId }, { $set: { theme: requestBody.theme } });
+
+    res.status(200).json({ message: "테마 모드 업데이트" });
+  } catch (error) {
+    errorHandler(res, error, "테마 모드 업데이트 중 오류 발생");
   }
 });
 

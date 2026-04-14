@@ -3,6 +3,7 @@ import { ReactNode, useState, useEffect } from "react";
 import Notification from "../UI/Notification";
 import SideBar from "./SideBar";
 
+import useAuthStore from "../../store/authStore";
 import useLayoutStore from "../../store/layoutStore";
 
 import classes from "./Layout.module.css";
@@ -13,6 +14,7 @@ interface LayoutProps {
 }
 
 const Layout = ({ children, onLeaveChatRoom }: LayoutProps) => {
+  const { userInfo, updateTheme } = useAuthStore();
   const { theme, setTheme, currentView, groupChatTitle } = useLayoutStore();
 
   const [fullOpacity, setFullOpacity] = useState(1);
@@ -26,6 +28,8 @@ const Layout = ({ children, onLeaveChatRoom }: LayoutProps) => {
     "sunset",
     "orange",
   ];
+
+  console.log(userInfo);
 
   useEffect(() => {
     // 우클릭 감지 함수
@@ -56,6 +60,11 @@ const Layout = ({ children, onLeaveChatRoom }: LayoutProps) => {
     document.body.classList.add(`theme-${theme}`);
   }, [theme]);
 
+  const themeUpdateHandler = (theme: string) => {
+    setTheme(theme);
+    updateTheme(theme);
+  };
+
   return (
     <div className={classes.wrapper} style={{ opacity: fullOpacity }}>
       <div className={classes.header}>
@@ -67,7 +76,7 @@ const Layout = ({ children, onLeaveChatRoom }: LayoutProps) => {
         <button
           key={t}
           className={`${classes[t]} ${theme === t ? classes.active : ""}`}
-          onClick={() => setTheme(t)}
+          onClick={() => themeUpdateHandler(t)}
         ></button>
       ))}
       <div className={classes.layout}>

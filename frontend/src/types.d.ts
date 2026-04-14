@@ -16,6 +16,7 @@ export interface UserInfo {
   nickname: string;
   avatarColor: string | null;
   avatarImageUrl: string | null;
+  theme: string;
   groupChatOrder: string[];
   tokenExp: number;
 }
