@@ -41,27 +41,35 @@ const Login = () => {
   ): Promise<void> => {
     event.preventDefault();
 
-    try {
-      const response = await fetch(`${apiURL}/login`, {
-        method: "POST",
-        body: JSON.stringify(loginData),
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
-      });
+    // try {
+    //   const response = await fetch(`${apiURL}/login`, {
+    //     method: "POST",
+    //     body: JSON.stringify(loginData),
+    //     headers: { "Content-Type": "application/json" },
+    //     credentials: "include",
+    //   });
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        // setError(true);
-        setErrorMessage(errorData.message);
-        return;
-      }
+    //   if (!response.ok) {
+    //     const errorData = await response.json();
+    //     // setError(true);
+    //     setErrorMessage(errorData.message);
+    //     return;
+    //   }
 
-      await login();
-      navigate("/me");
-    } catch (error) {
-      console.error("에러 내용:", error);
-      alert("로그인 중에 문제가 발생했습니다. 새로고침 후 다시 시도해 주세요.");
+    //   await login();
+    //   navigate("/me");
+    // } catch (error) {
+    //   console.error("에러 내용:", error);
+    //   alert("로그인 중에 문제가 발생했습니다. 새로고침 후 다시 시도해 주세요.");
+    // }
+    const loginResult = await login(loginData);
+
+    if (!loginResult.success) {
+      setErrorMessage(loginResult.message);
+      return;
     }
+
+    navigate("/me");
     console.log(loginData, "로그인 성공");
   };
 

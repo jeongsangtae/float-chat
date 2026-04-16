@@ -13,7 +13,7 @@ interface AuthStore {
   accessToken: string | null;
   renewToken: () => void;
   pageAccess: () => void;
-  login: () => Promise<void>;
+  login: (loginData) => Promise<void>;
   logout: () => Promise<void>;
   verifyUser: () => Promise<void>;
   refreshToken: () => Promise<void>;
@@ -117,8 +117,23 @@ const useAuthStore = create<AuthStore>((set, get) => ({
     }
   },
 
-  login: async () => {
+  login: async (loginData) => {
     try {
+      const response = await fetch(`${apiURL}/login`, {
+        method: "POST",
+        body: JSON.stringify(loginData),
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        // setError(true);
+        // setErrorMessage(errorData.message);
+        return { success: false, message: errorData.message };
+      }
+      // await login();
+      // navigate("/me");
       const now = Math.floor(new Date().getTime() / 1000);
       // const expirationTime = Math.ceil(now + 60 * 60);
       const expirationTime = Math.ceil(now + 5 * 60);
@@ -134,9 +149,14 @@ const useAuthStore = create<AuthStore>((set, get) => ({
       // 같은 스토어의 verifyUser, refreshTokenExp 액션 호출
       await get().verifyUser();
       await get().refreshTokenExp();
+
+      return { success: true };
     } catch (error) {
-      console.error("사용자 인증 오류:", error);
+      console.error("로그인 오류:", error);
       set({ isLoggedIn: false });
+
+      return { success: false };
+      // alert("로그인 중에 문제가 발생했습니다. 새로고침 후 다시 시도해 주세요.");
     }
   },
 
@@ -266,17 +286,6 @@ const useAuthStore = create<AuthStore>((set, get) => ({
       if (!response.ok) {
         throw new Error(`테마 모드 수정 실패`);
       }
-
-      // set((prev) => {
-      //   if (!prev.userInfo) return prev;
-
-      //   return {
-      //     userInfo: {
-      //       ...prev.userInfo,
-      //       theme,
-      //     },
-      //   };
-      // });
 
       set((prev) => ({
         userInfo: prev.userInfo ? { ...prev.userInfo, theme } : prev.userInfo,

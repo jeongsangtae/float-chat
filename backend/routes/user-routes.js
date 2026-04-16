@@ -251,6 +251,7 @@ router.get("/refreshTokenExp", async (req, res) => {
   }
 });
 
+// 테마 모드 업데이트 라우터
 router.patch("/updateTheme", async (req, res) => {
   try {
     const othersData = await accessToken(req, res);

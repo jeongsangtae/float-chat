@@ -32,6 +32,14 @@ const Layout = ({ children, onLeaveChatRoom }: LayoutProps) => {
   console.log(userInfo);
 
   useEffect(() => {
+    if (userInfo?.theme) {
+      setTheme(userInfo.theme);
+    } else {
+      setTheme("dark");
+    }
+  }, [userInfo?.theme, setTheme]);
+
+  useEffect(() => {
     // 우클릭 감지 함수
     const preventContextMenu = (event: MouseEvent) => {
       event.preventDefault(); // 기본 브라우저 컨텍스트 메뉴 막기
