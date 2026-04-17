@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+import useAuthStore from "../../store/authStore";
+
 import classes from "./Signup.module.css";
 
 interface SignupDataType {
@@ -14,9 +16,8 @@ interface SignupDataType {
 
 const Signup = () => {
   // 환경 변수에서 API URL 가져오기
-  const apiURL = import.meta.env.VITE_API_URL;
-
   const navigate = useNavigate();
+  const { signup } = useAuthStore();
 
   const avatarColors = [
     "#D32F2F",
@@ -69,31 +70,15 @@ const Signup = () => {
   ): Promise<void> => {
     event.preventDefault();
 
-    try {
-      const response = await fetch(`${apiURL}/signup`, {
-        method: "POST",
-        body: JSON.stringify(signupData),
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
-      });
+    const signupResult = await signup(signupData);
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        // setError(true);
-        setErrorMessage(errorData.message);
-        return;
-      }
-
-      console.log("회원가입 성공");
-      // setError(false)
-      loginMoveHandler();
-    } catch (error) {
-      console.error("에러 내용:", error);
-      alert(
-        "회원가입 중에 문제가 발생했습니다. 새로고침 후 다시 시도해 주세요."
-      );
+    if (!signupResult.success) {
+      setErrorMessage(signupResult.message || "에러 발생");
+      return;
     }
-    console.log(signupData, "회원가입 성공");
+
+    loginMoveHandler();
+    console.log("회원가입 성공");
   };
 
   return (

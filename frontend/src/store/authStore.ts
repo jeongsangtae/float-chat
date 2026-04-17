@@ -6,6 +6,27 @@ import { UserInfo } from "../types";
 
 const apiURL = import.meta.env.VITE_API_URL;
 
+interface SignupData {
+  email: string;
+  nickname: string;
+  username: string;
+  password: string;
+  confirmPassword: string;
+  avatarColor: string;
+}
+
+interface LoginData {
+  email: string;
+  password: string;
+}
+
+interface AuthResult {
+  success: boolean;
+  message?: string;
+}
+
+// type LoginResult = { success: true } | { success: false; message: string };
+
 interface AuthStore {
   isLoggedIn: boolean;
   userInfo: UserInfo | null;
@@ -13,7 +34,8 @@ interface AuthStore {
   accessToken: string | null;
   renewToken: () => void;
   pageAccess: () => void;
-  login: (loginData) => Promise<void>;
+  signup: (signupData: SignupData) => Promise<AuthResult>;
+  login: (loginData: LoginData) => Promise<AuthResult>;
   logout: () => Promise<void>;
   verifyUser: () => Promise<void>;
   refreshToken: () => Promise<void>;
@@ -117,6 +139,28 @@ const useAuthStore = create<AuthStore>((set, get) => ({
     }
   },
 
+  signup: async (signupData) => {
+    try {
+      const response = await fetch(`${apiURL}/signup`, {
+        method: "POST",
+        body: JSON.stringify(signupData),
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        return { success: false, message: errorData.message };
+      }
+
+      return { success: true };
+    } catch (error) {
+      console.error("에러 내용:", error);
+
+      return { success: false };
+    }
+  },
+
   login: async (loginData) => {
     try {
       const response = await fetch(`${apiURL}/login`, {
@@ -128,12 +172,9 @@ const useAuthStore = create<AuthStore>((set, get) => ({
 
       if (!response.ok) {
         const errorData = await response.json();
-        // setError(true);
-        // setErrorMessage(errorData.message);
         return { success: false, message: errorData.message };
       }
-      // await login();
-      // navigate("/me");
+
       const now = Math.floor(new Date().getTime() / 1000);
       // const expirationTime = Math.ceil(now + 60 * 60);
       const expirationTime = Math.ceil(now + 5 * 60);
@@ -156,7 +197,6 @@ const useAuthStore = create<AuthStore>((set, get) => ({
       set({ isLoggedIn: false });
 
       return { success: false };
-      // alert("로그인 중에 문제가 발생했습니다. 새로고침 후 다시 시도해 주세요.");
     }
   },
 

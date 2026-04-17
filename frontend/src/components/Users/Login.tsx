@@ -11,9 +11,6 @@ interface loginDataType {
 }
 
 const Login = () => {
-  // 환경 변수에서 API URL 가져오기
-  const apiURL = import.meta.env.VITE_API_URL;
-
   const navigate = useNavigate();
   const { login } = useAuthStore();
 
@@ -41,36 +38,15 @@ const Login = () => {
   ): Promise<void> => {
     event.preventDefault();
 
-    // try {
-    //   const response = await fetch(`${apiURL}/login`, {
-    //     method: "POST",
-    //     body: JSON.stringify(loginData),
-    //     headers: { "Content-Type": "application/json" },
-    //     credentials: "include",
-    //   });
-
-    //   if (!response.ok) {
-    //     const errorData = await response.json();
-    //     // setError(true);
-    //     setErrorMessage(errorData.message);
-    //     return;
-    //   }
-
-    //   await login();
-    //   navigate("/me");
-    // } catch (error) {
-    //   console.error("에러 내용:", error);
-    //   alert("로그인 중에 문제가 발생했습니다. 새로고침 후 다시 시도해 주세요.");
-    // }
     const loginResult = await login(loginData);
 
     if (!loginResult.success) {
-      setErrorMessage(loginResult.message);
+      setErrorMessage(loginResult.message || "에러 발생");
       return;
     }
 
     navigate("/me");
-    console.log(loginData, "로그인 성공");
+    console.log("로그인 성공");
   };
 
   return (
