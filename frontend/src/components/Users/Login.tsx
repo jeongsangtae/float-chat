@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 
 import useAuthStore from "../../store/authStore";
@@ -39,6 +40,11 @@ const Login = () => {
     event.preventDefault();
 
     const loginResult = await login(loginData);
+
+    if (!loginResult.success && loginResult.type === "NETWORK_ERROR") {
+      toast.error("네트워크 문제 발생");
+      return;
+    }
 
     if (!loginResult.success) {
       setErrorMessage(loginResult.message || "에러 발생");

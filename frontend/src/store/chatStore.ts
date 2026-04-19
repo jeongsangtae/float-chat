@@ -151,11 +151,14 @@ const useChatStore = create<ChatStore>((set) => ({
       }
 
       console.log("메시지 전송 성공");
+
+      return { success: true, type: "SUCCESS" };
     } catch (error) {
       console.error("에러 내용:", error);
-      alert(
-        "메시지를 전송하는 데 문제가 발생했습니다. 새로고침 후 다시 시도해 주세요."
-      );
+      return { success: false, type: "NETWORK_ERROR" };
+      // alert(
+      //   "메시지를 전송하는 데 문제가 발생했습니다. 새로고침 후 다시 시도해 주세요."
+      // );
     }
   },
 

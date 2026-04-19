@@ -23,6 +23,7 @@ interface LoginData {
 interface AuthResult {
   success: boolean;
   message?: string;
+  type?: string;
 }
 
 // type LoginResult = { success: true } | { success: false; message: string };
@@ -196,7 +197,7 @@ const useAuthStore = create<AuthStore>((set, get) => ({
       console.error("로그인 오류:", error);
       set({ isLoggedIn: false });
 
-      return { success: false };
+      return { success: false, type: "NETWORK_ERROR" };
     }
   },
 
