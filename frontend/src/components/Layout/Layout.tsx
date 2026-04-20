@@ -1,6 +1,5 @@
 import { ReactNode, useState, useEffect } from "react";
 
-import { Toaster } from "react-hot-toast";
 import { ToastContainer } from "react-toastify";
 
 import Notification from "../UI/Notification";
@@ -10,7 +9,6 @@ import useAuthStore from "../../store/authStore";
 import useLayoutStore from "../../store/layoutStore";
 
 import classes from "./Layout.module.css";
-// import "react-toastify/dist/ReactToastify.css";
 
 interface LayoutProps {
   children: ReactNode;
@@ -77,10 +75,9 @@ const Layout = ({ children, onLeaveChatRoom }: LayoutProps) => {
 
   return (
     <div className={classes.wrapper} style={{ opacity: fullOpacity }}>
-      <Toaster position="top-right" />
       <ToastContainer
-        position="top-right"
-        autoClose={2000}
+        position="top-center"
+        autoClose={10000}
         hideProgressBar
         closeOnClick
         pauseOnHover
