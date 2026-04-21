@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 import useAuthStore from "../../store/authStore";
 
@@ -52,7 +52,6 @@ const Login = () => {
     }
 
     navigate("/me");
-    console.log("로그인 성공");
   };
 
   return (

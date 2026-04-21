@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 import useAuthStore from "../../store/authStore";
 
@@ -72,13 +73,27 @@ const Signup = () => {
 
     const signupResult = await signup(signupData);
 
+    if (!signupResult.success && signupResult.type === "NETWORK_ERROR") {
+      toast.error("네트워크 문제 발생");
+      return;
+    }
+
     if (!signupResult.success) {
       setErrorMessage(signupResult.message || "에러 발생");
       return;
     }
 
+    // if (!signupResult.success) {
+    //   if (signupResult.type === "NETWORK_ERROR") {
+    //     toast.error("네트워크 문제 발생");
+    //   } else {
+    //     setErrorMessage(signupResult.message || "에러 발생");
+    //   }
+    //   return;
+    // }
+
+    // toast.success("회원가입 성공");
     loginMoveHandler();
-    console.log("회원가입 성공");
   };
 
   return (

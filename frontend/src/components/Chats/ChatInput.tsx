@@ -1,5 +1,4 @@
 import React, { useState, useRef } from "react";
-// import { toast } from "react-toastify";
 import { IoMdSend } from "react-icons/io";
 
 import useAuthStore from "../../store/authStore";
@@ -49,19 +48,6 @@ const ChatInput = ({ roomId }: RoomId) => {
     if (!roomId || !userInfo || !isMessageValid) return;
 
     await sendMessage(roomId, message.trim(), userInfo);
-
-    // const sendMessageResult = await sendMessage(
-    //   roomId,
-    //   message.trim(),
-    //   userInfo
-    // );
-
-    // console.log(sendMessageResult, sendMessageResult.success);
-
-    // if (sendMessageResult.success && sendMessageResult.type === "SUCCESS") {
-    //   console.log("메시지 전송 성공");
-    //   toast.success("메시지 전송 성공");
-    // }
 
     setMessage("");
 

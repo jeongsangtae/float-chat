@@ -158,7 +158,7 @@ const useAuthStore = create<AuthStore>((set, get) => ({
     } catch (error) {
       console.error("에러 내용:", error);
 
-      return { success: false };
+      return { success: false, type: "NETWORK_ERROR" };
     }
   },
 
