@@ -77,7 +77,7 @@ const Layout = ({ children, onLeaveChatRoom }: LayoutProps) => {
     <div className={classes.wrapper} style={{ opacity: fullOpacity }}>
       <ToastContainer
         position="top-center"
-        autoClose={10000}
+        autoClose={3000}
         hideProgressBar
         closeOnClick
         pauseOnHover

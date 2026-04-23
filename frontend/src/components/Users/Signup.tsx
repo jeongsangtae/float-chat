@@ -63,6 +63,7 @@ const Signup = () => {
   };
 
   const loginMoveHandler = () => {
+    // navigate("/login", { state: { signupSuccess: true } });
     navigate("/login");
   };
 
@@ -92,8 +93,11 @@ const Signup = () => {
     //   return;
     // }
 
+    console.log("회원가입 성공");
+
+    navigate("/login", { state: { signupSuccess: true } });
     // toast.success("회원가입 성공");
-    loginMoveHandler();
+    // loginMoveHandler();
   };
 
   return (

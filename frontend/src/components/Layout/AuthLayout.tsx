@@ -1,5 +1,8 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+
+import { ToastContainer } from "react-toastify";
+
 import useAuthStore from "../../store/authStore";
 
 import { ChildrenProps } from "../../types";
@@ -26,6 +29,14 @@ const AuthLayout = ({ children }: ChildrenProps) => {
           backgroundImage: `url(${background})`,
         }}
       >
+        <ToastContainer
+          position="top-center"
+          autoClose={3000}
+          hideProgressBar
+          closeOnClick
+          pauseOnHover
+          draggable
+        />
         <div className={classes.modal}>{children}</div>
       </div>
     </>
