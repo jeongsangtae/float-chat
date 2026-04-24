@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { toast } from "react-toastify";
 
 import { Socket, io } from "socket.io-client";
 
@@ -35,7 +36,6 @@ const useSocketStore = create<SocketStore>((set, get) => ({
       });
 
       newSocket.on("connect", () => {
-        console.log("소켓 연결됨:", userInfo?._id);
         newSocket.emit("registerUser", userInfo?._id);
 
         // 새로고침 후 자동으로 마지막 채팅방 다시 입장
@@ -47,8 +47,6 @@ const useSocketStore = create<SocketStore>((set, get) => ({
 
       // 친구 요청 알림 수신 이벤트
       newSocket.on("friendRequest", (newRequest) => {
-        console.log("친구 요청 알림 수신:", newRequest);
-
         set((state) => ({
           notification: [
             ...state.notification,
@@ -76,8 +74,6 @@ const useSocketStore = create<SocketStore>((set, get) => ({
 
       // 새로운 메시지 알림 수신 이벤트
       newSocket.on("messageNotification", (newMessage) => {
-        console.log("새로운 메시지 알림 수신:", newMessage);
-
         set((state) => ({
           notification: [
             ...state.notification,
@@ -103,8 +99,6 @@ const useSocketStore = create<SocketStore>((set, get) => ({
       });
 
       newSocket.on("groupChatInviteNotification", (groupChatInvite) => {
-        console.log("그룹 채팅방 초대 알림 수신:", groupChatInvite);
-
         set((state) => ({
           notification: [
             ...state.notification,
@@ -132,9 +126,7 @@ const useSocketStore = create<SocketStore>((set, get) => ({
       set({ socket: newSocket });
     } catch (error) {
       console.error("에러 내용:", error);
-      alert(
-        "서버와의 연결 중 오류가 발생했습니다. 새로고침 후 다시 시도해 주세요."
-      );
+      toast.error("연결 오류 - 새로고침 후 다시 시도해주세요");
     }
   },
 
@@ -149,8 +141,6 @@ const useSocketStore = create<SocketStore>((set, get) => ({
     localStorage.setItem("currentRoom", roomId);
 
     useChatStore.getState().newMessage(); // 메시지 수신 이벤트 등록 추가
-
-    console.log(`${roomId} 그룹 채팅방 입장`);
   },
 
   // 방을 이동할 때 먼저 사용될 방 나가기 로직
@@ -162,14 +152,11 @@ const useSocketStore = create<SocketStore>((set, get) => ({
     set({ currentRoom: null });
 
     localStorage.removeItem("currentRoom");
-
-    console.log("채팅방 나가기");
   },
 
   disconnect: () => {
     get().socket?.disconnect();
     set({ socket: null });
-    console.log("소켓 연결 해제");
 
     // 로그아웃 시 채팅방 정보도 초기화
     localStorage.removeItem("currentRoom");

@@ -23,7 +23,6 @@ const Login = () => {
 
   // const [error, setError] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>("");
-  // const [visible, setVisible] = useState(false);
 
   useEffect(() => {
     if (location.state?.signupSuccess) {
@@ -31,37 +30,6 @@ const Login = () => {
       navigate(location.pathname, { replace: true });
     }
   }, [location.state]);
-
-  // useEffect(() => {
-  //   if (location.state?.signupSuccess) {
-  //     setVisible(true);
-
-  //     const timer = setTimeout(() => {
-  //       setVisible(false);
-
-  //     }, 10000);
-
-  //     navigate(location.pathname, { replace: true });
-  //     return () => clearTimeout(timer);
-  //   }
-  // }, [location.state, navigate]);
-
-  // useEffect(() => {
-  //   if (location.state?.signupSuccess) {
-  //     setVisible(true);
-  //     navigate(location.pathname, { replace: true });
-  //   }
-  // }, [location.state, navigate]);
-
-  // useEffect(() => {
-  //   if (!visible) return;
-
-  //   const timer = setTimeout(() => {
-  //     setVisible(false);
-  //   }, 7000);
-
-  //   return () => clearTimeout(timer);
-  // }, [visible]);
 
   const inputChangeHandler = (
     event: React.ChangeEvent<HTMLInputElement>
@@ -138,12 +106,6 @@ const Login = () => {
           가입하기
         </button>
       </div>
-
-      {/* {visible && (
-        <div className={classes["signup-success-toast"]}>
-          회원가입이 완료되었습니다. 로그인해주세요.
-        </div>
-      )} */}
     </>
   );
 };

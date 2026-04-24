@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { toast } from "react-toastify";
 
 import useSocketStore from "./socketStore";
 
@@ -224,14 +225,10 @@ const useAuthStore = create<AuthStore>((set, get) => ({
         throw new Error("로그아웃 실패");
       }
 
-      console.log("로그아웃 성공");
-
       set({ isLoggedIn: false, userInfo: null });
     } catch (error) {
       console.error("네트워크 오류:", error);
-      alert(
-        "네트워크 문제로 로그아웃에 실패했습니다. 새로고침 후 다시 시도해 주세요."
-      );
+      toast.error("로그아웃 실패 - 새로고침 후 다시 시도해주세요");
     }
   },
 
@@ -333,9 +330,7 @@ const useAuthStore = create<AuthStore>((set, get) => ({
       }));
     } catch (error) {
       console.error("에러 내용:", error);
-      alert(
-        "테마 모드 변경 중 문제가 발생했습니다. 새로고침 후 다시 시도해 주세요."
-      );
+      toast.error("변경 실패 - 새로고침 후 다시 시도해주세요");
     }
   },
 
@@ -385,9 +380,7 @@ const useAuthStore = create<AuthStore>((set, get) => ({
       }));
     } catch (error) {
       console.error("에러 내용:", error);
-      alert(
-        "사용자 정보 수정 중 문제가 발생했습니다. 새로고침 후 다시 시도해 주세요."
-      );
+      toast.error("수정 실패 - 새로고침 후 다시 시도해주세요");
     }
   },
 

@@ -63,7 +63,6 @@ const Signup = () => {
   };
 
   const loginMoveHandler = () => {
-    // navigate("/login", { state: { signupSuccess: true } });
     navigate("/login");
   };
 
@@ -84,20 +83,7 @@ const Signup = () => {
       return;
     }
 
-    // if (!signupResult.success) {
-    //   if (signupResult.type === "NETWORK_ERROR") {
-    //     toast.error("네트워크 문제 발생");
-    //   } else {
-    //     setErrorMessage(signupResult.message || "에러 발생");
-    //   }
-    //   return;
-    // }
-
-    console.log("회원가입 성공");
-
     navigate("/login", { state: { signupSuccess: true } });
-    // toast.success("회원가입 성공");
-    // loginMoveHandler();
   };
 
   return (

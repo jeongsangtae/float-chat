@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { toast } from "react-toastify";
 
 import { Socket } from "socket.io-client";
 
@@ -119,9 +120,7 @@ const useDirectChatStore = create<DirectChatStore>((set) => ({
       set({ directChats: resData.directChats });
     } catch (error) {
       console.error("에러 내용:", error);
-      alert(
-        "다이렉트 채팅방 목록을 불러오는 중에 문제가 발생했습니다. 새로고침 후 다시 시도해 주세요."
-      );
+      toast.error("불러오기 실패 - 새로고침 후 다시 시도해주세요");
     }
   },
 
@@ -162,9 +161,7 @@ const useDirectChatStore = create<DirectChatStore>((set) => ({
       return resData.roomId;
     } catch (error) {
       console.error("에러 내용:", error);
-      alert(
-        "다이렉트 채팅방 추가 중 문제가 발생했습니다. 새로고침 후 다시 시도해 주세요."
-      );
+      toast.error("추가 실패 - 새로고침 후 다시 시도해주세요");
     }
   },
 
@@ -180,9 +177,7 @@ const useDirectChatStore = create<DirectChatStore>((set) => ({
       }
     } catch (error) {
       console.error("에러 내용:", error);
-      alert(
-        "다이렉트 채팅방 닫기 중 문제가 발생했습니다. 새로고침 후 다시 시도해 주세요."
-      );
+      toast.error("닫기 실패 - 새로고침 후 다시 시도해주세요");
     }
   },
 }));

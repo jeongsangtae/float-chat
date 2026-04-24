@@ -122,9 +122,7 @@ const useChatStore = create<ChatStore>((set) => ({
       });
     } catch (error) {
       console.error("에러 내용:", error);
-      alert(
-        "메시지를 불러오는 중에 문제가 발생했습니다. 새로고침 후 다시 시도해 주세요."
-      );
+      toast.error("불러오기 실패 - 새로고침 후 다시 시도해주세요");
     }
   },
 
@@ -150,9 +148,12 @@ const useChatStore = create<ChatStore>((set) => ({
       if (!response.ok) {
         throw new Error("메시지 전송 실패");
       }
+
+      // toast 문구 테스트 용
+      // toast.error("로그아웃 실패 - 새로고침 후 다시 시도해주세요");
     } catch (error) {
       console.error("에러 내용:", error);
-      toast.error("네트워크 에러");
+      toast.error("전송 실패 - 새로고침 후 다시 시도해주세요");
     }
   },
 
@@ -195,9 +196,7 @@ const useChatStore = create<ChatStore>((set) => ({
       return resData.newMessage.roomId;
     } catch (error) {
       console.error("에러 내용:", error);
-      alert(
-        "다이렉트 메시지를 전송하는 데 문제가 발생했습니다. 새로고침 후 다시 시도해 주세요."
-      );
+      toast.error("전송 실패 - 새로고침 후 다시 시도해주세요");
     }
   },
 
@@ -222,9 +221,7 @@ const useChatStore = create<ChatStore>((set) => ({
       console.log("마지막 메시지 ID 전송 성공");
     } catch (error) {
       console.error("에러 내용:", error);
-      alert(
-        "마지막 메시지 ID를 전송하는 데 문제가 발생했습니다. 새로고침 후 다시 시도해 주세요."
-      );
+      toast.error("전송 실패 - 새로고침 후 다시 시도해주세요");
     }
   },
 }));

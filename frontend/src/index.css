@@ -204,6 +204,7 @@ body {
 
 .Toastify__toast {
   min-height: auto;
+  min-width: 340px;
   padding: 10px 14px;
   font-size: 14px;
   border-radius: 8px;
