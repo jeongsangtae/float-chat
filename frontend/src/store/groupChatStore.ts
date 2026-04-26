@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { toast } from "react-toastify";
 
 import { Socket } from "socket.io-client";
 
@@ -164,9 +165,7 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
       set({ groupChats: resData.groupChats, loading: false });
     } catch (error) {
       console.error("에러 내용:", error);
-      alert(
-        "그룹 채팅방 목록을 불러오는 중에 문제가 발생했습니다. 새로고침 후 다시 시도해 주세요."
-      );
+      toast.error("불러오기 실패 - 새로고침 후 다시 시도해주세요");
     } finally {
       set({ loading: false });
     }
@@ -190,9 +189,7 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
       console.log(resData);
     } catch (error) {
       console.error("에러 내용:", error);
-      alert(
-        "그룹 채팅방 목록을 저장하는 중에 문제가 발생했습니다. 새로고침 후 다시 시도해 주세요."
-      );
+      toast.error("저장 실패 - 새로고침 후 다시 시도해주세요");
     }
   },
 
@@ -308,9 +305,7 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
       set({ groupChatUsers: resData.groupChatUsers });
     } catch (error) {
       console.error("에러 내용:", error);
-      alert(
-        "그룹 채팅방 참여자를 불러오는 중에 문제가 발생했습니다. 새로고침 후 다시 시도해 주세요."
-      );
+      toast.error("불러오기 실패 - 새로고침 후 다시 시도해주세요");
     }
   },
 
@@ -352,9 +347,7 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
       });
     } catch (error) {
       console.error("에러 내용:", error);
-      alert(
-        "그룹 채팅방 추가 및 수정 중 문제가 발생했습니다. 새로고침 후 다시 시도해 주세요."
-      );
+      toast.error("처리 실패 - 새로고침 후 다시 시도해주세요");
     }
   },
 
@@ -379,9 +372,7 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
       console.log(resData);
     } catch (error) {
       console.error("에러 내용:", error);
-      alert(
-        "그룹 채팅방 공지 수정 중 문제가 발생했습니다. 새로고침 후 다시 시도해 주세요."
-      );
+      toast.error("수정 실패 - 새로고침 후 다시 시도해주세요");
     }
   },
 
@@ -405,9 +396,7 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
       console.log(resData);
     } catch (error) {
       console.error("에러 내용:", error);
-      alert(
-        "그룹 채팅방 공지 삭제 중 문제가 발생했습니다. 새로고침 후 다시 시도해 주세요."
-      );
+      toast.error("삭제 실패 - 새로고침 후 다시 시도해주세요");
     }
   },
 
@@ -434,9 +423,7 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
       } else {
         console.error("알 수 없는 에러:", error);
       }
-      alert(
-        "그룹 채팅방을 삭제하는 중에 문제가 발생했습니다. 새로고침 후 다시 시도해 주세요."
-      );
+      toast.error("삭제 실패 - 새로고침 후 다시 시도해주세요");
     }
   },
 
@@ -459,9 +446,7 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
       set({ groupChats: updatedGroupChats });
     } catch (error) {
       console.error("에러 내용:", error);
-      alert(
-        "그룹 채팅방 나가기 중 문제가 발생했습니다. 새로고침 후 다시 시도해 주세요."
-      );
+      toast.error("나가기 실패 - 새로고침 후 다시 시도해주세요");
     }
   },
 
@@ -589,9 +574,7 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
       set({ groupChatInvites: resData.groupChatInvites });
     } catch (error) {
       console.error("에러 내용:", error);
-      alert(
-        "그룹 채팅방 초대 목록 조회 중 문제가 발생했습니다. 새로고침 후 다시 시도해 주세요."
-      );
+      toast.error("불러오기 실패 - 새로고침 후 다시 시도해주세요");
     }
   },
 
@@ -615,9 +598,7 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
       console.log(resData);
     } catch (error) {
       console.error("에러 내용:", error);
-      alert(
-        "그룹 채팅방 초대 중에 문제가 발생했습니다. 새로고침 후 다시 시도해 주세요."
-      );
+      toast.error("초대 실패 - 새로고침 후 다시 시도해주세요");
     }
   },
 
@@ -647,9 +628,7 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
       }));
     } catch (error) {
       console.error("에러 내용:", error);
-      alert(
-        "그룹 채팅방 초대 수락 중 문제가 발생했습니다. 새로고침 후 다시 시도해 주세요."
-      );
+      toast.error("수락 실패 - 새로고침 후 다시 시도해주세요");
     }
   },
 
@@ -664,7 +643,7 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
       );
 
       if (!response.ok) {
-        throw new Error("친구 요청 취소 또는 거절 실패");
+        throw new Error("그룹 채팅방 초대 거절 실패");
       }
 
       const resData = await response.json();
@@ -678,9 +657,7 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
       }));
     } catch (error) {
       console.error("에러 내용:", error);
-      alert(
-        "그룹 채팅방 초대 거절 중 문제가 발생했습니다. 새로고침 후 다시 시도해 주세요."
-      );
+      toast.error("거절 실패 - 새로고침 후 다시 시도해주세요");
     }
   },
 }));

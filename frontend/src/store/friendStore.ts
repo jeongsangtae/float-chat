@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { toast } from "react-toastify";
 
 import { Socket } from "socket.io-client";
 
@@ -124,9 +125,7 @@ const useFriendStore = create<FriendStore>((set) => ({
       set({ onlineFriends: resData.onlineFriends });
     } catch (error) {
       console.error("에러 내용:", error);
-      alert(
-        "온라인 친구 목록 조회 중 문제가 발생했습니다. 새로고침 후 다시 시도해 주세요."
-      );
+      toast.error("불러오기 실패 - 새로고침 후 다시 시도해주세요");
     }
   },
 
@@ -220,9 +219,7 @@ const useFriendStore = create<FriendStore>((set) => ({
       set({ friends: resData.friends });
     } catch (error) {
       console.error("에러 내용:", error);
-      alert(
-        "친구 목록 조회 중 문제가 발생했습니다. 새로고침 후 다시 시도해 주세요."
-      );
+      toast.error("불러오기 실패 - 새로고침 후 다시 시도해주세요");
     }
   },
 
@@ -244,9 +241,7 @@ const useFriendStore = create<FriendStore>((set) => ({
       set({ otherUserFriends: resData.otherUserFriends });
     } catch (error) {
       console.error("에러 내용:", error);
-      alert(
-        "다른 사용자 친구 목록 조회 중 문제가 발생했습니다. 새로고침 후 다시 시도해 주세요."
-      );
+      toast.error("불러오기 실패 - 새로고침 후 다시 시도해주세요");
     }
   },
 
@@ -320,9 +315,7 @@ const useFriendStore = create<FriendStore>((set) => ({
       set({ friendRequests: resData.friendRequests });
     } catch (error) {
       console.error("에러 내용:", error);
-      alert(
-        "친구 추가 요청 조회 중 문제가 발생했습니다. 새로고침 후 다시 시도해 주세요."
-      );
+      toast.error("불러오기 실패 - 새로고침 후 다시 시도해주세요");
     }
   },
 
@@ -350,9 +343,7 @@ const useFriendStore = create<FriendStore>((set) => ({
       set({ status: response.status, statusMessage: resData.message });
     } catch (error) {
       console.error("에러 내용:", error);
-      alert(
-        "친구 추가 요청 중 문제가 발생했습니다. 새로고침 후 다시 시도해 주세요."
-      );
+      toast.error("요청 실패 - 새로고침 후 다시 시도해주세요");
     }
   },
 
@@ -376,9 +367,7 @@ const useFriendStore = create<FriendStore>((set) => ({
       }));
     } catch (error) {
       console.error("에러 내용:", error);
-      alert(
-        "친구 수락 중 문제가 발생했습니다. 새로고침 후 다시 시도해 주세요."
-      );
+      toast.error("수락 실패 - 새로고침 후 다시 시도해주세요");
     }
   },
 
@@ -403,9 +392,7 @@ const useFriendStore = create<FriendStore>((set) => ({
       }));
     } catch (error) {
       console.error("에러 내용:", error);
-      alert(
-        "친구 취소 또는 거절 중 문제가 발생했습니다. 새로고침 후 다시 시도해 주세요."
-      );
+      toast.error("처리 실패 - 새로고침 후 다시 시도해주세요");
     }
   },
 
@@ -431,9 +418,7 @@ const useFriendStore = create<FriendStore>((set) => ({
       }));
     } catch (error) {
       console.error("에러 내용:", error);
-      alert(
-        "친구 삭제 중 문제가 발생했습니다. 새로고침 후 다시 시도해 주세요."
-      );
+      toast.error("삭제 실패 - 새로고침 후 다시 시도해주세요");
     }
   },
 }));
