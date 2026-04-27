@@ -7,7 +7,9 @@ import { IoClose, IoPersonAddSharp } from "react-icons/io5";
 
 import { Coords } from "../../types";
 
-import EditUserProfileForm from "../Users/EditUserProfileForm";
+import UserSettings from "../Users/UserSettings";
+// import EditUserProfileForm from "../Users/EditUserProfileForm";
+import UserProfile from "../Users/UserProfile";
 import UserProfileDetails from "../Users/UserProfileDetails";
 
 import useAuthStore from "../../store/authStore";
@@ -19,7 +21,6 @@ import useModalStore from "../../store/modalStore";
 import Modal from "../UI/Modal";
 import Chats from "../Chats/Chats";
 import ChatInput from "../Chats/ChatInput";
-import UserProfile from "../Users/UserProfile";
 import GroupChatInvite from "./GroupChatInvite";
 import GroupChatUsers from "./GroupChatUsers";
 import GroupChatPanel from "./GroupChatPanel";
@@ -154,7 +155,8 @@ const GroupChatDetails = () => {
   ) => {
     setCoords(null);
 
-    toggleModal("editUserProfileForm", "PATCH", payload);
+    // toggleModal("editUserProfileForm", "PATCH", payload);
+    toggleModal("userSettings", "PATCH", payload);
   };
 
   const openUserProfileDetailsHandler = (
@@ -276,10 +278,14 @@ const GroupChatDetails = () => {
           document.getElementById("user-profile-tooltip-portal")!
         )}
 
-      {activeModal === "editUserProfileForm" && (
+      {/* {activeModal === "editUserProfileForm" && (
         <EditUserProfileForm
           onToggle={() => toggleModal("editUserProfileForm")}
         />
+      )} */}
+
+      {activeModal === "userSettings" && (
+        <UserSettings onToggle={() => toggleModal("userSettings")} />
       )}
 
       {activeModal === "userProfileDetails" && (

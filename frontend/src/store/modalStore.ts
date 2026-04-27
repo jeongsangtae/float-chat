@@ -2,6 +2,7 @@ import { create } from "zustand";
 
 interface ModalStore {
   activeModal:
+    | "userSettings"
     | "editUserProfileForm"
     | "userProfileDetails"
     | "groupChatForm"
@@ -15,6 +16,7 @@ interface ModalStore {
   };
   toggleModal: (
     type:
+      | "userSettings"
       | "editUserProfileForm"
       | "userProfileDetails"
       | "groupChatForm"

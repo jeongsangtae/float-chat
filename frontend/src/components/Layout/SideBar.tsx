@@ -11,7 +11,8 @@ import useFriendStore from "../../store/friendStore";
 
 import GroupChats from "../GroupChats/GroupChats";
 import GroupChatForm from "../GroupChats/GroupChatForm";
-import EditUserProfileForm from "../Users/EditUserProfileForm";
+import UserSettings from "../Users/UserSettings";
+// import EditUserProfileForm from "../Users/EditUserProfileForm";
 
 import classes from "./SideBar.module.css";
 import GroupChatConfirm from "../GroupChats/GroupChatConfirm";
@@ -45,14 +46,23 @@ const SideBar = ({ onLeaveChatRoom }: SideBarProps) => {
     renewTokens();
   }, [isLoggedIn]);
 
-  const userProfileEditHandler = (): void => {
-    toggleModal("editUserProfileForm", "PATCH", {
+  const userSettingHandler = (): void => {
+    toggleModal("userSettings", "PATCH", {
       _id: userInfo?._id,
       nickname: userInfo?.nickname,
       avatarColor: userInfo?.avatarColor,
       avatarImageUrl: userInfo?.avatarImageUrl,
     });
   };
+
+  // const userProfileEditHandler = (): void => {
+  //   toggleModal("editUserProfileForm", "PATCH", {
+  //     _id: userInfo?._id,
+  //     nickname: userInfo?.nickname,
+  //     avatarColor: userInfo?.avatarColor,
+  //     avatarImageUrl: userInfo?.avatarImageUrl,
+  //   });
+  // };
 
   const logoutHandler = async (): Promise<void> => {
     await logout();
@@ -135,7 +145,8 @@ const SideBar = ({ onLeaveChatRoom }: SideBarProps) => {
           <div className={classes["user-info-right"]}>
             <button
               className={classes["user-info-edit"]}
-              onClick={userProfileEditHandler}
+              // onClick={userProfileEditHandler}
+              onClick={userSettingHandler}
             >
               <IoMdSettings />
             </button>
@@ -144,11 +155,15 @@ const SideBar = ({ onLeaveChatRoom }: SideBarProps) => {
             </button>
           </div>
 
-          {activeModal === "editUserProfileForm" && (
+          {activeModal === "userSettings" && (
+            <UserSettings onToggle={() => toggleModal("userSettings")} />
+          )}
+
+          {/* {activeModal === "editUserProfileForm" && (
             <EditUserProfileForm
               onToggle={() => toggleModal("editUserProfileForm")}
             />
-          )}
+          )} */}
         </div>
       )}
     </div>
