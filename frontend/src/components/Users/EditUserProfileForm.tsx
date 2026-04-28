@@ -3,15 +3,16 @@ import React, { useState } from "react";
 import useAuthStore from "../../store/authStore";
 import useModalStore from "../../store/modalStore";
 
-import { ModalProps } from "../../types";
-import Modal from "../UI/Modal";
+// import { ModalProps } from "../../types";
+// import Modal from "../UI/Modal";
 
 import { Palette, Image } from "lucide-react";
 import { IoClose } from "react-icons/io5";
 
 import classes from "./EditUserProfileForm.module.css";
 
-const EditUserProfileForm = ({ onToggle }: ModalProps) => {
+const EditUserProfileForm = () => {
+  // const EditUserProfileForm = ({ onToggle }: ModalProps) => {
   const avatarColors = [
     "#D32F2F",
     "#C2185B",
@@ -130,7 +131,7 @@ const EditUserProfileForm = ({ onToggle }: ModalProps) => {
       }
 
       console.log("사용자 정보 수정 성공");
-      onToggle();
+      // onToggle();
     } catch (error) {
       console.error("에러 내용:", error);
       alert(
@@ -140,121 +141,118 @@ const EditUserProfileForm = ({ onToggle }: ModalProps) => {
   };
 
   return (
-    <Modal onToggle={onToggle}>
-      <form onSubmit={submitHandler}>
-        <h2 className={classes.title}>프로필</h2>
-        <div className={classes["nickname-edit-wrapper"]}>
-          <div className={classes["nickname-edit-title"]}>닉네임</div>
-          <input
-            required
-            type="text"
-            autoComplete="off"
-            id="nickname"
-            name="nickname"
-            value={nickname}
-            maxLength={15}
-            placeholder="내용 입력"
-            onChange={inputChangeHandler}
-            className={`${classes["nickname-edit-input"]} ${
-              errorMessage ? classes.error : ""
-            }`}
-          />
-        </div>
+    // <Modal onToggle={onToggle}>
+    <form onSubmit={submitHandler}>
+      <h2 className={classes.title}>프로필</h2>
+      <div className={classes["nickname-edit-wrapper"]}>
+        <div className={classes["nickname-edit-title"]}>닉네임</div>
+        <input
+          required
+          type="text"
+          autoComplete="off"
+          id="nickname"
+          name="nickname"
+          value={nickname}
+          maxLength={15}
+          placeholder="내용 입력"
+          onChange={inputChangeHandler}
+          className={`${classes["nickname-edit-input"]} ${
+            errorMessage ? classes.error : ""
+          }`}
+        />
+      </div>
 
-        <div className={classes["error-message"]}>{errorMessage}</div>
+      <div className={classes["error-message"]}>{errorMessage}</div>
 
-        <div className={classes.underline}></div>
+      <div className={classes.underline}></div>
 
-        <div>
-          <div className={classes["avatar-header"]}>
-            <div className={classes["avatar-edit-title"]}>
-              {avatarMode ? "아바타 이미지" : "아바타 색"}
-            </div>
-            <button
-              className={classes["avatar-mode-button"]}
-              type="button"
-              onClick={avatarModeChangeHandler}
-            >
-              {avatarMode ? (
-                <>
-                  <span className={classes.icon}>
-                    <Palette />
-                  </span>
-                  아바타 색
-                </>
-              ) : (
-                <>
-                  <span className={classes.icon}>
-                    <Image />
-                  </span>
-                  아바타 이미지
-                </>
-              )}
-            </button>
+      <div>
+        <div className={classes["avatar-header"]}>
+          <div className={classes["avatar-edit-title"]}>
+            {avatarMode ? "아바타 이미지" : "아바타 색"}
           </div>
-          {avatarMode ? (
-            <div className={classes["avatar-img-preview-wrapper"]}>
-              <div className={classes["avatar-img-preview"]}>
-                {avatarImageUrl && !imageError ? (
-                  <img
-                    onError={() => setImageError(true)}
-                    src={avatarImageUrl}
-                  />
-                ) : (
-                  <div
-                    className={classes["avatar-color-preview"]}
-                    style={{ backgroundColor: userInfo?.avatarColor || "#ccc" }}
-                  >
-                    {userInfo?.nickname.charAt(0)}
-                  </div>
-                )}
-              </div>
-              <div className={classes["avatar-img-url-input-wrapper"]}>
-                <input
-                  className={classes["avatar-img-url-input"]}
-                  required
-                  type="url"
-                  value={avatarImageUrl}
-                  onChange={avatarImageUrlChangeHandler}
-                  placeholder="이미지 URL을 입력하세요"
-                />
-                {avatarImageUrl.length > 0 && (
-                  <IoClose
-                    className={classes["avatar-img-reset-button"]}
-                    type="button"
-                    onClick={avatarImageUrlResetHandler}
-                  />
-                )}
-              </div>
-            </div>
-          ) : (
-            <div className={classes["avatar-color-list"]}>
-              {avatarColors.map((color) => (
-                <button
-                  className={`${classes["avatar-color-button"]} ${
-                    avatarColor === color ? classes.selected : ""
-                  }`}
-                  type="button"
-                  key={color}
-                  style={{ backgroundColor: color }}
-                  onClick={() => setAvatarColor(color)}
-                >
-                  {userInfo?.nickname.charAt(0)}
-                </button>
-              ))}
-            </div>
-          )}
-        </div>
-        <div className={classes["submit-button"]}>
           <button
-            type="submit"
-            className={nicknameValid ? classes.active : classes.disable}
+            className={classes["avatar-mode-button"]}
+            type="button"
+            onClick={avatarModeChangeHandler}
           >
-            수정
+            {avatarMode ? (
+              <>
+                <span className={classes.icon}>
+                  <Palette />
+                </span>
+                아바타 색
+              </>
+            ) : (
+              <>
+                <span className={classes.icon}>
+                  <Image />
+                </span>
+                아바타 이미지
+              </>
+            )}
           </button>
         </div>
-      </form>
-    </Modal>
+        {avatarMode ? (
+          <div className={classes["avatar-img-preview-wrapper"]}>
+            <div className={classes["avatar-img-preview"]}>
+              {avatarImageUrl && !imageError ? (
+                <img onError={() => setImageError(true)} src={avatarImageUrl} />
+              ) : (
+                <div
+                  className={classes["avatar-color-preview"]}
+                  style={{ backgroundColor: userInfo?.avatarColor || "#ccc" }}
+                >
+                  {userInfo?.nickname.charAt(0)}
+                </div>
+              )}
+            </div>
+            <div className={classes["avatar-img-url-input-wrapper"]}>
+              <input
+                className={classes["avatar-img-url-input"]}
+                required
+                type="url"
+                value={avatarImageUrl}
+                onChange={avatarImageUrlChangeHandler}
+                placeholder="이미지 URL을 입력하세요"
+              />
+              {avatarImageUrl.length > 0 && (
+                <IoClose
+                  className={classes["avatar-img-reset-button"]}
+                  type="button"
+                  onClick={avatarImageUrlResetHandler}
+                />
+              )}
+            </div>
+          </div>
+        ) : (
+          <div className={classes["avatar-color-list"]}>
+            {avatarColors.map((color) => (
+              <button
+                className={`${classes["avatar-color-button"]} ${
+                  avatarColor === color ? classes.selected : ""
+                }`}
+                type="button"
+                key={color}
+                style={{ backgroundColor: color }}
+                onClick={() => setAvatarColor(color)}
+              >
+                {userInfo?.nickname.charAt(0)}
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
+      <div className={classes["submit-button"]}>
+        <button
+          type="submit"
+          className={nicknameValid ? classes.active : classes.disable}
+        >
+          수정
+        </button>
+      </div>
+    </form>
+    // </Modal>
   );
 };
 

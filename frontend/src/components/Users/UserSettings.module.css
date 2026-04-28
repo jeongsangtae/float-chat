@@ -1,0 +1,38 @@
+.user-setting-wrapper {
+  display: flex;
+  flex-direction: row;
+
+  width: 45rem;
+  height: 35rem;
+
+  color: var(--color-text);
+  box-shadow: var(--shadow-soft-spread);
+  white-space: nowrap;
+  background-color: var(--profile-detail-bg);
+}
+
+.user-setting-sidebar-wrapper {
+  width: 15rem;
+  height: 100%;
+  background-color: var(--bg-side);
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-md) var(--space-sm);
+  overflow-y: auto;
+}
+
+.user-info {
+  display: flex;
+  flex-direction: row;
+  cursor: pointer;
+}
+
+.user-info:hover {
+  background-color: var(--sub-side-btn-hover);
+}
+
+.user-nickname {
+}
+
+.user-setting-content-wrapper {
+}
