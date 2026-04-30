@@ -44,6 +44,7 @@ interface AuthStore {
   refreshTokenExp: () => Promise<void>;
   updateTheme: (theme: string) => Promise<void>;
   editUserProfileForm: (payload: EditUserProfilePayload) => Promise<void>;
+  editUserPasswordForm: () => Promise<void>;
   updateUserGroupChatOrder: (order: string[]) => void;
 }
 
@@ -383,7 +384,7 @@ const useAuthStore = create<AuthStore>((set, get) => ({
       toast.error("수정 실패 - 새로고침 후 다시 시도해주세요");
     }
   },
-
+  editUserPasswordForm: async () => {},
   updateUserGroupChatOrder: (order) => {
     console.log(order);
     set((prev) => {

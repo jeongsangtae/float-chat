@@ -39,13 +39,13 @@ const EditUserProfileForm = () => {
   const { userInfo, editUserProfileForm } = useAuthStore();
   const { modalData } = useModalStore();
 
-  const [nickname, setNickname] = useState<string>(modalData.nickname ?? "");
+  const [nickname, setNickname] = useState<string>(userInfo?.nickname ?? "");
   const [avatarMode, setAvatarMode] = useState(false);
   const [avatarColor, setAvatarColor] = useState<string>(
-    modalData.avatarColor ?? "#ccc"
+    userInfo?.avatarColor ?? "#ccc"
   );
   const [avatarImageUrl, setAvatarImageUrl] = useState<string>(
-    modalData.avatarImageUrl ?? ""
+    userInfo?.avatarImageUrl ?? ""
   );
 
   const [imageError, setImageError] = useState(false);
@@ -102,7 +102,7 @@ const EditUserProfileForm = () => {
           modalContext: {
             _id: modalData._id,
             method: modalData.method,
-            avatarImageUrl: modalData.avatarImageUrl,
+            avatarImageUrl,
           },
         });
 
@@ -122,7 +122,7 @@ const EditUserProfileForm = () => {
           modalContext: {
             _id: modalData._id,
             method: modalData.method,
-            avatarImageUrl: modalData.avatarImageUrl,
+            avatarImageUrl,
           },
         });
 
