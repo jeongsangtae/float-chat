@@ -4,6 +4,7 @@ interface ModalStore {
   activeModal:
     | "userSettings"
     | "editUserProfileForm"
+    | "editUserPasswordForm"
     | "userProfileDetails"
     | "groupChatForm"
     | "groupChatConfirm"
@@ -18,6 +19,7 @@ interface ModalStore {
     type:
       | "userSettings"
       | "editUserProfileForm"
+      | "editUserPasswordForm"
       | "userProfileDetails"
       | "groupChatForm"
       | "groupChatConfirm"

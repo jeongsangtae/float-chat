@@ -9,15 +9,20 @@ import useModalStore from "../../store/modalStore";
 
 import classes from "./UserSettings.module.css";
 import EditUserProfileForm from "./EditUserProfileForm";
+import EditUserPasswordForm from "./EditUserPasswordForm";
 import Avatar from "./Avatar";
 
 const UserSettings = ({ onToggle }: ModalProps) => {
   const { userInfo } = useAuthStore();
-  const { modalData } = useModalStore();
+  const { modalData, activeModal, toggleModal } = useModalStore();
 
-  const [activeView, setActiveView] = useState<"profile" | "auth">("profile");
+  const [activeView, setActiveView] = useState<"profile" | "auth" | "password">(
+    "profile"
+  );
 
-  console.log(userInfo);
+  // const editUserProfileFormHandler = () => {
+  //   toggleModal("editUserPasswordForm", "PATCH", {});
+  // };
 
   return (
     <Modal onToggle={onToggle}>
@@ -57,22 +62,19 @@ const UserSettings = ({ onToggle }: ModalProps) => {
               <div>{userInfo?.username}</div>
               <div>이메일</div>
               <div>{userInfo?.email}</div>
-              <div>비밀번호 변경</div>
-              <div className={classes["password-edit-wrapper"]}>
-                <label htmlFor="password">현재 비밀번호</label>
-                <input type="password" id="password" name="password" />
-                <label htmlFor="new-password">새 비밀번호</label>
-                <input type="password" id="new-password" name="newPassword" />
-                <label htmlFor="confirm-new-password">새 비밀번호 확인</label>
-                <input
-                  type="password"
-                  id="confirm-new-password"
-                  name="confirmNewPassword"
-                />
-              </div>
+              {/* <div onClick={editUserProfileFormHandler}>비밀번호 변경</div> */}
+              <div onClick={() => setActiveView("password")}>비밀번호 변경</div>
               <div>계정 탈퇴</div>
             </div>
           )}
+          {activeView === "password" && (
+            <EditUserPasswordForm onBack={() => setActiveView("auth")} />
+          )}
+          {/* {activeModal === "editUserPasswordForm" && (
+            <EditUserPasswordForm
+              onToggle={() => toggleModal("editUserPasswordForm")}
+            />
+          )} */}
         </div>
       </div>
     </Modal>

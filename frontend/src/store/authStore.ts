@@ -384,7 +384,34 @@ const useAuthStore = create<AuthStore>((set, get) => ({
       toast.error("수정 실패 - 새로고침 후 다시 시도해주세요");
     }
   },
-  editUserPasswordForm: async () => {},
+  editUserPasswordForm: async () => {
+    try {
+      const { password, newPassword, confirmNewPassword, modalContext } =
+        payload;
+
+      const requestBody: RequestBody = {
+        password,
+        newPassword,
+        confirmNewPassword,
+      };
+
+      const response = await fetch(`${apiURL}/editUserPasswordForm`, {
+        method: modalContext.method,
+        body: JSON.stringify(requestBody),
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+      });
+
+      if (!response.ok) {
+        throw new Error(`비밀번호 정보 수정 실패`);
+      }
+
+      const resData = await response.json();
+    } catch (error) {
+      console.error("에러 내용:", error);
+      toast.error("수정 실패 - 새로고침 후 다시 시도해주세요");
+    }
+  },
   updateUserGroupChatOrder: (order) => {
     console.log(order);
     set((prev) => {
