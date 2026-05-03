@@ -5,7 +5,7 @@ import Modal from "../UI/Modal";
 import { ModalProps } from "../../types";
 
 import useAuthStore from "../../store/authStore";
-import useModalStore from "../../store/modalStore";
+// import useModalStore from "../../store/modalStore";
 
 import classes from "./UserSettings.module.css";
 import EditUserProfileForm from "./EditUserProfileForm";
@@ -14,7 +14,7 @@ import Avatar from "./Avatar";
 
 const UserSettings = ({ onToggle }: ModalProps) => {
   const { userInfo } = useAuthStore();
-  const { modalData, activeModal, toggleModal } = useModalStore();
+  // const { modalData, activeModal, toggleModal } = useModalStore();
 
   const [activeView, setActiveView] = useState<"profile" | "auth" | "password">(
     "profile"

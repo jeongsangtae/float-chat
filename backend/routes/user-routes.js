@@ -302,8 +302,6 @@ router.patch("/editUserProfileForm", async (req, res) => {
         .json({ message: "사용자 정보를 찾을 수 없습니다." });
     }
 
-    // 그룹 채팅방 내용과 마찬가지로 로그인한 사용자 이메일이 아닌, 프론트엔드에서 전달한 이메일 정보를 사용하는 것이 좋은가?
-    // 만약 로그인한 사용자 이메일이 더 나은 방법이라면, 프론트엔드에서 전달한 이메일 정보가 굳이 필요하지 않기 때문에 관련 내용 삭제 필요
     if (userInfo.email !== othersData.email) {
       return res
         .status(403)
@@ -589,6 +587,56 @@ router.patch("/editUserProfileForm", async (req, res) => {
     res.status(200).json({ editUserProfile });
   } catch (error) {
     errorHandler(res, error, "사용자 정보 수정 중 오류 발생");
+  }
+});
+
+router.patch("/editUserPasswordForm", async (req, res) => {
+  try {
+    const othersData = await accessToken(req, res);
+
+    if (!othersData) {
+      return res.status(401).json({ message: "jwt error" });
+    }
+
+    const requestBody = req.body;
+
+    const password = requestBody.password;
+    const newPassword = requestBody.newPassword;
+    const confirmNewPassword = requestBody.confirmNewPassword;
+
+    const userInfo = await db
+      .getDb()
+      .collection("users")
+      .findOne({ _id: othersData._id });
+
+    if (!userInfo) {
+      return res
+        .status(404)
+        .json({ message: "사용자 정보를 찾을 수 없습니다." });
+    }
+
+    const passwordEqual = await bcrypt.compare(password, userInfo.password);
+
+    if (!passwordEqual) {
+      return res.status(400).json({ message: "비밀번호가 일치하지 않습니다." });
+    }
+
+    const hashPassword = await bcrypt.hash(newPassword, 12);
+
+    if (newPassword !== confirmNewPassword) {
+      return res
+        .status(400)
+        .json({ message: "수정한 비밀번호가 일치하지 않습니다." });
+    }
+
+    await db
+      .getDb()
+      .collection("users")
+      .updateOne({ _id: othersData._id }, { $set: { password: hashPassword } });
+
+    res.status(200).json({ message: "비밀번호 수정 성공" });
+  } catch (error) {
+    errorHandler(res, error, "사용자 비밀번호 수정 중 오류 발생");
   }
 });
 

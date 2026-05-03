@@ -44,7 +44,7 @@ interface AuthStore {
   refreshTokenExp: () => Promise<void>;
   updateTheme: (theme: string) => Promise<void>;
   editUserProfileForm: (payload: EditUserProfilePayload) => Promise<void>;
-  editUserPasswordForm: () => Promise<void>;
+  editUserPasswordForm: (payload: EditUserPasswordPayload) => Promise<void>;
   updateUserGroupChatOrder: (order: string[]) => void;
 }
 
@@ -62,17 +62,29 @@ type EditUserProfilePayload =
       modalContext: ModalContext;
     };
 
+interface EditUserPasswordPayload {
+  password: string;
+  newPassword: string;
+  confirmNewPassword: string;
+}
+
 interface ModalContext {
   _id: string;
   method: "POST" | "PATCH" | "DELETE";
   avatarImageUrl: string | null;
 }
 
-interface RequestBody {
+interface EditUserProfileRequestBody {
   _id: string;
   nickname: string;
   avatarColor: string | null;
   avatarImageUrl: string | null;
+}
+
+interface EditUserPasswordRequestBody {
+  password: string;
+  newPassword: string;
+  confirmNewPassword: string;
 }
 
 const useAuthStore = create<AuthStore>((set, get) => ({
@@ -339,7 +351,7 @@ const useAuthStore = create<AuthStore>((set, get) => ({
     try {
       const { trimmedNickname, avatarMode, modalContext } = payload;
 
-      const requestBody: RequestBody = {
+      const requestBody: EditUserProfileRequestBody = {
         _id: modalContext._id,
         nickname: trimmedNickname,
         avatarColor: null,
@@ -384,19 +396,20 @@ const useAuthStore = create<AuthStore>((set, get) => ({
       toast.error("수정 실패 - 새로고침 후 다시 시도해주세요");
     }
   },
-  editUserPasswordForm: async () => {
+  editUserPasswordForm: async (payload) => {
     try {
-      const { password, newPassword, confirmNewPassword, modalContext } =
-        payload;
+      const { password, newPassword, confirmNewPassword } = payload;
 
-      const requestBody: RequestBody = {
+      const requestBody: EditUserPasswordRequestBody = {
         password,
         newPassword,
         confirmNewPassword,
       };
 
+      console.log(requestBody, "변경 완료");
+
       const response = await fetch(`${apiURL}/editUserPasswordForm`, {
-        method: modalContext.method,
+        method: "PATCH",
         body: JSON.stringify(requestBody),
         headers: { "Content-Type": "application/json" },
         credentials: "include",
@@ -407,6 +420,7 @@ const useAuthStore = create<AuthStore>((set, get) => ({
       }
 
       const resData = await response.json();
+      console.log(resData.message);
     } catch (error) {
       console.error("에러 내용:", error);
       toast.error("수정 실패 - 새로고침 후 다시 시도해주세요");
