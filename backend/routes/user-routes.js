@@ -621,13 +621,25 @@ router.patch("/editUserPasswordForm", async (req, res) => {
       return res.status(400).json({ message: "비밀번호가 일치하지 않습니다." });
     }
 
-    const hashPassword = await bcrypt.hash(newPassword, 12);
+    if (newPassword.trim().length < 6) {
+      return res
+        .status(400)
+        .json({ message: "비밀번호를 6자리 이상 입력해 주세요." });
+    }
+
+    if (password === newPassword) {
+      return res
+        .status(400)
+        .json({ message: "수정하려는 비밀번호가 현재 비밀번호와 일치합니다." });
+    }
 
     if (newPassword !== confirmNewPassword) {
       return res
         .status(400)
         .json({ message: "수정한 비밀번호가 일치하지 않습니다." });
     }
+
+    const hashPassword = await bcrypt.hash(newPassword, 12);
 
     await db
       .getDb()

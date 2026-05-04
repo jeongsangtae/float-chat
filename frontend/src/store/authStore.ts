@@ -44,7 +44,9 @@ interface AuthStore {
   refreshTokenExp: () => Promise<void>;
   updateTheme: (theme: string) => Promise<void>;
   editUserProfileForm: (payload: EditUserProfilePayload) => Promise<void>;
-  editUserPasswordForm: (payload: EditUserPasswordPayload) => Promise<void>;
+  editUserPasswordForm: (
+    payload: EditUserPasswordPayload
+  ) => Promise<AuthResult>;
   updateUserGroupChatOrder: (order: string[]) => void;
 }
 
@@ -396,6 +398,7 @@ const useAuthStore = create<AuthStore>((set, get) => ({
       toast.error("수정 실패 - 새로고침 후 다시 시도해주세요");
     }
   },
+
   editUserPasswordForm: async (payload) => {
     try {
       const { password, newPassword, confirmNewPassword } = payload;
@@ -406,8 +409,6 @@ const useAuthStore = create<AuthStore>((set, get) => ({
         confirmNewPassword,
       };
 
-      console.log(requestBody, "변경 완료");
-
       const response = await fetch(`${apiURL}/editUserPasswordForm`, {
         method: "PATCH",
         body: JSON.stringify(requestBody),
@@ -416,16 +417,17 @@ const useAuthStore = create<AuthStore>((set, get) => ({
       });
 
       if (!response.ok) {
-        throw new Error(`비밀번호 정보 수정 실패`);
+        const errorData = await response.json();
+        return { success: false, message: errorData.message };
       }
 
-      const resData = await response.json();
-      console.log(resData.message);
+      return { success: true };
     } catch (error) {
       console.error("에러 내용:", error);
-      toast.error("수정 실패 - 새로고침 후 다시 시도해주세요");
+      return { success: false, type: "NETWORK_ERROR" };
     }
   },
+
   updateUserGroupChatOrder: (order) => {
     console.log(order);
     set((prev) => {
