@@ -3,7 +3,7 @@ import { toast } from "react-toastify";
 
 import useSocketStore from "./socketStore";
 
-import { UserInfo } from "../types";
+import { UserInfo, EditUserPasswordData } from "../types";
 
 const apiURL = import.meta.env.VITE_API_URL;
 
@@ -44,9 +44,7 @@ interface AuthStore {
   refreshTokenExp: () => Promise<void>;
   updateTheme: (theme: string) => Promise<void>;
   editUserProfileForm: (payload: EditUserProfilePayload) => Promise<void>;
-  editUserPasswordForm: (
-    payload: EditUserPasswordPayload
-  ) => Promise<AuthResult>;
+  editUserPasswordForm: (payload: EditUserPasswordData) => Promise<AuthResult>;
   updateUserGroupChatOrder: (order: string[]) => void;
 }
 
@@ -64,12 +62,6 @@ type EditUserProfilePayload =
       modalContext: ModalContext;
     };
 
-interface EditUserPasswordPayload {
-  password: string;
-  newPassword: string;
-  confirmNewPassword: string;
-}
-
 interface ModalContext {
   _id: string;
   method: "POST" | "PATCH" | "DELETE";
@@ -81,12 +73,6 @@ interface EditUserProfileRequestBody {
   nickname: string;
   avatarColor: string | null;
   avatarImageUrl: string | null;
-}
-
-interface EditUserPasswordRequestBody {
-  password: string;
-  newPassword: string;
-  confirmNewPassword: string;
 }
 
 const useAuthStore = create<AuthStore>((set, get) => ({
@@ -403,7 +389,7 @@ const useAuthStore = create<AuthStore>((set, get) => ({
     try {
       const { password, newPassword, confirmNewPassword } = payload;
 
-      const requestBody: EditUserPasswordRequestBody = {
+      const requestBody: EditUserPasswordData = {
         password,
         newPassword,
         confirmNewPassword,

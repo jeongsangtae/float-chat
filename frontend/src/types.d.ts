@@ -163,6 +163,16 @@ export interface UserProfileProps {
   origin: "users" | "panel" | null;
 }
 
+export interface OnBackProps {
+  onBack: () => void;
+}
+
+export interface EditUserPasswordData {
+  password: string;
+  newPassword: string;
+  confirmNewPassword: string;
+}
+
 export interface DirectChatPayload {
   id: string;
   nickname: string;

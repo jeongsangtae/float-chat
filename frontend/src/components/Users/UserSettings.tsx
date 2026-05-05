@@ -11,14 +11,15 @@ import classes from "./UserSettings.module.css";
 import EditUserProfileForm from "./EditUserProfileForm";
 import EditUserPasswordForm from "./EditUserPasswordForm";
 import Avatar from "./Avatar";
+import DeleteAccountForm from "./DeleteAccountForm";
 
 const UserSettings = ({ onToggle }: ModalProps) => {
   const { userInfo } = useAuthStore();
   // const { modalData, activeModal, toggleModal } = useModalStore();
 
-  const [activeView, setActiveView] = useState<"profile" | "auth" | "password">(
-    "profile"
-  );
+  const [activeView, setActiveView] = useState<
+    "profile" | "auth" | "password" | "deleteAccount"
+  >("profile");
 
   // const editUserProfileFormHandler = () => {
   //   toggleModal("editUserPasswordForm", "PATCH", {});
@@ -64,11 +65,16 @@ const UserSettings = ({ onToggle }: ModalProps) => {
               <div>{userInfo?.email}</div>
               {/* <div onClick={editUserProfileFormHandler}>비밀번호 변경</div> */}
               <div onClick={() => setActiveView("password")}>비밀번호 변경</div>
-              <div>계정 탈퇴</div>
+              <div onClick={() => setActiveView("deleteAccount")}>
+                계정 탈퇴
+              </div>
             </div>
           )}
           {activeView === "password" && (
             <EditUserPasswordForm onBack={() => setActiveView("auth")} />
+          )}
+          {activeView === "deleteAccount" && (
+            <DeleteAccountForm onBack={() => setActiveView("auth")} />
           )}
           {/* {activeModal === "editUserPasswordForm" && (
             <EditUserPasswordForm
