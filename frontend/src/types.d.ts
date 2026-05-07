@@ -173,6 +173,11 @@ export interface EditUserPasswordData {
   confirmNewPassword: string;
 }
 
+export interface DeleteUserData {
+  password: string;
+  confirmText: string;
+}
+
 export interface DirectChatPayload {
   id: string;
   nickname: string;

@@ -3,7 +3,7 @@ import { toast } from "react-toastify";
 
 import useSocketStore from "./socketStore";
 
-import { UserInfo, EditUserPasswordData } from "../types";
+import { UserInfo, EditUserPasswordData, DeleteUserData } from "../types";
 
 const apiURL = import.meta.env.VITE_API_URL;
 
@@ -45,6 +45,7 @@ interface AuthStore {
   updateTheme: (theme: string) => Promise<void>;
   editUserProfileForm: (payload: EditUserProfilePayload) => Promise<void>;
   editUserPasswordForm: (payload: EditUserPasswordData) => Promise<AuthResult>;
+  deleteUserForm: (payload: DeleteUserData) => Promise<AuthResult>;
   updateUserGroupChatOrder: (order: string[]) => void;
 }
 
@@ -397,6 +398,34 @@ const useAuthStore = create<AuthStore>((set, get) => ({
 
       const response = await fetch(`${apiURL}/editUserPasswordForm`, {
         method: "PATCH",
+        body: JSON.stringify(requestBody),
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        return { success: false, message: errorData.message };
+      }
+
+      return { success: true };
+    } catch (error) {
+      console.error("에러 내용:", error);
+      return { success: false, type: "NETWORK_ERROR" };
+    }
+  },
+
+  deleteUserForm: async (payload) => {
+    try {
+      const { password, confirmText } = payload;
+
+      const requestBody: DeleteUserData = {
+        password,
+        confirmText,
+      };
+
+      const response = await fetch(`${apiURL}/deleteUserForm`, {
+        method: "DELETE",
         body: JSON.stringify(requestBody),
         headers: { "Content-Type": "application/json" },
         credentials: "include",

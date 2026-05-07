@@ -28,6 +28,9 @@ const Login = () => {
     if (location.state?.signupSuccess) {
       toast.success("회원가입 성공");
       navigate(location.pathname, { replace: true });
+    } else if (location.state?.userDeleteSuccess) {
+      toast.success("계정 탈퇴 완료");
+      navigate(location.pathname, { replace: true });
     }
   }, [location.state]);
 
