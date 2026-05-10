@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import { Eye, EyeOff } from "lucide-react";
 
 import useAuthStore from "../../store/authStore";
+import useSocketStore from "../../store/socketStore";
 
 import { OnBackProps, DeleteUserData } from "../../types";
 
@@ -12,6 +13,7 @@ import classes from "./DeleteUserForm.module.css";
 const DeleteUserForm = ({ onBack }: OnBackProps) => {
   const navigate = useNavigate();
   const { deleteUserForm } = useAuthStore();
+  const { disconnect } = useSocketStore();
   const initialUserDeleteData = {
     password: "",
     confirmText: "",
@@ -21,7 +23,7 @@ const DeleteUserForm = ({ onBack }: OnBackProps) => {
     initialUserDeleteData
   );
 
-  const [showPassword, setShowPassword] = useState(false);
+  const [showPassword, setShowPassword] = useState<boolean>(false);
 
   const [errorMessage, setErrorMessage] = useState<string>("");
 
@@ -50,6 +52,8 @@ const DeleteUserForm = ({ onBack }: OnBackProps) => {
       return;
     }
 
+    disconnect();
+
     setErrorMessage("");
     setUserDeleteData(initialUserDeleteData);
 
@@ -57,10 +61,7 @@ const DeleteUserForm = ({ onBack }: OnBackProps) => {
   };
 
   return (
-    <form
-      className={classes["account-delete-wrapper"]}
-      onSubmit={submitHandler}
-    >
+    <form className={classes["user-delete-wrapper"]} onSubmit={submitHandler}>
       <button type="button" onClick={onBack}>
         뒤로 가기
       </button>

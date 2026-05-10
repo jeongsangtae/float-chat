@@ -590,6 +590,7 @@ router.patch("/editUserProfileForm", async (req, res) => {
   }
 });
 
+// 사용자 비밀번호 수정 라우터
 router.patch("/editUserPasswordForm", async (req, res) => {
   try {
     const othersData = await accessToken(req, res);
@@ -649,6 +650,60 @@ router.patch("/editUserPasswordForm", async (req, res) => {
     res.status(200).json({ message: "비밀번호 수정 성공" });
   } catch (error) {
     errorHandler(res, error, "사용자 비밀번호 수정 중 오류 발생");
+  }
+});
+
+// 사용자 계정 삭제 라우터
+router.delete("/deleteUserForm", async (req, res) => {
+  try {
+    const othersData = await accessToken(req, res);
+
+    if (!othersData) {
+      return res.status(401).json({ message: "jwt error" });
+    }
+
+    const requestBody = req.body;
+
+    const password = requestBody.password;
+    const confirmText = requestBody.confirmText;
+
+    const passwordEqual = await bcrypt.compare(password, userInfo.password);
+
+    if (!passwordEqual) {
+      return res.status(400).json({ message: "비밀번호가 일치하지 않습니다." });
+    }
+
+    if (confirmText.trim() !== "탈퇴하겠습니다") {
+      return res
+        .status(400)
+        .json({ message: "계정 탈퇴 문구가 일치하지 않습니다." });
+    }
+
+    const userInfo = await db
+      .getDb()
+      .collection("users")
+      .findOne({ _id: othersData._id });
+
+    // 채팅방별 메시지 삭제 (그룹 채팅방 호스트인 경우, 다이렉트 채팅방)
+    // 사용자가 그룹 채팅방 호스트인 전체 채팅방 삭제 (채팅방 자체, 메시지 포함 전체 삭제, 공지사항 포함)
+    // 그룹 채팅방 참가 정보 관련 내용 (메시지 유지, 참여 정보 제거)
+    // 다이렉트 채팅방 삭제
+    // 친구 관계 삭제
+    // 사용자 정보
+
+    res.clearCookie("accessToken", {
+      secure: isProduction, // 쿠키 설정 시 사용한 옵션과 동일하게
+      sameSite: isProduction ? "None" : "Lax", // sameSite도 동일하게
+    });
+
+    res.clearCookie("refreshToken", {
+      secure: isProduction, // 쿠키 설정 시 사용한 옵션과 동일하게
+      sameSite: isProduction ? "None" : "Lax", // sameSite도 동일하게
+    });
+
+    res.status(200).json({ message: "계정 삭제 성공" });
+  } catch (error) {
+    errorHandler(res, error, "사용자 계정 삭제 중 오류 발생");
   }
 });
 

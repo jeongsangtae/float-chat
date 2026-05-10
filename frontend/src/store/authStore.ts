@@ -436,6 +436,18 @@ const useAuthStore = create<AuthStore>((set, get) => ({
         return { success: false, message: errorData.message };
       }
 
+      const intervalId = get().intervalId;
+
+      if (intervalId) {
+        clearInterval(intervalId);
+        set({ intervalId: null });
+      }
+
+      localStorage.removeItem("isLoggedIn");
+      localStorage.removeItem("expirationTime");
+      localStorage.removeItem("refreshTokenExp");
+
+      set({ isLoggedIn: false, userInfo: null });
       return { success: true };
     } catch (error) {
       console.error("에러 내용:", error);

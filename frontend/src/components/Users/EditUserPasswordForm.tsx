@@ -20,9 +20,10 @@ const EditUserPasswordForm = ({ onBack }: OnBackProps) => {
   const [passwordEditData, setPasswordEditData] =
     useState<EditUserPasswordData>(initialPasswordEditData);
 
-  const [showPassword, setShowPassword] = useState(false);
-  const [showNewPassword, setShowNewPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [showNewPassword, setShowNewPassword] = useState<boolean>(false);
+  const [showConfirmPassword, setShowConfirmPassword] =
+    useState<boolean>(false);
 
   const [errorMessage, setErrorMessage] = useState<string>("");
 
