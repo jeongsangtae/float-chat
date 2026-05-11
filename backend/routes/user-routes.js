@@ -667,6 +667,11 @@ router.delete("/deleteUserForm", async (req, res) => {
     const password = requestBody.password;
     const confirmText = requestBody.confirmText;
 
+    const userInfo = await db
+      .getDb()
+      .collection("users")
+      .findOne({ _id: othersData._id });
+
     const passwordEqual = await bcrypt.compare(password, userInfo.password);
 
     if (!passwordEqual) {
@@ -679,17 +684,78 @@ router.delete("/deleteUserForm", async (req, res) => {
         .json({ message: "계정 탈퇴 문구가 일치하지 않습니다." });
     }
 
-    const userInfo = await db
-      .getDb()
-      .collection("users")
-      .findOne({ _id: othersData._id });
+    // 채팅방별 메시지 삭제 (그룹 채팅방 호스트인 경우, 다이렉트 채팅방) O
+    // 사용자가 그룹 채팅방 호스트인 전체 채팅방 삭제 (채팅방 자체, 메시지 포함 전체 삭제, 공지사항 포함) ㅁ
+    // 그룹 채팅방 참가 정보 관련 내용 (메시지 유지, 참여 정보 제거) O
+    // 다이렉트 채팅방 삭제 O
+    // 친구 관계 삭제 (친구 요청 포함) O
+    // 사용자 정보 O
 
-    // 채팅방별 메시지 삭제 (그룹 채팅방 호스트인 경우, 다이렉트 채팅방)
-    // 사용자가 그룹 채팅방 호스트인 전체 채팅방 삭제 (채팅방 자체, 메시지 포함 전체 삭제, 공지사항 포함)
-    // 그룹 채팅방 참가 정보 관련 내용 (메시지 유지, 참여 정보 제거)
-    // 다이렉트 채팅방 삭제
-    // 친구 관계 삭제
-    // 사용자 정보
+    const directChats = await db
+      .getDb()
+      .collection("directChats")
+      .find({
+        "participants._id": userInfo._id.toString(),
+      })
+      .toArray();
+
+    const directChatRoomIds = directChats.map((room) => room._id);
+
+    const hostGroupChats = await db
+      .getDb()
+      .collection("groupChats")
+      .find({ hostId: userInfo._id.toString() });
+
+    const hostGroupChatRoomIds = hostGroupChats.map((room) => room._id);
+
+    await Promise.all([
+      db
+        .getDb()
+        .collection("chatMessages")
+        .deleteMany({ roomId: { $in: directChatRoomIds } }),
+
+      db
+        .getDb()
+        .collection("chatMessages")
+        .deleteMany({ roomId: { $in: hostGroupChatRoomIds } }),
+
+      db
+        .getDb()
+        .collection("directChats")
+        .deleteMany({ "participants._id": userInfo._id.toString() }),
+
+      db
+        .getDb()
+        .collection("groupChats")
+        .updateMany(
+          { users: userInfo._id.toString() },
+          { $pull: { users: userInfo._id.toString() } }
+        ),
+
+      db
+        .getDb()
+        .collection("groupChats")
+        .deleteMany({ hostId: userInfo._id.toString() }),
+
+      db
+        .getDb()
+        .collection("friends")
+        .deleteMany({
+          $or: [
+            { "requester.id": userInfo._id },
+            { "receiver.id": userInfo._id },
+          ],
+        }),
+
+      db
+        .getDb()
+        .collection("friendRequests")
+        .deleteMany({
+          $or: [{ requester: userInfo._id }, { receiver: userInfo._id }],
+        }),
+
+      db.getDb().collection("users").deleteOne({ _id: userInfo._id }),
+    ]);
 
     res.clearCookie("accessToken", {
       secure: isProduction, // 쿠키 설정 시 사용한 옵션과 동일하게

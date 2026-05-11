@@ -1,29 +1,23 @@
-// import useAuthStore from "../../store/authStore";
 import { useState } from "react";
 
 import Modal from "../UI/Modal";
 import { ModalProps } from "../../types";
 
 import useAuthStore from "../../store/authStore";
-// import useModalStore from "../../store/modalStore";
 
-import classes from "./UserSettings.module.css";
 import EditUserProfileForm from "./EditUserProfileForm";
 import EditUserPasswordForm from "./EditUserPasswordForm";
 import Avatar from "./Avatar";
 import DeleteUserForm from "./DeleteUserForm";
 
+import classes from "./UserSettings.module.css";
+
 const UserSettings = ({ onToggle }: ModalProps) => {
   const { userInfo } = useAuthStore();
-  // const { modalData, activeModal, toggleModal } = useModalStore();
 
   const [activeView, setActiveView] = useState<
     "profile" | "auth" | "password" | "deleteUser"
   >("profile");
-
-  // const editUserProfileFormHandler = () => {
-  //   toggleModal("editUserPasswordForm", "PATCH", {});
-  // };
 
   return (
     <Modal onToggle={onToggle}>
@@ -63,7 +57,6 @@ const UserSettings = ({ onToggle }: ModalProps) => {
               <div>{userInfo?.username}</div>
               <div>이메일</div>
               <div>{userInfo?.email}</div>
-              {/* <div onClick={editUserProfileFormHandler}>비밀번호 변경</div> */}
               <div onClick={() => setActiveView("password")}>비밀번호 변경</div>
               <div onClick={() => setActiveView("deleteUser")}>계정 탈퇴</div>
             </div>
@@ -74,11 +67,6 @@ const UserSettings = ({ onToggle }: ModalProps) => {
           {activeView === "deleteUser" && (
             <DeleteUserForm onBack={() => setActiveView("auth")} />
           )}
-          {/* {activeModal === "editUserPasswordForm" && (
-            <EditUserPasswordForm
-              onToggle={() => toggleModal("editUserPasswordForm")}
-            />
-          )} */}
         </div>
       </div>
     </Modal>
