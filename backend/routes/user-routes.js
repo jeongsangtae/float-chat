@@ -655,6 +655,8 @@ router.patch("/editUserPasswordForm", async (req, res) => {
 
 // 사용자 계정 삭제 라우터
 router.delete("/deleteUserForm", async (req, res) => {
+  const isProduction = process.env.NODE_ENV === "production";
+
   try {
     const othersData = await accessToken(req, res);
 
@@ -704,20 +706,28 @@ router.delete("/deleteUserForm", async (req, res) => {
     const hostGroupChats = await db
       .getDb()
       .collection("groupChats")
-      .find({ hostId: userInfo._id.toString() });
+      .find({ hostId: userInfo._id.toString() })
+      .toArray();
 
     const hostGroupChatRoomIds = hostGroupChats.map((room) => room._id);
+
+    const allDeleteRoomIds = [...directChatRoomIds, ...hostGroupChatRoomIds];
 
     await Promise.all([
       db
         .getDb()
         .collection("chatMessages")
-        .deleteMany({ roomId: { $in: directChatRoomIds } }),
+        .deleteMany({ roomId: { $in: allDeleteRoomIds } }),
 
-      db
-        .getDb()
-        .collection("chatMessages")
-        .deleteMany({ roomId: { $in: hostGroupChatRoomIds } }),
+      // db
+      //   .getDb()
+      //   .collection("chatMessages")
+      //   .deleteMany({ roomId: { $in: directChatRoomIds } }),
+
+      // db
+      //   .getDb()
+      //   .collection("chatMessages")
+      //   .deleteMany({ roomId: { $in: hostGroupChatRoomIds } }),
 
       db
         .getDb()
@@ -736,6 +746,18 @@ router.delete("/deleteUserForm", async (req, res) => {
         .getDb()
         .collection("groupChats")
         .deleteMany({ hostId: userInfo._id.toString() }),
+
+      db
+        .getDb()
+        .collection("groupChatInvites")
+        .deleteMany({
+          $or: [{ requester: userInfo._id }, { receiver: userInfo._id }],
+        }),
+
+      db
+        .getDb()
+        .collection("lastReadMessages")
+        .deleteMany({ userId: userInfo._id }),
 
       db
         .getDb()

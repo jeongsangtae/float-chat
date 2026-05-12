@@ -70,7 +70,7 @@ const DeleteUserForm = ({ onBack }: OnBackProps) => {
 
       <label htmlFor="password">비밀번호 입력</label>
       <input
-        type="password"
+        type={showPassword ? "text" : "password"}
         id="password"
         name="password"
         value={userDeleteData.password}
