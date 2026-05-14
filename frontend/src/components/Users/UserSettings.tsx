@@ -65,7 +65,10 @@ const UserSettings = ({ onToggle }: ModalProps) => {
             <EditUserPasswordForm onBack={() => setActiveView("auth")} />
           )}
           {activeView === "deleteUser" && (
-            <DeleteUserForm onBack={() => setActiveView("auth")} />
+            <DeleteUserForm
+              onBack={() => setActiveView("auth")}
+              onToggle={onToggle}
+            />
           )}
         </div>
       </div>

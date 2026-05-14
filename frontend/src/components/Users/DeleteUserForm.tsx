@@ -10,7 +10,11 @@ import { OnBackProps, DeleteUserData } from "../../types";
 
 import classes from "./DeleteUserForm.module.css";
 
-const DeleteUserForm = ({ onBack }: OnBackProps) => {
+interface DeleteUserFormProps extends OnBackProps {
+  onToggle: () => void;
+}
+
+const DeleteUserForm = ({ onBack, onToggle }: DeleteUserFormProps) => {
   const navigate = useNavigate();
   const { deleteUserForm } = useAuthStore();
   const { disconnect } = useSocketStore();
@@ -56,6 +60,8 @@ const DeleteUserForm = ({ onBack }: OnBackProps) => {
 
     setErrorMessage("");
     setUserDeleteData(initialUserDeleteData);
+
+    onToggle();
 
     navigate("/login", { state: { userDeleteSuccess: true } });
   };
