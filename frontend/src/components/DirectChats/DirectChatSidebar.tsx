@@ -26,28 +26,30 @@ const DirectChatSidebar = ({ onToggle }: DirectChatSidebarProps) => {
 
   return (
     <div className={classes["sub-sidebar"]}>
-      <div
-        className={`${classes.friend} ${active ? classes.active : ""}`}
-        onClick={onToggle}
-      >
-        <div className={classes["friend-left"]}>
-          <div className={classes["friend-icon"]}>
-            <FaUserFriends />
+      <div className={classes["sub-sidebar-scroll"]}>
+        <div
+          className={`${classes.friend} ${active ? classes.active : ""}`}
+          onClick={onToggle}
+        >
+          <div className={classes["friend-left"]}>
+            <div className={classes["friend-icon"]}>
+              <FaUserFriends />
+            </div>
+            <span className={classes["friend-text"]}>친구</span>
           </div>
-          <span className={classes["friend-text"]}>친구</span>
-        </div>
 
-        {receiverRequests.length > 0 && (
-          <div className={classes["friend-right"]}>
-            <span className={classes["friend-request-count"]}>
-              {receiverRequests.length > 99 ? "99" : receiverRequests.length}
-            </span>
-          </div>
-        )}
+          {receiverRequests.length > 0 && (
+            <div className={classes["friend-right"]}>
+              <span className={classes["friend-request-count"]}>
+                {receiverRequests.length > 99 ? "99" : receiverRequests.length}
+              </span>
+            </div>
+          )}
+        </div>
+        <div className={classes.underline}></div>
+        <div className={classes["direct-chat-text"]}>다이렉트 채팅방</div>
+        <DirectChats />
       </div>
-      <div className={classes.underline}></div>
-      <div className={classes["direct-chat-text"]}>다이렉트 채팅방</div>
-      <DirectChats />
     </div>
   );
 };

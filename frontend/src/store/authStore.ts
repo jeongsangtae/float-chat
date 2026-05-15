@@ -218,6 +218,12 @@ const useAuthStore = create<AuthStore>((set, get) => ({
       localStorage.removeItem("expirationTime");
       localStorage.removeItem("refreshTokenExp");
 
+      Object.keys(localStorage).forEach((key) => {
+        if (key.startsWith("prevMessagesLength-")) {
+          localStorage.removeItem(key);
+        }
+      });
+
       const response = await fetch(`${apiURL}/logout`, {
         method: "POST",
         credentials: "include",
@@ -311,6 +317,29 @@ const useAuthStore = create<AuthStore>((set, get) => ({
       localStorage.setItem("refreshTokenExp", resData.tokenExp);
     } catch (error) {
       console.error("사용자 인증 오류", error);
+    }
+  },
+
+  restoreLastReadMessages: async () => {
+    try {
+      const response = await fetch(`${apiURL}/lastReadMessages`, {
+        credentials: "include",
+      });
+
+      if (!response.ok) {
+        throw new Error("마지막으로 읽은 메시지 복원 실패");
+      }
+
+      const resData = await response.json();
+
+      // resData.forEach((item) => {
+      //   localStorage.setItem(
+      //     `prevMessagesLength-${item.roomId}`,
+      //     item.lastVisibleMessageId
+      //   );
+      // });
+    } catch (error) {
+      console.error("에러 내용:", error);
     }
   },
 
@@ -446,6 +475,12 @@ const useAuthStore = create<AuthStore>((set, get) => ({
       localStorage.removeItem("isLoggedIn");
       localStorage.removeItem("expirationTime");
       localStorage.removeItem("refreshTokenExp");
+
+      Object.keys(localStorage).forEach((key) => {
+        if (key.startsWith("prevMessagesLength-")) {
+          localStorage.removeItem(key);
+        }
+      });
 
       set({ isLoggedIn: false, userInfo: null });
       return { success: true };
