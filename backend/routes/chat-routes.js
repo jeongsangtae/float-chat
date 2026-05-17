@@ -456,7 +456,8 @@ router.post("/chat/:roomId/lastVisibleMessage", async (req, res) => {
 
     // 클라이언트에서 보낸 데이터 추출
     let roomId = req.params.roomId;
-    const lastVisibleMessageId = req.body.lastVisibleMessageId;
+    const { lastVisibleMessageId, messageLength } = req.body;
+    // const lastVisibleMessageId = req.body.lastVisibleMessageId;
 
     roomId = new ObjectId(roomId);
 
@@ -470,6 +471,7 @@ router.post("/chat/:roomId/lastVisibleMessage", async (req, res) => {
       userId: othersData._id,
       roomId,
       lastVisibleMessageId,
+      messageLength,
     };
 
     // 마지막 메시지 정보를 lastReadMessages 컬렉션에 저장
@@ -498,6 +500,7 @@ router.post("/chat/:roomId/lastVisibleMessage", async (req, res) => {
         {
           $set: {
             lastVisibleMessageId: lastVisibleMessage.lastVisibleMessageId,
+            messageLength: lastVisibleMessage.messageLength,
           },
         },
         { upsert: true }

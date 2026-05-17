@@ -58,11 +58,16 @@ const Chats = ({ roomId, chatInfo }: ChatsProps) => {
 
       // 스크롤 멈추고 0.5초 후 실행
       timeoutId = setTimeout(() => {
+        const containerRect = container.getBoundingClientRect();
+
         const messagesInView = messages.filter((msg) => {
           const el = messageRefs.current[msg._id];
           if (!el) return false;
           const rect = el.getBoundingClientRect();
-          return rect.bottom <= window.innerHeight;
+          return (
+            rect.top >= containerRect.top && rect.bottom <= containerRect.bottom
+          );
+          // return rect.bottom <= window.innerHeight;
           // return rect.top >= 0 && rect.bottom <= window.innerHeight;
         });
 
@@ -71,7 +76,10 @@ const Chats = ({ roomId, chatInfo }: ChatsProps) => {
         const lastVisibleMessageId =
           messagesInView[messagesInView.length - 1]._id;
 
-        saveLastReadMessageId(roomId, lastVisibleMessageId);
+        // saveLastReadMessageId(roomId, lastVisibleMessageId);
+        saveLastReadMessageId(roomId, lastVisibleMessageId, messages.length);
+
+        console.log(lastVisibleMessageId);
 
         // 메시지 개수를 로컬 스토리지에 저장
         localStorage.setItem(
@@ -100,12 +108,16 @@ const Chats = ({ roomId, chatInfo }: ChatsProps) => {
         messages[messages.length - 1]?._id;
 
       if (lastMessageChecked) scrollToBottomHandler();
+
+      console.log(lastMessageChecked);
     } else {
       // 처음 진입했거나 읽은 기록이 없는 경우, 기본적으로 하단으로 스크롤
       scrollToBottomHandler();
       setShowNewMessageButton(false);
       setToBottomButton(false);
     }
+
+    console.log(lastReadMessage);
   }, [lastReadMessage, roomId]);
 
   // 메시지 변경 시 스크롤 상태 제어 useEffect
@@ -228,6 +240,7 @@ const Chats = ({ roomId, chatInfo }: ChatsProps) => {
 
         {/* 실제 채팅 메시지 렌더링 */}
         <Chat
+          id={message._id}
           nickname={message.nickname}
           message={message.message}
           date={message.date}

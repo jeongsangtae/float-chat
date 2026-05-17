@@ -5,6 +5,7 @@ import classes from "./Chat.module.css";
 
 // Pick를 Omit으로 변경해야 함
 const Chat = ({
+  id,
   nickname,
   message,
   date,
@@ -111,7 +112,7 @@ const Chat = ({
       ) : (
         <div className={classes["chat-messages"]}>
           <span className={classes["chat-hover-date"]}>{hoverDate}</span>
-          {message}
+          {message} (채팅 메시지 ID 확인하는 내용: {id})
         </div>
       )}
     </div>

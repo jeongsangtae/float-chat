@@ -200,15 +200,24 @@ const useChatStore = create<ChatStore>((set) => ({
     }
   },
 
-  saveLastReadMessageId: async (roomId, lastVisibleMessageId) => {
-    console.log(roomId, lastVisibleMessageId);
+  saveLastReadMessageId: async (
+    roomId,
+    lastVisibleMessageId,
+    messageLength
+  ) => {
+    console.log(roomId, lastVisibleMessageId, messageLength);
     try {
       // 서버로 메시지를 POST 요청으로 전송
+      const requestBody = {
+        lastVisibleMessageId,
+        messageLength,
+      };
+
       const response = await fetch(
         `${apiURL}/chat/${roomId}/lastVisibleMessage`,
         {
           method: "POST",
-          body: JSON.stringify({ lastVisibleMessageId }),
+          body: JSON.stringify(requestBody),
           headers: { "Content-Type": "application/json" },
           credentials: "include",
         }
