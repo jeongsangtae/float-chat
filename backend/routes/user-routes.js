@@ -251,6 +251,27 @@ router.get("/refreshTokenExp", async (req, res) => {
   }
 });
 
+// 마지막으로 읽은 메시지 정보 조회 라우터
+router.get("/lastReadMessages", async (req, res) => {
+  try {
+    const othersData = await accessToken(req, res);
+
+    if (!othersData) {
+      return res.status(401).json({ message: "jwt error" });
+    }
+
+    const lastReadMessages = await db
+      .getDb()
+      .collection("lastReadMessages")
+      .find({ userId: othersData._id })
+      .toArray();
+
+    res.status(200).json({ lastReadMessages });
+  } catch (error) {
+    errorHandler(res, error, "마지막으로 읽은 메시지 불러오는 중 오류 발생");
+  }
+});
+
 // 테마 모드 업데이트 라우터
 router.patch("/updateTheme", async (req, res) => {
   try {
@@ -686,13 +707,6 @@ router.delete("/deleteUserForm", async (req, res) => {
         .json({ message: "계정 탈퇴 문구가 일치하지 않습니다." });
     }
 
-    // 채팅방별 메시지 삭제 (그룹 채팅방 호스트인 경우, 다이렉트 채팅방) O
-    // 사용자가 그룹 채팅방 호스트인 전체 채팅방 삭제 (채팅방 자체, 메시지 포함 전체 삭제, 공지사항 포함) ㅁ
-    // 그룹 채팅방 참가 정보 관련 내용 (메시지 유지, 참여 정보 제거) O
-    // 다이렉트 채팅방 삭제 O
-    // 친구 관계 삭제 (친구 요청 포함) O
-    // 사용자 정보 O
-
     const directChats = await db
       .getDb()
       .collection("directChats")
@@ -718,16 +732,6 @@ router.delete("/deleteUserForm", async (req, res) => {
         .getDb()
         .collection("chatMessages")
         .deleteMany({ roomId: { $in: allDeleteRoomIds } }),
-
-      // db
-      //   .getDb()
-      //   .collection("chatMessages")
-      //   .deleteMany({ roomId: { $in: directChatRoomIds } }),
-
-      // db
-      //   .getDb()
-      //   .collection("chatMessages")
-      //   .deleteMany({ roomId: { $in: hostGroupChatRoomIds } }),
 
       db
         .getDb()

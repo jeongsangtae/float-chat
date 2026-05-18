@@ -6,6 +6,18 @@
   width: 4.5rem;
   height: 100vh;
   background-color: var(--bg-side);
+
+  overflow-y: auto;
+
+  /* Firefox */
+  scrollbar-width: none;
+
+  /* IE, Edge */
+  -ms-overflow-style: none;
+}
+
+.sidebar::-webkit-scrollbar {
+  display: none;
 }
 
 .sidebar-top {

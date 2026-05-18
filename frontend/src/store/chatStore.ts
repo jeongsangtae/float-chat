@@ -27,7 +27,8 @@ interface ChatStore {
   ) => Promise<string>;
   saveLastReadMessageId: (
     roomId: string,
-    lastVisibleMessageId: string
+    lastVisibleMessageId: string,
+    messageLength: number
   ) => Promise<void>;
 }
 

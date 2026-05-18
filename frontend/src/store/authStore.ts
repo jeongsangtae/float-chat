@@ -42,11 +42,20 @@ interface AuthStore {
   verifyUser: () => Promise<void>;
   refreshToken: () => Promise<void>;
   refreshTokenExp: () => Promise<void>;
+  restoreLastReadMessages: () => Promise<void>;
   updateTheme: (theme: string) => Promise<void>;
   editUserProfileForm: (payload: EditUserProfilePayload) => Promise<void>;
   editUserPasswordForm: (payload: EditUserPasswordData) => Promise<AuthResult>;
   deleteUserForm: (payload: DeleteUserData) => Promise<AuthResult>;
   updateUserGroupChatOrder: (order: string[]) => void;
+}
+
+interface LastReadMessage {
+  _id: string;
+  roomId: string;
+  userId: string;
+  lastVisibleMessageId: string;
+  messageLength: number;
 }
 
 type EditUserProfilePayload =
@@ -194,6 +203,7 @@ const useAuthStore = create<AuthStore>((set, get) => ({
       // 같은 스토어의 verifyUser, refreshTokenExp 액션 호출
       await get().verifyUser();
       await get().refreshTokenExp();
+      await get().restoreLastReadMessages();
 
       return { success: true };
     } catch (error) {
@@ -332,12 +342,12 @@ const useAuthStore = create<AuthStore>((set, get) => ({
 
       const resData = await response.json();
 
-      // resData.forEach((item) => {
-      //   localStorage.setItem(
-      //     `prevMessagesLength-${item.roomId}`,
-      //     item.lastVisibleMessageId
-      //   );
-      // });
+      resData.lastReadMessages.forEach((lastReadMessage: LastReadMessage) => {
+        localStorage.setItem(
+          `prevMessagesLength-${lastReadMessage.roomId}`,
+          String(lastReadMessage.messageLength)
+        );
+      });
     } catch (error) {
       console.error("에러 내용:", error);
     }
