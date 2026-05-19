@@ -6,17 +6,22 @@
   width: 4.5rem;
   height: 100vh;
   background-color: var(--bg-side);
-
-  overflow-y: auto;
-
-  /* Firefox */
-  scrollbar-width: none;
-
-  /* IE, Edge */
-  -ms-overflow-style: none;
+  padding-bottom: 6rem;
+  overflow: visible;
 }
 
-.sidebar::-webkit-scrollbar {
+.sidebar-scroll {
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  /* Firefox */
+  /* scrollbar-width: none; */
+
+  /* IE, Edge */
+  /* -ms-overflow-style: none; */
+}
+
+.sidebar-scroll::-webkit-scrollbar {
   display: none;
 }
 

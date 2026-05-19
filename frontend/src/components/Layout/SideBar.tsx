@@ -76,55 +76,57 @@ const SideBar = ({ onLeaveChatRoom }: SideBarProps) => {
 
   return (
     <div className={classes.sidebar}>
-      <div className={classes["sidebar-top"]}>
-        {isLoggedIn && (
-          <>
-            <button
-              className={`${classes["home-button"]} ${
-                active ? classes.active : ""
-              }`}
-              onClick={onLeaveChatRoom}
-            >
-              <span className={classes.indicator} />
-              <BsFillChatSquareFill className={classes["chat-icon"]} />
-              <div className={`${classes.eye} ${classes["left-eye"]}`}></div>
-              <div className={`${classes.eye} ${classes["right-eye"]}`}></div>
+      <div className={classes["sidebar-scroll"]}>
+        <div className={classes["sidebar-top"]}>
+          {isLoggedIn && (
+            <>
+              <button
+                className={`${classes["home-button"]} ${
+                  active ? classes.active : ""
+                }`}
+                onClick={onLeaveChatRoom}
+              >
+                <span className={classes.indicator} />
+                <BsFillChatSquareFill className={classes["chat-icon"]} />
+                <div className={`${classes.eye} ${classes["left-eye"]}`}></div>
+                <div className={`${classes.eye} ${classes["right-eye"]}`}></div>
 
-              {receiverRequests.length > 0 && (
-                <div className={classes["friend-request-badge"]}>
-                  <span className={classes["friend-request-count"]}>
-                    {receiverRequests.length > 99
-                      ? "99"
-                      : receiverRequests.length}
-                  </span>
-                </div>
+                {receiverRequests.length > 0 && (
+                  <div className={classes["friend-request-badge"]}>
+                    <span className={classes["friend-request-count"]}>
+                      {receiverRequests.length > 99
+                        ? "99"
+                        : receiverRequests.length}
+                    </span>
+                  </div>
+                )}
+              </button>
+
+              <GroupChats />
+            </>
+          )}
+
+          {isLoggedIn && (
+            <div>
+              <button
+                className={classes["group-chat-form-button"]}
+                onClick={() => toggleModal("groupChatForm")}
+              >
+                <IoMdAddCircle />
+              </button>
+
+              {activeModal === "groupChatForm" && (
+                <GroupChatForm onToggle={() => toggleModal("groupChatForm")} />
               )}
-            </button>
 
-            <GroupChats />
-          </>
-        )}
-
-        {isLoggedIn && (
-          <div>
-            <button
-              className={classes["group-chat-form-button"]}
-              onClick={() => toggleModal("groupChatForm")}
-            >
-              <IoMdAddCircle />
-            </button>
-
-            {activeModal === "groupChatForm" && (
-              <GroupChatForm onToggle={() => toggleModal("groupChatForm")} />
-            )}
-
-            {activeModal === "groupChatConfirm" && (
-              <GroupChatConfirm
-                onToggle={() => toggleModal("groupChatConfirm")}
-              />
-            )}
-          </div>
-        )}
+              {activeModal === "groupChatConfirm" && (
+                <GroupChatConfirm
+                  onToggle={() => toggleModal("groupChatConfirm")}
+                />
+              )}
+            </div>
+          )}
+        </div>
       </div>
 
       {isLoggedIn && (
