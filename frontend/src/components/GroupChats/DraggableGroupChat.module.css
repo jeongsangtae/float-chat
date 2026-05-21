@@ -1,5 +1,15 @@
 .item {
   position: relative;
+
+  width: 100%;
+  max-width: 100%;
+
+  display: flex;
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  contain: layout paint;
 }
 
 /* 위에 삽입될 위치 */
@@ -12,6 +22,8 @@
   background-color: var(--color-drag-indicator);
   border-radius: var(--radius-2xs);
   pointer-events: none;
+
+  display: none;
 }
 
 /* 아래에 삽입될 위치 */
@@ -24,6 +36,8 @@
   background-color: var(--color-drag-indicator);
   border-radius: var(--radius-2xs);
   pointer-events: none;
+
+  display: none;
 }
 
 .group-chat-placeholder {

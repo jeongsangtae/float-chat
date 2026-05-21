@@ -11,7 +11,7 @@
   cursor: pointer;
   box-shadow: var(--shadow-light);
   transition: var(--transition-bg-transform);
-  overflow: hidden;
+  /* overflow: hidden; */
 }
 
 .group-chat:hover {
@@ -61,7 +61,7 @@
 
 .active {
   background-color: var(--group-chat-btn-hover);
-  overflow: visible;
+  /* overflow: visible; */
 }
 
 .tooltip-text::before {

@@ -14,6 +14,8 @@ import {
   // verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 
+// import { restrictToVerticalAxis } from "@dnd-kit/modifiers";
+
 import useAuthStore from "../../store/authStore";
 import useGroupChatStore from "../../store/groupChatStore";
 // import GroupChat from "./GroupChat";
@@ -128,6 +130,7 @@ const GroupChats = () => {
     <>
       <DndContext
         sensors={sensors}
+        // modifiers={[restrictToVerticalAxis]}
         onDragStart={dragStartHandler}
         onDragOver={dragOverHandler}
         onDragEnd={dragEndHandler}
