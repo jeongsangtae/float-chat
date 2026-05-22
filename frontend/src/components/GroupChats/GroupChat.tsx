@@ -118,30 +118,27 @@ const GroupChat = ({
 
   return (
     <>
-      <div
-        className={`${classes["group-chat"]} ${active ? classes.active : ""}`}
-        onContextMenu={contextMenuOpenHandler}
-      >
-        {/* {isDragging ? (
-          <span
-            className={`${classes.title} ${
-              title.length > 12 ? classes["title-small"] : ""
-            }`}
-          >
-            {title}
-          </span>
-        ) : (
+      {/* <div className={classes["group-chat-wrapper"]}>
+        <span className={classes.indicator} />
+        <div
+          className={`${classes["group-chat"]} ${active ? classes.active : ""}`}
+          onContextMenu={contextMenuOpenHandler}
+        >
           <Link
             to={`/group-chat/${_id.toString()}`}
             className={`${classes.title} ${
               title.length > 12 ? classes["title-small"] : ""
             }`}
-            // title={title}
           >
             {title}
           </Link>
-        )} */}
-
+        </div>
+        {title && <span className={classes["tooltip-text"]}>{title}</span>}
+      </div> */}
+      <div
+        className={`${classes["group-chat"]} ${active ? classes.active : ""}`}
+        onContextMenu={contextMenuOpenHandler}
+      >
         <Link
           to={`/group-chat/${_id.toString()}`}
           className={`${classes.title} ${
@@ -151,8 +148,8 @@ const GroupChat = ({
           {title}
         </Link>
 
-        <span className={classes.indicator} />
-        {title && <span className={classes["tooltip-text"]}>{title}</span>}
+        {/* <span className={classes.indicator} /> */}
+        {/* {title && <span className={classes["tooltip-text"]}>{title}</span>} */}
       </div>
 
       {contextMenu.visible && contextMenu.id === _id && (
@@ -182,5 +179,27 @@ const GroupChat = ({
     </>
   );
 };
+
+{
+  /* {isDragging ? (
+          <span
+            className={`${classes.title} ${
+              title.length > 12 ? classes["title-small"] : ""
+            }`}
+          >
+            {title}
+          </span>
+        ) : (
+          <Link
+            to={`/group-chat/${_id.toString()}`}
+            className={`${classes.title} ${
+              title.length > 12 ? classes["title-small"] : ""
+            }`}
+            // title={title}
+          >
+            {title}
+          </Link>
+        )} */
+}
 
 export default GroupChat;
