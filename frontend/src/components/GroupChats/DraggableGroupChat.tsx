@@ -59,7 +59,6 @@ const DraggableGroupChat = ({
       {showBottomLine && <div className={classes["insert-line-bottom"]} />}
 
       {isSource ? (
-        // <div></div>
         <div className={classes["group-chat-placeholder"]} />
       ) : (
         <GroupChat

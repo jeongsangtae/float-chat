@@ -64,10 +64,21 @@
   background-color: var(--group-chat-btn-hover);
 }
 
+/* .tooltip-text {
+  background-color: var(--group-chat-btn);
+  color: var(--color-text);
+  padding: 0.65rem var(--space-sm);
+  border-radius: var(--radius-md);
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 1;
+} */
+
 .tooltip-text::before {
   content: "";
   position: absolute;
-  right: 100%; /* 툴팁의 왼쪽 바깥 */
+  right: 100%;
   top: 50%;
   transform: translateY(-50%);
   width: 0;
@@ -79,9 +90,9 @@
 
 .tooltip-text {
   position: absolute;
-  left: calc(100% + 0.5rem); /* 버튼의 오른쪽 바깥으로 0.5rem 떨어져 위치 */
+  left: calc(100% + 0.5rem);
   top: 50%;
-  transform: translateY(-50%); /* 수직 가운데 정렬 */
+  transform: translateY(-50%);
   background-color: var(--group-chat-btn);
   color: var(--color-text);
   padding: 0.65rem var(--space-sm);

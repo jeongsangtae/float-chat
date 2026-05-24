@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 
 import useAuthStore from "../../store/authStore";
@@ -19,6 +19,12 @@ const GroupChat = ({
   const { toggleModal } = useModalStore();
 
   const location = useLocation();
+
+  const [tooltipPos, setTooltipPos] = useState<{ x: number; y: number }>({
+    x: 0,
+    y: 0,
+  });
+  const [showTooltip, setShowTooltip] = useState<boolean>(false);
 
   // 그룹 채팅방 버튼 기준 경로
   const active = location.pathname === `/group-chat/${_id}`;
@@ -58,6 +64,21 @@ const GroupChat = ({
       y: event.pageY,
       id: _id,
     });
+  };
+
+  const mouseEnterHandler = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+
+    setTooltipPos({
+      x: rect.right + 8,
+      y: rect.top + rect.height / 2,
+    });
+
+    setShowTooltip(true);
+  };
+
+  const mouseLeaveHandler = () => {
+    setShowTooltip(false);
   };
 
   const contextMenuCloseHandler = (): void => {
@@ -137,6 +158,8 @@ const GroupChat = ({
       </div> */}
       <div
         className={`${classes["group-chat"]} ${active ? classes.active : ""}`}
+        onMouseEnter={mouseEnterHandler}
+        onMouseLeave={mouseLeaveHandler}
         onContextMenu={contextMenuOpenHandler}
       >
         <Link
@@ -148,7 +171,20 @@ const GroupChat = ({
           {title}
         </Link>
 
-        {/* <span className={classes.indicator} /> */}
+        <span className={classes.indicator} />
+        {showTooltip && (
+          <div
+            className={classes["tooltip-text"]}
+            style={{
+              position: "fixed",
+              left: tooltipPos.x,
+              top: tooltipPos.y,
+              transform: "translateY(-50%)",
+            }}
+          >
+            {title}
+          </div>
+        )}
         {/* {title && <span className={classes["tooltip-text"]}>{title}</span>} */}
       </div>
 
