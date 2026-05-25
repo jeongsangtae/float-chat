@@ -64,17 +64,6 @@
   background-color: var(--group-chat-btn-hover);
 }
 
-/* .tooltip-text {
-  background-color: var(--group-chat-btn);
-  color: var(--color-text);
-  padding: 0.65rem var(--space-sm);
-  border-radius: var(--radius-md);
-  white-space: nowrap;
-  pointer-events: none;
-  z-index: 9999;
-  opacity: 1;
-} */
-
 .tooltip-text::before {
   content: "";
   position: absolute;
@@ -89,10 +78,6 @@
 }
 
 .tooltip-text {
-  position: absolute;
-  left: calc(100% + 0.5rem);
-  top: 50%;
-  transform: translateY(-50%);
   background-color: var(--group-chat-btn);
   color: var(--color-text);
   padding: 0.65rem var(--space-sm);
@@ -101,14 +86,6 @@
   white-space: nowrap;
   z-index: var(--z-tooltip);
   pointer-events: none;
-  visibility: hidden;
-  opacity: 0;
-  transition: opacity 0.2s ease-in-out;
-}
-
-.group-chat:hover .tooltip-text {
-  visibility: visible;
-  opacity: 1;
 }
 
 .context-menu {
