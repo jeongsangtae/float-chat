@@ -42,7 +42,7 @@ interface AuthStore {
   verifyUser: () => Promise<void>;
   refreshToken: () => Promise<void>;
   refreshTokenExp: () => Promise<void>;
-  restoreLastReadMessages: () => Promise<void>;
+  // restoreLastReadMessages: () => Promise<void>;
   updateTheme: (theme: string) => Promise<void>;
   editUserProfileForm: (payload: EditUserProfilePayload) => Promise<void>;
   editUserPasswordForm: (payload: EditUserPasswordData) => Promise<AuthResult>;
@@ -50,13 +50,13 @@ interface AuthStore {
   updateUserGroupChatOrder: (order: string[]) => void;
 }
 
-interface LastReadMessage {
-  _id: string;
-  roomId: string;
-  userId: string;
-  lastVisibleMessageId: string;
-  messageLength: number;
-}
+// interface LastReadMessage {
+//   _id: string;
+//   roomId: string;
+//   userId: string;
+//   lastVisibleMessageId: string;
+//   messageLength: number;
+// }
 
 type EditUserProfilePayload =
   | {
@@ -203,7 +203,7 @@ const useAuthStore = create<AuthStore>((set, get) => ({
       // 같은 스토어의 verifyUser, refreshTokenExp 액션 호출
       await get().verifyUser();
       await get().refreshTokenExp();
-      await get().restoreLastReadMessages();
+      // await get().restoreLastReadMessages();
 
       return { success: true };
     } catch (error) {
@@ -330,28 +330,28 @@ const useAuthStore = create<AuthStore>((set, get) => ({
     }
   },
 
-  restoreLastReadMessages: async () => {
-    try {
-      const response = await fetch(`${apiURL}/lastReadMessages`, {
-        credentials: "include",
-      });
+  // restoreLastReadMessages: async () => {
+  //   try {
+  //     const response = await fetch(`${apiURL}/lastReadMessages`, {
+  //       credentials: "include",
+  //     });
 
-      if (!response.ok) {
-        throw new Error("마지막으로 읽은 메시지 복원 실패");
-      }
+  //     if (!response.ok) {
+  //       throw new Error("마지막으로 읽은 메시지 복원 실패");
+  //     }
 
-      const resData = await response.json();
+  //     const resData = await response.json();
 
-      resData.lastReadMessages.forEach((lastReadMessage: LastReadMessage) => {
-        localStorage.setItem(
-          `prevMessagesLength-${lastReadMessage.roomId}`,
-          String(lastReadMessage.messageLength)
-        );
-      });
-    } catch (error) {
-      console.error("에러 내용:", error);
-    }
-  },
+  //     resData.lastReadMessages.forEach((lastReadMessage: LastReadMessage) => {
+  //       localStorage.setItem(
+  //         `prevMessagesLength-${lastReadMessage.roomId}`,
+  //         String(lastReadMessage.messageLength)
+  //       );
+  //     });
+  //   } catch (error) {
+  //     console.error("에러 내용:", error);
+  //   }
+  // },
 
   updateTheme: async (theme) => {
     try {

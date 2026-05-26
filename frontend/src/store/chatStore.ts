@@ -5,14 +5,14 @@ import { Socket } from "socket.io-client";
 
 import useSocketStore from "./socketStore";
 
-import { ChatMessage, LastReadMessage, UserInfo } from "../types";
+import { ChatMessage, UserInfo } from "../types";
 
 const apiURL = import.meta.env.VITE_API_URL;
 
 interface ChatStore {
   socket: Socket | null;
   messages: ChatMessage[];
-  lastReadMessage: LastReadMessage | null;
+  // lastReadMessage: LastReadMessage | null;
   newMessage: () => void;
   chatData: (roomId: string) => Promise<void>;
   sendMessage: (
@@ -25,11 +25,11 @@ interface ChatStore {
     message: string,
     userInfo: UserInfo
   ) => Promise<string>;
-  saveLastReadMessageId: (
-    roomId: string,
-    lastVisibleMessageId: string,
-    messageLength: number
-  ) => Promise<void>;
+  // saveLastReadMessageId: (
+  //   roomId: string,
+  //   lastVisibleMessageId: string,
+  //   messageLength: number
+  // ) => Promise<void>;
 }
 
 interface TargetUser {
@@ -42,7 +42,7 @@ interface TargetUser {
 const useChatStore = create<ChatStore>((set) => ({
   socket: null,
   messages: [],
-  lastReadMessage: null,
+  // lastReadMessage: null,
   newMessage: () => {
     const socket = useSocketStore.getState().socket;
     if (!socket) return; // 소켓이 없으면 실행 안 함
@@ -119,7 +119,7 @@ const useChatStore = create<ChatStore>((set) => ({
 
       set({
         messages: resData.messages,
-        lastReadMessage: resData.lastReadMessage,
+        // lastReadMessage: resData.lastReadMessage,
       });
     } catch (error) {
       console.error("에러 내용:", error);
@@ -201,39 +201,39 @@ const useChatStore = create<ChatStore>((set) => ({
     }
   },
 
-  saveLastReadMessageId: async (
-    roomId,
-    lastVisibleMessageId,
-    messageLength
-  ) => {
-    console.log(roomId, lastVisibleMessageId, messageLength);
-    try {
-      // 서버로 메시지를 POST 요청으로 전송
-      const requestBody = {
-        lastVisibleMessageId,
-        messageLength,
-      };
+  // saveLastReadMessageId: async (
+  //   roomId,
+  //   lastVisibleMessageId,
+  //   messageLength
+  // ) => {
+  //   console.log(roomId, lastVisibleMessageId, messageLength);
+  //   try {
+  //     // 서버로 메시지를 POST 요청으로 전송
+  //     const requestBody = {
+  //       lastVisibleMessageId,
+  //       messageLength,
+  //     };
 
-      const response = await fetch(
-        `${apiURL}/chat/${roomId}/lastVisibleMessage`,
-        {
-          method: "POST",
-          body: JSON.stringify(requestBody),
-          headers: { "Content-Type": "application/json" },
-          credentials: "include",
-        }
-      );
+  //     const response = await fetch(
+  //       `${apiURL}/chat/${roomId}/lastVisibleMessage`,
+  //       {
+  //         method: "POST",
+  //         body: JSON.stringify(requestBody),
+  //         headers: { "Content-Type": "application/json" },
+  //         credentials: "include",
+  //       }
+  //     );
 
-      if (!response.ok) {
-        throw new Error("마지막 메시지 ID 전송 실패");
-      }
+  //     if (!response.ok) {
+  //       throw new Error("마지막 메시지 ID 전송 실패");
+  //     }
 
-      console.log("마지막 메시지 ID 전송 성공");
-    } catch (error) {
-      console.error("에러 내용:", error);
-      toast.error("전송 실패 - 새로고침 후 다시 시도해주세요");
-    }
-  },
+  //     console.log("마지막 메시지 ID 전송 성공");
+  //   } catch (error) {
+  //     console.error("에러 내용:", error);
+  //     toast.error("전송 실패 - 새로고침 후 다시 시도해주세요");
+  //   }
+  // },
 }));
 
 export default useChatStore;

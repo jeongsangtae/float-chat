@@ -252,25 +252,25 @@ router.get("/refreshTokenExp", async (req, res) => {
 });
 
 // 마지막으로 읽은 메시지 정보 조회 라우터
-router.get("/lastReadMessages", async (req, res) => {
-  try {
-    const othersData = await accessToken(req, res);
+// router.get("/lastReadMessages", async (req, res) => {
+//   try {
+//     const othersData = await accessToken(req, res);
 
-    if (!othersData) {
-      return res.status(401).json({ message: "jwt error" });
-    }
+//     if (!othersData) {
+//       return res.status(401).json({ message: "jwt error" });
+//     }
 
-    const lastReadMessages = await db
-      .getDb()
-      .collection("lastReadMessages")
-      .find({ userId: othersData._id })
-      .toArray();
+//     const lastReadMessages = await db
+//       .getDb()
+//       .collection("lastReadMessages")
+//       .find({ userId: othersData._id })
+//       .toArray();
 
-    res.status(200).json({ lastReadMessages });
-  } catch (error) {
-    errorHandler(res, error, "마지막으로 읽은 메시지 불러오는 중 오류 발생");
-  }
-});
+//     res.status(200).json({ lastReadMessages });
+//   } catch (error) {
+//     errorHandler(res, error, "마지막으로 읽은 메시지 불러오는 중 오류 발생");
+//   }
+// });
 
 // 테마 모드 업데이트 라우터
 router.patch("/updateTheme", async (req, res) => {

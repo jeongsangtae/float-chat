@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 
+import useAuthStore from "../../store/authStore";
 import useChatStore from "../../store/chatStore";
 import useSocketStore from "../../store/socketStore";
 
@@ -7,18 +8,15 @@ import Chat from "./Chat";
 
 import { ChatsProps } from "../../types";
 import classes from "./Chats.module.css";
-import useAuthStore from "../../store/authStore";
 import Avatar from "../Users/Avatar";
 
 const Chats = ({ roomId, chatInfo }: ChatsProps) => {
   const { userInfo } = useAuthStore();
-  const { chatData, messages, lastReadMessage, saveLastReadMessageId } =
-    useChatStore();
+  const { chatData, messages } = useChatStore();
 
   const { joinChatRoom, leaveChatRoom } = useSocketStore();
 
-  const restoredRef = useRef(false); // 테스트 useRef
-  const prevMessagesLength = useRef<number | null>(null);
+  // const prevMessagesLength = useRef<number | null>(null);
   const chatContainerRef = useRef<HTMLDivElement | null>(null);
   const messageRefs = useRef<Record<string, HTMLDivElement | null>>({});
 
@@ -46,86 +44,11 @@ const Chats = ({ roomId, chatInfo }: ChatsProps) => {
     chatData(roomId);
   }, [roomId]);
 
-  // 채팅방 바뀌면 초기화 테스트
-  useEffect(() => {
-    restoredRef.current = false;
-  }, [roomId]);
+  // 마지막 읽은 메시지 복원 기능은
+  // 의도한 것과 다르게 동작하기 때문에 일단 비활성화.
+  // 추후 unread anchor 기반으로 재구성 예정
 
-  // 복원 로직 테스트
-  useEffect(() => {
-    if (!messages.length) return;
-
-    // 이미 복원했으면 종료
-    if (restoredRef.current) return;
-
-    const savedId = localStorage.getItem(`last-read-${roomId}`);
-
-    if (!savedId) {
-      restoredRef.current = true;
-      return;
-    }
-
-    const el = messageRefs.current[savedId];
-
-    if (!el) return;
-
-    requestAnimationFrame(() => {
-      el.scrollIntoView({
-        block: "center",
-      });
-
-      restoredRef.current = true;
-    });
-  }, [messages, roomId]);
-
-  // 마지막 읽은 메시지 저장 테스트
-  useEffect(() => {
-    const container = chatContainerRef.current;
-
-    if (!container || !roomId) return;
-
-    let timeoutId: ReturnType<typeof setTimeout>;
-
-    const handleScroll = () => {
-      clearTimeout(timeoutId);
-
-      timeoutId = setTimeout(() => {
-        const containerRect = container.getBoundingClientRect();
-
-        const messagesInView = messages.filter((msg) => {
-          const el = messageRefs.current[msg._id];
-
-          if (!el) return false;
-
-          const rect = el.getBoundingClientRect();
-
-          return (
-            rect.top >= containerRect.top && rect.bottom <= containerRect.bottom
-          );
-
-          // return rect.top < containerRect.bottom;
-        });
-
-        if (!messagesInView.length) return;
-
-        const lastVisibleMessageId =
-          messagesInView[messagesInView.length - 1]._id;
-
-        localStorage.setItem(`last-read-${roomId}`, lastVisibleMessageId);
-
-        console.log("저장:", lastVisibleMessageId);
-      }, 300);
-    };
-
-    container.addEventListener("scroll", handleScroll);
-
-    return () => {
-      container.removeEventListener("scroll", handleScroll);
-      clearTimeout(timeoutId);
-    };
-  }, [messages, roomId]);
-
-  // // 스크롤이 멈춘 후 마지막으로 읽은 메시지 ID 저장하는 useEffect (디바운스 적용)
+  // 스크롤이 멈춘 후 마지막으로 읽은 메시지 ID 저장하는 useEffect (디바운스 적용)
   // useEffect(() => {
   //   const container = chatContainerRef.current;
   //   if (!container || !roomId) return;
@@ -177,7 +100,7 @@ const Chats = ({ roomId, chatInfo }: ChatsProps) => {
   //   };
   // }, [messages]);
 
-  // // 마지막으로 읽은 메시지 위치 확인 및 초기 스크롤 제어
+  // 마지막으로 읽은 메시지 위치 확인 및 초기 스크롤 제어
   // useEffect(() => {
   //   if (!roomId) return;
 
@@ -200,7 +123,7 @@ const Chats = ({ roomId, chatInfo }: ChatsProps) => {
   //   console.log(lastReadMessage);
   // }, [lastReadMessage, roomId]);
 
-  // // 메시지 변경 시 스크롤 상태 제어 useEffect
+  // 메시지 변경 시 스크롤 상태 제어 useEffect
   // useEffect(() => {
   //   const container = chatContainerRef.current;
 
@@ -241,6 +164,45 @@ const Chats = ({ roomId, chatInfo }: ChatsProps) => {
   //     setToBottomButton(false);
   //   }
   // }, [messages]);
+
+  // 채팅방 입장 시 스크롤 최하단으로 이동 useEffect
+  useEffect(() => {
+    if (!roomId) return;
+
+    scrollToBottomHandler();
+
+    setShowNewMessageButton(false);
+    setToBottomButton(false);
+  }, [roomId]);
+
+  // 메시지 변경 시 스크롤 상태 제어 useEffect
+  useEffect(() => {
+    const container = chatContainerRef.current;
+
+    if (!container) return;
+
+    const { scrollTop, scrollHeight, clientHeight } = container;
+
+    // 스크롤이 맨 아래에 있는지 확인 (오차를 줄이기 위해서 -1 사용)
+    const isAtBottom = scrollTop + clientHeight >= scrollHeight - 1;
+    // 스크롤이 거의 맨 아래에 있는지 확인
+    const nearBottom = scrollTop + clientHeight >= scrollHeight - 100;
+    const lastMessage = messages[messages.length - 1];
+
+    const currentUser = lastMessage?.email === userInfo?.email;
+
+    if (isAtBottom || nearBottom || currentUser) {
+      // 스크롤이 맨 아래에 있는 경우
+      // 스크롤이 맨 아래에 가까운 경우
+      // 마지막으로 메시지를 전송한 사용자와 현재 로그인한 사용자가 일치하는 경우
+      setShowNewMessageButton(false);
+      setToBottomButton(false);
+      scrollToBottomHandler();
+    } else {
+      setShowNewMessageButton(true);
+      setToBottomButton(false);
+    }
+  }, [messages]);
 
   // 스크롤을 최하단으로 이동하는 함수
   const scrollToBottomHandler = () => {
