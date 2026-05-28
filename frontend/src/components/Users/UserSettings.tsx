@@ -1,5 +1,8 @@
 import { useState } from "react";
 
+import { BiSolidPencil } from "react-icons/bi";
+import { FaUser } from "react-icons/fa";
+
 import Modal from "../UI/Modal";
 import { ModalProps } from "../../types";
 
@@ -28,19 +31,29 @@ const UserSettings = ({ onToggle }: ModalProps) => {
             className={classes["user-info"]}
             onClick={() => setActiveView("profile")}
           >
-            <Avatar
-              nickname={userInfo?.nickname ?? ""}
-              avatarImageUrl={userInfo?.avatarImageUrl ?? null}
-              avatarColor={userInfo?.avatarColor ?? null}
-            />
+            <div className={classes["user-info-avatar"]}>
+              <Avatar
+                nickname={userInfo?.nickname ?? ""}
+                avatarImageUrl={userInfo?.avatarImageUrl ?? null}
+                avatarColor={userInfo?.avatarColor ?? null}
+                extraClass="user-info-avatar"
+              />
+            </div>
             <div className={classes["user-info-edit"]}>
               <div className={classes["user-nickname"]}>
                 {userInfo?.nickname}
               </div>
-              <div>프로필 편집</div>
+              <div className={classes["user-profile-edit"]}>
+                프로필 편집
+                <BiSolidPencil className={classes["user-profile-edit-icon"]} />
+              </div>
             </div>
           </div>
-          <div onClick={() => setActiveView("auth")}>계정 설정</div>
+          <div className={classes.underline}></div>
+          <div className={classes.user} onClick={() => setActiveView("auth")}>
+            <FaUser className={classes["user-icon"]} />
+            계정
+          </div>
         </div>
         <div className={classes["user-setting-content-wrapper"]}>
           {/* 프로필 수정 관련 영역 */}

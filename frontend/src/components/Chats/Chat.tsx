@@ -5,14 +5,13 @@ import classes from "./Chat.module.css";
 
 // Pick를 Omit으로 변경해야 함
 const Chat = ({
-  _id,
   nickname,
   message,
   date,
   showNickname,
   avatarColor,
   avatarImageUrl,
-}: Omit<ChatMessage, "roomId" | "email"> & {
+}: Omit<ChatMessage, "_id" | "roomId" | "email"> & {
   showNickname: boolean;
 }) => {
   // 공백 기준으로 날짜와 시간을 분리
@@ -112,7 +111,7 @@ const Chat = ({
       ) : (
         <div className={classes["chat-messages"]}>
           <span className={classes["chat-hover-date"]}>{hoverDate}</span>
-          {message} (채팅 메시지 ID 확인하는 내용: {_id})
+          {message}
         </div>
       )}
     </div>

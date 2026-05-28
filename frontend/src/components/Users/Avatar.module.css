@@ -32,6 +32,12 @@
   font-size: 1.2rem;
 }
 
+.user-info-avatar {
+  width: 3rem;
+  height: 3rem;
+  font-size: 1.5rem;
+}
+
 .direct-chat-starting-avatar,
 .group-chat-host-info-avatar {
   width: 4.5rem;

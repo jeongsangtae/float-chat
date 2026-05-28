@@ -282,7 +282,6 @@ const Chats = ({ roomId, chatInfo }: ChatsProps) => {
 
         {/* 실제 채팅 메시지 렌더링 */}
         <Chat
-          _id={message._id}
           nickname={message.nickname}
           message={message.message}
           date={message.date}

@@ -3,16 +3,12 @@ import React, { useState } from "react";
 import useAuthStore from "../../store/authStore";
 import useModalStore from "../../store/modalStore";
 
-// import { ModalProps } from "../../types";
-// import Modal from "../UI/Modal";
-
 import { Palette, Image } from "lucide-react";
 import { IoClose } from "react-icons/io5";
 
 import classes from "./EditUserProfileForm.module.css";
 
 const EditUserProfileForm = () => {
-  // const EditUserProfileForm = ({ onToggle }: ModalProps) => {
   const avatarColors = [
     "#D32F2F",
     "#C2185B",
@@ -129,9 +125,6 @@ const EditUserProfileForm = () => {
         // 위치 기반 방식
         // await editUserProfileForm(trimmedNickname, avatarColor, "", modalData);
       }
-
-      console.log("사용자 정보 수정 성공");
-      // onToggle();
     } catch (error) {
       console.error("에러 내용:", error);
       alert(
@@ -141,8 +134,10 @@ const EditUserProfileForm = () => {
   };
 
   return (
-    // <Modal onToggle={onToggle}>
-    <form onSubmit={submitHandler}>
+    <form
+      className={classes["user-profile-edit-wrapper"]}
+      onSubmit={submitHandler}
+    >
       <h2 className={classes.title}>프로필</h2>
       <div className={classes["nickname-edit-wrapper"]}>
         <div className={classes["nickname-edit-title"]}>닉네임</div>
@@ -252,7 +247,6 @@ const EditUserProfileForm = () => {
         </button>
       </div>
     </form>
-    // </Modal>
   );
 };
 
