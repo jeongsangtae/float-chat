@@ -50,11 +50,15 @@ const UserSettings = ({ onToggle }: ModalProps) => {
             </div>
           </div>
           <div className={classes.underline}></div>
-          <div className={classes.user} onClick={() => setActiveView("auth")}>
-            <FaUser className={classes["user-icon"]} />
-            계정
+          <div
+            className={classes["auth-menu"]}
+            onClick={() => setActiveView("auth")}
+          >
+            <FaUser className={classes["auth-menu-icon"]} />
+            <div className={classes["auth-menu-title"]}>계정</div>
           </div>
         </div>
+
         <div className={classes["user-setting-content-wrapper"]}>
           {/* 프로필 수정 관련 영역 */}
           {/* 닉네임, 아바타 색, 아바타 이미지 수정 */}
@@ -63,17 +67,47 @@ const UserSettings = ({ onToggle }: ModalProps) => {
           {/* 계정 설정 관련 영역 */}
           {/* 비밀번호 변경, 로그아웃, 계정 삭제 */}
           {activeView === "auth" && (
-            <div>
-              <div>닉네임</div>
-              <div>{userInfo?.nickname}</div>
-              <div>사용자명</div>
-              <div>{userInfo?.username}</div>
-              <div>이메일</div>
-              <div>{userInfo?.email}</div>
-              <div onClick={() => setActiveView("password")}>비밀번호 변경</div>
-              <div onClick={() => setActiveView("deleteUser")}>계정 탈퇴</div>
+            <div className={classes["auth-wrapper"]}>
+              <h2 className={classes["auth-title"]}>계정</h2>
+
+              <div className={classes["auth-info-list"]}>
+                <div className={classes["auth-info-item"]}>
+                  <div>닉네임</div>
+                  <div>{userInfo?.nickname}</div>
+                </div>
+
+                <div className={classes["auth-info-item"]}>
+                  <div>사용자명</div>
+                  <div>{userInfo?.username}</div>
+                </div>
+
+                <div className={classes["auth-info-item"]}>
+                  <div>이메일</div>
+                  <div>{userInfo?.email}</div>
+                </div>
+              </div>
+
+              <div className={classes["auth-action-list"]}>
+                <div className={classes["auth-action-item"]}>
+                  <div>비밀번호</div>
+                  <div onClick={() => setActiveView("password")}>수정</div>
+                </div>
+
+                <div className={classes["auth-action-item"]}>
+                  <div className={classes["auth-action-content"]}>
+                    <div className={classes["auth-action-title"]}>
+                      계정 삭제
+                    </div>
+                    <div className={classes["auth-action-description"]}>
+                      계정을 영구적으로 삭제
+                    </div>
+                  </div>
+                  <div onClick={() => setActiveView("deleteUser")}>삭제</div>
+                </div>
+              </div>
             </div>
           )}
+
           {activeView === "password" && (
             <EditUserPasswordForm onBack={() => setActiveView("auth")} />
           )}
