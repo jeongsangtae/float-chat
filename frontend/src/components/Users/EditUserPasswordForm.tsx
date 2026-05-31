@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
-import { Eye, EyeOff } from "lucide-react";
+import { Eye, EyeOff, ArrowLeft } from "lucide-react";
 
 import useAuthStore from "../../store/authStore";
 
@@ -61,50 +61,70 @@ const EditUserPasswordForm = ({ onBack }: OnBackProps) => {
 
   return (
     <form className={classes["password-edit-wrapper"]} onSubmit={submitHandler}>
-      <button type="button" onClick={onBack}>
-        뒤로 가기
-      </button>
-      <h2>비밀번호 변경</h2>
+      <h2 className={classes["password-edit-title"]}>
+        비밀번호 변경{" "}
+        <button type="button" onClick={onBack}>
+          <ArrowLeft />
+        </button>
+      </h2>
       <p>현재 비밀번호와 새 비밀번호를 입력하세요.</p>
 
       <label htmlFor="password">현재 비밀번호</label>
-      <input
-        type={showPassword ? "text" : "password"}
-        id="password"
-        name="password"
-        value={passwordEditData.password}
-        onChange={inputChangeHandler}
-      />
-      <button type="button" onClick={() => setShowPassword((prev) => !prev)}>
-        {showPassword ? <EyeOff /> : <Eye />}
-      </button>
+      <div className={classes["password-edit-input-wrapper"]}>
+        <input
+          type={showPassword ? "text" : "password"}
+          id="password"
+          name="password"
+          value={passwordEditData.password}
+          onChange={inputChangeHandler}
+          className={classes["password-edit-input"]}
+        />
+        <button
+          type="button"
+          className={classes["password-edit-eye-icon"]}
+          onClick={() => setShowPassword((prev) => !prev)}
+        >
+          {showPassword ? <EyeOff /> : <Eye />}
+        </button>
+      </div>
 
       <label htmlFor="new-password">새 비밀번호</label>
-      <input
-        type={showNewPassword ? "text" : "password"}
-        id="new-password"
-        name="newPassword"
-        value={passwordEditData.newPassword}
-        onChange={inputChangeHandler}
-      />
-      <button type="button" onClick={() => setShowNewPassword((prev) => !prev)}>
-        {showNewPassword ? <EyeOff /> : <Eye />}
-      </button>
+      <div className={classes["password-edit-input-wrapper"]}>
+        <input
+          type={showNewPassword ? "text" : "password"}
+          id="new-password"
+          name="newPassword"
+          value={passwordEditData.newPassword}
+          onChange={inputChangeHandler}
+          className={classes["password-edit-input"]}
+        />
+        <button
+          type="button"
+          className={classes["password-edit-eye-icon"]}
+          onClick={() => setShowNewPassword((prev) => !prev)}
+        >
+          {showNewPassword ? <EyeOff /> : <Eye />}
+        </button>
+      </div>
 
       <label htmlFor="confirm-new-password">새 비밀번호 확인</label>
-      <input
-        type={showConfirmPassword ? "text" : "password"}
-        id="confirm-new-password"
-        name="confirmNewPassword"
-        value={passwordEditData.confirmNewPassword}
-        onChange={inputChangeHandler}
-      />
-      <button
-        type="button"
-        onClick={() => setShowConfirmPassword((prev) => !prev)}
-      >
-        {showConfirmPassword ? <EyeOff /> : <Eye />}
-      </button>
+      <div className={classes["password-edit-input-wrapper"]}>
+        <input
+          type={showConfirmPassword ? "text" : "password"}
+          id="confirm-new-password"
+          name="confirmNewPassword"
+          value={passwordEditData.confirmNewPassword}
+          onChange={inputChangeHandler}
+          className={classes["password-edit-input"]}
+        />
+        <button
+          type="button"
+          className={classes["password-edit-eye-icon"]}
+          onClick={() => setShowConfirmPassword((prev) => !prev)}
+        >
+          {showConfirmPassword ? <EyeOff /> : <Eye />}
+        </button>
+      </div>
 
       <p className={classes["error-message"]}>{errorMessage}</p>
       <button type="submit">변경</button>

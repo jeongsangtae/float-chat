@@ -90,7 +90,12 @@ const UserSettings = ({ onToggle }: ModalProps) => {
               <div className={classes["auth-action-list"]}>
                 <div className={classes["auth-action-item"]}>
                   <div>비밀번호</div>
-                  <div onClick={() => setActiveView("password")}>수정</div>
+                  <button
+                    className={classes["auth-action-button"]}
+                    onClick={() => setActiveView("password")}
+                  >
+                    수정
+                  </button>
                 </div>
 
                 <div className={classes["auth-action-item"]}>
@@ -102,7 +107,12 @@ const UserSettings = ({ onToggle }: ModalProps) => {
                       계정을 영구적으로 삭제
                     </div>
                   </div>
-                  <div onClick={() => setActiveView("deleteUser")}>삭제</div>
+                  <button
+                    className={`${classes["auth-action-button"]} ${classes["delete-button"]}`}
+                    onClick={() => setActiveView("deleteUser")}
+                  >
+                    삭제
+                  </button>
                 </div>
               </div>
             </div>

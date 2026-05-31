@@ -20,12 +20,10 @@
 .nickname-edit-title {
   font-size: var(--font-base);
   font-weight: var(--font-weight-bold);
-  margin-left: var(--space-sm);
   color: var(--color-text-subtle);
 }
 
 .nickname-edit-input {
-  margin: 0 var(--space-sm);
   padding: var(--space-sm);
   border: 1px solid var(--color-border-muted);
   border-radius: var(--radius-sm);
@@ -60,7 +58,7 @@
 .underline {
   height: 1px;
   background-color: var(--color-divider);
-  margin: var(--space-xs) var(--space-sm) var(--space-xl) var(--space-sm);
+  margin: var(--space-xs) 0 var(--space-xl) 0;
 }
 
 .avatar-header {
@@ -72,12 +70,10 @@
 .avatar-edit-title {
   font-size: var(--font-base);
   font-weight: var(--font-weight-bold);
-  margin-left: var(--space-sm);
   color: var(--color-text-subtle);
 }
 
 .avatar-mode-button {
-  margin-right: var(--space-sm);
   font-size: var(--font-sm);
   border: none;
   color: var(--color-text);
@@ -138,7 +134,6 @@
 
 .avatar-img-url-input {
   width: 100%;
-  margin: 0 var(--space-sm);
   padding: var(--space-sm) var(--space-sm);
   padding-right: var(--space-3xl);
   border: 1px solid var(--color-border-muted);
@@ -155,9 +150,9 @@
 
 .avatar-img-reset-button {
   position: absolute;
-  right: 0.5rem;
+  right: -0.1rem;
   margin-right: var(--space-sm);
-  font-size: 1.1rem;
+  font-size: 1.15rem;
   border: none;
   color: var(--color-icon-quaternary);
   cursor: pointer;
@@ -171,7 +166,7 @@
   display: grid;
   grid-template-columns: repeat(5, 1fr); /* 5 X 4로 표시 */
   gap: var(--space-sm);
-  padding: var(--space-sm);
+  padding: var(--space-sm) 0;
   place-items: center; /* = align-items: center; + justify-items: center; */
 }
 
@@ -196,7 +191,7 @@
 
 .submit-button {
   text-align: end;
-  margin: var(--space-sm);
+  margin: var(--space-sm) 0;
 }
 
 .active {
