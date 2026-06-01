@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { Eye, EyeOff } from "lucide-react";
+import { Eye, EyeOff, ArrowLeft } from "lucide-react";
 
 import useAuthStore from "../../store/authStore";
 import useSocketStore from "../../store/socketStore";
@@ -68,35 +68,55 @@ const DeleteUserForm = ({ onBack, onToggle }: DeleteUserFormProps) => {
 
   return (
     <form className={classes["user-delete-wrapper"]} onSubmit={submitHandler}>
-      <button type="button" onClick={onBack}>
-        뒤로 가기
-      </button>
-      <h2>계정 탈퇴</h2>
-      <p>⚠ 계정 탈퇴 시 복구 불가능합니다.</p>
+      <h2 className={classes["user-delete-title"]}>
+        계정 탈퇴
+        <button type="button" onClick={onBack}>
+          <ArrowLeft />
+        </button>
+      </h2>
+      <p className={classes["user-delete-description"]}>
+        ⚠ 계정 탈퇴 시 복구 불가능합니다.
+      </p>
 
-      <label htmlFor="password">비밀번호 입력</label>
-      <input
-        type={showPassword ? "text" : "password"}
-        id="password"
-        name="password"
-        value={userDeleteData.password}
-        onChange={inputChangeHandler}
-      />
-      <button type="button" onClick={() => setShowPassword((prev) => !prev)}>
-        {showPassword ? <EyeOff /> : <Eye />}
-      </button>
+      <label className={classes["user-delete-label"]} htmlFor="password">
+        비밀번호 입력
+      </label>
+      <div className={classes["user-delete-input-wrapper"]}>
+        <input
+          type={showPassword ? "text" : "password"}
+          id="password"
+          name="password"
+          value={userDeleteData.password}
+          onChange={inputChangeHandler}
+          className={classes["user-delete-input"]}
+        />
+        <button
+          type="button"
+          className={classes["user-delete-eye-icon"]}
+          onClick={() => setShowPassword((prev) => !prev)}
+        >
+          {showPassword ? <EyeOff /> : <Eye />}
+        </button>
+      </div>
 
-      <label htmlFor="confirmText">"탈퇴하겠습니다"를 입력하세요</label>
-      <input
-        type="text"
-        id="confirm-text"
-        name="confirmText"
-        value={userDeleteData.confirmText}
-        onChange={inputChangeHandler}
-      />
+      <label className={classes["user-delete-label"]} htmlFor="confirmText">
+        "탈퇴하겠습니다"를 입력하세요
+      </label>
+      <div className={classes["user-delete-input-wrapper"]}>
+        <input
+          type="text"
+          id="confirm-text"
+          name="confirmText"
+          value={userDeleteData.confirmText}
+          onChange={inputChangeHandler}
+          className={classes["user-delete-input"]}
+        />
+      </div>
 
       <p className={classes["error-message"]}>{errorMessage}</p>
-      <button type="submit">탈퇴</button>
+      <div className={classes["user-delete-submit"]}>
+        <button type="submit">탈퇴</button>
+      </div>
     </form>
   );
 };

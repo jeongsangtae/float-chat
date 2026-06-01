@@ -62,14 +62,22 @@ const EditUserPasswordForm = ({ onBack }: OnBackProps) => {
   return (
     <form className={classes["password-edit-wrapper"]} onSubmit={submitHandler}>
       <h2 className={classes["password-edit-title"]}>
-        비밀번호 변경{" "}
-        <button type="button" onClick={onBack}>
+        비밀번호 변경
+        <button
+          className={classes["password-edit-back"]}
+          type="button"
+          onClick={onBack}
+        >
           <ArrowLeft />
         </button>
       </h2>
-      <p>현재 비밀번호와 새 비밀번호를 입력하세요.</p>
+      <p className={classes["password-edit-description"]}>
+        현재 비밀번호와 새 비밀번호를 입력하세요.
+      </p>
 
-      <label htmlFor="password">현재 비밀번호</label>
+      <label className={classes["password-edit-label"]} htmlFor="password">
+        현재 비밀번호
+      </label>
       <div className={classes["password-edit-input-wrapper"]}>
         <input
           type={showPassword ? "text" : "password"}
@@ -88,7 +96,9 @@ const EditUserPasswordForm = ({ onBack }: OnBackProps) => {
         </button>
       </div>
 
-      <label htmlFor="new-password">새 비밀번호</label>
+      <label className={classes["password-edit-label"]} htmlFor="new-password">
+        새 비밀번호
+      </label>
       <div className={classes["password-edit-input-wrapper"]}>
         <input
           type={showNewPassword ? "text" : "password"}
@@ -107,7 +117,12 @@ const EditUserPasswordForm = ({ onBack }: OnBackProps) => {
         </button>
       </div>
 
-      <label htmlFor="confirm-new-password">새 비밀번호 확인</label>
+      <label
+        className={classes["password-edit-label"]}
+        htmlFor="confirm-new-password"
+      >
+        새 비밀번호 확인
+      </label>
       <div className={classes["password-edit-input-wrapper"]}>
         <input
           type={showConfirmPassword ? "text" : "password"}
@@ -127,7 +142,9 @@ const EditUserPasswordForm = ({ onBack }: OnBackProps) => {
       </div>
 
       <p className={classes["error-message"]}>{errorMessage}</p>
-      <button type="submit">변경</button>
+      <div className={classes["password-edit-submit"]}>
+        <button type="submit">변경</button>
+      </div>
     </form>
   );
 };

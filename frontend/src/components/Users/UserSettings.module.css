@@ -169,6 +169,7 @@
 }
 
 .auth-action-description {
+  color: var(--color-text-secondary);
   font-size: 0.8rem;
   font-weight: 300;
 }
