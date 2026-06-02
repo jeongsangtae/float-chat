@@ -108,7 +108,7 @@
 }
 
 .auth-title {
-  text-align: center;
+  /* text-align: center; */
   font-size: var(--font-lg);
   margin: var(--space-lg) 0 var(--space-xs) 0;
 }

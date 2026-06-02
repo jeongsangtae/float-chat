@@ -61,8 +61,7 @@ const EditUserPasswordForm = ({ onBack }: OnBackProps) => {
 
   return (
     <form className={classes["password-edit-wrapper"]} onSubmit={submitHandler}>
-      <h2 className={classes["password-edit-title"]}>
-        비밀번호 변경
+      <div className={classes["password-edit-title-wrapper"]}>
         <button
           className={classes["password-edit-back"]}
           type="button"
@@ -70,7 +69,8 @@ const EditUserPasswordForm = ({ onBack }: OnBackProps) => {
         >
           <ArrowLeft />
         </button>
-      </h2>
+        <h2 className={classes["password-edit-title"]}>비밀번호 변경</h2>
+      </div>
       <p className={classes["password-edit-description"]}>
         현재 비밀번호와 새 비밀번호를 입력하세요.
       </p>

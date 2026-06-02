@@ -3,10 +3,129 @@
   flex-direction: column;
 }
 
+.user-delete-title-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+
+  margin-top: var(--space-lg);
+  margin-bottom: var(--space-xs);
+}
+
+.user-delete-back {
+  padding: 0;
+  margin: 0;
+  background-color: transparent;
+  border: none;
+  margin-right: var(--space-sm);
+  width: 1.1rem;
+  height: 1.1rem;
+  border: none;
+  color: var(--color-icon-quaternary);
+  cursor: pointer;
+}
+
+.user-delete-back:hover {
+  color: var(--color-icon);
+}
+
+.user-delete-back svg {
+  width: 1.1rem;
+  height: 1.1rem;
+}
+
+.user-delete-title {
+  font-size: var(--font-lg);
+  margin: 0;
+}
+
+.user-delete-description {
+  margin: 0;
+  color: var(--color-text-secondary);
+  font-size: 0.8rem;
+  font-weight: 300;
+  margin-bottom: 1.5rem;
+}
+
+.user-delete-label {
+  margin: 0.25rem 0;
+  font-size: var(--font-base);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text);
+}
+
+.user-delete-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 0.75rem;
+}
+
+.user-delete-input {
+  width: 100%;
+  padding: var(--space-sm) var(--space-sm);
+  padding-right: var(--space-3xl);
+  border: 1px solid var(--color-border-muted);
+  border-radius: var(--radius-sm);
+  background-color: transparent;
+  color: var(--color-text);
+  font-size: var(--font-sm);
+}
+
+.user-delete-input:focus {
+  outline: none;
+  border-color: var(--color-border-focus);
+}
+
+.user-delete-eye-icon {
+  position: absolute;
+  padding: 0;
+  margin: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 0.1rem;
+  background-color: transparent;
+  border: none;
+  margin-right: var(--space-sm);
+  width: 1rem;
+  height: 1rem;
+  border: none;
+  color: var(--color-icon-quaternary);
+  cursor: pointer;
+}
+
+.user-delete-eye-icon:hover {
+  color: var(--color-icon);
+}
+
+.user-delete-eye-icon svg {
+  width: 1rem;
+  height: 1rem;
+}
+
 .error-message {
   height: 0.1rem;
   line-height: 0.5rem;
   color: var(--color-error);
   font-size: var(--font-xs);
   opacity: 1;
+}
+
+.user-delete-submit {
+  text-align: end;
+}
+
+.user-delete-submit button {
+  background-color: var(--color-danger);
+  color: var(--color-text);
+  border: none;
+  padding: 0.3rem var(--space-md);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-sm);
+  cursor: pointer;
+}
+
+.user-delete-submit button:hover {
+  background-color: var(--color-danger-hover);
 }

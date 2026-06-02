@@ -68,12 +68,16 @@ const DeleteUserForm = ({ onBack, onToggle }: DeleteUserFormProps) => {
 
   return (
     <form className={classes["user-delete-wrapper"]} onSubmit={submitHandler}>
-      <h2 className={classes["user-delete-title"]}>
-        계정 탈퇴
-        <button type="button" onClick={onBack}>
+      <div className={classes["user-delete-title-wrapper"]}>
+        <button
+          className={classes["user-delete-back"]}
+          type="button"
+          onClick={onBack}
+        >
           <ArrowLeft />
         </button>
-      </h2>
+        <h2 className={classes["user-delete-title"]}>계정 탈퇴</h2>
+      </div>
       <p className={classes["user-delete-description"]}>
         ⚠ 계정 탈퇴 시 복구 불가능합니다.
       </p>
