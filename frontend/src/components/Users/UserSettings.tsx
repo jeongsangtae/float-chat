@@ -71,6 +71,7 @@ const UserSettings = ({ onToggle }: ModalProps) => {
               <h2 className={classes["auth-title"]}>계정</h2>
 
               <div className={classes["auth-info-list"]}>
+                <div className={classes["section-title"]}>계정 정보</div>
                 <div className={classes["auth-info-item"]}>
                   <div>닉네임</div>
                   <div>{userInfo?.nickname}</div>
@@ -88,6 +89,7 @@ const UserSettings = ({ onToggle }: ModalProps) => {
               </div>
 
               <div className={classes["auth-action-list"]}>
+                <div className={classes["section-title"]}>보안</div>
                 <div className={classes["auth-action-item"]}>
                   <div>비밀번호</div>
                   <button
@@ -98,6 +100,7 @@ const UserSettings = ({ onToggle }: ModalProps) => {
                   </button>
                 </div>
 
+                <div className={classes["section-title"]}>위험</div>
                 <div className={classes["auth-action-item"]}>
                   <div className={classes["auth-action-content"]}>
                     <div className={classes["auth-action-title"]}>

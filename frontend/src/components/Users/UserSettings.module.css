@@ -110,20 +110,34 @@
 .auth-title {
   /* text-align: center; */
   font-size: var(--font-lg);
-  margin: var(--space-lg) 0 var(--space-xs) 0;
+  /* margin: var(--space-lg) 0 var(--space-xs) 0; */
+  margin: 0 0 var(--space-lg) 0;
 }
 
 .auth-info-list {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  /* gap: 1rem; */
   margin-top: 1rem;
+}
+
+.section-title {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #9ca3af;
+
+  /* margin: 0; */
+  /* margin-top: 2rem; */
+  margin-bottom: 0.25rem;
+
+  text-transform: uppercase;
 }
 
 .auth-info-item {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  margin: 0.5rem 0;
 }
 
 .auth-info-item > div:first-child {
@@ -133,8 +147,8 @@
 .auth-action-list {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
-  margin-top: 6rem;
+  /* gap: 1.5rem; */
+  margin-top: 2rem;
 }
 
 .auth-action-item {
@@ -142,6 +156,7 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  margin: 0.5rem 0;
 }
 
 .auth-action-item > div:first-child {
@@ -166,6 +181,7 @@
 .auth-action-content {
   display: flex;
   flex-direction: column;
+  margin-top: 0.5rem;
 }
 
 .auth-action-description {

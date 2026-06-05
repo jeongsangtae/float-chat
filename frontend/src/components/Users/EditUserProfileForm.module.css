@@ -7,7 +7,8 @@
 .title {
   /* text-align: center; */
   font-size: var(--font-lg);
-  margin: var(--space-lg) 0 var(--space-xs) 0;
+  /* margin: var(--space-lg) 0 var(--space-xs) 0; */
+  margin: 0 0 var(--space-lg) 0;
 }
 
 .nickname-edit-wrapper {
