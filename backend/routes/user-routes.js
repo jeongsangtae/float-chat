@@ -652,7 +652,7 @@ router.patch("/editUserPasswordForm", async (req, res) => {
     if (password === newPassword) {
       return res
         .status(400)
-        .json({ message: "수정하려는 비밀번호가 현재 비밀번호와 일치합니다." });
+        .json({ message: "새 비밀번호가 현재 비밀번호와 동일합니다." });
     }
 
     if (newPassword !== confirmNewPassword) {

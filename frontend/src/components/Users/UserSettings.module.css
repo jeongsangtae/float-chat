@@ -125,12 +125,14 @@
   font-size: 0.9rem;
   font-weight: 700;
   color: #9ca3af;
-
-  /* margin: 0; */
-  /* margin-top: 2rem; */
   margin-bottom: 0.25rem;
+}
 
-  text-transform: uppercase;
+.danger-section {
+  margin-top: 1rem;
+  /* margin-top: 0.75rem; */
+  color: var(--color-danger);
+  /* color: var(--color-error); */
 }
 
 .auth-info-item {
@@ -157,6 +159,10 @@
   justify-content: space-between;
   align-items: center;
   margin: 0.5rem 0;
+}
+
+.danger-item {
+  margin: 0;
 }
 
 .auth-action-item > div:first-child {
