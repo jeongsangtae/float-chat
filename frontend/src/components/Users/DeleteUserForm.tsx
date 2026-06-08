@@ -112,6 +112,7 @@ const DeleteUserForm = ({ onBack, onToggle }: DeleteUserFormProps) => {
           id="confirm-text"
           name="confirmText"
           value={userDeleteData.confirmText}
+          placeholder="탈퇴하겠습니다"
           onChange={inputChangeHandler}
           className={classes["user-delete-input"]}
         />
