@@ -22,13 +22,17 @@ const UserSettings = ({ onToggle }: ModalProps) => {
     "profile" | "auth" | "password" | "deleteUser"
   >("profile");
 
+  console.log("UserSettings");
+
   return (
     <Modal onToggle={onToggle}>
       <div className={classes["user-setting-wrapper"]}>
         {/* 버튼 영역 */}
         <div className={classes["user-setting-sidebar-wrapper"]}>
           <div
-            className={classes["user-info"]}
+            className={`${classes["user-info"]} ${
+              activeView === "profile" ? classes.active : ""
+            }`}
             onClick={() => setActiveView("profile")}
           >
             <div className={classes["user-info-avatar"]}>
@@ -51,7 +55,11 @@ const UserSettings = ({ onToggle }: ModalProps) => {
           </div>
           <div className={classes.underline}></div>
           <div
-            className={classes["auth-menu"]}
+            className={`${classes["auth-menu"]} ${
+              ["auth", "password", "deleteUser"].includes(activeView)
+                ? classes.active
+                : ""
+            }`}
             onClick={() => setActiveView("auth")}
           >
             <FaUser className={classes["auth-menu-icon"]} />

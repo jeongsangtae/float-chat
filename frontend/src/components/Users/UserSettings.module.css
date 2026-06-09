@@ -25,7 +25,6 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-
   padding: var(--space-sm);
   cursor: pointer;
 }
@@ -33,6 +32,12 @@
 .user-info:hover {
   background-color: var(--sub-side-btn-hover);
   border-radius: var(--radius-xs);
+}
+
+.user-info.active {
+  background-color: var(--sub-side-btn-hover);
+  border-radius: var(--radius-xs);
+  color: var(--color-text);
 }
 
 .user-info:hover .user-profile-edit {
@@ -191,4 +196,14 @@
 
 .delete-button:hover {
   background-color: var(--color-danger-hover);
+}
+
+.active {
+  background-color: var(--sub-side-btn-hover);
+  border-radius: var(--radius-xs);
+  color: var(--color-text);
+}
+
+.active .user-profile-edit {
+  color: var(--color-text);
 }

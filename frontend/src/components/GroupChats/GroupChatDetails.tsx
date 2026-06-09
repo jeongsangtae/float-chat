@@ -284,9 +284,9 @@ const GroupChatDetails = () => {
         />
       )} */}
 
-      {activeModal === "userSettings" && (
+      {/* {activeModal === "userSettings" && (
         <UserSettings onToggle={() => toggleModal("userSettings")} />
-      )}
+      )} */}
 
       {activeModal === "userProfileDetails" && (
         <UserProfileDetails
