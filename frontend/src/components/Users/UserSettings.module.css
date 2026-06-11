@@ -34,12 +34,6 @@
   border-radius: var(--radius-xs);
 }
 
-.user-info.active {
-  background-color: var(--sub-side-btn-hover);
-  border-radius: var(--radius-xs);
-  color: var(--color-text);
-}
-
 .user-info:hover .user-profile-edit {
   color: var(--color-text);
 }
@@ -199,7 +193,7 @@
 }
 
 .active {
-  background-color: var(--sub-side-btn-hover);
+  background-color: var(--sub-side-btn-active);
   border-radius: var(--radius-xs);
   color: var(--color-text);
 }

@@ -7,7 +7,6 @@ import { IoClose, IoPersonAddSharp } from "react-icons/io5";
 
 import { Coords } from "../../types";
 
-import UserSettings from "../Users/UserSettings";
 // import EditUserProfileForm from "../Users/EditUserProfileForm";
 import UserProfile from "../Users/UserProfile";
 import UserProfileDetails from "../Users/UserProfileDetails";
@@ -282,10 +281,6 @@ const GroupChatDetails = () => {
         <EditUserProfileForm
           onToggle={() => toggleModal("editUserProfileForm")}
         />
-      )} */}
-
-      {/* {activeModal === "userSettings" && (
-        <UserSettings onToggle={() => toggleModal("userSettings")} />
       )} */}
 
       {activeModal === "userProfileDetails" && (

@@ -7,9 +7,6 @@
   background-color: rgba(40, 40, 40, 0.5);
   overflow: hidden;
   z-index: var(--z-overlay);
-
-  background: red !important;
-  opacity: 0.5;
 }
 
 .modal {
