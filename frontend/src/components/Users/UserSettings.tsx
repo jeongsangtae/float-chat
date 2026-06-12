@@ -22,8 +22,6 @@ const UserSettings = ({ onToggle }: ModalProps) => {
     "profile" | "auth" | "password" | "deleteUser"
   >("profile");
 
-  console.log("UserSettings");
-
   return (
     <Modal onToggle={onToggle}>
       <div className={classes["user-setting-wrapper"]}>

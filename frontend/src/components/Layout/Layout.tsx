@@ -1,5 +1,6 @@
 import { ReactNode, useState, useEffect } from "react";
 
+import { FaBell } from "react-icons/fa";
 import { ToastContainer } from "react-toastify";
 
 import Notification from "../UI/Notification";
@@ -7,6 +8,7 @@ import SideBar from "./SideBar";
 
 import useAuthStore from "../../store/authStore";
 import useLayoutStore from "../../store/layoutStore";
+import useSocketStore from "../../store/socketStore";
 
 import classes from "./Layout.module.css";
 
@@ -17,9 +19,11 @@ interface LayoutProps {
 
 const Layout = ({ children, onLeaveChatRoom }: LayoutProps) => {
   const { userInfo, updateTheme } = useAuthStore();
+  const { notification } = useSocketStore();
   const { theme, setTheme, currentView, groupChatTitle } = useLayoutStore();
 
   const [fullOpacity, setFullOpacity] = useState(1);
+  const [toggleNotification, setToggleNotification] = useState(false);
 
   const themes = [
     "dark",
@@ -88,6 +92,15 @@ const Layout = ({ children, onLeaveChatRoom }: LayoutProps) => {
         {currentView === "directChat" && "다이렉트 메시지"}
         {currentView === "groupChat" && groupChatTitle}
       </div>
+      <button
+        className={classes["notification-button"]}
+        onClick={() => setToggleNotification(!toggleNotification)}
+      >
+        <FaBell />
+        {notification.length > 0 && (
+          <div className={classes["notification-badge"]}></div>
+        )}
+      </button>
       {themes.map((t) => (
         <button
           key={t}
@@ -109,6 +122,14 @@ const Layout = ({ children, onLeaveChatRoom }: LayoutProps) => {
         <div className={classes["main-content"]}>{children}</div>
         <Notification />
       </div>
+      {toggleNotification &&
+        notification.map((notif) => (
+          <div key={notif.id} className={classes["notification-item"]}>
+            <div>{notif.senderNickname}</div>
+            <div>{notif.message}</div>
+          </div>
+        ))}
+      <div></div>
     </div>
   );
 };
