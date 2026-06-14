@@ -3,7 +3,7 @@ import { toast } from "react-toastify";
 
 import { Socket, io } from "socket.io-client";
 
-import { Notification } from "../types";
+import { NotificationData } from "../types";
 
 import useAuthStore from "./authStore";
 import useFriendStore from "./friendStore";
@@ -14,8 +14,11 @@ const apiURL = import.meta.env.VITE_API_URL;
 interface SocketStore {
   socket: Socket | null;
   currentRoom: string | null; // 방 번호인 _id (로컬 스토리지에서 가져옴)
-  notification: Notification[];
+  notification: NotificationData[]; // 토스트용
+  notificationHistory: NotificationData[]; // 알림 보관용
+  unReadNotification: boolean;
   connect: () => void;
+  readNotification: () => void;
   joinChatRoom: (roomId: string) => void;
   leaveChatRoom: () => void;
   disconnect: () => void;
@@ -25,6 +28,8 @@ const useSocketStore = create<SocketStore>((set, get) => ({
   socket: null,
   currentRoom: localStorage.getItem("currentRoom") || null,
   notification: [],
+  notificationHistory: [],
+  unReadNotification: false,
   connect: () => {
     try {
       const { userInfo } = useAuthStore.getState();
@@ -47,18 +52,20 @@ const useSocketStore = create<SocketStore>((set, get) => ({
 
       // 친구 요청 알림 수신 이벤트
       newSocket.on("friendRequest", (newRequest) => {
+        const notificationData: NotificationData = {
+          type: "friendRequest",
+          id: newRequest.id,
+          senderNickname: newRequest.senderNickname,
+          avatarColor: newRequest.avatarColor,
+          avatarImageUrl: newRequest.avatarImageUrl,
+          message: newRequest.message,
+          // isRead: false,
+        };
+
         set((state) => ({
-          notification: [
-            ...state.notification,
-            {
-              type: "friendRequest",
-              id: newRequest.id,
-              senderNickname: newRequest.senderNickname,
-              avatarColor: newRequest.avatarColor,
-              avatarImageUrl: newRequest.avatarImageUrl,
-              message: newRequest.message,
-            },
-          ],
+          notification: [...state.notification, notificationData],
+          notificationHistory: [notificationData, ...state.notificationHistory],
+          unReadNotification: true,
         }));
 
         setTimeout(() => {
@@ -74,19 +81,21 @@ const useSocketStore = create<SocketStore>((set, get) => ({
 
       // 새로운 메시지 알림 수신 이벤트
       newSocket.on("messageNotification", (newMessage) => {
+        const notificationData: NotificationData = {
+          type: "friendRequest",
+          id: newMessage.id,
+          roomTitle: newMessage.roomTitle,
+          senderNickname: newMessage.senderNickname,
+          avatarColor: newMessage.avatarColor,
+          avatarImageUrl: newMessage.avatarImageUrl,
+          message: newMessage.message,
+          // isRead: false,
+        };
+
         set((state) => ({
-          notification: [
-            ...state.notification,
-            {
-              type: "messageNotification",
-              id: newMessage.id,
-              roomTitle: newMessage.roomTitle,
-              senderNickname: newMessage.senderNickname,
-              avatarColor: newMessage.avatarColor,
-              avatarImageUrl: newMessage.avatarImageUrl,
-              message: newMessage.message,
-            },
-          ],
+          notification: [...state.notification, notificationData],
+          notificationHistory: [notificationData, ...state.notificationHistory],
+          unReadNotification: true,
         }));
 
         setTimeout(() => {
@@ -99,19 +108,21 @@ const useSocketStore = create<SocketStore>((set, get) => ({
       });
 
       newSocket.on("groupChatInviteNotification", (groupChatInvite) => {
+        const notificationData: NotificationData = {
+          type: "friendRequest",
+          id: groupChatInvite.id,
+          roomTitle: groupChatInvite.roomTitle,
+          senderNickname: groupChatInvite.senderNickname,
+          avatarColor: groupChatInvite.avatarColor,
+          avatarImageUrl: groupChatInvite.avatarImageUrl,
+          message: groupChatInvite.message,
+          // isRead: false,
+        };
+
         set((state) => ({
-          notification: [
-            ...state.notification,
-            {
-              type: "groupChatInviteNotification",
-              id: groupChatInvite.id,
-              roomTitle: groupChatInvite.roomTitle,
-              senderNickname: groupChatInvite.senderNickname,
-              avatarColor: groupChatInvite.avatarColor,
-              avatarImageUrl: groupChatInvite.avatarImageUrl,
-              message: groupChatInvite.message,
-            },
-          ],
+          notification: [...state.notification, notificationData],
+          notificationHistory: [notificationData, ...state.notificationHistory],
+          unReadNotification: true,
         }));
 
         setTimeout(() => {
@@ -129,6 +140,21 @@ const useSocketStore = create<SocketStore>((set, get) => ({
       toast.error("연결 오류 - 새로고침 후 다시 시도해주세요");
     }
   },
+
+  readNotification: () => {
+    set({
+      unReadNotification: false,
+    });
+  },
+
+  // readNotification: () => {
+  //   set((state) => ({
+  //     notificationHistory: state.notificationHistory.map((notification) => ({
+  //       ...notification,
+  //       isRead: true,
+  //     })),
+  //   }));
+  // },
 
   joinChatRoom: (roomId) => {
     const socket = get().socket;

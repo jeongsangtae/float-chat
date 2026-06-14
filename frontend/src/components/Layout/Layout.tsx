@@ -19,7 +19,8 @@ interface LayoutProps {
 
 const Layout = ({ children, onLeaveChatRoom }: LayoutProps) => {
   const { userInfo, updateTheme } = useAuthStore();
-  const { notification } = useSocketStore();
+  const { notificationHistory, unReadNotification, readNotification } =
+    useSocketStore();
   const { theme, setTheme, currentView, groupChatTitle } = useLayoutStore();
 
   const [fullOpacity, setFullOpacity] = useState(1);
@@ -77,6 +78,11 @@ const Layout = ({ children, onLeaveChatRoom }: LayoutProps) => {
     updateTheme(theme);
   };
 
+  const notificationHandler = () => {
+    readNotification();
+    setToggleNotification((prev) => !prev);
+  };
+
   return (
     <div className={classes.wrapper} style={{ opacity: fullOpacity }}>
       <ToastContainer
@@ -94,10 +100,10 @@ const Layout = ({ children, onLeaveChatRoom }: LayoutProps) => {
       </div>
       <button
         className={classes["notification-button"]}
-        onClick={() => setToggleNotification(!toggleNotification)}
+        onClick={notificationHandler}
       >
         <FaBell />
-        {notification.length > 0 && (
+        {unReadNotification && (
           <div className={classes["notification-badge"]}></div>
         )}
       </button>
@@ -123,7 +129,7 @@ const Layout = ({ children, onLeaveChatRoom }: LayoutProps) => {
         <Notification />
       </div>
       {toggleNotification &&
-        notification.map((notif) => (
+        notificationHistory.map((notif) => (
           <div key={notif.id} className={classes["notification-item"]}>
             <div>{notif.senderNickname}</div>
             <div>{notif.message}</div>

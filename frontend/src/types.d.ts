@@ -360,7 +360,7 @@ export interface FriendRequest {
 //   roomTitle?: string;
 // }
 
-export interface Notification {
+export interface NotificationData {
   type: "friendRequest" | "messageNotification" | "groupChatInviteNotification";
   id: string;
   roomTitle?: string;
@@ -368,4 +368,5 @@ export interface Notification {
   avatarColor: string | null;
   avatarImageUrl: string | null;
   message: string;
+  // isRead: boolean;
 }

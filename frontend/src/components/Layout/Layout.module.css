@@ -38,10 +38,7 @@
 .notification-button svg {
   width: 1.15rem;
   height: 1.15rem;
-  color: #fff;
-  /* color: #f0b232; */
-  color: #b9bbbe;
-  /* cursor: pointer; */
+  color: var(--color-icon-interactive);
 }
 
 .notification-button svg:hover {
@@ -52,15 +49,16 @@
 .notification-badge {
   position: absolute;
   top: -2px;
-  right: -4px;
-  width: 0.25rem;
-  height: 0.25rem;
-  /* top: -1px;
-  right: -1px;
-  width: 0.5rem;
-  height: 0.5rem; */
+  right: -2px;
+  width: 0.35rem;
+  height: 0.35rem;
   border-radius: 50%;
   background-color: #ed4245;
+}
+
+.notification-item {
+  background-color: black;
+  color: #fff;
 }
 
 .dark,
@@ -160,9 +158,4 @@
   display: flex;
   flex-direction: column;
   overflow-y: hidden;
-}
-
-.notification-item {
-  background-color: black;
-  color: #fff;
 }
