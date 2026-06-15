@@ -46,7 +46,7 @@
   transition: all 0.2s ease;
 }
 
-.notification-badge {
+.notification-dot {
   position: absolute;
   top: -2px;
   right: -2px;
@@ -56,9 +56,30 @@
   background-color: #ed4245;
 }
 
+.notification-dropdown {
+  position: fixed;
+  top: 40px;
+  right: 50px;
+  width: 320px;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.notification-header {
+}
+
+.notification-clear-button {
+}
+
+.notification-list {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
 .notification-item {
-  background-color: black;
+  background-color: var(--profile-bg);
   color: #fff;
+  cursor: default;
 }
 
 .dark,

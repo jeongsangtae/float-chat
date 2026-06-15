@@ -1,6 +1,6 @@
 import { ReactNode, useState, useEffect } from "react";
 
-import { FaBell } from "react-icons/fa";
+import { FaBell, FaTrash } from "react-icons/fa";
 import { ToastContainer } from "react-toastify";
 
 import Notification from "../UI/Notification";
@@ -9,6 +9,8 @@ import SideBar from "./SideBar";
 import useAuthStore from "../../store/authStore";
 import useLayoutStore from "../../store/layoutStore";
 import useSocketStore from "../../store/socketStore";
+
+import Avatar from "../Users/Avatar";
 
 import classes from "./Layout.module.css";
 
@@ -19,8 +21,12 @@ interface LayoutProps {
 
 const Layout = ({ children, onLeaveChatRoom }: LayoutProps) => {
   const { userInfo, updateTheme } = useAuthStore();
-  const { notificationHistory, unReadNotification, readNotification } =
-    useSocketStore();
+  const {
+    notificationHistory,
+    unReadNotification,
+    readNotification,
+    clearNotification,
+  } = useSocketStore();
   const { theme, setTheme, currentView, groupChatTitle } = useLayoutStore();
 
   const [fullOpacity, setFullOpacity] = useState(1);
@@ -83,6 +89,10 @@ const Layout = ({ children, onLeaveChatRoom }: LayoutProps) => {
     setToggleNotification((prev) => !prev);
   };
 
+  const notificationClearHandler = () => {
+    clearNotification();
+  };
+
   return (
     <div className={classes.wrapper} style={{ opacity: fullOpacity }}>
       <ToastContainer
@@ -104,7 +114,7 @@ const Layout = ({ children, onLeaveChatRoom }: LayoutProps) => {
       >
         <FaBell />
         {unReadNotification && (
-          <div className={classes["notification-badge"]}></div>
+          <div className={classes["notification-dot"]}></div>
         )}
       </button>
       {themes.map((t) => (
@@ -128,14 +138,34 @@ const Layout = ({ children, onLeaveChatRoom }: LayoutProps) => {
         <div className={classes["main-content"]}>{children}</div>
         <Notification />
       </div>
-      {toggleNotification &&
-        notificationHistory.map((notif) => (
-          <div key={notif.id} className={classes["notification-item"]}>
-            <div>{notif.senderNickname}</div>
-            <div>{notif.message}</div>
+      {toggleNotification && (
+        <div className={classes["notification-dropdown"]}>
+          <div className={classes["notification-header"]}>
+            <span>알림</span>
+            <button
+              className={classes["notification-clear-button"]}
+              onClick={notificationClearHandler}
+            >
+              <FaTrash />
+            </button>
           </div>
-        ))}
-      <div></div>
+
+          <div className={classes["notification-list"]}>
+            {notificationHistory.map((notif) => (
+              <div key={notif.id} className={classes["notification-item"]}>
+                {/* <div>{notif.avatarColor}</div> */}
+                <Avatar
+                  nickname={notif.senderNickname}
+                  avatarColor={notif.avatarColor}
+                  avatarImageUrl={notif.avatarImageUrl}
+                />
+                <div>{notif.senderNickname}</div>
+                <div>{notif.message}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 };

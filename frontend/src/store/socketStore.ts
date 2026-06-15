@@ -19,6 +19,7 @@ interface SocketStore {
   unReadNotification: boolean;
   connect: () => void;
   readNotification: () => void;
+  clearNotification: () => void;
   joinChatRoom: (roomId: string) => void;
   leaveChatRoom: () => void;
   disconnect: () => void;
@@ -82,7 +83,7 @@ const useSocketStore = create<SocketStore>((set, get) => ({
       // 새로운 메시지 알림 수신 이벤트
       newSocket.on("messageNotification", (newMessage) => {
         const notificationData: NotificationData = {
-          type: "friendRequest",
+          type: "messageNotification",
           id: newMessage.id,
           roomTitle: newMessage.roomTitle,
           senderNickname: newMessage.senderNickname,
@@ -109,7 +110,7 @@ const useSocketStore = create<SocketStore>((set, get) => ({
 
       newSocket.on("groupChatInviteNotification", (groupChatInvite) => {
         const notificationData: NotificationData = {
-          type: "friendRequest",
+          type: "groupChatInviteNotification",
           id: groupChatInvite.id,
           roomTitle: groupChatInvite.roomTitle,
           senderNickname: groupChatInvite.senderNickname,
@@ -143,6 +144,13 @@ const useSocketStore = create<SocketStore>((set, get) => ({
 
   readNotification: () => {
     set({
+      unReadNotification: false,
+    });
+  },
+
+  clearNotification: () => {
+    set({
+      notificationHistory: [],
       unReadNotification: false,
     });
   },

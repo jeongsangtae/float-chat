@@ -237,6 +237,7 @@ body {
   --chat-input: #292b2f;
 
   --notification-bg: #202225;
+  --notification-panel-bg: #43454d;
 }
 
 .theme-blue {
@@ -261,6 +262,7 @@ body {
   --chat-input: #334155;
 
   --notification-bg: #3f63a1;
+  --notification-panel-bg: #3f4758;
 }
 
 .theme-purple {
@@ -285,6 +287,7 @@ body {
   --chat-input: #3c2f5a;
 
   --notification-bg: #4b3fa3;
+  --notification-panel-bg: #413957;
 }
 
 .theme-emerald {
@@ -309,6 +312,7 @@ body {
   --chat-input: #1d3a34;
 
   --notification-bg: #266356;
+  --notification-panel-bg: #3f4f4a;
 }
 
 .theme-rose {
@@ -333,6 +337,7 @@ body {
   --chat-input: #2e2028;
 
   --notification-bg: #5a2f3d;
+  --notification-panel-bg: #493941;
 }
 
 .theme-sunset {
@@ -357,6 +362,7 @@ body {
   --chat-input: #33221a;
 
   --notification-bg: #6a3b2a;
+  --notification-panel-bg: #463328;
 }
 
 .theme-orange {
@@ -381,4 +387,5 @@ body {
   --chat-input: #332012;
 
   --notification-bg: #7a451f;
+  --notification-panel-bg: #4e3b28;
 }
