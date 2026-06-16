@@ -141,7 +141,7 @@ const Layout = ({ children, onLeaveChatRoom }: LayoutProps) => {
       {toggleNotification && (
         <div className={classes["notification-dropdown"]}>
           <div className={classes["notification-header"]}>
-            <span>알림</span>
+            <span className={classes["notification-title"]}>알림</span>
             <button
               className={classes["notification-clear-button"]}
               onClick={notificationClearHandler}
@@ -153,14 +153,27 @@ const Layout = ({ children, onLeaveChatRoom }: LayoutProps) => {
           <div className={classes["notification-list"]}>
             {notificationHistory.map((notif) => (
               <div key={notif.id} className={classes["notification-item"]}>
-                {/* <div>{notif.avatarColor}</div> */}
                 <Avatar
                   nickname={notif.senderNickname}
                   avatarColor={notif.avatarColor}
                   avatarImageUrl={notif.avatarImageUrl}
+                  extraClass="notif-list-avatar"
                 />
-                <div>{notif.senderNickname}</div>
-                <div>{notif.message}</div>
+
+                <div className={classes["notification-content"]}>
+                  <div className={classes["notification-nickname"]}>
+                    {notif.senderNickname}
+                    {notif.type === "messageNotification" &&
+                      notif.roomTitle &&
+                      `(${notif.roomTitle})`}
+                  </div>
+                  <div className={classes["notification-message"]}>
+                    {notif.type === "groupChatInviteNotification" &&
+                    notif.roomTitle
+                      ? `${notif.roomTitle} ${notif.message}`
+                      : notif.message}
+                  </div>
+                </div>
               </div>
             ))}
           </div>
