@@ -150,6 +150,8 @@ const Layout = ({ children, onLeaveChatRoom }: LayoutProps) => {
             </button>
           </div>
 
+          <div className={classes.underline}></div>
+
           <div className={classes["notification-list"]}>
             {notificationHistory.map((notif) => (
               <div key={notif.id} className={classes["notification-item"]}>

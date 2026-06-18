@@ -62,14 +62,23 @@
   width: 20rem;
   /* max-height: 25rem; */
   padding: 0.5rem;
-
   background-color: var(--notification-panel-bg);
-  /* background-color: #fff; */
-
   border-radius: var(--radius-md);
+  /* overflow: hidden; */
+}
 
-  /* overflow-y: auto; */
-  overflow: hidden;
+.notification-dropdown::before {
+  content: "";
+  position: absolute;
+  top: -0.4rem;
+  left: 3.4rem;
+  width: 0;
+  height: 0;
+
+  border-left: 0.4rem solid transparent;
+  border-right: 0.4rem solid transparent;
+
+  border-bottom: 0.4rem solid var(--notification-panel-bg);
 }
 
 .notification-header {
@@ -109,33 +118,52 @@
   transition: all 0.2s ease;
 }
 
+.underline {
+  height: 1px;
+  background-color: var(--color-divider);
+  margin: var(--space-sm) 0;
+}
+
 .notification-list {
-  max-height: 24rem;
+  max-height: 21.5rem;
   overflow-y: auto;
+
+  /* Firefox */
+  scrollbar-width: none;
+
+  /* IE, Edge */
+  -ms-overflow-style: none;
+}
+
+.notification-list::-webkit-scrollbar {
+  display: none;
 }
 
 .notification-item {
   display: flex;
   align-items: center;
   gap: var(--space-sm);
-  margin-bottom: 0.5rem;
-
-  /* background-color: var(--notification-bg); */
-  padding: var(--space-md) var(--space-lg);
+  padding: 0.75rem 0.5rem;
   border-radius: var(--radius-md);
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   font-size: var(--font-md);
-  /* width: 20rem; */
-  /* width: 19rem; */
   width: 100%;
   word-break: break-word;
   animation: fadeIn 0.3s ease-in-out;
 
-  /* background-color: var(--notification-panel-bg); */
-  /* background-color: rgba(255, 255, 255, 0.06); */
-  background-color: rgba(0, 0, 0, 0.15);
   color: #fff;
   cursor: default;
+}
+
+.notification-item:hover {
+  background-color: rgba(255, 255, 255, 0.04);
+}
+
+.notification-item:first-child {
+  padding-top: 0.25rem;
+}
+
+.notification-item:not(:last-child) {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .notification-content {
@@ -143,9 +171,6 @@
   flex-direction: column;
   font-size: var(--font-md);
   overflow: hidden;
-  /* display: flex;
-  flex-direction: column;
-  justify-content: center; */
 }
 
 .notification-nickname {

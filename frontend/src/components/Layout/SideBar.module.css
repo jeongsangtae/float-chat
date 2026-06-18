@@ -7,11 +7,6 @@
   height: 100vh;
   background-color: var(--bg-side);
   padding-bottom: 6rem;
-  /* overflow: visible; */
-  /* overscroll-behavior: none; */
-
-  /* overflow-x: hidden; */
-  /* overflow: auto; */
 }
 
 .sidebar-scroll {
