@@ -78,7 +78,7 @@
   border-left: 0.4rem solid transparent;
   border-right: 0.4rem solid transparent;
 
-  border-bottom: 0.4rem solid var(--notification-panel-bg);
+  border-bottom: 0.4rem solid var(--notification-panel-bg); /* 색 확인 필요 */
 }
 
 .notification-header {
@@ -121,7 +121,7 @@
 .underline {
   height: 1px;
   background-color: var(--color-divider);
-  margin: var(--space-sm) 0;
+  margin: var(--space-sm) 0 0 0;
 }
 
 .notification-list {
@@ -137,6 +137,14 @@
 
 .notification-list::-webkit-scrollbar {
   display: none;
+}
+
+.notification-empty {
+  padding: 1.5rem 0;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.6);
+  /* font-size: var(--font-sm); */
+  font-size: var(--font-md);
 }
 
 .notification-item {
@@ -155,11 +163,7 @@
 }
 
 .notification-item:hover {
-  background-color: rgba(255, 255, 255, 0.04);
-}
-
-.notification-item:first-child {
-  padding-top: 0.25rem;
+  background-color: rgba(255, 255, 255, 0.03);
 }
 
 .notification-item:not(:last-child) {

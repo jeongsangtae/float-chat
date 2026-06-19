@@ -1,4 +1,4 @@
-import { ReactNode, useState, useEffect } from "react";
+import { ReactNode, useState, useRef, useEffect } from "react";
 
 import { FaBell, FaTrash } from "react-icons/fa";
 import { ToastContainer } from "react-toastify";
@@ -31,6 +31,9 @@ const Layout = ({ children, onLeaveChatRoom }: LayoutProps) => {
 
   const [fullOpacity, setFullOpacity] = useState(1);
   const [toggleNotification, setToggleNotification] = useState(false);
+
+  const dropdownRef = useRef<HTMLDivElement>(null);
+  const buttonRef = useRef<HTMLButtonElement>(null);
 
   const themes = [
     "dark",
@@ -79,6 +82,24 @@ const Layout = ({ children, onLeaveChatRoom }: LayoutProps) => {
     document.body.classList.add(`theme-${theme}`);
   }, [theme]);
 
+  useEffect(() => {
+    const outsideClickHandler = (event: MouseEvent): void => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node) &&
+        !buttonRef.current?.contains(event.target as Node)
+      ) {
+        setToggleNotification(false);
+      }
+    };
+
+    document.addEventListener("mousedown", outsideClickHandler);
+
+    return () => {
+      document.removeEventListener("mousedown", outsideClickHandler);
+    };
+  }, []);
+
   const themeUpdateHandler = (theme: string) => {
     setTheme(theme);
     updateTheme(theme);
@@ -110,6 +131,7 @@ const Layout = ({ children, onLeaveChatRoom }: LayoutProps) => {
       </div>
       <button
         className={classes["notification-button"]}
+        ref={buttonRef}
         onClick={notificationHandler}
       >
         <FaBell />
@@ -139,45 +161,53 @@ const Layout = ({ children, onLeaveChatRoom }: LayoutProps) => {
         <Notification />
       </div>
       {toggleNotification && (
-        <div className={classes["notification-dropdown"]}>
+        <div ref={dropdownRef} className={classes["notification-dropdown"]}>
           <div className={classes["notification-header"]}>
             <span className={classes["notification-title"]}>알림</span>
-            <button
-              className={classes["notification-clear-button"]}
-              onClick={notificationClearHandler}
-            >
-              <FaTrash />
-            </button>
+            {notificationHistory.length > 0 && (
+              <button
+                className={classes["notification-clear-button"]}
+                onClick={notificationClearHandler}
+              >
+                <FaTrash />
+              </button>
+            )}
           </div>
 
           <div className={classes.underline}></div>
 
           <div className={classes["notification-list"]}>
-            {notificationHistory.map((notif) => (
-              <div key={notif.id} className={classes["notification-item"]}>
-                <Avatar
-                  nickname={notif.senderNickname}
-                  avatarColor={notif.avatarColor}
-                  avatarImageUrl={notif.avatarImageUrl}
-                  extraClass="notif-list-avatar"
-                />
+            {notificationHistory.length === 0 ? (
+              <div className={classes["notification-empty"]}>
+                알림이 없습니다.
+              </div>
+            ) : (
+              notificationHistory.map((notif) => (
+                <div key={notif.id} className={classes["notification-item"]}>
+                  <Avatar
+                    nickname={notif.senderNickname}
+                    avatarColor={notif.avatarColor}
+                    avatarImageUrl={notif.avatarImageUrl}
+                    extraClass="notif-list-avatar"
+                  />
 
-                <div className={classes["notification-content"]}>
-                  <div className={classes["notification-nickname"]}>
-                    {notif.senderNickname}
-                    {notif.type === "messageNotification" &&
-                      notif.roomTitle &&
-                      `(${notif.roomTitle})`}
-                  </div>
-                  <div className={classes["notification-message"]}>
-                    {notif.type === "groupChatInviteNotification" &&
-                    notif.roomTitle
-                      ? `${notif.roomTitle} ${notif.message}`
-                      : notif.message}
+                  <div className={classes["notification-content"]}>
+                    <div className={classes["notification-nickname"]}>
+                      {notif.senderNickname}
+                      {notif.type === "messageNotification" &&
+                        notif.roomTitle &&
+                        `(${notif.roomTitle})`}
+                    </div>
+                    <div className={classes["notification-message"]}>
+                      {notif.type === "groupChatInviteNotification" &&
+                      notif.roomTitle
+                        ? `${notif.roomTitle} ${notif.message}`
+                        : notif.message}
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              ))
+            )}
           </div>
         </div>
       )}
