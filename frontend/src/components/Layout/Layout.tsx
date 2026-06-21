@@ -158,7 +158,7 @@ const Layout = ({ children, onLeaveChatRoom }: LayoutProps) => {
         />
         <SideBar onLeaveChatRoom={onLeaveChatRoom} />
         <div className={classes["main-content"]}>{children}</div>
-        <Notification />
+        {!toggleNotification && <Notification />}
       </div>
       {toggleNotification && (
         <div ref={dropdownRef} className={classes["notification-dropdown"]}>

@@ -93,7 +93,7 @@
 
 .user-setting-content-wrapper {
   width: 15rem;
-  margin: 1.5rem auto;
+  margin: var(--space-2xl) auto;
 }
 
 .auth-wrapper {

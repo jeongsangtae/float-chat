@@ -23,16 +23,10 @@
   border: none;
   top: 7px;
   right: 300px;
-  color: #fff;
   background-color: transparent;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: var(--transition-all);
 }
-
-/* .notification-button:hover {
-  color: black;
-  transition: all 0.2s ease;
-} */
 
 .notification-button svg {
   width: 1.15rem;
@@ -41,8 +35,8 @@
 }
 
 .notification-button svg:hover {
-  color: #fff;
-  transition: all 0.2s ease;
+  color: var(--color-icon);
+  transition: var(--transition-all);
 }
 
 .notification-dot {
@@ -52,7 +46,7 @@
   width: 0.35rem;
   height: 0.35rem;
   border-radius: 50%;
-  background-color: #ed4245;
+  background-color: var(--color-danger);
 }
 
 .notification-dropdown {
@@ -60,11 +54,9 @@
   top: 40px;
   right: 50px;
   width: 20rem;
-  /* max-height: 25rem; */
-  padding: 0.5rem;
+  padding: var(--space-sm);
   background-color: var(--notification-panel-bg);
   border-radius: var(--radius-md);
-  /* overflow: hidden; */
 }
 
 .notification-dropdown::before {
@@ -74,22 +66,16 @@
   left: 3.4rem;
   width: 0;
   height: 0;
-
   border-left: 0.4rem solid transparent;
   border-right: 0.4rem solid transparent;
-
-  border-bottom: 0.4rem solid var(--notification-panel-bg); /* 색 확인 필요 */
+  border-bottom: 0.4rem solid var(--notification-panel-bg);
 }
 
 .notification-header {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  /* padding: 0.5rem; */
-
-  padding: 0.5rem 1rem;
-  /* padding: 0.75rem 1rem; */
-  /* border-bottom: 1px solid rgba(255, 255, 255, 0.08); */
+  padding: var(--space-sm) var(--space-lg);
 }
 
 .notification-title {
@@ -101,10 +87,9 @@
   height: 1.5rem;
   padding: 0;
   border: none;
-  color: #fff;
   background-color: transparent;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: var(--transition-all);
 }
 
 .notification-clear-button svg {
@@ -114,8 +99,8 @@
 }
 
 .notification-clear-button svg:hover {
-  color: #fff;
-  transition: all 0.2s ease;
+  color: var(--color-icon);
+  transition: var(--transition-all);
 }
 
 .underline {
@@ -140,26 +125,23 @@
 }
 
 .notification-empty {
-  padding: 1.5rem 0;
+  padding: var(--space-2xl) 0;
   text-align: center;
   color: rgba(255, 255, 255, 0.6);
-  /* font-size: var(--font-sm); */
-  font-size: var(--font-md);
+  font-size: var(--font-base);
 }
 
 .notification-item {
   display: flex;
   align-items: center;
   gap: var(--space-sm);
-  padding: 0.75rem 0.5rem;
+  padding: var(--space-md) var(--space-sm);
   border-radius: var(--radius-md);
   font-size: var(--font-md);
   width: 100%;
+  cursor: default;
   word-break: break-word;
   animation: fadeIn 0.3s ease-in-out;
-
-  color: #fff;
-  cursor: default;
 }
 
 .notification-item:hover {
@@ -178,7 +160,7 @@
 }
 
 .notification-nickname {
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
   color: var(--color-text);
   font-size: var(--font-md);
   line-height: var(--line-height-base);

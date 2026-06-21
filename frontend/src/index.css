@@ -94,6 +94,7 @@ button:focus-visible {
   --font-xl: 1.5rem;
 
   --font-weight-light: 300;
+  --font-weight-semibold: 600;
   --font-weight-bold: 700;
 
   --space-xs: 0.25rem;
