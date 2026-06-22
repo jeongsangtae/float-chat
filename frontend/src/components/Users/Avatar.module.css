@@ -39,11 +39,23 @@
   font-size: 1.5rem;
 }
 
+.user-profile-info-avatar {
+  width: 3.5rem;
+  height: 3.5rem;
+  font-size: 2rem;
+  box-shadow: 0 0 0 5px var(--profile-bg);
+}
+
+.user-profile-details-info-avatar,
 .direct-chat-starting-avatar,
 .group-chat-host-info-avatar {
   width: 4.5rem;
   height: 4.5rem;
   font-size: 2.5rem;
+}
+
+.user-profile-details-info-avatar {
+  box-shadow: 0 0 0 5px #43454d;
 }
 
 .group-chat-host-info-avatar {
@@ -84,4 +96,16 @@
   width: 1.05rem;
   height: 1.05rem;
   border: 3px solid var(--color-border-strong);
+}
+
+.user-profile-info-online-dot {
+  width: 1.25rem;
+  height: 1.25rem;
+  border: 4px solid var(--color-border-strong);
+}
+
+.user-profile-details-info-online-dot {
+  width: 1.5rem;
+  height: 1.5rem;
+  border: 5px solid var(--color-border-strong);
 }

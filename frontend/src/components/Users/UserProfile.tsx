@@ -4,6 +4,7 @@ import useAuthStore from "../../store/authStore";
 import useFriendStore from "../../store/friendStore";
 import useGroupChatStore from "../../store/groupChatStore";
 
+import Avatar from "./Avatar";
 import UserProfileChatInput from "../Chats/UserProfileChatInput";
 
 import { UserProfileProps } from "../../types";
@@ -180,25 +181,14 @@ const UserProfile = ({
         {userInfo?._id === userId ? (
           <>
             <div className={classes["user-profile-info-avatar-wrapper"]}>
-              {avatarImageUrl ? (
-                <img
-                  className={classes["user-profile-info-avatar-img"]}
-                  src={avatarImageUrl}
-                />
-              ) : (
-                <div
-                  className={classes["user-profile-info-avatar-color"]}
-                  style={{ backgroundColor: avatarColor || "#ccc" }}
-                >
-                  {nickname.charAt(0)}
-                </div>
-              )}
-              <div
-                className={
-                  onlineChecked
-                    ? classes["user-profile-info-online-dot"]
-                    : classes["user-profile-info-offline-dot"]
-                }
+              <Avatar
+                nickname={nickname}
+                avatarColor={avatarColor}
+                avatarImageUrl={avatarImageUrl}
+                onlineChecked={onlineChecked}
+                showOnlineDot={true}
+                extraClass="user-profile-info-avatar"
+                dotClass="user-profile-info-online-dot"
               />
             </div>
             <div className={classes["user-profile-info-content"]}>
@@ -218,25 +208,14 @@ const UserProfile = ({
         ) : (
           <>
             <div className={classes["user-profile-info-avatar-wrapper"]}>
-              {avatarImageUrl ? (
-                <img
-                  className={classes["user-profile-info-avatar-img"]}
-                  src={avatarImageUrl}
-                />
-              ) : (
-                <div
-                  className={classes["user-profile-info-avatar-color"]}
-                  style={{ backgroundColor: avatarColor || "#ccc" }}
-                >
-                  {nickname.charAt(0)}
-                </div>
-              )}
-              <div
-                className={
-                  onlineChecked
-                    ? classes["user-profile-info-online-dot"]
-                    : classes["user-profile-info-offline-dot"]
-                }
+              <Avatar
+                nickname={nickname}
+                avatarColor={avatarColor}
+                avatarImageUrl={avatarImageUrl}
+                onlineChecked={onlineChecked}
+                showOnlineDot={true}
+                extraClass="user-profile-info-avatar"
+                dotClass="user-profile-info-online-dot"
               />
             </div>
             <div className={classes["user-profile-info-content"]}>

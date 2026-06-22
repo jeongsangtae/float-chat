@@ -106,25 +106,14 @@ const UserProfileDetails = ({ onToggle }: ModalProps) => {
             <div
               className={classes["user-profile-details-info-avatar-wrapper"]}
             >
-              {modalData.avatarImageUrl ? (
-                <img
-                  className={classes["user-profile-details-info-avatar-img"]}
-                  src={modalData.avatarImageUrl}
-                />
-              ) : (
-                <div
-                  className={classes["user-profile-details-info-avatar-color"]}
-                  style={{ backgroundColor: modalData.avatarColor || "#ccc" }}
-                >
-                  {modalData.nickname.charAt(0)}
-                </div>
-              )}
-              <div
-                className={
-                  modalData.onlineChecked
-                    ? classes["user-profile-details-info-online-dot"]
-                    : classes["user-profile-details-info-offline-dot"]
-                }
+              <Avatar
+                nickname={modalData.nickname}
+                avatarColor={modalData.avatarColor}
+                avatarImageUrl={modalData.avatarImageUrl}
+                onlineChecked={modalData.onlineChecked}
+                showOnlineDot={true}
+                extraClass="user-profile-details-info-avatar"
+                dotClass="user-profile-details-info-online-dot"
               />
             </div>
           </div>
