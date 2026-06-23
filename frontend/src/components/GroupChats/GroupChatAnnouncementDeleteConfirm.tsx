@@ -13,7 +13,6 @@ const GroupChatAnnouncementDeleteConfirm = ({ onToggle }: ModalProps) => {
   const confirmHandler = async () => {
     try {
       await groupChatAnnouncementDelete("", modalData); // announcement를 ""로 초기화
-      console.log("그룹 채팅방 공지 삭제 성공");
       onToggle();
     } catch (error) {
       console.error("공지 삭제 실패:", error);

@@ -8,17 +8,10 @@ import {
   useSensors,
 } from "@dnd-kit/core";
 
-import {
-  arrayMove,
-  // SortableContext,
-  // verticalListSortingStrategy,
-} from "@dnd-kit/sortable";
-
-// import { restrictToVerticalAxis } from "@dnd-kit/modifiers";
+import { arrayMove } from "@dnd-kit/sortable";
 
 import useAuthStore from "../../store/authStore";
 import useGroupChatStore from "../../store/groupChatStore";
-// import GroupChat from "./GroupChat";
 
 import type {
   DragStartEvent,
@@ -29,7 +22,6 @@ import { ContextMenu } from "../../types";
 
 import LoadingIndicator from "../UI/LoadingIndicator";
 import DraggableGroupChat from "./DraggableGroupChat";
-// import SortableGroupChat from "./SortableGroupChat";
 
 import classes from "./GroupChats.module.css";
 
@@ -126,11 +118,14 @@ const GroupChats = () => {
     saveGroupChatOrder(newOrderIds);
   };
 
+  // 이전 SortableContext 기반 실시간 재정렬 구현은 제거
+  // 필요 시 Git History 참고
+  // 관련 커밋: code cleanup & comment update
+
   return (
     <>
       <DndContext
         sensors={sensors}
-        // modifiers={[restrictToVerticalAxis]}
         onDragStart={dragStartHandler}
         onDragOver={dragOverHandler}
         onDragEnd={dragEndHandler}
@@ -148,26 +143,6 @@ const GroupChats = () => {
             isSource={activeGroupChatId === groupChat._id}
           />
         ))}
-        {/* Sortable 방식 UX로 되돌릴 가능성 대비해서 유지
-         (드래그 중 실시간 재정렬 방식) */}
-        {/* <SortableContext
-          items={groupChats.map((groupChat) => groupChat._id)}
-          strategy={verticalListSortingStrategy}
-        >
-          {sortedGroupChats.map((groupChat) => (
-            <SortableGroupChat
-              key={groupChat._id}
-              _id={groupChat._id}
-              hostId={groupChat.hostId}
-              title={groupChat.title}
-              contextMenu={contextMenu}
-              setContextMenu={setContextMenu}
-              activeIndex={activeIndex}
-              overIndex={overIndex}
-              isActive={activeGroupChatId === groupChat._id}
-            />
-          ))}
-        </SortableContext> */}
         <DragOverlay>
           {activeGroupChat && (
             <div className={` ${classes["group-chat-overlay"]} `}>

@@ -139,23 +139,6 @@ const GroupChat = ({
 
   return (
     <>
-      {/* <div className={classes["group-chat-wrapper"]}>
-        <span className={classes.indicator} />
-        <div
-          className={`${classes["group-chat"]} ${active ? classes.active : ""}`}
-          onContextMenu={contextMenuOpenHandler}
-        >
-          <Link
-            to={`/group-chat/${_id.toString()}`}
-            className={`${classes.title} ${
-              title.length > 12 ? classes["title-small"] : ""
-            }`}
-          >
-            {title}
-          </Link>
-        </div>
-        {title && <span className={classes["tooltip-text"]}>{title}</span>}
-      </div> */}
       <div
         className={`${classes["group-chat"]} ${active ? classes.active : ""}`}
         onMouseEnter={mouseEnterHandler}
@@ -214,27 +197,5 @@ const GroupChat = ({
     </>
   );
 };
-
-{
-  /* {isDragging ? (
-          <span
-            className={`${classes.title} ${
-              title.length > 12 ? classes["title-small"] : ""
-            }`}
-          >
-            {title}
-          </span>
-        ) : (
-          <Link
-            to={`/group-chat/${_id.toString()}`}
-            className={`${classes.title} ${
-              title.length > 12 ? classes["title-small"] : ""
-            }`}
-            // title={title}
-          >
-            {title}
-          </Link>
-        )} */
-}
 
 export default GroupChat;

@@ -44,7 +44,6 @@ const GroupChatForm = ({ onToggle }: ModalProps) => {
 
     try {
       await groupChatForm(trimmedTitle, modalData);
-      console.log("그룹 채팅방 생성 성공");
       onToggle();
     } catch (error) {
       console.error("에러 내용:", error);

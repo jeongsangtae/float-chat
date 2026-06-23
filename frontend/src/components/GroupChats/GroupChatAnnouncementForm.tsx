@@ -54,7 +54,7 @@ const GroupChatAnnouncementForm = ({ onToggle }: ModalProps) => {
 
     try {
       await groupChatAnnouncementForm(trimmedAnnouncement, modalData);
-      console.log("그룹 채팅방 공지 수정 성공");
+
       onToggle();
     } catch (error) {
       console.error("에러 내용:", error);

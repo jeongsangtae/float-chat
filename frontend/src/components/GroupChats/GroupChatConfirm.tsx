@@ -17,10 +17,8 @@ const GroupChatConfirm = ({ onToggle }: ModalProps) => {
   const confirmHandler = async () => {
     if (modalData.type === "delete") {
       await deleteGroupChat(modalData._id);
-      console.log("그룹 채팅방 삭제 성공");
     } else {
       await leaveGroupChat(modalData._id);
-      console.log("그룹 채팅방 나가기 성공");
     }
 
     localStorage.removeItem(`prevMessagesLength-${modalData._id}`);

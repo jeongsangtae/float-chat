@@ -19,7 +19,6 @@ const GroupChatUser = ({
       {
         top: rect.top,
         left: rect.right + 10,
-        // transform: transform: "translateX(calc(-100% - 10px))",
       },
       "users"
     );
