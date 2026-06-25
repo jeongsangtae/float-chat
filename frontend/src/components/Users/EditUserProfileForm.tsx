@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 
-import useAuthStore from "../../store/authStore";
-import useModalStore from "../../store/modalStore";
-
 import { Palette, Image } from "lucide-react";
 import { IoClose } from "react-icons/io5";
+
+import useAuthStore from "../../store/authStore";
+import useModalStore from "../../store/modalStore";
 
 import classes from "./EditUserProfileForm.module.css";
 
@@ -88,48 +88,41 @@ const EditUserProfileForm = () => {
       return;
     }
 
-    try {
-      if (avatarMode) {
-        // 객체 기반 방식
-        await editUserProfileForm({
-          trimmedNickname,
+    if (avatarMode) {
+      // 객체 기반 방식
+      await editUserProfileForm({
+        trimmedNickname,
+        avatarImageUrl,
+        avatarMode,
+        modalContext: {
+          _id: modalData._id,
+          method: modalData.method,
           avatarImageUrl,
-          avatarMode,
-          modalContext: {
-            _id: modalData._id,
-            method: modalData.method,
-            avatarImageUrl,
-          },
-        });
+        },
+      });
 
-        // 위치 기반 방식
-        // await editUserProfileForm(
-        //   trimmedNickname,
-        //   "",
-        //   avatarImageUrl,
-        //   modalData
-        // );
-      } else {
-        // 객체 기반 방식
-        await editUserProfileForm({
-          trimmedNickname,
-          avatarColor,
-          avatarMode,
-          modalContext: {
-            _id: modalData._id,
-            method: modalData.method,
-            avatarImageUrl,
-          },
-        });
+      // 위치 기반 방식
+      // await editUserProfileForm(
+      //   trimmedNickname,
+      //   "",
+      //   avatarImageUrl,
+      //   modalData
+      // );
+    } else {
+      // 객체 기반 방식
+      await editUserProfileForm({
+        trimmedNickname,
+        avatarColor,
+        avatarMode,
+        modalContext: {
+          _id: modalData._id,
+          method: modalData.method,
+          avatarImageUrl,
+        },
+      });
 
-        // 위치 기반 방식
-        // await editUserProfileForm(trimmedNickname, avatarColor, "", modalData);
-      }
-    } catch (error) {
-      console.error("에러 내용:", error);
-      alert(
-        "사용자 정보를 수정하는 중에 문제가 발생했습니다. 새로고침 후 다시 시도해 주세요."
-      );
+      // 위치 기반 방식
+      // await editUserProfileForm(trimmedNickname, avatarColor, "", modalData);
     }
   };
 

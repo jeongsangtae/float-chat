@@ -33,8 +33,7 @@ const OnlineFriend = ({
     await getGroupChatInvites();
   };
 
-  // 함수 이름 변경 필요
-  const directChatHandler = async (): Promise<void> => {
+  const openDirectChatHandler = async (): Promise<void> => {
     if (!id) {
       console.error("id가 정의되지 않았습니다.");
       return;
@@ -54,7 +53,7 @@ const OnlineFriend = ({
     <li className={classes["online-friend-wrapper"]}>
       <div
         className={classes["online-friend-info"]}
-        onClick={directChatHandler}
+        onClick={openDirectChatHandler}
       >
         <Avatar
           nickname={nickname}

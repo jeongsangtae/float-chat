@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { toast } from "react-toastify";
 
 import useAuthStore from "../../store/authStore";
 import useFriendStore from "../../store/friendStore";
@@ -31,12 +32,12 @@ const AddFriend = () => {
 
   const addFriendHandler = async (): Promise<void> => {
     if (!searchUserEmail.trim()) {
-      alert("이메일을 입력하세요.");
+      toast.error("이메일을 입력하세요.");
       return;
     }
 
     if (!userInfo) {
-      alert("로그인이 필요합니다. 로그인 후 다시 시도해 주세요.");
+      toast.error("로그인이 필요합니다.");
       return;
     }
 

@@ -347,7 +347,7 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
       });
     } catch (error) {
       console.error("에러 내용:", error);
-      toast.error("처리 실패 - 새로고침 후 다시 시도해주세요");
+      throw error;
     }
   },
 
@@ -372,7 +372,7 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
       console.log(resData);
     } catch (error) {
       console.error("에러 내용:", error);
-      toast.error("수정 실패 - 새로고침 후 다시 시도해주세요");
+      throw error;
     }
   },
 
@@ -396,7 +396,7 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
       console.log(resData);
     } catch (error) {
       console.error("에러 내용:", error);
-      toast.error("삭제 실패 - 새로고침 후 다시 시도해주세요");
+      throw error;
     }
   },
 

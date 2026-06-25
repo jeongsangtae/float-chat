@@ -161,7 +161,7 @@ const useDirectChatStore = create<DirectChatStore>((set) => ({
       return resData.roomId;
     } catch (error) {
       console.error("에러 내용:", error);
-      toast.error("추가 실패 - 새로고침 후 다시 시도해주세요");
+      toast.error("생성 실패 - 새로고침 후 다시 시도해주세요");
     }
   },
 

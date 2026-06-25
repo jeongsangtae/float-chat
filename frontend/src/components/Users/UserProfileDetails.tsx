@@ -2,6 +2,8 @@ import { useState } from "react";
 
 import { useNavigate, useLocation } from "react-router-dom";
 
+import { toast } from "react-toastify";
+
 import { UserRoundCheck, UserRoundPlus, MessageCircleMore } from "lucide-react";
 
 import useAuthStore from "../../store/authStore";
@@ -75,7 +77,7 @@ const UserProfileDetails = ({ onToggle }: ModalProps) => {
 
   const addFriendHandler = async (): Promise<void> => {
     if (!userInfo) {
-      alert("로그인이 필요합니다. 로그인 후 다시 시도해 주세요.");
+      toast.error("로그인이 필요합니다.");
       return;
     }
 

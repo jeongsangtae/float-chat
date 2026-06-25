@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 
+import { toast } from "react-toastify";
+
 import useGroupChatStore from "../../store/groupChatStore";
 import useModalStore from "../../store/modalStore";
 
@@ -47,9 +49,7 @@ const GroupChatForm = ({ onToggle }: ModalProps) => {
       onToggle();
     } catch (error) {
       console.error("에러 내용:", error);
-      alert(
-        "그룹 채팅방을 생성하는 중에 문제가 발생했습니다. 새로고침 후 다시 시도해 주세요."
-      );
+      toast.error("생성 실패 - 새로고침 후 다시 시도해주세요");
     }
   };
 

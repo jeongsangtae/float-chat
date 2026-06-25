@@ -1,3 +1,5 @@
+import { toast } from "react-toastify";
+
 import useModalStore from "../../store/modalStore";
 import useGroupChatStore from "../../store/groupChatStore";
 
@@ -15,8 +17,8 @@ const GroupChatAnnouncementDeleteConfirm = ({ onToggle }: ModalProps) => {
       await groupChatAnnouncementDelete("", modalData); // announcement를 ""로 초기화
       onToggle();
     } catch (error) {
-      console.error("공지 삭제 실패:", error);
-      alert("공지 삭제 중 문제가 발생했습니다.");
+      console.error("에러 내용:", error);
+      toast.error("삭제 실패 - 새로고침 후 다시 시도해주세요");
     }
   };
 
