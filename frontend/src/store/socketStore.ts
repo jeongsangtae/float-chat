@@ -155,6 +155,8 @@ const useSocketStore = create<SocketStore>((set, get) => ({
     });
   },
 
+  // 읽은 알림 처리 기능 (추후 사용 예정)
+  // 현재는 사용하지 않아 비활성화
   // readNotification: () => {
   //   set((state) => ({
   //     notificationHistory: state.notificationHistory.map((notification) => ({

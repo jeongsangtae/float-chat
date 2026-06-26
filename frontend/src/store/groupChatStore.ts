@@ -183,10 +183,6 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
       if (!response.ok) {
         throw new Error("그룹 채팅방 목록 저장 실패");
       }
-
-      const resData = await response.json();
-
-      console.log(resData);
     } catch (error) {
       console.error("에러 내용:", error);
       toast.error("저장 실패 - 새로고침 후 다시 시도해주세요");
@@ -211,8 +207,6 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
 
       // 그룹 채팅방 참여자 중 온라인 상태가 된 사용자를 실시간 반영해 업데이트
       socket.on("onlineGroupChatUser", ({ onlineGroupChatUser }) => {
-        console.log(onlineGroupChatUser);
-
         set((prev) => ({
           groupChatUsers: prev.groupChatUsers.map((groupChatUser) =>
             groupChatUser._id === onlineGroupChatUser._id
@@ -226,8 +220,6 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
 
       // 그룹 채팅방 참여자 중 오프라인 상태가 된 사용자를 실시간 반영해 업데이트
       socket.on("offlineGroupChatUser", ({ offlineGroupChatUser }) => {
-        console.log(offlineGroupChatUser);
-
         set((prev) => ({
           groupChatUsers: prev.groupChatUsers.map((groupChatUser) =>
             groupChatUser._id === offlineGroupChatUser._id
@@ -366,10 +358,6 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
       if (!response.ok) {
         throw new Error(`그룹 채팅방 공지 수정 실패`);
       }
-
-      const resData = await response.json();
-
-      console.log(resData);
     } catch (error) {
       console.error("에러 내용:", error);
       throw error;
@@ -390,10 +378,6 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
       if (!response.ok) {
         throw new Error(`그룹 채팅방 삭제 수정 실패`);
       }
-
-      const resData = await response.json();
-
-      console.log(resData);
     } catch (error) {
       console.error("에러 내용:", error);
       throw error;
@@ -592,10 +576,6 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
       if (!response.ok) {
         throw new Error("그룹 채팅방 초대 실패");
       }
-
-      const resData = await response.json();
-
-      console.log(resData);
     } catch (error) {
       console.error("에러 내용:", error);
       toast.error("초대 실패 - 새로고침 후 다시 시도해주세요");
@@ -616,10 +596,6 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
       if (!response.ok) {
         throw new Error("그룹 채팅방 초대 수락 실패");
       }
-
-      const resData = await response.json();
-
-      console.log(resData.acceptGroupChatInvite);
 
       set((prevGroupChatInvites) => ({
         groupChatInvites: prevGroupChatInvites.groupChatInvites.filter(
@@ -645,10 +621,6 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
       if (!response.ok) {
         throw new Error("그룹 채팅방 초대 거절 실패");
       }
-
-      const resData = await response.json();
-
-      console.log(resData.message);
 
       set((prevGroupChatInvites) => ({
         groupChatInvites: prevGroupChatInvites.groupChatInvites.filter(

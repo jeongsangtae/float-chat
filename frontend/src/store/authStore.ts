@@ -131,7 +131,7 @@ const useAuthStore = create<AuthStore>((set, get) => ({
 
         // 일정 시간마다 토큰 만료 확인
         const interval = setInterval(checkTokenExpiration, 60 * 1000);
-        console.log(interval, "인터벌 실행");
+        // console.log(interval, "인터벌 실행");
 
         set({ intervalId: interval });
 
@@ -221,7 +221,7 @@ const useAuthStore = create<AuthStore>((set, get) => ({
       if (intervalId) {
         clearInterval(intervalId);
         set({ intervalId: null }); // intervalId 상태 초기화
-        console.log("로그아웃: 인터벌 정리 완료");
+        // console.log("로그아웃: 인터벌 정리 완료");
       }
 
       localStorage.removeItem("isLoggedIn");
@@ -272,8 +272,6 @@ const useAuthStore = create<AuthStore>((set, get) => ({
       }
 
       const resData = await response.json();
-
-      console.log("사용자 인증 성공", resData);
 
       set({ isLoggedIn: true, userInfo: resData });
       useSocketStore.getState().connect();
@@ -330,28 +328,8 @@ const useAuthStore = create<AuthStore>((set, get) => ({
     }
   },
 
-  // restoreLastReadMessages: async () => {
-  //   try {
-  //     const response = await fetch(`${apiURL}/lastReadMessages`, {
-  //       credentials: "include",
-  //     });
-
-  //     if (!response.ok) {
-  //       throw new Error("마지막으로 읽은 메시지 복원 실패");
-  //     }
-
-  //     const resData = await response.json();
-
-  //     resData.lastReadMessages.forEach((lastReadMessage: LastReadMessage) => {
-  //       localStorage.setItem(
-  //         `prevMessagesLength-${lastReadMessage.roomId}`,
-  //         String(lastReadMessage.messageLength)
-  //       );
-  //     });
-  //   } catch (error) {
-  //     console.error("에러 내용:", error);
-  //   }
-  // },
+  // 마지막으로 읽은 메시지 복원 기능 재구현 예정
+  // 기존 구현은 제거, 필요 시 Git History 참고
 
   updateTheme: async (theme) => {
     try {
@@ -501,7 +479,6 @@ const useAuthStore = create<AuthStore>((set, get) => ({
   },
 
   updateUserGroupChatOrder: (order) => {
-    console.log(order);
     set((prev) => {
       if (!prev.userInfo) return prev;
 

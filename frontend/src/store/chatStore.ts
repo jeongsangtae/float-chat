@@ -47,8 +47,6 @@ const useChatStore = create<ChatStore>((set) => ({
     const socket = useSocketStore.getState().socket;
     if (!socket) return; // 소켓이 없으면 실행 안 함
 
-    console.log("newMessage 이벤트 연결");
-
     // 기존 이벤트 리스너 제거 후 재등록 (중복 방지)
     socket.off("newMessage");
 
@@ -72,7 +70,6 @@ const useChatStore = create<ChatStore>((set) => ({
       set((prevMsg) => ({
         messages: [...prevMsg.messages, newMessage],
       }));
-      console.log("사용자 input 메시지: ", newMessage.message);
     });
 
     return () => {
@@ -149,9 +146,6 @@ const useChatStore = create<ChatStore>((set) => ({
       if (!response.ok) {
         throw new Error("메시지 전송 실패");
       }
-
-      // toast 문구 테스트 용
-      // toast.error("로그아웃 실패 - 새로고침 후 다시 시도해주세요");
     } catch (error) {
       console.error("에러 내용:", error);
       toast.error("전송 실패 - 새로고침 후 다시 시도해주세요");
@@ -192,8 +186,6 @@ const useChatStore = create<ChatStore>((set) => ({
 
       const resData = await response.json();
 
-      console.log("다이렉트 메시지 전송 성공");
-
       return resData.newMessage.roomId;
     } catch (error) {
       console.error("에러 내용:", error);
@@ -201,39 +193,8 @@ const useChatStore = create<ChatStore>((set) => ({
     }
   },
 
-  // saveLastReadMessageId: async (
-  //   roomId,
-  //   lastVisibleMessageId,
-  //   messageLength
-  // ) => {
-  //   console.log(roomId, lastVisibleMessageId, messageLength);
-  //   try {
-  //     // 서버로 메시지를 POST 요청으로 전송
-  //     const requestBody = {
-  //       lastVisibleMessageId,
-  //       messageLength,
-  //     };
-
-  //     const response = await fetch(
-  //       `${apiURL}/chat/${roomId}/lastVisibleMessage`,
-  //       {
-  //         method: "POST",
-  //         body: JSON.stringify(requestBody),
-  //         headers: { "Content-Type": "application/json" },
-  //         credentials: "include",
-  //       }
-  //     );
-
-  //     if (!response.ok) {
-  //       throw new Error("마지막 메시지 ID 전송 실패");
-  //     }
-
-  //     console.log("마지막 메시지 ID 전송 성공");
-  //   } catch (error) {
-  //     console.error("에러 내용:", error);
-  //     toast.error("전송 실패 - 새로고침 후 다시 시도해주세요");
-  //   }
-  // },
+  // 마지막으로 읽은 메시지 ID 저장 기능 재구현 예정
+  // 기존 구현은 제거, 필요 시 Git History 참고
 }));
 
 export default useChatStore;

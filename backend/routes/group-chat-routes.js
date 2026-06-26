@@ -209,9 +209,6 @@ router.patch("/groupChatAnnouncementForm", async (req, res) => {
 
     const requestBody = req.body;
 
-    // let date = new Date();
-    // let kstDate = new Date(date.getTime() + 9 * 60 * 60 * 1000);
-
     const groupChat = await db
       .getDb()
       .collection("groupChats")
@@ -264,7 +261,7 @@ router.patch("/groupChatAnnouncementForm", async (req, res) => {
       }
     });
 
-    res.status(200).json({ editGroupChatAnnouncement });
+    res.status(200).json({ message: "그룹 채팅방 공지 업데이트" });
   } catch (error) {
     errorHandler(res, error, "그룹 채팅방 공지 수정 중 오류 발생");
   }
@@ -333,7 +330,7 @@ router.patch("/groupChatAnnouncementDelete", async (req, res) => {
       }
     });
 
-    res.status(200).json({ deleteGroupChatAnnouncement });
+    res.status(200).json({ message: "그룹 채팅방 공지 삭제" });
   } catch (error) {
     errorHandler(res, error, "그룹 채팅방 공지 삭제 중 오류 발생");
   }
@@ -618,7 +615,7 @@ router.post("/acceptGroupChat", async (req, res) => {
     }
 
     // 중복된 사용자 _id를 추가하지 않음
-    const acceptGroupChat = await db
+    await db
       .getDb()
       .collection("groupChats")
       .updateOne(
@@ -683,7 +680,7 @@ router.post("/acceptGroupChat", async (req, res) => {
       io.to(socketId).emit("acceptGroupChatInvite", groupChatInviteId);
     }
 
-    res.status(200).json({ acceptGroupChat });
+    res.status(200).json({ message: "그룹 채팅방 초대 수락 완료" });
   } catch (error) {
     errorHandler(res, error, "그룹 채팅방 초대 수락 중 오류 발생");
   }
@@ -734,9 +731,7 @@ router.delete("/rejectGroupChat/:groupChatInviteId", async (req, res) => {
       io.to(socketId).emit("rejectGroupChatInvite", groupChatInviteId);
     }
 
-    res
-      .status(200)
-      .json({ message: "그룹 채팅방 초대 요청이 거절되었습니다." });
+    res.status(200).json({ message: "그룹 채팅방 초대 거절 완료" });
   } catch (error) {
     errorHandler(res, error, "그룹 채팅방 초대 거절 중 오류 발생");
   }
