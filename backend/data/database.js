@@ -24,8 +24,6 @@ const connectToDatabase = async () => {
   // 인덱스 확인 코드 (필요할 때 주석 풀어서 사용)
   // const indexes = await database.collection("groupChatInvites").indexes();
   // console.log(indexes);
-
-  console.log("TTL 인덱스 생성 완료");
 };
 
 // DB 인스턴스를 반환하는 함수

@@ -8,11 +8,7 @@ const http = require("http"); // http 모듈 추가
 const { Server } = require("socket.io"); // socket.io 추가
 
 const db = require("./data/database");
-// const boardRoutes = require("./routes/board-routes");
-// const userRoutes = require("./routes/user-routes");
-// const adminRoutes = require("./routes/admin-routes");
-// const userChatRoutes = require("./routes/user-chat-routes");
-// const adminChatRoutes = require("./routes/admin-chat-routes");
+
 const userRoutes = require("./routes/user-routes");
 const directChatRoutes = require("./routes/direct-chat-routes");
 const groupChatRoutes = require("./routes/group-chat-routes");
@@ -66,7 +62,7 @@ app.use((req, res, next) => {
 });
 
 app.use((error, req, res, next) => {
-  console.log(error);
+  console.error(error);
   res.status(500).render("500");
 });
 
@@ -95,13 +91,8 @@ app.set("roomUsers", roomUsers);
 // 클라이언트가 Socket.io 연결을 맺을 때 실행되는 이벤트 함수
 // Socket.io 설정
 io.on("connection", (socket) => {
-  console.log("클라이언트가 연결되었습니다:", socket.id);
-
   socket.on("registerUser", async (userId) => {
     onlineUsers.set(userId, socket.id);
-    // console.log(`사용자 온라인: ${userId}, ${socket.id}`);
-
-    // let userId = new ObjectId(userId);
 
     // 친구 목록 조회
     const friends = await db
@@ -159,6 +150,8 @@ io.on("connection", (socket) => {
     }
   });
 
+  // 클라이언트를 특정 방에서 나가게 함 (방장이 방을 삭제하는 것과는 다른 내용)
+  // 사용자가 다른 채팅방으로 이동할 때 이전 채팅방 나가는 동작
   socket.on("leaveRoom", (roomId) => {
     const chatRoomId = `room-${roomId}`;
     socket.leave(chatRoomId);
@@ -171,8 +164,6 @@ io.on("connection", (socket) => {
         roomUsers.get(chatRoomId).filter((id) => id !== socket.id)
       );
     }
-
-    console.log(`사용자가 방 나감: ${chatRoomId}`);
   });
 
   // 클라이언트를 특정 방에 참여시킴
@@ -186,24 +177,10 @@ io.on("connection", (socket) => {
     }
 
     roomUsers.get(chatRoomId).push(socket.id); // 해당 방에 사용자 소켓 ID 추가
-
-    // console.log(`방 번호: ${chatRoomId} 입장`);
   });
 
-  // 클라이언트를 특정 방에서 나가게 함 (방장이 방을 삭제하는 것과는 다른 내용)
-  // socket.on("leaveRoom", (roomId) => {
-  //   const chatRoomId = `room-${roomId}`;
-  //   socket.leave(chatRoomId);
-  //   console.log(`방 번호: ${chatRoomId} 나감`);
-  // });
-
-  // 클라이언트가 연결을 끊었을 때 실행되는 이벤트 함수
-  // socket.on("disconnect", () => {
-  //   console.log("클라이언트 연결이 끊어졌습니다:", socket.id);
-  // });
+  // 클라이언트가 연결을 끊었을 때 실행되는 이벤트
   socket.on("disconnect", async () => {
-    console.log("클라이언트 연결이 끊어졌습니다:", socket.id);
-
     // 연결이 끊긴 소켓 ID를 가진 userId를 찾음
     for (const [userId, socketId] of onlineUsers.entries()) {
       if (socketId === socket.id) {
@@ -268,20 +245,6 @@ io.on("connection", (socket) => {
   });
 });
 
-// const friendSocket = io.of("/friends");
-
-// friendSocket.on("connection", (socket) => {
-//   console.log("친구 요청 소켓 연결됨:", socket.id);
-
-//   socket.on("sendFriendRequest", ({ senderEmail, receiverEmail }) => {
-//     console.log(`친구 요청 from ${senderEmail} to ${receiverEmail}`);
-//   });
-
-//   socket.on("disconnect", () => {
-//     console.log("친구 요청 소켓 연결 해제:", socket.id);
-//   });
-// });
-
 // MongoDB에 연결한 후 서버를 시작
 // MongoDB 설정
 db.connectToDatabase()
@@ -292,6 +255,5 @@ db.connectToDatabase()
     });
   })
   .catch((error) => {
-    console.log("데이터베이스에 연결하지 못했습니다.");
-    console.log(error);
+    console.error("데이터베이스에 연결 실패:", error);
   });

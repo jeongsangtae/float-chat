@@ -41,9 +41,6 @@ router.get("/onlineFriends", async (req, res) => {
       // return friendId;
     });
 
-    // console.log(friends, "친구 목록");
-    // console.log(onlineFriends, "온라인 친구만 필터링");
-
     res.status(200).json({ onlineFriends });
   } catch (error) {
     errorHandler(res, error, "온라인 친구 목록 조회 중 오류 발생");
@@ -118,8 +115,6 @@ router.get("/friends", async (req, res) => {
     //     },
     //   ])
     //   .toArray();
-
-    // console.log(friends, "/", friendss);
 
     res.status(200).json({ friends });
   } catch (error) {
@@ -281,7 +276,6 @@ router.post("/friendRequests", async (req, res) => {
         avatarImageUrl: requestBody.avatarImageUrl,
         message: "친구 요청",
       });
-      console.log("친구 요청 알림 전송 완료");
     }
 
     res.status(200).json({ message: "친구 요청이 전송되었습니다." });

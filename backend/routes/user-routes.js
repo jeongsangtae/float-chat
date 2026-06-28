@@ -115,9 +115,7 @@ router.post("/signup", async (req, res) => {
     };
 
     // 새 사용자 데이터를 MongoDB에 저장
-    const result = await db.getDb().collection("users").insertOne(user);
-
-    console.log(result);
+    await db.getDb().collection("users").insertOne(user);
 
     res.status(200).json({ message: "회원가입 성공" });
   } catch (error) {
@@ -180,8 +178,6 @@ router.post("/login", async (req, res) => {
     );
 
     const isProduction = process.env.NODE_ENV === "production";
-
-    console.log("현재 환경:", process.env.NODE_ENV, isProduction);
 
     // 쿠키에 토큰 저장 (httpOnly 옵션으로 클라이언트에서 직접 접근 불가)
     res.cookie("accessToken", accessToken, {

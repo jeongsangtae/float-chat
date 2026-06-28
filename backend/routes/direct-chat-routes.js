@@ -83,8 +83,6 @@ router.post("/directChatForm", async (req, res) => {
           },
         });
 
-      console.log("채팅방 이미 존재");
-
       return res.status(200).json({
         directChat: updatedExistingChat,
         roomId: updatedExistingChat._id,
@@ -134,8 +132,6 @@ router.post("/directChatForm", async (req, res) => {
       .insertOne(newDirectChat);
 
     const roomId = result.insertedId;
-
-    console.log("채팅방 생성");
 
     res.status(200).json({ directChat: newDirectChat, roomId });
   } catch (error) {

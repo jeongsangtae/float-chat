@@ -82,8 +82,6 @@ router.post("/groupChatForm", async (req, res) => {
       return res.status(401).json({ message: "jwt error" });
     }
 
-    console.log(othersData);
-
     let hostId = othersData._id.toString();
 
     const groupChatData = req.body;
@@ -583,7 +581,6 @@ router.post("/groupChat/:roomId/invite", async (req, res) => {
 
       // 그룹 채팅방 초대 정보를 socket으로 전달
       io.to(receiverSocketId).emit("groupChatInvite", newGroupChatInvite);
-      console.log("그룹 채팅방 초대 요청 알림 전송 완료");
     }
 
     return res.status(200).json({ message: "그룹 채팅방 초대 성공" });

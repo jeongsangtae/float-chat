@@ -201,9 +201,6 @@ router.post("/chat/:roomId", async (req, res) => {
 
 // 사용자 프로필 다이렉트 메시지 추가 라우터
 router.post("/directChat/:targetUserId", async (req, res) => {
-  console.log("BODY:", req.body);
-  console.log("PARAMS:", req.params);
-
   try {
     const othersData = await accessToken(req, res);
 

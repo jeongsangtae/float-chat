@@ -18,7 +18,6 @@ const router = createBrowserRouter([
   {
     path: "/me",
     element: <RootLayout />,
-    // errorElement: <NotFound />,
     children: [
       {
         path: "",
@@ -47,7 +46,6 @@ const router = createBrowserRouter([
   {
     path: "group-chat",
     element: <RootLayout />,
-    // errorElement: <NotFound />,
     children: [
       {
         index: true,
