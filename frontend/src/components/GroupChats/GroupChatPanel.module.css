@@ -41,7 +41,6 @@
 .avatar-header-img,
 .avatar-header-color {
   height: 7.5rem;
-  /* min-height: 7.75rem; */
   width: 100%;
   flex-shrink: 0;
 }
@@ -51,8 +50,6 @@
 }
 
 .group-chat-host-info {
-  /* width: 19rem; */
-  /* flex: 1; */
   position: relative;
   display: flex;
   flex-direction: column;
@@ -79,10 +76,6 @@
   font-weight: var(--font-weight-bold);
   margin-bottom: var(--space-sm);
   color: var(--color-accent);
-  /* color: #5daeff; */
-  /* color: #57f287; */
-  /* color: #9b6dff; */
-  /* color: #e1e1e1; */
 }
 
 .group-chat-announcement-icon-wrapper {
@@ -119,7 +112,6 @@
 
 /* 스크롤바의 배경 트랙 설정 */
 .group-chat-announcement-content::-webkit-scrollbar-track {
-  /* background-color: #ebebeb; */
   border-radius: var(--radius-md);
   margin-top: var(--space-xs);
   margin-bottom: var(--space-xs);

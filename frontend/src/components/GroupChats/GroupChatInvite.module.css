@@ -1,7 +1,6 @@
 .group-chat-invite-wrapper {
   display: flex;
   align-items: center;
-  /* width: 70%; */
 }
 
 .group-chat-invite-wrapper:hover {

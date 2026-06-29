@@ -160,8 +160,8 @@ router.post("/login", async (req, res) => {
         // role: userRole,
       },
       accessTokenKey,
-      // { expiresIn: "1h", issuer: "GGPAN" }
-      { expiresIn: "5m", issuer: "GGPAN" }
+      { expiresIn: "1h", issuer: "GGPAN" }
+      // { expiresIn: "5m", issuer: "GGPAN" } // 테스트용
     );
 
     // Refresh Token 발급
@@ -173,8 +173,8 @@ router.post("/login", async (req, res) => {
         // role: userRole,
       },
       refreshTokenKey,
-      // { expiresIn: "30d", issuer: "GGPAN" }
-      { expiresIn: "15m", issuer: "GGPAN" }
+      { expiresIn: "30d", issuer: "GGPAN" }
+      // { expiresIn: "15m", issuer: "GGPAN" } // 테스트용
     );
 
     const isProduction = process.env.NODE_ENV === "production";
@@ -184,16 +184,16 @@ router.post("/login", async (req, res) => {
       secure: isProduction,
       httpOnly: true,
       sameSite: isProduction ? "None" : "Lax",
-      // maxAge: 60 * 60 * 1000, // 1시간
-      maxAge: 5 * 60 * 1000,
+      maxAge: 60 * 60 * 1000, // 1시간
+      // maxAge: 5 * 60 * 1000, // 테스트용
     });
 
     res.cookie("refreshToken", refreshToken, {
       secure: isProduction,
       httpOnly: true,
       sameSite: isProduction ? "None" : "Lax",
-      // maxAge: 24 * 30 * 60 * 60 * 1000, // 30일
-      maxAge: 15 * 60 * 1000,
+      maxAge: 24 * 30 * 60 * 60 * 1000, // 30일
+      // maxAge: 15 * 60 * 1000, // 테스트용
     });
 
     res.status(200).json({ message: "로그인 성공", accessToken, refreshToken });

@@ -1,10 +1,8 @@
 .user-setting-wrapper {
   display: flex;
   flex-direction: row;
-
   width: 32.5rem;
   height: 28rem;
-
   color: var(--color-text);
   box-shadow: var(--shadow-soft-spread);
   white-space: nowrap;

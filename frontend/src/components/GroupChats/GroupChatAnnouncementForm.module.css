@@ -93,9 +93,6 @@
 }
 
 .progress-bar-max {
-  /* background-color: var(--color-error); */
-  /* background-color: #d32f2f; */
-  /* background-color: #b71c1c; */
   background-color: var(--color-danger-strong);
 }
 

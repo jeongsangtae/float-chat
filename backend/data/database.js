@@ -8,13 +8,14 @@ let database; // DB 인스턴스를 저장하기 위한 변수
 
 // MongoDB에 연결하고 DB 인스턴스를 설정하는 함수
 const connectToDatabase = async () => {
-  const client = await MongoClient.connect(mongodbUri); // MongoDB에 연결
-  database = client.db("float-chat"); // 특정 DB에 연결
+  const client = await MongoClient.connect(mongodbUri);
+  database = client.db("float-chat");
 
   // 기존 인덱스 삭제 코드 (필요할 때 주석 풀어서 사용)
   // await database.collection("groupChatInvites").dropIndex("date_1");
 
-  // TTL 인덱스 생성 (24시간 후 그룹 채팅방 초대 내용 자동 삭제)
+  // TTL (Time To Live) 인덱스 생성
+  // date 기준 24시간이 지나면 그룹 채팅방 초대 데이터를 MongoDB가 자동 삭제
   await database.collection("groupChatInvites").createIndex(
     { date: 1 },
     { expireAfterSeconds: 86400 }

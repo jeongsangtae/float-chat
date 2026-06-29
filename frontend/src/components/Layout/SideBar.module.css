@@ -149,14 +149,9 @@
 }
 
 .user-info {
-  /* position: absolute;
-  left: 10%;
-  bottom: 4%; */
-
   position: fixed;
   left: 0.5rem;
   bottom: 0.35rem;
-
   width: 18.5rem;
   height: 3.75rem;
   background-color: var(--bg-user-info);

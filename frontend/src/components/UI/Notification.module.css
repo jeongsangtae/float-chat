@@ -18,8 +18,6 @@
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   font-size: var(--font-md);
   width: 20rem;
-  /* min-width: 18rem; */
-  /* max-width: 20.5rem; */
   word-break: break-word;
   animation: fadeIn 0.3s ease-in-out;
 }

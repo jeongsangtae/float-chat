@@ -11,8 +11,6 @@
   cursor: pointer;
   box-shadow: var(--shadow-light);
   transition: var(--transition-bg-transform);
-
-  /* overflow: hidden; */
 }
 
 .group-chat:hover {
@@ -111,7 +109,6 @@
   background: none;
   border: none;
   border-radius: var(--radius-xs);
-  /* padding: 0.375rem var(--space-md); */
   padding: var(--space-sm) var(--space-md);
   width: 100%;
   text-align: left;

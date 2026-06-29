@@ -1,10 +1,8 @@
 .user-profile-details-wrapper {
   display: flex;
   flex-direction: row;
-
   width: 45rem;
   height: 30rem;
-
   color: var(--color-text);
   box-shadow: var(--shadow-soft-spread);
   white-space: nowrap;

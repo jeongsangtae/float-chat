@@ -4,9 +4,6 @@
   border-radius: var(--radius-md);
   margin-bottom: var(--space-sm);
   background-color: var(--group-invite-bg);
-
-  /* border: 1px solid rgba(255, 255, 255, 0.05);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2); */
 }
 
 .group-chat-invite-main {
@@ -75,7 +72,6 @@
 }
 
 .group-chat-invite-buttons button {
-  /* padding: 0.3rem 0.8rem 0.4rem 0.8rem; */
   padding: var(--space-xs) var(--space-md) 0.35rem var(--space-md);
   font-size: var(--font-sm);
   border: none;
