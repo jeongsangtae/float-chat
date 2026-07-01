@@ -23,14 +23,14 @@ router.get("/onlineFriends", async (req, res) => {
     const io = req.app.get("io"); // Express 앱에서 Socket.io 인스턴스를 가져옴
     const onlineUsers = req.app.get("onlineUsers"); // onlineUsers Map을 가져옴
 
-    // 친구 목록 조회
+    // 로그인한 사용자 친구 목록 조회
     const friends = await db
       .getDb()
       .collection("friends")
       .find({ $or: [{ "requester.id": userId }, { "receiver.id": userId }] })
       .toArray();
 
-    // 온라인 친구만 필터링
+    // 온라인 상태인 친구만 필터링
     const onlineFriends = friends.filter((friend) => {
       const friendId =
         friend.requester.id.toString() === userId.toString()
@@ -38,7 +38,6 @@ router.get("/onlineFriends", async (req, res) => {
           : friend.requester.id.toString();
 
       return onlineUsers.has(friendId);
-      // return friendId;
     });
 
     res.status(200).json({ onlineFriends });
@@ -58,63 +57,12 @@ router.get("/friends", async (req, res) => {
 
     const userId = new ObjectId(othersData._id);
 
+    // 로그인한 사용자 친구 목록 조회
     const friends = await db
       .getDb()
       .collection("friends")
       .find({ $or: [{ "requester.id": userId }, { "receiver.id": userId }] })
       .toArray();
-
-    // const friendss = await db
-    //   .getDb()
-    //   .collection("friends")
-    //   .aggregate([
-    //     {
-    //       $match: {
-    //         $or: [{ "requester.id": userId }, { "receiver.id": userId }],
-    //       },
-    //     },
-    //     {
-    //       $project: {
-    //         friend: {
-    //           $cond: [
-    //             { $eq: ["$requester.id", userId] },
-    //             "$receiver",
-    //             "$requester",
-    //           ],
-    //         },
-    //       },
-    //     },
-    //     {
-    //       $group: {
-    //         _id: "$friend.id",
-    //         friend: { $first: "$friend" },
-    //       },
-    //     },
-    //   ])
-    //   .toArray();
-
-    // const friendss = await db
-    //   .getDb()
-    //   .collection("friends")
-    //   .aggregate([
-    //     {
-    //       $match: {
-    //         $or: [{ "requester.id": userId }, { "receiver.id": userId }],
-    //       },
-    //     },
-    //     {
-    //       $project: {
-    //         friend: {
-    //           $cond: [
-    //             { $eq: ["$requester.id", userId] },
-    //             "$receiver",
-    //             "$requester",
-    //           ],
-    //         },
-    //       },
-    //     },
-    //   ])
-    //   .toArray();
 
     res.status(200).json({ friends });
   } catch (error) {
@@ -125,16 +73,12 @@ router.get("/friends", async (req, res) => {
 // 다른 사용자 친구 목록 조회 라우터
 router.get("/otherUserFriends/:otherUserId", async (req, res) => {
   try {
-    // const othersData = await accessToken(req, res);
-
-    // if (!othersData) {
-    //   return res.status(401).json({ message: "jwt error" });
-    // }
-
+    // 조회할 다른 사용자 ID
     const { otherUserId } = req.params;
 
     const userId = new ObjectId(otherUserId);
 
+    // 다른 사용자 정보 조회
     const otherUserFriends = await db
       .getDb()
       .collection("friends")
@@ -158,6 +102,7 @@ router.get("/friendRequests", async (req, res) => {
 
     const userId = new ObjectId(othersData._id);
 
+    // 로그인한 사용자 친구 요청 목록 조회
     const friendRequests = await db
       .getDb()
       .collection("friendRequests")
@@ -173,8 +118,10 @@ router.get("/friendRequests", async (req, res) => {
 // 친구 요청 라우터
 router.post("/friendRequests", async (req, res) => {
   try {
+    // 클라이언트에서 전달한 친구 요청 정보
     const requestBody = req.body;
 
+    // 한국 시간(KST) 기준 생성 시간
     let date = new Date();
     let kstDate = new Date(date.getTime() + 9 * 60 * 60 * 1000);
 
@@ -231,6 +178,7 @@ router.post("/friendRequests", async (req, res) => {
       return res.status(400).json({ message: "이미 친구 요청을 보냈습니다." });
     }
 
+    // 친구 요청 정보 저장
     await db
       .getDb()
       .collection("friendRequests")
@@ -263,7 +211,7 @@ router.post("/friendRequests", async (req, res) => {
           .padStart(2, "0")}`,
       });
 
-    // 친구 요청 받은 유저가 온라인 상태인지 확인 후 소켓 알림 보내기
+    // 친구 요청을 받은 사용자가 온라인이면 실시간 알림 전송
     const io = req.app.get("io"); // Express 앱에서 Socket.io 인스턴스를 가져옴
     const onlineUsers = req.app.get("onlineUsers"); // onlineUsers Map을 가져옴
     const receiverSocketId = onlineUsers.get(searchUser._id.toString());
@@ -295,9 +243,11 @@ router.post("/acceptFriend", async (req, res) => {
 
     const { friendRequestId } = req.body;
 
+    // 한국 시간(KST) 기준 생성 시간
     let date = new Date();
     let kstDate = new Date(date.getTime() + 9 * 60 * 60 * 1000);
 
+    // 로그인한 사용자 친구 요청 목록 조회
     const friendRequest = await db
       .getDb()
       .collection("friendRequests")
@@ -313,10 +263,12 @@ router.post("/acceptFriend", async (req, res) => {
     const requesterChecked =
       othersData._id.toString() === friendRequest.requester.toString();
 
+    // 친구 요청 상대방 ID 확인
     const otherUserId = requesterChecked
       ? friendRequest.receiver
       : friendRequest.requester; // 상대방 _id 확인
 
+    // 친구 정보 생성
     const newFriend = {
       requester: {
         id: friendRequest.requester,
@@ -347,11 +299,13 @@ router.post("/acceptFriend", async (req, res) => {
         .padStart(2, "0")}:${kstDate.getSeconds().toString().padStart(2, "0")}`,
     };
 
+    // 수락한 친구 정보 저장
     const acceptFriend = await db
       .getDb()
       .collection("friends")
       .insertOne(newFriend);
 
+    // 수락한 친구 요청 삭제
     await db
       .getDb()
       .collection("friendRequests")
@@ -363,6 +317,7 @@ router.post("/acceptFriend", async (req, res) => {
 
     const socketId = onlineUsers.get(otherUserId.toString());
 
+    // 상대방에게 친구 수락 결과 실시간 전송
     if (socketId) {
       io.to(socketId).emit("acceptFriend", friendRequestId);
 
@@ -384,8 +339,10 @@ router.delete("/rejectFriend/:friendRequestId", async (req, res) => {
       return res.status(401).json({ message: "jwt error" });
     }
 
+    // 조회할 친구 요청 ID
     const { friendRequestId } = req.params;
 
+    // 로그인한 사용자 친구 요청 목록 조회
     const friendRequest = await db
       .getDb()
       .collection("friendRequests")
@@ -420,6 +377,7 @@ router.delete("/rejectFriend/:friendRequestId", async (req, res) => {
 
     const socketId = onlineUsers.get(otherUserId.toString());
 
+    // 상대방에게 친구 요청 거절 결과 실시간 전송
     if (socketId) {
       io.to(socketId).emit("rejectFriend", friendRequestId);
     }
@@ -443,6 +401,7 @@ router.delete("/deleteFriend/:friendId", async (req, res) => {
 
     const friendId = new ObjectId(req.params.friendId);
 
+    // 친구 삭제 시 그룹 채팅방 초대 목록 함께 삭제
     await db
       .getDb()
       .collection("groupChatInvites")
@@ -453,6 +412,7 @@ router.delete("/deleteFriend/:friendId", async (req, res) => {
         ],
       });
 
+    // 친구 목록에서 친구 삭제
     const result = await db
       .getDb()
       .collection("friends")
@@ -474,6 +434,8 @@ router.delete("/deleteFriend/:friendId", async (req, res) => {
     const onlineUsers = req.app.get("onlineUsers"); // onlineUsers Map을 가져옴
 
     const socketId = onlineUsers.get(friendId.toString());
+
+    // 상대방에게 친구 삭제 결과 실시간 전송
     if (socketId) {
       // 친구 삭제 시에 해당 친구와 관련된 그룹 채팅방 초대 목록 삭제를 알리는 이벤트
       io.to(socketId).emit("friendDeleteGroupChatInviteCleanup", {
@@ -481,7 +443,6 @@ router.delete("/deleteFriend/:friendId", async (req, res) => {
         friendId,
       });
 
-      // 친구 삭제를 알리는 이벤트
       io.to(socketId).emit("friendDelete", {
         userId,
         friendId,

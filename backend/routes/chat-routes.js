@@ -23,7 +23,7 @@ router.get("/chat/:roomId", async (req, res) => {
 
     roomId = new ObjectId(roomId);
 
-    // MongoDB에서 특정 RoomId에 해당하는 채팅 메시지들을 가져옴
+    // 채팅 메시지 조회
     const messages = await db
       .getDb()
       .collection("chatMessages")
@@ -58,12 +58,13 @@ router.post("/chat/:roomId", async (req, res) => {
     const { roomId, message, email, nickname, avatarColor, avatarImageUrl } =
       req.body;
 
+    // 한국 시간(KST) 기준 생성 시간
     let date = new Date();
     let kstDate = new Date(date.getTime() + 9 * 60 * 60 * 1000);
 
     // 새 메시지 객체 생성
     const newMessage = {
-      roomId: new ObjectId(roomId), // MongoDB ObjectId로 변환된 roomId
+      roomId: new ObjectId(roomId),
       email,
       nickname,
       message,
@@ -88,6 +89,7 @@ router.post("/chat/:roomId", async (req, res) => {
       .collection("groupChats")
       .findOne({ _id: new ObjectId(roomId) });
 
+    // 그룹 채팅방이 존재하지 않는 경우 다이렉트 채팅방 로직으로 처리
     if (!chatRoom) {
       const directChat = await db
         .getDb()
@@ -103,7 +105,7 @@ router.post("/chat/:roomId", async (req, res) => {
         (participant) => participant._id !== othersData._id.toString()
       );
 
-      // socket.io 관련 내용 구성
+      // socket.io 관련 객체
       const io = req.app.get("io");
       const onlineUsers = req.app.get("onlineUsers");
       const socketId = onlineUsers.get(otherParticipant._id);
@@ -136,13 +138,13 @@ router.post("/chat/:roomId", async (req, res) => {
       //     { $set: { "participants.$.isVisible": true } }
       //   );
 
-      // 최신화된 다이렉트 채팅방을 조회
+      // Socket 전송을 위해 업데이트된 다이렉트 채팅방 정보를 다시 조회
       const updatedDirectChat = await db
         .getDb()
         .collection("directChats")
         .findOne({ _id: new ObjectId(roomId) });
 
-      // 저장해 둔 초기 상태를 바탕으로 다이렉트 채팅방이 현재 화면에서 보이지 않는 상대방에게 업데이트된 정보를 전달해 실시간 반영
+      // 상대방 화면에 다이렉트 채팅방 표시
       if (socketId && otherParticipant.isVisible === false) {
         io.to(socketId).emit("invisibleDirectChat", updatedDirectChat);
       }
@@ -160,13 +162,12 @@ router.post("/chat/:roomId", async (req, res) => {
       };
     }
 
-    // 새 메시지를 chatMessages 컬렉션에 저장
     await db.getDb().collection("chatMessages").insertOne(newMessage);
 
-    // socket.io를 통해 새 메시지를 해당 채팅방에 브로드캐스트
-    const io = req.app.get("io"); // Express 앱에서 Socket.io 인스턴스를 가져옴
-    const chatRoomId = `room-${roomId}`; // 그룹 채팅방 ID 기반으로 채팅방 생성
-    io.to(chatRoomId).emit("newMessage", newMessage); // 해당 채팅방에 메시지 전송
+    // 같은 채팅방 참여자에게 새 메시지 실시간 전송
+    const io = req.app.get("io"); // Socket.io 인스턴스 조회
+    const chatRoomId = `room-${roomId}`; // 채팅방 ID 기반으로 채팅방 생성
+    io.to(chatRoomId).emit("newMessage", newMessage); // 참여 중인 사용자에게 새 메시지 전송
 
     const onlineUsers = req.app.get("onlineUsers"); // onlineUsers Map을 가져옴
     const roomUsers = req.app.get("roomUsers");
@@ -174,7 +175,6 @@ router.post("/chat/:roomId", async (req, res) => {
 
     // 메시지 보낸 사용자 제외하고, 현재 방에 없는 사용자에게만 알림 전송
     chatRoom.users.forEach((userId) => {
-      // 메시지를 전달하는 사용자와 일치하는 사용자는 건너뛰고 전달
       // 메시지를 보낸 사람 제외
       if (userId === othersData._id.toString()) return;
 
@@ -208,7 +208,6 @@ router.post("/directChat/:targetUserId", async (req, res) => {
       return res.status(401).json({ message: "jwt error" });
     }
 
-    // 클라이언트에서 보낸 데이터 추출
     const {
       targetUserId,
       targetUserNickname,
@@ -221,6 +220,7 @@ router.post("/directChat/:targetUserId", async (req, res) => {
       senderAvatarImageUrl,
     } = req.body;
 
+    // 한국 시간(KST) 기준 생성 시간
     let date = new Date();
     let kstDate = new Date(date.getTime() + 9 * 60 * 60 * 1000);
 
@@ -246,19 +246,8 @@ router.post("/directChat/:targetUserId", async (req, res) => {
         },
       });
 
-    // 다이렉트 채팅방이 이미 존재할 경우, isVisible을 true로 업데이트
+    // 기존 다이렉트 채팅방이 존재하면 메시지 추가 및 채팅방 정보 업데이트
     if (existingChat) {
-      // await db
-      //   .getDb()
-      //   .collection("directChats")
-      //   .updateOne(
-      //     {
-      //       _id: existingChat._id,
-      //       "participants._id": othersData._id.toString(),
-      //     },
-      //     { $set: { "participants.$.isVisible": true } }
-      //   );
-
       const newMessage = {
         roomId: existingChat._id,
         email: senderEmail,
@@ -284,6 +273,7 @@ router.post("/directChat/:targetUserId", async (req, res) => {
 
       await db.getDb().collection("chatMessages").insertOne(newMessage);
 
+      // Socket 전송을 위해 최신 다이렉트 채팅방 정보 조회
       const updatedExistingChat = await db
         .getDb()
         .collection("directChats")
@@ -297,15 +287,17 @@ router.post("/directChat/:targetUserId", async (req, res) => {
       const onlineUsers = req.app.get("onlineUsers");
       const socketId = onlineUsers.get(targetUserId);
 
+      // 상대방의 기존 isVisible 상태 확인
       const targetParticipant = existingChat.participants.find(
         (participant) => participant._id === targetUserId
       );
 
+      // 상대방 화면에 채팅방이 보이지 않는 경우 실시간으로 추가
       if (socketId && targetParticipant.isVisible === false) {
         io.to(socketId).emit("invisibleDirectChat", updatedExistingChat);
       }
 
-      // 이미 보이는 다이렉트 채팅방 업데이트
+      // 이미 표시 중인 다이렉트 채팅방 정보 갱신
       if (socketId) {
         io.to(socketId).emit("updatedDirectChat", updatedExistingChat);
       }
@@ -314,16 +306,18 @@ router.post("/directChat/:targetUserId", async (req, res) => {
       const chatRoomId = `room-${roomIdStr}`;
       io.to(chatRoomId).emit("newMessage", newMessage);
 
+      // 현재 채팅방에 접속 중인 소켓 목록
       const roomUsers = req.app.get("roomUsers");
       const roomSockets = roomUsers?.get(chatRoomId) ?? [];
-      // const roomSockets = roomUsers.get(chatRoomId);
 
+      // 그룹 채팅방과 동일한 알림 로직을 사용하기 위한 공통 형태
       const chatRoom = {
         _id: existingChat._id,
         title: "",
         users: existingChat.participants.map((participant) => participant._id),
       };
 
+      // 채팅방에 없는 상대방에게만 알림 전송
       chatRoom.users.forEach((userId) => {
         if (userId === othersData._id.toString()) return;
 
@@ -342,13 +336,10 @@ router.post("/directChat/:targetUserId", async (req, res) => {
         }
       });
 
-      // return res.status(200).json({
-      //   directChat: updatedExistingChat,
-      //   roomId: updatedExistingChat._id,
-      // });
       return res.status(200).json({ newMessage });
     }
 
+    // 새로운 다이렉트 채팅방 생성
     const newDirectChat = {
       participants: [
         {
@@ -364,12 +355,13 @@ router.post("/directChat/:targetUserId", async (req, res) => {
           avatarColor: targetUserAvatarColor,
           avatarImageUrl: targetUserAvatarImageUrl,
           isVisible: true,
-        }, // 다른 사용자
+        }, // 상대방
       ],
       date: formatKSTDate, // 날짜 및 시간을 포맷팅하여 문자열로 저장
       lastMessageDate: formatKSTDate,
     };
 
+    // 생성된 채팅방 ObjectId 저장
     const result = await db
       .getDb()
       .collection("directChats")
@@ -398,13 +390,13 @@ router.post("/directChat/:targetUserId", async (req, res) => {
       .collection("directChats")
       .findOne({ _id: roomId });
 
+    // 상대방 화면에 새로운 다이렉트 채팅방 추가
     if (socketId) {
       io.to(socketId).emit("invisibleDirectChat", createdDirectChat);
     }
 
     const roomIdStr = roomId.toString();
     const chatRoomId = `room-${roomIdStr}`;
-    // io.to(chatRoomId).emit("newMessage", newMessage);
 
     const roomUsers = req.app.get("roomUsers");
     const roomSockets = roomUsers?.get(chatRoomId) ?? [];
@@ -435,14 +427,14 @@ router.post("/directChat/:targetUserId", async (req, res) => {
       }
     });
 
-    // res.status(200).json({ directChat: newDirectChat, roomId });
     res.status(200).json({ newMessage });
   } catch (error) {
     errorHandler(res, error, "채팅 메시지 저장 중 오류 발생");
   }
 });
 
-// 마지막 메시지 ID 저장 라우터
+// 마지막으로 읽은 메시지 저장 기능
+// 현재 사용하지 않아 주석 처리 (추후 재구현 예정)
 // router.post("/chat/:roomId/lastVisibleMessage", async (req, res) => {
 //   try {
 //     const othersData = await accessToken(req, res);

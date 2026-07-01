@@ -18,6 +18,7 @@ router.get("/directChats", async (req, res) => {
       return res.status(401).json({ message: "jwt error" });
     }
 
+    // 현재 사용자에게 표시되는 다이렉트 채팅방만 조회
     const directChats = await db
       .getDb()
       .collection("directChats")
@@ -61,7 +62,7 @@ router.post("/directChatForm", async (req, res) => {
         },
       });
 
-    // 다이렉트 채팅방이 이미 존재할 경우, isVisible를 true로 업데이트
+    // 기존 다이렉트 채팅방이 존재하면 현재 사용자 채팅방 다시 표시
     if (existingChat) {
       await db
         .getDb()
@@ -74,6 +75,7 @@ router.post("/directChatForm", async (req, res) => {
           { $set: { "participants.$.isVisible": true } }
         );
 
+      // 변경된 다이렉트 채팅방 정보 조회
       const updatedExistingChat = await db
         .getDb()
         .collection("directChats")
@@ -89,6 +91,7 @@ router.post("/directChatForm", async (req, res) => {
       });
     }
 
+    // 한국 시간(KST) 기준 생성 시간
     let date = new Date();
     let kstDate = new Date(date.getTime() + 9 * 60 * 60 * 1000);
 
@@ -105,6 +108,7 @@ router.post("/directChatForm", async (req, res) => {
       .toString()
       .padStart(2, "0")}:${kstDate.getSeconds().toString().padStart(2, "0")}`;
 
+    // 새로운 다이렉트 채팅방 생성
     const newDirectChat = {
       participants: [
         {
@@ -126,6 +130,7 @@ router.post("/directChatForm", async (req, res) => {
       lastMessageDate: formatKSTDate,
     };
 
+    // 생성된 채팅방 ObjectId 저장
     const result = await db
       .getDb()
       .collection("directChats")
@@ -163,7 +168,7 @@ router.patch("/closeDirectChat/:roomId", async (req, res) => {
         .json({ message: "다이렉트 채팅방을 찾을 수 없습니다." });
     }
 
-    // 다이렉트 채팅방을 나갈 경우, isVisible을 false로 업데이트
+    // 다이렉트 채팅방 숨김 처리
     await db
       .getDb()
       .collection("directChats")
