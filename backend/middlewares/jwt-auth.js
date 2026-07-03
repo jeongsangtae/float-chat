@@ -36,7 +36,7 @@ const refreshToken = async (req, res) => {
     const accessTokenKey = process.env.ACCESS_TOKEN_KEY;
     const refreshTokenKey = process.env.REFRESH_TOKEN_KEY;
     const token = req.cookies.refreshToken;
-    // // Refresh Token 검증
+    // Refresh Token 검증
     const loginUserTokenData = jwt.verify(token, refreshTokenKey);
 
     const loginUserDbData = await db

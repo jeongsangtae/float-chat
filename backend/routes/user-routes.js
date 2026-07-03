@@ -15,6 +15,7 @@ const ObjectId = mongodb.ObjectId;
 
 const router = express.Router();
 
+// 회원가입 라우터
 router.post("/signup", async (req, res) => {
   try {
     const {
@@ -30,8 +31,7 @@ router.post("/signup", async (req, res) => {
     const nicknameRegex = /^[가-힣a-zA-Z0-9]+$/;
     const usernameRegex = /^[가-힣a-zA-Z0-9]+$/;
 
-    // 이메일, 닉네임, 사용자명, 패스워드 등 잘못된 입력을 확인하는 코드
-    // 조건이 맞지 않으면 오류 메시지와 함께 요청을 거절
+    // 회원가입 입력값 검증 및 유효성 확인
     if (
       !email ||
       !nickname ||
@@ -61,38 +61,41 @@ router.post("/signup", async (req, res) => {
       return;
     }
 
-    // 형식 검사 (닉네임, 사용자명)
+    // 닉네임 형식 검사
     if (!nicknameRegex.test(nickname)) {
       return res.status(400).json({
         message: "닉네임은 한글, 영문, 숫자만 사용할 수 있습니다.",
       });
     }
 
+    // 사용자명 형식 검사
     if (!usernameRegex.test(username)) {
       return res.status(400).json({
         message: "사용자명은 한글, 영문, 숫자만 사용할 수 있습니다.",
       });
     }
 
+    // 한국 시간(KST) 기준 생성 시간
     let date = new Date();
     let kstDate = new Date(date.getTime() + 9 * 60 * 60 * 1000);
 
-    // DB에서 이미 사용 중인 이메일인지 확인
+    // 이메일 중복 여부 확인
     const existingUser = await db
       .getDb()
       .collection("users")
       .findOne({ email });
 
-    // 이메일이 이미 존재하면 오류 메시지 전송
+    // 이메일 중복 시 오류 메시지 전송
     if (existingUser) {
       return res.status(400).json({
         message: "해당 이메일은 이미 사용중입니다.",
       });
     }
 
-    // 비밀번호를 해시하여 DB에 저장
+    // 비밀번호를 해시하여 저장
     const hashPassword = await bcrypt.hash(password, 12);
 
+    // 회원가입 정보 저장
     const user = {
       email,
       nickname,
@@ -114,7 +117,7 @@ router.post("/signup", async (req, res) => {
         .padStart(2, "0")}:${kstDate.getSeconds().toString().padStart(2, "0")}`,
     };
 
-    // 새 사용자 데이터를 MongoDB에 저장
+    // 사용자 저장
     await db.getDb().collection("users").insertOne(user);
 
     res.status(200).json({ message: "회원가입 성공" });
@@ -123,11 +126,12 @@ router.post("/signup", async (req, res) => {
   }
 });
 
+// 로그인 라우터
 router.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    // 입력한 이메일이 DB에 존재하는지 확인
+    // 로그인 사용자 조회
     const existingLoginUser = await db
       .getDb()
       .collection("users")
@@ -148,6 +152,7 @@ router.post("/login", async (req, res) => {
       return res.status(400).json({ message: "패스워드가 일치하지 않습니다." });
     }
 
+    // JWT 서명에 사용할 비밀 키
     const accessTokenKey = process.env.ACCESS_TOKEN_KEY;
     const refreshTokenKey = process.env.REFRESH_TOKEN_KEY;
 
@@ -202,7 +207,7 @@ router.post("/login", async (req, res) => {
   }
 });
 
-// Access Token 확인
+// Access Token 유효성 확인 라우터
 router.get("/accessToken", async (req, res) => {
   try {
     const responseData = await accessToken(req, res);
@@ -217,7 +222,7 @@ router.get("/accessToken", async (req, res) => {
   }
 });
 
-// Refresh Token 확인
+// Refresh Token 유효성 확인 라우터
 router.get("/refreshToken", async (req, res) => {
   try {
     const responseData = await refreshToken(req, res);
@@ -232,7 +237,7 @@ router.get("/refreshToken", async (req, res) => {
   }
 });
 
-// Refresh Token 만료 여부 확인
+// Refresh Token 만료 여부 확인 라우터
 router.get("/refreshTokenExp", async (req, res) => {
   try {
     const responseData = await refreshTokenExp(req, res);
@@ -248,6 +253,7 @@ router.get("/refreshTokenExp", async (req, res) => {
 });
 
 // 마지막으로 읽은 메시지 정보 조회 라우터
+// 현재 사용하지 않아 주석 처리 (추후 재구현 예정)
 // router.get("/lastReadMessages", async (req, res) => {
 //   try {
 //     const othersData = await accessToken(req, res);
@@ -278,8 +284,11 @@ router.patch("/updateTheme", async (req, res) => {
     }
 
     const requestBody = req.body;
+
+    // 로그인한 사용자 ID
     const userId = new ObjectId(othersData._id);
 
+    // 사용자 테마 업데이트
     await db
       .getDb()
       .collection("users")
@@ -308,6 +317,7 @@ router.patch("/editUserProfileForm", async (req, res) => {
     const newAvatarColor = requestBody.avatarColor;
     const newAvatarImageUrl = requestBody.avatarImageUrl;
 
+    // 사용자 정보 조회
     const userInfo = await db
       .getDb()
       .collection("users")
@@ -319,12 +329,14 @@ router.patch("/editUserProfileForm", async (req, res) => {
         .json({ message: "사용자 정보를 찾을 수 없습니다." });
     }
 
+    // 사용자 정보 수정 권한 확인
     if (userInfo.email !== othersData.email) {
       return res
         .status(403)
         .json({ message: "사용자 정보를 수정할 권한이 없습니다." });
     }
 
+    // 수정할 사용자 프로필 정보
     const editUserProfile = {
       nickname: newNickname,
       ...(newAvatarImageUrl
@@ -332,6 +344,7 @@ router.patch("/editUserProfileForm", async (req, res) => {
         : { avatarImageUrl: null, avatarColor: newAvatarColor }),
     };
 
+    // 사용자 프로필 변경 사항을 관련 컬렉션에 일괄 반영
     await Promise.all([
       // users 컬렉션: _id 기준으로 닉네임, 아바타 색 업데이트
       db
@@ -483,22 +496,24 @@ router.patch("/editUserProfileForm", async (req, res) => {
       .find({ users: currentUserId })
       .toArray();
 
+    // 그룹 채팅방 초대 목록을 불러와 실시간 반영에 사용
     const groupChatInvites = await db
       .getDb()
       .collection("groupChatInvites")
       .find({ $or: [{ requester: userId }, { receiver: userId }] })
       .toArray();
 
+    // 실시간으로 변경 사항을 전송할 사용자 ID 저장
     const friendIds = new Set();
     const friendRequestIds = new Set();
     const groupChatUserIds = new Set();
     const groupChatInviteIds = new Set();
 
-    // socket.io를 통해 새 메시지를 해당 채팅방에 브로드캐스트
+    // Socket.io 및 onlineUsers Map 가져오기
     const io = req.app.get("io");
     const onlineUsers = req.app.get("onlineUsers");
 
-    // 닉네임을 변경한 사용자를 제외한 친구 목록 _id를 추출
+    // 닉네임을 변경한 사용자를 제외한 사용자 ID 저장
     // for (const friend of friends) {
     //   const friendId =
     //     friend.requester.id.toString() === currentUserId
@@ -507,12 +522,13 @@ router.patch("/editUserProfileForm", async (req, res) => {
     //   friendIds.add(friendId);
     // }
 
-    // 닉네임을 변경한 사용자를 포함한 친구 목록 _id를 추출
+    // 친구 목록에 포함된 사용자 ID 저장
     for (const friend of friends) {
       friendIds.add(friend.requester.id.toString());
       friendIds.add(friend.receiver.id.toString());
     }
 
+    // 친구 요청 목록의 사용자 ID 저장
     for (const friendRequest of friendRequests) {
       const friendRequestId =
         friendRequest.requester.toString() === currentUserId
@@ -521,17 +537,20 @@ router.patch("/editUserProfileForm", async (req, res) => {
       friendRequestIds.add(friendRequestId);
     }
 
+    // 그룹 채팅방 참여 사용자 ID 저장
     for (const groupChat of groupChats) {
       groupChat.users.forEach((groupChatUserId) => {
         groupChatUserIds.add(groupChatUserId);
       });
     }
 
+    // 그룹 채팅방 초대 목록의 사용자 ID 저장
     for (const groupChatInvite of groupChatInvites) {
       groupChatInviteIds.add(groupChatInvite.requester.toString());
       groupChatInviteIds.add(groupChatInvite.receiver.toString());
     }
 
+    // 친구 목록에 프로필 변경 사항 실시간 반영
     for (const friendId of friendIds) {
       const socketId = onlineUsers.get(friendId);
       if (socketId) {
@@ -558,6 +577,7 @@ router.patch("/editUserProfileForm", async (req, res) => {
       }
     }
 
+    // 친구 요청 목록에 프로필 변경 사항 실시간 반영
     for (const friendRequestId of friendRequestIds) {
       const socketId = onlineUsers.get(friendRequestId);
       if (socketId) {
@@ -570,6 +590,7 @@ router.patch("/editUserProfileForm", async (req, res) => {
       }
     }
 
+    // 그룹 채팅방 참여자에게 프로필 변경 사항 실시간 반영
     for (const groupChatUserId of groupChatUserIds) {
       const socketId = onlineUsers.get(groupChatUserId);
       if (socketId) {
@@ -589,6 +610,7 @@ router.patch("/editUserProfileForm", async (req, res) => {
       }
     }
 
+    // 그룹 채팅방 초대 목록에 프로필 변경 사항 실시간 반영
     for (const groupChatInviteId of groupChatInviteIds) {
       const socketId = onlineUsers.get(groupChatInviteId);
       if (socketId) {
@@ -622,6 +644,7 @@ router.patch("/editUserPasswordForm", async (req, res) => {
     const newPassword = requestBody.newPassword;
     const confirmNewPassword = requestBody.confirmNewPassword;
 
+    // 사용자 정보 조회
     const userInfo = await db
       .getDb()
       .collection("users")
@@ -633,32 +656,38 @@ router.patch("/editUserPasswordForm", async (req, res) => {
         .json({ message: "사용자 정보를 찾을 수 없습니다." });
     }
 
+    // 해시된 비밀번호와 사용자가 입력한 비밀번호 비교
     const passwordEqual = await bcrypt.compare(password, userInfo.password);
 
     if (!passwordEqual) {
       return res.status(400).json({ message: "비밀번호가 일치하지 않습니다." });
     }
 
+    // 새로운 비밀번호 입력값 검증 및 유효성 확인
     if (newPassword.trim().length < 6) {
       return res
         .status(400)
         .json({ message: "비밀번호를 6자리 이상 입력해 주세요." });
     }
 
+    // 기존 비밀번호와 새로운 비밀번호 입력값 간의 검증 및 유효성 확인
     if (password === newPassword) {
       return res
         .status(400)
         .json({ message: "새 비밀번호가 현재 비밀번호와 동일합니다." });
     }
 
+    // 새로운 비밀번호와 새로운 비밀번호 확인 입력값 간의 검증 및 유효성 확인
     if (newPassword !== confirmNewPassword) {
       return res
         .status(400)
         .json({ message: "수정한 비밀번호가 일치하지 않습니다." });
     }
 
+    // 비밀번호를 해시하여 저장
     const hashPassword = await bcrypt.hash(newPassword, 12);
 
+    // 비밀번호 업데이트
     await db
       .getDb()
       .collection("users")
@@ -686,23 +715,27 @@ router.delete("/deleteUserForm", async (req, res) => {
     const password = requestBody.password;
     const confirmText = requestBody.confirmText;
 
+    // 사용자 정보 조회
     const userInfo = await db
       .getDb()
       .collection("users")
       .findOne({ _id: othersData._id });
 
+    // 해시된 비밀번호와 사용자가 입력한 비밀번호 비교
     const passwordEqual = await bcrypt.compare(password, userInfo.password);
 
     if (!passwordEqual) {
       return res.status(400).json({ message: "비밀번호가 일치하지 않습니다." });
     }
 
+    // 사용자 계정 탈퇴 문구 입력값 검증 및 유효성 확인
     if (confirmText.trim() !== "탈퇴하겠습니다") {
       return res
         .status(400)
         .json({ message: "계정 탈퇴 문구가 일치하지 않습니다." });
     }
 
+    // 다이렉트 채팅방 목록 조회
     const directChats = await db
       .getDb()
       .collection("directChats")
@@ -711,29 +744,37 @@ router.delete("/deleteUserForm", async (req, res) => {
       })
       .toArray();
 
+    // 다이렉트 채팅방 번호 저장
     const directChatRoomIds = directChats.map((room) => room._id);
 
+    // 호스트인 그룹 채팅방 목록 조회
     const hostGroupChats = await db
       .getDb()
       .collection("groupChats")
       .find({ hostId: userInfo._id.toString() })
       .toArray();
 
+    // 호스트인 그룹 채팅방 번호 저장
     const hostGroupChatRoomIds = hostGroupChats.map((room) => room._id);
 
+    // 삭제할 채팅방 번호 저장
     const allDeleteRoomIds = [...directChatRoomIds, ...hostGroupChatRoomIds];
 
+    // 사용자 계정 삭제 사항을 관련 컬렉션에 일괄 반영
     await Promise.all([
+      // 채팅 메시지 삭제
       db
         .getDb()
         .collection("chatMessages")
         .deleteMany({ roomId: { $in: allDeleteRoomIds } }),
 
+      // 다이렉트 채팅방 삭제
       db
         .getDb()
         .collection("directChats")
         .deleteMany({ "participants._id": userInfo._id.toString() }),
 
+      // 그룹 채팅방 참여자 목록에서 제거
       db
         .getDb()
         .collection("groupChats")
@@ -742,11 +783,13 @@ router.delete("/deleteUserForm", async (req, res) => {
           { $pull: { users: userInfo._id.toString() } }
         ),
 
+      // 호스트인 그룹 채팅방 삭제
       db
         .getDb()
         .collection("groupChats")
         .deleteMany({ hostId: userInfo._id.toString() }),
 
+      // 그룹 채팅방 초대 삭제
       db
         .getDb()
         .collection("groupChatInvites")
@@ -754,11 +797,13 @@ router.delete("/deleteUserForm", async (req, res) => {
           $or: [{ requester: userInfo._id }, { receiver: userInfo._id }],
         }),
 
+      // 마지막으로 읽은 메시지 삭제
       db
         .getDb()
         .collection("lastReadMessages")
         .deleteMany({ userId: userInfo._id }),
 
+      // 친구 목록 삭제
       db
         .getDb()
         .collection("friends")
@@ -769,6 +814,7 @@ router.delete("/deleteUserForm", async (req, res) => {
           ],
         }),
 
+      // 친구 요청 삭제
       db
         .getDb()
         .collection("friendRequests")
@@ -776,14 +822,17 @@ router.delete("/deleteUserForm", async (req, res) => {
           $or: [{ requester: userInfo._id }, { receiver: userInfo._id }],
         }),
 
+      // 사용자 계정 삭제
       db.getDb().collection("users").deleteOne({ _id: userInfo._id }),
     ]);
 
+    // 쿠키에 저장된 Access Token 삭제
     res.clearCookie("accessToken", {
       secure: isProduction, // 쿠키 설정 시 사용한 옵션과 동일하게
       sameSite: isProduction ? "None" : "Lax", // sameSite도 동일하게
     });
 
+    // 쿠키에 저장된 Refresh Token 삭제
     res.clearCookie("refreshToken", {
       secure: isProduction, // 쿠키 설정 시 사용한 옵션과 동일하게
       sameSite: isProduction ? "None" : "Lax", // sameSite도 동일하게
@@ -804,8 +853,10 @@ router.patch("/user/group-chat-order", async (req, res) => {
       return res.status(401).json({ message: "jwt error" });
     }
 
+    // 재정렬된 그룹 채팅방 순서
     const { groupChatOrder } = req.body;
 
+    // 사용자 조회
     const user = await db
       .getDb()
       .collection("users")
@@ -817,6 +868,7 @@ router.patch("/user/group-chat-order", async (req, res) => {
         .json({ message: "사용자 정보를 찾을 수 없습니다." });
     }
 
+    // 사용자의 그룹 채팅방 순서 목록 업데이트
     await db
       .getDb()
       .collection("users")
@@ -828,19 +880,24 @@ router.patch("/user/group-chat-order", async (req, res) => {
   }
 });
 
-// 로그아웃 처리, 쿠키에서 토큰 제거
+// 로그아웃 라우터
 router.post("/logout", async (req, res) => {
+  // 현재 실행 환경 확인 (개발/운영)
   const isProduction = process.env.NODE_ENV === "production";
 
   try {
+    // 쿠키에 저장된 Access Token 삭제
     res.clearCookie("accessToken", {
       secure: isProduction, // 쿠키 설정 시 사용한 옵션과 동일하게
       sameSite: isProduction ? "None" : "Lax", // sameSite도 동일하게
     });
+
+    // 쿠키에 저장된 Refresh Token 삭제
     res.clearCookie("refreshToken", {
       secure: isProduction, // 쿠키 설정 시 사용한 옵션과 동일하게
       sameSite: isProduction ? "None" : "Lax", // sameSite도 동일하게
     });
+
     res.status(200).json({ message: "로그아웃 성공" });
   } catch (error) {
     errorHandler(res, error, "로그아웃 중 오류 발생");
