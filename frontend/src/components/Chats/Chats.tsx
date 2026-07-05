@@ -16,7 +16,6 @@ const Chats = ({ roomId, chatInfo }: ChatsProps) => {
 
   const { joinChatRoom, leaveChatRoom } = useSocketStore();
 
-  // const prevMessagesLength = useRef<number | null>(null);
   const chatContainerRef = useRef<HTMLDivElement | null>(null);
   const messageRefs = useRef<Record<string, HTMLDivElement | null>>({});
 
@@ -34,7 +33,7 @@ const Chats = ({ roomId, chatInfo }: ChatsProps) => {
     joinChatRoom(roomId);
   }, [roomId]);
 
-  // 해당 채팅방의 채팅 데이터 불러오기
+  // 해당 채팅방의 채팅 데이터 불러오는 useEffect
   useEffect(() => {
     if (!roomId) {
       console.error("roomId가 정의되지 않았습니다.");
@@ -68,16 +67,15 @@ const Chats = ({ roomId, chatInfo }: ChatsProps) => {
 
     // 스크롤이 맨 아래에 있는지 확인 (오차를 줄이기 위해서 -1 사용)
     const isAtBottom = scrollTop + clientHeight >= scrollHeight - 1;
+
     // 스크롤이 거의 맨 아래에 있는지 확인
     const nearBottom = scrollTop + clientHeight >= scrollHeight - 100;
     const lastMessage = messages[messages.length - 1];
 
+    // 마지막으로 메시지를 전송한 사용자와 현재 로그인한 사용자가 일치하는지 확인
     const currentUser = lastMessage?.email === userInfo?.email;
 
     if (isAtBottom || nearBottom || currentUser) {
-      // 스크롤이 맨 아래에 있는 경우
-      // 스크롤이 맨 아래에 가까운 경우
-      // 마지막으로 메시지를 전송한 사용자와 현재 로그인한 사용자가 일치하는 경우
       setShowNewMessageButton(false);
       setToBottomButton(false);
       scrollToBottomHandler();
@@ -89,7 +87,6 @@ const Chats = ({ roomId, chatInfo }: ChatsProps) => {
 
   // 스크롤을 최하단으로 이동하는 함수
   const scrollToBottomHandler = () => {
-    // messagesEndRef.current?.scrollIntoView({ block: "nearest" });
     const container = chatContainerRef.current;
     if (!container) return;
 
@@ -116,7 +113,7 @@ const Chats = ({ roomId, chatInfo }: ChatsProps) => {
 
     const isAtBottom = scrollTop + clientHeight >= scrollHeight - 1;
 
-    // 오차를 줄이기 위해 -1을 사용
+    // 브라우저의 소수점 오차를 고려해 -1 여유값 사용
     if (isAtBottom) {
       setToBottomButton(false);
       setShowNewMessageButton(false);
@@ -148,7 +145,7 @@ const Chats = ({ roomId, chatInfo }: ChatsProps) => {
     // 사용자가 달라졌거나 날짜가 바뀌었으면 닉네임을 보여줌
     const showNickname = !sameUserAsPrevious || showDateLine;
 
-    // 닉네임을 보여주는 경우에만 현재 닉네임을 저장해 다음 비교에 사용
+    // 다음 메시지와 비교할 수 있도록 현재 사용자 이메일 저장
     if (showNickname) {
       prevUserEmail = message.email;
     }

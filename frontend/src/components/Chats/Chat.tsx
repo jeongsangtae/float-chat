@@ -3,7 +3,6 @@ import Avatar from "../Users/Avatar";
 
 import classes from "./Chat.module.css";
 
-// Pick를 Omit으로 변경해야 함
 const Chat = ({
   nickname,
   message,
@@ -26,8 +25,7 @@ const Chat = ({
   // 년도의 뒷 2자리만 사용
   const shortYear = year.slice(2);
 
-  // 문자열로 되어 있는 월, 일, 시를 숫자로 변환 (ex: 04 -> 4)
-  // 10진수 숫자로 변환
+  // 문자열을 10진수 숫자로 변환 (ex: 04 -> 4)
   const numMonth = parseInt(month, 10);
   const numDay = parseInt(day, 10);
   const numHour = parseInt(hour, 10);
@@ -48,7 +46,7 @@ const Chat = ({
   // 오전/오후 표기
   const ampm = am ? "오전" : "오후";
 
-  // 현재 날짜 정보 가져오는 내용
+  // 현재 날짜 정보
   const now = new Date(); // 현재 시간 기준의 Date 객체 생성
 
   // 채팅 메시지의 날짜를 기반으로 Date 객체 생성
@@ -63,7 +61,6 @@ const Chat = ({
   const yesterday = new Date(today);
   yesterday.setDate(today.getDate() - 1);
 
-  // 날짜 조건 체크
   // 메시지 날짜가 오늘 또는 어제인지 확인
   const todayChecked = msgDate.getTime() === today.getTime();
   const yesterdayChecked = msgDate.getTime() === yesterday.getTime();

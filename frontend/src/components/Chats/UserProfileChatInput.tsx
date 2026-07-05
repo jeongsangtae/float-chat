@@ -31,6 +31,7 @@ const UserProfileChatInput = ({
 
   const isMessageValid = message.trim().length > 0;
 
+  // 입력창 내용 변경 및 높이 자동 조절
   const inputChangeHandler = (
     event: React.ChangeEvent<HTMLTextAreaElement>
   ) => {
@@ -38,7 +39,7 @@ const UserProfileChatInput = ({
 
     if (!textarea) return;
 
-    // 높이 초기화
+    // 높이를 초기화하여 scrollHeight 값을 올바르게 계산
     textarea.style.height = "48px";
 
     // 화면 기준 최대 높이 계산
@@ -58,6 +59,7 @@ const UserProfileChatInput = ({
     setMessage(event.target.value);
   };
 
+  // 메시지 전송
   const sendMessageHandler = async (): Promise<void> => {
     if (!userId || !userInfo) return;
 
@@ -68,6 +70,7 @@ const UserProfileChatInput = ({
       avatarImageUrl,
     };
 
+    // 다이렉트 채팅 메시지 전송 후 채팅방 ID 반환
     const roomId = await userProfileDirectSendMessage(
       targetUser,
       message.trim(),
@@ -79,14 +82,17 @@ const UserProfileChatInput = ({
     const textarea = textareaRef.current;
 
     if (!textarea) return;
-
+    // 입력창 높이 초기화
     textarea.style.height = "48px";
     textarea.style.overflow = "hidden";
 
+    // 전송한 다이렉트 채팅방으로 이동
     navigate(`/me/${roomId}`);
   };
 
+  // Enter 키 입력 처리
   const keyPressHandler = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    // Enter 입력 시 메시지 전송 (Shift+Enter는 줄바꿈)
     if (event.key === "Enter" && !event.shiftKey) {
       event.preventDefault(); // 줄바꿈 방지
       sendMessageHandler();
