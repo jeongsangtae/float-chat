@@ -19,15 +19,18 @@ const DirectChatPanel = ({
 }: DirectChatPanelProps) => {
   const navigate = useNavigate();
 
+  // 패널 UI 상태 관리
   const [showMutualGroupChats, setShowMutualGroupChats] = useState(false);
   const [showMutualFriends, setShowMutualFriends] = useState(false);
   const [imageError, setImageError] = useState(false);
 
+  // 다른 사용자 프로필로 변경되면 펼쳐진 목록 초기화
   useEffect(() => {
     setShowMutualGroupChats(false);
     setShowMutualFriends(false);
   }, [chatInfo.userId]);
 
+  // 프로필 이미지가 변경되면 이미지 오류 상태 초기화
   useEffect(() => {
     setImageError(false);
   }, [chatInfo.avatarImageUrl]);
@@ -40,6 +43,7 @@ const DirectChatPanel = ({
     setShowMutualFriends(!showMutualFriends);
   };
 
+  // 함께 아는 친구와의 다이렉트 채팅방으로 이동
   const openDirectChatHandler = async (
     payload: DirectChatPayload
   ): Promise<void> => {
@@ -134,6 +138,7 @@ const DirectChatPanel = ({
               </div>
             )}
 
+            {/* 함께 참여한 그룹 채팅방 목록 */}
             {showMutualGroupChats && (
               <>
                 {mutualGroupChats.map((mutualGroupChat) => (
@@ -186,6 +191,7 @@ const DirectChatPanel = ({
               </div>
             )}
 
+            {/* 함께 아는 친구 목록 */}
             {showMutualFriends && (
               <>
                 {mutualFriendUsers.map((mutualFriendUser) => (

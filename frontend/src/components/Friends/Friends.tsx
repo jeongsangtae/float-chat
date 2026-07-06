@@ -55,7 +55,7 @@ const Friends = () => {
     currentSearchTerm
   );
 
-  // 친구 추가 내용 다녀왔을 때 친구 관련 검색창 초기화
+  // 검색창 초기화 기능 (현재 미사용)
   // useEffect(() => {
   //   if (activeTab === "addFriend") {
   //     setSearchMap({
@@ -66,6 +66,8 @@ const Friends = () => {
   //   }
   // }, [activeTab]);
 
+  // 최초 진입 시 온라인 친구 목록을 기본 탭으로 조회하고
+  // 친구 요청 목록 및 현재 레이아웃 상태를 초기화
   useEffect(() => {
     // activeTabHandler("all", loadFriends);
     activeTabHandler("online", loadOnlineFriends);
@@ -83,6 +85,7 @@ const Friends = () => {
   //   }
   // }, [filteredFriends]);
 
+  // 친구 탭 변경 및 필요한 데이터 조회
   const activeTabHandler = (tab: TabType, action?: () => void): void => {
     if (activeTab !== tab) {
       setActiveTab(tab);
@@ -134,6 +137,7 @@ const Friends = () => {
           </div>
 
           <div className={classes["friend-content"]}>
+            {/* 검색창 */}
             {activeTab !== "addFriend" &&
               // 검색창은 대기중 탭이면서 friendRequests 없을 땐 숨김
               !(activeTab === "pending" && friendRequests.length === 0) && (
@@ -166,6 +170,7 @@ const Friends = () => {
                 </div>
               )}
 
+            {/* 온라인 친구 목록 */}
             <ul className={classes["online-friends"]}>
               {activeTab === "online" &&
                 filteredOnlineFriends.map((filteredOnlineFriend) => (
@@ -181,6 +186,7 @@ const Friends = () => {
                 ))}
             </ul>
 
+            {/* 전체 친구 목록 */}
             <ul className={classes.friends}>
               {activeTab === "all" &&
                 filteredFriends.map((filteredFriend) => (
@@ -196,6 +202,7 @@ const Friends = () => {
                 ))}
             </ul>
 
+            {/* 친구 요청 목록 */}
             <ul className={classes["pending-friends"]}>
               {activeTab === "pending" && (
                 <>
@@ -260,6 +267,7 @@ const Friends = () => {
               )}
             </ul>
 
+            {/* 친구 추가 */}
             {activeTab === "addFriend" && <AddFriend />}
           </div>
         </>

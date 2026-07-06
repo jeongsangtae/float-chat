@@ -9,6 +9,7 @@ const useFilteredFriends = (
   userId: string,
   searchTerm: string
 ) => {
+  // 온라인 친구 ID 목록 추출
   const onlineFriendIds = useMemo(() => {
     return onlineFriends.map((onlineFriend) =>
       onlineFriend.requester.id === userId
@@ -17,6 +18,7 @@ const useFilteredFriends = (
     );
   }, [onlineFriends, userId]);
 
+  // 검색어가 적용된 온라인 친구 목록 생성
   const filteredOnlineFriends = useMemo(() => {
     return onlineFriends
       .map((onlineFriend) =>
@@ -34,6 +36,7 @@ const useFilteredFriends = (
       .map((onlineFriend) => ({ ...onlineFriend, onlineChecked: true }));
   }, [onlineFriends, userId, searchTerm]);
 
+  // 검색어가 적용된 전체 친구 목록 생성
   const filteredFriends = useMemo(() => {
     const friendsList = friends
       .map((friend) =>
@@ -59,6 +62,7 @@ const useFilteredFriends = (
     return Array.from(uniqueMapId.values());
   }, [friends, userId, onlineFriendIds, searchTerm]);
 
+  // 보낸 요청 / 받은 요청 목록 생성
   const sendFriendRequests = useMemo(() => {
     return friendRequests
       .filter((friendRequest) => {
@@ -95,10 +99,12 @@ const useFilteredFriends = (
       });
   }, [friendRequests, searchTerm, userId]);
 
+  // 내가 보낸 친구 요청
   const sentRequests = sendFriendRequests.filter(
     (sendFriendRequest) => sendFriendRequest.sendRequest
   );
 
+  // 받은 친구 요청
   const receivedRequests = sendFriendRequests.filter(
     (sendFriendRequest) => !sendFriendRequest.sendRequest
   );

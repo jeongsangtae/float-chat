@@ -20,6 +20,7 @@ const DirectChatSidebar = ({ onToggle }: DirectChatSidebarProps) => {
   const { userInfo } = useAuthStore();
   const { friendRequests } = useFriendStore();
 
+  // 받은 친구 요청만 추출
   const receiverRequests = friendRequests.filter(
     (friendRequest) => friendRequest.receiver === userInfo?._id
   );

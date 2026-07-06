@@ -23,6 +23,7 @@ const Friend = ({
   const { deleteFriend } = useFriendStore();
   const { getGroupChatInvites } = useGroupChatStore();
 
+  // 친구 삭제 처리
   const deleteFriendHandler = async (): Promise<void> => {
     if (!userId) {
       console.error("userId가 정의되지 않았습니다.");
@@ -33,6 +34,7 @@ const Friend = ({
     await getGroupChatInvites();
   };
 
+  // 친구와의 다이렉트 채팅방으로 이동
   const openDirectChatHandler = async (): Promise<void> => {
     if (!id) {
       console.error("id가 정의되지 않았습니다.");
@@ -46,6 +48,7 @@ const Friend = ({
       avatarImageUrl,
     };
 
+    // 다이렉트 채팅방 ID 조회
     const roomId = await getDirectChatRoomId(payload);
 
     navigate(`/me/${roomId}`);

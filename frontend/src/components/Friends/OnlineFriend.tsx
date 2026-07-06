@@ -4,7 +4,8 @@ import { FriendUser } from "../../types";
 
 import useFriendStore from "../../store/friendStore";
 import useGroupChatStore from "../../store/groupChatStore";
-import useDirectChatStore from "../../store/directChatStore";
+
+import { getDirectChatRoomId } from "../../utils/getDirectChatRoomId";
 
 import classes from "./OnlineFriend.module.css";
 import Avatar from "../Users/Avatar";
@@ -21,8 +22,8 @@ const OnlineFriend = ({
 
   const { deleteFriend } = useFriendStore();
   const { getGroupChatInvites } = useGroupChatStore();
-  const { directChatForm } = useDirectChatStore();
 
+  // 친구 삭제 처리
   const deleteFriendHandler = async (): Promise<void> => {
     if (!userId) {
       console.error("userId가 정의되지 않았습니다.");
@@ -33,18 +34,22 @@ const OnlineFriend = ({
     await getGroupChatInvites();
   };
 
+  // 친구와의 다이렉트 채팅방으로 이동
   const openDirectChatHandler = async (): Promise<void> => {
     if (!id) {
       console.error("id가 정의되지 않았습니다.");
       return;
     }
 
-    const roomId = await directChatForm(
+    const payload = {
       id,
       nickname,
       avatarColor,
-      avatarImageUrl
-    );
+      avatarImageUrl,
+    };
+
+    // 다이렉트 채팅방 ID 조회
+    const roomId = await getDirectChatRoomId(payload);
 
     navigate(`/me/${roomId}`);
   };

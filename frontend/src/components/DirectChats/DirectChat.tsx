@@ -23,10 +23,12 @@ const DirectChat = ({
   const { getDirectChat, closeDirectChat } = useDirectChatStore();
   const { currentRoom } = useSocketStore();
 
+  // 다이렉트 채팅방 닫기 처리
   const closeDirectChatHandler = async (): Promise<void> => {
     await closeDirectChat(_id);
     await getDirectChat();
 
+    // 현재 채팅방에 있을 경우 홈으로 이동
     if (currentRoom === _id) {
       navigate("/");
     }

@@ -18,18 +18,21 @@ const AddFriend = () => {
 
   const [searchUserEmail, setSearchUserEmail] = useState<string>("");
 
+  // 컴포넌트 마운트/언마운트 시 상태 메시지 초기화
   useEffect(() => {
     resetStatusMessage();
 
     return () => resetStatusMessage();
   }, []);
 
+  // 친구 요청 성공 시 입력창 초기화
   useEffect(() => {
     if (status === 200) {
       setSearchUserEmail("");
     }
   }, [status]);
 
+  // 친구 요청 전송
   const addFriendHandler = async (): Promise<void> => {
     if (!searchUserEmail.trim()) {
       toast.error("이메일을 입력하세요.");

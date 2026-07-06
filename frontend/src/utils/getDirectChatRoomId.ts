@@ -7,6 +7,7 @@ interface DirectChatUserData {
   avatarImageUrl: string | null;
 }
 
+// 다이렉트 채팅방 ID를 조회하고, 없으면 새로 생성하여 반환
 export const getDirectChatRoomId = async (
   payload: DirectChatUserData
 ): Promise<string> => {

@@ -15,6 +15,7 @@ const DirectChats = () => {
   const { directChats, getDirectChat } = useDirectChatStore();
   const { onlineFriends, loadOnlineFriends } = useFriendStore();
 
+  // 로그인 시 그룹 채팅 초대, 다이렉트 채팅, 온라인 친구 목록 조회
   useEffect(() => {
     if (isLoggedIn) {
       getGroupChatInvites();
@@ -23,7 +24,9 @@ const DirectChats = () => {
     }
   }, [isLoggedIn]);
 
+  // 다이렉트 채팅 목록에 상대방 정보와 온라인 상태 추가
   const filteredDirectChats = useMemo(() => {
+    // 온라인 상태인 친구들의 ID 목록 추출
     const onlineFriendIds = onlineFriends.map((friend) =>
       friend.requester.id === userInfo?._id
         ? friend.receiver.id
@@ -31,10 +34,12 @@ const DirectChats = () => {
     );
 
     return directChats.map((directChat) => {
+      // 현재 로그인한 사용자를 제외한 상대방 정보 추출
       const otherUser = directChat.participants.find(
         (participant) => participant._id !== userInfo?._id
       );
 
+      // 상대방의 온라인 여부 확인
       const onlineChecked = onlineFriendIds.includes(otherUser?._id ?? "");
 
       return {
@@ -48,6 +53,7 @@ const DirectChats = () => {
   return (
     <>
       <div>
+        {/* 다이렉트 채팅 목록 */}
         {filteredDirectChats.map((filteredDirectChat) => (
           <DirectChat
             key={filteredDirectChat._id}
@@ -67,6 +73,7 @@ const DirectChats = () => {
         ))}
       </div>
 
+      {/* 그룹 채팅 초대 목록 */}
       {groupChatInvites.length > 0 && (
         <div className={classes["group-chat-invite-section"]}>
           <div className={classes["group-chat-invite-header"]}>그룹 초대</div>
