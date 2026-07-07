@@ -20,36 +20,27 @@ const GroupChat = ({
 
   const location = useLocation();
 
+  // 툴팁 위치
   const [tooltipPos, setTooltipPos] = useState<{ x: number; y: number }>({
     x: 0,
     y: 0,
   });
+
+  // 툴팁 표시 여부
   const [showTooltip, setShowTooltip] = useState<boolean>(false);
 
-  // 그룹 채팅방 버튼 기준 경로
+  // 현재 접속 중인 그룹 채팅방인지 확인
   const active = location.pathname === `/group-chat/${_id}`;
 
+  // 컨텍스트 메뉴 DOM 참조
   const contextMenuRef = useRef<HTMLUListElement | null>(null);
 
+  // 우클릭 컨텍스트 메뉴 열기
   const contextMenuOpenHandler = (
     event: React.MouseEvent<HTMLDivElement>
   ): void => {
     event.preventDefault();
     event.stopPropagation(); // 우클릭 이벤트가 전역 우클릭 이벤트까지 퍼지지 않게 막음
-
-    // 이미 열려 있고 같은 _id 그룹 채팅방을 열었을 경우 (닫기)
-    // if (contextMenu.visible && contextMenu.id === _id) {
-    //   // console.log(contextMenu.id === _id);
-    //   contextMenuCloseHandler();
-    //   return;
-    // }
-
-    // 다른 그룹 채팅방이 열려 있을 경우 (닫기)
-    // if (contextMenu.visible && contextMenu.id !== _id) {
-    //   // console.log(contextMenu.id === _id);
-    //   contextMenuCloseHandler();
-    //   return;
-    // }
 
     // 이미 메뉴가 열려 있으면 닫기만 하고 끝
     if (contextMenu.visible) {
@@ -66,6 +57,7 @@ const GroupChat = ({
     });
   };
 
+  // 마우스를 올리면 제목 툴팁 표시
   const mouseEnterHandler = (e: React.MouseEvent<HTMLDivElement>) => {
     const rect = e.currentTarget.getBoundingClientRect();
 
@@ -77,36 +69,39 @@ const GroupChat = ({
     setShowTooltip(true);
   };
 
+  // 마우스가 벗어나면 툴팁 숨김
   const mouseLeaveHandler = () => {
     setShowTooltip(false);
   };
 
+  // 컨텍스트 메뉴 닫기
   const contextMenuCloseHandler = (): void => {
     setContextMenu({ visible: false, x: 0, y: 0, id: null });
   };
 
+  // 그룹 채팅방 삭제 모달 열기
   const groupChatDeleteHandler = async (): Promise<void> => {
     toggleModal("groupChatConfirm", "DELETE", { _id, type: "delete" });
     contextMenuCloseHandler();
   };
 
+  // 그룹 채팅방 나가기 모달 열기
   const groupChatLeaveHandler = async (): Promise<void> => {
     toggleModal("groupChatConfirm", "DELETE", { _id, type: "leave" });
     contextMenuCloseHandler();
   };
 
+  // 그룹 채팅방 수정 모달 열기
   const groupChatEditHandler = (): void => {
     toggleModal("groupChatForm", "PATCH", { _id, title });
     contextMenuCloseHandler();
   };
 
-  // 그룹 채팅방이 최소 하나라도 존재하는 경우 작동
+  // 컨텍스트 메뉴 외부 클릭 및 우클릭 처리
   useEffect(() => {
     // 외부 좌클릭 감지 함수
     const outsideClickHandler = (event: MouseEvent): void => {
-      // 메뉴창이 열려 있는지 확인
-      // DOM 요소가 존재하는지 확인
-      // 클릭한 요소가 메뉴 내부가 아니라면 (외부 클릭) 메뉴를 닫기
+      // 메뉴 외부를 클릭하면 컨텍스트 메뉴 닫기
       if (
         contextMenu.visible &&
         contextMenuRef.current &&
@@ -120,10 +115,8 @@ const GroupChat = ({
 
     // 외부 우클릭 감지 함수
     const outsideContextMenuHandler = (event: MouseEvent): void => {
-      // if (contextMenu.visible) {
       event.preventDefault(); // 기본 브라우저 컨텍스트 메뉴 막기
       contextMenuCloseHandler(); //메뉴창 닫기
-      // }
     };
 
     // 좌클릭 이벤트를 전역에 등록
@@ -155,6 +148,7 @@ const GroupChat = ({
         </Link>
 
         <span className={classes.indicator} />
+        {/* 마우스를 올리면 전체 제목 툴팁 표시 */}
         {showTooltip && (
           <div
             className={classes["tooltip-text"]}
@@ -170,6 +164,7 @@ const GroupChat = ({
         )}
       </div>
 
+      {/* 현재 그룹 채팅방의 컨텍스트 메뉴 */}
       {contextMenu.visible && contextMenu.id === _id && (
         <ul
           className={classes["context-menu"]}

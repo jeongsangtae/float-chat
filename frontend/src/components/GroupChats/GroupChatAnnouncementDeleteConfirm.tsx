@@ -12,9 +12,11 @@ const GroupChatAnnouncementDeleteConfirm = ({ onToggle }: ModalProps) => {
   const { modalData } = useModalStore();
   const { groupChatAnnouncementDelete } = useGroupChatStore();
 
+  // 공지사항 삭제 요청 후 모달 닫기
   const confirmHandler = async () => {
     try {
-      await groupChatAnnouncementDelete("", modalData); // announcement를 ""로 초기화
+      // 삭제 시 공지 내용은 사용하지 않으므로 빈 문자열 전달
+      await groupChatAnnouncementDelete("", modalData);
       onToggle();
     } catch (error) {
       console.error("에러 내용:", error);

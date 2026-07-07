@@ -15,14 +15,17 @@ const DraggableGroupChat = ({
   overIndex,
   isSource,
 }: DraggableGroupChatProps) => {
+  // 드래그 가능한 요소 등록
   const { attributes, listeners, setNodeRef, isDragging } = useDraggable({
     id: _id,
   });
 
+  // 드롭 가능한 요소 등록
   const { setNodeRef: setDroppableRef, isOver } = useDroppable({
     id: _id,
   });
 
+  // 하나의 DOM 요소를 draggable과 droppable 모두에 등록
   const setRef = (node: HTMLElement | null) => {
     setNodeRef(node); // draggable
     setDroppableRef(node); // droppable
@@ -43,6 +46,7 @@ const DraggableGroupChat = ({
     overIndex !== null &&
     activeIndex < overIndex;
 
+  // 드래그 중인 항목은 반투명하게 표시
   const style = {
     opacity: isDragging ? 0.4 : 1,
   };
@@ -59,6 +63,7 @@ const DraggableGroupChat = ({
       {showBottomLine && <div className={classes["insert-line-bottom"]} />}
 
       {isSource ? (
+        // 드래그 중인 원본 위치는 placeholder로 공간 유지
         <div className={classes["group-chat-placeholder"]} />
       ) : (
         <GroupChat

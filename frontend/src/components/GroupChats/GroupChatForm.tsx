@@ -21,6 +21,7 @@ const GroupChatForm = ({ onToggle }: ModalProps) => {
   const trimmedTitle = title.trim();
   const titleValid = trimmedTitle.length >= 2;
 
+  // 그룹 채팅방 이름 입력 처리
   const inputChangeHandler = (
     event: React.ChangeEvent<HTMLInputElement>
   ): void => {
@@ -34,6 +35,7 @@ const GroupChatForm = ({ onToggle }: ModalProps) => {
     }
   };
 
+  // 그룹 채팅방 생성 / 수정 요청
   const submitHandler = async (
     event: React.FormEvent<HTMLFormElement>
   ): Promise<void> => {

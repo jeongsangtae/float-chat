@@ -7,7 +7,6 @@ import { IoClose, IoPersonAddSharp } from "react-icons/io5";
 
 import { Coords } from "../../types";
 
-// import EditUserProfileForm from "../Users/EditUserProfileForm";
 import UserProfile from "../Users/UserProfile";
 import UserProfileDetails from "../Users/UserProfileDetails";
 
@@ -47,10 +46,12 @@ const GroupChatDetails = () => {
   const [coords, setCoords] = useState<Coords | null>(null);
   const [origin, setOrigin] = useState<"users" | "panel" | null>(null);
 
+  // 현재 선택된 사용자 프로필 정보
   const activeUserProfile = groupChatUsers.find(
     (groupChatUser) => groupChatUser._id === activeUser
   );
 
+  // 사용자 프로필 툴팁 열기/닫기
   const openUserProfileHandler = (
     userId: string,
     coords: Coords,
@@ -67,8 +68,8 @@ const GroupChatDetails = () => {
     setOrigin(source);
   };
 
-  // 이름 변경 필요
-  const toggleHandler = (): void => {
+  // 그룹 채팅방 초대 모달 열기 또는 닫기
+  const toggleInviteHandler = (): void => {
     setSearchTerm("");
     setToggle(!toggle);
     loadFriends();
@@ -76,18 +77,22 @@ const GroupChatDetails = () => {
 
   const userId = userInfo?._id;
 
+  // 친구 객체에서 상대 사용자 정보만 추출
   const filteredFriends = friends.map((friend) => {
     return friend.requester.id === userId ? friend.receiver : friend.requester;
   });
 
+  // 검색어에 맞는 친구 목록 필터링
   const searchFriends = filteredFriends.filter(
     (friendData) =>
       friendData.nickname.toLowerCase().includes(searchTerm.toLowerCase()) ||
       friendData.email?.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  // 현재 그룹 채팅방 정보
   const groupChat = groupChats.find((groupChat) => groupChat._id === roomId);
 
+  // 그룹 채팅방 생성일 조회
   const groupChatSince = useMemo(() => {
     const groupChatDateStr = groupChat?.date;
     if (!groupChatDateStr) return null;
@@ -98,15 +103,18 @@ const GroupChatDetails = () => {
     return `${year}년 ${Number(month)}월 ${Number(day)}일`;
   }, [groupChat?.date]);
 
+  // 현재 레이아웃 및 그룹 채팅방 제목 설정
   useEffect(() => {
     setView("groupChat");
     setGroupChatTitle(groupChat?.title ?? "");
   }, [groupChat?.title]);
 
+  // 그룹 채팅방 목록 조회
   useEffect(() => {
     getGroupChats();
   }, []);
 
+  // 그룹 채팅방 변경 시 참여자 목록 조회 및 선택 상태 초기화
   useEffect(() => {
     if (!roomId) {
       console.error("roomId가 정의되지 않았습니다.");
@@ -120,6 +128,7 @@ const GroupChatDetails = () => {
     getGroupChatUsers(roomId);
   }, [roomId]);
 
+  // 사용자 프로필 외부 클릭 시 프로필 닫기
   useEffect(() => {
     const outsideClickHandler = (event: MouseEvent) => {
       const userProfileEl = document.getElementById(
@@ -136,7 +145,6 @@ const GroupChatDetails = () => {
       // 사용자 버튼 내부 무시
       if (target.closest(".user-profile-trigger")) return;
 
-      // 사용자 프로필 외부 클릭이면 닫기
       setActiveUser(null);
       setCoords(null);
       setOrigin(null);
@@ -149,15 +157,16 @@ const GroupChatDetails = () => {
     };
   }, [activeUser]);
 
+  // 프로필 수정 모달 열기
   const openUserProfileEditFormHandler = (
     payload: UserProfileEditFormPayload
   ) => {
     setCoords(null);
 
-    // toggleModal("editUserProfileForm", "PATCH", payload);
     toggleModal("userSettings", "PATCH", payload);
   };
 
+  // 프로필 상세 모달 열기
   const openUserProfileDetailsHandler = (
     payload: UserProfileDetailsPayload
   ) => {
@@ -171,7 +180,7 @@ const GroupChatDetails = () => {
       <div className={classes["group-chat-sidebar"]}>
         <div
           className={classes["group-chat-invite-button"]}
-          onClick={toggleHandler}
+          onClick={toggleInviteHandler}
         >
           <div className={classes["group-chat-invite-icon"]}>
             <IoPersonAddSharp />
@@ -187,8 +196,9 @@ const GroupChatDetails = () => {
         />
       </div>
 
+      {/* 그룹 채팅방 초대 모달 */}
       {toggle && (
-        <Modal onToggle={toggleHandler}>
+        <Modal onToggle={toggleInviteHandler}>
           <div className={classes["group-chat-invite-modal-content"]}>
             <div className={classes["group-chat-invite-title"]}>
               친구를 {groupChat?.title} 그룹 채팅방으로 초대하기
@@ -223,7 +233,7 @@ const GroupChatDetails = () => {
                   nickname={friend.nickname}
                   avatarColor={friend.avatarColor}
                   avatarImageUrl={friend.avatarImageUrl}
-                  onToggle={toggleHandler}
+                  onToggle={toggleInviteHandler}
                 />
               ))}
             </ul>
@@ -255,6 +265,7 @@ const GroupChatDetails = () => {
         onOpenUserProfile={openUserProfileHandler}
       />
 
+      {/* 사용자 프로필 툴팁 Portal */}
       {activeUserProfile &&
         coords &&
         createPortal(
@@ -276,12 +287,6 @@ const GroupChatDetails = () => {
           />,
           document.getElementById("user-profile-tooltip-portal")!
         )}
-
-      {/* {activeModal === "editUserProfileForm" && (
-        <EditUserProfileForm
-          onToggle={() => toggleModal("editUserProfileForm")}
-        />
-      )} */}
 
       {activeModal === "userProfileDetails" && (
         <UserProfileDetails

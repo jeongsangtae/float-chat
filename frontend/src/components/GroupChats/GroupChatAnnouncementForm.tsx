@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 import { toast } from "react-toastify";
 
@@ -18,19 +18,14 @@ const GroupChatAnnouncementForm = ({ onToggle }: ModalProps) => {
     modalData.announcement ?? ""
   );
 
-  const [errorMessage, setErrorMessage] = useState<string>("");
-
   const trimmedAnnouncement = announcement.trim();
   const announcementValid = trimmedAnnouncement.length <= 50;
 
-  useEffect(() => {
-    if (announcement.length === 50) {
-      setErrorMessage("최대 글자 수에 도달했습니다.");
-    } else {
-      setErrorMessage("");
-    }
-  }, [announcement]);
+  // 공지사항 글자 수에 따라 안내 메시지 표시
+  const errorMessage =
+    announcement.length === 50 ? "최대 글자 수에 도달했습니다." : "";
 
+  // 공지사항 입력 및 글자 수 제한 처리
   const inputChangeHandler = (
     event: React.ChangeEvent<HTMLTextAreaElement>
   ): void => {
@@ -41,14 +36,9 @@ const GroupChatAnnouncementForm = ({ onToggle }: ModalProps) => {
     }
 
     setAnnouncement(value);
-
-    if (value.length === 50) {
-      setErrorMessage("최대 글자 수에 도달했습니다.");
-    } else {
-      setErrorMessage("");
-    }
   };
 
+  // 공지사항 수정 요청
   const submitHandler = async (
     event: React.FormEvent<HTMLFormElement>
   ): Promise<void> => {
@@ -85,6 +75,7 @@ const GroupChatAnnouncementForm = ({ onToggle }: ModalProps) => {
           />
         </div>
 
+        {/* 공지사항 입력 길이 진행률 */}
         <div className={classes["group-chat-announcement-count-wrapper"]}>
           <div className={classes["progress-container"]}>
             <div
@@ -111,6 +102,7 @@ const GroupChatAnnouncementForm = ({ onToggle }: ModalProps) => {
           </span>
         </div>
 
+        {/* 글자 수 안내 */}
         <div className={classes["count-warning-message"]}>{errorMessage}</div>
 
         <div className={classes["submit-button"]}>

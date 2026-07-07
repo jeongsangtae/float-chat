@@ -15,6 +15,7 @@ const GroupChatInvite = ({
 }: GroupChatInviteProps) => {
   const { inviteGroupChat } = useGroupChatStore();
 
+  // 그룹 채팅방 친구 초대
   const groupChatInviteHandler = async (): Promise<void> => {
     await inviteGroupChat({ roomId, friendId, nickname });
     onToggle();

@@ -14,6 +14,7 @@ const GroupChatConfirm = ({ onToggle }: ModalProps) => {
 
   const navigate = useNavigate();
 
+  // 그룹 채팅방 삭제 또는 나가기 처리
   const confirmHandler = async () => {
     if (modalData.type === "delete") {
       await deleteGroupChat(modalData._id);
