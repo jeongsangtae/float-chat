@@ -8,15 +8,19 @@ const GroupChatUsers = ({
   groupChatUsers,
   onOpenUserProfile,
 }: GroupChatUsersProps) => {
+  // 온라인 사용자 목록
   const onlineUsers = groupChatUsers.filter(
     (groupChatUser) => groupChatUser.onlineChecked
   );
+
+  // 오프라인 사용자 목록
   const offlineUsers = groupChatUsers.filter(
     (groupChatUser) => !groupChatUser.onlineChecked
   );
 
   return (
     <>
+      {/* 온라인 사용자 */}
       <div className={classes["online-users"]}>
         <div className={classes["online-text-wrapper"]}>
           <span className={classes["online-text"]}>온라인</span>
@@ -37,6 +41,7 @@ const GroupChatUsers = ({
         ))}
       </div>
 
+      {/* 오프라인 사용자 */}
       <div className={classes["offline-users"]}>
         <div className={classes["offline-text-wrapper"]}>
           <span className={classes["offline-text"]}>오프라인</span>

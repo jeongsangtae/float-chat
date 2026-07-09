@@ -45,6 +45,7 @@ const Layout = ({ children, onLeaveChatRoom }: LayoutProps) => {
     "orange",
   ];
 
+  // 저장된 사용자 테마 적용
   useEffect(() => {
     if (userInfo?.theme) {
       setTheme(userInfo.theme);
@@ -53,6 +54,7 @@ const Layout = ({ children, onLeaveChatRoom }: LayoutProps) => {
     }
   }, [userInfo?.theme, setTheme]);
 
+  // 브라우저 기본 우클릭 메뉴 비활성화
   useEffect(() => {
     // 우클릭 감지 함수
     const preventContextMenu = (event: MouseEvent) => {
@@ -68,6 +70,7 @@ const Layout = ({ children, onLeaveChatRoom }: LayoutProps) => {
     };
   }, []);
 
+  // 현재 선택된 테마를 body에 적용
   useEffect(() => {
     document.body.classList.remove(
       "theme-dark",
@@ -82,8 +85,10 @@ const Layout = ({ children, onLeaveChatRoom }: LayoutProps) => {
     document.body.classList.add(`theme-${theme}`);
   }, [theme]);
 
+  // 알림 드롭다운 외부 클릭 시 닫기
   useEffect(() => {
     const outsideClickHandler = (event: MouseEvent): void => {
+      // 드롭다운과 알림 버튼 외부를 클릭하면 닫기
       if (
         dropdownRef.current &&
         !dropdownRef.current.contains(event.target as Node) &&
@@ -100,16 +105,19 @@ const Layout = ({ children, onLeaveChatRoom }: LayoutProps) => {
     };
   }, []);
 
+  // 테마 변경
   const themeUpdateHandler = (theme: string) => {
     setTheme(theme);
     updateTheme(theme);
   };
 
+  // 알림 목록 열기 / 닫기
   const notificationHandler = () => {
     readNotification();
     setToggleNotification((prev) => !prev);
   };
 
+  // 알림 전체 삭제
   const notificationClearHandler = () => {
     clearNotification();
   };
@@ -124,11 +132,15 @@ const Layout = ({ children, onLeaveChatRoom }: LayoutProps) => {
         pauseOnHover
         draggable
       />
+
+      {/* 현재 화면 제목 */}
       <div className={classes.header}>
         {currentView === "friends" && "친구"}
         {currentView === "directChat" && "다이렉트 메시지"}
         {currentView === "groupChat" && groupChatTitle}
       </div>
+
+      {/* 알림 버튼 */}
       <button
         className={classes["notification-button"]}
         ref={buttonRef}
@@ -139,6 +151,8 @@ const Layout = ({ children, onLeaveChatRoom }: LayoutProps) => {
           <div className={classes["notification-dot"]}></div>
         )}
       </button>
+
+      {/* 테마 변경 버튼 */}
       {themes.map((t) => (
         <button
           key={t}
@@ -146,6 +160,8 @@ const Layout = ({ children, onLeaveChatRoom }: LayoutProps) => {
           onClick={() => themeUpdateHandler(t)}
         ></button>
       ))}
+
+      {/* 메인 레이아웃 */}
       <div className={classes.layout}>
         <input
           type="range"
@@ -160,6 +176,8 @@ const Layout = ({ children, onLeaveChatRoom }: LayoutProps) => {
         <div className={classes["main-content"]}>{children}</div>
         {!toggleNotification && <Notification />}
       </div>
+
+      {/* 알림 목록 */}
       {toggleNotification && (
         <div ref={dropdownRef} className={classes["notification-dropdown"]}>
           <div className={classes["notification-header"]}>

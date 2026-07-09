@@ -44,6 +44,7 @@ const GroupChatPanel = ({
     (groupChatUser) => !groupChatUser.onlineChecked
   );
 
+  // 사용자 프로필 툴팁 열기
   const clickUserProfileHandler = (
     userId: string,
     event: React.MouseEvent,
@@ -62,7 +63,7 @@ const GroupChatPanel = ({
     );
   };
 
-  // 사용자 배열에서 호스트를 최상단으로 정렬하는 내용
+  // 호스트 사용자를 목록 최상단으로 정렬
   const prioritizeHost = (users: GroupChatUserData[]) => {
     return users.sort((a, b) => {
       if (a.nickname === hostNickname) return -1; // a가 호스트면 앞으로
@@ -87,10 +88,12 @@ const GroupChatPanel = ({
   // 현재 화면에 보여줄 사용자 목록
   const displayedUsers = showGroupChatUsers ? allUsers : previewUsers;
 
+  // 그룹 채팅방이 변경되면 사용자 목록 접기
   useEffect(() => {
     setShowGroupChatUsers(false);
   }, [groupChatId]);
 
+  // 공지 내용이 영역을 넘치는지 확인
   useEffect(() => {
     if (announcementRef.current) {
       const announcementDiv = announcementRef.current;
@@ -100,18 +103,22 @@ const GroupChatPanel = ({
     }
   }, [announcement]);
 
+  // 호스트 프로필 이미지가 변경되면 이미지 에러 상태 초기화
   useEffect(() => {
     setImageError(false);
   }, [hostAvatarImageUrl]);
 
+  // 사용자 목록 펼침/접기
   const toggleGroupChatUsersHandler = () => {
     setShowGroupChatUsers(!showGroupChatUsers);
   };
 
+  // 공지 전체보기 토글
   const toggleAnnouncementContentHandler = () => {
     setShowAnnouncementContent(!showAnnouncementContent);
   };
 
+  // 공지 수정 모달 열기
   const groupChatAnnouncementEditHandler = () => {
     toggleModal("groupChatAnnouncementForm", "PATCH", {
       groupChatId,
@@ -119,6 +126,7 @@ const GroupChatPanel = ({
     });
   };
 
+  // 공지 삭제 모달 열기
   const groupChatAnnouncementDeleteHandler = () => {
     toggleModal("groupChatAnnouncementDelete", "PATCH", {
       groupChatId,
@@ -150,6 +158,7 @@ const GroupChatPanel = ({
 
         <h3 className={classes.nickname}>{hostNickname}</h3>
 
+        {/* 공지사항 */}
         <div className={classes["group-chat-announcement-wrapper"]}>
           <div className={classes["group-chat-announcement-header"]}>
             <span>📌 공지사항</span>
@@ -179,6 +188,7 @@ const GroupChatPanel = ({
             {announcement || "등록된 공지가 없습니다."}
           </div>
 
+          {/* 공지 내용이 길면 펼치기 버튼 표시 */}
           {announcementOverflow && (
             <div className={classes["group-chat-announcement-button-wrapper"]}>
               <button
@@ -207,6 +217,7 @@ const GroupChatPanel = ({
           />
         )}
 
+        {/* 그룹 채팅방 참여자 목록 */}
         <div className={classes["group-chat-users-wrapper"]}>
           <div className={classes["group-chat-users-header"]}>
             👥 총 {groupChatUsers.length}명 참여
@@ -243,6 +254,7 @@ const GroupChatPanel = ({
             </div>
           ))}
 
+          {/* 참여자가 4명 이상이면 펼치기 버튼 표시 */}
           {groupChatUsers.length > 3 && (
             <div className={classes["group-chat-users-button-wrapper"]}>
               <button

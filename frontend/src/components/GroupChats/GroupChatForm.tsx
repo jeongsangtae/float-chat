@@ -16,10 +16,13 @@ const GroupChatForm = ({ onToggle }: ModalProps) => {
 
   const [title, setTitle] = useState<string>(modalData.title ?? "");
 
-  const [errorMessage, setErrorMessage] = useState<string>("");
-
   const trimmedTitle = title.trim();
   const titleValid = trimmedTitle.length >= 2;
+
+  const errorMessage =
+    trimmedTitle.length > 0 && trimmedTitle.length < 2
+      ? "2자에서 30자 사이로 입력해주세요."
+      : "";
 
   // 그룹 채팅방 이름 입력 처리
   const inputChangeHandler = (
@@ -27,12 +30,6 @@ const GroupChatForm = ({ onToggle }: ModalProps) => {
   ): void => {
     const value = event.target.value;
     setTitle(value);
-
-    if (value.trim().length < 2) {
-      setErrorMessage("2자에서 30자 사이로 입력해주세요.");
-    } else {
-      setErrorMessage("");
-    }
   };
 
   // 그룹 채팅방 생성 / 수정 요청
@@ -41,10 +38,7 @@ const GroupChatForm = ({ onToggle }: ModalProps) => {
   ): Promise<void> => {
     event.preventDefault();
 
-    if (trimmedTitle.length < 2) {
-      setErrorMessage("2자에서 30자 사이로 입력해주세요.");
-      return;
-    }
+    if (!titleValid) return;
 
     try {
       await groupChatForm(trimmedTitle, modalData);

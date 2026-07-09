@@ -15,6 +15,7 @@ const AuthLayout = ({ children }: ChildrenProps) => {
   const navigate = useNavigate();
   const { isLoggedIn } = useAuthStore();
 
+  // 로그인된 사용자는 메인 화면으로 리다이렉트
   useEffect(() => {
     if (isLoggedIn) {
       navigate("/me", { replace: true });

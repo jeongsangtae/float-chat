@@ -11,6 +11,7 @@ const GroupChatUser = ({
   onlineChecked,
   onOpenUserProfile,
 }: GroupChatUserProps) => {
+  // 사용자 클릭 시 프로필 툴팁 위치 계산 후 열기
   const clickUserProfileHandler = (event: React.MouseEvent) => {
     const rect = event.currentTarget.getBoundingClientRect();
 

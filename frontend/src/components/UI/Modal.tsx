@@ -4,6 +4,7 @@ import { ModalProps } from "../../types";
 
 import classes from "./Modal.module.css";
 
+// Portal을 이용해 모달 렌더링
 const Modal = ({ children, onToggle }: ModalProps) => {
   return createPortal(
     <>

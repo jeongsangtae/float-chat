@@ -45,6 +45,7 @@ const SideBar = ({ onLeaveChatRoom }: SideBarProps) => {
     renewTokens();
   }, [isLoggedIn]);
 
+  // 사용자 설정 모달 열기
   const userSettingHandler = (): void => {
     toggleModal("userSettings", "PATCH", {
       _id: userInfo?._id,
@@ -54,12 +55,14 @@ const SideBar = ({ onLeaveChatRoom }: SideBarProps) => {
     });
   };
 
+  // 로그아웃 처리
   const logoutHandler = async (): Promise<void> => {
     await logout();
     disconnect();
     navigate("/login");
   };
 
+  // 내가 받은 친구 요청만 추출
   const receiverRequests = friendRequests.filter(
     (friendRequest) => friendRequest.receiver === userInfo?._id
   );
@@ -96,6 +99,7 @@ const SideBar = ({ onLeaveChatRoom }: SideBarProps) => {
             </>
           )}
 
+          {/* 그룹 채팅방 생성 / 관리 */}
           {isLoggedIn && (
             <div>
               <button
@@ -119,6 +123,7 @@ const SideBar = ({ onLeaveChatRoom }: SideBarProps) => {
         </div>
       </div>
 
+      {/* 로그인한 사용자 정보 */}
       {isLoggedIn && (
         <div className={classes["user-info"]}>
           <div className={classes["user-info-left"]}>

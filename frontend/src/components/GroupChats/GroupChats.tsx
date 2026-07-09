@@ -47,6 +47,7 @@ const GroupChats = () => {
     getGroupChats();
   }, []);
 
+  // 드래그 시작 조건 설정 (8px 이상 이동 시 드래그 시작)
   const sensors = useSensors(
     useSensor(PointerSensor, {
       activationConstraint: {
@@ -55,15 +56,18 @@ const GroupChats = () => {
     })
   );
 
+  // 현재 드래그 중인 그룹 채팅방 정보
   const activeGroupChat = useMemo(() => {
     return groupChats.find((c) => c._id === activeGroupChatId);
   }, [activeGroupChatId, groupChats]);
 
+  // 사용자가 저장한 순서대로 그룹 채팅방 정렬
   const sortedGroupChats = useMemo(() => {
     const order = userInfo?.groupChatOrder ?? [];
 
     if (!order.length) return groupChats;
 
+    // 채팅방 ID와 순서를 빠르게 조회하기 위한 Map 생성
     const orderMap = new Map(order.map((id, index) => [id, index]));
 
     return [...groupChats].sort((a, b) => {
@@ -83,23 +87,29 @@ const GroupChats = () => {
     return <LoadingIndicator />;
   }
 
+  // 드래그 시작
   const dragStartHandler = (event: DragStartEvent) => {
     // 타입 단언
+    // event.active.id를 string으로 취급
     const id = event.active.id as string;
 
-    // 타입 가드
+    // 타입 가드 예시
+    // 런타임에서 string인지 확인하는 방식
     // if (typeof id !== "string") return;
 
+    // 현재 드래그 중인 채팅방 저장
     setActiveGroupChatId(id);
     setActiveIndex(sortedGroupChats.findIndex((c) => c._id === id));
   };
 
+  // 현재 드래그 중인 위치 추적
   const dragOverHandler = (event: DragOverEvent) => {
     if (!event.over) return;
 
     setOverIndex(sortedGroupChats.findIndex((c) => c._id === event.over!.id));
   };
 
+  // 드래그 종료 후 채팅방 순서 저장
   const dragEndHandler = (event: DragEndEvent) => {
     const { active, over } = event;
 
@@ -110,10 +120,13 @@ const GroupChats = () => {
     const oldIndex = sortedGroupChats.findIndex((c) => c._id === active.id);
     const newIndex = sortedGroupChats.findIndex((c) => c._id === over.id);
 
+    // 변경된 순서대로 채팅방 배열 재정렬
     const newOrderChats = arrayMove(sortedGroupChats, oldIndex, newIndex);
 
+    // 정렬된 채팅방 ID 목록 생성
     const newOrderIds = newOrderChats.map((c) => c._id);
 
+    // 로컬 상태와 서버에 변경된 순서 저장
     updateUserGroupChatOrder(newOrderIds);
     saveGroupChatOrder(newOrderIds);
   };
@@ -124,6 +137,7 @@ const GroupChats = () => {
 
   return (
     <>
+      {/* 그룹 채팅방 드래그 앤 드롭 */}
       <DndContext
         sensors={sensors}
         onDragStart={dragStartHandler}
@@ -143,6 +157,8 @@ const GroupChats = () => {
             isSource={activeGroupChatId === groupChat._id}
           />
         ))}
+
+        {/* 드래그 중인 채팅방 미리보기 */}
         <DragOverlay>
           {activeGroupChat && (
             <div className={` ${classes["group-chat-overlay"]} `}>
