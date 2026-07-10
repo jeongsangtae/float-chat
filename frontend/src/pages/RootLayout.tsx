@@ -8,6 +8,7 @@ const RootLayout = () => {
   const navigate = useNavigate();
   const { leaveChatRoom } = useSocketStore();
 
+  // 채팅방을 나가고 홈으로 이동
   const leaveChatRoomHandler = (): void => {
     leaveChatRoom();
     navigate("/me");

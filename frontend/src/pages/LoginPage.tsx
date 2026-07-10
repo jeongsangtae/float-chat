@@ -3,11 +3,9 @@ import Login from "../components/Users/Login";
 
 const LoginPage = () => {
   return (
-    <>
-      <AuthLayout>
-        <Login />
-      </AuthLayout>
-    </>
+    <AuthLayout>
+      <Login />
+    </AuthLayout>
   );
 };
 

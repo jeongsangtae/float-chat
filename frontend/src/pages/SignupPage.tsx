@@ -3,11 +3,9 @@ import Signup from "../components/Users/Signup";
 
 const SignupPage = () => {
   return (
-    <>
-      <AuthLayout>
-        <Signup />
-      </AuthLayout>
-    </>
+    <AuthLayout>
+      <Signup />
+    </AuthLayout>
   );
 };
 

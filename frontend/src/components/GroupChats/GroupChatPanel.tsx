@@ -50,12 +50,20 @@ const GroupChatPanel = ({
     event: React.MouseEvent,
     source: "users" | "panel"
   ) => {
+    const userProfileHeight = 273;
+    const viewportPadding = 10;
+
     const rect = event.currentTarget.getBoundingClientRect();
+
+    const top = Math.min(
+      rect.top,
+      window.innerHeight - userProfileHeight - viewportPadding
+    );
 
     onOpenUserProfile(
       userId,
       {
-        top: rect.top,
+        top,
         left: rect.left,
         transform: "translateX(-115%)",
       },
