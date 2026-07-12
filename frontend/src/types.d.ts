@@ -161,7 +161,6 @@ export interface UserProfileProps {
   onOpenUserProfileDetails: (payload: UserProfileDetailsPayload) => void;
   style: TooltipCoords;
   origin: "users" | "panel" | null;
-  // onOverflow: (overflow: number) => void;
 }
 
 export interface OnBackProps {

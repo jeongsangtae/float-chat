@@ -41,6 +41,9 @@ const UserProfileDetails = ({ onToggle }: ModalProps) => {
     modalData.initialView ?? "friends"
   );
 
+  const friendSince = modalData.friendSince;
+
+  // 현재 탭(친구/그룹)에 맞는 채팅방으로 이동
   const openChatHandler = async (payload: OpenChatPayload): Promise<void> => {
     let targetPath = null;
 
@@ -65,6 +68,7 @@ const UserProfileDetails = ({ onToggle }: ModalProps) => {
     onToggle();
   };
 
+  // 다이렉트 채팅방 이동
   const openDirectChatHandler = async (
     payload: DirectChatPayload
   ): Promise<void> => {
@@ -75,6 +79,7 @@ const UserProfileDetails = ({ onToggle }: ModalProps) => {
     onToggle();
   };
 
+  // 친구 요청 전송
   const addFriendHandler = async (): Promise<void> => {
     if (!userInfo) {
       toast.error("로그인이 필요합니다.");
@@ -91,6 +96,7 @@ const UserProfileDetails = ({ onToggle }: ModalProps) => {
   return (
     <Modal onToggle={onToggle}>
       <div className={classes["user-profile-details-wrapper"]}>
+        {/* 사용자 프로필 */}
         <div className={classes["user-profile-details-info-wrapper"]}>
           <div>
             {modalData.avatarImageUrl ? (
@@ -123,7 +129,7 @@ const UserProfileDetails = ({ onToggle }: ModalProps) => {
             <div className={classes["user-profile-details-nickname"]}>
               {modalData.nickname}
             </div>
-            {modalData.friendSince ? (
+            {friendSince ? (
               <div className={classes["friend-since-wrapper"]}>
                 <div className={classes["friend-since-label"]}>
                   <span className={classes["friend-since-label-emoji"]}>
@@ -131,9 +137,7 @@ const UserProfileDetails = ({ onToggle }: ModalProps) => {
                   </span>
                   친구 시작일:
                 </div>
-                <div className={classes["friend-since"]}>
-                  {modalData.friendSince}
-                </div>
+                <div className={classes["friend-since"]}>{friendSince}</div>
               </div>
             ) : (
               <div className={classes["not-friend"]}>
@@ -146,11 +150,11 @@ const UserProfileDetails = ({ onToggle }: ModalProps) => {
                 </div>
               </div>
             )}
-            {modalData.friendSince ? (
+            {friendSince ? (
               <div className={classes["user-profile-details-actions"]}>
                 <button
                   className={`${classes["direct-chat-button"]} ${
-                    modalData.friendSince ? classes.friend : ""
+                    friendSince ? classes.friend : ""
                   }`}
                   onClick={() =>
                     openDirectChatHandler({
@@ -166,7 +170,7 @@ const UserProfileDetails = ({ onToggle }: ModalProps) => {
                 </button>
                 <div
                   className={`${classes["friend-action-button"]} ${
-                    modalData.friendSince ? "" : classes.add
+                    friendSince ? "" : classes.add
                   } ${classes.tooltip}`}
                   data-tooltip="친구"
                 >
@@ -177,7 +181,7 @@ const UserProfileDetails = ({ onToggle }: ModalProps) => {
               <div className={classes["user-profile-details-actions"]}>
                 <div
                   className={`${classes["friend-action-button"]} ${
-                    modalData.friendSince ? "" : classes.add
+                    friendSince ? "" : classes.add
                   }`}
                 >
                   <UserRoundPlus
@@ -190,7 +194,7 @@ const UserProfileDetails = ({ onToggle }: ModalProps) => {
                 </div>
                 <button
                   className={`${classes["direct-chat-button"]} ${
-                    modalData.friendSince ? classes.friend : ""
+                    friendSince ? classes.friend : ""
                   } ${classes.tooltip}`}
                   data-tooltip="메시지"
                   onClick={() =>
@@ -208,6 +212,8 @@ const UserProfileDetails = ({ onToggle }: ModalProps) => {
             )}
           </div>
         </div>
+
+        {/* 같이 아는 친구 / 그룹 채팅 탭 */}
         <div className={classes["user-profile-details-mutual-wrapper"]}>
           <div className={classes["user-profile-details-mutual-tabs"]}>
             <button
@@ -228,6 +234,8 @@ const UserProfileDetails = ({ onToggle }: ModalProps) => {
               같이 있는 그룹 채팅방 {mutualGroupChats.length}개
             </button>
           </div>
+
+          {/* 같이 아는 친구 목록 */}
           {activeView === "friends" && (
             <div>
               {mutualFriendUsers.map((mutualFriendUser) => (
@@ -264,6 +272,7 @@ const UserProfileDetails = ({ onToggle }: ModalProps) => {
             </div>
           )}
 
+          {/* 같이 있는 그룹 채팅방 목록 */}
           {activeView === "groups" && (
             <div>
               {mutualGroupChats.map((mutualGroupChat) => (

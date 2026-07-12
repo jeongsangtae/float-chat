@@ -31,11 +31,13 @@ const DeleteUserForm = ({ onBack, onToggle }: DeleteUserFormProps) => {
 
   const [errorMessage, setErrorMessage] = useState<string>("");
 
+  // 회원 탈퇴 입력값 변경 처리
   const inputChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
     setUserDeleteData({ ...userDeleteData, [name]: value });
   };
 
+  // 회원 탈퇴 요청
   const submitHandler = async (
     event: React.FormEvent<HTMLFormElement>
   ): Promise<void> => {
@@ -43,10 +45,10 @@ const DeleteUserForm = ({ onBack, onToggle }: DeleteUserFormProps) => {
 
     const userDeleteResult = await deleteUserForm(userDeleteData);
 
-    if (
-      !userDeleteResult.success &&
-      userDeleteResult.type === "NETWORK_ERROR"
-    ) {
+    const isNetworkError =
+      !userDeleteResult.success && userDeleteResult.type === "NETWORK_ERROR";
+
+    if (isNetworkError) {
       toast.error("네트워크 문제 발생");
       return;
     }
@@ -82,6 +84,7 @@ const DeleteUserForm = ({ onBack, onToggle }: DeleteUserFormProps) => {
         ⚠ 계정 탈퇴 시 복구 불가능합니다.
       </p>
 
+      {/* 회원 탈퇴 확인 입력 */}
       <label className={classes["user-delete-label"]} htmlFor="password">
         비밀번호 입력
       </label>

@@ -22,13 +22,16 @@ const Avatar = ({
 }: AvatarProps) => {
   const [imageError, setImageError] = useState(false);
 
+  // 프로필 이미지가 변경되면 이미지 에러 상태 초기화
   useEffect(() => {
     setImageError(false);
   }, [avatarImageUrl]);
 
+  const hasAvatarImage = avatarImageUrl && !imageError;
+
   return (
     <>
-      {avatarImageUrl && !imageError ? (
+      {hasAvatarImage ? (
         showOnlineDot ? (
           <div className={classes["avatar-img-wrapper"]}>
             <img

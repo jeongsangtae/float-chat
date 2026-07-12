@@ -49,12 +49,12 @@ const Signup = () => {
     username: "",
     password: "",
     confirmPassword: "",
-    avatarColor: avatarColors[Math.floor(Math.random() * avatarColors.length)], // 랜덤으로 색 배정
+    avatarColor: avatarColors[Math.floor(Math.random() * avatarColors.length)], // 회원가입 시 랜덤 아바타 색상 지정
   });
 
-  // const [error, setError] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>("");
 
+  // 회원가입 입력 처리
   const inputChangeHandler = (
     event: React.ChangeEvent<HTMLInputElement>
   ): void => {
@@ -62,10 +62,12 @@ const Signup = () => {
     setSignupData({ ...signupData, [name]: value });
   };
 
+  // 로그인 페이지 이동
   const loginMoveHandler = () => {
     navigate("/login");
   };
 
+  // 회원가입 요청
   const submitHandler = async (
     event: React.FormEvent<HTMLFormElement>
   ): Promise<void> => {
@@ -73,7 +75,10 @@ const Signup = () => {
 
     const signupResult = await signup(signupData);
 
-    if (!signupResult.success && signupResult.type === "NETWORK_ERROR") {
+    const networkError =
+      !signupResult.success && signupResult.type === "NETWORK_ERROR";
+
+    if (networkError) {
       toast.error("네트워크 문제 발생");
       return;
     }

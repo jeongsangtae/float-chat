@@ -27,6 +27,7 @@ const EditUserPasswordForm = ({ onBack }: OnBackProps) => {
 
   const [errorMessage, setErrorMessage] = useState<string>("");
 
+  // 비밀번호 입력값 변경 처리
   const inputChangeHandler = (
     event: React.ChangeEvent<HTMLInputElement>
   ): void => {
@@ -34,6 +35,7 @@ const EditUserPasswordForm = ({ onBack }: OnBackProps) => {
     setPasswordEditData({ ...passwordEditData, [name]: value });
   };
 
+  // 비밀번호 변경 요청
   const submitHandler = async (
     event: React.FormEvent<HTMLFormElement>
   ): Promise<void> => {
@@ -41,10 +43,11 @@ const EditUserPasswordForm = ({ onBack }: OnBackProps) => {
 
     const passwordEditResult = await editUserPasswordForm(passwordEditData);
 
-    if (
+    const isNetworkError =
       !passwordEditResult.success &&
-      passwordEditResult.type === "NETWORK_ERROR"
-    ) {
+      passwordEditResult.type === "NETWORK_ERROR";
+
+    if (isNetworkError) {
       toast.error("네트워크 문제 발생");
       return;
     }

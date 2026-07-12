@@ -284,16 +284,6 @@ const GroupChatDetails = () => {
               left: coords.left,
               transform: coords.transform,
             }}
-            // onOverflow={(overflow) => {
-            //   setCoords((prev) =>
-            //     prev
-            //       ? {
-            //           ...prev,
-            //           top: prev.top - overflow - 10,
-            //         }
-            //       : prev
-            //   );
-            // }}
           />,
           document.getElementById("user-profile-tooltip-portal")!
         )}

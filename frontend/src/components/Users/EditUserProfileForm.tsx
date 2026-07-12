@@ -45,28 +45,32 @@ const EditUserProfileForm = () => {
   );
 
   const [imageError, setImageError] = useState(false);
-  const [errorMessage, setErrorMessage] = useState<string>("");
 
   const trimmedNickname = nickname.trim();
   const nicknameValid = trimmedNickname.length >= 2;
 
+  const errorMessage =
+    trimmedNickname.length > 0 && trimmedNickname.length < 2
+      ? "2자에서 15자 사이로 입력해주세요."
+      : "";
+
+  const hasAvatarImage = avatarImageUrl && !imageError;
+
+  // 닉네임 입력 처리
   const inputChangeHandler = (
     event: React.ChangeEvent<HTMLInputElement>
   ): void => {
     const value = event.target.value;
-    setNickname(value);
 
-    if (value.trim().length < 2) {
-      setErrorMessage("2자에서 15자 사이로 입력해주세요.");
-    } else {
-      setErrorMessage("");
-    }
+    setNickname(value);
   };
 
+  // 아바타 색 / 이미지 모드 전환
   const avatarModeChangeHandler = () => {
     setAvatarMode(!avatarMode);
   };
 
+  // 아바타 이미지 URL 입력 처리
   const avatarImageUrlChangeHandler = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
@@ -74,22 +78,21 @@ const EditUserProfileForm = () => {
     setImageError(false);
   };
 
+  // 아바타 이미지 URL 초기화
   const avatarImageUrlResetHandler = () => {
     setAvatarImageUrl("");
   };
 
+  // 프로필 수정 요청
   const submitHandler = async (
     event: React.FormEvent<HTMLFormElement>
   ): Promise<void> => {
     event.preventDefault();
 
-    if (trimmedNickname.length < 2) {
-      setErrorMessage("2자에서 15자 사이로 입력해주세요.");
-      return;
-    }
+    if (!nicknameValid) return;
 
     if (avatarMode) {
-      // 객체 기반 방식
+      // 현재 사용 중인 객체 기반 호출 방식
       await editUserProfileForm({
         trimmedNickname,
         avatarImageUrl,
@@ -101,7 +104,7 @@ const EditUserProfileForm = () => {
         },
       });
 
-      // 위치 기반 방식
+      // 이전 위치 기반 호출 방식 (참고용)
       // await editUserProfileForm(
       //   trimmedNickname,
       //   "",
@@ -109,7 +112,7 @@ const EditUserProfileForm = () => {
       //   modalData
       // );
     } else {
-      // 객체 기반 방식
+      // 현재 사용 중인 객체 기반 호출 방식
       await editUserProfileForm({
         trimmedNickname,
         avatarColor,
@@ -121,7 +124,7 @@ const EditUserProfileForm = () => {
         },
       });
 
-      // 위치 기반 방식
+      // 이전 위치 기반 호출 방식 (참고용)
       // await editUserProfileForm(trimmedNickname, avatarColor, "", modalData);
     }
   };
@@ -154,6 +157,7 @@ const EditUserProfileForm = () => {
 
       <div className={classes.underline}></div>
 
+      {/* 아바타 설정 */}
       <div>
         <div className={classes["avatar-header"]}>
           <div className={classes["avatar-edit-title"]}>
@@ -184,7 +188,7 @@ const EditUserProfileForm = () => {
         {avatarMode ? (
           <div className={classes["avatar-img-preview-wrapper"]}>
             <div className={classes["avatar-img-preview"]}>
-              {avatarImageUrl && !imageError ? (
+              {hasAvatarImage ? (
                 <img onError={() => setImageError(true)} src={avatarImageUrl} />
               ) : (
                 <div

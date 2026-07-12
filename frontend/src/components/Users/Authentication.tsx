@@ -14,11 +14,13 @@ const Authentication = ({ children }: ChildrenProps) => {
   const { directChats } = useDirectChatStore();
   const { groupChats } = useGroupChatStore();
 
+  // 접근 가능한 채팅방인지 확인
   const checkedRoom =
     !roomId ||
     directChats.some((directChat) => directChat._id === roomId) ||
     groupChats.some((groupChat) => groupChat._id === roomId);
 
+  // 로그인하지 않은 경우
   if (!isLoggedIn) {
     return (
       <>
@@ -32,6 +34,7 @@ const Authentication = ({ children }: ChildrenProps) => {
     );
   }
 
+  // 존재하지 않는 채팅방인 경우
   if (!checkedRoom) {
     return (
       <>

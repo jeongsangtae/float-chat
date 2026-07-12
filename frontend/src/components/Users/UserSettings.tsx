@@ -25,7 +25,7 @@ const UserSettings = ({ onToggle }: ModalProps) => {
   return (
     <Modal onToggle={onToggle}>
       <div className={classes["user-setting-wrapper"]}>
-        {/* 버튼 영역 */}
+        {/* 설정 메뉴 */}
         <div className={classes["user-setting-sidebar-wrapper"]}>
           <div
             className={`${classes["user-info"]} ${
@@ -66,12 +66,10 @@ const UserSettings = ({ onToggle }: ModalProps) => {
         </div>
 
         <div className={classes["user-setting-content-wrapper"]}>
-          {/* 프로필 수정 관련 영역 */}
-          {/* 닉네임, 아바타 색, 아바타 이미지 수정 */}
+          {/* 프로필 설정 */}
           {activeView === "profile" && <EditUserProfileForm />}
 
-          {/* 계정 설정 관련 영역 */}
-          {/* 비밀번호 변경, 로그아웃, 계정 삭제 */}
+          {/* 계정 설정 */}
           {activeView === "auth" && (
             <div className={classes["auth-wrapper"]}>
               <h2 className={classes["auth-title"]}>계정</h2>
@@ -133,9 +131,12 @@ const UserSettings = ({ onToggle }: ModalProps) => {
             </div>
           )}
 
+          {/* 비밀번호 변경 */}
           {activeView === "password" && (
             <EditUserPasswordForm onBack={() => setActiveView("auth")} />
           )}
+
+          {/* 계정 삭제 */}
           {activeView === "deleteUser" && (
             <DeleteUserForm
               onBack={() => setActiveView("auth")}

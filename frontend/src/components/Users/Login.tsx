@@ -21,9 +21,9 @@ const Login = () => {
     password: "",
   });
 
-  // const [error, setError] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>("");
 
+  // 회원가입 / 회원탈퇴 완료 메시지 처리
   useEffect(() => {
     if (location.state?.signupSuccess) {
       toast.success("회원가입 성공");
@@ -34,6 +34,7 @@ const Login = () => {
     }
   }, [location.state]);
 
+  // 로그인 입력 처리
   const inputChangeHandler = (
     event: React.ChangeEvent<HTMLInputElement>
   ): void => {
@@ -41,10 +42,12 @@ const Login = () => {
     setLoginData({ ...loginData, [name]: value });
   };
 
+  // 회원가입 페이지 이동
   const signupMoveHandler = () => {
     navigate("/signup");
   };
 
+  // 로그인 요청
   const submitHandler = async (
     event: React.FormEvent<HTMLFormElement>
   ): Promise<void> => {
@@ -52,7 +55,10 @@ const Login = () => {
 
     const loginResult = await login(loginData);
 
-    if (!loginResult.success && loginResult.type === "NETWORK_ERROR") {
+    const networkError =
+      !loginResult.success && loginResult.type === "NETWORK_ERROR";
+
+    if (networkError) {
       toast.error("네트워크 문제 발생");
       return;
     }
