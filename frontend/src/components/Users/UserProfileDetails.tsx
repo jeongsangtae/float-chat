@@ -126,7 +126,10 @@ const UserProfileDetails = ({ onToggle }: ModalProps) => {
             </div>
           </div>
           <div className={classes["user-profile-details-info-content"]}>
-            <div className={classes["user-profile-details-nickname"]}>
+            <div
+              className={classes["user-profile-details-nickname"]}
+              title={modalData.nickname}
+            >
               {modalData.nickname}
             </div>
             {friendSince ? (

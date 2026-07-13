@@ -29,6 +29,10 @@
   font-size: var(--font-base);
   color: var(--color-text-quaternary);
   line-height: 1.4;
+
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .user-profile-chat-input-wrapper textarea:focus {

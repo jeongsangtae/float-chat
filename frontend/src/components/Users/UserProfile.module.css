@@ -50,6 +50,10 @@
 .user-profile-nickname {
   font-weight: var(--font-weight-bold);
   font-size: var(--font-xl);
+
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .user-profile-nickname:hover {

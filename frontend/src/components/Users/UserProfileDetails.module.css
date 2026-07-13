@@ -79,6 +79,10 @@
 .user-profile-details-nickname {
   font-size: var(--font-xl);
   font-weight: var(--font-weight-bold);
+
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .friend-since-wrapper,

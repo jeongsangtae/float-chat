@@ -109,6 +109,7 @@ const UserProfileChatInput = ({
           placeholder={`${nickname}님에게 메시지 보내기`}
           ref={textareaRef}
           rows={1}
+          title={`${nickname}님에게 메시지 보내기`}
         />
         <IoMdSend
           className={`${classes["user-profile-chat-input-send-button"]} ${

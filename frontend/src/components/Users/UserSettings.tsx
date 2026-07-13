@@ -42,7 +42,10 @@ const UserSettings = ({ onToggle }: ModalProps) => {
               />
             </div>
             <div className={classes["user-info-edit"]}>
-              <div className={classes["user-nickname"]}>
+              <div
+                className={classes["user-nickname"]}
+                title={userInfo?.nickname}
+              >
                 {userInfo?.nickname}
               </div>
               <div className={classes["user-profile-edit"]}>
@@ -77,18 +80,30 @@ const UserSettings = ({ onToggle }: ModalProps) => {
               <div className={classes["auth-info-list"]}>
                 <div className={classes["section-title"]}>계정 정보</div>
                 <div className={classes["auth-info-item"]}>
-                  <div>닉네임</div>
-                  <div>{userInfo?.nickname}</div>
+                  <div className={classes["auth-info-label"]}>닉네임</div>
+                  <div
+                    className={classes["auth-info-value"]}
+                    title={userInfo?.nickname}
+                  >
+                    {userInfo?.nickname}
+                  </div>
                 </div>
 
                 <div className={classes["auth-info-item"]}>
-                  <div>사용자명</div>
-                  <div>{userInfo?.username}</div>
+                  <div className={classes["auth-info-label"]}>사용자명</div>
+                  <div className={classes["auth-info-value"]}>
+                    {userInfo?.username}
+                  </div>
                 </div>
 
                 <div className={classes["auth-info-item"]}>
-                  <div>이메일</div>
-                  <div>{userInfo?.email}</div>
+                  <div className={classes["auth-info-label"]}>이메일</div>
+                  <div
+                    className={classes["auth-info-value"]}
+                    title={userInfo?.email}
+                  >
+                    {userInfo?.email}
+                  </div>
                 </div>
               </div>
 

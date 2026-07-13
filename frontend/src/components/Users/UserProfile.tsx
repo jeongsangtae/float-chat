@@ -192,8 +192,11 @@ const UserProfile = ({
               />
             </div>
             <div className={classes["user-profile-info-content"]}>
-              <div className={classes["user-profile-nickname"]}>
-                <div>{nickname}</div>
+              <div
+                className={classes["user-profile-nickname"]}
+                title={nickname}
+              >
+                {nickname}
               </div>
               <div className={classes["user-profile-edit-wrapper"]}>
                 <button
@@ -221,6 +224,7 @@ const UserProfile = ({
             <div className={classes["user-profile-info-content"]}>
               <div
                 className={classes["user-profile-nickname"]}
+                title={nickname}
                 onClick={() => userProfileDetailsHandler("friends")}
               >
                 {nickname}

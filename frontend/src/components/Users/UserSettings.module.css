@@ -43,6 +43,9 @@
 .user-nickname {
   font-weight: var(--font-weight-bold);
   font-size: 1.1rem;
+  width: 9rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .user-profile-edit {
@@ -124,13 +127,28 @@
 
 .auth-info-item {
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+  align-items: center;
   margin: var(--space-sm) 0;
 }
 
 .auth-info-item > div:first-child {
   font-weight: var(--font-weight-bold);
+}
+
+.auth-info-label {
+  width: 90px;
+  flex-shrink: 0;
+}
+
+.auth-info-value {
+  flex: 1;
+  min-width: 0;
+
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+
+  text-align: right;
 }
 
 .auth-action-list {
