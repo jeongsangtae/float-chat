@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { toast } from "react-toastify";
 
 import { Palette, Image } from "lucide-react";
 import { IoClose } from "react-icons/io5";
@@ -127,6 +128,8 @@ const EditUserProfileForm = () => {
       // 이전 위치 기반 호출 방식 (참고용)
       // await editUserProfileForm(trimmedNickname, avatarColor, "", modalData);
     }
+
+    toast.success("프로필 수정 성공");
   };
 
   return (
@@ -144,7 +147,7 @@ const EditUserProfileForm = () => {
           id="nickname"
           name="nickname"
           value={nickname}
-          maxLength={15}
+          maxLength={10}
           placeholder="내용 입력"
           onChange={inputChangeHandler}
           className={`${classes["nickname-edit-input"]} ${
