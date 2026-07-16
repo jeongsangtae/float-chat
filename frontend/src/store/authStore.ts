@@ -27,27 +27,38 @@ interface AuthResult {
   type?: string;
 }
 
-// type LoginResult = { success: true } | { success: false; message: string };
-
 interface AuthStore {
+  // 상태
   isLoggedIn: boolean;
   userInfo: UserInfo | null;
   intervalId: ReturnType<typeof setInterval> | null;
   accessToken: string | null;
+
+  // 인증 관련
   renewToken: () => void;
   pageAccess: () => void;
   signup: (signupData: SignupData) => Promise<AuthResult>;
   login: (loginData: LoginData) => Promise<AuthResult>;
   logout: () => Promise<void>;
+
+  // 사용자 정보
   verifyUser: () => Promise<void>;
-  refreshToken: () => Promise<void>;
-  refreshTokenExp: () => Promise<void>;
-  // restoreLastReadMessages: () => Promise<void>;
   updateTheme: (theme: string) => Promise<void>;
   editUserProfileForm: (payload: EditUserProfilePayload) => Promise<void>;
+
+  //토큰
+  refreshToken: () => Promise<void>;
+  refreshTokenExp: () => Promise<void>;
+
+  // 보안
   editUserPasswordForm: (payload: EditUserPasswordData) => Promise<AuthResult>;
   deleteUserForm: (payload: DeleteUserData) => Promise<AuthResult>;
+
+  // 그룹 채팅
   updateUserGroupChatOrder: (order: string[]) => void;
+
+  // 추후 사용할 내용
+  // restoreLastReadMessages: () => Promise<void>;
 }
 
 // interface LastReadMessage {
@@ -58,6 +69,7 @@ interface AuthStore {
 //   messageLength: number;
 // }
 
+// 프로필 수정 요청 데이터
 type EditUserProfilePayload =
   | {
       avatarMode: true;
@@ -72,6 +84,7 @@ type EditUserProfilePayload =
       modalContext: ModalContext;
     };
 
+// 프로필 수정 후 모달 상태 동기화를 위한 정보
 interface ModalContext {
   _id: string;
   method: "POST" | "PATCH" | "DELETE";
@@ -90,6 +103,8 @@ const useAuthStore = create<AuthStore>((set, get) => ({
   userInfo: null,
   accessToken: null,
   intervalId: null,
+
+  // Access Token 만료 여부를 확인하고 필요 시 재발급
   renewToken: () => {
     const checkTokenExpiration = () => {
       const now = Math.floor(new Date().getTime() / 1000);
@@ -142,7 +157,7 @@ const useAuthStore = create<AuthStore>((set, get) => ({
     }
   },
 
-  // 로그인 상태 확인
+  // 페이지 새로고침 시 로그인 상태 복원
   pageAccess: () => {
     const storedUserLoggedInInformation = localStorage.getItem("isLoggedIn");
 
@@ -151,6 +166,7 @@ const useAuthStore = create<AuthStore>((set, get) => ({
     }
   },
 
+  // 회원가입 요청
   signup: async (signupData) => {
     try {
       const response = await fetch(`${apiURL}/signup`, {
@@ -173,6 +189,7 @@ const useAuthStore = create<AuthStore>((set, get) => ({
     }
   },
 
+  // 로그인 요청
   login: async (loginData) => {
     try {
       const response = await fetch(`${apiURL}/login`, {
@@ -213,6 +230,7 @@ const useAuthStore = create<AuthStore>((set, get) => ({
     }
   },
 
+  // 로그아웃 및 로컬 상태 초기화
   logout: async () => {
     try {
       const intervalId = get().intervalId;
@@ -248,12 +266,14 @@ const useAuthStore = create<AuthStore>((set, get) => ({
     }
   },
 
+  // Access Token을 검증하고 사용자 정보를 조회
   verifyUser: async () => {
     try {
       const response = await fetch(`${apiURL}/accessToken`, {
         credentials: "include",
       });
 
+      // Access Token 만료 시 Refresh Token으로 재발급 시도
       if (!response.ok) {
         const now = Math.floor(new Date().getTime() / 1000);
         const refreshTokenExpirationTime = parseInt(
@@ -279,6 +299,7 @@ const useAuthStore = create<AuthStore>((set, get) => ({
     }
   },
 
+  // Refresh Token을 이용해 Access Token 재발급
   refreshToken: async () => {
     try {
       const response = await fetch(`${apiURL}/refreshToken`, {
@@ -308,6 +329,7 @@ const useAuthStore = create<AuthStore>((set, get) => ({
     }
   },
 
+  // Refresh Token 만료 시간 조회 및 저장
   refreshTokenExp: async () => {
     try {
       const response = await fetch(`${apiURL}/refreshTokenExp`, {
@@ -329,6 +351,7 @@ const useAuthStore = create<AuthStore>((set, get) => ({
   // 마지막으로 읽은 메시지 복원 기능 재구현 예정
   // 기존 구현은 제거, 필요 시 Git History 참고
 
+  // 사용자 테마 변경
   updateTheme: async (theme) => {
     try {
       const response = await fetch(`${apiURL}/updateTheme`, {
@@ -351,10 +374,12 @@ const useAuthStore = create<AuthStore>((set, get) => ({
     }
   },
 
+  // 프로필(닉네임 / 아바타) 수정
   editUserProfileForm: async (payload) => {
     try {
       const { trimmedNickname, avatarMode, modalContext } = payload;
 
+      // 아바타 모드에 따라 서버로 전송할 데이터 구성
       const requestBody: EditUserProfileRequestBody = {
         _id: modalContext._id,
         nickname: trimmedNickname,
@@ -387,10 +412,10 @@ const useAuthStore = create<AuthStore>((set, get) => ({
       const resData = await response.json();
 
       set((prev) => ({
-        ...prev, // 기존 상태 전체를 유지
+        ...prev,
         userInfo: {
-          ...prev.userInfo!, // 기존 사용자 정보 유지 및 !를 사용해 userInfo가 null이 아님을 단언
-          nickname: resData.editUserProfile.nickname, // nickname만 덮어쓰기
+          ...prev.userInfo!, // !를 사용해 userInfo가 null이 아님을 단언
+          nickname: resData.editUserProfile.nickname,
           avatarColor: resData.editUserProfile.avatarColor,
           avatarImageUrl: resData.editUserProfile.avatarImageUrl,
         },
@@ -401,6 +426,7 @@ const useAuthStore = create<AuthStore>((set, get) => ({
     }
   },
 
+  // 비밀번호 변경
   editUserPasswordForm: async (payload) => {
     try {
       const { password, newPassword, confirmNewPassword } = payload;
@@ -430,6 +456,7 @@ const useAuthStore = create<AuthStore>((set, get) => ({
     }
   },
 
+  // 계정 삭제
   deleteUserForm: async (payload) => {
     try {
       const { password, confirmText } = payload;
@@ -458,6 +485,7 @@ const useAuthStore = create<AuthStore>((set, get) => ({
         set({ intervalId: null });
       }
 
+      // 로그인 관련 로컬 데이터 초기화
       localStorage.removeItem("isLoggedIn");
       localStorage.removeItem("expirationTime");
       localStorage.removeItem("refreshTokenExp");
@@ -476,6 +504,7 @@ const useAuthStore = create<AuthStore>((set, get) => ({
     }
   },
 
+  // 그룹 채팅방 정렬 순서 업데이트
   updateUserGroupChatOrder: (order) => {
     set((prev) => {
       if (!prev.userInfo) return prev;

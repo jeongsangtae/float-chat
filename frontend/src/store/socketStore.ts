@@ -31,6 +31,8 @@ const useSocketStore = create<SocketStore>((set, get) => ({
   notification: [],
   notificationHistory: [],
   unReadNotification: false,
+
+  // Socket 연결 및 실시간 이벤트 등록
   connect: () => {
     try {
       const { userInfo } = useAuthStore.getState();
@@ -41,7 +43,9 @@ const useSocketStore = create<SocketStore>((set, get) => ({
         withCredentials: true, // CORS 설정
       });
 
+      // 연결 완료 후 사용자 등록 및 마지막 채팅방 자동 입장
       newSocket.on("connect", () => {
+        // 현재 사용자를 소켓 서버에 등록
         newSocket.emit("registerUser", userInfo?._id);
 
         // 새로고침 후 자동으로 마지막 채팅방 다시 입장
@@ -51,8 +55,27 @@ const useSocketStore = create<SocketStore>((set, get) => ({
         }
       });
 
+      // 토스트 알림 및 알림 기록 공통 처리
+      const addNotification = (notificationData: NotificationData) => {
+        set((state) => ({
+          notification: [...state.notification, notificationData],
+          notificationHistory: [notificationData, ...state.notificationHistory], // 최신 알림을 가장 앞에 추가
+          unReadNotification: true,
+        }));
+
+        // 일정 시간 후 토스트 알림 제거 (알림 기록은 유지)
+        setTimeout(() => {
+          set((state) => ({
+            notification: state.notification.filter(
+              (notif) => notif.id !== notificationData.id
+            ),
+          }));
+        }, 7000);
+      };
+
       // 친구 요청 알림 수신 이벤트
       newSocket.on("friendRequest", (newRequest) => {
+        // 친구 요청 알림 데이터 생성
         const notificationData: NotificationData = {
           type: "friendRequest",
           id: newRequest.id,
@@ -63,25 +86,14 @@ const useSocketStore = create<SocketStore>((set, get) => ({
           // isRead: false,
         };
 
-        set((state) => ({
-          notification: [...state.notification, notificationData],
-          notificationHistory: [notificationData, ...state.notificationHistory],
-          unReadNotification: true,
-        }));
-
-        setTimeout(() => {
-          set((state) => ({
-            notification: state.notification.filter(
-              (notif) => notif.id !== newRequest.id
-            ),
-          }));
-        }, 7000);
+        addNotification(notificationData);
 
         useFriendStore.getState().loadFriendRequests();
       });
 
       // 새로운 메시지 알림 수신 이벤트
       newSocket.on("messageNotification", (newMessage) => {
+        // 메시지 알림 데이터 생성
         const notificationData: NotificationData = {
           type: "messageNotification",
           id: newMessage.id,
@@ -93,22 +105,11 @@ const useSocketStore = create<SocketStore>((set, get) => ({
           // isRead: false,
         };
 
-        set((state) => ({
-          notification: [...state.notification, notificationData],
-          notificationHistory: [notificationData, ...state.notificationHistory],
-          unReadNotification: true,
-        }));
-
-        setTimeout(() => {
-          set((state) => ({
-            notification: state.notification.filter(
-              (notif) => notif.id !== newMessage.id
-            ),
-          }));
-        }, 7000);
+        addNotification(notificationData);
       });
 
       newSocket.on("groupChatInviteNotification", (groupChatInvite) => {
+        // 그룹 채팅 초대 알림 데이터 생성
         const notificationData: NotificationData = {
           type: "groupChatInviteNotification",
           id: groupChatInvite.id,
@@ -120,19 +121,7 @@ const useSocketStore = create<SocketStore>((set, get) => ({
           // isRead: false,
         };
 
-        set((state) => ({
-          notification: [...state.notification, notificationData],
-          notificationHistory: [notificationData, ...state.notificationHistory],
-          unReadNotification: true,
-        }));
-
-        setTimeout(() => {
-          set((state) => ({
-            notification: state.notification.filter(
-              (notif) => notif.id !== groupChatInvite.id
-            ),
-          }));
-        }, 7000);
+        addNotification(notificationData);
       });
 
       set({ socket: newSocket });
@@ -166,6 +155,7 @@ const useSocketStore = create<SocketStore>((set, get) => ({
   //   }));
   // },
 
+  // 채팅방 입장 및 현재 방 정보 저장
   joinChatRoom: (roomId) => {
     const socket = get().socket;
     if (!socket) return;
@@ -179,7 +169,7 @@ const useSocketStore = create<SocketStore>((set, get) => ({
     useChatStore.getState().newMessage(); // 메시지 수신 이벤트 등록 추가
   },
 
-  // 방을 이동할 때 먼저 사용될 방 나가기 로직
+  // 현재 참여 중인 채팅방에서 퇴장
   leaveChatRoom: () => {
     const socket = get().socket;
     if (!socket || !get().currentRoom) return;
@@ -190,6 +180,7 @@ const useSocketStore = create<SocketStore>((set, get) => ({
     localStorage.removeItem("currentRoom");
   },
 
+  // Socket 연결 종료 및 채팅방 정보 초기화
   disconnect: () => {
     get().socket?.disconnect();
     set({ socket: null });

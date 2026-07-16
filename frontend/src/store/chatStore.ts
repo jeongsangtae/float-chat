@@ -25,11 +25,6 @@ interface ChatStore {
     message: string,
     userInfo: UserInfo
   ) => Promise<string>;
-  // saveLastReadMessageId: (
-  //   roomId: string,
-  //   lastVisibleMessageId: string,
-  //   messageLength: number
-  // ) => Promise<void>;
 }
 
 interface TargetUser {
@@ -43,6 +38,8 @@ const useChatStore = create<ChatStore>((set) => ({
   socket: null,
   messages: [],
   // lastReadMessage: null,
+
+  // 실시간 메시지 수신 이벤트 등록
   newMessage: () => {
     const socket = useSocketStore.getState().socket;
     if (!socket) return; // 소켓이 없으면 실행 안 함
@@ -77,7 +74,7 @@ const useChatStore = create<ChatStore>((set) => ({
     };
   },
 
-  // 저장된 기존 메시지 불러오기
+  // 채팅방의 기존 메시지 조회
   chatData: async (roomId: string) => {
     try {
       const response = await fetch(`${apiURL}/chat/${roomId}`, {
@@ -94,6 +91,7 @@ const useChatStore = create<ChatStore>((set) => ({
       // 기존 이벤트 리스너 제거 후 재등록 (중복 방지)
       socket.off("chatProfileUpdated");
 
+      // 채팅에 저장된 닉네임/아바타를 최신 정보로 동기화
       socket.on(
         "chatProfileUpdated",
         ({ userEmail, newNickname, newAvatarColor, newAvatarImageUrl }) => {
@@ -124,6 +122,7 @@ const useChatStore = create<ChatStore>((set) => ({
     }
   },
 
+  // 채팅방 메시지 전송
   sendMessage: async (roomId: string, message: string, userInfo: UserInfo) => {
     const newMessage = {
       roomId,
@@ -135,7 +134,6 @@ const useChatStore = create<ChatStore>((set) => ({
     };
 
     try {
-      // 서버로 메시지를 POST 요청으로 전송
       const response = await fetch(`${apiURL}/chat/${roomId}`, {
         method: "POST",
         body: JSON.stringify(newMessage),
@@ -152,6 +150,7 @@ const useChatStore = create<ChatStore>((set) => ({
     }
   },
 
+  // 프로필에서 다이렉트 메시지 전송
   userProfileDirectSendMessage: async (
     targetUser: TargetUser,
     message: string,

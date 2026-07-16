@@ -22,9 +22,15 @@ interface DirectChatStore {
   closeDirectChat: (_id: string) => Promise<void>;
 }
 
+// 최근 메시지 기준으로 채팅방 정렬
+const sortDirectChats = (a: DirectChatData, b: DirectChatData) =>
+  new Date(b.lastMessageDate).getTime() - new Date(a.lastMessageDate).getTime();
+
 const useDirectChatStore = create<DirectChatStore>((set) => ({
   socket: null,
   directChats: [],
+
+  // 다이렉트 채팅방 목록 조회 및 실시간 이벤트 등록
   getDirectChat: async () => {
     try {
       const response = await fetch(`${apiURL}/directChats`, {
@@ -38,13 +44,10 @@ const useDirectChatStore = create<DirectChatStore>((set) => ({
       const socket = useSocketStore.getState().socket;
       if (!socket) return; // 소켓이 없으면 실행 안 함
 
-      const sortFn = (a: DirectChatData, b: DirectChatData) =>
-        new Date(b.lastMessageDate).getTime() -
-        new Date(a.lastMessageDate).getTime();
-
       // 기존 이벤트 리스너 제거 후 재등록 (중복 방지)
       socket.off("directChatProfileUpdated");
 
+      // 참가자 프로필 변경 시 채팅방 목록에도 반영
       socket.on(
         "directChatProfileUpdated",
         ({ userId, newNickname, newAvatarColor, newAvatarImageUrl }) => {
@@ -83,7 +86,7 @@ const useDirectChatStore = create<DirectChatStore>((set) => ({
       socket.on("invisibleDirectChat", (updatedDirectChatData) => {
         set((prev) => ({
           directChats: [...prev.directChats, updatedDirectChatData].sort(
-            sortFn
+            sortDirectChats
           ),
         }));
       });
@@ -91,7 +94,6 @@ const useDirectChatStore = create<DirectChatStore>((set) => ({
       // 다이렉트 채팅방이 화면에 보이지 않을 때 추가
       // some을 사용해 중복 방지
       // socket.on("invisibleDirectChat", (updatedDirectChatData) => {
-      //   // 로직을 많이 간소화한 축약형
       //   set((prev) => ({
       //     directChats: prev.directChats.some(
       //       (room) => room._id === updatedDirectChatData._id
@@ -102,7 +104,8 @@ const useDirectChatStore = create<DirectChatStore>((set) => ({
 
       socket.off("updatedDirectChat");
 
-      // 이미 존재하는 다이렉트 채팅방 업데이트
+      // 다이렉트 채팅방 추가 시에 중복을 방지하기 위해 some 사용
+      // 기존 다이렉트 채팅방 정보 갱신 및 최신순 정렬
       socket.on("updatedDirectChat", (updatedDirectChatData) => {
         set((prev) => ({
           directChats: prev.directChats
@@ -111,7 +114,7 @@ const useDirectChatStore = create<DirectChatStore>((set) => ({
                 ? updatedDirectChatData
                 : room
             )
-            .sort(sortFn),
+            .sort(sortDirectChats),
         }));
       });
 
@@ -124,6 +127,7 @@ const useDirectChatStore = create<DirectChatStore>((set) => ({
     }
   },
 
+  // 다이렉트 채팅방 생성
   directChatForm: async (id, nickname, avatarColor, avatarImageUrl) => {
     try {
       const requestBody = { id, nickname, avatarColor, avatarImageUrl };
@@ -141,19 +145,16 @@ const useDirectChatStore = create<DirectChatStore>((set) => ({
 
       const resData = await response.json();
 
-      // 다이렉트 채팅방 추가 시에 중복을 방지하기 위해 some 사용
+      // 이미 존재하는 채팅방이면 추가하지 않음
       set((prev) => {
         const exists = prev.directChats.some(
           (room) => room._id === resData.directChat._id
         );
-        // 중복된 다이렉트 채팅방은 추가하지 않음
         return exists
           ? prev
           : {
               directChats: [...prev.directChats, resData.directChat].sort(
-                (a, b) =>
-                  new Date(b.lastMessageDate).getTime() -
-                  new Date(a.lastMessageDate).getTime()
+                sortDirectChats
               ),
             };
       });
@@ -165,6 +166,7 @@ const useDirectChatStore = create<DirectChatStore>((set) => ({
     }
   },
 
+  // 다이렉트 채팅방 숨김 처리
   closeDirectChat: async (_id) => {
     try {
       const response = await fetch(`${apiURL}/closeDirectChat/${_id}`, {
