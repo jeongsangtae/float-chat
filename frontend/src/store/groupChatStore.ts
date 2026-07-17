@@ -71,6 +71,8 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
   groupChats: [],
   groupChatUsers: [],
   groupChatInvites: [],
+
+  // 그룹 채팅방 목록 조회 및 실시간 이벤트 등록
   getGroupChats: async () => {
     try {
       const response = await fetch(`${apiURL}/groupChats`, {
@@ -86,6 +88,7 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
 
       socket.off("groupChatHostProfileUpdated");
 
+      // 그룹 채팅방 방장의 프로필 변경 사항을 목록에 실시간 반영
       socket.on(
         "groupChatHostProfileUpdated",
         ({ userId, newNickname, newAvatarColor, newAvatarImageUrl }) => {
@@ -104,43 +107,30 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
         }
       );
 
-      // 그룹 채팅방 수정 소켓
+      const updateGroupChat = (updatedGroupChatData: GroupChatData) => {
+        set((prev) => ({
+          groupChats: prev.groupChats.map((groupChat) =>
+            groupChat._id === updatedGroupChatData._id
+              ? { ...groupChat, ...updatedGroupChatData }
+              : groupChat
+          ),
+        }));
+      };
+
+      // 그룹 채팅방 정보 수정 내용을 실시간 반영
       socket.off("groupChatEdit");
 
-      socket.on("groupChatEdit", (updatedGroupChatData) => {
-        set((prev) => ({
-          groupChats: prev.groupChats.map((groupChat) =>
-            groupChat._id === updatedGroupChatData._id
-              ? { ...groupChat, ...updatedGroupChatData }
-              : groupChat
-          ),
-        }));
-      });
+      socket.on("groupChatEdit", updateGroupChat);
 
-      // 그룹 채팅방 공지 수정 소켓
+      // 그룹 채팅방 공지 수정 내용을 실시간 반영
       socket.off("groupChatAnnouncementEdit");
 
-      socket.on("groupChatAnnouncementEdit", (updatedGroupChatData) => {
-        set((prev) => ({
-          groupChats: prev.groupChats.map((groupChat) =>
-            groupChat._id === updatedGroupChatData._id
-              ? { ...groupChat, ...updatedGroupChatData }
-              : groupChat
-          ),
-        }));
-      });
+      socket.on("groupChatAnnouncementEdit", updateGroupChat);
 
+      // 그룹 채팅방 공지 삭제 내용을 실시간 반영
       socket.off("groupChatAnnouncementDelete");
 
-      socket.on("groupChatAnnouncementDelete", (updatedGroupChatData) => {
-        set((prev) => ({
-          groupChats: prev.groupChats.map((groupChat) =>
-            groupChat._id === updatedGroupChatData._id
-              ? { ...groupChat, ...updatedGroupChatData }
-              : groupChat
-          ),
-        }));
-      });
+      socket.on("groupChatAnnouncementDelete", updateGroupChat);
 
       // 기존 이벤트 리스너 제거 후 재등록 (중복 방지)
       socket.off("groupChatDelete");
@@ -161,7 +151,6 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
 
       const resData: { groupChats: GroupChatData[] } = await response.json();
 
-      // 상태 업데이트
       set({ groupChats: resData.groupChats, loading: false });
     } catch (error) {
       console.error("에러 내용:", error);
@@ -171,6 +160,7 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
     }
   },
 
+  // 사용자가 변경한 그룹 채팅방 순서를 서버에 저장
   saveGroupChatOrder: async (groupChatIds) => {
     try {
       const response = await fetch(`${apiURL}/user/group-chat-order`, {
@@ -189,6 +179,7 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
     }
   },
 
+  // 그룹 채팅방 참여자 목록 조회 및 실시간 이벤트 등록
   getGroupChatUsers: async (roomId) => {
     try {
       const response = await fetch(`${apiURL}/groupChat/${roomId}/users`, {
@@ -206,6 +197,7 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
       socket.off("onlineGroupChatUser");
 
       // 그룹 채팅방 참여자 중 온라인 상태가 된 사용자를 실시간 반영해 업데이트
+      // 온라인으로 변경된 참여자의 상태만 true로 업데이트
       socket.on("onlineGroupChatUser", ({ onlineGroupChatUser }) => {
         set((prev) => ({
           groupChatUsers: prev.groupChatUsers.map((groupChatUser) =>
@@ -219,6 +211,7 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
       socket.off("offlineGroupChatUser");
 
       // 그룹 채팅방 참여자 중 오프라인 상태가 된 사용자를 실시간 반영해 업데이트
+      // 오프라인으로 변경된 참여자의 상태만 false로 업데이트
       socket.on("offlineGroupChatUser", ({ offlineGroupChatUser }) => {
         set((prev) => ({
           groupChatUsers: prev.groupChatUsers.map((groupChatUser) =>
@@ -253,8 +246,7 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
 
       socket.off("acceptGroupChat");
 
-      // 그룹 채팅방에 새로운 사용자가 추가되었을 때, 사용자 목록을 실시간 반영
-      // 중복 방지를 위해 some을 사용
+      // 그룹 채팅방에 새 사용자가 추가되면 중복 확인 후 사용자 목록에 반영
       socket.on("acceptGroupChat", (newUser) => {
         set((prev) => ({
           groupChatUsers: prev.groupChatUsers.some(
@@ -282,7 +274,8 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
       // });
 
       socket.off("groupChatLeave");
-      // 그룹 채팅방을 나간 사용자를 제외한 사용자 목록을 실시간 반영
+
+      // 그룹 채팅방을 나간 사용자를 사용자 목록에서 제거
       socket.on("groupChatLeave", (leavingUserId) => {
         set((prev) => ({
           groupChatUsers: prev.groupChatUsers.filter(
@@ -301,6 +294,7 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
     }
   },
 
+  // 그룹 채팅방 생성 및 수정
   groupChatForm: async (trimmedTitle, modalData) => {
     try {
       const requestBody = { title: trimmedTitle, modalData };
@@ -318,7 +312,7 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
 
       const resData = await response.json();
 
-      // 실시간 반영
+      // 생성 또는 수정 결과를 화면에 즉시 반영
       set((prev) => {
         if (modalData.method === "POST") {
           // 새로운 그룹 채팅방 추가
@@ -343,6 +337,7 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
     }
   },
 
+  // 그룹 채팅방 공지 생성 및 수정
   groupChatAnnouncementForm: async (trimmedAnnouncement, modalData) => {
     try {
       // 사용자 정보 관련 내용 삭제하는 것을 고려중 사용되지 않고 있음
@@ -364,6 +359,7 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
     }
   },
 
+  // 그룹 채팅방 공지 삭제
   groupChatAnnouncementDelete: async (announcement, modalData) => {
     try {
       const requestBody = { announcement, modalData };
@@ -384,6 +380,7 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
     }
   },
 
+  // 그룹 채팅방 삭제 및 실시간 반영
   deleteGroupChat: async (_id) => {
     try {
       const response = await fetch(`${apiURL}/groupChat/${_id}`, {
@@ -411,6 +408,7 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
     }
   },
 
+  // 그룹 채팅방 나가기 및 실시간 반영
   leaveGroupChat: async (_id) => {
     try {
       const response = await fetch(`${apiURL}/leaveGroupChat/${_id}`, {
@@ -422,7 +420,7 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
         throw new Error("그룹 채팅방 나가기 실패");
       }
 
-      // 실시간 반영
+      // 나간 그룹 채팅방을 목록에서 즉시 제거
       const updatedGroupChats = get().groupChats.filter(
         (groupChat: GroupChatData) => groupChat._id !== _id
       );
@@ -434,6 +432,7 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
     }
   },
 
+  // 그룹 채팅방 초대 목록 조회 및 실시간 이벤트 등록
   getGroupChatInvites: async () => {
     try {
       const response = await fetch(`${apiURL}/groupChat/invites`, {
@@ -454,6 +453,7 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
       socket.off("groupChatInviteProfileUpdated");
 
       // 그룹 채팅방 초대 닉네임 업데이트 실시간 반영
+      // 초대 요청자 또는 수신자의 프로필 변경 사항 반영
       socket.on(
         "groupChatInviteProfileUpdated",
         ({ userId, newNickname, newAvatarColor, newAvatarImageUrl }) => {
@@ -483,27 +483,23 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
         }));
       });
 
-      socket.off("acceptGroupChatInvite");
-
-      // 그룹 채팅방 초대 수락 시에 실시간 반영
-      socket.on("acceptGroupChatInvite", (groupChatInviteId) => {
+      const removeGroupChatInvite = (groupChatInviteId: string) => {
         set((prev) => ({
           groupChatInvites: prev.groupChatInvites.filter(
             (groupChatInvite) => groupChatInvite._id !== groupChatInviteId
           ),
         }));
-      });
+      };
+
+      socket.off("acceptGroupChatInvite");
+
+      // 그룹 채팅방 초대 수락 시에 실시간 반영
+      socket.on("acceptGroupChatInvite", removeGroupChatInvite);
 
       socket.off("rejectGroupChatInvite");
 
       // 그룹 채팅방 초대 거절 시에 실시간 반영
-      socket.on("rejectGroupChatInvite", (groupChatInviteId) => {
-        set((prev) => ({
-          groupChatInvites: prev.groupChatInvites.filter(
-            (groupChatInvite) => groupChatInvite._id !== groupChatInviteId
-          ),
-        }));
-      });
+      socket.on("rejectGroupChatInvite", removeGroupChatInvite);
 
       // 중복 방지
       socket.off("friendDeleteGroupChatInviteCleanup");
@@ -562,6 +558,7 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
     }
   },
 
+  // 그룹 채팅방 초대 전송
   inviteGroupChat: async ({ roomId, friendId, nickname }) => {
     try {
       const requestBody = { friendId, nickname };
@@ -582,6 +579,7 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
     }
   },
 
+  // 그룹 채팅방 초대 수락
   acceptGroupChatInvite: async ({ groupChatId, groupChatInviteId }) => {
     try {
       const requestBody = { groupChatId, groupChatInviteId };
@@ -608,6 +606,7 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
     }
   },
 
+  // 그룹 채팅방 초대 거절
   rejectGroupChatInvite: async (groupChatInviteId) => {
     try {
       const response = await fetch(

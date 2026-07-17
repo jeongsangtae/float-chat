@@ -39,10 +39,13 @@ const useFriendStore = create<FriendStore>((set) => ({
   friendRequests: [],
   status: 0,
   statusMessage: "",
+
+  // 상태 메시지 초기화
   resetStatusMessage: () => {
     set({ statusMessage: "" });
   },
 
+  // 온라인 친구 목록 조회 및 실시간 이벤트 등록
   loadOnlineFriends: async () => {
     try {
       const response = await fetch(`${apiURL}/onlineFriends`, {
@@ -65,7 +68,7 @@ const useFriendStore = create<FriendStore>((set) => ({
         ({ userId, newNickname, newAvatarColor, newAvatarImageUrl }) => {
           set((prev) => ({
             onlineFriends: prev.onlineFriends.map((onlineFriend) => {
-              // 요청자와 수신자 중 누가 닉네임을 바꿨는지 확인
+              // 프로필을 변경한 사용자가 요청자인지 수신자인지 확인
               const isRequester = onlineFriend.requester.id === userId;
               const isReceiver = onlineFriend.receiver.id === userId;
 
@@ -100,6 +103,7 @@ const useFriendStore = create<FriendStore>((set) => ({
       socket.off("onlineFriend");
 
       // 온라인 상태로 변경된 친구를 실시간 반영해 업데이트
+      // 이미 존재하는 친구는 중복 추가하지 않음
       socket.on("onlineFriend", (onlineFriendData) => {
         set((prev) => ({
           onlineFriends: prev.onlineFriends.some(
@@ -129,6 +133,7 @@ const useFriendStore = create<FriendStore>((set) => ({
     }
   },
 
+  // 친구 목록 조회 및 실시간 이벤트 등록
   loadFriends: async () => {
     try {
       const response = await fetch(`${apiURL}/friends`, {
@@ -185,13 +190,13 @@ const useFriendStore = create<FriendStore>((set) => ({
       // 기존 이벤트 리스너 제거 후 재등록 (중복 방지)
       socket.off("friendAdd");
 
+      // 새 친구를 목록에 추가
       socket.on("friendAdd", (newFriend) => {
         // concat 사용한 로직
         // set((prev) => ({
         //   friends: prev.friends.concat(newFriend),
         // }));
 
-        // 스프레스 사용한 로직
         set((prev) => ({
           friends: [...prev.friends, newFriend],
         }));
@@ -201,6 +206,7 @@ const useFriendStore = create<FriendStore>((set) => ({
       socket.off("friendDelete");
 
       // 삭제한 친구를 상대방 화면에 실시간 반영
+      // 요청자/수신자 관계를 확인하여 해당 친구만 제거
       socket.on("friendDelete", ({ userId, friendId }) => {
         set((prev) => ({
           friends: prev.friends.filter((friend: Friend) => {
@@ -223,6 +229,7 @@ const useFriendStore = create<FriendStore>((set) => ({
     }
   },
 
+  // 다른 사용자의 친구 목록 조회
   loadOtherUserFriends: async (otherUserId) => {
     try {
       const response = await fetch(
@@ -245,6 +252,7 @@ const useFriendStore = create<FriendStore>((set) => ({
     }
   },
 
+  // 친구 요청 목록 조회 및 실시간 이벤트 등록
   loadFriendRequests: async () => {
     try {
       const response = await fetch(`${apiURL}/friendRequests`, {
@@ -269,6 +277,7 @@ const useFriendStore = create<FriendStore>((set) => ({
             friendRequests: prev.friendRequests.map((friendRequest) => {
               const updatedFriendRequest = { ...friendRequest };
 
+              // 요청자 또는 수신자의 프로필 정보만 업데이트
               if (friendRequest.requester === userId) {
                 updatedFriendRequest.requesterNickname = newNickname;
                 updatedFriendRequest.requesterAvatarColor = newAvatarColor;
@@ -285,29 +294,25 @@ const useFriendStore = create<FriendStore>((set) => ({
         }
       );
 
+      const removeFriendRequest = (friendRequestId: string) => {
+        set((prev) => ({
+          friendRequests: prev.friendRequests.filter(
+            (request) => request._id !== friendRequestId
+          ),
+        }));
+      };
+
       // 기존 이벤트 리스너 제거 후 재등록 (중복 방지)
       socket.off("acceptFriend");
 
       // 수락한 친구 요청을 상대방 화면에 실시간 반영
-      socket.on("acceptFriend", (friendRequestId) => {
-        set((prev) => ({
-          friendRequests: prev.friendRequests.filter(
-            (friendRequest) => friendRequest._id !== friendRequestId
-          ),
-        }));
-      });
+      socket.on("acceptFriend", removeFriendRequest);
 
       // 기존 이벤트 리스너 제거 후 재등록 (중복 방지)
       socket.off("rejectFriend");
 
       // 거절한 친구 요청을 상대방 화면에 실시간 반영
-      socket.on("rejectFriend", (friendRequestId) => {
-        set((prev) => ({
-          friendRequests: prev.friendRequests.filter(
-            (friendRequest) => friendRequest._id !== friendRequestId
-          ),
-        }));
-      });
+      socket.on("rejectFriend", removeFriendRequest);
 
       const resData: { friendRequests: FriendRequest[] } =
         await response.json();
@@ -319,6 +324,7 @@ const useFriendStore = create<FriendStore>((set) => ({
     }
   },
 
+  // 친구 요청 전송
   sendFriendRequest: async (userInfo, searchUserEmail) => {
     const requestBody = {
       _id: userInfo._id,
@@ -347,6 +353,7 @@ const useFriendStore = create<FriendStore>((set) => ({
     }
   },
 
+  // 친구 요청 수락
   acceptFriendRequest: async (friendRequestId) => {
     try {
       const response = await fetch(`${apiURL}/acceptFriend`, {
@@ -360,6 +367,7 @@ const useFriendStore = create<FriendStore>((set) => ({
         throw new Error("친구 요청 수락 실패");
       }
 
+      // 수락한 요청을 현재 목록에서 제거
       set((prevFriendRequests) => ({
         friendRequests: prevFriendRequests.friendRequests.filter(
           (req) => req._id !== friendRequestId
@@ -371,6 +379,7 @@ const useFriendStore = create<FriendStore>((set) => ({
     }
   },
 
+  // 친구 요청 거절 또는 취소
   rejectFriendRequest: async (friendRequestId) => {
     try {
       const response = await fetch(
@@ -385,6 +394,7 @@ const useFriendStore = create<FriendStore>((set) => ({
         throw new Error("친구 요청 취소 또는 거절 실패");
       }
 
+      // 처리 완료된 요청을 현재 목록에서 제거
       set((prevFriendRequests) => ({
         friendRequests: prevFriendRequests.friendRequests.filter(
           (req) => req._id !== friendRequestId
@@ -396,6 +406,7 @@ const useFriendStore = create<FriendStore>((set) => ({
     }
   },
 
+  // 친구 삭제
   deleteFriend: async (friendId, userId) => {
     try {
       const response = await fetch(`${apiURL}/deleteFriend/${friendId}`, {
@@ -407,6 +418,7 @@ const useFriendStore = create<FriendStore>((set) => ({
         throw new Error("친구 삭제 실패");
       }
 
+      // 요청자/수신자 관계를 확인하여 삭제한 친구 제거
       set((prevFriends) => ({
         friends: prevFriends.friends.filter((friend) => {
           return !(
