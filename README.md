@@ -1,5 +1,12 @@
 # Float Chat (연습 프로젝트)
 
+![React](https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
+![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)
+![MongoDB](https://img.shields.io/badge/MongoDB-47A248?style=for-the-badge&logo=mongodb&logoColor=white)
+
+> 실시간 개인 · 그룹 채팅을 지원하는 웹 메신저 프로젝트
+
 ## 프로젝트 소개
 
 - Float Chat은 실시간 개인 채팅과 그룹 채팅을 제공하는 웹 채팅 서비스
@@ -10,26 +17,32 @@
 
 - 단순 채팅뿐 아니라 실제 메신저에서 사용하는 기능들을 구현하는 것을 목표로 제작
 
-- 친구 시스템
-- 그룹 채팅
-- 초대 기능
-- 실시간 프로필 변경
-- 온라인 상태
-- 그룹 채팅방 공지 기능
+구현 기능
 
-- (기능 관련 내용 추가 필요)
+- 친구 검색 및 친구 요청
+- 온라인 친구 표시
+- 실시간 개인/그룹 채팅
+- 그룹 채팅 생성 및 관리
+- 그룹 초대 및 나가기
+- 그룹 공지 작성 / 수정 / 삭제
+- 사용자 프로필 수정
+- 프로필 변경 실시간 동기화
+- 알림 시스템
+- 다양한 UI 테마 지원
+- 드래그 앤 드롭을 이용한 그룹 채팅 순서 변경
+
+## 프로젝트 목표
+
+- 실제 메신저와 유사한 기능 구현
+- Socket.IO 기반 실시간 데이터 동기화
+- Zustand를 활용한 상태 관리 구조 설계 경험
+- JWT 인증 및 토큰 관리 구현
+- TypeScript 기반의 타입 설계 경험
+- 컴포넌트 및 Store 리팩토링 경험
 
 ## 화면
 
 (스크린샷 추가 예정)
-
-## 프로젝트 목표
-
-- Socket.IO 기반 실시간 채팅 구조 학습
-- JWT 인증 및 토큰 관리 구현
-- Zustand를 활용한 상태 관리 경험
-- 실제 메신저와 유사한 기능 구현
-- 실시간 데이터 동기화 경험
 
 ## 주요 기능
 
@@ -82,30 +95,47 @@
 
 ### Frontend
 
-- React
-- TypeScript
-- Zustand
-- React Router
-- DnD Kit
-- Socket.IO Client
-- React Toastify
+React · TypeScript · Zustand · React Router · DnD Kit · Socket.IO Client · React Toastify
+
+![React](https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
+![Zustand](https://img.shields.io/badge/Zustand-443E38?style=for-the-badge)
+![React Router](https://img.shields.io/badge/React_Router-CA4245?style=for-the-badge&logo=reactrouter&logoColor=white)
+![DnD Kit](https://img.shields.io/badge/DnD_Kit-7C3AED?style=for-the-badge)
+![Socket.IO Client](https://img.shields.io/badge/Socket.IO_Client-010101?style=for-the-badge&logo=socketdotio&logoColor=white)
+![React Toastify](https://img.shields.io/badge/React_Toastify-FF6C37?style=for-the-badge)
 
 ### Backend
 
-- Node.js
-- Express
-- Socket.IO
-- JWT
-- bcrypt
+Node.js · Express · Socket.IO · JWT · bcrypt
+
+![Node.js](https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)
+![Express](https://img.shields.io/badge/Express-000000?style=for-the-badge&logo=express&logoColor=white)
+![Socket.IO](https://img.shields.io/badge/Socket.IO-010101?style=for-the-badge&logo=socketdotio&logoColor=white)
+![JWT](https://img.shields.io/badge/JWT-000000?style=for-the-badge&logo=jsonwebtokens&logoColor=white)
+![bcrypt](https://img.shields.io/badge/bcrypt-2E8B57?style=for-the-badge)
 
 ### Database
 
-- MongoDB
-- Mongoose
+MongoDB
+
+![MongoDB](https://img.shields.io/badge/MongoDB-47A248?style=for-the-badge&logo=mongodb&logoColor=white)
 
 ## 프로젝트 구조
 
-(추가 예정)
+```text
+frontend/
+├── components      # UI 컴포넌트
+├── pages           # 페이지
+├── store           # Zustand Store
+└── utils           # 공통 함수
+
+backend/
+├── data            # MongoDB 관련
+├── middlewares     # JWT 인증
+├── routes          # API
+└── utils           # 공통 함수
+```
 
 ## 실시간 기능
 
@@ -121,7 +151,7 @@ Socket.IO를 이용하여 다음 기능들을 실시간으로 반영
 - 그룹 공지 수정
 - 채팅 수신
 
-## 고민했던 부분
+## 트러블 슈팅
 
 ### Socket 이벤트 중복 등록
 
@@ -143,23 +173,24 @@ Socket.IO를 이용하여 다음 기능들을 실시간으로 반영
 
 ### FE
 
-git clone
-
-npm install
-
+```bash
 cd frontend
-
+npm install
 npm run dev
+```
 
 ### BE
 
+```bash
 cd backend
-
+npm install
 npm start
+```
 
 ## 추후 구현 예정
 
 - [ ] 메시지 읽음 표시
+- [x] 메시지 읽음 표시 (테스트)
 - [ ] 알림 읽음 표시
 - [ ] 이메일 인증
 - [ ] 모바일 반응형 개선
