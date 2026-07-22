@@ -37,7 +37,7 @@ const GroupChat = ({
 
   // 우클릭 컨텍스트 메뉴 열기
   const contextMenuOpenHandler = (
-    event: React.MouseEvent<HTMLDivElement>
+    event: React.MouseEvent<HTMLAnchorElement>
   ): void => {
     event.preventDefault();
     event.stopPropagation(); // 우클릭 이벤트가 전역 우클릭 이벤트까지 퍼지지 않게 막음
@@ -58,7 +58,7 @@ const GroupChat = ({
   };
 
   // 마우스를 올리면 제목 툴팁 표시
-  const mouseEnterHandler = (e: React.MouseEvent<HTMLDivElement>) => {
+  const mouseEnterHandler = (e: React.MouseEvent<HTMLAnchorElement>) => {
     const rect = e.currentTarget.getBoundingClientRect();
 
     setTooltipPos({
@@ -132,20 +132,20 @@ const GroupChat = ({
 
   return (
     <>
-      <div
+      <Link
+        to={`/group-chat/${_id.toString()}`}
         className={`${classes["group-chat"]} ${active ? classes.active : ""}`}
         onMouseEnter={mouseEnterHandler}
         onMouseLeave={mouseLeaveHandler}
         onContextMenu={contextMenuOpenHandler}
       >
-        <Link
-          to={`/group-chat/${_id.toString()}`}
+        <div
           className={`${classes.title} ${
             title.length > 12 ? classes["title-small"] : ""
           }`}
         >
           {title}
-        </Link>
+        </div>
 
         <span className={classes.indicator} />
         {/* 마우스를 올리면 전체 제목 툴팁 표시 */}
@@ -162,7 +162,7 @@ const GroupChat = ({
             {title}
           </div>
         )}
-      </div>
+      </Link>
 
       {/* 현재 그룹 채팅방의 컨텍스트 메뉴 */}
       {contextMenu.visible && contextMenu.id === _id && (
