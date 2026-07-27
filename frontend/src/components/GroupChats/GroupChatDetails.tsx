@@ -112,7 +112,7 @@ const GroupChatDetails = () => {
   // 그룹 채팅방 목록 조회
   useEffect(() => {
     getGroupChats();
-  }, []);
+  }, [getGroupChats]);
 
   // 그룹 채팅방 변경 시 참여자 목록 조회 및 선택 상태 초기화
   useEffect(() => {
@@ -126,7 +126,7 @@ const GroupChatDetails = () => {
     setOrigin(null);
 
     getGroupChatUsers(roomId);
-  }, [roomId]);
+  }, [getGroupChatUsers, roomId]);
 
   // 사용자 프로필 외부 클릭 시 프로필 닫기
   useEffect(() => {
