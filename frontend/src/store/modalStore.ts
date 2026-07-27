@@ -14,12 +14,16 @@ interface ModalStore {
   activeModal: ModalType | null;
   modalData: {
     method: "POST" | "PATCH" | "DELETE";
-    [key: string]: unknown;
+
+    // 다양한 모달 Payload를 저장하기 위한 공용 객체
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    [key: string]: any;
   };
+
   toggleModal: (
     type: ModalType,
     method?: "POST" | "PATCH" | "DELETE",
-    data?: Record<string, unknown>
+    data?: object
   ) => void;
 }
 

@@ -107,7 +107,7 @@ const GroupChatDetails = () => {
   useEffect(() => {
     setView("groupChat");
     setGroupChatTitle(groupChat?.title ?? "");
-  }, [groupChat?.title]);
+  }, [groupChat?.title, setView, setGroupChatTitle]);
 
   // 그룹 채팅방 목록 조회
   useEffect(() => {
