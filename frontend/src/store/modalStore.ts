@@ -14,12 +14,12 @@ interface ModalStore {
   activeModal: ModalType | null;
   modalData: {
     method: "POST" | "PATCH" | "DELETE";
-    [key: string]: any;
+    [key: string]: unknown;
   };
   toggleModal: (
     type: ModalType,
     method?: "POST" | "PATCH" | "DELETE",
-    data?: Record<string, any>
+    data?: Record<string, unknown>
   ) => void;
 }
 
