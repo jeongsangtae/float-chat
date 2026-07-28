@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useCallback } from "react";
 import { Link, useLocation } from "react-router-dom";
 
 import useAuthStore from "../../store/authStore";
@@ -75,9 +75,14 @@ const GroupChat = ({
   };
 
   // 컨텍스트 메뉴 닫기
-  const contextMenuCloseHandler = (): void => {
-    setContextMenu({ visible: false, x: 0, y: 0, id: null });
-  };
+  const contextMenuCloseHandler = useCallback(() => {
+    setContextMenu({
+      visible: false,
+      x: 0,
+      y: 0,
+      id: null,
+    });
+  }, []);
 
   // 그룹 채팅방 삭제 모달 열기
   const groupChatDeleteHandler = async (): Promise<void> => {
@@ -128,7 +133,7 @@ const GroupChat = ({
       document.removeEventListener("click", outsideClickHandler);
       document.removeEventListener("contextmenu", outsideContextMenuHandler);
     };
-  }, [contextMenu.visible]); // visible 상태가 바뀔 때마다 리렌더링
+  }, [contextMenu.visible, contextMenuCloseHandler]); // visible 상태가 바뀔 때마다 리렌더링
 
   return (
     <>

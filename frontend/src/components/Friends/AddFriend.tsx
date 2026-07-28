@@ -23,7 +23,7 @@ const AddFriend = () => {
     resetStatusMessage();
 
     return () => resetStatusMessage();
-  }, []);
+  }, [resetStatusMessage]);
 
   // 친구 요청 성공 시 입력창 초기화
   useEffect(() => {

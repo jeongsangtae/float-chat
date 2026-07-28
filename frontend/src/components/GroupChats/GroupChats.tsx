@@ -45,7 +45,7 @@ const GroupChats = () => {
 
   useEffect(() => {
     getGroupChats();
-  }, []);
+  }, [getGroupChats]);
 
   // 드래그 시작 조건 설정 (8px 이상 이동 시 드래그 시작)
   const sensors = useSensors(

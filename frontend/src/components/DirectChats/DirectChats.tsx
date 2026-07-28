@@ -22,7 +22,7 @@ const DirectChats = () => {
       getDirectChat();
       loadOnlineFriends();
     }
-  }, [isLoggedIn]);
+  }, [isLoggedIn, getGroupChatInvites, getDirectChat, loadOnlineFriends]);
 
   // 다이렉트 채팅 목록에 상대방 정보와 온라인 상태 추가
   const filteredDirectChats = useMemo(() => {

@@ -27,6 +27,8 @@ const Friends = () => {
     loadFriendRequests,
   } = useFriendStore();
 
+  const { setView } = useLayoutStore();
+
   const [activeTab, setActiveTab] = useState<TabType>("online");
 
   const [searchMap, setSearchMap] = useState<Record<TabType, string>>({
@@ -37,8 +39,6 @@ const Friends = () => {
   });
 
   const currentSearchTerm = searchMap[activeTab];
-
-  const { setView } = useLayoutStore();
 
   const userId = userInfo?._id ?? "";
 
@@ -66,14 +66,34 @@ const Friends = () => {
   //   }
   // }, [activeTab]);
 
+  // 친구 탭 변경 및 필요한 데이터 조회
+  // const activeTabHandler = useCallback(
+  //   (tab: TabType, action?: () => void) => {
+  //     if (activeTab !== tab) {
+  //       setActiveTab(tab);
+  //       action?.();
+  //     }
+  //   },
+  //   [activeTab]
+  // );
+
+  const activeTabHandler = (tab: TabType, action?: () => void) => {
+    if (activeTab !== tab) {
+      setActiveTab(tab);
+      action?.();
+    }
+  };
+
   // 최초 진입 시 온라인 친구 목록을 기본 탭으로 조회하고
   // 친구 요청 목록 및 현재 레이아웃 상태를 초기화
   useEffect(() => {
     // activeTabHandler("all", loadFriends);
-    activeTabHandler("online", loadOnlineFriends);
+    // activeTabHandler("online", loadOnlineFriends);
+    setActiveTab("online");
+    loadOnlineFriends();
     loadFriendRequests();
     setView("friends");
-  }, []);
+  }, [loadOnlineFriends, loadFriendRequests, setView]);
 
   // 친구 목록에서 중복된 ID 확인하는 체크용 useEffect
   // 필요할 때 다시 주석 해제해야 함
@@ -84,14 +104,6 @@ const Friends = () => {
   //     console.warn("중복된 친구 ID:", duplicates);
   //   }
   // }, [filteredFriends]);
-
-  // 친구 탭 변경 및 필요한 데이터 조회
-  const activeTabHandler = (tab: TabType, action?: () => void): void => {
-    if (activeTab !== tab) {
-      setActiveTab(tab);
-      action?.();
-    }
-  };
 
   return (
     <>

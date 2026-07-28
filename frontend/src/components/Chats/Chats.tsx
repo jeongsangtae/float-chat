@@ -31,7 +31,7 @@ const Chats = ({ roomId, chatInfo }: ChatsProps) => {
 
     leaveChatRoom();
     joinChatRoom(roomId);
-  }, [roomId]);
+  }, [leaveChatRoom, joinChatRoom, roomId]);
 
   // 해당 채팅방의 채팅 데이터 불러오는 useEffect
   useEffect(() => {
@@ -41,7 +41,7 @@ const Chats = ({ roomId, chatInfo }: ChatsProps) => {
     }
 
     chatData(roomId);
-  }, [roomId]);
+  }, [chatData, roomId]);
 
   // 마지막 읽은 메시지 복원 기능은
   // 의도한 것과 다르게 동작하기 때문에 일단 비활성화하고 삭제
@@ -83,7 +83,7 @@ const Chats = ({ roomId, chatInfo }: ChatsProps) => {
       setShowNewMessageButton(true);
       setToBottomButton(false);
     }
-  }, [messages]);
+  }, [messages, userInfo?.email]);
 
   // 스크롤을 최하단으로 이동하는 함수
   const scrollToBottomHandler = () => {

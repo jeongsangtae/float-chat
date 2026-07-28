@@ -42,14 +42,14 @@ const DirectChatDetails = () => {
   useEffect(() => {
     setView("directChat");
     loadFriends();
-  }, []);
+  }, [setView, loadFriends]);
 
   // 상대방 친구 목록 조회
   useEffect(() => {
     if (otherUser?._id) {
       loadOtherUserFriends(otherUser?._id);
     }
-  }, [otherUser?._id]);
+  }, [otherUser?._id, loadOtherUserFriends]);
 
   // 친구된 날짜 조회
   const friendSince = useMemo(() => {
