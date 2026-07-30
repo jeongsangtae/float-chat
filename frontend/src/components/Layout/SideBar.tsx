@@ -43,7 +43,7 @@ const SideBar = ({ onLeaveChatRoom }: SideBarProps) => {
     };
 
     renewTokens();
-  }, [isLoggedIn]);
+  }, [isLoggedIn, renewToken, refreshTokenExp]);
 
   // 사용자 설정 모달 열기
   const userSettingHandler = (): void => {

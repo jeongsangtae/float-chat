@@ -32,7 +32,7 @@ const Login = () => {
       toast.success("계정 탈퇴 완료");
       navigate(location.pathname, { replace: true });
     }
-  }, [location.state]);
+  }, [location.state, location.pathname, navigate]);
 
   // 로그인 입력 처리
   const inputChangeHandler = (

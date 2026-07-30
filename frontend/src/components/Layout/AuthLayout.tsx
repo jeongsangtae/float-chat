@@ -20,7 +20,7 @@ const AuthLayout = ({ children }: ChildrenProps) => {
     if (isLoggedIn) {
       navigate("/me", { replace: true });
     }
-  }, [isLoggedIn]);
+  }, [isLoggedIn, navigate]);
 
   return (
     <>

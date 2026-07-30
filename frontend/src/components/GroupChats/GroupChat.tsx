@@ -82,7 +82,7 @@ const GroupChat = ({
       y: 0,
       id: null,
     });
-  }, []);
+  }, [setContextMenu]);
 
   // 그룹 채팅방 삭제 모달 열기
   const groupChatDeleteHandler = async (): Promise<void> => {

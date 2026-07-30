@@ -66,17 +66,6 @@ const Friends = () => {
   //   }
   // }, [activeTab]);
 
-  // 친구 탭 변경 및 필요한 데이터 조회
-  // const activeTabHandler = useCallback(
-  //   (tab: TabType, action?: () => void) => {
-  //     if (activeTab !== tab) {
-  //       setActiveTab(tab);
-  //       action?.();
-  //     }
-  //   },
-  //   [activeTab]
-  // );
-
   const activeTabHandler = (tab: TabType, action?: () => void) => {
     if (activeTab !== tab) {
       setActiveTab(tab);

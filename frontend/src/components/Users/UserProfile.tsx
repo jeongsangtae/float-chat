@@ -43,7 +43,7 @@ const UserProfile = ({
     }
 
     getDirectChat();
-  }, [userId]);
+  }, [userId, loadFriends, loadOtherUserFriends, getDirectChat]);
 
   const friendSince = useMemo(() => {
     const friendSinceDateStr = friends.find((friend) => {
