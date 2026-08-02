@@ -6,7 +6,8 @@ import classes from "./GroupChatUsers.module.css";
 
 const GroupChatUsers = ({
   groupChatUsers,
-  onOpenUserProfile,
+  // onOpenUserProfile,
+  onToggleUserOverlay,
 }: GroupChatUsersProps) => {
   // 온라인 사용자 목록
   const onlineUsers = groupChatUsers.filter(
@@ -36,7 +37,8 @@ const GroupChatUsers = ({
             avatarColor={onlineUser.avatarColor}
             avatarImageUrl={onlineUser.avatarImageUrl}
             onlineChecked={onlineUser.onlineChecked}
-            onOpenUserProfile={onOpenUserProfile}
+            // onOpenUserProfile={onOpenUserProfile}
+            onToggleUserOverlay={onToggleUserOverlay}
           />
         ))}
       </div>
@@ -57,7 +59,8 @@ const GroupChatUsers = ({
             avatarColor={offlineUser.avatarColor}
             avatarImageUrl={offlineUser.avatarImageUrl}
             onlineChecked={offlineUser.onlineChecked}
-            onOpenUserProfile={onOpenUserProfile}
+            // onOpenUserProfile={onOpenUserProfile}
+            onToggleUserOverlay={onToggleUserOverlay}
           />
         ))}
       </div>

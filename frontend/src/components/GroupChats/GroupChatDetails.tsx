@@ -45,6 +45,9 @@ const GroupChatDetails = () => {
   const [activeUser, setActiveUser] = useState<string | null>(null);
   const [coords, setCoords] = useState<Coords | null>(null);
   const [origin, setOrigin] = useState<"users" | "panel" | null>(null);
+  const [overlayType, setOverlayType] = useState<
+    "profile" | "memberMenu" | null
+  >(null);
 
   // 현재 선택된 사용자 프로필 정보
   const activeUserProfile = groupChatUsers.find(
@@ -52,21 +55,45 @@ const GroupChatDetails = () => {
   );
 
   // 사용자 프로필 툴팁 열기/닫기
-  const openUserProfileHandler = (
+  const toggleUserOverlayHandler = (
     userId: string,
     coords: Coords,
-    source: "users" | "panel"
+    source: "users" | "panel",
+    currentOverlayType: "profile" | "memberMenu"
   ) => {
-    if (activeUser === userId && origin === source) {
+    if (
+      activeUser === userId &&
+      origin === source &&
+      overlayType === currentOverlayType
+    ) {
       setActiveUser(null);
       setCoords(null);
+      // setOrigin(null);
+      // setOverlayType(null);
       return;
     }
 
     setActiveUser(userId);
     setCoords(coords);
     setOrigin(source);
+    setOverlayType(currentOverlayType);
   };
+
+  // const openUserProfileHandler = (
+  //   userId: string,
+  //   coords: Coords,
+  //   source: "users" | "panel"
+  // ) => {
+  //   if (activeUser === userId && origin === source) {
+  //     setActiveUser(null);
+  //     setCoords(null);
+  //     return;
+  //   }
+
+  //   setActiveUser(userId);
+  //   setCoords(coords);
+  //   setOrigin(source);
+  // };
 
   // 그룹 채팅방 초대 모달 열기 또는 닫기
   const toggleInviteHandler = (): void => {
@@ -192,7 +219,8 @@ const GroupChatDetails = () => {
 
         <GroupChatUsers
           groupChatUsers={groupChatUsers}
-          onOpenUserProfile={openUserProfileHandler}
+          // onOpenUserProfile={openUserProfileHandler}
+          onToggleUserOverlay={toggleUserOverlayHandler}
         />
       </div>
 
@@ -262,7 +290,8 @@ const GroupChatDetails = () => {
         hostAvatarImageUrl={groupChat?.hostAvatarImageUrl ?? ""}
         announcement={groupChat?.announcement ?? ""}
         groupChatUsers={groupChatUsers}
-        onOpenUserProfile={openUserProfileHandler}
+        // onOpenUserProfile={openUserProfileHandler}
+        onToggleUserOverlay={toggleUserOverlayHandler}
       />
 
       {/* 사용자 프로필 툴팁 Portal */}

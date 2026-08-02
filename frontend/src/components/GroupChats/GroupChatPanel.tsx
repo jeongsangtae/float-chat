@@ -24,7 +24,8 @@ const GroupChatPanel = ({
   hostAvatarImageUrl,
   announcement,
   groupChatUsers,
-  onOpenUserProfile,
+  // onOpenUserProfile,
+  onToggleUserOverlay,
 }: GroupChatPanelProps) => {
   const { activeModal, toggleModal } = useModalStore();
 
@@ -45,10 +46,11 @@ const GroupChatPanel = ({
   );
 
   // 사용자 프로필 툴팁 열기
-  const clickUserProfileHandler = (
+  const clickUserOverlayHandler = (
     userId: string,
     event: React.MouseEvent,
-    source: "users" | "panel"
+    source: "users" | "panel",
+    overlayType: "profile" | "memberMenu"
   ) => {
     const userProfileHeight = 273;
     const viewportPadding = 10;
@@ -60,15 +62,36 @@ const GroupChatPanel = ({
       window.innerHeight - userProfileHeight - viewportPadding
     );
 
-    onOpenUserProfile(
+    // onOpenUserProfile(
+    //   userId,
+    //   {
+    //     top,
+    //     left: rect.left,
+    //     transform: "translateX(-115%)",
+    //   },
+    //   source
+    // );
+
+    onToggleUserOverlay(
       userId,
       {
         top,
         left: rect.left,
         transform: "translateX(-115%)",
       },
-      source
+      source,
+      overlayType
     );
+  };
+
+  const openProfileHandler = (userId: string, event: React.MouseEvent) => {
+    clickUserOverlayHandler(userId, event, "panel", "profile");
+  };
+
+  const openMemberMenuHandler = (userId: string, event: React.MouseEvent) => {
+    event.preventDefault();
+
+    clickUserOverlayHandler(userId, event, "panel", "memberMenu");
   };
 
   // 호스트 사용자를 목록 최상단으로 정렬
@@ -234,8 +257,9 @@ const GroupChatPanel = ({
             <div
               key={`groupChatUser-${displayedUser._id}`}
               className={`${classes["group-chat-user"]} user-profile-trigger`}
-              onClick={(event) =>
-                clickUserProfileHandler(displayedUser._id, event, "panel")
+              onClick={(event) => openProfileHandler(displayedUser._id, event)}
+              onContextMenu={(event) =>
+                openMemberMenuHandler(displayedUser._id, event)
               }
             >
               <Avatar

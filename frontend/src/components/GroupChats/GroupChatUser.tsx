@@ -9,26 +9,64 @@ const GroupChatUser = ({
   avatarColor,
   avatarImageUrl,
   onlineChecked,
-  onOpenUserProfile,
+  // onOpenUserProfile,
+  onToggleUserOverlay,
 }: GroupChatUserProps) => {
   // 사용자 클릭 시 프로필 툴팁 위치 계산 후 열기
-  const clickUserProfileHandler = (event: React.MouseEvent) => {
+  const openProfileHandler = (event: React.MouseEvent) => {
     const rect = event.currentTarget.getBoundingClientRect();
 
-    onOpenUserProfile(
+    // onOpenUserProfile(
+    //   _id,
+    //   {
+    //     top: rect.top,
+    //     left: rect.right + 10,
+    //   },
+    //   "users"
+    // );
+
+    onToggleUserOverlay(
       _id,
       {
         top: rect.top,
         left: rect.right + 10,
       },
-      "users"
+      "users",
+      "profile" // 좌클릭, 우클릭 구분 필요
+    );
+  };
+
+  const openMemberMenuHandler = (event: React.MouseEvent) => {
+    event.preventDefault(); // 브라우저 기본 메뉴 방지
+
+    const rect = event.currentTarget.getBoundingClientRect();
+
+    // onOpenUserProfile(
+    //   _id,
+    //   {
+    //     top: rect.top,
+    //     left: rect.right + 10,
+    //   },
+    //   "users"
+    // );
+
+    onToggleUserOverlay(
+      _id,
+      {
+        top: rect.top,
+        left: rect.right + 10,
+      },
+      "users",
+      "memberMenu" // 좌클릭, 우클릭 구분 필요
     );
   };
 
   return (
     <div
       className={`${classes["group-chat-user"]} user-profile-trigger`}
-      onClick={clickUserProfileHandler}
+      // onClick={clickUserProfileHandler}
+      onClick={openProfileHandler}
+      onContextMenu={openMemberMenuHandler}
     >
       <Avatar
         nickname={nickname}

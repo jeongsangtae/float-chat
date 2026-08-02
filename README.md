@@ -47,7 +47,7 @@
 - Socket.IO 기반 실시간 데이터 동기화
 - Zustand를 활용한 상태 관리 구조 설계 경험
 - JWT 인증 및 토큰 관리 구현
-- TypeScript 기반의 타입 설계 경험
+- TypeScript 기반의 타입 안정성 확보 및 설계 경험
 - 컴포넌트 및 Store 리팩토링 경험
 
 ## 📷 화면
