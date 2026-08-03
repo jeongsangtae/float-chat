@@ -112,10 +112,11 @@ export interface TooltipCoords {
 
 export interface GroupChatUsersProps {
   groupChatUsers: GroupChatUserData[];
-  onOpenUserProfile: (
+  onToggleUserOverlay: (
     userId: string,
     coords: Coords,
-    source: "users" | "panel"
+    source: "users" | "panel",
+    currentOverlayType: "profile" | "memberMenu"
   ) => void;
 }
 
@@ -125,10 +126,11 @@ export interface GroupChatUserProps {
   avatarColor: string | null;
   avatarImageUrl: string | null;
   onlineChecked: boolean;
-  onOpenUserProfile: (
+  onToggleUserOverlay: (
     userId: string,
     coords: Coords,
-    source: "users" | "panel"
+    source: "users" | "panel",
+    currentOverlayType: "profile" | "memberMenu"
   ) => void;
 }
 
@@ -159,8 +161,18 @@ export interface UserProfileProps {
   onlineChecked: boolean;
   onOpenUserProfileEditForm: (payload: UserProfileEditFormPayload) => void;
   onOpenUserProfileDetails: (payload: UserProfileDetailsPayload) => void;
-  style: TooltipCoords;
   origin: "users" | "panel" | null;
+  style: TooltipCoords;
+}
+
+export interface GroupMemberMenuProps {
+  userId: string;
+  nickname: string;
+  avatarColor: string | null;
+  avatarImageUrl: string | null;
+  onlineChecked: boolean;
+  origin: "users" | "panel" | null;
+  style: TooltipCoords;
 }
 
 export interface OnBackProps {
@@ -263,10 +275,11 @@ export interface GroupChatPanelProps {
   hostAvatarImageUrl: string | null;
   announcement?: string;
   groupChatUsers: GroupChatUserData[];
-  onOpenUserProfile: (
+  onToggleUserOverlay: (
     userId: string,
     { top: number, left: number, transform: string },
-    source: "users" | "panel"
+    source: "users" | "panel",
+    currentOverlayType: "profile" | "memberMenu"
   ) => void;
 }
 

@@ -21,8 +21,8 @@ const UserProfile = ({
   onlineChecked,
   onOpenUserProfileEditForm,
   onOpenUserProfileDetails,
-  style,
   origin,
+  style,
 }: UserProfileProps) => {
   const { userInfo } = useAuthStore();
   const {

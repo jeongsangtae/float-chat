@@ -6,7 +6,6 @@ import classes from "./GroupChatUsers.module.css";
 
 const GroupChatUsers = ({
   groupChatUsers,
-  // onOpenUserProfile,
   onToggleUserOverlay,
 }: GroupChatUsersProps) => {
   // 온라인 사용자 목록
@@ -37,7 +36,6 @@ const GroupChatUsers = ({
             avatarColor={onlineUser.avatarColor}
             avatarImageUrl={onlineUser.avatarImageUrl}
             onlineChecked={onlineUser.onlineChecked}
-            // onOpenUserProfile={onOpenUserProfile}
             onToggleUserOverlay={onToggleUserOverlay}
           />
         ))}
@@ -59,7 +57,6 @@ const GroupChatUsers = ({
             avatarColor={offlineUser.avatarColor}
             avatarImageUrl={offlineUser.avatarImageUrl}
             onlineChecked={offlineUser.onlineChecked}
-            // onOpenUserProfile={onOpenUserProfile}
             onToggleUserOverlay={onToggleUserOverlay}
           />
         ))}

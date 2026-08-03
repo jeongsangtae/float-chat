@@ -1,0 +1,82 @@
+.group-member-menu-wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 18rem;
+  height: auto;
+  color: var(--color-text);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-soft-spread);
+  position: fixed; /* 반드시 고정 */
+  white-space: nowrap;
+
+  overflow: hidden;
+}
+
+.group-member-menu-self {
+  height: 14rem;
+}
+
+.group-member-menu-avatar-wrapper {
+  position: absolute;
+  top: -2rem;
+}
+
+.group-member-menu-header-img,
+.group-member-menu-header-color {
+  height: 6rem;
+  width: 100%;
+  flex-shrink: 0;
+}
+
+.group-member-menu-header-img {
+  object-fit: cover;
+}
+
+.group-member-menu-info {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background-color: var(--profile-bg);
+  padding: var(--space-lg);
+  overflow-y: visible;
+}
+
+.group-member-menu-content {
+  margin-top: var(--space-xl);
+  font-size: var(--font-xs);
+}
+
+.group-member-menu-nickname {
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-xl);
+
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.group-member-menu-nickname:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.group-member-menu-action-wrapper {
+  text-align: center;
+  margin: var(--space-xs) 0;
+}
+
+.group-member-menu-action-button {
+  color: var(--color-text);
+  background-color: var(--color-success);
+  font-weight: var(--font-weight-bold);
+  border: none;
+  padding: var(--space-sm) 6rem;
+  border-radius: var(--radius-sm);
+  font-size: var(--font-sm);
+  cursor: pointer;
+}
+
+.group-member-menu-action-button:hover {
+  background-color: var(--color-success-hover);
+}

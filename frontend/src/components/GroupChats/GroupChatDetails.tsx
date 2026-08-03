@@ -22,6 +22,7 @@ import ChatInput from "../Chats/ChatInput";
 import GroupChatInvite from "./GroupChatInvite";
 import GroupChatUsers from "./GroupChatUsers";
 import GroupChatPanel from "./GroupChatPanel";
+import GroupMemberMenu from "../Users/GroupMemberMenu";
 
 import {
   UserProfileEditFormPayload,
@@ -54,7 +55,7 @@ const GroupChatDetails = () => {
     (groupChatUser) => groupChatUser._id === activeUser
   );
 
-  // 사용자 프로필 툴팁 열기/닫기
+  // 사용자 프로필 또는 컨텍스트 메뉴 툴팁 열기/닫기
   const toggleUserOverlayHandler = (
     userId: string,
     coords: Coords,
@@ -219,7 +220,6 @@ const GroupChatDetails = () => {
 
         <GroupChatUsers
           groupChatUsers={groupChatUsers}
-          // onOpenUserProfile={openUserProfileHandler}
           onToggleUserOverlay={toggleUserOverlayHandler}
         />
       </div>
@@ -297,6 +297,7 @@ const GroupChatDetails = () => {
       {/* 사용자 프로필 툴팁 Portal */}
       {activeUserProfile &&
         coords &&
+        overlayType === "profile" &&
         createPortal(
           <UserProfile
             userId={activeUserProfile._id}
@@ -306,6 +307,28 @@ const GroupChatDetails = () => {
             onlineChecked={activeUserProfile.onlineChecked}
             onOpenUserProfileEditForm={openUserProfileEditFormHandler}
             onOpenUserProfileDetails={openUserProfileDetailsHandler}
+            origin={origin}
+            style={{
+              position: "fixed",
+              top: coords.top,
+              left: coords.left,
+              transform: coords.transform,
+            }}
+          />,
+          document.getElementById("user-profile-tooltip-portal")!
+        )}
+
+      {/* 사용자 컨텍스트 메뉴 툴팁 Portal */}
+      {activeUserProfile &&
+        coords &&
+        overlayType === "memberMenu" &&
+        createPortal(
+          <GroupMemberMenu
+            userId={activeUserProfile._id}
+            nickname={activeUserProfile.nickname}
+            avatarImageUrl={activeUserProfile.avatarImageUrl}
+            avatarColor={activeUserProfile.avatarColor}
+            onlineChecked={activeUserProfile.onlineChecked}
             origin={origin}
             style={{
               position: "fixed",

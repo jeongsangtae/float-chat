@@ -24,7 +24,6 @@ const GroupChatPanel = ({
   hostAvatarImageUrl,
   announcement,
   groupChatUsers,
-  // onOpenUserProfile,
   onToggleUserOverlay,
 }: GroupChatPanelProps) => {
   const { activeModal, toggleModal } = useModalStore();
@@ -61,16 +60,6 @@ const GroupChatPanel = ({
       rect.top,
       window.innerHeight - userProfileHeight - viewportPadding
     );
-
-    // onOpenUserProfile(
-    //   userId,
-    //   {
-    //     top,
-    //     left: rect.left,
-    //     transform: "translateX(-115%)",
-    //   },
-    //   source
-    // );
 
     onToggleUserOverlay(
       userId,
