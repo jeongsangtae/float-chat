@@ -22,12 +22,8 @@ router.get("/groupChats", async (req, res) => {
     const groupChats = await db
       .getDb()
       .collection("groupChats")
-      .find({ users: { $in: [othersData._id.toString()] } })
+      .find({ "users._id": othersData._id.toString() })
       .toArray();
-
-    if (!groupChats.length === 0) {
-      return res.status(404).json({ error: "그룹 채팅방을 찾을 수 없습니다." });
-    }
 
     res.status(200).json({ groupChats });
   } catch (error) {
@@ -61,7 +57,7 @@ router.get("/groupChat/:roomId/users", async (req, res) => {
       .collection("users")
       .find(
         {
-          _id: { $in: userIds.map((id) => new ObjectId(id)) },
+          _id: { $in: userIds.map((user) => new ObjectId(user._id)) },
         },
         { projection: { password: 0 } } // 비밀번호는 응답에서 제외
       )
@@ -119,7 +115,7 @@ router.post("/groupChatForm", async (req, res) => {
         .getMinutes()
         .toString()
         .padStart(2, "0")}:${kstDate.getSeconds().toString().padStart(2, "0")}`,
-      users: [hostId],
+      users: [{ _id: hostId, role: "host" }],
     };
 
     // 그룹 채팅방 저장
@@ -196,8 +192,8 @@ router.patch("/groupChatForm", async (req, res) => {
     const onlineUsers = req.app.get("onlineUsers"); // onlineUsers Map을 가져옴
 
     // 그룹 채팅방에 참여한 사용자들에게 실시간 알림 전송
-    groupChat.users.forEach((userId) => {
-      const socketId = onlineUsers.get(userId);
+    groupChat.users.forEach((user) => {
+      const socketId = onlineUsers.get(user._id);
       if (socketId) {
         io.to(socketId).emit("groupChatEdit", editGroupChat);
       }
@@ -259,8 +255,8 @@ router.patch("/groupChatAnnouncementForm", async (req, res) => {
     const onlineUsers = req.app.get("onlineUsers"); // onlineUsers Map을 가져옴
 
     // 그룹 채팅방에 참여한 사용자들에게 실시간 알림 전송
-    groupChat.users.forEach((userId) => {
-      const socketId = onlineUsers.get(userId);
+    groupChat.users.forEach((user) => {
+      const socketId = onlineUsers.get(user._id);
       if (socketId) {
         io.to(socketId).emit(
           "groupChatAnnouncementEdit",
@@ -325,8 +321,8 @@ router.patch("/groupChatAnnouncementDelete", async (req, res) => {
     const onlineUsers = req.app.get("onlineUsers"); // onlineUsers Map을 가져옴
 
     // 그룹 채팅방에 참여한 사용자들에게 실시간 알림 전송
-    groupChat.users.forEach((userId) => {
-      const socketId = onlineUsers.get(userId);
+    groupChat.users.forEach((user) => {
+      const socketId = onlineUsers.get(user._id);
       if (socketId) {
         io.to(socketId).emit(
           "groupChatAnnouncementDelete",
@@ -381,7 +377,7 @@ router.delete("/groupChat/:roomId", async (req, res) => {
       .collection("users")
       .updateMany(
         {
-          _id: { $in: groupChat.users.map((id) => new ObjectId(id)) },
+          _id: { $in: groupChat.users.map((user) => new ObjectId(user._id)) },
         },
         { $pull: { groupChatOrder: roomId.toString() } }
       );
@@ -394,8 +390,8 @@ router.delete("/groupChat/:roomId", async (req, res) => {
     const onlineUsers = req.app.get("onlineUsers"); // onlineUsers Map을 가져옴
 
     // 그룹 채팅방에 참여한 사용자들에게 실시간 알림 전송
-    groupChat.users.forEach((userId) => {
-      const socketId = onlineUsers.get(userId);
+    groupChat.users.forEach((user) => {
+      const socketId = onlineUsers.get(user._id);
       if (socketId) {
         io.to(socketId).emit("groupChatDeleteInvitesDelete", roomId);
         io.to(socketId).emit("groupChatDelete", roomId);
@@ -435,7 +431,7 @@ router.delete("/leaveGroupChat/:roomId", async (req, res) => {
 
     // users 배열에서 로그인한 사용자 ID 제거
     const updatedUsers = groupChat.users.filter(
-      (userId) => userId !== othersData._id.toString()
+      (user) => user._id !== othersData._id.toString()
     );
 
     // 그룹 채팅방에 참여한 사용자 목록 업데이트
@@ -543,7 +539,7 @@ router.post("/groupChat/:roomId/invite", async (req, res) => {
     }
 
     // 그룹 채팅방 참여 여부 확인
-    if (!groupChat.users.includes(requesterId.toString())) {
+    if (!groupChat.users.some((user) => user._id === requesterId.toString())) {
       return res.status(403).json({
         message: "그룹 채팅방에 참여한 사용자가 아니므로 초대할 수 없습니다.",
       });
@@ -551,7 +547,7 @@ router.post("/groupChat/:roomId/invite", async (req, res) => {
 
     // 초대할 사용자가 이미 참여 중인지 확인
     const groupChatParticipant = groupChat.users.some(
-      (userId) => userId === receiverId.toString()
+      (user) => user._id === receiverId.toString()
     );
 
     // 그룹 채팅방 초대 정보 저장
@@ -641,7 +637,11 @@ router.post("/acceptGroupChat", async (req, res) => {
       .collection("groupChats")
       .updateOne(
         { _id: new ObjectId(groupChatId) },
-        { $addToSet: { users: othersData._id.toString() } }
+        {
+          $addToSet: {
+            users: { _id: othersData._id.toString(), role: "member" },
+          },
+        }
       );
 
     // 사용자의 그룹 채팅방 순서 목록에 중복 없이 새 채팅방 추가
@@ -676,8 +676,9 @@ router.post("/acceptGroupChat", async (req, res) => {
     const onlineUsers = req.app.get("onlineUsers"); // onlineUsers Map을 가져옴
 
     // 그룹 채팅방에 참여한 사용자들에게 실시간 알림 전송
-    groupChat.users.forEach((userId) => {
-      const socketId = onlineUsers.get(userId);
+    groupChat.users.forEach((user) => {
+      const socketId = onlineUsers.get(user._id);
+
       if (socketId) {
         io.to(socketId).emit("acceptGroupChat", {
           _id: othersData._id,

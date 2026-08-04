@@ -539,8 +539,8 @@ router.patch("/editUserProfileForm", async (req, res) => {
 
     // 그룹 채팅방 참여 사용자 ID 저장
     for (const groupChat of groupChats) {
-      groupChat.users.forEach((groupChatUserId) => {
-        groupChatUserIds.add(groupChatUserId);
+      groupChat.users.forEach((groupChatUser) => {
+        groupChatUserIds.add(groupChatUser._id);
       });
     }
 
@@ -779,8 +779,8 @@ router.delete("/deleteUserForm", async (req, res) => {
         .getDb()
         .collection("groupChats")
         .updateMany(
-          { users: userInfo._id.toString() },
-          { $pull: { users: userInfo._id.toString() } }
+          { "users._id": userInfo._id.toString() },
+          { $pull: { users: { _id: userInfo._id.toString() } } }
         ),
 
       // 호스트인 그룹 채팅방 삭제

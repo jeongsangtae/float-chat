@@ -71,6 +71,13 @@ export interface ContextMenu {
   id: string | null;
 }
 
+export type GroupMemberRole = "host" | "admin" | "member";
+
+export interface GroupMember {
+  _id: string;
+  role: GroupMemberRole;
+}
+
 export interface GroupChatData {
   _id: string; // ObjectId는 JSON으로 변환되면 string으로 직렬화
   hostId: string;
@@ -82,7 +89,8 @@ export interface GroupChatData {
   announcement?: string;
   title: string;
   date?: string;
-  users?: string[];
+  users?: GroupMember[];
+  // users?: string[];
 }
 
 export interface GroupChatUserData {

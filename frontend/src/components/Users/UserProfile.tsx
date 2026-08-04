@@ -127,7 +127,10 @@ const UserProfile = ({
 
     const users = groupChat.users ?? [];
 
-    return users.includes(userInfo._id) && users.includes(userId);
+    return (
+      users.some((user) => user._id === userInfo._id) &&
+      users.some((user) => user._id === userId)
+    );
   });
 
   const userProfileEditHandler = (): void => {

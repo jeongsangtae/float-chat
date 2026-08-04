@@ -130,7 +130,7 @@ io.on("connection", (socket) => {
     const groupChats = await db
       .getDb()
       .collection("groupChats")
-      .find({ users: userId })
+      .find({ "users._id": userId })
       .toArray();
 
     for (const groupChat of groupChats) {
@@ -140,11 +140,13 @@ io.on("connection", (socket) => {
       // 현재 온라인인 참여자만 추출
       const onlineParticipantIds = participants.filter((participant) =>
         // participant !== userId && onlineUsers.has(participant)
-        onlineUsers.has(participant)
+        onlineUsers.has(participant._id)
       );
 
       for (const onlineParticipantId of onlineParticipantIds) {
-        const onlineParticipantSocketId = onlineUsers.get(onlineParticipantId);
+        const onlineParticipantSocketId = onlineUsers.get(
+          onlineParticipantId._id
+        );
 
         if (onlineParticipantSocketId) {
           // 그룹 채팅방 참여자들에게 온라인 상태 변경 알림
@@ -231,7 +233,7 @@ io.on("connection", (socket) => {
         const groupChats = await db
           .getDb()
           .collection("groupChats")
-          .find({ users: userId })
+          .find({ "users._id": userId })
           .toArray();
 
         for (const groupChat of groupChats) {
@@ -241,12 +243,13 @@ io.on("connection", (socket) => {
           // 현재 온라인인 참여자만 추출
           const onlineParticipantIds = participants.filter((participant) =>
             // participant !== userId && onlineUsers.has(participant)
-            onlineUsers.has(participant)
+            onlineUsers.has(participant._id)
           );
 
           for (const onlineParticipantId of onlineParticipantIds) {
-            const onlineParticipantSocketId =
-              onlineUsers.get(onlineParticipantId);
+            const onlineParticipantSocketId = onlineUsers.get(
+              onlineParticipantId._id
+            );
 
             if (onlineParticipantSocketId) {
               // 그룹 채팅방 참여자들에게 오프라인 상태 변경 알림

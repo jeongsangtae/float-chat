@@ -88,7 +88,10 @@ const DirectChatDetails = () => {
     // users가 없는 경우를 대비해 빈 배열 사용
     const users = groupChat.users ?? [];
 
-    return users.includes(userInfo._id) && users.includes(otherUser._id);
+    return (
+      users.some((user) => user._id === userInfo._id) &&
+      users.some((user) => user._id === otherUser._id)
+    );
   });
 
   // 함께 아는 친구 목록 추출
