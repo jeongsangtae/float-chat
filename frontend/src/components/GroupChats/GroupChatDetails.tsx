@@ -35,8 +35,13 @@ const GroupChatDetails = () => {
   const { roomId } = useParams<{ roomId: string }>();
 
   const { userInfo } = useAuthStore();
-  const { groupChats, getGroupChats, groupChatUsers, getGroupChatUsers } =
-    useGroupChatStore();
+  const {
+    groupChats,
+    getGroupChats,
+    groupChatUsers,
+    getGroupChatUsers,
+    transferHost,
+  } = useGroupChatStore();
   const { friends, loadFriends } = useFriendStore();
   const { setView, setGroupChatTitle } = useLayoutStore();
   const { activeModal, toggleModal } = useModalStore();
@@ -50,9 +55,22 @@ const GroupChatDetails = () => {
     "profile" | "memberMenu" | null
   >(null);
 
+  // 현재 그룹 채팅방 정보
+  const groupChat = groupChats.find((groupChat) => groupChat._id === roomId);
+
   // 현재 선택된 사용자 프로필 정보
   const activeUserProfile = groupChatUsers.find(
     (groupChatUser) => groupChatUser._id === activeUser
+  );
+
+  // 현재 로그인한 사용자 역할 정보
+  const currentMember = groupChat?.users?.find(
+    (user) => user._id === userInfo?._id
+  );
+
+  // 현재 선택한 사용자 역할 정보
+  const activeGroupMember = groupChat?.users?.find(
+    (user) => user._id === activeUser
   );
 
   // 사용자 프로필 또는 컨텍스트 메뉴 툴팁 열기/닫기
@@ -116,9 +134,6 @@ const GroupChatDetails = () => {
       friendData.nickname.toLowerCase().includes(searchTerm.toLowerCase()) ||
       friendData.email?.toLowerCase().includes(searchTerm.toLowerCase())
   );
-
-  // 현재 그룹 채팅방 정보
-  const groupChat = groupChats.find((groupChat) => groupChat._id === roomId);
 
   // 그룹 채팅방 생성일 조회
   const groupChatSince = useMemo(() => {
@@ -202,6 +217,21 @@ const GroupChatDetails = () => {
 
     toggleModal("userProfileDetails", undefined, payload);
   };
+
+  const transferHostHandler = async (targetUserId: string) => {
+    if (!roomId) {
+      console.error("roomId가 정의되지 않았습니다.");
+      return;
+    }
+
+    await transferHost(roomId, targetUserId);
+  };
+
+  const grantAdminHandler = () => {};
+
+  const revokeAdminHandler = () => {};
+
+  const kickMemberHandler = () => {};
 
   return (
     <div className={classes["group-chat-details"]}>
@@ -290,7 +320,6 @@ const GroupChatDetails = () => {
         hostAvatarImageUrl={groupChat?.hostAvatarImageUrl ?? ""}
         announcement={groupChat?.announcement ?? ""}
         groupChatUsers={groupChatUsers}
-        // onOpenUserProfile={openUserProfileHandler}
         onToggleUserOverlay={toggleUserOverlayHandler}
       />
 
@@ -329,6 +358,9 @@ const GroupChatDetails = () => {
             avatarImageUrl={activeUserProfile.avatarImageUrl}
             avatarColor={activeUserProfile.avatarColor}
             onlineChecked={activeUserProfile.onlineChecked}
+            currentRole={currentMember?.role}
+            targetRole={activeGroupMember?.role}
+            onTransferHost={transferHostHandler}
             origin={origin}
             style={{
               position: "fixed",

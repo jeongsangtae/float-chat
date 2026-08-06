@@ -179,6 +179,9 @@ export interface GroupMemberMenuProps {
   avatarColor: string | null;
   avatarImageUrl: string | null;
   onlineChecked: boolean;
+  currentRole?: GroupMemberRole;
+  targetRole?: GroupMemberRole;
+  onTransferHost: (targetUserId: string) => Promise<void>;
   origin: "users" | "panel" | null;
   style: TooltipCoords;
 }

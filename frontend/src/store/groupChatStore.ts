@@ -44,6 +44,7 @@ interface GroupChatStore {
     announcement: string,
     modalData: { method: "POST" | "PATCH" | "DELETE"; groupChatId?: string }
   ) => Promise<void>;
+  transferHost: (roomId: string, targetUserId: string) => Promise<void>;
   deleteGroupChat: (_id: string) => Promise<void>;
   leaveGroupChat: (_id: string) => Promise<void>;
   getGroupChatInvites: () => Promise<void>;
@@ -373,6 +374,26 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
 
       if (!response.ok) {
         throw new Error(`그룹 채팅방 삭제 수정 실패`);
+      }
+    } catch (error) {
+      console.error("에러 내용:", error);
+      throw error;
+    }
+  },
+
+  transferHost: async (roomId, targetUserId) => {
+    try {
+      const requestBody = { roomId, targetUserId };
+
+      const response = await fetch(`${apiURL}/groupChatTransferHost`, {
+        method: "PATCH",
+        body: JSON.stringify(requestBody),
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+      });
+
+      if (!response.ok) {
+        throw new Error(`호스트 권한 위임 실패`);
       }
     } catch (error) {
       console.error("에러 내용:", error);
