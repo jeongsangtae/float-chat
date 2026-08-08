@@ -337,6 +337,89 @@ router.patch("/groupChatAnnouncementDelete", async (req, res) => {
   }
 });
 
+// 호스트 권한 위임 라우터
+router.patch("/groupChatTransferHost/:roomId", async (req, res) => {
+  try {
+    const othersData = await accessToken(req, res);
+
+    if (!othersData) {
+      return res.status(401).json({ message: "jwt error" });
+    }
+
+    const { targetUserId } = req.body;
+    let roomId = req.params.roomId;
+
+    roomId = new ObjectId(roomId);
+
+    const groupChat = await db
+      .getDb()
+      .collection("groupChats")
+      .findOne({ _id: roomId });
+
+    if (!groupChat) {
+      return res.status(404).json({
+        message: "그룹 채팅방을 찾을 수 없습니다.",
+      });
+    }
+
+    if (groupChat.hostId !== othersData._id.toString()) {
+      return res.status(403).json({
+        message: "호스트만 권한을 위임할 수 있습니다.",
+      });
+    }
+
+    const targetUser = await db
+      .getDb()
+      .collection("users")
+      .findOne({ _id: new ObjectId(targetUserId) });
+
+    if (!targetUser) {
+      return res.status(404).json({
+        message: "해당 사용자를 찾을 수 없습니다.",
+      });
+    }
+
+    const targetMember = groupChat.users.find(
+      (user) => user._id === targetUserId
+    );
+
+    if (!targetMember) {
+      return res.status(400).json({
+        message: "해당 사용자는 그룹 채팅방의 멤버가 아닙니다.",
+      });
+    }
+
+    await db
+      .getDb()
+      .collection("groupChats")
+      .updateOne(
+        { _id: roomId },
+        {
+          $set: {
+            hostId: targetUserId,
+            hostEmail: targetUser.email,
+            hostUsername: targetUser.username,
+            hostNickname: targetUser.nickname,
+            hostAvatarColor: targetUser.avatarColor,
+            hostAvatarImageUrl: targetUser.avatarImageUrl,
+            "users.$[currentHost].role": "member",
+            "users.$[targetUser].role": "host",
+          },
+        },
+        {
+          arrayFilters: [
+            { "currentHost._id": othersData._id.toString() },
+            { "targetUser._id": targetUserId },
+          ],
+        }
+      );
+
+    res.status(200).json({ message: "호스트 권한 위임 완료" });
+  } catch (error) {
+    errorHandler(res, error, "호스트 권한 위임 중 오류 발생");
+  }
+});
+
 // 그룹 채팅방 삭제 라우터
 router.delete("/groupChat/:roomId", async (req, res) => {
   try {

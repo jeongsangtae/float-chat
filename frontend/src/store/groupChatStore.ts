@@ -383,14 +383,17 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
 
   transferHost: async (roomId, targetUserId) => {
     try {
-      const requestBody = { roomId, targetUserId };
+      const requestBody = { targetUserId };
 
-      const response = await fetch(`${apiURL}/groupChatTransferHost`, {
-        method: "PATCH",
-        body: JSON.stringify(requestBody),
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
-      });
+      const response = await fetch(
+        `${apiURL}/groupChatTransferHost/${roomId}`,
+        {
+          method: "PATCH",
+          body: JSON.stringify(requestBody),
+          headers: { "Content-Type": "application/json" },
+          credentials: "include",
+        }
+      );
 
       if (!response.ok) {
         throw new Error(`호스트 권한 위임 실패`);
