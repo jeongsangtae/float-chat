@@ -15,6 +15,9 @@ const GroupMemberMenu = ({
   currentRole,
   targetRole,
   onTransferHost,
+  onGrantAdmin,
+  onRevokeAdmin,
+  onKickMember,
   origin,
   style,
 }: GroupMemberMenuProps) => {
@@ -99,12 +102,22 @@ const GroupMemberMenu = ({
                     호스트 권한 위임
                   </button>
 
-                  {targetRole === "admin" && <button>관리자 권한 회수</button>}
+                  {targetRole === "admin" && (
+                    <button onClick={() => onRevokeAdmin(userId)}>
+                      관리자 권한 회수
+                    </button>
+                  )}
 
-                  {targetRole === "member" && <button>관리자 권한 부여</button>}
+                  {targetRole === "member" && (
+                    <button onClick={() => onGrantAdmin(userId)}>
+                      관리자 권한 부여
+                    </button>
+                  )}
 
                   {(targetRole === "admin" || targetRole === "member") && (
-                    <button>강제 퇴장</button>
+                    <button onClick={() => onKickMember(userId)}>
+                      강제 퇴장
+                    </button>
                   )}
                 </div>
               )}
@@ -113,7 +126,11 @@ const GroupMemberMenu = ({
                 <div>
                   {targetRole === "host" && <div>이 그룹의 호스트입니다.</div>}
 
-                  {targetRole === "member" && <button>강제 퇴장</button>}
+                  {targetRole === "member" && (
+                    <button onClick={() => onKickMember(userId)}>
+                      강제 퇴장
+                    </button>
+                  )}
                 </div>
               )}
 

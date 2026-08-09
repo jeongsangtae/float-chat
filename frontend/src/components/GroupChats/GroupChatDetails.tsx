@@ -9,6 +9,7 @@ import { Coords } from "../../types";
 
 import UserProfile from "../Users/UserProfile";
 import UserProfileDetails from "../Users/UserProfileDetails";
+import GroupMemberMenu from "../Users/GroupMemberMenu";
 
 import useAuthStore from "../../store/authStore";
 import useGroupChatStore from "../../store/groupChatStore";
@@ -22,7 +23,6 @@ import ChatInput from "../Chats/ChatInput";
 import GroupChatInvite from "./GroupChatInvite";
 import GroupChatUsers from "./GroupChatUsers";
 import GroupChatPanel from "./GroupChatPanel";
-import GroupMemberMenu from "../Users/GroupMemberMenu";
 
 import {
   UserProfileEditFormPayload,
@@ -30,18 +30,14 @@ import {
 } from "../../types";
 
 import classes from "./GroupChatDetails.module.css";
+import GroupMemberActionConfirm from "./GroupMemberActionConfirm";
 
 const GroupChatDetails = () => {
   const { roomId } = useParams<{ roomId: string }>();
 
   const { userInfo } = useAuthStore();
-  const {
-    groupChats,
-    getGroupChats,
-    groupChatUsers,
-    getGroupChatUsers,
-    transferHost,
-  } = useGroupChatStore();
+  const { groupChats, getGroupChats, groupChatUsers, getGroupChatUsers } =
+    useGroupChatStore();
   const { friends, loadFriends } = useFriendStore();
   const { setView, setGroupChatTitle } = useLayoutStore();
   const { activeModal, toggleModal } = useModalStore();
@@ -73,6 +69,12 @@ const GroupChatDetails = () => {
     (user) => user._id === activeUser
   );
 
+  const isGroupMemberActionModal =
+    activeModal === "transferHost" ||
+    activeModal === "grantAdmin" ||
+    activeModal === "revokeAdmin" ||
+    activeModal === "kickMember";
+
   // 사용자 프로필 또는 컨텍스트 메뉴 툴팁 열기/닫기
   const toggleUserOverlayHandler = (
     userId: string,
@@ -87,8 +89,8 @@ const GroupChatDetails = () => {
     ) {
       setActiveUser(null);
       setCoords(null);
-      // setOrigin(null);
-      // setOverlayType(null);
+      setOrigin(null);
+      setOverlayType(null);
       return;
     }
 
@@ -218,20 +220,45 @@ const GroupChatDetails = () => {
     toggleModal("userProfileDetails", undefined, payload);
   };
 
-  const transferHostHandler = async (targetUserId: string) => {
-    if (!roomId) {
-      console.error("roomId가 정의되지 않았습니다.");
-      return;
-    }
+  const transferHostHandler = (targetUserId: string) => {
+    setCoords(null);
 
-    await transferHost(roomId, targetUserId);
+    toggleModal("transferHost", "PATCH", {
+      roomId,
+      targetUserId,
+      type: "transfer",
+    });
   };
 
-  const grantAdminHandler = () => {};
+  const grantAdminHandler = (targetUserId: string) => {
+    setCoords(null);
 
-  const revokeAdminHandler = () => {};
+    toggleModal("grantAdmin", "PATCH", {
+      roomId,
+      targetUserId,
+      type: "grantAdmin",
+    });
+  };
 
-  const kickMemberHandler = () => {};
+  const revokeAdminHandler = (targetUserId: string) => {
+    setCoords(null);
+
+    toggleModal("revokeAdmin", "PATCH", {
+      roomId,
+      targetUserId,
+      type: "revokeAdmin",
+    });
+  };
+
+  const kickMemberHandler = (targetUserId: string) => {
+    setCoords(null);
+
+    toggleModal("kickMember", "PATCH", {
+      roomId,
+      targetUserId,
+      type: "kickMember",
+    });
+  };
 
   return (
     <div className={classes["group-chat-details"]}>
@@ -361,6 +388,9 @@ const GroupChatDetails = () => {
             currentRole={currentMember?.role}
             targetRole={activeGroupMember?.role}
             onTransferHost={transferHostHandler}
+            onGrantAdmin={grantAdminHandler}
+            onRevokeAdmin={revokeAdminHandler}
+            onKickMember={kickMemberHandler}
             origin={origin}
             style={{
               position: "fixed",
@@ -376,6 +406,10 @@ const GroupChatDetails = () => {
         <UserProfileDetails
           onToggle={() => toggleModal("userProfileDetails")}
         />
+      )}
+
+      {isGroupMemberActionModal && (
+        <GroupMemberActionConfirm onToggle={() => toggleModal(activeModal)} />
       )}
     </div>
   );

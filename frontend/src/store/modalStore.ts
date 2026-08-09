@@ -8,7 +8,11 @@ type ModalType =
   | "groupChatForm"
   | "groupChatConfirm"
   | "groupChatAnnouncementForm"
-  | "groupChatAnnouncementDelete";
+  | "groupChatAnnouncementDelete"
+  | "transferHost"
+  | "grantAdmin"
+  | "revokeAdmin"
+  | "kickMember";
 
 interface ModalStore {
   activeModal: ModalType | null;

@@ -181,7 +181,10 @@ export interface GroupMemberMenuProps {
   onlineChecked: boolean;
   currentRole?: GroupMemberRole;
   targetRole?: GroupMemberRole;
-  onTransferHost: (targetUserId: string) => Promise<void>;
+  onTransferHost: (targetUserId: string) => void;
+  onGrantAdmin: (targetUserId: string) => void;
+  onRevokeAdmin: (targetUserId: string) => void;
+  onKickMember: (targetUserId: string) => void;
   origin: "users" | "panel" | null;
   style: TooltipCoords;
 }

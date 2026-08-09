@@ -1,0 +1,51 @@
+.group-member-action-confirm {
+  margin: 0 var(--space-xs) var(--space-sm) 0;
+  padding: 0;
+  text-align: center;
+}
+
+.title {
+  font-size: var(--font-xl);
+  margin: var(--space-3xl) 0 var(--space-xl) var(--space-xs);
+  color: var(--color-error); /* 삭제는 경고 느낌 */
+}
+
+.message {
+  font-size: var(--font-base);
+  color: var(--color-text-subtle);
+  margin: var(--space-sm) 0 var(--space-xl) var(--space-xs);
+  padding: var(--space-xs);
+  line-height: 1.4;
+}
+
+.button-wrapper {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-sm);
+  margin: var(--space-xs);
+}
+
+.confirm-button,
+.cancel-button {
+  background-color: var(--color-btn-neutral);
+  color: var(--color-text);
+  border: none;
+  padding: 0.35rem 0.9rem;
+  border-radius: var(--radius-sm);
+  font-size: var(--font-sm3);
+  cursor: pointer;
+  transition: var(--transition-bg);
+}
+
+.cancel-button:hover {
+  background-color: var(--color-btn-neutral-hover);
+}
+
+.confirm-button {
+  background-color: var(--color-danger-strong);
+  font-weight: var(--font-weight-bold);
+}
+
+.confirm-button:hover {
+  background-color: var(--color-danger-strong-hover);
+}
