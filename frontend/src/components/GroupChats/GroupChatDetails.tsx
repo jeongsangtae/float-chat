@@ -220,8 +220,11 @@ const GroupChatDetails = () => {
     toggleModal("userProfileDetails", undefined, payload);
   };
 
+  // 호스트 권한 위임 정보 전달
   const transferHostHandler = (targetUserId: string) => {
     setCoords(null);
+
+    console.log("호스트 권한 위임 실행되는가?");
 
     toggleModal("transferHost", "PATCH", {
       roomId,
@@ -230,8 +233,11 @@ const GroupChatDetails = () => {
     });
   };
 
+  // 관리자 권한 부여 정보 전달
   const grantAdminHandler = (targetUserId: string) => {
     setCoords(null);
+
+    console.log("관리자 권한 부여 실행되는가?");
 
     toggleModal("grantAdmin", "PATCH", {
       roomId,
@@ -240,6 +246,7 @@ const GroupChatDetails = () => {
     });
   };
 
+  // 관리자 권한 회수 정보 전달
   const revokeAdminHandler = (targetUserId: string) => {
     setCoords(null);
 
@@ -250,6 +257,7 @@ const GroupChatDetails = () => {
     });
   };
 
+  // 사용자 강제 퇴장 정보 전달
   const kickMemberHandler = (targetUserId: string) => {
     setCoords(null);
 

@@ -45,6 +45,7 @@ interface GroupChatStore {
     modalData: { method: "POST" | "PATCH" | "DELETE"; groupChatId?: string }
   ) => Promise<void>;
   transferHost: (roomId: string, targetUserId: string) => Promise<void>;
+  grantAdmin: (roomId: string, targetUserId: string) => Promise<void>;
   deleteGroupChat: (_id: string) => Promise<void>;
   leaveGroupChat: (_id: string) => Promise<void>;
   getGroupChatInvites: () => Promise<void>;
@@ -132,6 +133,16 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
       socket.off("groupChatAnnouncementDelete");
 
       socket.on("groupChatAnnouncementDelete", updateGroupChat);
+
+      // 그룹 채팅방 호스트 권한 위임 내용을 실시간 반영
+      socket.off("groupChatHostTransferred");
+
+      socket.on("groupChatHostTransferred", updateGroupChat);
+
+      // 그룹 채팅방 관리자 권한 부여 내용을 실시간 반영
+      socket.off("groupChatAdminGranted");
+
+      socket.on("groupChatAdminGranted", updateGroupChat);
 
       // 기존 이벤트 리스너 제거 후 재등록 (중복 방지)
       socket.off("groupChatDelete");
@@ -381,6 +392,7 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
     }
   },
 
+  // 호스트 권한 위임
   transferHost: async (roomId, targetUserId) => {
     try {
       const requestBody = { targetUserId };
@@ -397,6 +409,27 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
 
       if (!response.ok) {
         throw new Error(`호스트 권한 위임 실패`);
+      }
+    } catch (error) {
+      console.error("에러 내용:", error);
+      throw error;
+    }
+  },
+
+  // 관리자 권한 부여
+  grantAdmin: async (roomId, targetUserId) => {
+    try {
+      const requestBody = { targetUserId };
+
+      const response = await fetch(`${apiURL}/groupChatGrantAdmin/${roomId}`, {
+        method: "PATCH",
+        body: JSON.stringify(requestBody),
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+      });
+
+      if (!response.ok) {
+        throw new Error(`관리자 권한 부여 실패`);
       }
     } catch (error) {
       console.error("에러 내용:", error);

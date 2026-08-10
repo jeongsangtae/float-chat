@@ -323,6 +323,7 @@ router.patch("/groupChatAnnouncementDelete", async (req, res) => {
     // 그룹 채팅방에 참여한 사용자들에게 실시간 알림 전송
     groupChat.users.forEach((user) => {
       const socketId = onlineUsers.get(user._id);
+
       if (socketId) {
         io.to(socketId).emit(
           "groupChatAnnouncementDelete",
@@ -414,9 +415,118 @@ router.patch("/groupChatTransferHost/:roomId", async (req, res) => {
         }
       );
 
+    const updatedGroupChat = await db
+      .getDb()
+      .collection("groupChats")
+      .findOne({ _id: roomId });
+
+    // Socket.io 및 onlineUsers Map 가져오기
+    const io = req.app.get("io"); // Express 앱에서 Socket.io 인스턴스를 가져옴
+    const onlineUsers = req.app.get("onlineUsers"); // onlineUsers Map을 가져옴
+
+    // 그룹 채팅방에 참여한 사용자들에게 실시간 알림 전송
+    groupChat.users.forEach((user) => {
+      const socketId = onlineUsers.get(user._id);
+
+      if (socketId) {
+        io.to(socketId).emit("groupChatHostTransferred", updatedGroupChat);
+      }
+    });
+
     res.status(200).json({ message: "호스트 권한 위임 완료" });
   } catch (error) {
     errorHandler(res, error, "호스트 권한 위임 중 오류 발생");
+  }
+});
+
+// 관리자 권한 부여 라우터
+router.patch("/groupChatGrantAdmin/:roomId", async (req, res) => {
+  try {
+    const othersData = await accessToken(req, res);
+
+    if (!othersData) {
+      return res.status(401).json({ message: "jwt error" });
+    }
+
+    const { targetUserId } = req.body;
+    let roomId = req.params.roomId;
+
+    roomId = new ObjectId(roomId);
+
+    const groupChat = await db
+      .getDb()
+      .collection("groupChats")
+      .findOne({ _id: roomId });
+
+    if (!groupChat) {
+      return res.status(404).json({
+        message: "그룹 채팅방을 찾을 수 없습니다.",
+      });
+    }
+
+    if (groupChat.hostId !== othersData._id.toString()) {
+      return res.status(403).json({
+        message: "호스트만 권한을 위임할 수 있습니다.",
+      });
+    }
+
+    const targetUser = await db
+      .getDb()
+      .collection("users")
+      .findOne({ _id: new ObjectId(targetUserId) });
+
+    if (!targetUser) {
+      return res.status(404).json({
+        message: "해당 사용자를 찾을 수 없습니다.",
+      });
+    }
+
+    const targetMember = groupChat.users.find(
+      (user) => user._id === targetUserId
+    );
+
+    if (!targetMember) {
+      return res.status(400).json({
+        message: "해당 사용자는 그룹 채팅방의 멤버가 아닙니다.",
+      });
+    }
+
+    await db
+      .getDb()
+      .collection("groupChats")
+      .updateOne(
+        { _id: roomId },
+        {
+          $set: {
+            "users.$[targetUser].role": "admin",
+          },
+        },
+        {
+          arrayFilters: [{ "targetUser._id": targetUserId }],
+        }
+      );
+
+    const updatedGroupChat = await db
+      .getDb()
+      .collection("groupChats")
+      .findOne({ _id: roomId });
+
+    // Socket.io 및 onlineUsers Map 가져오기
+    const io = req.app.get("io"); // Express 앱에서 Socket.io 인스턴스를 가져옴
+    const onlineUsers = req.app.get("onlineUsers"); // onlineUsers Map을 가져옴
+
+    // 그룹 채팅방에 참여한 사용자들에게 실시간 알림 전송
+    groupChat.users.forEach((user) => {
+      const socketId = onlineUsers.get(user._id);
+
+      if (socketId) {
+        io.to(socketId).emit("groupChatAdminGranted", updatedGroupChat);
+      }
+    });
+
+    res.status(200).json({ message: "관리자 권한 부여 완료" });
+  } catch (error) {
+    errorHandler(res, error, "관리자 권한 부여 중 오류 발생");
   }
 });
 
@@ -475,6 +585,7 @@ router.delete("/groupChat/:roomId", async (req, res) => {
     // 그룹 채팅방에 참여한 사용자들에게 실시간 알림 전송
     groupChat.users.forEach((user) => {
       const socketId = onlineUsers.get(user._id);
+
       if (socketId) {
         io.to(socketId).emit("groupChatDeleteInvitesDelete", roomId);
         io.to(socketId).emit("groupChatDelete", roomId);
