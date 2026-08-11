@@ -103,6 +103,7 @@ export interface GroupChatUserData {
   groupChatOrder: string[];
   date: string;
   onlineChecked: boolean;
+  role?: GroupMemberRole;
 }
 
 export interface Coords {
@@ -283,12 +284,12 @@ export interface GroupChatPanelProps {
   groupChatSince: string;
   groupChatId: string;
   userId: string;
-  hostId: string;
   hostNickname: string;
   hostAvatarColor: string | null;
   hostAvatarImageUrl: string | null;
   announcement?: string;
   groupChatUsers: GroupChatUserData[];
+  groupMembers: GroupMember[];
   onToggleUserOverlay: (
     userId: string,
     { top: number, left: number, transform: string },

@@ -224,8 +224,6 @@ const GroupChatDetails = () => {
   const transferHostHandler = (targetUserId: string) => {
     setCoords(null);
 
-    console.log("호스트 권한 위임 실행되는가?");
-
     toggleModal("transferHost", "PATCH", {
       roomId,
       targetUserId,
@@ -236,8 +234,6 @@ const GroupChatDetails = () => {
   // 관리자 권한 부여 정보 전달
   const grantAdminHandler = (targetUserId: string) => {
     setCoords(null);
-
-    console.log("관리자 권한 부여 실행되는가?");
 
     toggleModal("grantAdmin", "PATCH", {
       roomId,
@@ -349,12 +345,12 @@ const GroupChatDetails = () => {
         groupChatSince={groupChatSince ?? ""}
         groupChatId={groupChat?._id ?? ""}
         userId={userInfo?._id ?? ""}
-        hostId={groupChat?.hostId ?? ""}
         hostNickname={groupChat?.hostNickname ?? ""}
         hostAvatarColor={groupChat?.hostAvatarColor ?? ""}
         hostAvatarImageUrl={groupChat?.hostAvatarImageUrl ?? ""}
         announcement={groupChat?.announcement ?? ""}
         groupChatUsers={groupChatUsers}
+        groupMembers={groupChat?.users ?? []}
         onToggleUserOverlay={toggleUserOverlayHandler}
       />
 

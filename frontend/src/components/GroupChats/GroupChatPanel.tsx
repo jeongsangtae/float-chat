@@ -6,7 +6,7 @@ import GroupChatAnnouncementDeleteConfirm from "./GroupChatAnnouncementDeleteCon
 import { GroupChatUserData, GroupChatPanelProps } from "../../types";
 
 import { IoIosArrowUp, IoIosArrowDown } from "react-icons/io";
-import { Crown, Trash2, SquarePen } from "lucide-react";
+import { Crown, Shield, Trash2, SquarePen } from "lucide-react";
 
 import useModalStore from "../../store/modalStore";
 
@@ -18,12 +18,12 @@ const GroupChatPanel = ({
   groupChatSince,
   groupChatId,
   userId,
-  hostId,
   hostNickname,
   hostAvatarColor,
   hostAvatarImageUrl,
   announcement,
   groupChatUsers,
+  groupMembers,
   onToggleUserOverlay,
 }: GroupChatPanelProps) => {
   const { activeModal, toggleModal } = useModalStore();
@@ -35,12 +35,31 @@ const GroupChatPanel = ({
 
   const announcementRef = useRef<HTMLDivElement | null>(null);
 
+  // 그룹 채팅 사용자 정보와 사용자 역할 정보를 결합
+  const groupChatUsersWithRole = groupChatUsers.map((user) => {
+    const member = groupMembers.find(
+      (groupMember) => groupMember._id === user._id
+    );
+
+    return {
+      ...user,
+      role: member?.role,
+    };
+  });
+
+  // 현재 로그인한 사용자의 역할 정보
+  const currentUser = groupChatUsersWithRole.find(
+    (user) => user._id === userId
+  );
+
+  const currentUserRole = currentUser?.role;
+
   // 온라인과 오프라인 분리
-  const onlineUsers = groupChatUsers.filter(
+  const onlineUsers = groupChatUsersWithRole.filter(
     (groupChatUser) => groupChatUser.onlineChecked
   );
 
-  const offlineUsers = groupChatUsers.filter(
+  const offlineUsers = groupChatUsersWithRole.filter(
     (groupChatUser) => !groupChatUser.onlineChecked
   );
 
@@ -182,7 +201,7 @@ const GroupChatPanel = ({
         <div className={classes["group-chat-announcement-wrapper"]}>
           <div className={classes["group-chat-announcement-header"]}>
             <span>📌 공지사항</span>
-            {userId === hostId && (
+            {(currentUserRole === "host" || currentUserRole === "admin") && (
               <div className={classes["group-chat-announcement-icon-wrapper"]}>
                 {announcement && (
                   <Trash2
@@ -268,8 +287,16 @@ const GroupChatPanel = ({
                 <span className={classes["group-chat-user-nickname"]}>
                   {displayedUser.nickname}
                 </span>
-                {hostNickname === displayedUser.nickname && (
+                {/* {hostNickname === displayedUser.nickname && (
                   <Crown className={classes["group-chat-host-user-icon"]} />
+                )} */}
+
+                {displayedUser.role === "host" && (
+                  <Crown className={classes["group-chat-host-user-icon"]} />
+                )}
+
+                {displayedUser.role === "admin" && (
+                  <Shield className={classes["group-chat-admin-user-icon"]} />
                 )}
               </div>
             </div>

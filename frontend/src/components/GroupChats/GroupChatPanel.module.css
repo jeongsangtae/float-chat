@@ -204,7 +204,8 @@
   text-overflow: ellipsis;
 }
 
-.group-chat-host-user-icon {
+.group-chat-host-user-icon,
+.group-chat-admin-user-icon {
   width: 0.9rem;
   height: 0.9rem;
   color: var(--color-accent);

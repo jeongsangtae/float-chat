@@ -8,18 +8,16 @@ import classes from "./GroupMemberActionConfirm.module.css";
 
 const GroupMemberActionConfirm = ({ onToggle }: ModalProps) => {
   const { modalData } = useModalStore();
-  const { transferHost } = useGroupChatStore();
-
-  console.log(modalData);
+  const { transferHost, grantAdmin } = useGroupChatStore();
 
   const confirmHandler = async () => {
-    // if (modalData.type === "delete") {
-    //   await deleteGroupChat(modalData._id);
-    // } else {
-    //   await leaveGroupChat(modalData._id);
-    // }
+    if (modalData.type === "transfer") {
+      await transferHost(modalData.roomId, modalData.targetUserId);
+    }
 
-    await transferHost(modalData.roomId, modalData.targetUserId);
+    if (modalData.type === "grantAdmin") {
+      await grantAdmin(modalData.roomId, modalData.targetUserId);
+    }
 
     onToggle();
   };
