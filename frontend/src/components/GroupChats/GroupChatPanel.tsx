@@ -6,7 +6,10 @@ import GroupChatAnnouncementDeleteConfirm from "./GroupChatAnnouncementDeleteCon
 import { GroupChatUserData, GroupChatPanelProps } from "../../types";
 
 import { IoIosArrowUp, IoIosArrowDown } from "react-icons/io";
-import { Crown, Shield, Trash2, SquarePen } from "lucide-react";
+// import { FaCrown } from "react-icons/fa";
+import { FaCrown } from "react-icons/fa6";
+import { IoShieldCheckmark } from "react-icons/io5";
+import { Trash2, SquarePen } from "lucide-react";
 
 import useModalStore from "../../store/modalStore";
 
@@ -287,16 +290,15 @@ const GroupChatPanel = ({
                 <span className={classes["group-chat-user-nickname"]}>
                   {displayedUser.nickname}
                 </span>
-                {/* {hostNickname === displayedUser.nickname && (
-                  <Crown className={classes["group-chat-host-user-icon"]} />
-                )} */}
 
                 {displayedUser.role === "host" && (
-                  <Crown className={classes["group-chat-host-user-icon"]} />
+                  <FaCrown className={classes["group-chat-host-user-icon"]} />
                 )}
 
                 {displayedUser.role === "admin" && (
-                  <Shield className={classes["group-chat-admin-user-icon"]} />
+                  <IoShieldCheckmark
+                    className={classes["group-chat-admin-user-icon"]}
+                  />
                 )}
               </div>
             </div>

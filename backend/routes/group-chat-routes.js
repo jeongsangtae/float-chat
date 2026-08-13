@@ -229,7 +229,13 @@ router.patch("/groupChatAnnouncementForm", async (req, res) => {
     }
 
     // 그룹 채팅방 공지 수정 권한 확인
-    if (groupChat.hostEmail !== othersData.email) {
+    const authorizedUser = groupChat.users.some(
+      (user) =>
+        user._id === othersData._id.toString() &&
+        (user.role === "host" || user.role === "admin")
+    );
+
+    if (!authorizedUser) {
       return res
         .status(403)
         .json({ message: "그룹 채팅방 공지사항을 수정할 권한이 없습니다." });
@@ -295,10 +301,16 @@ router.patch("/groupChatAnnouncementDelete", async (req, res) => {
     }
 
     // 그룹 채팅방 공지 삭제 권한 확인
-    if (groupChat.hostEmail !== othersData.email) {
+    const authorizedUser = groupChat.users.some(
+      (user) =>
+        user._id === othersData._id.toString() &&
+        (user.role === "host" || user.role === "admin")
+    );
+
+    if (!authorizedUser) {
       return res
         .status(403)
-        .json({ message: "그룹 채팅방 공지사항을 삭제할 권한이 없습니다." });
+        .json({ message: "그룹 채팅방 공지사항을 수정할 권한이 없습니다." });
     }
 
     // 공지사항 삭제를 위한 데이터
@@ -470,17 +482,6 @@ router.patch("/groupChatGrantAdmin/:roomId", async (req, res) => {
       });
     }
 
-    const targetUser = await db
-      .getDb()
-      .collection("users")
-      .findOne({ _id: new ObjectId(targetUserId) });
-
-    if (!targetUser) {
-      return res.status(404).json({
-        message: "해당 사용자를 찾을 수 없습니다.",
-      });
-    }
-
     const targetMember = groupChat.users.find(
       (user) => user._id === targetUserId
     );
@@ -488,6 +489,12 @@ router.patch("/groupChatGrantAdmin/:roomId", async (req, res) => {
     if (!targetMember) {
       return res.status(400).json({
         message: "해당 사용자는 그룹 채팅방의 멤버가 아닙니다.",
+      });
+    }
+
+    if (targetMember.role !== "member") {
+      return res.status(400).json({
+        message: "관리자 권한을 부여할 수 없는 사용자입니다.",
       });
     }
 
@@ -527,6 +534,92 @@ router.patch("/groupChatGrantAdmin/:roomId", async (req, res) => {
     res.status(200).json({ message: "관리자 권한 부여 완료" });
   } catch (error) {
     errorHandler(res, error, "관리자 권한 부여 중 오류 발생");
+  }
+});
+
+// 관리자 권한 회수 라우터
+router.patch("/groupChatRevokeAdmin/:roomId", async (req, res) => {
+  try {
+    const othersData = await accessToken(req, res);
+
+    if (!othersData) {
+      return res.status(401).json({ message: "jwt error" });
+    }
+
+    const { targetUserId } = req.body;
+    let roomId = req.params.roomId;
+
+    roomId = new ObjectId(roomId);
+
+    const groupChat = await db
+      .getDb()
+      .collection("groupChats")
+      .findOne({ _id: roomId });
+
+    if (!groupChat) {
+      return res.status(404).json({
+        message: "그룹 채팅방을 찾을 수 없습니다.",
+      });
+    }
+
+    if (groupChat.hostId !== othersData._id.toString()) {
+      return res.status(403).json({
+        message: "호스트만 권한을 회수할 수 있습니다.",
+      });
+    }
+
+    const targetMember = groupChat.users.find(
+      (user) => user._id === targetUserId
+    );
+
+    if (!targetMember) {
+      return res.status(400).json({
+        message: "해당 사용자는 그룹 채팅방의 멤버가 아닙니다.",
+      });
+    }
+
+    if (targetMember.role !== "admin") {
+      return res.status(400).json({
+        message: "해당 사용자는 관리자가 아닙니다.",
+      });
+    }
+
+    await db
+      .getDb()
+      .collection("groupChats")
+      .updateOne(
+        { _id: roomId },
+        {
+          $set: {
+            "users.$[targetUser].role": "member",
+          },
+        },
+        {
+          arrayFilters: [{ "targetUser._id": targetUserId }],
+        }
+      );
+
+    const updatedGroupChat = await db
+      .getDb()
+      .collection("groupChats")
+      .findOne({ _id: roomId });
+
+    // Socket.io 및 onlineUsers Map 가져오기
+    const io = req.app.get("io"); // Express 앱에서 Socket.io 인스턴스를 가져옴
+    const onlineUsers = req.app.get("onlineUsers"); // onlineUsers Map을 가져옴
+
+    // 그룹 채팅방에 참여한 사용자들에게 실시간 알림 전송
+    groupChat.users.forEach((user) => {
+      const socketId = onlineUsers.get(user._id);
+
+      if (socketId) {
+        io.to(socketId).emit("groupChatAdminRevoked", updatedGroupChat);
+      }
+    });
+
+    res.status(200).json({ message: "관리자 권한 회수 완료" });
+  } catch (error) {
+    errorHandler(res, error, "관리자 권한 회수 중 오류 발생");
   }
 });
 

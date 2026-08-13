@@ -8,7 +8,7 @@ import classes from "./GroupMemberActionConfirm.module.css";
 
 const GroupMemberActionConfirm = ({ onToggle }: ModalProps) => {
   const { modalData } = useModalStore();
-  const { transferHost, grantAdmin } = useGroupChatStore();
+  const { transferHost, grantAdmin, revokeAdmin } = useGroupChatStore();
 
   const confirmHandler = async () => {
     if (modalData.type === "transfer") {
@@ -17,6 +17,10 @@ const GroupMemberActionConfirm = ({ onToggle }: ModalProps) => {
 
     if (modalData.type === "grantAdmin") {
       await grantAdmin(modalData.roomId, modalData.targetUserId);
+    }
+
+    if (modalData.type === "revokeAdmin") {
+      await revokeAdmin(modalData.roomId, modalData.targetUserId);
     }
 
     onToggle();
