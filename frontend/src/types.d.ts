@@ -89,8 +89,7 @@ export interface GroupChatData {
   announcement?: string;
   title: string;
   date?: string;
-  users?: GroupMember[];
-  // users?: string[];
+  users: GroupMember[];
 }
 
 export interface GroupChatUserData {
@@ -240,8 +239,8 @@ export interface SortableGroupChatProps {
 
 export interface DraggableGroupChatProps {
   _id: string;
-  hostId: string;
   title: string;
+  users: GroupMember[];
   contextMenu: ContextMenu;
   setContextMenu: React.Dispatch<React.SetStateAction<ContextMenu>>;
   activeIndex: number | null;
@@ -251,8 +250,8 @@ export interface DraggableGroupChatProps {
 
 export interface GroupChatProps {
   _id: string;
-  hostId: string;
   title: string;
+  users: GroupMember[];
   contextMenu: ContextMenu;
   setContextMenu: React.Dispatch<React.SetStateAction<ContextMenu>>;
   // isDragging?: boolean

@@ -10,8 +10,8 @@ import classes from "./GroupChat.module.css";
 
 const GroupChat = ({
   _id,
-  hostId,
   title,
+  users,
   contextMenu,
   setContextMenu,
 }: GroupChatProps) => {
@@ -28,6 +28,11 @@ const GroupChat = ({
 
   // 툴팁 표시 여부
   const [showTooltip, setShowTooltip] = useState<boolean>(false);
+
+  // 현재 로그인한 사용자의 역할 정보
+  const currentMember = users.find((member) => member._id === userInfo?._id);
+
+  const currentUserRole = currentMember?.role;
 
   // 현재 접속 중인 그룹 채팅방인지 확인
   const active = location.pathname === `/group-chat/${_id}`;
@@ -176,21 +181,23 @@ const GroupChat = ({
           ref={contextMenuRef}
           style={{ top: contextMenu.y, left: contextMenu.x }}
         >
-          {hostId === userInfo?._id ? (
-            <>
-              <button type="button" onClick={groupChatEditHandler}>
-                채팅방 수정
-              </button>
-              <button type="button" onClick={groupChatDeleteHandler}>
-                채팅방 삭제
-              </button>
-            </>
-          ) : (
-            <>
-              <button type="button" onClick={groupChatLeaveHandler}>
-                채팅방 나가기
-              </button>
-            </>
+          {(currentUserRole === "host" || currentUserRole === "admin") && (
+            <button type="button" onClick={groupChatEditHandler}>
+              채팅방 수정
+            </button>
+          )}
+
+          {currentUserRole === "host" && (
+            <button type="button" onClick={groupChatDeleteHandler}>
+              채팅방 삭제
+            </button>
+          )}
+
+          {/* 호스트 나가기 기능 구현 전까지 호스트는 나가기 불가 */}
+          {(currentUserRole === "admin" || currentUserRole === "member") && (
+            <button type="button" onClick={groupChatLeaveHandler}>
+              채팅방 나가기
+            </button>
           )}
         </ul>
       )}

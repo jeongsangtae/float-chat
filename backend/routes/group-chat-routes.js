@@ -166,7 +166,13 @@ router.patch("/groupChatForm", async (req, res) => {
     }
 
     // 그룹 채팅방 수정 권한 확인
-    if (groupChat.hostEmail !== othersData.email) {
+    const authorizedUser = groupChat.users.some(
+      (user) =>
+        user._id === othersData._id.toString() &&
+        (user.role === "host" || user.role === "admin")
+    );
+
+    if (!authorizedUser) {
       return res
         .status(403)
         .json({ message: "그룹 채팅방을 수정할 권한이 없습니다." });

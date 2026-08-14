@@ -7,8 +7,8 @@ import classes from "./DraggableGroupChat.module.css";
 
 const DraggableGroupChat = ({
   _id,
-  hostId,
   title,
+  users,
   contextMenu,
   setContextMenu,
   activeIndex,
@@ -68,8 +68,8 @@ const DraggableGroupChat = ({
       ) : (
         <GroupChat
           _id={_id}
-          hostId={hostId}
           title={title}
+          users={users}
           contextMenu={contextMenu}
           setContextMenu={setContextMenu}
         />

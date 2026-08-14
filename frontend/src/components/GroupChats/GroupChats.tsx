@@ -148,7 +148,7 @@ const GroupChats = () => {
           <DraggableGroupChat
             key={groupChat._id}
             _id={groupChat._id}
-            hostId={groupChat.hostId}
+            users={groupChat.users}
             title={groupChat.title}
             contextMenu={contextMenu}
             setContextMenu={setContextMenu}
