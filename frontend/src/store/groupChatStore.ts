@@ -47,6 +47,7 @@ interface GroupChatStore {
   transferHost: (roomId: string, targetUserId: string) => Promise<void>;
   grantAdmin: (roomId: string, targetUserId: string) => Promise<void>;
   revokeAdmin: (roomId: string, targetUserId: string) => Promise<void>;
+  kickMember: (roomId: string, targetUserId: string) => Promise<void>;
   deleteGroupChat: (_id: string) => Promise<void>;
   leaveGroupChat: (_id: string) => Promise<void>;
   getGroupChatInvites: () => Promise<void>;
@@ -149,6 +150,12 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
       socket.off("groupChatAdminRevoked");
 
       socket.on("groupChatAdminRevoked", updateGroupChat);
+
+      // 그룹 채팅방 사용자 강제 퇴장 내용을 실시간 반영
+      // 구성해 테스트해봤으나 정상적으로 작동하지 않는 것을 확인
+      socket.off("groupChatKickMember");
+
+      socket.on("groupChatKickMember", updateGroupChat);
 
       // 기존 이벤트 리스너 제거 후 재등록 (중복 방지)
       socket.off("groupChatDelete");
@@ -457,6 +464,27 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
 
       if (!response.ok) {
         throw new Error(`관리자 권한 회수 실패`);
+      }
+    } catch (error) {
+      console.error("에러 내용:", error);
+      throw error;
+    }
+  },
+
+  // 사용자 강제 퇴장
+  kickMember: async (roomId, targetUserId) => {
+    try {
+      const requestBody = { targetUserId };
+
+      const response = await fetch(`${apiURL}/groupChatKickMember/${roomId}`, {
+        method: "PATCH",
+        body: JSON.stringify(requestBody),
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+      });
+
+      if (!response.ok) {
+        throw new Error(`사용자 강제 퇴장 실패`);
       }
     } catch (error) {
       console.error("에러 내용:", error);

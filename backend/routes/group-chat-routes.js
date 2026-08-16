@@ -629,6 +629,99 @@ router.patch("/groupChatRevokeAdmin/:roomId", async (req, res) => {
   }
 });
 
+// 사용자 강제 퇴장 라우터
+router.patch("/groupChatKickMember/:roomId", async (req, res) => {
+  try {
+    const othersData = await accessToken(req, res);
+
+    if (!othersData) {
+      return res.status(401).json({ message: "jwt error" });
+    }
+
+    const { targetUserId } = req.body;
+    let roomId = req.params.roomId;
+
+    roomId = new ObjectId(roomId);
+
+    const groupChat = await db
+      .getDb()
+      .collection("groupChats")
+      .findOne({ _id: roomId });
+
+    if (!groupChat) {
+      return res.status(404).json({
+        message: "그룹 채팅방을 찾을 수 없습니다.",
+      });
+    }
+
+    // 사용자 강제 퇴장 권한 확인
+    const authorizedUser = groupChat.users.some(
+      (user) =>
+        user._id === othersData._id.toString() &&
+        (user.role === "host" || user.role === "admin")
+    );
+
+    if (!authorizedUser) {
+      return res
+        .status(403)
+        .json({ message: "사용자를 강제 퇴장 시킬 권한이 없습니다." });
+    }
+
+    // 강제 퇴장 대상 확인
+    const targetMember = groupChat.users.find(
+      (user) => user._id === targetUserId
+    );
+
+    if (!targetMember) {
+      return res.status(400).json({
+        message: "해당 사용자는 그룹 채팅방의 멤버가 아닙니다.",
+      });
+    }
+
+    // 호스트는 강제 퇴장 불가
+    if (targetMember.role === "host") {
+      return res.status(400).json({
+        message: "호스트는 강제 퇴장시킬 수 없습니다.",
+      });
+    }
+
+    // 그룹 채팅방에서 사용자 제거
+    await db
+      .getDb()
+      .collection("groupChats")
+      .updateOne(
+        { _id: roomId },
+        {
+          $pull: {
+            users: { _id: targetUserId },
+          },
+        }
+      );
+
+    const updatedGroupChat = await db
+      .getDb()
+      .collection("groupChats")
+      .findOne({ _id: roomId });
+
+    // Socket.io 및 onlineUsers Map 가져오기
+    const io = req.app.get("io"); // Express 앱에서 Socket.io 인스턴스를 가져옴
+    const onlineUsers = req.app.get("onlineUsers"); // onlineUsers Map을 가져옴
+
+    // 그룹 채팅방에 참여한 사용자들에게 실시간 알림 전송
+    groupChat.users.forEach((user) => {
+      const socketId = onlineUsers.get(user._id);
+
+      if (socketId) {
+        io.to(socketId).emit("groupChatKickMember", updatedGroupChat);
+      }
+    });
+
+    res.status(200).json({ message: "사용자 강제 퇴장 완료" });
+  } catch (error) {
+    errorHandler(res, error, "사용자 강제 퇴장 중 오류 발생");
+  }
+});
+
 // 그룹 채팅방 삭제 라우터
 router.delete("/groupChat/:roomId", async (req, res) => {
   try {
