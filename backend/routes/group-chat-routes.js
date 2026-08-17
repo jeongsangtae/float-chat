@@ -849,13 +849,23 @@ router.delete("/leaveGroupChat/:roomId", async (req, res) => {
     const onlineUsers = req.app.get("onlineUsers"); // onlineUsers Map을 가져옴
 
     // 그룹 채팅방에 참여한 사용자들에게 실시간 알림 전송
-    updatedUsers.forEach((userId) => {
-      const socketId = onlineUsers.get(userId);
+    // 그룹 채팅방 초대 목록 실시간 제거
+    groupChat.users.forEach((user) => {
+      const socketId = onlineUsers.get(user._id);
+
       if (socketId) {
         io.to(socketId).emit("groupChatLeaveInvitesDelete", {
           userId: othersData._id.toString(),
           roomId,
         });
+      }
+    });
+
+    // 채팅방 사용자 목록에서 나간 사용자를 제거
+    updatedUsers.forEach((user) => {
+      const socketId = onlineUsers.get(user._id);
+
+      if (socketId) {
         io.to(socketId).emit("groupChatLeave", othersData._id.toString());
       }
     });

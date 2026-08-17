@@ -151,12 +151,6 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
 
       socket.on("groupChatAdminRevoked", updateGroupChat);
 
-      // 그룹 채팅방 사용자 강제 퇴장 내용을 실시간 반영
-      // 구성해 테스트해봤으나 정상적으로 작동하지 않는 것을 확인
-      socket.off("groupChatKickMember");
-
-      socket.on("groupChatKickMember", updateGroupChat);
-
       // 기존 이벤트 리스너 제거 후 재등록 (중복 방지)
       socket.off("groupChatDelete");
 
@@ -308,6 +302,22 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
           ),
         }));
       });
+
+      // 그룹 채팅방에서 사용자가 강제 퇴장되면 사용자 목록에서 제거
+      socket.off("groupChatKickMember");
+
+      socket.on(
+        "groupChatKickMember",
+        (updatedGroupChatData: GroupChatData) => {
+          set((prev) => ({
+            groupChatUsers: prev.groupChatUsers.filter((groupChatUser) =>
+              updatedGroupChatData.users.some(
+                (user) => user._id === groupChatUser._id
+              )
+            ),
+          }));
+        }
+      );
 
       const resData: { groupChatUsers: GroupChatUserData[] } =
         await response.json();

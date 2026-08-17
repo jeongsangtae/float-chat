@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { createPortal } from "react-dom";
 
 import { IoIosSearch } from "react-icons/io";
@@ -41,6 +41,8 @@ const GroupChatDetails = () => {
   const { friends, loadFriends } = useFriendStore();
   const { setView, setGroupChatTitle } = useLayoutStore();
   const { activeModal, toggleModal } = useModalStore();
+
+  const navigate = useNavigate();
 
   const [toggle, setToggle] = useState<boolean>(false);
   const [searchTerm, setSearchTerm] = useState<string>("");
@@ -172,6 +174,17 @@ const GroupChatDetails = () => {
 
     getGroupChatUsers(roomId);
   }, [getGroupChatUsers, roomId]);
+
+  // 강제 퇴장 시 홈으로 이동하는 테스트 useEffect
+  // useEffect(() => {
+  //   const currentUserMember = groupChatUsers.some(
+  //     (user) => user._id === userInfo?._id
+  //   );
+
+  //   if (!currentUserMember) {
+  //     navigate("/");
+  //   }
+  // }, [groupChatUsers, userInfo?._id, navigate]);
 
   // 사용자 프로필 외부 클릭 시 프로필 닫기
   useEffect(() => {
