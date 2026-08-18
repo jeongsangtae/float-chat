@@ -716,6 +716,13 @@ router.patch("/groupChatKickMember/:roomId", async (req, res) => {
       }
     });
 
+    // 강제 퇴장당한 사용자에게 강제 퇴장 이벤트 전달
+    const targetSocketId = onlineUsers.get(targetUserId);
+
+    if (targetSocketId) {
+      io.to(targetSocketId).emit("groupChatKicked");
+    }
+
     res.status(200).json({ message: "사용자 강제 퇴장 완료" });
   } catch (error) {
     errorHandler(res, error, "사용자 강제 퇴장 중 오류 발생");
@@ -861,7 +868,7 @@ router.delete("/leaveGroupChat/:roomId", async (req, res) => {
       }
     });
 
-    // 채팅방 사용자 목록에서 나간 사용자를 제거
+    // 채팅방 나간 사용자를 사용자 목록에서 제거
     updatedUsers.forEach((user) => {
       const socketId = onlineUsers.get(user._id);
 
@@ -1083,6 +1090,7 @@ router.post("/acceptGroupChat", async (req, res) => {
           username: othersData.username,
           avatarColor: othersData.avatarColor,
           avatarImageUrl: othersData.avatarImageUrl,
+          onlineChecked: true,
         });
       }
     });

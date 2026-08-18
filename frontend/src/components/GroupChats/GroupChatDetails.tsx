@@ -11,6 +11,7 @@ import UserProfile from "../Users/UserProfile";
 import UserProfileDetails from "../Users/UserProfileDetails";
 import GroupMemberMenu from "../Users/GroupMemberMenu";
 
+import useSocketStore from "../../store/socketStore";
 import useAuthStore from "../../store/authStore";
 import useGroupChatStore from "../../store/groupChatStore";
 import useFriendStore from "../../store/friendStore";
@@ -176,15 +177,21 @@ const GroupChatDetails = () => {
   }, [getGroupChatUsers, roomId]);
 
   // 강제 퇴장 시 홈으로 이동하는 테스트 useEffect
-  // useEffect(() => {
-  //   const currentUserMember = groupChatUsers.some(
-  //     (user) => user._id === userInfo?._id
-  //   );
+  useEffect(() => {
+    const socket = useSocketStore.getState().socket;
 
-  //   if (!currentUserMember) {
-  //     navigate("/");
-  //   }
-  // }, [groupChatUsers, userInfo?._id, navigate]);
+    if (!socket) return;
+
+    const kickHandler = () => {
+      navigate("/");
+    };
+
+    socket.on("groupChatKicked", kickHandler);
+
+    return () => {
+      socket.off("groupChatKicked", kickHandler);
+    };
+  }, [navigate]);
 
   // 사용자 프로필 외부 클릭 시 프로필 닫기
   useEffect(() => {
