@@ -151,6 +151,18 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
 
       socket.on("groupChatAdminRevoked", updateGroupChat);
 
+      // 강제 퇴장 당한 사용자 그룹 채팅방 목록 실시간 반영
+      socket.on(
+        "groupChatKicked",
+        ({ kickedRoomId }: { kickedRoomId: string }) => {
+          set((prev) => ({
+            groupChats: prev.groupChats.filter(
+              (groupChat) => groupChat._id !== kickedRoomId
+            ),
+          }));
+        }
+      );
+
       // 기존 이벤트 리스너 제거 후 재등록 (중복 방지)
       socket.off("groupChatDelete");
 

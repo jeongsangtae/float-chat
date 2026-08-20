@@ -708,7 +708,7 @@ router.patch("/groupChatKickMember/:roomId", async (req, res) => {
     const onlineUsers = req.app.get("onlineUsers"); // onlineUsers Map을 가져옴
 
     // 그룹 채팅방에 참여한 사용자들에게 실시간 알림 전송
-    groupChat.users.forEach((user) => {
+    updatedGroupChat.users.forEach((user) => {
       const socketId = onlineUsers.get(user._id);
 
       if (socketId) {
@@ -720,7 +720,9 @@ router.patch("/groupChatKickMember/:roomId", async (req, res) => {
     const targetSocketId = onlineUsers.get(targetUserId);
 
     if (targetSocketId) {
-      io.to(targetSocketId).emit("groupChatKicked");
+      io.to(targetSocketId).emit("groupChatKicked", {
+        kickedRoomId: roomId.toString(),
+      });
     }
 
     res.status(200).json({ message: "사용자 강제 퇴장 완료" });

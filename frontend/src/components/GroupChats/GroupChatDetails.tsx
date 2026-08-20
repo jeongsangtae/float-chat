@@ -182,7 +182,11 @@ const GroupChatDetails = () => {
 
     if (!socket) return;
 
-    const kickHandler = () => {
+    const kickHandler = ({ kickedRoomId }: { kickedRoomId: string }) => {
+      if (kickedRoomId !== roomId) {
+        return;
+      }
+
       navigate("/");
     };
 
@@ -191,7 +195,7 @@ const GroupChatDetails = () => {
     return () => {
       socket.off("groupChatKicked", kickHandler);
     };
-  }, [navigate]);
+  }, [roomId, navigate]);
 
   // 사용자 프로필 외부 클릭 시 프로필 닫기
   useEffect(() => {
@@ -283,6 +287,8 @@ const GroupChatDetails = () => {
       type: "kickMember",
     });
   };
+
+  console.log(groupChat?.users, activeGroupMember);
 
   return (
     <div className={classes["group-chat-details"]}>
