@@ -1086,13 +1086,16 @@ router.post("/acceptGroupChat", async (req, res) => {
 
       if (socketId) {
         io.to(socketId).emit("acceptGroupChat", {
-          _id: othersData._id,
-          email: othersData.email,
-          nickname: othersData.nickname,
-          username: othersData.username,
-          avatarColor: othersData.avatarColor,
-          avatarImageUrl: othersData.avatarImageUrl,
-          onlineChecked: true,
+          roomId: groupChatId,
+          user: {
+            _id: othersData._id,
+            email: othersData.email,
+            nickname: othersData.nickname,
+            username: othersData.username,
+            avatarColor: othersData.avatarColor,
+            avatarImageUrl: othersData.avatarImageUrl,
+            onlineChecked: true,
+          },
         });
       }
     });

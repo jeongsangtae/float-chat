@@ -103,22 +103,6 @@ const GroupChatDetails = () => {
     setOverlayType(currentOverlayType);
   };
 
-  // const openUserProfileHandler = (
-  //   userId: string,
-  //   coords: Coords,
-  //   source: "users" | "panel"
-  // ) => {
-  //   if (activeUser === userId && origin === source) {
-  //     setActiveUser(null);
-  //     setCoords(null);
-  //     return;
-  //   }
-
-  //   setActiveUser(userId);
-  //   setCoords(coords);
-  //   setOrigin(source);
-  // };
-
   // 그룹 채팅방 초대 모달 열기 또는 닫기
   const toggleInviteHandler = (): void => {
     setSearchTerm("");
@@ -287,8 +271,6 @@ const GroupChatDetails = () => {
       type: "kickMember",
     });
   };
-
-  console.log(groupChat?.users, activeGroupMember);
 
   return (
     <div className={classes["group-chat-details"]}>

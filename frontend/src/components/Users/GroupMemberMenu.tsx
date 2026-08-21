@@ -97,25 +97,37 @@ const GroupMemberMenu = ({
                 />
               </div>
               {currentRole === "host" && (
-                <div>
-                  <button onClick={() => onTransferHost(userId)}>
+                <div className={classes["group-member-menu-actions"]}>
+                  <button
+                    className={classes["group-member-menu-action-button"]}
+                    onClick={() => onTransferHost(userId)}
+                  >
                     호스트 권한 위임
                   </button>
 
                   {targetRole === "admin" && (
-                    <button onClick={() => onRevokeAdmin(userId)}>
+                    <button
+                      className={classes["group-member-menu-action-button"]}
+                      onClick={() => onRevokeAdmin(userId)}
+                    >
                       관리자 권한 회수
                     </button>
                   )}
 
                   {targetRole === "member" && (
-                    <button onClick={() => onGrantAdmin(userId)}>
+                    <button
+                      className={classes["group-member-menu-action-button"]}
+                      onClick={() => onGrantAdmin(userId)}
+                    >
                       관리자 권한 부여
                     </button>
                   )}
 
                   {(targetRole === "admin" || targetRole === "member") && (
-                    <button onClick={() => onKickMember(userId)}>
+                    <button
+                      className={classes["group-member-menu-action-button"]}
+                      onClick={() => onKickMember(userId)}
+                    >
                       강제 퇴장
                     </button>
                   )}

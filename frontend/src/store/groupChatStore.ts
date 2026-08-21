@@ -278,13 +278,28 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
       socket.off("acceptGroupChat");
 
       // 그룹 채팅방에 새 사용자가 추가되면 중복 확인 후 사용자 목록에 반영
-      socket.on("acceptGroupChat", (newUser) => {
+      socket.on("acceptGroupChat", ({ roomId, user }) => {
         set((prev) => ({
+          // 새 사용자를 현재 그룹 채팅방 참여자 목록에 추가
           groupChatUsers: prev.groupChatUsers.some(
-            (user) => user._id === newUser._id
+            (groupChatUser) => groupChatUser._id === user._id
           )
             ? prev.groupChatUsers
-            : [...prev.groupChatUsers, newUser],
+            : [...prev.groupChatUsers, user],
+
+          // 새 사용자의 role 정보를 그룹 채팅방 목록에 실시간 반영
+          groupChats: prev.groupChats.map((groupChat) =>
+            groupChat._id === roomId
+              ? {
+                  ...groupChat,
+                  users: groupChat.users.some(
+                    (groupChatUser) => groupChatUser._id === user._id
+                  )
+                    ? groupChat.users
+                    : [...groupChat.users, { _id: user._id, role: "member" }],
+                }
+              : groupChat
+          ),
         }));
       });
 
