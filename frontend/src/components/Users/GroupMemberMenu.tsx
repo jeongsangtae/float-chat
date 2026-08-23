@@ -26,12 +26,8 @@ const GroupMemberMenu = ({
   return (
     <>
       <div
-        key={`${userId}-${origin}`} // 삭제해도 되는지 확인 필요
-        className={`${
-          classes["group-member-menu-wrapper"]
-        } group-member-menu-container ${
-          userInfo?._id === userId ? classes["group-member-menu-self"] : ""
-        }`}
+        key={`${userId}-${origin}`}
+        className={classes["group-member-menu-wrapper"]}
         style={style}
       >
         {avatarImageUrl ? (
@@ -47,55 +43,67 @@ const GroupMemberMenu = ({
         )}
 
         <div className={classes["group-member-menu-info"]}>
-          {userInfo?._id === userId ? (
+          <div className={classes["group-member-menu-avatar-wrapper"]}>
+            <Avatar
+              nickname={nickname}
+              avatarColor={avatarColor}
+              avatarImageUrl={avatarImageUrl}
+              onlineChecked={onlineChecked}
+              showOnlineDot={true}
+              extraClass="group-member-menu-avatar"
+              dotClass="group-member-menu-online-dot"
+            />
+          </div>
+
+          <div className={classes["group-member-menu-content"]}>
+            <div
+              className={classes["group-member-menu-nickname"]}
+              title={nickname}
+            >
+              {nickname}
+            </div>
+
+            {userInfo?._id === userId ? (
+              <>
+                {currentRole === "host" && (
+                  <div className={classes["group-member-menu-role"]}>
+                    이 그룹의 호스트입니다.
+                  </div>
+                )}
+                {currentRole === "admin" && (
+                  <div className={classes["group-member-menu-role"]}>
+                    이 그룹의 관리자입니다.
+                  </div>
+                )}
+                {currentRole === "member" && (
+                  <div className={classes["group-member-menu-role"]}>
+                    이 그룹의 멤버입니다.
+                  </div>
+                )}
+              </>
+            ) : (
+              <>
+                {targetRole === "host" && (
+                  <div className={classes["group-member-menu-role"]}>
+                    이 그룹의 호스트입니다.
+                  </div>
+                )}
+                {targetRole === "admin" && (
+                  <div className={classes["group-member-menu-role"]}>
+                    이 그룹의 관리자입니다.
+                  </div>
+                )}
+                {targetRole === "member" && (
+                  <div className={classes["group-member-menu-role"]}>
+                    이 그룹의 멤버입니다.
+                  </div>
+                )}
+              </>
+            )}
+          </div>
+
+          {userInfo?._id !== userId && (
             <>
-              <div className={classes["group-member-menu-avatar-wrapper"]}>
-                <Avatar
-                  nickname={nickname}
-                  avatarColor={avatarColor}
-                  avatarImageUrl={avatarImageUrl}
-                  onlineChecked={onlineChecked}
-                  showOnlineDot={true}
-                  extraClass="group-member-menu-avatar"
-                  dotClass="group-member-menu-online-dot"
-                />
-              </div>
-              <div className={classes["group-member-menu-content"]}>
-                <div
-                  className={classes["group-member-menu-nickname"]}
-                  title={nickname}
-                >
-                  {nickname}
-                </div>
-
-                {currentRole === "host" && <div>이 그룹의 호스트입니다.</div>}
-
-                {currentRole === "admin" && <div>이 그룹의 관리자입니다.</div>}
-
-                {currentRole === "member" && <div>이 그룹의 멤버입니다.</div>}
-
-                {/* <div className={classes["group-member-menu-action-wrapper"]}>
-                  <button
-                    className={classes["group-member-menu-action-button"]}
-                  >
-                    프로필 편집
-                  </button>
-                </div> */}
-              </div>
-            </>
-          ) : (
-            <>
-              <div className={classes["group-member-menu-avatar-wrapper"]}>
-                <Avatar
-                  nickname={nickname}
-                  avatarColor={avatarColor}
-                  avatarImageUrl={avatarImageUrl}
-                  onlineChecked={onlineChecked}
-                  showOnlineDot={true}
-                  extraClass="group-member-menu-avatar"
-                  dotClass="group-member-menu-online-dot"
-                />
-              </div>
               {currentRole === "host" && (
                 <div className={classes["group-member-menu-actions"]}>
                   <button
@@ -135,22 +143,15 @@ const GroupMemberMenu = ({
               )}
 
               {currentRole === "admin" && (
-                <div>
-                  {targetRole === "host" && <div>이 그룹의 호스트입니다.</div>}
-
+                <div className={classes["group-member-menu-actions"]}>
                   {targetRole === "member" && (
-                    <button onClick={() => onKickMember(userId)}>
+                    <button
+                      className={classes["group-member-menu-action-button"]}
+                      onClick={() => onKickMember(userId)}
+                    >
                       강제 퇴장
                     </button>
                   )}
-                </div>
-              )}
-
-              {currentRole === "member" && (
-                <div>
-                  {targetRole === "host" && <div>이 그룹의 호스트입니다.</div>}
-
-                  {targetRole === "admin" && <div>이 그룹의 관리자입니다.</div>}
                 </div>
               )}
             </>

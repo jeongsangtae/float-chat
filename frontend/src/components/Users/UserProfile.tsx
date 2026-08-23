@@ -160,7 +160,7 @@ const UserProfile = ({
 
   return (
     <div
-      className={`${classes["user-profile-wrapper"]} user-profile-container ${
+      className={`${classes["user-profile-wrapper"]} ${
         userInfo?._id === userId ? classes["user-profile-self"] : ""
       }`}
       style={style}

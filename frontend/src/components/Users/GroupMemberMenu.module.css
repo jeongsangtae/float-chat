@@ -12,10 +12,6 @@
   overflow: hidden;
 }
 
-.group-member-menu-self {
-  height: 14rem;
-}
-
 .group-member-menu-avatar-wrapper {
   position: absolute;
   top: -2rem;
@@ -56,63 +52,42 @@
   text-overflow: ellipsis;
 }
 
+.group-member-menu-role {
+  /* margin-top: var(--space-md); */
+  margin-top: var(--space-lg);
+  font-size: var(--font-base);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .group-member-menu-nickname:hover {
   cursor: pointer;
   text-decoration: underline;
 }
 
-.group-member-menu-action-wrapper {
+/* .group-member-menu-action-wrapper {
   text-align: center;
   margin: var(--space-xs) 0;
-}
-
-.group-member-menu-wrapper {
-  width: 190px;
-  padding: 12px;
-  border-radius: 10px;
-  background-color: #fff;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
-}
-
-.group-member-menu-avatar-wrapper {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 10px;
-}
+} */
 
 .group-member-menu-actions {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  margin-top: var(--space-sm);
 }
 
 .group-member-menu-action-button {
   width: 100%;
-  padding: 8px 10px;
+  padding: var(--space-xs) 0;
   border: 0;
-  border-radius: 6px;
-  background-color: #f3f4f6;
-  font-size: 13px;
-  text-align: left;
-  cursor: pointer;
-  white-space: nowrap;
-}
-
-.group-member-menu-action-button:hover {
-  background-color: #e5e7eb;
-}
-
-/* .group-member-menu-action-button {
+  background: transparent;
   color: var(--color-text);
-  background-color: var(--color-success);
-  font-weight: var(--font-weight-bold);
-  border: none;
-  padding: var(--space-sm) 6rem;
-  border-radius: var(--radius-sm);
-  font-size: var(--font-sm);
+  text-align: left;
+  white-space: nowrap;
   cursor: pointer;
 }
 
 .group-member-menu-action-button:hover {
-  background-color: var(--color-success-hover);
-} */
+  background-color: var(--profile-bg);
+}
