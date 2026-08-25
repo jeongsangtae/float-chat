@@ -49,7 +49,7 @@ interface GroupChatStore {
   revokeAdmin: (roomId: string, targetUserId: string) => Promise<void>;
   kickMember: (roomId: string, targetUserId: string) => Promise<void>;
   deleteGroupChat: (_id: string) => Promise<void>;
-  leaveGroupChat: (_id: string) => Promise<void>;
+  leaveGroupChat: (_id: string, newHostId?: string) => Promise<void>;
   getGroupChatInvites: () => Promise<void>;
   inviteGroupChat: ({
     roomId,
@@ -558,10 +558,16 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
   },
 
   // 그룹 채팅방 나가기 및 실시간 반영
-  leaveGroupChat: async (_id) => {
+  leaveGroupChat: async (_id, newHostId) => {
     try {
+      const requestBody = newHostId ? { newHostId } : {};
+
       const response = await fetch(`${apiURL}/leaveGroupChat/${_id}`, {
         method: "DELETE",
+        body: JSON.stringify(requestBody),
+        headers: {
+          "Content-Type": "application/json",
+        },
         credentials: "include",
       });
 

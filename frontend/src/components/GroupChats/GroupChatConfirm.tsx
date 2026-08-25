@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 import { IoIosSearch } from "react-icons/io";
 import { IoClose } from "react-icons/io5";
@@ -42,6 +43,13 @@ const GroupChatConfirm = ({ onToggle }: ModalProps) => {
   const confirmHandler = async () => {
     if (modalData.type === "delete") {
       await deleteGroupChat(modalData._id);
+    } else if (modalData.currentUserRole === "host") {
+      if (!selectedNewHostId) {
+        toast.error("호스트 권한을 넘길 사용자를 선택해주세요.");
+        return;
+      }
+
+      await leaveGroupChat(modalData._id, selectedNewHostId);
     } else {
       await leaveGroupChat(modalData._id);
     }
@@ -66,6 +74,8 @@ const GroupChatConfirm = ({ onToggle }: ModalProps) => {
     modalData.currentUserRole,
     getGroupChatUsers,
   ]);
+
+  console.log(selectedNewHostId);
 
   return (
     <Modal onToggle={onToggle}>

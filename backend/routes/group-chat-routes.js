@@ -808,6 +808,7 @@ router.delete("/leaveGroupChat/:roomId", async (req, res) => {
       return res.status(401).json({ message: "jwt error" });
     }
 
+    const { newHostId } = req.body;
     let roomId = req.params.roomId;
 
     roomId = new ObjectId(roomId);
@@ -829,11 +830,71 @@ router.delete("/leaveGroupChat/:roomId", async (req, res) => {
       (user) => user._id !== othersData._id.toString()
     );
 
-    // 그룹 채팅방에 참여한 사용자 목록 업데이트
-    await db
-      .getDb()
-      .collection("groupChats")
-      .updateOne({ _id: roomId }, { $set: { users: updatedUsers } });
+    const host = groupChat.hostId.toString() === othersData._id.toString();
+
+    if (host) {
+      // 호스트 ID 유효성 확인
+      if (!newHostId) {
+        return res.status(400).json({
+          message: "새로운 호스트를 선택해야 합니다.",
+        });
+      }
+
+      // 자기 자신 선택 확인
+      if (newHostId === othersData._id.toString()) {
+        return res.status(400).json({
+          message: "본인을 새로운 호스트로 지정할 수 없습니다.",
+        });
+      }
+
+      // 새로운 호스트 정보 조회
+      const newHost = await db
+        .getDb()
+        .collection("users")
+        .findOne({ _id: new ObjectId(newHostId) });
+
+      if (!newHost) {
+        return res
+          .status(404)
+          .json({ message: "새로운 호스트를 찾을 수 없습니다." });
+      }
+
+      // 새로운 호스트 그룹 채팅방 참여 유무 확인
+      const newHostMember = groupChat.users.some(
+        (user) => user._id === newHostId
+      );
+
+      if (!newHostMember) {
+        return res
+          .status(400)
+          .json({ message: "새로운 호스트는 그룹 채팅방의 멤버여야 합니다." });
+      }
+
+      // 그룹 채팅방 호스트 정보, 사용자 목록 업데이트
+      await db
+        .getDb()
+        .collection("groupChats")
+        .updateOne(
+          { _id: roomId },
+          {
+            $set: {
+              hostId: newHost._id,
+              hostEmail: newHost.email,
+              hostUsername: newHost.username,
+              hostNickname: newHost.nickname,
+              hostAvatarColor: newHost.avatarColor,
+              hostAvatarImageUrl: newHost.avatarImageUrl,
+              users: updatedUsers,
+            },
+          }
+        );
+    } else {
+      // 그룹 채팅방 사용자 목록 업데이트
+      await db
+        .getDb()
+        .collection("groupChats")
+        .updateOne({ _id: roomId }, { $set: { users: updatedUsers } });
+    }
 
     // 그룹 채팅방 초대 목록 제거
     await db
