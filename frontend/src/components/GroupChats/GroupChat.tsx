@@ -97,7 +97,12 @@ const GroupChat = ({
 
   // 그룹 채팅방 나가기 모달 열기
   const groupChatLeaveHandler = async (): Promise<void> => {
-    toggleModal("groupChatConfirm", "DELETE", { _id, type: "leave" });
+    toggleModal("groupChatConfirm", "DELETE", {
+      _id,
+      type: "leave",
+      userId: userInfo?._id,
+      currentUserRole,
+    });
     contextMenuCloseHandler();
   };
 
@@ -193,12 +198,9 @@ const GroupChat = ({
             </button>
           )}
 
-          {/* 호스트 나가기 기능 구현 전까지 호스트는 나가기 불가 */}
-          {(currentUserRole === "admin" || currentUserRole === "member") && (
-            <button type="button" onClick={groupChatLeaveHandler}>
-              채팅방 나가기
-            </button>
-          )}
+          <button type="button" onClick={groupChatLeaveHandler}>
+            채팅방 나가기
+          </button>
         </ul>
       )}
     </>
