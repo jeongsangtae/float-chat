@@ -370,6 +370,8 @@ router.patch("/groupChatTransferHost/:roomId", async (req, res) => {
 
     roomId = new ObjectId(roomId);
 
+    console.log(targetUserId, roomId);
+
     const groupChat = await db
       .getDb()
       .collection("groupChats")
@@ -381,11 +383,17 @@ router.patch("/groupChatTransferHost/:roomId", async (req, res) => {
       });
     }
 
+    console.log("0: 문제발생?");
+
+    console.log(groupChat.hostId !== othersData._id.toString());
+
     if (groupChat.hostId !== othersData._id.toString()) {
       return res.status(403).json({
         message: "호스트만 권한을 위임할 수 있습니다.",
       });
     }
+
+    console.log("1: 문제발생?");
 
     const targetUser = await db
       .getDb()
@@ -397,6 +405,8 @@ router.patch("/groupChatTransferHost/:roomId", async (req, res) => {
         message: "해당 사용자를 찾을 수 없습니다.",
       });
     }
+
+    console.log("2: 문제발생?");
 
     const targetMember = groupChat.users.find(
       (user) => user._id === targetUserId
@@ -825,12 +835,19 @@ router.delete("/leaveGroupChat/:roomId", async (req, res) => {
         .json({ message: "그룹 채팅방을 찾을 수 없습니다." });
     }
 
-    // users 배열에서 로그인한 사용자 ID 제거
-    const updatedUsers = groupChat.users.filter(
-      (user) => user._id !== othersData._id.toString()
-    );
-
+    // 기존 호스트 확인
     const host = groupChat.hostId.toString() === othersData._id.toString();
+
+    // users 배열에서 로그인한 사용자 ID 제거
+    const updatedUsers = groupChat.users
+      .filter((user) => user._id !== othersData._id.toString())
+      .map((user) =>
+        user._id === newHostId ? { ...user, role: "host" } : user
+      );
+
+    // Socket.io 및 onlineUsers Map 가져오기
+    const io = req.app.get("io"); // Express 앱에서 Socket.io 인스턴스를 가져옴
+    const onlineUsers = req.app.get("onlineUsers"); // onlineUsers Map을 가져옴
 
     if (host) {
       // 호스트 ID 유효성 확인
@@ -888,12 +905,43 @@ router.delete("/leaveGroupChat/:roomId", async (req, res) => {
             },
           }
         );
+
+      // 채팅방 나간 사용자를 사용자 목록에서 제거
+      updatedUsers.forEach((user) => {
+        const socketId = onlineUsers.get(user._id);
+
+        if (socketId) {
+          io.to(socketId).emit("groupChatLeave", {
+            leavingUserId: othersData._id.toString(),
+            roomId: roomId.toString(),
+            newHost: host
+              ? {
+                  _id: newHost._id.toString(),
+                  email: newHost.email,
+                  username: newHost.username,
+                  nickname: newHost.nickname,
+                  avatarColor: newHost.avatarColor,
+                  avatarImageUrl: newHost.avatarImageUrl,
+                }
+              : null,
+          });
+        }
+      });
     } else {
       // 그룹 채팅방 사용자 목록 업데이트
       await db
         .getDb()
         .collection("groupChats")
         .updateOne({ _id: roomId }, { $set: { users: updatedUsers } });
+
+      // 채팅방 나간 사용자를 사용자 목록에서 제거
+      updatedUsers.forEach((user) => {
+        const socketId = onlineUsers.get(user._id);
+
+        if (socketId) {
+          io.to(socketId).emit("groupChatLeave", othersData._id.toString());
+        }
+      });
     }
 
     // 그룹 채팅방 초대 목록 제거
@@ -914,10 +962,6 @@ router.delete("/leaveGroupChat/:roomId", async (req, res) => {
         { $pull: { groupChatOrder: roomId.toString() } }
       );
 
-    // Socket.io 및 onlineUsers Map 가져오기
-    const io = req.app.get("io"); // Express 앱에서 Socket.io 인스턴스를 가져옴
-    const onlineUsers = req.app.get("onlineUsers"); // onlineUsers Map을 가져옴
-
     // 그룹 채팅방에 참여한 사용자들에게 실시간 알림 전송
     // 그룹 채팅방 초대 목록 실시간 제거
     groupChat.users.forEach((user) => {
@@ -928,15 +972,6 @@ router.delete("/leaveGroupChat/:roomId", async (req, res) => {
           userId: othersData._id.toString(),
           roomId,
         });
-      }
-    });
-
-    // 채팅방 나간 사용자를 사용자 목록에서 제거
-    updatedUsers.forEach((user) => {
-      const socketId = onlineUsers.get(user._id);
-
-      if (socketId) {
-        io.to(socketId).emit("groupChatLeave", othersData._id.toString());
       }
     });
 

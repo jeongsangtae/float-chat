@@ -16,6 +16,8 @@ const GroupMemberActionConfirm = ({ onToggle }: ModalProps) => {
       await transferHost(modalData.roomId, modalData.targetUserId);
     }
 
+    console.log(modalData.type, modalData.roomId, modalData.targetUserId);
+
     if (modalData.type === "grantAdmin") {
       await grantAdmin(modalData.roomId, modalData.targetUserId);
     }

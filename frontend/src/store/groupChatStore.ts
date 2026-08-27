@@ -322,11 +322,45 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
       socket.off("groupChatLeave");
 
       // 그룹 채팅방을 나간 사용자를 사용자 목록에서 제거
-      socket.on("groupChatLeave", (leavingUserId) => {
+      socket.on("groupChatLeave", ({ leavingUserId, roomId, newHost }) => {
         set((prev) => ({
+          // 사용자 목록에서 나간 사람 제거
           groupChatUsers: prev.groupChatUsers.filter(
             (groupChatUser) => groupChatUser._id !== leavingUserId
           ),
+
+          groupChats: prev.groupChats.map((groupChat) => {
+            if (groupChat._id !== roomId) {
+              return groupChat;
+            }
+
+            // 해당 roomId의 users에서 leavingUserId 제거
+            const updatedGroupChat = {
+              ...groupChat,
+              users: groupChat.users.filter(
+                (user) => user._id !== leavingUserId
+              ),
+            };
+
+            if (!newHost) {
+              return updatedGroupChat;
+            }
+
+            // newHost가 있으면 해당 사용자의 role을 host로 변경
+            // groupChat의 host 정보도 newHost 정보로 변경
+            return {
+              ...updatedGroupChat,
+              hostId: newHost._id,
+              hostEmail: newHost.email,
+              hostUsername: newHost.username,
+              hostNickname: newHost.nickname,
+              hostAvatarColor: newHost.avatarColor,
+              hostAvatarImageUrl: newHost.avatarImageUrl,
+              users: updatedGroupChat.users.map((user) =>
+                user._id === newHost._id ? { ...user, role: "host" } : user
+              ),
+            };
+          }),
         }));
       });
 
@@ -446,6 +480,8 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
   transferHost: async (roomId, targetUserId) => {
     try {
       const requestBody = { targetUserId };
+
+      console.log(roomId, targetUserId);
 
       const response = await fetch(
         `${apiURL}/groupChatTransferHost/${roomId}`,
