@@ -232,8 +232,6 @@ const GroupChatDetails = () => {
   const transferHostHandler = (targetUserId: string) => {
     setCoords(null);
 
-    console.log(roomId, targetUserId);
-
     toggleModal("transferHost", "PATCH", {
       roomId,
       targetUserId,

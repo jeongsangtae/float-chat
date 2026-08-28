@@ -481,8 +481,6 @@ const useGroupChatStore = create<GroupChatStore>((set, get) => ({
     try {
       const requestBody = { targetUserId };
 
-      console.log(roomId, targetUserId);
-
       const response = await fetch(
         `${apiURL}/groupChatTransferHost/${roomId}`,
         {

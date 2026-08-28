@@ -370,8 +370,6 @@ router.patch("/groupChatTransferHost/:roomId", async (req, res) => {
 
     roomId = new ObjectId(roomId);
 
-    console.log(targetUserId, roomId);
-
     const groupChat = await db
       .getDb()
       .collection("groupChats")
@@ -383,17 +381,11 @@ router.patch("/groupChatTransferHost/:roomId", async (req, res) => {
       });
     }
 
-    console.log("0: 문제발생?");
-
-    console.log(groupChat.hostId !== othersData._id.toString());
-
     if (groupChat.hostId !== othersData._id.toString()) {
       return res.status(403).json({
         message: "호스트만 권한을 위임할 수 있습니다.",
       });
     }
-
-    console.log("1: 문제발생?");
 
     const targetUser = await db
       .getDb()
@@ -405,8 +397,6 @@ router.patch("/groupChatTransferHost/:roomId", async (req, res) => {
         message: "해당 사용자를 찾을 수 없습니다.",
       });
     }
-
-    console.log("2: 문제발생?");
 
     const targetMember = groupChat.users.find(
       (user) => user._id === targetUserId
@@ -895,7 +885,7 @@ router.delete("/leaveGroupChat/:roomId", async (req, res) => {
           { _id: roomId },
           {
             $set: {
-              hostId: newHost._id,
+              hostId: newHost._id.toString(),
               hostEmail: newHost.email,
               hostUsername: newHost.username,
               hostNickname: newHost.nickname,

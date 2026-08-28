@@ -198,9 +198,13 @@ const GroupChat = ({
             </button>
           )}
 
-          <button type="button" onClick={groupChatLeaveHandler}>
-            채팅방 나가기
-          </button>
+          {(currentUserRole === "admin" ||
+            currentUserRole === "member" ||
+            (currentUserRole === "host" && users.length > 1)) && (
+            <button type="button" onClick={groupChatLeaveHandler}>
+              채팅방 나가기
+            </button>
+          )}
         </ul>
       )}
     </>
