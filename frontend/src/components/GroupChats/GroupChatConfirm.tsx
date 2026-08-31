@@ -110,31 +110,39 @@ const GroupChatConfirm = ({ onToggle }: ModalProps) => {
               )}
             </div>
             {searchUsers.length > 0 ? (
-              <ul>
+              <ul className={classes["group-chat-confirm-users"]}>
                 {searchUsers.map((user) => (
                   <li
                     key={user._id}
-                    className={
+                    className={`${classes["group-chat-confirm-user"]} ${
                       selectedNewHostId === user._id ? classes["selected"] : ""
-                    }
+                    }`}
                     onClick={() => setSelectedNewHostId(user._id)}
                   >
-                    <div>{user.nickname}</div>
-                    <Avatar
-                      nickname={user.nickname}
-                      avatarImageUrl={user.avatarImageUrl}
-                      avatarColor={user.avatarColor}
-                    />
+                    <div className={classes["group-chat-confirm-user-info"]}>
+                      <Avatar
+                        nickname={user.nickname}
+                        avatarImageUrl={user.avatarImageUrl}
+                        avatarColor={user.avatarColor}
+                      />
+                      <div
+                        className={classes["group-chat-confirm-user-nickname"]}
+                      >
+                        {user.nickname}
+                      </div>
+                    </div>
                   </li>
                 ))}
               </ul>
             ) : hostCandidates.length === 0 ? (
-              <p>
+              <div className={classes["group-chat-confirm-error-message"]}>
                 호스트를 위임할 사용자가 없습니다. <br />
                 새로고침 후 다시 시도해주세요.
-              </p>
+              </div>
             ) : (
-              <p>검색 결과가 없습니다.</p>
+              <div className={classes["group-chat-confirm-not-search-message"]}>
+                검색 결과가 없습니다.
+              </div>
             )}
           </>
         )}
