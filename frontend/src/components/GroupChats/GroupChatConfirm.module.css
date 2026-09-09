@@ -76,7 +76,12 @@
   padding: var(--space-sm);
   margin: 0;
   overflow-y: auto;
+
+  width: calc(100% - 12px);
+  margin: 0 6px;
+
   max-height: 10rem;
+  overflow-y: auto;
 }
 
 /* 스크롤바 설정 */
@@ -154,6 +159,10 @@
 
 .group-chat-confirm-user-nickname {
   margin-left: var(--space-xs);
+
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .group-chat-confirm-error-message {

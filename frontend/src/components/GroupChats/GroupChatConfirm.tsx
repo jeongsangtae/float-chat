@@ -61,8 +61,6 @@ const GroupChatConfirm = ({ onToggle }: ModalProps) => {
     navigate("/me");
   };
 
-  console.log("커밋 테스트");
-
   // 그룹 채팅방 삭제 또는 나가기 버튼 클릭 시 사용자 목록 호출
   useEffect(() => {
     if (
