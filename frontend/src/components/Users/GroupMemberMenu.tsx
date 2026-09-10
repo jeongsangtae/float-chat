@@ -67,17 +67,35 @@ const GroupMemberMenu = ({
               <>
                 {currentRole === "host" && (
                   <div className={classes["group-member-menu-role"]}>
-                    이 그룹의 호스트입니다.
+                    이 그룹의{" "}
+                    <span
+                      className={classes["group-member-menu-role-highlight"]}
+                    >
+                      호스트
+                    </span>
+                    입니다.
                   </div>
                 )}
                 {currentRole === "admin" && (
                   <div className={classes["group-member-menu-role"]}>
-                    이 그룹의 관리자입니다.
+                    이 그룹의{" "}
+                    <span
+                      className={classes["group-member-menu-role-highlight"]}
+                    >
+                      관리자
+                    </span>
+                    입니다.
                   </div>
                 )}
                 {currentRole === "member" && (
                   <div className={classes["group-member-menu-role"]}>
-                    이 그룹의 멤버입니다.
+                    이 그룹의{" "}
+                    <span
+                      className={classes["group-member-menu-role-highlight"]}
+                    >
+                      멤버
+                    </span>
+                    입니다.
                   </div>
                 )}
               </>
@@ -85,17 +103,34 @@ const GroupMemberMenu = ({
               <>
                 {targetRole === "host" && (
                   <div className={classes["group-member-menu-role"]}>
-                    이 그룹의 호스트입니다.
+                    <span
+                      className={classes["group-member-menu-role-highlight"]}
+                    >
+                      호스트
+                    </span>
+                    입니다.
                   </div>
                 )}
                 {targetRole === "admin" && (
                   <div className={classes["group-member-menu-role"]}>
-                    이 그룹의 관리자입니다.
+                    이 그룹의{" "}
+                    <span
+                      className={classes["group-member-menu-role-highlight"]}
+                    >
+                      관리자
+                    </span>
+                    입니다.
                   </div>
                 )}
                 {targetRole === "member" && (
                   <div className={classes["group-member-menu-role"]}>
-                    이 그룹의 멤버입니다.
+                    이 그룹의{" "}
+                    <span
+                      className={classes["group-member-menu-role-highlight"]}
+                    >
+                      멤버
+                    </span>
+                    입니다.
                   </div>
                 )}
               </>
@@ -131,27 +166,41 @@ const GroupMemberMenu = ({
                     </button>
                   )}
 
-                  {(targetRole === "admin" || targetRole === "member") && (
-                    <button
-                      className={classes["group-member-menu-action-button"]}
-                      onClick={() => onKickMember(userId)}
-                    >
-                      강제 퇴장
-                    </button>
-                  )}
+                  <div
+                    className={
+                      classes["group-member-menu-action-danger-wrapper"]
+                    }
+                  >
+                    <div className={classes.underline} />
+                    {(targetRole === "admin" || targetRole === "member") && (
+                      <button
+                        className={`${classes["group-member-menu-action-button"]} ${classes["group-member-menu-action-danger"]}`}
+                        onClick={() => onKickMember(userId)}
+                      >
+                        강제 퇴장
+                      </button>
+                    )}
+                  </div>
                 </div>
               )}
 
               {currentRole === "admin" && (
                 <div className={classes["group-member-menu-actions"]}>
-                  {targetRole === "member" && (
-                    <button
-                      className={classes["group-member-menu-action-button"]}
-                      onClick={() => onKickMember(userId)}
-                    >
-                      강제 퇴장
-                    </button>
-                  )}
+                  <div
+                    className={
+                      classes["group-member-menu-action-danger-wrapper"]
+                    }
+                  >
+                    <div className={classes.underline} />
+                    {targetRole === "member" && (
+                      <button
+                        className={`${classes["group-member-menu-action-button"]} ${classes["group-member-menu-action-danger"]}`}
+                        onClick={() => onKickMember(userId)}
+                      >
+                        강제 퇴장
+                      </button>
+                    )}
+                  </div>
                 </div>
               )}
             </>

@@ -66,6 +66,11 @@
   text-decoration: underline;
 }
 
+.group-member-menu-role-highlight {
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text);
+}
+
 /* .group-member-menu-action-wrapper {
   text-align: center;
   margin: var(--space-xs) 0;
@@ -79,15 +84,42 @@
 
 .group-member-menu-action-button {
   width: 100%;
-  padding: var(--space-xs) 0;
-  border: 0;
+
+  min-height: 2rem;
+  padding: 0 var(--space-sm);
+  display: flex;
+  align-items: center;
+  border: none;
+  border-radius: var(--radius-xs);
   background: transparent;
-  color: var(--color-text);
+  font-size: var(--font-sm);
   text-align: left;
+
+  color: var(--color-text-secondary);
   white-space: nowrap;
   cursor: pointer;
 }
 
 .group-member-menu-action-button:hover {
-  background-color: var(--profile-bg);
+  color: var(--color-text);
+  background-color: var(--friend-btn-hover);
+}
+
+.underline {
+  height: 1px;
+  background-color: var(--color-divider);
+  margin: var(--space-xs) 0;
+}
+
+.group-member-menu-action-danger {
+  color: #ed4245;
+  color: var(--color-danger-strong);
+}
+
+.group-member-menu-action-danger:hover {
+  color: #ff6b6b;
+  color: var(--color-danger-strong-hover);
+  /* background-color: #604044; */
+  /* background-color: #633f43; */
+  /* background-color: var(--friend-btn-hover); */
 }
