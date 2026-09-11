@@ -1,5 +1,4 @@
 .group-chat-confirm {
-  /* margin: 0 var(--space-xs) var(--space-sm) 0; */
   margin: 0;
   margin-bottom: var(--space-sm);
   padding: 0;
@@ -78,11 +77,12 @@
   padding: var(--space-sm);
   margin: 0;
   overflow-y: auto;
-
-  /* width: calc(100% - 12px); */
-  /* margin: 0 var(--space-sm); */
   max-height: 10rem;
   overflow-y: auto;
+
+  /* 사용자 목록 좌우 공간 확보 */
+  /* width: calc(100% - 12px); */
+  /* margin: 0 var(--space-sm); */
 }
 
 /* 스크롤바 설정 */

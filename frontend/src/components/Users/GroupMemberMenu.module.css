@@ -53,7 +53,6 @@
 }
 
 .group-member-menu-role {
-  /* margin-top: var(--space-md); */
   margin-top: var(--space-lg);
   font-size: var(--font-base);
   white-space: nowrap;
@@ -84,15 +83,14 @@
 
 .group-member-menu-action-button {
   width: 100%;
-
-  min-height: 2rem;
+  min-height: 2.25rem;
   padding: 0 var(--space-sm);
   display: flex;
   align-items: center;
   border: none;
   border-radius: var(--radius-xs);
   background: transparent;
-  font-size: var(--font-sm);
+  font-size: var(--font-sm3);
   text-align: left;
 
   color: var(--color-text-secondary);
@@ -103,6 +101,7 @@
 .group-member-menu-action-button:hover {
   color: var(--color-text);
   background-color: var(--friend-btn-hover);
+  font-weight: var(--font-weight-semibold);
 }
 
 .underline {
@@ -111,15 +110,7 @@
   margin: var(--space-xs) 0;
 }
 
-.group-member-menu-action-danger {
-  color: #ed4245;
-  color: var(--color-danger-strong);
-}
-
+.group-member-menu-action-danger,
 .group-member-menu-action-danger:hover {
-  color: #ff6b6b;
-  color: var(--color-danger-strong-hover);
-  /* background-color: #604044; */
-  /* background-color: #633f43; */
-  /* background-color: var(--friend-btn-hover); */
+  color: #ed4245;
 }
