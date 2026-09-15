@@ -6,8 +6,6 @@ import "./App.css";
 function App() {
   const [count, setCount] = useState(0);
 
-  // Render Deploy Test
-
   return (
     <>
       <div>
@@ -18,7 +16,7 @@ function App() {
           <img src={reactLogo} className="logo react" alt="React logo" />
         </a>
       </div>
-      <h1>Float Chat</h1>
+      <h1>Float Chat - render deploy test</h1>
       <div className="card">
         <button onClick={() => setCount((count) => count + 1)}>
           count is {count}
