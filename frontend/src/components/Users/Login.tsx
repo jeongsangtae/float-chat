@@ -74,7 +74,7 @@ const Login = () => {
   return (
     <>
       <form onSubmit={submitHandler}>
-        <h2 className={classes.title}>내 계정으로 로그인</h2>
+        <h2 className={classes.title}>내 계정으로 로그인 (테스트)</h2>
         <div className={classes["login-email-wrapper"]}>
           <label htmlFor="email" className={classes["login-email-label"]}>
             이메일
