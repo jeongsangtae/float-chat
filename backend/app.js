@@ -94,6 +94,8 @@ app.set("onlineUsers", onlineUsers);
 // 채팅방 참여 사용자 정보를 저장하여 라우트에서도 사용할 수 있도록 함
 app.set("roomUsers", roomUsers);
 
+console.log("백엔드 연결 테스트");
+
 // Socket.io 연결 이벤트
 io.on("connection", (socket) => {
   socket.on("registerUser", async (userId) => {
