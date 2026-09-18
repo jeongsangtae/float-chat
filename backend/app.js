@@ -1,4 +1,4 @@
-const path = require("path");
+// const path = require("path");
 
 const express = require("express");
 const mongodb = require("mongodb");
@@ -51,22 +51,36 @@ app.use(chatRoutes);
 app.use(friendRoutes);
 
 // 빌드된 프론트엔드 정적 파일 제공
-app.use(express.static(path.join(__dirname, "..", "frontend", "dist")));
+// app.use(express.static(path.join(__dirname, "..", "frontend", "dist")));
 
 // SPA 라우팅을 위해 모든 요청을 index.html로 전달
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "..", "frontend", "dist", "index.html"));
-});
+// app.get("*", (req, res) => {
+//   res.sendFile(path.join(__dirname, "..", "frontend", "dist", "index.html"));
+// });
 
 // 존재하지 않는 경로 처리
-app.use((req, res, next) => {
-  res.status(404).render("404");
-});
+// app.use((req, res, next) => {
+//   res.status(404).render("404");
+// });
 
 // 전역 서버 오류 처리
+// app.use((error, req, res, next) => {
+//   console.error(error);
+//   res.status(500).render("500");
+// });
+
+app.use((req, res) => {
+  res.status(404).json({
+    message: "요청한 경로를 찾을 수 없습니다.",
+  });
+});
+
 app.use((error, req, res, next) => {
   console.error(error);
-  res.status(500).render("500");
+
+  res.status(500).json({
+    message: "서버 오류가 발생했습니다.",
+  });
 });
 
 // 서버 설정
@@ -93,8 +107,6 @@ app.set("onlineUsers", onlineUsers);
 
 // 채팅방 참여 사용자 정보를 저장하여 라우트에서도 사용할 수 있도록 함
 app.set("roomUsers", roomUsers);
-
-console.log("백엔드 연결 테스트");
 
 // Socket.io 연결 이벤트
 io.on("connection", (socket) => {
