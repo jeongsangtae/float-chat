@@ -166,25 +166,26 @@ const GroupMemberMenu = ({
                     </button>
                   )}
 
-                  <div
-                    className={
-                      classes["group-member-menu-action-danger-wrapper"]
-                    }
-                  >
-                    <div className={classes.underline} />
-                    {(targetRole === "admin" || targetRole === "member") && (
+                  {(targetRole === "admin" || targetRole === "member") && (
+                    <div
+                      className={
+                        classes["group-member-menu-action-danger-wrapper"]
+                      }
+                    >
+                      <div className={classes.underline} />
+
                       <button
                         className={`${classes["group-member-menu-action-button"]} ${classes["group-member-menu-action-danger"]}`}
                         onClick={() => onKickMember(userId)}
                       >
                         강제 퇴장
                       </button>
-                    )}
-                  </div>
+                    </div>
+                  )}
                 </div>
               )}
 
-              {currentRole === "admin" && (
+              {currentRole === "admin" && targetRole === "member" && (
                 <div className={classes["group-member-menu-actions"]}>
                   <div
                     className={
@@ -192,14 +193,13 @@ const GroupMemberMenu = ({
                     }
                   >
                     <div className={classes.underline} />
-                    {targetRole === "member" && (
-                      <button
-                        className={`${classes["group-member-menu-action-button"]} ${classes["group-member-menu-action-danger"]}`}
-                        onClick={() => onKickMember(userId)}
-                      >
-                        강제 퇴장
-                      </button>
-                    )}
+
+                    <button
+                      className={`${classes["group-member-menu-action-button"]} ${classes["group-member-menu-action-danger"]}`}
+                      onClick={() => onKickMember(userId)}
+                    >
+                      강제 퇴장
+                    </button>
                   </div>
                 </div>
               )}
