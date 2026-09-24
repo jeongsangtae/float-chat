@@ -58,6 +58,8 @@ app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "..", "frontend", "dist", "index.html"));
 });
 
+console.log("정적 파일 관련 오류 체크");
+
 // 존재하지 않는 경로 처리
 // app.use((req, res, next) => {
 //   res.status(404).render("404");
