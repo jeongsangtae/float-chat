@@ -51,12 +51,12 @@ app.use(chatRoutes);
 app.use(friendRoutes);
 
 // 빌드된 프론트엔드 정적 파일 제공
-// app.use(express.static(path.join(__dirname, "..", "frontend", "dist")));
+app.use(express.static(path.join(__dirname, "..", "frontend", "dist")));
 
 // SPA 라우팅을 위해 모든 요청을 index.html로 전달
-// app.get("*", (req, res) => {
-//   res.sendFile(path.join(__dirname, "..", "frontend", "dist", "index.html"));
-// });
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "..", "frontend", "dist", "index.html"));
+});
 
 // 존재하지 않는 경로 처리
 // app.use((req, res, next) => {
