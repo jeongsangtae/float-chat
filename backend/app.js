@@ -1,5 +1,3 @@
-// const path = require("path");
-
 const express = require("express");
 const mongodb = require("mongodb");
 const dotenv = require("dotenv");
@@ -49,16 +47,6 @@ app.use(directChatRoutes);
 app.use(groupChatRoutes);
 app.use(chatRoutes);
 app.use(friendRoutes);
-
-// 빌드된 프론트엔드 정적 파일 제공
-app.use(express.static(path.join(__dirname, "..", "frontend", "dist")));
-
-// SPA 라우팅을 위해 모든 요청을 index.html로 전달
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "..", "frontend", "dist", "index.html"));
-});
-
-console.log("정적 파일 관련 오류 체크");
 
 // 존재하지 않는 경로 처리
 // app.use((req, res, next) => {
