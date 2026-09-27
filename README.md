@@ -304,7 +304,7 @@ npm start
 - [x] 관리자 권한 부여 / 회수 기능
 - [x] 호스트 나가기 기능 (권한 위임 기능 포함)
 - [x] 그룹 채팅방 특정 멤버 강제 퇴장
-- [ ] Render + MongoDB Atlas를 이용한 서비스 배포
+- [x] Render + MongoDB Atlas를 이용한 서비스 배포
 - [ ] Electron 기반 Desktop App 지원
 - [ ] 메시지 읽음 표시
 - [ ] 알림 읽음 표시
