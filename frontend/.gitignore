@@ -26,3 +26,6 @@ dist-ssr
 # local env files
 .env*.local
 .env
+
+# Electron build output
+release/
