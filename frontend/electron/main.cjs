@@ -15,7 +15,7 @@ const createWindow = () => {
   });
 
   if (app.isPackaged) {
-    mainWindow.loadFile(path.join(__dirname, "../dist/index.html"));
+    mainWindow.loadURL("https://float-chat-vdc1.onrender.com");
   } else {
     mainWindow.loadURL("http://localhost:5173");
   }

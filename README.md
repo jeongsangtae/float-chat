@@ -298,6 +298,16 @@ npm install
 npm start
 ```
 
+## 🖥️ Electron 데스크톱 앱
+
+Float Chat을 Windows 데스크톱 앱으로 사용할 수 있습니다.
+
+- **다운로드:** [FloatChat Windows 설치 파일](https://github.com/jeongsangtae/float-chat/releases/tag/v1.0.1)
+- **설치 방법:** 설치 파일을 다운로드한 후 실행합니다.
+- **요구 사항:** Windows x64
+
+웹 버전과 마찬가지로 기존 Float Chat 백엔드에 연결됩니다.
+
 ## 📌 추후 구현 예정
 
 - [x] 호스트 권한 위임 기능
