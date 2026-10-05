@@ -1,1 +1,9 @@
-// 현재는 Electron과 React 사이에 노출할 API가 없으므로 비워둠
+const { contextBridge, ipcRenderer } = require("electron");
+
+contextBridge.exposeInMainWorld("electronAPI", {
+  isElectron: true,
+
+  minimize: () => ipcRenderer.send("window-minimize"),
+  maximize: () => ipcRenderer.send("window-maximize"),
+  close: () => ipcRenderer.send("window-close"),
+});

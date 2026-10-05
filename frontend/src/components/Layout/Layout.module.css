@@ -5,6 +5,43 @@
   color: var(--color-text);
 }
 
+.title-bar {
+  display: flex;
+  align-items: center;
+  height: 2rem;
+  background-color: var(--bg-side);
+  -webkit-app-region: drag;
+}
+
+.title-bar-drag {
+  flex: 1;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  padding-left: var(--space-md);
+  font-weight: var(--font-weight-bold);
+}
+
+.window-controls {
+  display: flex;
+  height: 100%;
+  -webkit-app-region: no-drag;
+}
+
+.window-button {
+  width: 2.75rem;
+  height: 100%;
+  padding: 0;
+  border: none;
+  background-color: transparent;
+  color: var(--color-text);
+  cursor: pointer;
+}
+
+.window-button:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
 .header {
   height: 2rem;
   display: flex;

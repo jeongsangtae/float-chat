@@ -203,6 +203,12 @@ body {
   margin: 0;
 }
 
+html,
+body,
+#root {
+  background: transparent;
+}
+
 .Toastify__toast {
   min-height: auto;
   min-width: 340px;

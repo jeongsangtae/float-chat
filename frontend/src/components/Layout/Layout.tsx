@@ -19,6 +19,17 @@ interface LayoutProps {
   onLeaveChatRoom: () => void;
 }
 
+interface ElectronAPI {
+  isElectron: true;
+  minimize: () => void;
+  maximize: () => void;
+  close: () => void;
+}
+
+interface Window {
+  electronAPI?: ElectronAPI;
+}
+
 const Layout = ({ children, onLeaveChatRoom }: LayoutProps) => {
   const { userInfo, updateTheme } = useAuthStore();
   const {
@@ -122,8 +133,39 @@ const Layout = ({ children, onLeaveChatRoom }: LayoutProps) => {
     clearNotification();
   };
 
+  const isElectron = Boolean(window.electronAPI?.isElectron);
+
   return (
     <div className={classes.wrapper} style={{ opacity: fullOpacity }}>
+      {isElectron && (
+        <div className={classes["title-bar"]}>
+          <div className={classes["title-bar-drag"]}>FloatChat</div>
+
+          <div className={classes["window-controls"]}>
+            <button
+              className={classes["window-button"]}
+              onClick={() => window.electronAPI?.minimize()}
+            >
+              ─
+            </button>
+
+            <button
+              className={classes["window-button"]}
+              onClick={() => window.electronAPI?.maximize()}
+            >
+              □
+            </button>
+
+            <button
+              className={classes["window-button"]}
+              onClick={() => window.electronAPI?.close()}
+            >
+              ×
+            </button>
+          </div>
+        </div>
+      )}
+
       <ToastContainer
         position="top-center"
         autoClose={3000}
