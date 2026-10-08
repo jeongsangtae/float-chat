@@ -1,6 +1,7 @@
 import { ReactNode, useState, useRef, useEffect } from "react";
 
 import { FaBell, FaTrash } from "react-icons/fa";
+import { FiMinus, FiSquare, FiX } from "react-icons/fi";
 import { ToastContainer } from "react-toastify";
 
 import Notification from "../UI/Notification";
@@ -136,7 +137,10 @@ const Layout = ({ children, onLeaveChatRoom }: LayoutProps) => {
   const isElectron = Boolean(window.electronAPI?.isElectron);
 
   return (
-    <div className={classes.wrapper} style={{ opacity: fullOpacity }}>
+    <div
+      className={`${classes.wrapper} ${isElectron ? classes.electron : ""}`}
+      style={{ opacity: fullOpacity }}
+    >
       {isElectron && (
         <div className={classes["title-bar"]}>
           <div className={classes["title-bar-drag"]}>FloatChat</div>
@@ -146,21 +150,21 @@ const Layout = ({ children, onLeaveChatRoom }: LayoutProps) => {
               className={classes["window-button"]}
               onClick={() => window.electronAPI?.minimize()}
             >
-              ─
+              <FiMinus className={classes["minimize-icon"]} />
             </button>
 
             <button
               className={classes["window-button"]}
               onClick={() => window.electronAPI?.maximize()}
             >
-              □
+              <FiSquare />
             </button>
 
             <button
               className={classes["window-button"]}
               onClick={() => window.electronAPI?.close()}
             >
-              ×
+              <FiX className={classes["close-icon"]} />
             </button>
           </div>
         </div>

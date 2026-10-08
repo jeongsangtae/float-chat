@@ -46,6 +46,10 @@ ipcMain.on("window-close", () => {
   BrowserWindow.getFocusedWindow()?.close();
 });
 
+// ipcMain.on("window-reload", () => {
+//   BrowserWindow.getFocusedWindow()?.webContents.reload();
+// });
+
 app.whenReady().then(() => {
   createWindow();
 
