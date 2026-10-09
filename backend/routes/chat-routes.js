@@ -173,12 +173,28 @@ router.post("/chat/:roomId", async (req, res) => {
     const roomUsers = req.app.get("roomUsers");
     const roomSockets = roomUsers.get(chatRoomId);
 
+    console.log(chatRoom, "채팅방");
+
+    console.log(roomUsers);
+    console.log("chatRoom.users:", chatRoom.users);
+    console.log("chatRoom.users[0]:", chatRoom.users[0]);
+
     // 메시지 보낸 사용자 제외하고, 현재 방에 없는 사용자에게만 알림 전송
-    chatRoom.users.forEach((userId) => {
+    chatRoom.users.forEach((user) => {
+      // const userId = user._id.toString();
+      // user가 문자열이면 그대로 사용 (다이렉트 채팅)
+      // user가 객체이면 _id를 가져옴 (그룹 채팅)
+      const userId = typeof user === "string" ? user : user._id.toString();
       // 메시지를 보낸 사람 제외
       if (userId === othersData._id.toString()) return;
 
       const socketId = onlineUsers.get(userId);
+
+      console.log(onlineUsers, "온라인 사용자 목록");
+
+      console.log(userId, "사용자 ID");
+
+      console.log(socketId, "소켓 ID");
 
       // 채팅방에 참여하지 않은 상대방에게 알림을 전달
       if (socketId && !roomSockets.includes(socketId)) {
