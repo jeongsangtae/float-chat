@@ -105,8 +105,6 @@ const useSocketStore = create<SocketStore>((set, get) => ({
           // isRead: false,
         };
 
-        console.log(newMessage);
-
         addNotification(notificationData);
       });
 
