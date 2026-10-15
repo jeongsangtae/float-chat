@@ -20,17 +20,6 @@ interface LayoutProps {
   onLeaveChatRoom: () => void;
 }
 
-interface ElectronAPI {
-  isElectron: true;
-  minimize: () => void;
-  maximize: () => void;
-  close: () => void;
-}
-
-interface Window {
-  electronAPI?: ElectronAPI;
-}
-
 const Layout = ({ children, onLeaveChatRoom }: LayoutProps) => {
   const { userInfo, updateTheme } = useAuthStore();
   const {
