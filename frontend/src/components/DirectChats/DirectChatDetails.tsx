@@ -159,8 +159,14 @@ const DirectChatDetails = () => {
     });
   }, [mutualFriends, directChats, onlineFriends, userInfo?._id]);
 
+  const isElectron = Boolean(window.electronAPI?.isElectron);
+
   return (
-    <div className={classes["direct-chat-detail-wrapper"]}>
+    <div
+      className={`${classes["direct-chat-detail-wrapper"]} ${
+        isElectron ? classes.electron : ""
+      }`}
+    >
       <div className={classes["direct-chat-area"]}>
         <Chats
           roomId={roomId}

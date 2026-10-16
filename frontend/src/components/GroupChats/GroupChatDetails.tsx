@@ -272,8 +272,14 @@ const GroupChatDetails = () => {
     });
   };
 
+  const isElectron = Boolean(window.electronAPI?.isElectron);
+
   return (
-    <div className={classes["group-chat-details"]}>
+    <div
+      className={`${classes["group-chat-details"]} ${
+        isElectron ? classes.electron : ""
+      }`}
+    >
       <div className={classes["group-chat-sidebar"]}>
         <div
           className={classes["group-chat-invite-button"]}
