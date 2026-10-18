@@ -11,6 +11,8 @@
   height: 2rem;
   background-color: var(--bg-side);
   -webkit-app-region: drag;
+
+  /* -webkit-app-region: no-drag; */
 }
 
 .title-bar-drag {
@@ -21,6 +23,7 @@
   margin-top: var(--space-sm);
   padding-left: var(--space-md);
   font-weight: var(--font-weight-bold);
+  /* -webkit-app-region: drag; */
 }
 
 .window-controls {
