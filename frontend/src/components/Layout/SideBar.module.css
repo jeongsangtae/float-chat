@@ -161,6 +161,7 @@
   align-items: center;
   justify-content: space-between;
   color: var(--color-text);
+  z-index: var(--z-tooltip);
 }
 
 .user-info-left {

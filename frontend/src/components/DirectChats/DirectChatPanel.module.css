@@ -50,7 +50,7 @@
   display: flex;
   flex-direction: column;
   padding: var(--space-lg);
-  padding-bottom: 3rem;
+  padding-bottom: 5rem;
 }
 
 .direct-chat-other-info-avatar-img-wrapper,
