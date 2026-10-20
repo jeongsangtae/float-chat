@@ -12,12 +12,6 @@ declare global {
       minimize: () => void;
       maximize: () => void;
       close: () => void;
-      // getPosition: () => Promise<[number, number]>;
-      getState: () => Promise<{
-        position: [number, number];
-        isMaximized: boolean;
-      } | null>;
-      setPosition: (x: number, y: number) => void;
     };
   }
 }

@@ -228,3 +228,9 @@
   background-color: var(--color-divider);
   margin: var(--space-md) 0;
 }
+
+@media (max-width: 1100px) {
+  .direct-chat-panel {
+    display: none;
+  }
+}

@@ -250,3 +250,9 @@
   margin-top: 0.15rem;
   font-size: var(--font-sm2);
 }
+
+@media (max-width: 1100px) {
+  .group-chat-panel {
+    display: none;
+  }
+}

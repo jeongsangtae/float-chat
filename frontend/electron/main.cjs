@@ -93,34 +93,3 @@ app.on("window-all-closed", () => {
     app.quit();
   }
 });
-
-// 테스트
-
-// 현재 창의 위치를 반환
-// ipcMain.handle("window-get-position", (event) => {
-//   const window = BrowserWindow.fromWebContents(event.sender);
-
-//   return window?.getPosition() ?? [0, 0];
-// });
-
-// 전달받은 좌표로 창 이동
-ipcMain.on("window-set-position", (event, x, y) => {
-  const window = BrowserWindow.fromWebContents(event.sender);
-
-  if (window && !window.isMaximized()) {
-    window.setPosition(Math.round(x), Math.round(y));
-  }
-});
-
-ipcMain.handle("window-get-state", (event) => {
-  const window = BrowserWindow.fromWebContents(event.sender);
-
-  if (!window) {
-    return null;
-  }
-
-  return {
-    position: window.getPosition(),
-    isMaximized: window.isMaximized(),
-  };
-});

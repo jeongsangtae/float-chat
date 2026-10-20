@@ -36,16 +36,6 @@ const Layout = ({ children, onLeaveChatRoom }: LayoutProps) => {
   const dropdownRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
 
-  // 테스트
-  const dragStartRef = useRef<{
-    mouseX: number;
-    mouseY: number;
-    windowX: number;
-    windowY: number;
-  } | null>(null);
-
-  const dragSessionRef = useRef(0);
-
   const themes = [
     "dark",
     "blue",
@@ -135,102 +125,14 @@ const Layout = ({ children, onLeaveChatRoom }: LayoutProps) => {
 
   const isElectron = Boolean(window.electronAPI?.isElectron);
 
-  // 테스트
-  const handleTitleBarMouseDown = async (
-    event: React.MouseEvent<HTMLDivElement>
-  ) => {
-    if (!window.electronAPI || event.button !== 0) {
-      return;
-    }
-
-    const dragSession = ++dragSessionRef.current;
-
-    const state = await window.electronAPI.getState();
-
-    if (dragSession !== dragSessionRef.current || !state || state.isMaximized) {
-      return;
-    }
-
-    dragStartRef.current = {
-      mouseX: event.screenX,
-      mouseY: event.screenY,
-      windowX: state.position[0],
-      windowY: state.position[1],
-    };
-
-    // const dragSession = ++dragSessionRef.current;
-    // const mouseX = event.screenX;
-    // const mouseY = event.screenY;
-
-    // const [windowX, windowY] = await window.electronAPI.getPosition();
-
-    // 비동기 작업 도중 더블클릭 등으로 드래그 세션이 바뀌었다면 무시
-    // if (dragSession !== dragSessionRef.current) {
-    //   return;
-    // }
-
-    // dragStartRef.current = {
-    //   mouseX,
-    //   mouseY,
-    //   windowX,
-    //   windowY,
-    // };
-
-    console.log("title bar mouse down");
-  };
-
-  const handleTitleBarDoubleClick = () => {
-    dragSessionRef.current += 1;
-    dragStartRef.current = null;
-    window.electronAPI?.maximize();
-  };
-
-  const handleWindowMouseMove = (event: MouseEvent) => {
-    const dragStart = dragStartRef.current;
-
-    if (!dragStart || !window.electronAPI) {
-      return;
-    }
-
-    window.electronAPI.setPosition(
-      dragStart.windowX + event.screenX - dragStart.mouseX,
-      dragStart.windowY + event.screenY - dragStart.mouseY
-    );
-
-    console.log("window mouse move");
-  };
-
-  const handleWindowMouseUp = () => {
-    dragStartRef.current = null;
-  };
-
-  useEffect(() => {
-    window.addEventListener("mousemove", handleWindowMouseMove);
-    window.addEventListener("mouseup", handleWindowMouseUp);
-
-    return () => {
-      window.removeEventListener("mousemove", handleWindowMouseMove);
-      window.removeEventListener("mouseup", handleWindowMouseUp);
-    };
-  }, []);
-
   return (
     <div
       className={`${classes.wrapper} ${isElectron ? classes.electron : ""}`}
       style={{ opacity: fullOpacity }}
     >
       {isElectron && (
-        <div
-          className={classes["title-bar"]}
-          // onDoubleClick={() => window.electronAPI?.maximize()}
-        >
-          <div
-            className={classes["title-bar-drag"]}
-            onMouseDown={handleTitleBarMouseDown}
-            onDoubleClick={handleTitleBarDoubleClick}
-          >
-            FloatChat
-          </div>
+        <div className={classes["title-bar"]}>
+          <div className={classes["title-bar-drag"]}>FloatChat</div>
 
           <div className={classes["window-controls"]}>
             <button

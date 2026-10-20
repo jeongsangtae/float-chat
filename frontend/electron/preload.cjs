@@ -14,9 +14,4 @@ contextBridge.exposeInMainWorld("electronAPI", {
 
   // 메인 프로세스에 창 닫기 요청
   close: () => ipcRenderer.send("window-close"),
-
-  // 테스트
-  // getPosition: () => ipcRenderer.invoke("window-get-position"),
-  getState: () => ipcRenderer.invoke("window-get-state"),
-  setPosition: (x, y) => ipcRenderer.send("window-set-position", x, y),
 });
