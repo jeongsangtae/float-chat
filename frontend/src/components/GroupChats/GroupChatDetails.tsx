@@ -281,22 +281,24 @@ const GroupChatDetails = () => {
       }`}
     >
       <div className={classes["group-chat-sidebar"]}>
-        <div
-          className={classes["group-chat-invite-button"]}
-          onClick={toggleInviteHandler}
-        >
-          <div className={classes["group-chat-invite-icon"]}>
-            <IoPersonAddSharp />
+        <div className={classes["group-chat-sidebar-scroll"]}>
+          <div
+            className={classes["group-chat-invite-button"]}
+            onClick={toggleInviteHandler}
+          >
+            <div className={classes["group-chat-invite-icon"]}>
+              <IoPersonAddSharp />
+            </div>
+            <span className={classes["group-chat-invite-text"]}>초대</span>
           </div>
-          <span className={classes["group-chat-invite-text"]}>초대</span>
+
+          <div className={classes.underline}></div>
+
+          <GroupChatUsers
+            groupChatUsers={groupChatUsers}
+            onToggleUserOverlay={toggleUserOverlayHandler}
+          />
         </div>
-
-        <div className={classes.underline}></div>
-
-        <GroupChatUsers
-          groupChatUsers={groupChatUsers}
-          onToggleUserOverlay={toggleUserOverlayHandler}
-        />
       </div>
 
       {/* 그룹 채팅방 초대 모달 */}
