@@ -12,19 +12,20 @@
   height: 100%;
   background-color: var(--bg-side);
   padding: var(--space-md) var(--space-sm);
-  /* overflow-y: auto; */
-
   overflow: hidden;
 }
 
 .group-chat-sidebar-scroll {
-  padding: var(--space-md) var(--space-sm) 1rem; /* 추가 수정 필요 */
+  /* padding: var(--space-md) var(--space-sm) 1rem; */
+  /* padding-right: 0.25rem; */
+
+  padding-bottom: 7.5rem;
   overflow-y: auto;
 }
 
-.electron .group-chat-sidebar-scroll {
+/* .electron .group-chat-sidebar-scroll {
   padding-bottom: 7.5rem;
-}
+} */
 
 /* 스크롤바 설정 */
 .group-chat-sidebar-scroll::-webkit-scrollbar {
@@ -34,14 +35,14 @@
 /* 스크롤바의 배경 트랙 설정 */
 .group-chat-sidebar-scroll::-webkit-scrollbar-track {
   border-radius: var(--radius-md);
-  margin-top: 1rem;
-  margin-bottom: 2.5rem;
+  /* margin-top: var(--space-xs); */
+  margin-bottom: 8rem;
   border-left: 0.3rem solid var(--color-border-transparent);
 }
 
-.electron .group-chat-sidebar-scroll::-webkit-scrollbar-track {
+/* .electron .group-chat-sidebar-scroll::-webkit-scrollbar-track {
   margin-bottom: 8rem;
-}
+} */
 
 /* 스크롤바의 움직이는 핸들(슬라이더) 설정 */
 .group-chat-sidebar-scroll::-webkit-scrollbar-thumb {
@@ -63,6 +64,13 @@
   display: flex;
   align-items: center;
   padding: var(--space-md);
+
+  /* margin-right: 0.25rem; */
+  margin: 0 0.125rem;
+  /* margin: 0 0.25rem; */
+  /* margin-left: 0; */
+  /* margin-right: 0.5rem; */
+
   gap: var(--space-md);
   color: var(--color-text-secondary);
   cursor: pointer;

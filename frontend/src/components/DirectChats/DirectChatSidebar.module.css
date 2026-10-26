@@ -5,12 +5,18 @@
   height: 100%;
   background-color: var(--bg-side);
   padding: var(--space-md) var(--space-sm);
+  /* padding: var(--space-md) 0; */
   padding-bottom: 4.25rem;
   overflow: hidden;
 }
 
 .sub-sidebar-scroll {
-  padding: var(--space-md) var(--space-sm) 1rem; /* 추가 수정 필요 */
+  /* padding: var(--space-md) var(--space-sm) 1rem; */
+  /* padding-right: 0.25rem; */
+  /* margin-right: 0.5rem; */
+
+  /* padding: 0 0.5rem; */
+  padding-bottom: 4.5rem;
   overflow-y: auto;
 }
 
@@ -22,8 +28,9 @@
 /* 스크롤바의 배경 트랙 설정 */
 .sub-sidebar-scroll::-webkit-scrollbar-track {
   border-radius: var(--radius-md);
-  margin-top: 1rem;
-  margin-bottom: 2.5rem;
+  /* margin-top: var(--space-lg); */
+  /* margin-top: 0.25rem; */
+  margin-bottom: 4.5rem;
   border-left: 0.3rem solid var(--color-border-transparent);
 }
 
