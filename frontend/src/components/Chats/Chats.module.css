@@ -87,8 +87,14 @@
   top: 0;
   left: 50%;
   transform: translateX(-50%);
+
+  /* width: min(90%, 40rem); */
   /* padding: 0.35rem 13.5rem; */
-  padding: var(--space-xs) 13.5rem;
+  /* padding: var(--space-xs) 13.5rem; */
+
+  width: 75%;
+  padding: var(--space-xs) 1rem;
+
   color: var(--color-text);
   border: none;
   background-color: #2977df;
