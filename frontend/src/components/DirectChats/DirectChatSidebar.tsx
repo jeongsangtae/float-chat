@@ -25,8 +25,14 @@ const DirectChatSidebar = ({ onToggle }: DirectChatSidebarProps) => {
     (friendRequest) => friendRequest.receiver === userInfo?._id
   );
 
+  const isElectron = Boolean(window.electronAPI?.isElectron);
+
   return (
-    <div className={classes["sub-sidebar"]}>
+    <div
+      className={`${classes["sub-sidebar"]} ${
+        isElectron ? classes.electron : ""
+      }`}
+    >
       <div className={classes["sub-sidebar-scroll"]}>
         <div
           className={`${classes.friend} ${active ? classes.active : ""}`}

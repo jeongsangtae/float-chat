@@ -67,8 +67,10 @@ const SideBar = ({ onLeaveChatRoom }: SideBarProps) => {
     (friendRequest) => friendRequest.receiver === userInfo?._id
   );
 
+  const isElectron = Boolean(window.electronAPI?.isElectron);
+
   return (
-    <div className={classes.sidebar}>
+    <div className={`${classes.sidebar} ${isElectron ? classes.electron : ""}`}>
       <div className={classes["sidebar-scroll"]}>
         <div className={classes["sidebar-top"]}>
           {isLoggedIn && (

@@ -11,7 +11,7 @@
 
 /* 스크롤바 설정 */
 .sub-sidebar-scroll {
-  padding-bottom: 4.5rem;
+  padding-bottom: 2.5rem;
   overflow-y: auto;
   overflow-x: hidden;
 
@@ -20,6 +20,10 @@
 
   /* IE, Edge */
   -ms-overflow-style: none;
+}
+
+.electron .sub-sidebar-scroll {
+  padding-bottom: 4.5rem;
 }
 
 .sub-sidebar-scroll::-webkit-scrollbar {

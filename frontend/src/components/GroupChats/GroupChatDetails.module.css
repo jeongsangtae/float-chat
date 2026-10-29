@@ -16,7 +16,7 @@
 }
 
 .group-chat-sidebar-scroll {
-  padding-bottom: 7.5rem;
+  padding-bottom: 5.5rem;
   overflow-y: auto;
   overflow-x: hidden;
 
@@ -25,6 +25,10 @@
 
   /* IE, Edge */
   -ms-overflow-style: none;
+}
+
+.electron .group-chat-sidebar-scroll {
+  padding-bottom: 7.5rem;
 }
 
 /* 스크롤바 설정 */
