@@ -138,6 +138,7 @@ const Friends = () => {
           </div>
 
           <div className={classes["friend-content"]}>
+            {/* <div className={classes["friend-content-scroll"]}> */}
             {/* 검색창 */}
             {activeTab !== "addFriend" &&
               // 검색창은 대기중 탭이면서 friendRequests 없을 땐 숨김
@@ -270,6 +271,7 @@ const Friends = () => {
 
             {/* 친구 추가 */}
             {activeTab === "addFriend" && <AddFriend />}
+            {/* </div> */}
           </div>
         </>
       </div>

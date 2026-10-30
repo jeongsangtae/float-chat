@@ -2,13 +2,16 @@
   display: flex;
   flex-direction: column;
   background-color: var(--bg-main);
+
+  height: 100%;
+  overflow: hidden;
 }
 
 .friend-submenu {
   display: flex;
   flex-direction: row;
   gap: var(--space-sm);
-  padding: var(--space-md);
+  padding: var(--space-lg) var(--space-md);
   border-bottom: 1px solid var(--color-border);
 }
 
@@ -47,7 +50,82 @@
 
 .friend-content {
   padding: var(--space-md);
+  /* overflow-y: auto; */
+  height: 100%;
+  overflow: hidden;
+
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  padding: var(--space-md);
+  overflow: hidden;
+
   overflow-y: auto;
+}
+
+.friend-content-scroll {
+  overflow-y: auto;
+
+  flex: 1;
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+/* 스크롤바 설정 */
+.friend-content::-webkit-scrollbar {
+  width: 0.3rem;
+}
+
+/* 스크롤바의 배경 트랙 설정 */
+.friend-content::-webkit-scrollbar-track {
+  border-radius: var(--radius-md);
+  margin-bottom: 8rem;
+  border-left: 0.3rem solid var(--color-border-transparent);
+}
+
+/* 스크롤바의 움직이는 핸들(슬라이더) 설정 */
+.friend-content::-webkit-scrollbar-thumb {
+  background-color: var(--color-scrollbar-thumb);
+  border-radius: var(--radius-md);
+}
+
+/* 스크롤바 핸들 호버했을 때 설정 */
+.friend-content::-webkit-scrollbar-thumb:hover {
+  background-color: var(--color-scrollbar-thumb-hover);
+}
+
+/* 스크롤바 핸들에 액티브 상태일 때 스타일 설정 */
+.friend-content::-webkit-scrollbar-thumb:active {
+  background-color: var(--color-scrollbar-thumb-active);
+}
+
+/* 스크롤바 설정 */
+.friend-content-scroll::-webkit-scrollbar {
+  width: 0.3rem;
+}
+
+/* 스크롤바의 배경 트랙 설정 */
+.friend-content-scroll::-webkit-scrollbar-track {
+  border-radius: var(--radius-md);
+  margin-bottom: 8rem;
+  border-left: 0.3rem solid var(--color-border-transparent);
+}
+
+/* 스크롤바의 움직이는 핸들(슬라이더) 설정 */
+.friend-content-scroll::-webkit-scrollbar-thumb {
+  background-color: var(--color-scrollbar-thumb);
+  border-radius: var(--radius-md);
+}
+
+/* 스크롤바 핸들 호버했을 때 설정 */
+.friend-content-scroll::-webkit-scrollbar-thumb:hover {
+  background-color: var(--color-scrollbar-thumb-hover);
+}
+
+/* 스크롤바 핸들에 액티브 상태일 때 스타일 설정 */
+.friend-content-scroll::-webkit-scrollbar-thumb:active {
+  background-color: var(--color-scrollbar-thumb-active);
 }
 
 .friend-search {
