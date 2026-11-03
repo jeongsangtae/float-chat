@@ -31,6 +31,10 @@
   padding-bottom: 7.5rem;
 }
 
+.group-chat-sidebar-scroll::-webkit-scrollbar {
+  display: none;
+}
+
 /* 스크롤바 설정 */
 /* .group-chat-sidebar-scroll::-webkit-scrollbar {
   width: 0.3rem;

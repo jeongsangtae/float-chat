@@ -94,9 +94,15 @@ const Friends = () => {
   //   }
   // }, [filteredFriends]);
 
+  const isElectron = Boolean(window.electronAPI?.isElectron);
+
   return (
     <>
-      <div className={classes["friend-menu"]}>
+      <div
+        className={`${classes["friend-menu"]} ${
+          isElectron ? classes.electron : ""
+        }`}
+      >
         <>
           <div className={classes["friend-submenu"]}>
             <button
@@ -172,9 +178,9 @@ const Friends = () => {
               )}
 
             {/* 온라인 친구 목록 */}
-            <ul className={classes["online-friends"]}>
-              {activeTab === "online" &&
-                filteredOnlineFriends.map((filteredOnlineFriend) => (
+            {activeTab === "online" && (
+              <ul className={classes["online-friends"]}>
+                {filteredOnlineFriends.map((filteredOnlineFriend) => (
                   <OnlineFriend
                     key={`online-${filteredOnlineFriend.id}`}
                     userId={userInfo?._id ?? ""}
@@ -185,12 +191,13 @@ const Friends = () => {
                     onlineChecked={filteredOnlineFriend.onlineChecked}
                   />
                 ))}
-            </ul>
+              </ul>
+            )}
 
             {/* 전체 친구 목록 */}
-            <ul className={classes.friends}>
-              {activeTab === "all" &&
-                filteredFriends.map((filteredFriend) => (
+            {activeTab === "all" && (
+              <ul className={classes.friends}>
+                {filteredFriends.map((filteredFriend) => (
                   <Friend
                     key={`friend-${filteredFriend.id}`}
                     userId={userInfo?._id ?? ""}
@@ -201,11 +208,12 @@ const Friends = () => {
                     onlineChecked={filteredFriend.onlineChecked}
                   />
                 ))}
-            </ul>
+              </ul>
+            )}
 
             {/* 친구 요청 목록 */}
-            <ul className={classes["pending-friends"]}>
-              {activeTab === "pending" && (
+            {activeTab === "pending" && (
+              <ul className={classes["pending-friends"]}>
                 <>
                   {friendRequests.length === 0 ? (
                     <div>
@@ -265,8 +273,8 @@ const Friends = () => {
                     </>
                   )}
                 </>
-              )}
-            </ul>
+              </ul>
+            )}
 
             {/* 친구 추가 */}
             {activeTab === "addFriend" && <AddFriend />}

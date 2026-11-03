@@ -1,12 +1,8 @@
 .friend-menu {
   display: flex;
   flex-direction: column;
-  background-color: var(--bg-main);
-
-  /* 테스트 */
-  flex: 1;
-  /* min-height: 0; */
   height: 100%;
+  background-color: var(--bg-main);
 }
 
 .friend-submenu {
@@ -15,9 +11,6 @@
   gap: var(--space-sm);
   padding: var(--space-lg) var(--space-md);
   border-bottom: 1px solid var(--color-border);
-
-  /* 테스트 */
-  /* flex-shrink: 0; */
 }
 
 .friend-submenu button {
@@ -54,14 +47,9 @@
 }
 
 .friend-content {
-  padding: var(--space-md);
-  /* overflow-y: auto; */
-
-  /* 테스트 */
   display: flex;
-  /* flex: 1; */
   flex-direction: column;
-  height: 100%;
+  padding: var(--space-md);
   overflow: hidden;
 }
 
@@ -75,9 +63,6 @@
   border-radius: var(--radius-md);
   margin: var(--space-lg) 0;
   margin-top: var(--space-sm);
-
-  /* 테스트 */
-  /* flex-shrink: 0; */
 }
 
 .friend-search:focus-within {
@@ -130,41 +115,63 @@
   padding: 0;
   margin: 0;
 
-  /* 테스트 */
-  flex: 1;
-  /* min-height: 0; */
-  height: 100%;
   overflow-y: auto;
+  padding-bottom: 2rem;
+
+  /* Firefox */
+  scrollbar-width: none;
+
+  /* IE, Edge */
+  -ms-overflow-style: none;
+}
+
+.electron .online-friends,
+.electron .friends,
+.electron .pending-friends {
+  padding-bottom: 4rem;
+}
+
+.online-friends::-webkit-scrollbar,
+.friends::-webkit-scrollbar,
+.pending-friends::-webkit-scrollbar {
+  display: none;
 }
 
 /* 스크롤바 설정 */
-.friends::-webkit-scrollbar {
+/* .friends::-webkit-scrollbar {
   width: 0.3rem;
-}
+} */
 
 /* 스크롤바의 배경 트랙 설정 */
-.friends::-webkit-scrollbar-track {
+/* .friends::-webkit-scrollbar-track {
   border-radius: var(--radius-md);
   margin-top: var(--space-xs);
-  margin-bottom: var(--space-xs);
+  margin-bottom: 2rem;
   border-left: 0.3rem solid var(--color-border-transparent);
-}
+} */
+
+/* .electron .friends::-webkit-scrollbar-track {
+  border-radius: var(--radius-md);
+  margin-top: var(--space-xs);
+  margin-bottom: 4rem;
+  border-left: 0.3rem solid var(--color-border-transparent);
+} */
 
 /* 스크롤바의 움직이는 핸들(슬라이더) 설정 */
-.friends::-webkit-scrollbar-thumb {
+/* .friends::-webkit-scrollbar-thumb {
   background-color: var(--color-scrollbar-thumb);
   border-radius: var(--radius-md);
-}
+} */
 
 /* 스크롤바 핸들 호버했을 때 설정 */
-.friends::-webkit-scrollbar-thumb:hover {
+/* .friends::-webkit-scrollbar-thumb:hover {
   background-color: var(--color-scrollbar-thumb-hover);
-}
+} */
 
 /* 스크롤바 핸들에 액티브 상태일 때 스타일 설정 */
-.friends::-webkit-scrollbar-thumb:active {
+/* .friends::-webkit-scrollbar-thumb:active {
   background-color: var(--color-scrollbar-thumb-active);
-}
+} */
 
 .received-requests,
 .sent-requests {
