@@ -1,3 +1,4 @@
+// 확장 프로그램 목록
 {
   "recommendations": [
     "esbenp.prettier-vscode",
@@ -10,6 +11,7 @@
     "formulahendry.auto-rename-tag",
     "dsznajder.es7-react-js-snippets",
     "christian-kohler.npm-intellisense",
-    "pkief.material-icon-theme"
+    "pkief.material-icon-theme",
+    "Equinusocio.vsc-material-theme"
   ]
 }

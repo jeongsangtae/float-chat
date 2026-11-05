@@ -10,10 +10,7 @@ const Chat = ({
   showNickname,
   avatarColor,
   avatarImageUrl,
-}: Omit<
-  ChatMessage,
-  '_id' | 'roomId' | 'email'
-> & {
+}: Omit<ChatMessage, '_id' | 'roomId' | 'email'> & {
   showNickname: boolean;
 }) => {
   // 공백 기준으로 날짜와 시간을 분리
@@ -38,13 +35,7 @@ const Chat = ({
 
   // 오전일 때 0시는 12로 표기, 나머지는 그대로 표기
   // 오후일 때 13~23시는 12를 빼고, 12시는 그대로 12시로 표기
-  const resultHour = am
-    ? numHour === 0
-      ? 12
-      : numHour
-    : numHour > 12
-      ? numHour - 12
-      : 12;
+  const resultHour = am ? (numHour === 0 ? 12 : numHour) : numHour > 12 ? numHour - 12 : 12;
 
   // 오전/오후 표기
   const ampm = am ? '오전' : '오후';
@@ -54,18 +45,10 @@ const Chat = ({
 
   // 채팅 메시지의 날짜를 기반으로 Date 객체 생성
   // 월은 0부터 시작하므로, -1 (ex: 4월 -> 3)
-  const msgDate = new Date(
-    parseInt(year),
-    numMonth - 1,
-    numDay,
-  );
+  const msgDate = new Date(parseInt(year), numMonth - 1, numDay);
 
   // 오늘 날짜의 00:00:00 기준 Date 객체 생성
-  const today = new Date(
-    now.getFullYear(),
-    now.getMonth(),
-    now.getDate(),
-  );
+  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
 
   // 어제 날짜의 00:00:00 기준 Date 객체 생성
   // today 객체를 복사해서 날짜만 하루 전으로 수정
@@ -73,10 +56,8 @@ const Chat = ({
   yesterday.setDate(today.getDate() - 1);
 
   // 메시지 날짜가 오늘 또는 어제인지 확인
-  const todayChecked =
-    msgDate.getTime() === today.getTime();
-  const yesterdayChecked =
-    msgDate.getTime() === yesterday.getTime();
+  const todayChecked = msgDate.getTime() === today.getTime();
+  const yesterdayChecked = msgDate.getTime() === yesterday.getTime();
 
   // 날짜 포맷 결과를 담는 변수
   let resultDate = '';
@@ -96,9 +77,7 @@ const Chat = ({
   const hoverDate = `${ampm} ${resultHour}:${minute}`;
 
   return (
-    <div
-      className={`${classes['chat-container']} ${showNickname ? classes['other-user'] : ''}`}
-    >
+    <div className={`${classes['chat-container']} ${showNickname ? classes['other-user'] : ''}`}>
       {showNickname ? (
         <div className={classes['chat-header']}>
           <Avatar
@@ -108,37 +87,17 @@ const Chat = ({
             extraClass="chat-avatar"
           />
 
-          <div
-            className={classes['chat-content']}
-          >
+          <div className={classes['chat-content']}>
             <div className={classes['chat-info']}>
-              <span
-                className={
-                  classes['chat-nickname']
-                }
-              >
-                {nickname}
-              </span>
-              <span
-                className={classes['chat-date']}
-              >
-                {resultDate}
-              </span>
+              <span className={classes['chat-nickname']}>{nickname}</span>
+              <span className={classes['chat-date']}>{resultDate}</span>
             </div>
-            <div
-              className={classes['chat-message']}
-            >
-              {message}
-            </div>
+            <div className={classes['chat-message']}>{message}</div>
           </div>
         </div>
       ) : (
         <div className={classes['chat-messages']}>
-          <span
-            className={classes['chat-hover-date']}
-          >
-            {hoverDate}
-          </span>
+          <span className={classes['chat-hover-date']}>{hoverDate}</span>
           {message}
         </div>
       )}

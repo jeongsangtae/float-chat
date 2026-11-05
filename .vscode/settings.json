@@ -1,1 +1,25 @@
-{}
+{
+  "workbench.preferredLightColorTheme": "Dark Modern",
+  "workbench.preferredDarkColorTheme": "Dark Modern",
+  "workbench.colorTheme": "Better Material Theme Darker High Contrast",
+
+  "workbench.colorCustomizations": {
+    "[Better Material Theme Darker High Contrast]": {
+      // 최하단 Status Bar
+      "statusBar.foreground": "#A7B8B8",
+
+      // 왼쪽 아이콘 색
+      "activityBar.foreground": "#A7B8B8",
+
+      // 왼쪽 아이콘 커서 호버
+      "modernActivityBarItem.hoverForeground": "#A7B8B8",
+      // 활성화된 아이콘 색
+      "modernActivityBarItem.activeForeground": "#A7B8B8",
+
+      // 변경한 내용 배경색
+      "activityBarBadge.background": "#07a2dfcc",
+      // 변경한 내용 글자색
+      "activityBarBadge.foreground": "#A7B8B8"
+    }
+  }
+}
