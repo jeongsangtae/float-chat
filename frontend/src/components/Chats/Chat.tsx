@@ -1,7 +1,7 @@
-import { ChatMessage } from "../../types";
-import Avatar from "../Users/Avatar";
+import { ChatMessage } from '../../types';
+import Avatar from '../Users/Avatar';
 
-import classes from "./Chat.module.css";
+import classes from './Chat.module.css';
 
 const Chat = ({
   nickname,
@@ -10,17 +10,20 @@ const Chat = ({
   showNickname,
   avatarColor,
   avatarImageUrl,
-}: Omit<ChatMessage, "_id" | "roomId" | "email"> & {
+}: Omit<
+  ChatMessage,
+  '_id' | 'roomId' | 'email'
+> & {
   showNickname: boolean;
 }) => {
   // 공백 기준으로 날짜와 시간을 분리
-  const [dateOnly, timeOnly] = date.split(" ");
+  const [dateOnly, timeOnly] = date.split(' ');
 
   // 날짜 부분을 "." 기준으로 분리
-  const [year, month, day] = dateOnly.split(".");
+  const [year, month, day] = dateOnly.split('.');
 
   // 시간 부분을 ":" 기준으로 분리
-  const [hour, minute] = timeOnly.split(":");
+  const [hour, minute] = timeOnly.split(':');
 
   // 년도의 뒷 2자리만 사용
   const shortYear = year.slice(2);
@@ -40,21 +43,29 @@ const Chat = ({
       ? 12
       : numHour
     : numHour > 12
-    ? numHour - 12
-    : 12;
+      ? numHour - 12
+      : 12;
 
   // 오전/오후 표기
-  const ampm = am ? "오전" : "오후";
+  const ampm = am ? '오전' : '오후';
 
   // 현재 날짜 정보
   const now = new Date(); // 현재 시간 기준의 Date 객체 생성
 
   // 채팅 메시지의 날짜를 기반으로 Date 객체 생성
   // 월은 0부터 시작하므로, -1 (ex: 4월 -> 3)
-  const msgDate = new Date(parseInt(year), numMonth - 1, numDay);
+  const msgDate = new Date(
+    parseInt(year),
+    numMonth - 1,
+    numDay,
+  );
 
   // 오늘 날짜의 00:00:00 기준 Date 객체 생성
-  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  const today = new Date(
+    now.getFullYear(),
+    now.getMonth(),
+    now.getDate(),
+  );
 
   // 어제 날짜의 00:00:00 기준 Date 객체 생성
   // today 객체를 복사해서 날짜만 하루 전으로 수정
@@ -62,11 +73,13 @@ const Chat = ({
   yesterday.setDate(today.getDate() - 1);
 
   // 메시지 날짜가 오늘 또는 어제인지 확인
-  const todayChecked = msgDate.getTime() === today.getTime();
-  const yesterdayChecked = msgDate.getTime() === yesterday.getTime();
+  const todayChecked =
+    msgDate.getTime() === today.getTime();
+  const yesterdayChecked =
+    msgDate.getTime() === yesterday.getTime();
 
   // 날짜 포맷 결과를 담는 변수
-  let resultDate = "";
+  let resultDate = '';
 
   // 조건에 따라 날짜 출력 형식 변경
   if (todayChecked) {
@@ -84,12 +97,10 @@ const Chat = ({
 
   return (
     <div
-      className={`${classes["chat-container"]} ${
-        showNickname ? classes["other-user"] : ""
-      }`}
+      className={`${classes['chat-container']} ${showNickname ? classes['other-user'] : ''}`}
     >
       {showNickname ? (
-        <div className={classes["chat-header"]}>
+        <div className={classes['chat-header']}>
           <Avatar
             nickname={nickname}
             avatarImageUrl={avatarImageUrl}
@@ -97,17 +108,37 @@ const Chat = ({
             extraClass="chat-avatar"
           />
 
-          <div className={classes["chat-content"]}>
-            <div className={classes["chat-info"]}>
-              <span className={classes["chat-nickname"]}>{nickname}</span>
-              <span className={classes["chat-date"]}>{resultDate}</span>
+          <div
+            className={classes['chat-content']}
+          >
+            <div className={classes['chat-info']}>
+              <span
+                className={
+                  classes['chat-nickname']
+                }
+              >
+                {nickname}
+              </span>
+              <span
+                className={classes['chat-date']}
+              >
+                {resultDate}
+              </span>
             </div>
-            <div className={classes["chat-message"]}>{message}</div>
+            <div
+              className={classes['chat-message']}
+            >
+              {message}
+            </div>
           </div>
         </div>
       ) : (
-        <div className={classes["chat-messages"]}>
-          <span className={classes["chat-hover-date"]}>{hoverDate}</span>
+        <div className={classes['chat-messages']}>
+          <span
+            className={classes['chat-hover-date']}
+          >
+            {hoverDate}
+          </span>
           {message}
         </div>
       )}
