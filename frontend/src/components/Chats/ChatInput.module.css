@@ -1,7 +1,10 @@
 .chat-input-container {
-  margin-top: auto;
+  /* margin-top: auto; */
   margin-bottom: var(--space-3xl);
   width: 100%;
+
+  /* 테스트 */
+  flex-shrink: 0;
 }
 
 .input-wrapper {

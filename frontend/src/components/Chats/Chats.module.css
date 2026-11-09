@@ -3,6 +3,11 @@
   margin-bottom: var(--space-sm);
   position: relative;
   overflow: hidden;
+
+  /* 테스트 */
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
 }
 
 .messages-container {
@@ -10,6 +15,10 @@
   flex-direction: column;
   height: 100%;
   overflow-y: auto;
+
+  /* 테스트 */
+  /* flex: 1;
+  min-height: 0; */
 }
 
 /* 스크롤바 설정 */

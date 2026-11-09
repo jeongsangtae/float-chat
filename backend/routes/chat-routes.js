@@ -55,8 +55,7 @@ router.post("/chat/:roomId", async (req, res) => {
     }
 
     // 클라이언트에서 보낸 데이터 추출
-    const { roomId, message, email, nickname, avatarColor, avatarImageUrl } =
-      req.body;
+    const { roomId, message, email, nickname, avatarColor, avatarImageUrl } = req.body;
 
     // 한국 시간(KST) 기준 생성 시간
     let date = new Date();
@@ -72,10 +71,7 @@ router.post("/chat/:roomId", async (req, res) => {
       avatarImageUrl,
       date: `${kstDate.getFullYear()}.${(kstDate.getMonth() + 1)
         .toString()
-        .padStart(2, "0")}.${kstDate
-        .getDate()
-        .toString()
-        .padStart(2, "0")} ${kstDate
+        .padStart(2, "0")}.${kstDate.getDate().toString().padStart(2, "0")} ${kstDate
         .getHours()
         .toString()
         .padStart(2, "0")}:${kstDate
@@ -102,7 +98,7 @@ router.post("/chat/:roomId", async (req, res) => {
 
       // 다이렉트 채팅방에 참여한 다른 사용자 정보를 저장
       const otherParticipant = directChat.participants.find(
-        (participant) => participant._id !== othersData._id.toString()
+        (participant) => participant._id !== othersData._id.toString(),
       );
 
       // socket.io 관련 객체
@@ -122,7 +118,7 @@ router.post("/chat/:roomId", async (req, res) => {
               "participants.$[].isVisible": true,
               lastMessageDate: newMessage.date,
             },
-          }
+          },
         );
 
       // 상대방 isVisible 내용만 true로 변경
@@ -230,10 +226,7 @@ router.post("/directChat/:targetUserId", async (req, res) => {
 
     const formatKSTDate = `${kstDate.getFullYear()}.${(kstDate.getMonth() + 1)
       .toString()
-      .padStart(2, "0")}.${kstDate
-      .getDate()
-      .toString()
-      .padStart(2, "0")} ${kstDate
+      .padStart(2, "0")}.${kstDate.getDate().toString().padStart(2, "0")} ${kstDate
       .getHours()
       .toString()
       .padStart(2, "0")}:${kstDate
@@ -272,7 +265,7 @@ router.post("/directChat/:targetUserId", async (req, res) => {
               "participants.$[].isVisible": true,
               lastMessageDate: newMessage.date,
             },
-          }
+          },
         );
 
       await db.getDb().collection("chatMessages").insertOne(newMessage);
@@ -293,7 +286,7 @@ router.post("/directChat/:targetUserId", async (req, res) => {
 
       // 상대방의 기존 isVisible 상태 확인
       const targetParticipant = existingChat.participants.find(
-        (participant) => participant._id === targetUserId
+        (participant) => participant._id === targetUserId,
       );
 
       // 상대방 화면에 채팅방이 보이지 않는 경우 실시간으로 추가
@@ -366,10 +359,7 @@ router.post("/directChat/:targetUserId", async (req, res) => {
     };
 
     // 생성된 채팅방 ObjectId 저장
-    const result = await db
-      .getDb()
-      .collection("directChats")
-      .insertOne(newDirectChat);
+    const result = await db.getDb().collection("directChats").insertOne(newDirectChat);
 
     const roomId = result.insertedId;
 
@@ -389,10 +379,7 @@ router.post("/directChat/:targetUserId", async (req, res) => {
     const onlineUsers = req.app.get("onlineUsers");
     const socketId = onlineUsers.get(targetUserId);
 
-    const createdDirectChat = await db
-      .getDb()
-      .collection("directChats")
-      .findOne({ _id: roomId });
+    const createdDirectChat = await db.getDb().collection("directChats").findOne({ _id: roomId });
 
     // 상대방 화면에 새로운 다이렉트 채팅방 추가
     if (socketId) {
@@ -408,9 +395,7 @@ router.post("/directChat/:targetUserId", async (req, res) => {
     const chatRoom = {
       _id: roomId,
       title: "",
-      users: createdDirectChat.participants.map(
-        (participant) => participant._id
-      ),
+      users: createdDirectChat.participants.map((participant) => participant._id),
     };
 
     chatRoom.users.forEach((userId) => {
