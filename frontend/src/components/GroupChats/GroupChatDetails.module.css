@@ -3,6 +3,7 @@
   height: 100vh;
   border-radius: var(--radius-md);
   border: 1px solid var(--color-border);
+  flex-shrink: 0;
 }
 
 .group-chat-sidebar {
@@ -204,10 +205,7 @@
   height: 100%;
   flex-direction: column;
   padding: 0 var(--space-lg) var(--space-lg) var(--space-md);
-  /* overflow-y: auto; */
-
-  /* 테스트 */
-  overflow-y: hidden;
+  overflow-y: auto;
 }
 
 .electron .group-chat-area {
