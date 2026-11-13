@@ -75,3 +75,10 @@
 .status-message {
   color: var(--danger-color-red);
 }
+
+@media (max-width: 1280px) {
+  .add-friend-search-wrapper {
+    width: 100%;
+    max-width: 650px;
+  }
+}

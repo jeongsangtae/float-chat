@@ -25,10 +25,7 @@ import GroupChatInvite from "./GroupChatInvite";
 import GroupChatUsers from "./GroupChatUsers";
 import GroupChatPanel from "./GroupChatPanel";
 
-import {
-  UserProfileEditFormPayload,
-  UserProfileDetailsPayload,
-} from "../../types";
+import { UserProfileEditFormPayload, UserProfileDetailsPayload } from "../../types";
 
 import classes from "./GroupChatDetails.module.css";
 import GroupMemberActionConfirm from "./GroupMemberActionConfirm";
@@ -37,8 +34,7 @@ const GroupChatDetails = () => {
   const { roomId } = useParams<{ roomId: string }>();
 
   const { userInfo } = useAuthStore();
-  const { groupChats, getGroupChats, groupChatUsers, getGroupChatUsers } =
-    useGroupChatStore();
+  const { groupChats, getGroupChats, groupChatUsers, getGroupChatUsers } = useGroupChatStore();
   const { friends, loadFriends } = useFriendStore();
   const { setView, setGroupChatTitle } = useLayoutStore();
   const { activeModal, toggleModal } = useModalStore();
@@ -50,27 +46,21 @@ const GroupChatDetails = () => {
   const [activeUser, setActiveUser] = useState<string | null>(null);
   const [coords, setCoords] = useState<Coords | null>(null);
   const [origin, setOrigin] = useState<"users" | "panel" | null>(null);
-  const [overlayType, setOverlayType] = useState<
-    "profile" | "memberMenu" | null
-  >(null);
+  const [overlayType, setOverlayType] = useState<"profile" | "memberMenu" | null>(null);
 
   // 현재 그룹 채팅방 정보
   const groupChat = groupChats.find((groupChat) => groupChat._id === roomId);
 
   // 현재 선택된 사용자 프로필 정보
   const activeUserProfile = groupChatUsers.find(
-    (groupChatUser) => groupChatUser._id === activeUser
+    (groupChatUser) => groupChatUser._id === activeUser,
   );
 
   // 현재 로그인한 사용자 역할 정보
-  const currentMember = groupChat?.users?.find(
-    (user) => user._id === userInfo?._id
-  );
+  const currentMember = groupChat?.users?.find((user) => user._id === userInfo?._id);
 
   // 현재 선택한 사용자 역할 정보
-  const activeGroupMember = groupChat?.users?.find(
-    (user) => user._id === activeUser
-  );
+  const activeGroupMember = groupChat?.users?.find((user) => user._id === activeUser);
 
   const isGroupMemberActionModal =
     activeModal === "transferHost" ||
@@ -83,13 +73,9 @@ const GroupChatDetails = () => {
     userId: string,
     coords: Coords,
     source: "users" | "panel",
-    currentOverlayType: "profile" | "memberMenu"
+    currentOverlayType: "profile" | "memberMenu",
   ) => {
-    if (
-      activeUser === userId &&
-      origin === source &&
-      overlayType === currentOverlayType
-    ) {
+    if (activeUser === userId && origin === source && overlayType === currentOverlayType) {
       setActiveUser(null);
       setCoords(null);
       setOrigin(null);
@@ -121,7 +107,7 @@ const GroupChatDetails = () => {
   const searchFriends = filteredFriends.filter(
     (friendData) =>
       friendData.nickname.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      friendData.email?.toLowerCase().includes(searchTerm.toLowerCase())
+      friendData.email?.toLowerCase().includes(searchTerm.toLowerCase()),
   );
 
   // 그룹 채팅방 생성일 조회
@@ -184,9 +170,7 @@ const GroupChatDetails = () => {
   // 사용자 프로필 외부 클릭 시 프로필 닫기
   useEffect(() => {
     const outsideClickHandler = (event: MouseEvent) => {
-      const userProfileEl = document.getElementById(
-        "user-profile-tooltip-portal"
-      );
+      const userProfileEl = document.getElementById("user-profile-tooltip-portal");
 
       if (!userProfileEl) return;
 
@@ -211,18 +195,14 @@ const GroupChatDetails = () => {
   }, [activeUser]);
 
   // 프로필 수정 모달 열기
-  const openUserProfileEditFormHandler = (
-    payload: UserProfileEditFormPayload
-  ) => {
+  const openUserProfileEditFormHandler = (payload: UserProfileEditFormPayload) => {
     setCoords(null);
 
     toggleModal("userSettings", "PATCH", payload);
   };
 
   // 프로필 상세 모달 열기
-  const openUserProfileDetailsHandler = (
-    payload: UserProfileDetailsPayload
-  ) => {
+  const openUserProfileDetailsHandler = (payload: UserProfileDetailsPayload) => {
     setCoords(null);
 
     toggleModal("userProfileDetails", undefined, payload);
@@ -275,17 +255,10 @@ const GroupChatDetails = () => {
   const isElectron = Boolean(window.electronAPI?.isElectron);
 
   return (
-    <div
-      className={`${classes["group-chat-details"]} ${
-        isElectron ? classes.electron : ""
-      }`}
-    >
+    <div className={`${classes["group-chat-details"]} ${isElectron ? classes.electron : ""}`}>
       <div className={classes["group-chat-sidebar"]}>
         <div className={classes["group-chat-sidebar-scroll"]}>
-          <div
-            className={classes["group-chat-invite-button"]}
-            onClick={toggleInviteHandler}
-          >
+          <div className={classes["group-chat-invite-button"]} onClick={toggleInviteHandler}>
             <div className={classes["group-chat-invite-icon"]}>
               <IoPersonAddSharp />
             </div>
@@ -323,9 +296,7 @@ const GroupChatDetails = () => {
                   onClick={() => setSearchTerm("")}
                 />
               ) : (
-                <IoIosSearch
-                  className={classes["group-chat-invite-search-icon"]}
-                />
+                <IoIosSearch className={classes["group-chat-invite-search-icon"]} />
               )}
             </div>
 
@@ -391,7 +362,7 @@ const GroupChatDetails = () => {
               transform: coords.transform,
             }}
           />,
-          document.getElementById("user-profile-tooltip-portal")!
+          document.getElementById("user-profile-tooltip-portal")!,
         )}
 
       {/* 사용자 컨텍스트 메뉴 툴팁 Portal */}
@@ -419,13 +390,11 @@ const GroupChatDetails = () => {
               transform: coords.transform,
             }}
           />,
-          document.getElementById("user-profile-tooltip-portal")!
+          document.getElementById("user-profile-tooltip-portal")!,
         )}
 
       {activeModal === "userProfileDetails" && (
-        <UserProfileDetails
-          onToggle={() => toggleModal("userProfileDetails")}
-        />
+        <UserProfileDetails onToggle={() => toggleModal("userProfileDetails")} />
       )}
 
       {isGroupMemberActionModal && (

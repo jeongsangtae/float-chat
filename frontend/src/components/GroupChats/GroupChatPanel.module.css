@@ -251,7 +251,7 @@
   font-size: var(--font-sm2);
 }
 
-@media (max-width: 1100px) {
+@media (max-width: 1280px) {
   .group-chat-panel {
     display: none;
   }

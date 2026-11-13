@@ -132,3 +132,9 @@
   color: var(--color-text);
   cursor: default;
 }
+
+/* @media (max-width: 960px) {
+  .sub-sidebar {
+    display: none;
+  }
+} */

@@ -212,3 +212,9 @@
   padding-bottom: 3rem;
   /* padding-bottom: 2.75rem; */
 }
+
+@media (max-width: 960px) {
+  .group-chat-sidebar {
+    display: none;
+  }
+}
