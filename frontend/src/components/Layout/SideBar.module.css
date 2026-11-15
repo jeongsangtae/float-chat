@@ -209,3 +209,25 @@
   color: var(--color-icon);
   background-color: rgba(255, 255, 255, 0.1);
 }
+
+.user-info {
+  position: fixed;
+  left: 0.5rem;
+  bottom: 0.35rem;
+  width: 18.5rem;
+  height: 3.75rem;
+  background-color: var(--bg-user-info);
+  border-radius: var(--radius-lg);
+  padding: var(--space-sm) var(--space-md);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: var(--color-text);
+  z-index: var(--z-tooltip);
+}
+
+@media (max-width: 960px) {
+  .user-info {
+    width: 3.5rem;
+  }
+}

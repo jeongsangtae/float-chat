@@ -203,3 +203,10 @@
   background-color: var(--color-divider);
   margin: var(--space-sm) 0;
 }
+
+@media (max-width: 1280px) {
+  .friend-search {
+    width: 100%;
+    max-width: 650px;
+  }
+}

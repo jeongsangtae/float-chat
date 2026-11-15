@@ -42,3 +42,10 @@
 .online-friend-delete-button:hover {
   background-color: var(--color-danger-hover);
 }
+
+@media (max-width: 1280px) {
+  .online-friend-wrapper {
+    width: 100%;
+    max-width: 650px;
+  }
+}

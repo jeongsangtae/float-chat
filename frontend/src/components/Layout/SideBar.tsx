@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { BsFillChatSquareFill } from "react-icons/bs";
 import { LuLogOut } from "react-icons/lu";
@@ -22,14 +22,15 @@ interface SideBarProps {
 }
 
 const SideBar = ({ onLeaveChatRoom }: SideBarProps) => {
-  const { isLoggedIn, userInfo, renewToken, refreshTokenExp, logout } =
-    useAuthStore();
+  const { isLoggedIn, userInfo, renewToken, refreshTokenExp, logout } = useAuthStore();
   const { activeModal, toggleModal } = useModalStore();
   const { disconnect } = useSocketStore();
   const { friendRequests } = useFriendStore();
 
   const navigate = useNavigate();
   const location = useLocation();
+
+  const [toggleUserInfo, setToggleUserInfo] = useState(false);
 
   const active = location.pathname === "/me"; // 홈 버튼 기준 경로
 
@@ -64,7 +65,7 @@ const SideBar = ({ onLeaveChatRoom }: SideBarProps) => {
 
   // 내가 받은 친구 요청만 추출
   const receiverRequests = friendRequests.filter(
-    (friendRequest) => friendRequest.receiver === userInfo?._id
+    (friendRequest) => friendRequest.receiver === userInfo?._id,
   );
 
   const isElectron = Boolean(window.electronAPI?.isElectron);
@@ -76,9 +77,7 @@ const SideBar = ({ onLeaveChatRoom }: SideBarProps) => {
           {isLoggedIn && (
             <>
               <button
-                className={`${classes["home-button"]} ${
-                  active ? classes.active : ""
-                }`}
+                className={`${classes["home-button"]} ${active ? classes.active : ""}`}
                 onClick={onLeaveChatRoom}
               >
                 <span className={classes.indicator} />
@@ -89,9 +88,7 @@ const SideBar = ({ onLeaveChatRoom }: SideBarProps) => {
                 {receiverRequests.length > 0 && (
                   <div className={classes["friend-request-badge"]}>
                     <span className={classes["friend-request-count"]}>
-                      {receiverRequests.length > 99
-                        ? "99"
-                        : receiverRequests.length}
+                      {receiverRequests.length > 99 ? "99" : receiverRequests.length}
                     </span>
                   </div>
                 )}
@@ -116,9 +113,7 @@ const SideBar = ({ onLeaveChatRoom }: SideBarProps) => {
               )}
 
               {activeModal === "groupChatConfirm" && (
-                <GroupChatConfirm
-                  onToggle={() => toggleModal("groupChatConfirm")}
-                />
+                <GroupChatConfirm onToggle={() => toggleModal("groupChatConfirm")} />
               )}
             </div>
           )}
@@ -126,7 +121,7 @@ const SideBar = ({ onLeaveChatRoom }: SideBarProps) => {
       </div>
 
       {/* 로그인한 사용자 정보 */}
-      {isLoggedIn && (
+      {/* {isLoggedIn && (
         <div className={classes["user-info"]}>
           <div className={classes["user-info-left"]}>
             <Avatar
@@ -137,15 +132,64 @@ const SideBar = ({ onLeaveChatRoom }: SideBarProps) => {
               showOnlineDot={true}
             />
 
-            <p className={classes["user-info-nickname"]}>
-              {userInfo?.nickname}
-            </p>
+            <p className={classes["user-info-nickname"]}>{userInfo?.nickname}</p>
           </div>
           <div className={classes["user-info-right"]}>
-            <button
-              className={classes["user-info-edit"]}
-              onClick={userSettingHandler}
-            >
+            <button className={classes["user-info-edit"]} onClick={userSettingHandler}>
+              <IoMdSettings />
+            </button>
+            <button className={classes.logout} onClick={logoutHandler}>
+              <LuLogOut />
+            </button>
+          </div>
+
+          {activeModal === "userSettings" && (
+            <UserSettings onToggle={() => toggleModal("userSettings")} />
+          )}
+        </div>
+      )} */}
+
+      {isLoggedIn && isElectron ? (
+        <div className={classes["user-info"]} onClick={() => setToggleUserInfo((prev) => !prev)}>
+          <div className={classes["user-info-left"]}>
+            <Avatar
+              nickname={userInfo?.nickname ?? ""}
+              avatarImageUrl={userInfo?.avatarImageUrl ?? null}
+              avatarColor={userInfo?.avatarColor ?? null}
+              onlineChecked={isLoggedIn}
+              showOnlineDot={true}
+            />
+
+            <p className={classes["user-info-nickname"]}>{userInfo?.nickname}</p>
+          </div>
+          <div className={classes["user-info-right"]}>
+            <button className={classes["user-info-edit"]} onClick={userSettingHandler}>
+              <IoMdSettings />
+            </button>
+            <button className={classes.logout} onClick={logoutHandler}>
+              <LuLogOut />
+            </button>
+          </div>
+
+          {activeModal === "userSettings" && (
+            <UserSettings onToggle={() => toggleModal("userSettings")} />
+          )}
+        </div>
+      ) : (
+        <div className={classes["user-info"]}>
+          <div className={classes["user-info-left"]}>
+            <Avatar
+              nickname={userInfo?.nickname ?? ""}
+              avatarImageUrl={userInfo?.avatarImageUrl ?? null}
+              avatarColor={userInfo?.avatarColor ?? null}
+              onlineChecked={isLoggedIn}
+              showOnlineDot={true}
+            />
+
+            <p className={classes["user-info-nickname"]}>{userInfo?.nickname}</p>
+          </div>
+          <div className={classes["user-info-right"]}>
+            <button className={classes["user-info-edit"]} onClick={userSettingHandler}>
               <IoMdSettings />
             </button>
             <button className={classes.logout} onClick={logoutHandler}>
@@ -158,6 +202,55 @@ const SideBar = ({ onLeaveChatRoom }: SideBarProps) => {
           )}
         </div>
       )}
+
+      {toggleUserInfo && (
+        <div>
+          <div className={classes["user-info-left"]}>
+            <Avatar
+              nickname={userInfo?.nickname ?? ""}
+              avatarImageUrl={userInfo?.avatarImageUrl ?? null}
+              avatarColor={userInfo?.avatarColor ?? null}
+              onlineChecked={isLoggedIn}
+              showOnlineDot={true}
+            />
+
+            <p className={classes["user-info-nickname"]}>{userInfo?.nickname}</p>
+          </div>
+          <div className={classes["user-info-right"]}>
+            <button className={classes["user-info-edit"]} onClick={userSettingHandler}>
+              <IoMdSettings />
+            </button>
+            <button className={classes.logout} onClick={logoutHandler}>
+              <LuLogOut />
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* {isElectron && (
+        <div>
+          <div className={classes["user-info-left"]}>
+            <Avatar
+              nickname={userInfo?.nickname ?? ""}
+              avatarImageUrl={userInfo?.avatarImageUrl ?? null}
+              avatarColor={userInfo?.avatarColor ?? null}
+              onlineChecked={isLoggedIn}
+              showOnlineDot={true}
+            />
+
+            <p className={classes["user-info-nickname"]}>{userInfo?.nickname}</p>
+
+            <div className={classes["user-info-right"]}>
+              <button className={classes["user-info-edit"]} onClick={userSettingHandler}>
+                <IoMdSettings />
+              </button>
+              <button className={classes.logout} onClick={logoutHandler}>
+                <LuLogOut />
+              </button>
+            </div>
+          </div>
+        </div>
+      )} */}
     </div>
   );
 };
