@@ -68,9 +68,9 @@ const SideBar = ({ onLeaveChatRoom }: SideBarProps) => {
     (friendRequest) => friendRequest.receiver === userInfo?._id,
   );
 
-  const userMenuHandler = () => {
-    setUserMenuOpen(!userMenuOpen);
-  };
+  // const userMenuHandler = () => {
+  //   setUserMenuOpen(!userMenuOpen);
+  // };
 
   // const userMenuHandler = () => {
   //   setUserMenuOpen(false);
@@ -78,6 +78,14 @@ const SideBar = ({ onLeaveChatRoom }: SideBarProps) => {
   // };
 
   const isElectron = Boolean(window.electronAPI?.isElectron);
+
+  const isNarrowScreen = window.matchMedia("(max-width: 960px)").matches;
+
+  const userMenuHandler = () => {
+    if (!isNarrowScreen) return;
+
+    setUserMenuOpen((prev) => !prev);
+  };
 
   return (
     <div className={`${classes.sidebar} ${isElectron ? classes.electron : ""}`}>
@@ -130,8 +138,8 @@ const SideBar = ({ onLeaveChatRoom }: SideBarProps) => {
       </div>
 
       {/* 로그인한 사용자 정보 */}
-      {/* {isLoggedIn && (
-        <div className={classes["user-info"]}>
+      {isLoggedIn && (
+        <div className={classes["user-info"]} onClick={userMenuHandler}>
           <div className={classes["user-info-left"]}>
             <Avatar
               nickname={userInfo?.nickname ?? ""}
@@ -152,15 +160,44 @@ const SideBar = ({ onLeaveChatRoom }: SideBarProps) => {
             </button>
           </div>
 
+          {userMenuOpen && (
+            <div className={`${classes["user-info-menu"]} ${userMenuOpen ? classes.open : ""}`}>
+              <div className={classes["user-info-top"]}>
+                <Avatar
+                  nickname={userInfo?.nickname ?? ""}
+                  avatarImageUrl={userInfo?.avatarImageUrl ?? null}
+                  avatarColor={userInfo?.avatarColor ?? null}
+                  onlineChecked={isLoggedIn}
+                  showOnlineDot={true}
+                />
+
+                <p className={classes["user-info-nickname"]}>{userInfo?.nickname}</p>
+              </div>
+
+              <div className={classes["user-info-bottom"]}>
+                <button className={classes["user-info-edit"]} onClick={userSettingHandler}>
+                  {" "}
+                  사용자 설정
+                  <IoMdSettings />
+                </button>
+                <button className={classes.logout} onClick={logoutHandler}>
+                  {" "}
+                  로그아웃
+                  <LuLogOut />
+                </button>
+              </div>
+            </div>
+          )}
+
           {activeModal === "userSettings" && (
             <UserSettings onToggle={() => toggleModal("userSettings")} />
           )}
         </div>
-      )} */}
+      )}
 
-      {isLoggedIn && isElectron ? (
+      {/* {isLoggedIn && isElectron ? (
         <div className={classes["user-info-electron"]} onClick={userMenuHandler}>
-          {/* 넓은 화면에서 보여줄 기존 사용자 정보 */}
+
           <div className={classes["user-info-desktop"]}>
             <div className={classes["user-info-left"]}>
               <Avatar
@@ -248,7 +285,7 @@ const SideBar = ({ onLeaveChatRoom }: SideBarProps) => {
             </button>
           </div>
         </div>
-      )}
+      )} */}
 
       {/* {userMenuOpen && (
         <div>
@@ -298,9 +335,9 @@ const SideBar = ({ onLeaveChatRoom }: SideBarProps) => {
           </div>
         </div>
       )} */}
-      {activeModal === "userSettings" && (
+      {/* {activeModal === "userSettings" && (
         <UserSettings onToggle={() => toggleModal("userSettings")} />
-      )}
+      )} */}
     </div>
   );
 };
