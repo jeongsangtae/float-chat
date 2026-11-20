@@ -169,7 +169,7 @@
   z-index: var(--z-tooltip);
 }
 
-.user-info-mobile {
+/* .user-info-mobile {
   display: none;
   align-items: center;
   position: fixed;
@@ -183,7 +183,7 @@
   justify-content: space-between;
   color: var(--color-text);
   z-index: var(--z-tooltip);
-}
+} */
 
 .user-info-left {
   display: flex;
@@ -191,7 +191,8 @@
   gap: var(--space-sm);
 }
 
-.user-info-nickname {
+.user-info-nickname,
+.user-info-menu-nickname {
   font-size: var(--font-md);
   margin: 0 var(--space-xs);
   width: 9rem;
@@ -227,24 +228,33 @@
   background-color: rgba(255, 255, 255, 0.1);
 }
 
-/* .user-info {
-  position: fixed;
-  left: 0.5rem;
-  bottom: 0.35rem;
-  width: 18.5rem;
-  height: 3.75rem;
-  background-color: var(--bg-user-info);
-  border-radius: var(--radius-lg);
-  padding: var(--space-sm) var(--space-md);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  color: var(--color-text);
-  z-index: var(--z-tooltip);
-} */
+.user-info-edit span,
+.logout span {
+  font-size: 0.875rem;
+  margin-left: 0.5rem;
+}
 
 .user-info-menu {
   display: none;
+}
+
+.user-info-top {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  margin-top: 0.25rem;
+}
+
+.user-info-bottom {
+  /* display: flex; */
+  /* flex-direction: column; */
+  /* align-items: center; */
+}
+
+.underline {
+  height: 1px;
+  background-color: var(--color-divider);
+  margin: var(--space-sm) 0;
 }
 
 @media (max-width: 960px) {
@@ -252,32 +262,26 @@
     width: 3.5rem;
   }
 
-  .user-info-nickname {
-    display: none;
-  }
-
+  .user-info-nickname,
   .user-info-right {
     display: none;
   }
 
-  .user-info-menu.open {
+  .user-info-menu {
+    position: fixed;
     display: flex;
+    flex-direction: column;
+    width: 12.5rem;
+    height: 8.5rem;
+    left: 0.5rem;
+    bottom: 4.5rem;
+    background-color: var(--bg-user-info);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--color-border);
+    padding: var(--space-sm) var(--space-md);
+    align-items: flex-start;
+    justify-content: space-between;
+    color: var(--color-text);
+    z-index: var(--z-tooltip);
   }
 }
-
-/* @media (max-width: 960px) {
-  .user-info {
-    width: 3.5rem;
-  }
-} */
-
-/* @media (max-width: 960px) {
-  .user-info-desktop {
-    display: none;
-  }
-
-  .user-info-mobile {
-    display: flex;
-    width: 3.5rem;
-  }
-} */

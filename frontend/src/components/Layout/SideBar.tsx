@@ -68,20 +68,11 @@ const SideBar = ({ onLeaveChatRoom }: SideBarProps) => {
     (friendRequest) => friendRequest.receiver === userInfo?._id,
   );
 
-  // const userMenuHandler = () => {
-  //   setUserMenuOpen(!userMenuOpen);
-  // };
-
-  // const userMenuHandler = () => {
-  //   setUserMenuOpen(false);
-  //   toggleModal("userSettings");
-  // };
-
   const isElectron = Boolean(window.electronAPI?.isElectron);
 
-  const isNarrowScreen = window.matchMedia("(max-width: 960px)").matches;
-
   const userMenuHandler = () => {
+    const isNarrowScreen = window.matchMedia("(max-width: 960px)").matches;
+
     if (!isNarrowScreen) return;
 
     setUserMenuOpen((prev) => !prev);
@@ -161,7 +152,7 @@ const SideBar = ({ onLeaveChatRoom }: SideBarProps) => {
           </div>
 
           {userMenuOpen && (
-            <div className={`${classes["user-info-menu"]} ${userMenuOpen ? classes.open : ""}`}>
+            <div className={classes["user-info-menu"]}>
               <div className={classes["user-info-top"]}>
                 <Avatar
                   nickname={userInfo?.nickname ?? ""}
@@ -171,19 +162,19 @@ const SideBar = ({ onLeaveChatRoom }: SideBarProps) => {
                   showOnlineDot={true}
                 />
 
-                <p className={classes["user-info-nickname"]}>{userInfo?.nickname}</p>
+                <p className={classes["user-info-menu-nickname"]}>{userInfo?.nickname}</p>
               </div>
+
+              <div className={classes.underline}></div>
 
               <div className={classes["user-info-bottom"]}>
                 <button className={classes["user-info-edit"]} onClick={userSettingHandler}>
-                  {" "}
-                  사용자 설정
                   <IoMdSettings />
+                  <span>사용자 설정</span>
                 </button>
                 <button className={classes.logout} onClick={logoutHandler}>
-                  {" "}
-                  로그아웃
                   <LuLogOut />
+                  <span>로그아웃</span>
                 </button>
               </div>
             </div>
@@ -194,150 +185,6 @@ const SideBar = ({ onLeaveChatRoom }: SideBarProps) => {
           )}
         </div>
       )}
-
-      {/* {isLoggedIn && isElectron ? (
-        <div className={classes["user-info-electron"]} onClick={userMenuHandler}>
-
-          <div className={classes["user-info-desktop"]}>
-            <div className={classes["user-info-left"]}>
-              <Avatar
-                nickname={userInfo?.nickname ?? ""}
-                avatarImageUrl={userInfo?.avatarImageUrl ?? null}
-                avatarColor={userInfo?.avatarColor ?? null}
-                onlineChecked={isLoggedIn}
-                showOnlineDot={true}
-              />
-
-              <p className={classes["user-info-nickname"]}>{userInfo?.nickname}</p>
-            </div>
-
-            <div className={classes["user-info-right"]}>
-              <button className={classes["user-info-edit"]} onClick={userSettingHandler}>
-                <IoMdSettings />
-              </button>
-              <button className={classes.logout} onClick={logoutHandler}>
-                <LuLogOut />
-              </button>
-            </div>
-          </div>
-
-          <div className={classes["user-info-mobile"]}>
-            <div className={classes["user-info-left"]}>
-              <Avatar
-                nickname={userInfo?.nickname ?? ""}
-                avatarImageUrl={userInfo?.avatarImageUrl ?? null}
-                avatarColor={userInfo?.avatarColor ?? null}
-                onlineChecked={isLoggedIn}
-                showOnlineDot={true}
-              />
-            </div>
-
-            {userMenuOpen && (
-              <div className={classes["user-info-menu"]}>
-                <div className={classes["user-info-top"]}>
-                  <Avatar
-                    nickname={userInfo?.nickname ?? ""}
-                    avatarImageUrl={userInfo?.avatarImageUrl ?? null}
-                    avatarColor={userInfo?.avatarColor ?? null}
-                    onlineChecked={isLoggedIn}
-                    showOnlineDot={true}
-                  />
-
-                  <p className={classes["user-info-nickname"]}>{userInfo?.nickname}</p>
-                </div>
-
-                <div className={classes["user-info-bottom"]}>
-                  <button className={classes["user-info-edit"]} onClick={userSettingHandler}>
-                    {" "}
-                    사용자 설정
-                    <IoMdSettings />
-                  </button>
-                  <button className={classes.logout} onClick={logoutHandler}>
-                    {" "}
-                    로그아웃
-                    <LuLogOut />
-                  </button>
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
-      ) : (
-        <div className={classes["user-info"]}>
-          <div className={classes["user-info-left"]}>
-            <Avatar
-              nickname={userInfo?.nickname ?? ""}
-              avatarImageUrl={userInfo?.avatarImageUrl ?? null}
-              avatarColor={userInfo?.avatarColor ?? null}
-              onlineChecked={isLoggedIn}
-              showOnlineDot={true}
-            />
-
-            <p className={classes["user-info-nickname"]}>{userInfo?.nickname}</p>
-          </div>
-
-          <div className={classes["user-info-right"]}>
-            <button className={classes["user-info-edit"]} onClick={userSettingHandler}>
-              <IoMdSettings />
-            </button>
-            <button className={classes.logout} onClick={logoutHandler}>
-              <LuLogOut />
-            </button>
-          </div>
-        </div>
-      )} */}
-
-      {/* {userMenuOpen && (
-        <div>
-          <div className={classes["user-info-left"]}>
-            <Avatar
-              nickname={userInfo?.nickname ?? ""}
-              avatarImageUrl={userInfo?.avatarImageUrl ?? null}
-              avatarColor={userInfo?.avatarColor ?? null}
-              onlineChecked={isLoggedIn}
-              showOnlineDot={true}
-            />
-
-            <p className={classes["user-info-nickname"]}>{userInfo?.nickname}</p>
-          </div>
-          <div className={classes["user-info-right"]}>
-            <button className={classes["user-info-edit"]} onClick={userSettingHandler}>
-              <IoMdSettings />
-            </button>
-            <button className={classes.logout} onClick={logoutHandler}>
-              <LuLogOut />
-            </button>
-          </div>
-        </div>
-      )} */}
-
-      {/* {isElectron && (
-        <div>
-          <div className={classes["user-info-left"]}>
-            <Avatar
-              nickname={userInfo?.nickname ?? ""}
-              avatarImageUrl={userInfo?.avatarImageUrl ?? null}
-              avatarColor={userInfo?.avatarColor ?? null}
-              onlineChecked={isLoggedIn}
-              showOnlineDot={true}
-            />
-
-            <p className={classes["user-info-nickname"]}>{userInfo?.nickname}</p>
-
-            <div className={classes["user-info-right"]}>
-              <button className={classes["user-info-edit"]} onClick={userSettingHandler}>
-                <IoMdSettings />
-              </button>
-              <button className={classes.logout} onClick={logoutHandler}>
-                <LuLogOut />
-              </button>
-            </div>
-          </div>
-        </div>
-      )} */}
-      {/* {activeModal === "userSettings" && (
-        <UserSettings onToggle={() => toggleModal("userSettings")} />
-      )} */}
     </div>
   );
 };
