@@ -130,15 +130,25 @@ const SideBar = ({ onLeaveChatRoom }: SideBarProps) => {
 
       {/* 로그인한 사용자 정보 */}
       {isLoggedIn && (
-        <div className={classes["user-info"]} onClick={userMenuHandler}>
+        <div className={classes["user-info"]}>
           <div className={classes["user-info-left"]}>
-            <Avatar
+            {/* <Avatar
               nickname={userInfo?.nickname ?? ""}
               avatarImageUrl={userInfo?.avatarImageUrl ?? null}
               avatarColor={userInfo?.avatarColor ?? null}
               onlineChecked={isLoggedIn}
               showOnlineDot={true}
-            />
+            /> */}
+
+            <button className={classes["user-info-avatar-button"]} onClick={userMenuHandler}>
+              <Avatar
+                nickname={userInfo?.nickname ?? ""}
+                avatarImageUrl={userInfo?.avatarImageUrl ?? null}
+                avatarColor={userInfo?.avatarColor ?? null}
+                onlineChecked={isLoggedIn}
+                showOnlineDot={true}
+              />
+            </button>
 
             <p className={classes["user-info-nickname"]}>{userInfo?.nickname}</p>
           </div>
@@ -168,11 +178,11 @@ const SideBar = ({ onLeaveChatRoom }: SideBarProps) => {
               <div className={classes.underline}></div>
 
               <div className={classes["user-info-bottom"]}>
-                <button className={classes["user-info-edit"]} onClick={userSettingHandler}>
+                <button className={classes["user-info-menu-edit"]} onClick={userSettingHandler}>
                   <IoMdSettings />
                   <span>사용자 설정</span>
                 </button>
-                <button className={classes.logout} onClick={logoutHandler}>
+                <button className={classes["user-info-menu-logout"]} onClick={logoutHandler}>
                   <LuLogOut />
                   <span>로그아웃</span>
                 </button>
