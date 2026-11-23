@@ -56,6 +56,22 @@ const SideBar = ({ onLeaveChatRoom }: SideBarProps) => {
     });
   };
 
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(max-width: 960px)");
+
+    const handleResize = (event) => {
+      if (!event.matches) {
+        setUserMenuOpen(false);
+      }
+    };
+
+    mediaQuery.addEventListener("change", handleResize);
+
+    return () => {
+      mediaQuery.removeEventListener("change", handleResize);
+    };
+  }, []);
+
   // 로그아웃 처리
   const logoutHandler = async (): Promise<void> => {
     await logout();
@@ -132,14 +148,6 @@ const SideBar = ({ onLeaveChatRoom }: SideBarProps) => {
       {isLoggedIn && (
         <div className={classes["user-info"]}>
           <div className={classes["user-info-left"]}>
-            {/* <Avatar
-              nickname={userInfo?.nickname ?? ""}
-              avatarImageUrl={userInfo?.avatarImageUrl ?? null}
-              avatarColor={userInfo?.avatarColor ?? null}
-              onlineChecked={isLoggedIn}
-              showOnlineDot={true}
-            /> */}
-
             <button className={classes["user-info-avatar-button"]} onClick={userMenuHandler}>
               <Avatar
                 nickname={userInfo?.nickname ?? ""}
