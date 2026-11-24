@@ -56,17 +56,22 @@ const SideBar = ({ onLeaveChatRoom }: SideBarProps) => {
     });
   };
 
+  // 좁은 화면에서 큰 화면 변경 시 실행
   useEffect(() => {
+    // 화면 너비가 960px 이하인지 확인하는 미디어 쿼리 객체 생성
     const mediaQuery = window.matchMedia("(max-width: 960px)");
 
-    const handleResize = (event) => {
+    // 미디어 쿼리 조건이 변경될 때 실행
+    const handleResize = (event: MediaQueryListEvent) => {
       if (!event.matches) {
         setUserMenuOpen(false);
       }
     };
 
+    // 화면 크기가 변경되어 미디어 쿼리 조건이 바뀌면 handleResize 실행
     mediaQuery.addEventListener("change", handleResize);
 
+    // 컴포넌트가 언마운트도리 때 이벤트 리스너 제거
     return () => {
       mediaQuery.removeEventListener("change", handleResize);
     };
@@ -86,9 +91,12 @@ const SideBar = ({ onLeaveChatRoom }: SideBarProps) => {
 
   const isElectron = Boolean(window.electronAPI?.isElectron);
 
+  // 좁은 화면 사용자 메뉴
   const userMenuHandler = () => {
+    // 현재 화면이 960px 이하인지 확인
     const isNarrowScreen = window.matchMedia("(max-width: 960px)").matches;
 
+    // 좁은 화면이 아니라면 메뉴를 열거나 닫지 않음
     if (!isNarrowScreen) return;
 
     setUserMenuOpen((prev) => !prev);

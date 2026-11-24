@@ -21,5 +21,6 @@
       // 변경한 내용 글자색
       "activityBarBadge.foreground": "#A7B8B8"
     }
-  }
+  },
+  "js/ts.tsdk.path": "./frontend/node_modules/typescript/lib"
 }
