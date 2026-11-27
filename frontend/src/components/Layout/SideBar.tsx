@@ -22,7 +22,8 @@ interface SideBarProps {
 }
 
 const SideBar = ({ onLeaveChatRoom }: SideBarProps) => {
-  const { isLoggedIn, userInfo, renewToken, refreshTokenExp, logout } = useAuthStore();
+  const { isLoggedIn, userInfo, renewToken, refreshTokenExp, logout } =
+    useAuthStore();
   const { activeModal, toggleModal } = useModalStore();
   const { disconnect } = useSocketStore();
   const { friendRequests } = useFriendStore();
@@ -86,7 +87,7 @@ const SideBar = ({ onLeaveChatRoom }: SideBarProps) => {
 
   // 내가 받은 친구 요청만 추출
   const receiverRequests = friendRequests.filter(
-    (friendRequest) => friendRequest.receiver === userInfo?._id,
+    (friendRequest) => friendRequest.receiver === userInfo?._id
   );
 
   const isElectron = Boolean(window.electronAPI?.isElectron);
@@ -120,7 +121,9 @@ const SideBar = ({ onLeaveChatRoom }: SideBarProps) => {
                 {receiverRequests.length > 0 && (
                   <div className={classes["friend-request-badge"]}>
                     <span className={classes["friend-request-count"]}>
-                      {receiverRequests.length > 99 ? "99" : receiverRequests.length}
+                      {receiverRequests.length > 99
+                        ? "99"
+                        : receiverRequests.length}
                     </span>
                   </div>
                 )}
@@ -145,7 +148,9 @@ const SideBar = ({ onLeaveChatRoom }: SideBarProps) => {
               )}
 
               {activeModal === "groupChatConfirm" && (
-                <GroupChatConfirm onToggle={() => toggleModal("groupChatConfirm")} />
+                <GroupChatConfirm
+                  onToggle={() => toggleModal("groupChatConfirm")}
+                />
               )}
             </div>
           )}
@@ -156,7 +161,10 @@ const SideBar = ({ onLeaveChatRoom }: SideBarProps) => {
       {isLoggedIn && (
         <div className={classes["user-info"]}>
           <div className={classes["user-info-left"]}>
-            <button className={classes["user-info-avatar-button"]} onClick={userMenuHandler}>
+            <button
+              className={classes["user-info-avatar-button"]}
+              onClick={userMenuHandler}
+            >
               <Avatar
                 nickname={userInfo?.nickname ?? ""}
                 avatarImageUrl={userInfo?.avatarImageUrl ?? null}
@@ -166,13 +174,21 @@ const SideBar = ({ onLeaveChatRoom }: SideBarProps) => {
               />
             </button>
 
-            <p className={classes["user-info-nickname"]}>{userInfo?.nickname}</p>
+            <p className={classes["user-info-nickname"]}>
+              {userInfo?.nickname}
+            </p>
           </div>
           <div className={classes["user-info-right"]}>
-            <button className={classes["user-info-edit"]} onClick={userSettingHandler}>
+            <button
+              className={classes["user-info-edit"]}
+              onClick={userSettingHandler}
+            >
               <IoMdSettings />
             </button>
-            <button className={classes.logout} onClick={logoutHandler}>
+            <button
+              className={classes.logout}
+              onClick={logoutHandler}
+            >
               <LuLogOut />
             </button>
           </div>
@@ -188,17 +204,25 @@ const SideBar = ({ onLeaveChatRoom }: SideBarProps) => {
                   showOnlineDot={true}
                 />
 
-                <p className={classes["user-info-menu-nickname"]}>{userInfo?.nickname}</p>
+                <p className={classes["user-info-menu-nickname"]}>
+                  {userInfo?.nickname}
+                </p>
               </div>
 
               <div className={classes.underline}></div>
 
               <div className={classes["user-info-bottom"]}>
-                <button className={classes["user-info-menu-edit"]} onClick={userSettingHandler}>
+                <button
+                  className={classes["user-info-menu-edit"]}
+                  onClick={userSettingHandler}
+                >
                   <IoMdSettings />
                   <span>사용자 설정</span>
                 </button>
-                <button className={classes["user-info-menu-logout"]} onClick={logoutHandler}>
+                <button
+                  className={classes["user-info-menu-logout"]}
+                  onClick={logoutHandler}
+                >
                   <LuLogOut />
                   <span>로그아웃</span>
                 </button>

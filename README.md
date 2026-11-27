@@ -1,4 +1,4 @@
-# Float Chat (연습 프로젝트)
+# Float Chat (개인 프로젝트)
 
 ![React](https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=white)
 ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
@@ -9,9 +9,15 @@
 
 ## 🌐 Live Demo
 
-배포 예정
+- 웹 서비스: [Float Chat 바로가기](https://float-chat-vdc1.onrender.com)
+- 데스트톱 앱: [GitHub Releases](https://github.com/jeongsangtae/float-chat/releases/latest)
 
-(추후 배포 후 URL 및 테스트 계정 추가 예정)
+**테스트 계정**
+
+- 이메일: test@test.com
+- 비밀번호: 123123
+
+※ 테스트 계정은 여러 사용자가 함께 사용하는 계정으로, 테스트 과정에서 데이터가 변경될 수 있습니다.
 
 ## 📖 프로젝트 소개
 
@@ -302,7 +308,7 @@ npm start
 
 Float Chat을 Windows 데스크톱 앱으로 사용할 수 있습니다.
 
-- **다운로드:** [FloatChat Windows 설치 파일](https://github.com/jeongsangtae/float-chat/releases/tag/v1.0.1)
+- **다운로드:** [FloatChat Windows 설치 파일](https://github.com/jeongsangtae/float-chat/releases/tag/v1.1.0)
 - **설치 방법:** 설치 파일을 다운로드한 후 실행합니다.
 - **요구 사항:** Windows x64
 
@@ -315,7 +321,7 @@ Float Chat을 Windows 데스크톱 앱으로 사용할 수 있습니다.
 - [x] 호스트 나가기 기능 (권한 위임 기능 포함)
 - [x] 그룹 채팅방 특정 멤버 강제 퇴장
 - [x] Render + MongoDB Atlas를 이용한 서비스 배포
-- [ ] Electron 기반 Desktop App 지원
+- [x] Electron 기반 Desktop App 지원
 - [ ] 메시지 읽음 표시
 - [ ] 알림 읽음 표시
 - [ ] 이메일 인증
